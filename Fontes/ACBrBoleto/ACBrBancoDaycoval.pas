@@ -1,33 +1,33 @@
 {******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
-{  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
-{ mentos de Automação Comercial utilizados no Brasil                           }
+{  Biblioteca multiplataforma de componentes Delphi para interaÃ§Ã£o com equipa- }
+{ mentos de AutomaÃ§Ã£o Comercial utilizados no Brasil                           }
 {                                                                              }
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo: Juliana Tamizou                                 }
 {                                                                              }
-{  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
+{  VocÃª pode obter a Ãºltima versÃ£o desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
 {                                                                              }
-{  Esta biblioteca é software livre; você pode redistribuí-la e/ou modificá-la }
-{ sob os termos da Licença Pública Geral Menor do GNU conforme publicada pela  }
-{ Free Software Foundation; tanto a versão 2.1 da Licença, ou (a seu critério) }
-{ qualquer versão posterior.                                                   }
+{  Esta biblioteca Ã© software livre; vocÃª pode redistribuÃ­-la e/ou modificÃ¡-la }
+{ sob os termos da LicenÃ§a PÃºblica Geral Menor do GNU conforme publicada pela  }
+{ Free Software Foundation; tanto a versÃ£o 2.1 da LicenÃ§a, ou (a seu critÃ©rio) }
+{ qualquer versÃ£o posterior.                                                   }
 {                                                                              }
-{  Esta biblioteca é distribuída na expectativa de que seja útil, porém, SEM   }
-{ NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU      }
-{ ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral Menor}
-{ do GNU para mais detalhes. (Arquivo LICENÇA.TXT ou LICENSE.TXT)              }
+{  Esta biblioteca Ã© distribuÃ­da na expectativa de que seja Ãºtil, porÃ©m, SEM   }
+{ NENHUMA GARANTIA; nem mesmo a garantia implÃ­cita de COMERCIABILIDADE OU      }
+{ ADEQUAÃ‡ÃƒO A UMA FINALIDADE ESPECÃFICA. Consulte a LicenÃ§a PÃºblica Geral Menor}
+{ do GNU para mais detalhes. (Arquivo LICENÃ‡A.TXT ou LICENSE.TXT)              }
 {                                                                              }
-{  Você deve ter recebido uma cópia da Licença Pública Geral Menor do GNU junto}
-{ com esta biblioteca; se não, escreva para a Free Software Foundation, Inc.,  }
-{ no endereço 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
-{ Você também pode obter uma copia da licença em:                              }
+{  VocÃª deve ter recebido uma cÃ³pia da LicenÃ§a PÃºblica Geral Menor do GNU junto}
+{ com esta biblioteca; se nÃ£o, escreva para a Free Software Foundation, Inc.,  }
+{ no endereÃ§o 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
+{ VocÃª tambÃ©m pode obter uma copia da licenÃ§a em:                              }
 { http://www.opensource.org/licenses/lgpl-license.php                          }
 {                                                                              }
-{ Daniel Simões de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
-{       Rua Coronel Aureliano de Camargo, 963 - Tatuí - SP - 18270-170         }
+{ Daniel SimÃµes de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
+{       Rua Coronel Aureliano de Camargo, 963 - TatuÃ­ - SP - 18270-170         }
 {******************************************************************************}
 {$I ACBr.inc}
 
@@ -79,191 +79,191 @@ begin
   case TipoOcorrencia of
     toRetornoRegistroRecusado :
     begin
-      if ( CodMotivo = '03' ) then Result := '03-CEP inválido – Não temos cobrador – Cobrador não Localizado'
+      if ( CodMotivo = '03' ) then Result := '03-CEP invÃ¡lido â€“ NÃ£o temos cobrador â€“ Cobrador nÃ£o Localizado'
       else
-      if ( CodMotivo = '04' ) then Result := '04-Sigla do Estado inválida'
+      if ( CodMotivo = '04' ) then Result := '04-Sigla do Estado invÃ¡lida'
       else
-      if ( CodMotivo = '05' ) then Result := '05-Data de Vencimento inválida ou fora do prazo mínimo'
+      if ( CodMotivo = '05' ) then Result := '05-Data de Vencimento invÃ¡lida ou fora do prazo mÃ­nimo'
       else
-      if ( CodMotivo = '06' ) then Result := '06-Código do Banco inválido'
+      if ( CodMotivo = '06' ) then Result := '06-CÃ³digo do Banco invÃ¡lido'
       else
-      if ( CodMotivo = '08' ) then Result := '08-Nome do sacado não informado'
+      if ( CodMotivo = '08' ) then Result := '08-Nome do sacado nÃ£o informado'
       else
-      if ( CodMotivo = '10' ) then Result := '10-Logradouro não informado'
+      if ( CodMotivo = '10' ) then Result := '10-Logradouro nÃ£o informado'
       else
       if ( CodMotivo = '14' ) then Result := '14-Registro em duplicidade'
       else
-      if ( CodMotivo = '19' ) then Result := '19-Data de desconto inválida ou maior que a data de vencimento'
+      if ( CodMotivo = '19' ) then Result := '19-Data de desconto invÃ¡lida ou maior que a data de vencimento'
       else
-      if ( CodMotivo = '20' ) then Result := '20-Valor de IOF não numérico'
+      if ( CodMotivo = '20' ) then Result := '20-Valor de IOF nÃ£o numÃ©rico'
       else
-      if ( CodMotivo = '22' ) then Result := '22-Valor de desconto + abatimento maior que o valor do título'
+      if ( CodMotivo = '22' ) then Result := '22-Valor de desconto + abatimento maior que o valor do tÃ­tulo'
       else
-      if ( CodMotivo = '25' ) then Result := '25-CNPJ ou CPF do sacado inválido (aceito com restrições)'
+      if ( CodMotivo = '25' ) then Result := '25-CNPJ ou CPF do sacado invÃ¡lido (aceito com restriÃ§Ãµes)'
       else
-      if ( CodMotivo = '26' ) then Result := '26-Espécies de documento inválida (difere de 01...10,13 e 99)'
+      if ( CodMotivo = '26' ) then Result := '26-EspÃ©cies de documento invÃ¡lida (difere de 01...10,13 e 99)'
       else
-      if ( CodMotivo = '27' ) then Result := '27-Data de emissão do título inválida'
+      if ( CodMotivo = '27' ) then Result := '27-Data de emissÃ£o do tÃ­tulo invÃ¡lida'
       else
-      if ( CodMotivo = '28' ) then Result := '28-Seu número não informado'
+      if ( CodMotivo = '28' ) then Result := '28-Seu nÃºmero nÃ£o informado'
       else
-      if ( CodMotivo = '29' ) then Result := '29-CEP é igual a espaço ou zeros; ou não numérico'
+      if ( CodMotivo = '29' ) then Result := '29-CEP Ã© igual a espaÃ§o ou zeros; ou nÃ£o numÃ©rico'
       else
-      if ( CodMotivo = '30' ) then Result := '30-Valor do título não numérico ou inválido'
+      if ( CodMotivo = '30' ) then Result := '30-Valor do tÃ­tulo nÃ£o numÃ©rico ou invÃ¡lido'
       else
-      if ( CodMotivo = '36' ) then Result := '36-Valor de permanência não numérico'
+      if ( CodMotivo = '36' ) then Result := '36-Valor de permanÃªncia nÃ£o numÃ©rico'
       else
       if ( CodMotivo = '15' ) then Result := '15-37'
       else
-      if ( CodMotivo = 'Va' ) then Result := 'Valor -or de permanência inconsistente, pois, dentro de um mês, será maior que o valor do título'
+      if ( CodMotivo = 'Va' ) then Result := 'Valor -or de permanÃªncia inconsistente, pois, dentro de um mÃªs, serÃ¡ maior que o valor do tÃ­tulo'
       else
-      if ( CodMotivo = '38' ) then Result := '38-Valor de desconto/abatimento não numérico ou inválido'
+      if ( CodMotivo = '38' ) then Result := '38-Valor de desconto/abatimento nÃ£o numÃ©rico ou invÃ¡lido'
       else
-      if ( CodMotivo = '39' ) then Result := '39-Valor de abatimento não numérico'
+      if ( CodMotivo = '39' ) then Result := '39-Valor de abatimento nÃ£o numÃ©rico'
       else
-      if ( CodMotivo = '42' ) then Result := '42-Título já existente em nossos registros. Nosso número não aceito'
+      if ( CodMotivo = '42' ) then Result := '42-TÃ­tulo jÃ¡ existente em nossos registros. Nosso nÃºmero nÃ£o aceito'
       else
-      if ( CodMotivo = '43' ) then Result := '43-Título enviado em duplicidade nesse movimento'
+      if ( CodMotivo = '43' ) then Result := '43-TÃ­tulo enviado em duplicidade nesse movimento'
       else
-      if ( CodMotivo = '44' ) then Result := '44-Título zerado ou em branco; ou não numérico na remessa'
+      if ( CodMotivo = '44' ) then Result := '44-TÃ­tulo zerado ou em branco; ou nÃ£o numÃ©rico na remessa'
       else
-      if ( CodMotivo = '46' ) then Result := '46-Título enviado fora da faixa de Nosso Número, estipulada para o cliente.'
+      if ( CodMotivo = '46' ) then Result := '46-TÃ­tulo enviado fora da faixa de Nosso NÃºmero, estipulada para o cliente.'
       else
-      if ( CodMotivo = '51' ) then Result := '51-Tipo/Número de Inscrição Sacador/Avalista Inválido'
+      if ( CodMotivo = '51' ) then Result := '51-Tipo/NÃºmero de InscriÃ§Ã£o Sacador/Avalista InvÃ¡lido'
       else
-      if ( CodMotivo = '53' ) then Result := '53-Prazo de vencimento do título excede ao da contratação'
+      if ( CodMotivo = '53' ) then Result := '53-Prazo de vencimento do tÃ­tulo excede ao da contrataÃ§Ã£o'
       else
-      if ( CodMotivo = '54' ) then Result := '54-Banco informado não é nosso correspondente 140-142'
+      if ( CodMotivo = '54' ) then Result := '54-Banco informado nÃ£o Ã© nosso correspondente 140-142'
       else
-      if ( CodMotivo = '55' ) then Result := '55-Banco correspondente informado não cobra este CEP ou não possui faixas de CEP cadastradas'
+      if ( CodMotivo = '55' ) then Result := '55-Banco correspondente informado nÃ£o cobra este CEP ou nÃ£o possui faixas de CEP cadastradas'
       else
-      if ( CodMotivo = '56' ) then Result := '56-Nosso número no correspondente não foi informado'
+      if ( CodMotivo = '56' ) then Result := '56-Nosso nÃºmero no correspondente nÃ£o foi informado'
       else
-      if ( CodMotivo = '57' ) then Result := '57-Remessa contendo duas instruções incompatíveis – não protestar e dias de protesto ou prazo para protesto inválido.'
+      if ( CodMotivo = '57' ) then Result := '57-Remessa contendo duas instruÃ§Ãµes incompatÃ­veis â€“ nÃ£o protestar e dias de protesto ou prazo para protesto invÃ¡lido.'
       else
-      if ( CodMotivo = '58' ) then Result := '58-Entradas Rejeitadas – Reprovado no Represamento para Análise'
+      if ( CodMotivo = '58' ) then Result := '58-Entradas Rejeitadas â€“ Reprovado no Represamento para AnÃ¡lise'
       else
-      if ( CodMotivo = '60' ) then Result := '60-CNPJ/CPF do sacado inválido – título recusado'
+      if ( CodMotivo = '60' ) then Result := '60-CNPJ/CPF do sacado invÃ¡lido â€“ tÃ­tulo recusado'
       else
-      if ( CodMotivo = '87' ) then Result := '87-Excede Prazo máximo entre emissão e vencimento'
+      if ( CodMotivo = '87' ) then Result := '87-Excede Prazo mÃ¡ximo entre emissÃ£o e vencimento'
       else
-      if ( CodMotivo = '99' ) then Result := '99-Título não acatado pelo banco – entrar em contato Gerente da conta'
+      if ( CodMotivo = '99' ) then Result := '99-TÃ­tulo nÃ£o acatado pelo banco â€“ entrar em contato Gerente da conta'
       else
-      if ( CodMotivo = 'AE' ) then Result := 'AE-Título não possui abatimento'
+      if ( CodMotivo = 'AE' ) then Result := 'AE-TÃ­tulo nÃ£o possui abatimento'
       else
-      if ( CodMotivo = 'AG' ) then Result := 'AG-Movimento não permitido – Título à vista ou contra apresentação'
+      if ( CodMotivo = 'AG' ) then Result := 'AG-Movimento nÃ£o permitido â€“ TÃ­tulo Ã  vista ou contra apresentaÃ§Ã£o'
       else
-      if ( CodMotivo = 'AK' ) then Result := 'AK-Título pertence a outro cliente'
+      if ( CodMotivo = 'AK' ) then Result := 'AK-TÃ­tulo pertence a outro cliente'
       else
-      if ( CodMotivo = 'AL' ) then Result := 'AL-Sacado impedido de entrar nesta cobrança'
+      if ( CodMotivo = 'AL' ) then Result := 'AL-Sacado impedido de entrar nesta cobranÃ§a'
       else
-      if ( CodMotivo = 'AY' ) then Result := 'AY-Título deve estar em aberto e vencido para acatar protesto'
+      if ( CodMotivo = 'AY' ) then Result := 'AY-TÃ­tulo deve estar em aberto e vencido para acatar protesto'
       else
-      if ( CodMotivo = 'BC' ) then Result := 'BC-Análise gerencial-sacado inválido p/operação crédito'
+      if ( CodMotivo = 'BC' ) then Result := 'BC-AnÃ¡lise gerencial-sacado invÃ¡lido p/operaÃ§Ã£o crÃ©dito'
       else
-      if ( CodMotivo = 'BD' ) then Result := 'BD-Análise gerencial-sacado inadimplente'
+      if ( CodMotivo = 'BD' ) then Result := 'BD-AnÃ¡lise gerencial-sacado inadimplente'
       else
-      if ( CodMotivo = 'BE' ) then Result := 'BE-Análise gerencial-sacado difere do exigido'
+      if ( CodMotivo = 'BE' ) then Result := 'BE-AnÃ¡lise gerencial-sacado difere do exigido'
       else
-      if ( CodMotivo = 'BF' ) then Result := 'BF-Análise gerencial-vencto excede vencto da operação de crédito'
+      if ( CodMotivo = 'BF' ) then Result := 'BF-AnÃ¡lise gerencial-vencto excede vencto da operaÃ§Ã£o de crÃ©dito'
       else
-      if ( CodMotivo = 'BG' ) then Result := 'BG-Análise gerencial-sacado com baixa liquidez'
+      if ( CodMotivo = 'BG' ) then Result := 'BG-AnÃ¡lise gerencial-sacado com baixa liquidez'
       else
-      if ( CodMotivo = 'BH' ) then Result := 'BH-Análise gerencial-sacado excede concentração'
+      if ( CodMotivo = 'BH' ) then Result := 'BH-AnÃ¡lise gerencial-sacado excede concentraÃ§Ã£o'
       else
-      if ( CodMotivo = 'CB' ) then Result := 'CB-Título possui protesto efetivado/a efetivar hoje'
+      if ( CodMotivo = 'CB' ) then Result := 'CB-TÃ­tulo possui protesto efetivado/a efetivar hoje'
       else
-      if ( CodMotivo = 'CC' ) then Result := 'CC-Valor de iof incompatível com a espécie documento'
+      if ( CodMotivo = 'CC' ) then Result := 'CC-Valor de iof incompatÃ­vel com a espÃ©cie documento'
       else
-      if ( CodMotivo = 'CD' ) then Result := 'CD-Efetivação de protesto sem agenda válida'
+      if ( CodMotivo = 'CD' ) then Result := 'CD-EfetivaÃ§Ã£o de protesto sem agenda vÃ¡lida'
       else
-      if ( CodMotivo = 'CE' ) then Result := 'CE-Título não aceito - pessoa física'
+      if ( CodMotivo = 'CE' ) then Result := 'CE-TÃ­tulo nÃ£o aceito - pessoa fÃ­sica'
       else
-      if ( CodMotivo = 'CF' ) then Result := 'CF-Excede prazo máximo da entrada ao vencimento'
+      if ( CodMotivo = 'CF' ) then Result := 'CF-Excede prazo mÃ¡ximo da entrada ao vencimento'
       else
-      if ( CodMotivo = 'CG' ) then Result := 'CG-Título não aceito – por análise gerencial'
+      if ( CodMotivo = 'CG' ) then Result := 'CG-TÃ­tulo nÃ£o aceito â€“ por anÃ¡lise gerencial'
       else
-      if ( CodMotivo = 'CH' ) then Result := 'CH-Título em espera – em análise pelo banco'
+      if ( CodMotivo = 'CH' ) then Result := 'CH-TÃ­tulo em espera â€“ em anÃ¡lise pelo banco'
       else
-      if ( CodMotivo = 'CJ' ) then Result := 'CJ-Análise gerencial-vencto do titulo abaixo przcurto'
+      if ( CodMotivo = 'CJ' ) then Result := 'CJ-AnÃ¡lise gerencial-vencto do titulo abaixo przcurto'
       else
-      if ( CodMotivo = 'CK' ) then Result := 'CK-Análise gerencial-vencto do titulo abaixo przlongo'
+      if ( CodMotivo = 'CK' ) then Result := 'CK-AnÃ¡lise gerencial-vencto do titulo abaixo przlongo'
       else
-      if ( CodMotivo = 'CS' ) then Result := 'CS-Título rejeitado pela checagem de duplicatas'
+      if ( CodMotivo = 'CS' ) then Result := 'CS-TÃ­tulo rejeitado pela checagem de duplicatas'
       else
-      if ( CodMotivo = 'CT' ) then Result := 'CT-Título já baixado'
+      if ( CodMotivo = 'CT' ) then Result := 'CT-TÃ­tulo jÃ¡ baixado'
       else
-      if ( CodMotivo = 'DA' ) then Result := 'DA-Análise gerencial – Entrada de Título Descontado com limite cancelado'
+      if ( CodMotivo = 'DA' ) then Result := 'DA-AnÃ¡lise gerencial â€“ Entrada de TÃ­tulo Descontado com limite cancelado'
       else
-      if ( CodMotivo = 'DB' ) then Result := 'DB-Análise gerencial – Entrada de Título Descontado com limite vencido'
+      if ( CodMotivo = 'DB' ) then Result := 'DB-AnÃ¡lise gerencial â€“ Entrada de TÃ­tulo Descontado com limite vencido'
       else
-      if ( CodMotivo = 'DC' ) then Result := 'DC-Análise gerencial - cedente com limite cancelado'
+      if ( CodMotivo = 'DC' ) then Result := 'DC-AnÃ¡lise gerencial - cedente com limite cancelado'
       else
-      if ( CodMotivo = 'DD' ) then Result := 'DD-Análise gerencial – cedente é sacado e teve seu limite cancelado'
+      if ( CodMotivo = 'DD' ) then Result := 'DD-AnÃ¡lise gerencial â€“ cedente Ã© sacado e teve seu limite cancelado'
       else
-      if ( CodMotivo = 'DE' ) then Result := 'DE-Análise gerencial - apontamento no Serasa'
+      if ( CodMotivo = 'DE' ) then Result := 'DE-AnÃ¡lise gerencial - apontamento no Serasa'
       else
-      if ( CodMotivo = 'DG' ) then Result := 'DG-Endereço sacador/avalista não informado'
+      if ( CodMotivo = 'DG' ) then Result := 'DG-EndereÃ§o sacador/avalista nÃ£o informado'
       else
-      if ( CodMotivo = 'DH' ) then Result := 'DH-Cep do sacador/avalista não informado'
+      if ( CodMotivo = 'DH' ) then Result := 'DH-Cep do sacador/avalista nÃ£o informado'
       else
-      if ( CodMotivo = 'DI' ) then Result := 'DI-Cidade do sacador/avalista não informado'
+      if ( CodMotivo = 'DI' ) then Result := 'DI-Cidade do sacador/avalista nÃ£o informado'
       else
-      if ( CodMotivo = 'DJ' ) then Result := 'DJ-Estado do sacador/avalista inválido ou n informado'
+      if ( CodMotivo = 'DJ' ) then Result := 'DJ-Estado do sacador/avalista invÃ¡lido ou n informado'
       else
-      if ( CodMotivo = 'DM' ) then Result := 'DM-Cliente sem Código de Flash cadastrado no cobrador'
+      if ( CodMotivo = 'DM' ) then Result := 'DM-Cliente sem CÃ³digo de Flash cadastrado no cobrador'
       else
-      if ( CodMotivo = 'DN' ) then Result := 'DN-Título Descontado com Prazo ZERO – Recusado'
+      if ( CodMotivo = 'DN' ) then Result := 'DN-TÃ­tulo Descontado com Prazo ZERO â€“ Recusado'
       else
-      if ( CodMotivo = 'DO' ) then Result := 'DO-Título em Prejuízo'
+      if ( CodMotivo = 'DO' ) then Result := 'DO-TÃ­tulo em PrejuÃ­zo'
       else
-      if ( CodMotivo = 'DP' ) then Result := 'DP-Data de Referência menor que a Data de Emissão do Título'
+      if ( CodMotivo = 'DP' ) then Result := 'DP-Data de ReferÃªncia menor que a Data de EmissÃ£o do TÃ­tulo'
       else
-      if ( CodMotivo = 'DT' ) then Result := 'DT-Nosso Número do Correspondente não deve ser informado'
+      if ( CodMotivo = 'DT' ) then Result := 'DT-Nosso NÃºmero do Correspondente nÃ£o deve ser informado'
       else
-      if ( CodMotivo = 'EB' ) then Result := 'EB-HSBC não aceita endereço de sacado com mais de 38 caracteres'
+      if ( CodMotivo = 'EB' ) then Result := 'EB-HSBC nÃ£o aceita endereÃ§o de sacado com mais de 38 caracteres'
       else
         Result := CodMotivo + '-Motivo desconhecido';
     end;
     toRetornoBaixaRejeitada :
     begin
-      if ( CodMotivo = '05' ) then Result := '05-Solicitação de baixa para título já baixado ou liquidado'
+      if ( CodMotivo = '05' ) then Result := '05-SolicitaÃ§Ã£o de baixa para tÃ­tulo jÃ¡ baixado ou liquidado'
       else
-      if ( CodMotivo = '06' ) then Result := '06-Solicitação de baixa para título não registrado no sistema'
+      if ( CodMotivo = '06' ) then Result := '06-SolicitaÃ§Ã£o de baixa para tÃ­tulo nÃ£o registrado no sistema'
       else
-      if ( CodMotivo = '08' ) then Result := '08-Solicitação de baixa para título em float'
+      if ( CodMotivo = '08' ) then Result := '08-SolicitaÃ§Ã£o de baixa para tÃ­tulo em float'
       else
         Result := CodMotivo + '-Motivo desconhecido';
     end;
     toRetornoInstrucaoRejeitada :
     begin
-      if ( CodMotivo = '04' ) then Result := '04-Data de Vencimento não numérica ou inválida'
+      if ( CodMotivo = '04' ) then Result := '04-Data de Vencimento nÃ£o numÃ©rica ou invÃ¡lida'
       else
       if ( CodMotivo = '14' ) then Result := '14-Registro em duplicidade'
       else
       if ( CodMotivo = '20' ) then Result := '20-Campo livre informado'
       else
-      if ( CodMotivo = '21' ) then Result := '21-Título não registrado no sistema'
+      if ( CodMotivo = '21' ) then Result := '21-TÃ­tulo nÃ£o registrado no sistema'
       else
-      if ( CodMotivo = '22' ) then Result := '22-Título baixada ou liquidado'
+      if ( CodMotivo = '22' ) then Result := '22-TÃ­tulo baixada ou liquidado'
       else
-      if ( CodMotivo = '27' ) then Result := '27-Instrução não aceita, pôr não ter sido emitida ordem de protesto ao cartório'
+      if ( CodMotivo = '27' ) then Result := '27-InstruÃ§Ã£o nÃ£o aceita, pÃ´r nÃ£o ter sido emitida ordem de protesto ao cartÃ³rio'
       else
-      if ( CodMotivo = '28' ) then Result := '28-Título tem instrução de cartório ativa'
+      if ( CodMotivo = '28' ) then Result := '28-TÃ­tulo tem instruÃ§Ã£o de cartÃ³rio ativa'
       else
-      if ( CodMotivo = '29' ) then Result := '29-Título não tem instrução de cartório ativa'
+      if ( CodMotivo = '29' ) then Result := '29-TÃ­tulo nÃ£o tem instruÃ§Ã£o de cartÃ³rio ativa'
       else
-      if ( CodMotivo = '30' ) then Result := '30-Existe instrução de não protestar, ativa para o título'
+      if ( CodMotivo = '30' ) then Result := '30-Existe instruÃ§Ã£o de nÃ£o protestar, ativa para o tÃ­tulo'
       else
-      if ( CodMotivo = '37' ) then Result := '37-Título Descontado Instrução não permitida para a carteira'
+      if ( CodMotivo = '37' ) then Result := '37-TÃ­tulo Descontado InstruÃ§Ã£o nÃ£o permitida para a carteira'
       else
-      if ( CodMotivo = '38' ) then Result := '38-Valor do abatimento não numérico ou maior que a soma do valor do título + permanência + multa'
+      if ( CodMotivo = '38' ) then Result := '38-Valor do abatimento nÃ£o numÃ©rico ou maior que a soma do valor do tÃ­tulo + permanÃªncia + multa'
       else
-      if ( CodMotivo = '49' ) then Result := '49-Título em cartório'
+      if ( CodMotivo = '49' ) then Result := '49-TÃ­tulo em cartÃ³rio'
       else
-      if ( CodMotivo = '40' ) then Result := '40-Instrução recusada - cobrança vinculada / caucionada'
+      if ( CodMotivo = '40' ) then Result := '40-InstruÃ§Ã£o recusada - cobranÃ§a vinculada / caucionada'
       else
-      if ( CodMotivo = '99' ) then Result := '99-Ocorrência desconhecida na remessa'
+      if ( CodMotivo = '99' ) then Result := '99-OcorrÃªncia desconhecida na remessa'
       else
         Result := CodMotivo + '-Motivo desconhecido';
     end;
@@ -373,19 +373,19 @@ begin
   with ACBrBanco.ACBrBoleto.Cedente do
   begin
     wLinha :=
-      '0' +                             // Código do registro: 0 - Header
-      '1' +                             // Código do arquivo: 1 - Remessa
-      'REMESSA' +                       // Identificação do arquivo
-      '01' +                            // Código do serviço
-      PadRight('COBRANCA',15) +         // Identificação do serviço
-      PadRight(CodigoCedente, 20) +     // Código da empresa no banco
+      '0' +                             // CÃ³digo do registro: 0 - Header
+      '1' +                             // CÃ³digo do arquivo: 1 - Remessa
+      'REMESSA' +                       // IdentificaÃ§Ã£o do arquivo
+      '01' +                            // CÃ³digo do serviÃ§o
+      PadRight('COBRANCA',15) +         // IdentificaÃ§Ã£o do serviÃ§o
+      PadRight(CodigoCedente, 20) +     // CÃ³digo da empresa no banco
       //Space(8) +                        // Brancos
       PadRight(Nome, 30) +              // Nome da empresa
-      '707' +                           // Código do banco: 707 = Banco Daycoval
+      '707' +                           // CÃ³digo do banco: 707 = Banco Daycoval
       PadRight('BANCO DAYCOVAL', 15) +  // Nome do banco
-      FormatDateTime('ddmmyy', Now) +   // Data de gravação
+      FormatDateTime('ddmmyy', Now) +   // Data de gravaÃ§Ã£o
       Space(294) +                      // Brancos
-      IntToStrZero(1, 6);               // Número sequencial do registro
+      IntToStrZero(1, 6);               // NÃºmero sequencial do registro
 
     ARemessa.Text:= ARemessa.Text + UpperCase(wLinha);
   end;
@@ -437,22 +437,22 @@ var
 begin
   with ACBrTitulo do
   begin
-    // Definindo o código da ocorrência.
+    // Definindo o cÃ³digo da ocorrÃªncia.
     case OcorrenciaOriginal.Tipo of
       toRemessaBaixar            : ATipoOcorrencia := '02'; // Pedido de baixa
-      toRemessaConcederAbatimento: ATipoOcorrencia := '04'; // Concessão de abatimento
+      toRemessaConcederAbatimento: ATipoOcorrencia := '04'; // ConcessÃ£o de abatimento
       toRemessaCancelarAbatimento: ATipoOcorrencia := '05'; // Cancelamento de abatimento concedido
-      toRemessaAlterarVencimento : ATipoOcorrencia := '06'; // Alteração de vencimento
-      toRemessaAlterarUsoEmpresa : ATipoOcorrencia := '07'; // Alteração "Uso Exclusivo do Cliente"
-      toRemessaAlterarSeuNumero  : ATipoOcorrencia := '08'; // Alteração de "Seu Número"
+      toRemessaAlterarVencimento : ATipoOcorrencia := '06'; // AlteraÃ§Ã£o de vencimento
+      toRemessaAlterarUsoEmpresa : ATipoOcorrencia := '07'; // AlteraÃ§Ã£o "Uso Exclusivo do Cliente"
+      toRemessaAlterarSeuNumero  : ATipoOcorrencia := '08'; // AlteraÃ§Ã£o de "Seu NÃºmero"
       toRemessaProtestar         : ATipoOcorrencia := '09'; // Pedido de protesto
-      toRemessaNaoProtestar      : ATipoOcorrencia := '10'; // Não protestar
-      toRemessaDispensarJuros    : ATipoOcorrencia := '11'; // Não cobrar juros de mora
+      toRemessaNaoProtestar      : ATipoOcorrencia := '10'; // NÃ£o protestar
+      toRemessaDispensarJuros    : ATipoOcorrencia := '11'; // NÃ£o cobrar juros de mora
     else
       ATipoOcorrencia := '01'; // Remessa
     end;
 
-    // Definindo a espécie do título.
+    // Definindo a espÃ©cie do tÃ­tulo.
     if AnsiSameText(EspecieDoc, 'DM') then
       AEspecieDoc := '01'
     else if AnsiSameText(EspecieDoc, 'NP') then
@@ -471,7 +471,7 @@ begin
     else
       DiasProtesto := '00';
 
-    // Definindo o tipo de inscrição do sacado.
+    // Definindo o tipo de inscriÃ§Ã£o do sacado.
     case Sacado.Pessoa of
       pFisica  : TipoSacado := '01';
       pJuridica: TipoSacado := '02';
@@ -480,12 +480,12 @@ begin
     end;
 
     //Pegando Tipo de Cedente}
-    ATipoCedente := DefineTipoInscricao;
+    ATipoCedente := '0' + DefineTipoInscricao;
 
     // Conforme manual o aceite deve ser sempre 'N'
     ATipoAceite := 'N';
 
-    // Código de Remessa Fixo pelo Layout (peculiaridades)
+    // CÃ³digo de Remessa Fixo pelo Layout (peculiaridades)
 
     case fpLayoutVersaoLote of
       4 : begin
@@ -505,24 +505,24 @@ begin
 
     with ACBrBoleto do
     begin
-      wLinha := '1' + // 1 - Código do registro: 1 - Transação
-        ATipoCedente + // 2 a 3 - Tipo de inscrição da empresa: 01 = CPF; 02 = CNPJ
-        PadLeft(OnlyNumber(Cedente.CNPJCPF), 14, '0') +              // 4 a 17 - Número de inscrição
-        PadRight(Cedente.CodigoCedente, 20) +                        // 18 a 37 - Código da empresa no banco
-        PadRight(SeuNumero, 25) +                                    // 38 a 62 - Identificação do título na empresa
-        Copy(PadLeft(NossoNumero,TamanhoMaximoNossoNum,'0'), 3, 8) + // 63 a 70 - Nosso número
+      wLinha := '1' + // 1 - CÃ³digo do registro: 1 - TransaÃ§Ã£o
+        ATipoCedente + // 2 a 3 - Tipo de inscriÃ§Ã£o da empresa: 01 = CPF; 02 = CNPJ
+        PadLeft(OnlyNumber(Cedente.CNPJCPF), 14, '0') +              // 4 a 17 - NÃºmero de inscriÃ§Ã£o
+        PadRight(Cedente.CodigoCedente, 20) +                        // 18 a 37 - CÃ³digo da empresa no banco
+        PadRight(SeuNumero, 25) +                                    // 38 a 62 - IdentificaÃ§Ã£o do tÃ­tulo na empresa
+        Copy(PadLeft(NossoNumero,TamanhoMaximoNossoNum,'0'), 3, 8) + // 63 a 70 - Nosso nÃºmero
         AComplemento +                                               // 71 a 83 - Brancos layout 6 ou zeros layout 4 complemento
         Space(24) +                                                  // 84 a 107 - Brancos
-        ACodigoRemessa +                                             // 108 - Código da Remessa
-        ATipoOcorrencia +                                            // 109 a 110 - Código da ocorrência
-        PadRight(SeuNumero, 10, ' ') +                               // 111 a 120 - Identificação do título na empresa
-        FormatDateTime('ddmmyy', Vencimento) +                       // 121 a 126 - Data de vencimento do título
-        IntToStrZero(Round(ValorDocumento * 100), 13) +              // 127 a 139 - Valor nominal do título
-        '707' +                                                      // 140 a 142 - Banco encarregado da cobrança: 707 = Banco Daycoval
-        '00000' +                                                    // 143 a 147 - Agência encarregada da cobrança + digito
-        AEspecieDoc +                                                // 148 a 149 - Espécie do título
-        ATipoAceite +                                                // 150 - Identificação de aceite do título: A = Aceito; N = Não aceito
-        FormatDateTime('ddmmyy', DataDocumento) +                    // 151 a 156 - Data de emissão do título
+        ACodigoRemessa +                                             // 108 - CÃ³digo da Remessa
+        ATipoOcorrencia +                                            // 109 a 110 - CÃ³digo da ocorrÃªncia
+        PadRight(SeuNumero, 10, ' ') +                               // 111 a 120 - IdentificaÃ§Ã£o do tÃ­tulo na empresa
+        FormatDateTime('ddmmyy', Vencimento) +                       // 121 a 126 - Data de vencimento do tÃ­tulo
+        IntToStrZero(Round(ValorDocumento * 100), 13) +              // 127 a 139 - Valor nominal do tÃ­tulo
+        '707' +                                                      // 140 a 142 - Banco encarregado da cobranÃ§a: 707 = Banco Daycoval
+        '00000' +                                                    // 143 a 147 - AgÃªncia encarregada da cobranÃ§a + digito
+        AEspecieDoc +                                                // 148 a 149 - EspÃ©cie do tÃ­tulo
+        ATipoAceite +                                                // 150 - IdentificaÃ§Ã£o de aceite do tÃ­tulo: A = Aceito; N = NÃ£o aceito
+        FormatDateTime('ddmmyy', DataDocumento) +                    // 151 a 156 - Data de emissÃ£o do tÃ­tulo
         PadLeft('', 2, '0') +                                        // 157 a 158 - zeros
         PadLeft('', 2, '0') +                                        // 159 a 160 - zeros
         PadLeft('', 13, '0') +                                       // 161 a 173 - zeros
@@ -530,12 +530,12 @@ begin
           FormatDateTime('ddmmyy', DataDesconto), '000000') +        // 174 a 179 - Data limite para desconto
         IntToStrZero(Round(ValorDesconto * 100), 13) +               // 180 a 192 - Valor do desconto
         PadLeft('', 13, '0') +                                       // 193 a 205 - ZEROS
-        PadLeft('', 13, '0') +                                       // 206 a 218 - Para ocorrência 01: Manter zeros -Para ocorrência 04: Informar valor a ser concedido para abatimento.
-        TipoSacado +                                                 // 219 a 220 - Tipo de inscrição do sacado: 01 – CPF; 02 – CGC
-        PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0') +               // 221 a 234 - Número de inscrição do sacado
+        PadLeft('', 13, '0') +                                       // 206 a 218 - Para ocorrÃªncia 01: Manter zeros -Para ocorrÃªncia 04: Informar valor a ser concedido para abatimento.
+        TipoSacado +                                                 // 219 a 220 - Tipo de inscriÃ§Ã£o do sacado: 01 â€“ CPF; 02 â€“ CGC
+        PadLeft(OnlyNumber(Sacado.CNPJCPF), 14, '0') +               // 221 a 234 - NÃºmero de inscriÃ§Ã£o do sacado
         PadRight(Sacado.NomeSacado, 30, ' ') +                       // 235 a 264 - Nome do sacado
         Space(10) +                                                  // 265 a 274 - Brancos
-        PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' ' + Sacado.Complemento, 40, ' ') +     // 275 a 314 - Endereço do sacado
+        PadRight(Sacado.Logradouro + ' ' + Sacado.Numero + ' ' + Sacado.Complemento, 40, ' ') +     // 275 a 314 - EndereÃ§o do sacado
         PadRight(Sacado.Bairro, 12, ' ') +                           // 315 a 326 - Bairro do sacado
         PadRight(OnlyNumber(Sacado.CEP), 8, '0') +                   // 327 a 334 - CEP do sacado
         PadRight(Sacado.Cidade, 15, ' ') +                           // 335 a 349 - Cidade do sacado
@@ -546,13 +546,13 @@ begin
         PadLeft('', 2, '0') +                                        // 392 a 393 - zeros
         '0' ;                                                        // 394 - Moeda 0=Moeda nacional atual 3=Dolar
 
-      wLinha := wLinha + IntToStrZero(ARemessa.Count + 1, 6);        // 395 a 400 - Número sequencial do registro
+      wLinha := wLinha + IntToStrZero(ARemessa.Count + 1, 6);        // 395 a 400 - NÃºmero sequencial do registro
 
       ARemessa.Text := ARemessa.Text + UpperCase(wLinha);
     end;
   end;
 
-  if ACBrTitulo.ListaDadosNFe.Count > 0 then  //Informações da nota fiscal
+  if ACBrTitulo.ListaDadosNFe.Count > 0 then  //InformaÃ§Ãµes da nota fiscal
     GerarRegistrosNFe(ACBrTitulo, aRemessa);
 end;
 
@@ -562,9 +562,9 @@ var
   wLinha: String;
 begin
   wLinha :=
-    '9' +                                // Código do registro: 9 - Trailler
+    '9' +                                // CÃ³digo do registro: 9 - Trailler
     Space(393) +                         // Brancos
-    IntToStrZero(ARemessa.Count + 1, 6); // Número sequencial do registro
+    IntToStrZero(ARemessa.Count + 1, 6); // NÃºmero sequencial do registro
 
   ARemessa.Text := ARemessa.Text + UpperCase(wLinha);
 end;
@@ -577,13 +577,13 @@ var
   Linha, rCedente, rCNPJCPF: String;
   rCodEmpresa: String;
 begin
-  // Foi necessário utilizar o número e nome do Banco Daycoval
+  // Foi necessÃ¡rio utilizar o nÃºmero e nome do Banco Daycoval
   fpNumero := 707;
   fpNome   := 'Banco Daycoval';
 
   if StrToIntDef(Copy(ARetorno.Strings[0], 77, 3), -1) <> Numero then
     raise Exception.Create(ACBrStr(ACBrBanco.ACBrBoleto.NomeArqRetorno +
-      ' não é um arquivo de retorno do ' + Nome));
+      ' nÃ£o Ã© um arquivo de retorno do ' + Nome));
 
   rCodEmpresa  := Trim(Copy(ARetorno[0], 27, 20));
   rCedente     := Trim(Copy(ARetorno[0], 47, 30));
@@ -606,7 +606,7 @@ begin
   with ACBrBanco.ACBrBoleto do
   begin
     if (not LeCedenteRetorno) and (rCodEmpresa <> PadLeft(Cedente.CodigoCedente, 20, '0')) then
-      raise Exception.Create(ACBrStr('Código da Empresa do arquivo inválido.'));
+      raise Exception.Create(ACBrStr('CÃ³digo da Empresa do arquivo invÃ¡lido.'));
 
     case StrToIntDef(Copy(ARetorno[1], 2, 2), 0) of
       1: Cedente.TipoInscricao:= pFisica;
@@ -685,29 +685,29 @@ begin
     02: Result := '02 Entrada Confirmada';
     03: Result := '03 Entrada Rejeitada';
     05: Result := '05 Campo Livre Alterado';
-    06: Result := '06 Liquidação Normal';
-    08: Result := '08 Liquidação em Cartório';
-    09: Result := '09 Baixa Automática';
-    10: Result := '10 Baixa pôr ter sido liquidado';
+    06: Result := '06 LiquidaÃ§Ã£o Normal';
+    08: Result := '08 LiquidaÃ§Ã£o em CartÃ³rio';
+    09: Result := '09 Baixa AutomÃ¡tica';
+    10: Result := '10 Baixa pÃ´r ter sido liquidado';
     12: Result := '12 Confirma Abatimento';
     13: Result := '13 Abatimento Cancelado';
     14: Result := '14 Vencimento Alterado';
     15: Result := '15 Baixa Rejeitada';
-    16: Result := '16 Instrução Rejeitada';
+    16: Result := '16 InstruÃ§Ã£o Rejeitada';
     19: Result := '19 Confirma Recebimento de Ordem de Protesto';
-    20: Result := '20 Confirma Recebimento de Ordem de Sustação';
-    22: Result := '22 Seu Número Alterado';
-    23: Result := '23 Título enviado para Cartório';
-    24: Result := '24 Confirma recebimento de ordem de não protestar';
-    28: Result := '28 Débito de tarifas/custas – Correspondentes';
-    40: Result := '40 Tarifa de entrada (debitada na liquidação)';
+    20: Result := '20 Confirma Recebimento de Ordem de SustaÃ§Ã£o';
+    22: Result := '22 Seu NÃºmero Alterado';
+    23: Result := '23 TÃ­tulo enviado para CartÃ³rio';
+    24: Result := '24 Confirma recebimento de ordem de nÃ£o protestar';
+    28: Result := '28 DÃ©bito de tarifas/custas â€“ Correspondentes';
+    40: Result := '40 Tarifa de entrada (debitada na liquidaÃ§Ã£o)';
     43: Result := '43 Baixado por ter sido protestado';
-    96: Result := '96 Tarifa sobre instruções – Mês anterior';
-    97: Result := '97 Tarifa sobre baixas – Mês anterior';
-    98: Result := '98 Tarifa sobre entradas – Mês anterior';
-    99: Result := '99 Tarifa sobre instrução de protesto/sustação – mês anterior';
+    96: Result := '96 Tarifa sobre instruÃ§Ãµes â€“ MÃªs anterior';
+    97: Result := '97 Tarifa sobre baixas â€“ MÃªs anterior';
+    98: Result := '98 Tarifa sobre entradas â€“ MÃªs anterior';
+    99: Result := '99 Tarifa sobre instruÃ§Ã£o de protesto/sustaÃ§Ã£o â€“ mÃªs anterior';
   else
-    Result := IntToStr(CodOcorrencia)+' Ocorrência desconhecida';
+    Result := IntToStr(CodOcorrencia)+' OcorrÃªncia desconhecida';
   end;
 
   Result := ACBrSTr(Result);
@@ -806,21 +806,21 @@ function TACBrBancoDaycoval.CodOcorrenciaToTipoRemessa(const CodOcorrencia:Integ
 begin
   case CodOcorrencia of
     02 : Result:= toRemessaBaixar;                          {Pedido de Baixa}
-    04 : Result:= toRemessaConcederAbatimento;              {Concessão de Abatimento}
+    04 : Result:= toRemessaConcederAbatimento;              {ConcessÃ£o de Abatimento}
     05 : Result:= toRemessaCancelarAbatimento;              {Cancelamento de Abatimento concedido}
-    06 : Result:= toRemessaAlterarVencimento;               {Alteração de vencimento}
-    07 : Result:= toRemessaAlterarUsoEmpresa;               {Alteração do uso Da Empresa}
-    08 : Result:= toRemessaAlterarSeuNumero;                {Alteração do seu Número}
-    09 : Result:= toRemessaProtestar;                       {Protestar (emite aviso ao sacado após xx dias do vencimento, e envia ao cartório após 5 dias úteis)}
+    06 : Result:= toRemessaAlterarVencimento;               {AlteraÃ§Ã£o de vencimento}
+    07 : Result:= toRemessaAlterarUsoEmpresa;               {AlteraÃ§Ã£o do uso Da Empresa}
+    08 : Result:= toRemessaAlterarSeuNumero;                {AlteraÃ§Ã£o do seu NÃºmero}
+    09 : Result:= toRemessaProtestar;                       {Protestar (emite aviso ao sacado apÃ³s xx dias do vencimento, e envia ao cartÃ³rio apÃ³s 5 dias Ãºteis)}
     10 : Result:= toRemessaCancelarInstrucaoProtesto;       {Sustar Protesto}
     11 : Result:= toRemessaProtestoFinsFalimentares;        {Protesto para fins Falimentares}
     18 : Result:= toRemessaCancelarInstrucaoProtestoBaixa;  {Sustar protesto e baixar}
-    30 : Result:= toRemessaExcluirSacadorAvalista;          {Exclusão de Sacador Avalista}
-    31 : Result:= toRemessaOutrasAlteracoes;                {Alteração de Outros Dados}
+    30 : Result:= toRemessaExcluirSacadorAvalista;          {ExclusÃ£o de Sacador Avalista}
+    31 : Result:= toRemessaOutrasAlteracoes;                {AlteraÃ§Ã£o de Outros Dados}
     34 : Result:= toRemessaBaixaporPagtoDiretoCedente;      {Baixa por ter sido pago Diretamente ao Cedente}
-    35 : Result:= toRemessaCancelarInstrucao;               {Cancelamento de Instrução}
-    37 : Result:= toRemessaAlterarVencimentoSustarProtesto; {Alteração do Vencimento e Sustar Protesto}
-    38 : Result:= toRemessaCedenteDiscordaSacado;           {Cedente não Concorda com Alegação do Sacado }
+    35 : Result:= toRemessaCancelarInstrucao;               {Cancelamento de InstruÃ§Ã£o}
+    37 : Result:= toRemessaAlterarVencimentoSustarProtesto; {AlteraÃ§Ã£o do Vencimento e Sustar Protesto}
+    38 : Result:= toRemessaCedenteDiscordaSacado;           {Cedente nÃ£o Concorda com AlegaÃ§Ã£o do Sacado }
     47 : Result:= toRemessaCedenteSolicitaDispensaJuros;    {Cedente Solicita Dispensa de Juros}
   else
      Result:= toRemessaRegistrar;                           {Remessa}
