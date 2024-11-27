@@ -514,6 +514,8 @@ var
   sBody, saccountType: String;
   iType: Integer;
 begin
+  // https://microtefdocs.stone.com.br/reference/como-usar-o-autotef-slim-ativa%C3%A7%C3%A3o
+
   LimparRespostaHTTP;
   if not (Modalidade in [tefmpCartao]) then
     DoException(ACBrStr(Format(sACBrStoneAutoTEFErroModalidadeNaoSuportada,
@@ -531,15 +533,21 @@ begin
   else
     saccountType := CACCTYP_UNDEF;
 
-  if saccountType = CACCTYP_CREDIT then
+  if saccountType = CACCTYP_DEBIT then
+  begin
+    Parcelas := 0;
     iType := 0
+  end
   else
   begin
     case Financiamento of
       tefmfParceladoEmissor: iType := 3;
       tefmfParceladoEstabelecimento: iType := 2;
     else
-      iType := 1
+      begin
+        Parcelas := 1;
+        iType := 1
+      end;
     end;
   end;
 
@@ -570,9 +578,29 @@ end;
 
 function TACBrTEFAPIClassStoneAutoTEF.EfetuarAdministrativa(
   OperacaoAdm: TACBrTEFOperacao): Boolean;
+var
+  sl: TStringList;
+  ItemSel: Integer;
 begin
   LimparRespostaHTTP;
   Result := False;
+
+  if (OperacaoAdm = tefopAdministrativo) then
+  begin
+    sl := TStringList.Create;
+    try
+      sl.Add('Teste PinPad');
+      ItemSel := -1;
+      TACBrTEFAPI(fpACBrTEFAPI).QuandoPerguntarMenu( 'Menu Administrativo', sl, ItemSel );
+      if (ItemSel = 0) then
+        OperacaoAdm := tefopTesteComunicacao
+      else
+        Exit;
+    finally
+      sl.Free;
+    end;
+  end;
+
   if (OperacaoAdm = tefopTesteComunicacao) then
   begin
     VerificarPresencaPinPad;
@@ -587,6 +615,12 @@ end;
 function TACBrTEFAPIClassStoneAutoTEF.EfetuarAdministrativa(
   const CodOperacaoAdm: string): Boolean;
 begin
+  if (CodOperacaoAdm = '') then
+  begin
+    EfetuarAdministrativa(tefopAdministrativo);
+    Exit;
+  end;
+
   LimparRespostaHTTP;
   Result := False;
   DoException(ACBrStr(Format(sACBrStoneAutoTEFErroModalidadeNaoSuportada,

@@ -49,6 +49,41 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/11/2024
+-- ACBrBoleto.pas --
+[*] TK-6127-1 - Criado a propriedade CodigoDesconto no LerArqINI
+	https://www.projetoacbr.com.br/forum/topic/80213-remessa-cnab-240-ailoscecred-n%C3%A3o-gera-segmento-s-e-a-multa-n%C3%A3o-vai-em-percentual/
+	por Daniel de Morais InfoCotidiano/ Julio Cavalcanti / Antonio Carlos Junior
+
+
+25/11/2024
+-- ACBrBancoCaixa.pas --
+[*] TK-6096 - Ajustado CodOcorrencia no retorno com novos codigos
+	https://www.projetoacbr.com.br/forum/topic/80095-contribui%C3%A7%C3%A3o-retorno-boletos-ita%C3%BA-e-caixa/
+	por Nicolas Dorr
+
+25/11/2024
+-- ACBrBancoItau.pas --
+[*] TK-6096 - Ajustado CodOcorrencia no retorno com novos codigos
+	https://www.projetoacbr.com.br/forum/topic/80095-contribui%C3%A7%C3%A3o-retorno-boletos-ita%C3%BA-e-caixa/
+	por Nicolas Dorr
+
+25/11/2024
+-- ACBrBancoAilos.pas --
+[*] TK-6127 - Ajustado para aceitar MultavalorFixo tbm na condição de validacao.
+	https://www.projetoacbr.com.br/forum/topic/80213-remessa-cnab-240-ailoscecred-n%C3%A3o-gera-segmento-s-e-a-multa-n%C3%A3o-vai-em-percentual/
+	por Daniel de Morais InfoCotidiano
+
+25/11/2024
+-- ACBrBoletoRet_Sicoob_V3.pas --
+[-] TK-6244  - Nao estava devolvendo ListaRetorno.Header.Operacao na consulta. 
+	por Daniel de Morais InfoCotidiano
+
+22/11/2024
+-- ACBrBancoItau.pas --
+[*] TK-6257 - Alterado para gerar qde de dias posicao 392a393 - Vide Particularidades Itau
+	por Daniel de Morais InfoCotidiano
+
 13/11/2024
 -- AACBrBoletoRet_Sicoob.pas --
 [-] TK-6226 - Ajustado try, end, finally 

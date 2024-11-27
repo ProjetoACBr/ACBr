@@ -44,6 +44,23 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/11/2024
+-- pcnEnvNFe --
+[*] TK-5991: Removida a referida unit por ela não ser utilizada pelo componente.
+   Por: Italo Giurizzato Junior
+
+25/11/2024
+-- ACBrNFe.XmlReader --
+[*] TK-6266: Adiciona leitura da tag pesoB.
+   Por: Diego Folieni 
+
+22/11/2024
+-- ACBrNFeNotasFiscais --
+[*] Corrige o nome da função
+   Por: Diego Folieni
+[*] #TK-6139: Adiciona tratativa para arquivos UTF8BOM.
+   Por: Diego Folieni 
+
 14/11/2024
 -- ACBrNFe.EnvEvento --
 [-] Correção na grafia da seção de detalhamento de pagamento ao ler o arquivo INI.
