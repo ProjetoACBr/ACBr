@@ -285,7 +285,7 @@ begin
     end;
   end else
   begin
-    case ACBrTitulo.ACBrBoleto.Cedente.TipoInscricao of
+    case ACBrTitulo.Sacado.Pessoa of
       pFisica   : Result := '1'; //N DO CPF DO BENEFICIÁRIO
       pJuridica : Result := '2'; //N DO CNPJ DO BENEFICIÁRIO
     else
