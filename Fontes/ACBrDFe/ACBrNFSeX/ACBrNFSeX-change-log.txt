@@ -43,6 +43,33 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+28/11/2024
+-- ACBrNFSeXServicos --
+[*] Todas as cidades que usam o provedor IPM na versão 1.01 tiveram suas URLs de homologação
+    alteradas, deixando-as iguais a de produção, uma vez que esse provedor nessa versão tem
+    uma tag que defini se é homologação ou produção.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXGravarXml_ABRASFv2 --
+[*] Ajustes para gerar as tags do grupo ConstrucaoCivil da forma correta.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXConversao --
+[*] #TK-6285: Acrescentado a Natureza de Operação: no119 (ISS Retido pelo tomador - Poder Publico).
+   Por: Sandro Felipe Adad
+-- eGoverneISS.GravarXml --
+[*] #TK-6281: A tag SubstituicaoTributaria sempre era gerada com o valor false independente3
+    da situação tributaria, agora é verificado se o ISS é retido ou não.
+   Por: Anderson Grolli
+-- ACBrNFSeXServicos --
+[*] #TK-6282: A cidade de Teixeira de Freitas/BA trocou de provedor, agora é 
+    Sudoeste versão 2.02
+   Por: Sistema Auditor/João Antônio
+[*] #TK-6286: A cidade de Alto Feliz/RS trocou a URL o provedor continua 
+    sendo o Pronim versão 2.02
+   Por: Daniel Ostoic programador DNA.
+[*] #TK-6280: A cidade de Carmo do Paranaiba/MG trocou a versão o provedor continua 
+    sendo o Governa.
+   Por: DeveloperATS
+
 25/11/2024
 -- ACBrNFSeXDANFSeRLRetrato --
 [*] Alteração visando a impressão do Código CNAE quando este existir no XML da NFS-e.

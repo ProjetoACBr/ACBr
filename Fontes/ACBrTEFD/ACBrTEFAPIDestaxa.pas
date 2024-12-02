@@ -94,6 +94,7 @@ type
       CartoesAceitos: TACBrTEFTiposCartao = []; Financiamento: TACBrTEFModalidadeFinanciamento = tefmfNaoDefinido;
       Parcelas: Byte = 0; DataPreDatado: TDateTime = 0; DadosAdicionais: String = ''): Boolean; override;
 
+    function TesteComunicacao: Boolean;
     function EfetuarAdministrativa(OperacaoAdm: TACBrTEFOperacao = tefopAdministrativo): Boolean; overload; override;
     function EfetuarAdministrativa(const CodOperacaoAdm: String = ''): Boolean; overload; override;
 
@@ -173,6 +174,13 @@ begin
   wDestaxaResposta := TACBrTEFDestaxaTransacaoResposta.Create;
   try
     wDestaxaResposta.AsString := StringToBinaryString(wResp);
+
+    if (wDestaxaResposta.servico = dxsIniciar) then
+    begin
+      Confirmar := False;
+      Sucesso := wDestaxaResposta.estado.Conectado;
+      Exit;
+    end;
 
     Sucesso := (wDestaxaResposta.transacao_resposta = 0);
     Confirmar := (wDestaxaResposta.retorno = drsSucessoComConfirmacao);
@@ -444,6 +452,21 @@ begin
   Result := DestaxaClient.CartaoVender;
 end;
 
+function TACBrTEFAPIClassDestaxa.TesteComunicacao: Boolean;
+var
+  wIniciarTransacao: Boolean;
+begin
+  wIniciarTransacao := (not DestaxaClient.Socket.EmTransacao);
+  if wIniciarTransacao then
+    DestaxaClient.IniciarRequisicao;
+  try
+    Result := DestaxaClient.Resposta.estado.Conectado;
+  finally
+    if wIniciarTransacao then
+      DestaxaClient.FinalizarRequisicao;
+  end;
+end;
+
 function TACBrTEFAPIClassDestaxa.EfetuarAdministrativa(OperacaoAdm: TACBrTEFOperacao): Boolean;
 var
   transacao: String;
@@ -453,6 +476,11 @@ begin
   case OperacaoAdm of
     tefopCancelamento: transacao := CDESTAXA_ADM_CANCELAR;
     tefopReimpressao: transacao := CDESTAXA_ADM_REIMPRIMIR;
+    tefopTesteComunicacao:
+    begin
+      Result := TesteComunicacao;
+      Exit;
+    end;
   end;
 
   Result := EfetuarAdministrativa(transacao);
@@ -541,7 +569,7 @@ begin
   try
     DestaxaClient.Requisicao.sequencial := DestaxaClient.UltimoSequencial+1;
     DestaxaClient.Requisicao.retorno := drqExecutarServico;
-    DestaxaClient.ExecutarTransacao(CDESTAXA_ADM_PENDENTE);
+    DestaxaClient.ExecutarTransacaoSilenciosa(CDESTAXA_ADM_PENDENTE);
     if NaoEstaZerado(DestaxaClient.Resposta.automacao_coleta_sequencial) and
        NaoEstaVazio(DestaxaClient.Resposta.transacao_nsu) then
     begin
@@ -596,7 +624,7 @@ begin
   try
     DestaxaClient.Requisicao.sequencial := DestaxaClient.UltimoSequencial+1;
     DestaxaClient.Requisicao.retorno := drqExecutarServico;
-    DestaxaClient.ExecutarTransacao(CDESTAXA_ADM_PENDENTE);
+    DestaxaClient.ExecutarTransacaoSilenciosa(CDESTAXA_ADM_PENDENTE);
     if NaoEstaZerado(DestaxaClient.Resposta.automacao_coleta_sequencial) and
        NaoEstaVazio(DestaxaClient.Resposta.transacao_nsu) then
     begin

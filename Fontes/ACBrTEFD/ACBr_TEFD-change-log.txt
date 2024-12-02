@@ -46,6 +46,46 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+29/11/2024
+-- ACBrTEFDestaxaComum --
+[-] Correção da máscara de envio de valores float ao client.
+    por: Elias César
+
+28/11/2024
+-- ACBrTEFAPIDestaxaComum --
+[+] Criada função para possibilitar executar uma AdministracaoPendente sem exibir
+    mensagens para a aplicação.
+[*] Ajustes após retorno de homologação do parceiro CertaSoluções (Ademir P. Voigt);
+[-] Remoção de parâmetro desnecessário na function FinalizarRequisicao e Finalizar;
+[-] Remoção da procedure TratarRetorno, pois estava causando funcionamento inesperado
+    no fluxo.
+    por: Elias César
+
+28/11/2024
+-- ACBrTEFAPIDestaxa --
+[*] Ajuste em CarregarRespostasPendentes e ResolverTransacaoPendente para utilizarem
+    a nova função ExecutarTransacaoSilenciosa;
+[*] Após orientação da Destaxa, foi alterado para não utilizar a tag estado para 
+    verificar se o pinpad foi encontrado, pois o retorno dessa tag está incorreto.
+    A função TesteConexao considerará apenas a conexão com o V$PagueServer.
+
+-- ACBrTEFAPIDestaxaComum --
+[-] Correção de problema ao Reimprimir apenas a 2ªvia (portador)
+    por: Elias César
+
+27/11/2024
+-- ACBrTEFAPIDestaxa --
+[+] Criada função TesteComunicacao para se comportar como o TEF PayGo.
+
+-- ACBrTEFAPIDestaxaComum --
+[-] Correção da consulta dos bits no retorno do campo Estado.
+    por: Elias César
+
+26/11/2024
+-- ACBrTEFAPIDestaxa --
+[+] Inclusão de campos referentes à credenciadora em ConteudoToProperty.
+    por: Elias César
+
 25/11/2024
 -- ACBrTEFAPIDestaxa --
 [+] Alteração para carregar as respostas pendentes do próprio V$PagueClient
