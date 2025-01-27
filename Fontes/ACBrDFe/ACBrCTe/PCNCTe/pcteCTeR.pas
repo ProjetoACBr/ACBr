@@ -38,7 +38,7 @@ interface
 
 uses
   SysUtils, Classes,
-  pcnConversao, pcteConversaoCTe, pcnLeitor, pcteCTe;
+  pcnConversao, pcteConversaoCTe, pcnLeitor, ACBrCTe.Classes;
 
 type
 
@@ -460,15 +460,28 @@ begin
 end;
 
 function TCTeR.Ler_Tomador: Boolean;
+var
+  ok: Boolean;
+  sTagFim: string;
 begin
   if VersaoDF >= ve300 then
   begin
-    if Leitor.rExtrai(1, 'toma') <> '' then
+    sTagFim := '';
+
+    if CTe.ide.tpCTe in [tcCTeSimp, tcSubstCTeSimpl] then
+      sTagFim := 'toma><infCarga';
+
+    if Leitor.rExtrai(1, 'toma', sTagFim) <> '' then
     begin
+      // Os dois campos abaixo são usados pelo CT-e Simplificado
+      CTe.toma.Toma      := StrToTpTomador(ok, Leitor.rCampo(tcStr, 'toma'));
+      CTe.toma.indIEToma := StrToindIEDest(ok, Leitor.rCampo(tcStr, 'indIEToma'));
+
       CTe.toma.CNPJCPF := Leitor.rCampoCNPJCPF;
       CTe.toma.IE      := Leitor.rCampo(tcStr, 'IE');
       CTe.toma.xNome   := Leitor.rCampo(tcStr, 'xNome');
       CTe.toma.xFant   := Leitor.rCampo(tcStr, 'xFant');
+      CTe.toma.ISUF    := Leitor.rCampo(tcStr, 'ISUF');
       CTe.toma.fone    := Leitor.rCampo(tcStr, 'fone');
       CTe.toma.email   := Leitor.rCampo(tcStr, 'email');
 
@@ -1628,7 +1641,7 @@ begin
       begin
         ferrov.trafMut.respFat := StrToTrafegoMutuo(ok, Leitor.rCampo(tcStr, 'respFat'));
         ferrov.trafMut.ferrEmi := StrToTrafegoMutuo(ok, Leitor.rCampo(tcStr, 'ferrEmi'));
-        ferrov.vFrete          := Leitor.rCampo(tcDe2,'vFrete');
+        ferrov.trafMut.vFrete  := Leitor.rCampo(tcDe2,'vFrete');
 
         ferrov.trafMut.chCTeFerroOrigem := Leitor.rCampo(tcStr,'chCTeFerroOrigem');
 

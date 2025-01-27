@@ -48,7 +48,7 @@ uses
   Forms, 
   ACBrBase, 
   ACBrNFeDANFEClass, 
-  pcnNFe, 
+  ACBrNFe.Classes,
   ACBrNFe,
   RLReport, 
   RLHTMLFilter, 
@@ -813,6 +813,7 @@ procedure TfrmACBrDANFCeFortesFrA4.RLMemo2BeforePrint(Sender: TObject;
   var Text: string; var PrintIt: Boolean);
 var
   I:integer;
+  LinhaCmd: String;
 begin
   with self.FACBrNFeDANFCeFortesA4.FpNFe do
   begin
@@ -824,6 +825,28 @@ begin
     end;
 
     Text := Text + StringReplace(InfAdic.infCpl, FACBrNFeDANFCeFortesA4.CaractereQuebraDeLinha, #13, [rfReplaceAll] ) + #13;
+
+    // Informações sobre a Entrega
+
+    if Entrega.xLgr <> '' then
+    begin
+      Text := Text + #13 + ACBrStr('INFORMAÇÕES SOBRE A ENTREGA');
+
+      if Entrega.xNome <> '' then
+        Text := Text + #13 + Entrega.xNome;
+
+      LinhaCmd := Trim(
+        Trim(Entrega.xLgr) + ' ' +
+        IfThen(Trim(Entrega.xLgr) = '','',Trim(Entrega.nro)) + ' ' +
+        Trim(Entrega.xCpl) + ' ' +
+        Trim(Entrega.xBairro) + ' ' +
+        Trim(Entrega.xMun) + ' ' +
+        Trim(Entrega.UF)
+      );
+
+      if LinhaCmd <> '' then
+        Text := Text + #13 + LinhaCmd;
+    end;
   end;
 end;
 
@@ -1076,8 +1099,9 @@ begin
 end;
 
 procedure TACBrNFeDANFCeFortesA4.ImprimirDANFEPDF(NFE: TNFe);
+var I : Integer;
 begin
-  if NFe = nil then
+(*  if NFe = nil then
    begin
      if not Assigned(ACBrNFe) then
         raise Exception.Create('Componente ACBrNFe não atribuí­do');
@@ -1087,6 +1111,27 @@ begin
   else
     FpNFe := NFE;
   Imprimir(False, fiPDF);
+*)
+  if not Assigned(ACBrNFe) then
+    raise Exception.Create('Componente ACBrNFe não atribuí­do');
+  FPArquivoPDF := '';
+  if (NFE = nil) then
+  begin
+    try
+      for I := 0 to Pred(TACBrNFe(ACBrNFe).NotasFiscais.Count) do
+      begin
+        FIndexImpressaoIndividual := I;
+        FpNFe := TACBrNFe(ACBrNFe).NotasFiscais[I].NFe;
+        Imprimir(False, fiPDF);
+      end;
+    finally
+      FIndexImpressaoIndividual := 0;
+    end;
+  end else
+  begin
+    FpNFe := NFE;
+    Imprimir(False, fiPDF);
+  end;
 end;
 
 procedure TACBrNFeDANFCeFortesA4.ImprimirDANFEResumido(NFE: TNFe);

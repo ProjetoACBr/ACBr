@@ -52,6 +52,46 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+10/01/2025
+-- pcesS1210 --
+[*] #TK-6468 - Ajuste das ocorrências do vlrDedPC e vlrDedPC13 conforme leiaute.
+https://www.projetoacbr.com.br/forum/topic/81289-esocial-s-1210-erro-the-value-000-must-be-greater-than-0-vlrdedpc13/
+Por: Diego Folieni 
+
+31/12/2024
+-- Diversos --
+[*] #TK-6368 - Ajustes visando sanar discordâncias relatadas - https://www.projetoacbr.com.br/forum/topic/80885-evento-s-2200-valida%C3%A7%C3%B5es/?&_rid=124795#findComment-524965
+Por: Diego Folieni 
+
+27/12/2024
+-- pcesGerador --
+[*] #TK-6364 - Alterado critério para geração do campo DscSalvar no S-2200, sem considerar o campo UndSalFixo - https://www.projetoacbr.com.br/forum/topic/81039-acbresocial-divergente-do-manual-e-leiaute-13/
+Por: Eduardo Rodrigues de Faria / Renato Rubinho
+-- pcesS5002 --
+[*] #TK-6364 - Alterada classe TinfoIRComplem do S-5002, que passou a ser uma TCollection devido a mudança do leiaute 1.3.
+Por: Renato Rubinho
+
+04/12/2024
+-- pcesS2205, pcesS2300 --
+[*] #TK-6309 - Adiciona na rotina de leitura do INI nova informação para correta geração de EnderecoExterior. - https://www.projetoacbr.com.br/forum/topic/80885-evento-s-2200-valida%C3%A7%C3%B5es/
+Por: Diego Folieni
+
+03/12/2024
+-- pcesS2200 --
+[*] #TK-6309 - Adiciona na rotina de leitura do INI nova informação para correta geração de EnderecoExterior. - https://www.projetoacbr.com.br/forum/topic/80885-evento-s-2200-valida%C3%A7%C3%B5es/
+Por: Diego Folieni
+-- pcesS1010 --
+[*] TK-6283 - Configurada leitura do ini e do xml do evento S1010 para considerarem o campo dadosRubrica.codInscPisPasep - https://www.projetoacbr.com.br/forum/topic/80820-codincpispasep-no-evento-s-1010/
+Por: Renato Rubinho
+-- pcesS2501 --
+[*] TK-6294 - Corrigido S2510 para gerar o atributo vrCR13 somente quando for maior que zero  - https://www.projetoacbr.com.br/forum/topic/80842-sugest%C3%A3o-de-melhoria-evento-s-2501/
+Por: Andergoncalves
+
+02/12/2024
+-- pcesS1299 --
+[*] TK-6284 - Corrigidos S1000, S1005, S1020, S1070 para não gerar grupo novaValidade quando iniValid estiver em branco. - https://www.projetoacbr.com.br/forum/topic/80807-nova-validade-eventos-de-tabelas-dll/
+Por: Renato Rubinho
+
 28/11/2024
 -- pcesS1299 --
 [*] TK-6287 - Configurado infoFech.naoValid, no S1299, para considerar a versão do leiaute para o preenchimento do campo.

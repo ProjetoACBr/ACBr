@@ -298,6 +298,9 @@ type
     function TipoDeducaoToStr(const t: TTipoDeducao): string; virtual;
     function StrToTipoDeducao(out ok: Boolean; const s: string): TTipoDeducao; virtual;
 
+    function DeducaoPorToStr(const t: TDeducaoPor): string; virtual;
+    function StrToDeducaoPor(out ok: Boolean; const s: string): TDeducaoPor; virtual;
+
     function TipoTributacaoRPSToStr(const t: TTipoTributacaoRPS): string; virtual;
     function StrToTipoTributacaoRPS(out ok: boolean; const s: string): TTipoTributacaoRPS; virtual;
 
@@ -1001,9 +1004,13 @@ begin
       aNota.NomeArqRps := aNota.CalcularNomeArquivoCompleto(aNota.NomeArqRps, '');
 
     if not ConteudoEhXml then
+    begin
       aNota.NomeArqRps := StringReplace(aNota.NomeArqRps, '.xml', Extensao, [rfReplaceAll]);
 
-    TACBrNFSeX(FAOwner).Gravar(aNota.NomeArqRps, aNota.XmlRps, '', ConteudoEhXml);
+      WriteToTXT(aNota.NomeArqRps, aNota.XmlRps, False, False);
+    end
+    else
+      TACBrNFSeX(FAOwner).Gravar(aNota.NomeArqRps, aNota.XmlRps, '', ConteudoEhXml);
   end;
 end;
 
@@ -1050,9 +1057,13 @@ begin
       ConteudoEhXml := True;
 
     if not ConteudoEhXml then
+    begin
       aNota.NomeArq := StringReplace(aNota.NomeArq, '.xml', Extensao, [rfReplaceAll]);
 
-    TACBrNFSeX(FAOwner).Gravar(aNota.NomeArq, aXml, '', ConteudoEhXml);
+      WriteToTXT(aNota.NomeArq, aXml, False, False);
+    end
+    else
+      TACBrNFSeX(FAOwner).Gravar(aNota.NomeArq, aXml, '', ConteudoEhXml);
   end;
 end;
 
@@ -1400,6 +1411,7 @@ begin
       AWriter.Opcoes.RetirarAcentos := Configuracoes.Geral.RetirarAcentos;
       AWriter.Opcoes.RetirarEspacos := Configuracoes.Geral.RetirarEspacos;
       AWriter.Opcoes.IdentarXML := Configuracoes.Geral.IdentarXML;
+      AWriter.Opcoes.QuebraLinha := Configuracoes.WebServices.QuebradeLinha;
     end;
 
     Result := AWriter.GerarXml;
@@ -1720,6 +1732,16 @@ begin
                   tdVeiculacao, tdIntermediacao]);
 end;
 
+function TACBrNFSeXProvider.DeducaoPorToStr(const t: TDeducaoPor): string;
+begin
+  Result := EnumeradoToStr(t, ['', 'Percentual', 'Valor'], [dpNenhum, dpPercentual, dpValor]);
+end;
+
+function TACBrNFSeXProvider.StrToDeducaoPor(out ok: Boolean; const s: string): TDeducaoPor;
+begin
+  Result := StrToEnumerado(Ok, s, ['', 'Percentual', 'Valor'], [dpNenhum, dpPercentual, dpValor]);
+end;
+
 function TACBrNFSeXProvider.TipoTributacaoRPSToStr(const t: TTipoTributacaoRPS): string;
 begin
   Result := EnumeradoToStr(t,
@@ -1888,9 +1910,9 @@ begin
   end;
 
   case GerarResponse.ModoEnvio of
-    meLoteAssincrono: ValidarSchema(EmiteResponse, tmRecepcionar);
-    meLoteSincrono: ValidarSchema(EmiteResponse, tmRecepcionarSincrono);
-    meTeste: ValidarSchema(EmiteResponse, tmTeste);
+    meLoteAssincrono: ValidarSchema(GerarResponse, tmRecepcionar);
+    meLoteSincrono: ValidarSchema(GerarResponse, tmRecepcionarSincrono);
+    meTeste: ValidarSchema(GerarResponse, tmTeste);
   else
     // meUnitario
     ValidarSchema(GerarResponse, tmGerar);
@@ -2694,7 +2716,7 @@ procedure TACBrNFSeXProvider.CancelaNFSe;
 var
   AService: TACBrNFSeXWebservice;
   AErro: TNFSeEventoCollectionItem;
-  aConfig: TConfiguracoesNFSe;
+//  aConfig: TConfiguracoesNFSe;
 begin
   CancelaNFSeResponse.Sucesso := False;
   CancelaNFSeResponse.Erros.Clear;
@@ -2737,7 +2759,7 @@ begin
       else
         AService.Prefixo := CancelaNFSeResponse.InfCancelamento.ChaveNFSe;
 
-      aConfig := TConfiguracoesNFSe(FAOwner.Configuracoes);
+//      aConfig := TConfiguracoesNFSe(FAOwner.Configuracoes);
 
 //      AService.Path := aConfig.Arquivos.GetPathCan(0, aConfig.Geral.Emitente.CNPJ,
 //                        aConfig.Geral.Emitente.DadosEmitente.InscricaoEstadual);
@@ -2782,6 +2804,7 @@ var
   AService: TACBrNFSeXWebservice;
   AErro: TNFSeEventoCollectionItem;
   Cancelamento: TNFSeCancelaNFSeResponse;
+  i: Integer;
 begin
   SubstituiNFSeResponse.Sucesso := False;
   SubstituiNFSeResponse.Erros.Clear;
@@ -2806,11 +2829,20 @@ begin
       MotCancelamento := SubstituiNFSeResponse.InfCancelamento.MotCancelamento;
       NumeroLote := SubstituiNFSeResponse.InfCancelamento.NumeroLote;
       CodVerificacao := SubstituiNFSeResponse.InfCancelamento.CodVerificacao;
+      NumeroNFSeSubst := SubstituiNFSeResponse.InfCancelamento.NumeroNFSeSubst;
+      CodMunicipio := SubstituiNFSeResponse.InfCancelamento.CodMunicipio;
     end;
 
     PrepararCancelaNFSe(Cancelamento);
     if (Cancelamento.Erros.Count > 0) then
     begin
+      for i := 0 to Cancelamento.Erros.Count -1 do
+      begin
+        AErro := SubstituiNFSeResponse.Erros.New;
+        AErro.Codigo := Cancelamento.Erros[i].Codigo;
+        AErro.Descricao := Cancelamento.Erros[i].Descricao;
+      end;
+
       TACBrNFSeX(FAOwner).SetStatus(stNFSeIdle);
       Exit;
     end;
@@ -2818,6 +2850,13 @@ begin
     AssinarCancelaNFSe(Cancelamento);
     if (Cancelamento.Erros.Count > 0) then
     begin
+      for i := 0 to Cancelamento.Erros.Count -1 do
+      begin
+        AErro := SubstituiNFSeResponse.Erros.New;
+        AErro.Codigo := Cancelamento.Erros[i].Codigo;
+        AErro.Descricao := Cancelamento.Erros[i].Descricao;
+      end;
+
       TACBrNFSeX(FAOwner).SetStatus(stNFSeIdle);
       Exit;
     end;

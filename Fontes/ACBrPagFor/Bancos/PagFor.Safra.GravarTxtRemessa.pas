@@ -52,6 +52,8 @@ type
     procedure GeraRegistro5(I: Integer); override;
 
     procedure GeraRegistro9; override;
+
+    procedure GeraSegmentoB(mSegmentoBList: TSegmentoBList); override;
   end;
 
 implementation
@@ -184,5 +186,57 @@ begin
   ValidarLinha('9');
   IncluirLinha;
 end;
+
+procedure TArquivoW_Safra.GeraSegmentoB(mSegmentoBList: TSegmentoBList);
+var
+  J: Integer;
+begin
+  for J := 0 to mSegmentoBList.Count - 1 do
+  begin
+    FpLinha := '';
+
+    with mSegmentoBList.Items[J] do
+    begin
+      Inc(FQtdeRegistros);
+      Inc(FQtdeRegistrosLote);
+      Inc(FSequencialDoRegistroNoLote);
+
+      GravarCampo(BancoToStr(PagFor.Geral.Banco), 3, tcStr);
+      GravarCampo(FQtdeLotes, 4, tcInt);
+      GravarCampo('3', 1, tcStr);
+      GravarCampo(FSequencialDoRegistroNoLote, 5, tcInt);
+      GravarCampo('B', 1, tcStr);
+      GravarCampo(' ', 3, tcStr);
+      GravarCampo(TpInscricaoToStr(Inscricao.Tipo), 1, tcStr);
+      GravarCampo(Inscricao.Numero, 14, tcStrZero);
+
+      GravarCampo(Endereco.Logradouro, 30, tcStr, True);
+      GravarCampo(Endereco.Numero, 5, tcStrZero);
+      GravarCampo(Endereco.Complemento, 15, tcStr, True);
+      GravarCampo(Endereco.Bairro, 15, tcStr, True);
+      GravarCampo(Endereco.Cidade, 20, tcStr, True);
+      GravarCampo(Endereco.CEP, 8, tcInt);
+      GravarCampo(Endereco.Estado, 2, tcStr);
+      GravarCampo(DataVencimento, 8, tcDat);
+      GravarCampo(Valor, 15, tcDe2);
+      GravarCampo(Abatimento, 15, tcDe2);
+      GravarCampo(Desconto, 15, tcDe2);
+      GravarCampo(Mora, 15, tcDe2);
+      GravarCampo(Multa, 15, tcDe2);
+      GravarCampo(CodigoDOC, 15, tcStr);
+      GravarCampo(' ', 1, tcStr);
+      GravarCampo(CodigoUG, 6, tcInt);
+
+      if FpFormaLancamento = flDocTed then
+        GravarCampo(' ', 8, tcStr)
+      else
+        GravarCampo(CodigoISPB, 8, tcInt);
+
+      ValidarLinha('B');
+      IncluirLinha;
+    end;
+  end;
+end;
+
 
 end.

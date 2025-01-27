@@ -127,6 +127,7 @@ type
 
   end;
 
+
     { TACBrBoletoSacadoAvalistaRet}
 
   TACBrBoletoSacadoAvalistaRet = class
@@ -263,6 +264,7 @@ type
     FCodigoCanalTituloCobranca : String;
     FNossoNumeroCorrespondente : string;
     FResponsavelPelaEmissao    : TACBrResponEmissao;
+    FLiquidadoBanco            : integer;
   public
     constructor Create;
     destructor Destroy; override;
@@ -351,6 +353,7 @@ type
     property TxId: String read FtxId write FtxId;
     property ValorTarifa: Extended read FValorTarifa write FValorTarifa;
     property ResponsavelPelaEmissao: TACBrResponEmissao read FResponsavelPelaEmissao write FResponsavelPelaEmissao;
+    property LiquidadoBanco : integer read FLiquidadoBanco write FLiquidadoBanco;
   end;
 
     { TACBrBoletoDadosRet }
@@ -672,8 +675,7 @@ begin
   Sacado.Assign(DeACBrBoletoTituloRet.Sacado);
   SacadoAvalista.Assign(DeACBrBoletoTituloRet.SacadoAvalista);
   NossoNumeroCorrespondente  := DeACBrBoletoTituloRet.NossoNumeroCorrespondente;
-
-
+  LiquidadoBanco             := DeACBrBoletoTituloRet.LiquidadoBanco;
 end;
 
   { TListaACBrBoletoRetEnvio }

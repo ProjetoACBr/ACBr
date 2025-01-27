@@ -97,7 +97,7 @@ begin
         Quantidade := ObterConteudo(ANodes[i].Childrens.FindAnyNs('quantidade'), tcDe6);
         Descricao := ObterConteudo(ANodes[i].Childrens.FindAnyNs('atividade'), tcStr);
         Descricao := StringReplace(Descricao, FpQuebradeLinha,
-                                      sLineBreak, [rfReplaceAll, rfIgnoreCase]);
+                                                    sLineBreak, [rfReplaceAll]);
         ValorUnitario := ObterConteudo(ANodes[i].Childrens.FindAnyNs('valor'), tcDe2);
         DescontoIncondicionado := ObterConteudo(ANodes[i].Childrens.FindAnyNs('deducao'), tcDe2);
         ItemListaServico := ObterConteudo(ANodes[i].Childrens.FindAnyNs('codigoservico'), tcStr);
@@ -227,7 +227,11 @@ begin
     // <valor>/valor>
     // <valorimposto>?</valorimposto>
     OptanteSimplesNacional := FpAOwner.StrToSimNao(Ok, ObterConteudo(ANode.Childrens.FindAnyNs('optantesimples'), tcStr));
-    // <situacao>?</situacao>
+    CodigoVerificacao := ObterConteudo(ANode.Childrens.FindAnyNs('codigoverificacao'), tcStr);
+
+    if (ObterConteudo(ANode.Childrens.FindAnyNs('situacao'), tcStr) = 'Emitida') then
+      SituacaoNfse := snNormal;
+
     // <deducao>?</deducao>
     // <basecalculo>?</basecalculo>
     // <retido>?</ retido >

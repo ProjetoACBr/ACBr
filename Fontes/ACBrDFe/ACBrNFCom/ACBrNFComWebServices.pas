@@ -810,7 +810,7 @@ begin
           NFCom.procNFCom.digVal := FNFComRetornoSincrono.protNFCom.digVal;
           NFCom.procNFCom.xMotivo := FNFComRetornoSincrono.protNFCom.xMotivo;
 
-          AProcNFCom := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFCom, 'NFComProc', 'NFCom');
+          AProcNFCom := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFCom, 'nfcomProc', 'NFCom');
           try
             // Processando em UTF8, para poder gravar arquivo corretamente //
             AProcNFCom.XML_DFe := RemoverDeclaracaoXML(XMLAssinado);
@@ -1308,7 +1308,7 @@ begin
   if Assigned(FprocEventoNFCom) then
     FprocEventoNFCom.Free;
 
-  FprotNFCom := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFCom, 'NFComProc', 'NFCom');
+  FprotNFCom := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFCom, 'nfcomProc', 'NFCom');
   FprocEventoNFCom := TRetEventoNFComCollection.Create;
 end;
 
@@ -1654,7 +1654,7 @@ begin
 //                  NFCom.procNFCom.Versao := NFComRetorno.protNFCom.Versao;
 
                   // O código abaixo é bem mais rápido que "GerarXML" (acima)...
-                  AProcNFCom := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFCom, 'NFComProc', 'NFCom');;
+                  AProcNFCom := TProcDFe.Create(FPVersaoServico, NAME_SPACE_NFCom, 'nfcomProc', 'NFCom');;
                   try
                     AProcNFCom.XML_DFe := RemoverDeclaracaoXML(XMLOriginal);
                     AProcNFCom.XML_Prot := NFComRetorno.XMLprotNFCom;
@@ -1912,7 +1912,8 @@ begin
     EventoNFCom.Versao := FPVersaoServico;
     EventoNFCom.GerarXML;
 
-    AssinarXML(EventoNFCom.Xml, 'eventoNFCom', 'infEvento', 'Falha ao assinar o Envio de Evento ');
+    AssinarXML(EventoNFCom.XmlEnvio, 'eventoNFCom', 'infEvento',
+                                         'Falha ao assinar o Envio de Evento ');
 
     // Separa o XML especifico do Evento para ser Validado.
     AXMLEvento := SeparaDados(FPDadosMsg, 'detEvento');

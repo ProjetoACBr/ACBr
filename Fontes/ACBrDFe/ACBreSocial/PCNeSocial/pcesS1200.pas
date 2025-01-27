@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Italo Jurisato Junior                           }
+{ Colaboradores nesse arquivo: Italo Giurizzato Junior                         }
 {                              Jean Carlo Cantu                                }
 {                              Tiago Ravache                                   }
 {                              Guilherme Costa                                 }
@@ -1449,7 +1449,7 @@ begin
 
                 with remunPerApur.New do
                 begin
-                  matricula  := INIRec.ReadString(sSecao, 'matricula', 'FIM');
+                  matricula  := INIRec.ReadString(sSecao, 'matricula', '');
                   indSimples := eSStrToIndSimples(Ok, INIRec.ReadString(sSecao, 'indSimples', '1'));
 
                   L := 1;

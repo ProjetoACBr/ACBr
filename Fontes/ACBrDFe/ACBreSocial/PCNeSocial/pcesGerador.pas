@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Italo Jurisato Junior                           }
+{ Colaboradores nesse arquivo: Italo Giurizzato Junior                         }
 {                              Jean Carlo Cantu                                }
 {                              Tiago Ravache                                   }
 {                              Guilherme Costa                                 }
@@ -819,10 +819,7 @@ begin
 
   Gerador.wCampo(tcDe2, '', 'vrSalFx',    1, 14, 1, pRemuneracao.VrSalFx);
   Gerador.wCampo(tcStr, '', 'undSalFixo', 1,  1, 1, eSUndSalFixoToStr(pRemuneracao.UndSalFixo));
-
-  if (eSUndSalFixoToStr(pRemuneracao.UndSalFixo) = '6') or
-     (eSUndSalFixoToStr(pRemuneracao.UndSalFixo) = '7') then
-    Gerador.wCampo(tcStr, '', 'dscSalVar', 0, 255, 0, pRemuneracao.DscSalVar);
+  Gerador.wCampo(tcStr, '', 'dscSalVar', 0, 255, 0, pRemuneracao.DscSalVar);
 
   Gerador.wGrupo('/remuneracao');
 end;
@@ -1500,7 +1497,8 @@ procedure TeSocialEvento.GerarInfoDeficiencia(
 begin
   if (pInfoDeficiencia.DefFisica = tpSim) or (pInfoDeficiencia.DefVisual = tpSim) or
      (pInfoDeficiencia.DefAuditiva = tpSim) or (pInfoDeficiencia.DefMental = tpSim) or
-     (pInfoDeficiencia.DefIntelectual = tpSim) or (pInfoDeficiencia.ReabReadap = tpSim) then
+     (pInfoDeficiencia.DefIntelectual = tpSim) or (pInfoDeficiencia.ReabReadap = tpSim) or
+     (pInfoDeficiencia.infoCota = snfSim) then
   begin
     Gerador.wGrupo('infoDeficiencia');
 

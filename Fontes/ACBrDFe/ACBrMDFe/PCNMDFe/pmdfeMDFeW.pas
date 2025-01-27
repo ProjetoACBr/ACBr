@@ -39,11 +39,11 @@ interface
 uses
   SysUtils, Classes,
   pcnConversao, pcnGerador,
-  pmdfeConversaoMDFe, pmdfeMDFe,
+  pmdfeConversaoMDFe, ACBrMDFe.Classes,
   ACBrUtil.Strings,
   ACBrUtil.Base,
   ACBrUtil.DateTime,
-  pmdfeConsts, ACBrDFeUtil;
+  ACBrMDFe.Consts, ACBrDFeUtil;
 
 type
   TGeradorOpcoes = class(TPersistent)

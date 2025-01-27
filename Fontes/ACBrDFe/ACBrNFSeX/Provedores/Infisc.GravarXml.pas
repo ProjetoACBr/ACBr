@@ -128,8 +128,6 @@ var
 begin
   Configuracao;
 
-  Opcoes.QuebraLinha := FpAOwner.ConfigGeral.QuebradeLinha;
-
   ListaDeAlertas.Clear;
 
   FDocument.Clear();
@@ -1009,6 +1007,9 @@ begin
                            NFSe.Servico.ItemServico[Item].ValorCSLL, ''));
     end;
   end;
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'totalAproxTribServ', 1, 15, 1,
+                        NFSe.Servico.ItemServico[Item].totalAproxTribServ, ''));
 end;
 
 function TNFSeW_Infisc.GerarTomador: TACBrXmlNode;
@@ -1083,7 +1084,7 @@ begin
 
   if FPVersao = ve100 then
     Result.AppendChild(AddNode(tcDe2, '#1', 'totalAproxTrib', 1, 15, 0,
-                                                                        0, ''));
+                                    NFSe.Servico.Valores.totalAproxTrib, ''));
 
   if (NFSe.Servico.Valores.ValorIr + NFSe.Servico.Valores.ValorPis +
       NFSe.Servico.Valores.ValorCofins + NFSe.Servico.Valores.ValorCsll +

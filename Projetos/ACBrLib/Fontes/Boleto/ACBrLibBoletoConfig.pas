@@ -100,6 +100,7 @@ type
     FCIP: string;
     FDensidadeGravacao: string;
     FCasasDecimaisMoraJuros: Integer;
+    FKeySoftwareHouse: String;
 
   public
     constructor Create;
@@ -118,6 +119,8 @@ type
     property CasasDecimaisMoraJuros: Integer read FCasasDecimaisMoraJuros write FCasasDecimaisMoraJuros;
     property DensidadeGravacao : string read FDensidadeGravacao write FDensidadeGravacao;
     property CIP: string read FCIP write FCIP;
+    property KeySoftwareHouse: String read FKeySoftwareHouse write FKeySoftwareHouse;
+
 
   end;
 
@@ -725,6 +728,9 @@ begin
   FOrientacaoBanco:= '';
   FTipoCobranca:= cobNenhum;
   FCasasDecimaisMoraJuros := 2;
+  FDensidadeGravacao := '';
+  FCIP := '';
+  FKeySoftwareHouse := '';
 end;
 
 procedure TBoletoBancoConfig.LerIni(const AIni: TCustomIniFile);
@@ -738,8 +744,9 @@ begin
   OrientacaoBanco:= StringReplace(AIni.ReadString(CSessaoBoletoBancoConfig, CChaveOrientacaoBanco, OrientacaoBanco), '|', sLineBreak, [rfReplaceAll]);
   TipoCobranca:= TACBrTipoCobranca( AIni.ReadInteger(CSessaoBoletoBancoConfig, CChaveTipoCobranca, integer(TipoCobranca)));
   CasasDecimaisMoraJuros:= AIni.ReadInteger(CSessaoBoletoBancoConfig, CChaveCasasDecimaisMoraJuros, CasasDecimaisMoraJuros);
-  //DensidadeGravacao:= AIni.ReadString(CSessaoBoletoBancoConfig, CChaveDensidadeGravacao, DensidadeGravacao);
+  DensidadeGravacao:= AIni.ReadString(CSessaoBoletoBancoConfig, CChaveDensidadeGravacao, DensidadeGravacao);
   CIP:= AIni.ReadString(CSessaoBoletoBancoConfig, CChaveCIP, CIP);
+  KeySoftwareHouse := AIni.ReadString(CSessaoBoletoBancoConfig, CChaveKeySoftwareHouse, KeySoftwareHouse);
 end;
 
 procedure TBoletoBancoConfig.GravarIni(const AIni: TCustomIniFile);
@@ -753,8 +760,9 @@ begin
   AIni.WriteString(CSessaoBoletoBancoConfig, CChaveOrientacaoBanco, StringReplace(OrientacaoBanco,sLineBreak,'|',[rfReplaceAll]));
   AIni.WriteInteger(CSessaoBoletoBancoConfig, CChaveTipoCobranca, integer(TipoCobranca) );
   AIni.WriteInteger(CSessaoBoletoBancoConfig, CChaveCasasDecimaisMoraJuros, CasasDecimaisMoraJuros);
-  //AIni.WriteString(CSessaoBoletoBancoConfig, CChaveDensidadeGravacao, DensidadeGravacao);
+  AIni.WriteString(CSessaoBoletoBancoConfig, CChaveDensidadeGravacao, DensidadeGravacao);
   AIni.WriteString(CSessaoBoletoBancoConfig, CChaveCIP, CIP);
+  AIni.WriteString(CSessaoBoletoBancoConfig, CChaveKeySoftwareHouse, KeySoftwareHouse);
 
 end;
 

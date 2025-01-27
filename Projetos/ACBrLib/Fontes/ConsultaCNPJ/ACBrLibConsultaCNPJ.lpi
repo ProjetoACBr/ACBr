@@ -19,7 +19,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="87"/>
+      <BuildNr Value="96"/>
       <Language Value="0416"/>
       <StringTable Comments="Projeto ACBr" CompanyName="ACBrConsultaCNPJ - Biblioteca para consulta CNPJ" FileDescription="ACBrLibConsultaCNPJ" InternalName="ACBrLibConsultaCNPJ" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="ConsultaCNPJ" ProductVersion="0.0.0.0"/>
     </VersionInfo>
@@ -434,7 +434,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\MT\Linux\acbrlibconsultacnpj64"/>
+            <Filename Value="bin\MT\Linux\acbrconsultacnpj64"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>
@@ -475,7 +475,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="bin\MT\Linux\acbrlibconsultacnpj32"/>
+            <Filename Value="bin\MT\Linux\acbrconsultacnpj32"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir);..\Comum"/>

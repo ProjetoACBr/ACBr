@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Italo Jurisato Junior                           }
+{ Colaboradores nesse arquivo: Italo Giurizzato Junior                         }
 {                              Jean Carlo Cantu                                }
 {                              Tiago Ravache                                   }
 {                              Guilherme Costa                                 }
@@ -602,7 +602,8 @@ begin
 
       if Self.ModoLancamento = mlAlteracao then
         if (infoEstab.NovaValidadeInst()) then
-          GerarIdePeriodo(infoEstab.NovaValidade, 'novaValidade');
+          if infoEstab.NovaValidade.IniValid <> '' then
+            GerarIdePeriodo(infoEstab.NovaValidade, 'novaValidade');
     end;
 
     GerarModoFechamento(Self.ModoLancamento);

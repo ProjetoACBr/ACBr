@@ -261,7 +261,7 @@ end;
 
 procedure TNFSeRClass.LerListaJson(const aDiscriminacao: string);
 var
-  xDiscriminacao: string;
+  xItemServico, xDiscriminacao: string;
   json, jsonItem: TACBrJsonObject;
   i: Integer;
 begin
@@ -274,7 +274,13 @@ begin
 
     with NFSe.Servico.ItemServico.New do
     begin
-      ItemListaServico := jsonItem.AsString['ItemServico'];
+      xItemServico := jsonItem.AsString['ItemServico'];
+
+      if xItemServico = '' then
+        xItemServico := NFSe.Servico.ItemListaServico;
+
+      ItemListaServico := NormatizarItemListaServico(xItemServico);
+      xItemListaServico := ItemListaServicoDescricao(ItemListaServico);
       Descricao := jsonItem.AsString['Descricao'];
       ValorUnitario := jsonItem.AsCurrency['ValorUnitario'];
       Quantidade := jsonItem.AsCurrency['Quantidade'];
@@ -282,6 +288,14 @@ begin
       BaseCalculo := jsonItem.AsCurrency['ValorBaseCalculo'];
       Aliquota := jsonItem.AsCurrency['Aliquota'];
       ValorISS := jsonItem.AsCurrency['ValorISS'];
+
+      if ValorTotal = 0 then
+        ValorTotal := ValorUnitario * Quantidade;
+
+      if BaseCalculo = 0 then
+        BaseCalculo := ValorTotal;
+
+      ValorBCINSS := BaseCalculo;
 
       if ValorISS = 0 then
         ValorISS := BaseCalculo * Aliquota/100;
@@ -323,6 +337,10 @@ begin
       Break;
 
     xItemServico := ExtraiValorCampo('ItemServico', False);
+
+    if xItemServico = '' then
+      xItemServico := NFSe.Servico.ItemListaServico;
+
     fQuantidade := StrToFloatDef(ExtraiValorCampo('Quantidade', True), 0);
     fValorUnitario := StrToFloatDef(ExtraiValorCampo('ValorUnitario', True), 0);
     fValorServico := StrToFloatDef(ExtraiValorCampo('ValorServico', True), 0);
@@ -333,14 +351,22 @@ begin
     with NFSe.Servico.ItemServico.New do
     begin
       Descricao := xDescricao;
-      ItemListaServico := xItemServico;
+      ItemListaServico := NormatizarItemListaServico(xItemServico);
+      xItemListaServico := ItemListaServicoDescricao(ItemListaServico);
       Quantidade := fQuantidade;
       ValorUnitario := fValorUnitario;
       ValorTotal := fValorServico;
-      ValorBCINSS := fValorBC;
-      BaseCalculo := fValorBC;
       Aliquota := fAliquota;
       ValorISS := fValorISS;
+
+      if ValorTotal = 0 then
+        ValorTotal := ValorUnitario * Quantidade;
+
+      if fValorBC = 0 then
+        fValorBC := ValorTotal;
+
+      ValorBCINSS := fValorBC;
+      BaseCalculo := fValorBC;
 
       if ValorISS = 0 then
         ValorISS := BaseCalculo * Aliquota/100;

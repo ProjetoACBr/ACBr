@@ -43,6 +43,40 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+14/01/2025
+-- ACBrMonitor1.pas, DoBoletoUnit.pas, ACBrMonitorConfig.pas  --
+[*] #TK-6479 Ajustado para Ler o INI VersaoArquivo utilizado no Boleto.
+    Por: Daniel de Morais InfoCotidiano
+
+07/01/2025
+-- ACBrMonitor1.lfm, ACBrMonitor1.pas, DoBoletoUnit.pas  --
+[-] #TK-6452-1 Adicionado a propriedade para config. UseCertificateHTTP para autenticação nas APIs de Boleto.
+    Por: Daniel de Morais InfoCotidiano
+
+07/01/2025
+-- DoACBrNFeUnit --
+[*] #TK-6415: Realizado a substituição da unit de classes de: pcnNFe
+    por: ACBrNFe.Classes 
+   Por: Italo Giurizzato Junior
+-- DoACBrMDFeUnit --
+[*] #TK-6409: Realizado a substituição da unit de classes de: pmdfeMDFe
+    por: ACBrMDFe.Classes 
+   Por: Italo Giurizzato Junior
+-- DoACBrCTeUnit --
+[*] #TK-6403: Realizado a substituição da unit de classes de: pcteCTe
+    por: ACBrCTe.Classes 
+   Por: Italo Giurizzato Junior
+
+30/12/2024
+-- ACBrMonitorConfig.pas, DoBoletoUnit.pas, ACBrMonitor1.pas, ACBrMonitor1.lfm, ACBrMonitorConsts.pas  --
+[*] #TK-6431 Criado a propriedade KeySoftwareHouse para uso parceria BB API
+    Por: Daniel de Morais InfoCotidiano
+
+09/12/204
+[*] Realizado ajuste na função CTE.SetModeloDF para atender os modelos GTVe e CTe Simplificado.
+    #TK-6313 - ACBrMonitor - SetModeloDF não está considerando CteSimplificado e GTVe
+    https://www.projetoacbr.com.br/forum/topic/80888-erro-nenhum-elemento-encontrado-cte-simplificado/
+    Por: Antonio Carlos Junior / Diego Folieni.
 
 13/11/2024
 -- ACBrMonitor1.lfm, ACBrMonitor1.pas, ACBrMonitorConfig.pas, ACBrMonitorConsts.pas, DoBoletoUnit.pas --

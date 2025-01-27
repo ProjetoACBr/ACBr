@@ -184,7 +184,7 @@ end;
 function TBoletoW_Safra.DefinirParametros: String;
 var
   Consulta                : TStringList;
-  LNossoNumero, LSeuNumero: String;
+  LNossoNumero, LSeuNumero, LAgencia, LConta: String;
 begin
   if Assigned(Boleto.Configuracoes.WebService.Filtro) then
   begin
@@ -194,10 +194,13 @@ begin
     begin
       LNossoNumero := aTitulo.NossoNumero;
       LSeuNumero   := aTitulo.SeuNumero;
+      LAgencia     := aTitulo.ACBrBoleto.Cedente.Agencia;
+      LConta       := aTitulo.ACBrBoleto.Cedente.Conta;
     end;
+
     try
-      Consulta.Add('agencia=' + IfThen(Boleto.Configuracoes.WebService.Ambiente = tawsProducao, aTitulo.ACBrBoleto.Cedente.Agencia, ''));
-      Consulta.Add('conta=' + IfThen(Boleto.Configuracoes.WebService.Ambiente = tawsProducao, aTitulo.ACBrBoleto.Cedente.Conta, ''));
+      Consulta.Add('agencia=' + IfThen(Boleto.Configuracoes.WebService.Ambiente = tawsProducao, LAgencia, ''));
+      Consulta.Add('conta=' + IfThen(Boleto.Configuracoes.WebService.Ambiente = tawsProducao, LConta, ''));
 
       if LNossoNumero <> '' then
         Consulta.Add('numero=' + LNossoNumero);
@@ -377,7 +380,7 @@ begin
       LJsonDadosPagador.AddPair('nome', Copy(aTitulo.Sacado.NomeSacado, 1, 40));
       LJsonDadosPagador.AddPair('tipoPessoa', IfThen(Length(OnlyNumber(aTitulo.Sacado.CNPJCPF)) = 11, 'F', 'J'));
       LJsonDadosPagador.AddPair('numeroDocumento', OnlyNumber(aTitulo.Sacado.CNPJCPF));
-      LJsonDadosPagador.AddPair('email',Copy(aTitulo.Sacado.Email, 1, 14));
+      LJsonDadosPagador.AddPair('email',Copy(aTitulo.Sacado.Email, 1, 50));
       GerarEnderecoPagador(LJsonDadosPagador);
       AJson.AddPair('pagador',LJsonDadosPagador);
     end;

@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Italo Jurisato Junior                           }
+{ Colaboradores nesse arquivo: Italo Giurizzato Junior                         }
 {                              Jean Carlo Cantu                                }
 {                              Tiago Ravache                                   }
 {                              Guilherme Costa                                 }
@@ -562,6 +562,7 @@ begin
               infoRubrica.dadosRubrica.codIncIRRF := eSStrToCodIncIRRF(Ok, Leitor.rCampo(tcStr, 'codIncIRRF'));
               infoRubrica.dadosRubrica.codIncFGTS := eSStrToCodIncFGTS(Ok, Leitor.rCampo(tcStr, 'codIncFGTS'));
               infoRubrica.dadosRubrica.codIncCPRP := eSStrToCodIncCPRP(Ok, Leitor.rCampo(tcStr, 'codIncCPRP'));
+              infoRubrica.dadosRubrica.codIncPisPasep := eSStrToCodIncPISPASEP(Ok, Leitor.rCampo(tcStr, 'codIncPisPasep'));
               infoRubrica.dadosRubrica.tetoRemun  := eSStrToSimNaoFacultativo(Ok, Leitor.rCampo(tcStr, 'tetoRemun'));
               infoRubrica.dadosRubrica.observacao := Leitor.rCampo(tcStr, 'observacao');
 {
@@ -700,6 +701,7 @@ begin
 
         infoRubrica.dadosRubrica.codIncFGTS := eSStrToCodIncFGTS(Ok, INIRec.ReadString(sSecao, 'codIncFGTS', '00'));
         infoRubrica.dadosRubrica.codIncCPRP := eSStrToCodIncCPRP(Ok, INIRec.ReadString(sSecao, 'codIncCPRP', '99'));
+        infoRubrica.dadosRubrica.codIncPisPasep := eSStrToCodIncPISPASEP(Ok, INIRec.ReadString(sSecao, 'codIncPisPasep', '00'));
         infoRubrica.dadosRubrica.observacao := INIRec.ReadString(sSecao, 'observacao', EmptyStr);
         infoRubrica.dadosRubrica.tetoRemun  := eSStrToSimNaoFacultativo(Ok, INIRec.ReadString(sSecao, 'tetoRemun', EmptyStr));
 

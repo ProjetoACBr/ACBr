@@ -77,6 +77,7 @@ const
   CDESTAXA_ADM_PROXIMA = 'Proxima';
   CDESTAXA_ADM_ULTIMA = 'Ultima';
   CDESTAXA_ADM_FECHAR = 'Fechar';
+  CDESTAXA_STR_QRCODE = 'QRCODE';
   
   CDESTAXA_MASCARA_VALIDADE = 'MM/yy';
   CDESTAXA_MASCARA_DATA1 = 'dd/MM/yy';
@@ -521,6 +522,7 @@ type
     fOnColetarInformacao: TACBrDestaxaColetarInformacao;
     fOnColetarOpcao: TACBrDestaxaColetarOpcao;
     fOnExibirMensagem: TACBrDestaxaExibirMensagem;
+    fOnExibirQRCode: TACBrTEFAPIQuandoExibirQRCode;
     fPorta: String;
     fUltimoSequencial: Integer;
     fTerminador: AnsiString;
@@ -528,6 +530,7 @@ type
     fOnGravarLog: TACBrGravarLog;
     fSocket: TACBrTEFDestaxaSocket;
     fExibirMensagem: Boolean;
+    fAguardandoQRCode: Boolean;
     fTimeOut: Integer;
 
     function GetColetaRequisicao: TACBrTEFDestaxaAutomacaoColeta;
@@ -536,6 +539,7 @@ type
     function GetResposta: TACBrTEFDestaxaTransacaoResposta;
     function GetSocket: TACBrTEFDestaxaSocket;
 
+    procedure AutomacaoExibirQRCode;
     procedure AutomacaoColetarOpcao;
     procedure AutomacaoColetarInformacao;
     procedure AutomacaoExibirMensagem(MilissegundosExibicao: Integer = 0);
@@ -563,6 +567,7 @@ type
     function AdministracaoPendente: Boolean;
     function AdministracaoReimprimir: Boolean;
     function ExecutarTransacao(const aTransacao: String): Boolean;
+    function ExecutarTransacaoAnterior(const aTransacao: String): Boolean;
     function ExecutarTransacaoSilenciosa(const aTransacao: String): Boolean;
 
     property Socket: TACBrTEFDestaxaSocket read GetSocket;
@@ -589,6 +594,7 @@ type
     property OnColetarOpcao: TACBrDestaxaColetarOpcao read fOnColetarOpcao write FOnColetarOpcao;
     property OnColetarInformacao: TACBrDestaxaColetarInformacao read fOnColetarInformacao write fOnColetarInformacao;
     property OnExibirMensagem: TACBrDestaxaExibirMensagem read fOnExibirMensagem write fOnExibirMensagem;
+    property OnExibirQRCode: TACBrTEFAPIQuandoExibirQRCode read fOnExibirQRCode write fOnExibirQRCode;
   end;
 
 function DestaxaServicoToString(const aServico: TACBrTEFDestaxaServico): String;
@@ -973,18 +979,32 @@ begin
 end;
 
 procedure TACBrTEFDestaxaAutomacaoColeta.CarregarCampos(const aStrList: TStringList);
+var
+  s, msg: String;
 begin
   inherited CarregarCampos(aStrList);
   fautomacao_coleta_mascara := CarregarCampoString(aStrList.Values['automacao_coleta_mascara']);
   fautomacao_coleta_opcao := CarregarCampoString(aStrList.Values['automacao_coleta_opcao']);
   fautomacao_coleta_palavra_chave := CarregarCampoString(aStrList.Values['automacao_coleta_palavra_chave']);
   fautomacao_coleta_tipo := StringToDestaxaColetaTipo(CarregarCampoString(aStrList.Values['automacao_coleta_tipo']));
-  fautomacao_coleta_mensagem := CarregarCampoString(aStrList.Values['automacao_coleta_mensagem']);
   fautomacao_coleta_sequencial := CarregarCampoInteger(aStrList.Values['automacao_coleta_sequencial']);
   fautomacao_coleta_timeout := CarregarCampoInteger(aStrList.Values['automacao_coleta_timeout']);
   fautomacao_coleta_transacao_resposta := CarregarCampoString(aStrList.Values['automacao_coleta_transacao_resposta']);
   fautomacao_coleta_retorno := IntegerToDestaxaColetaRetorno(CarregarCampoInteger(aStrList.Values['automacao_coleta_retorno']));
   fautomacao_coleta_mensagem_tipo := StringToDestaxaBinarioTipo(CarregarCampoString(aStrList.Values['automacao_coleta_mensagem_tipo']));
+
+  s := aStrList.Text;
+  if (CountStr(s, 'automacao_coleta_mensagem') > 0) then
+  begin
+    msg := Copy(s, (Pos('automacao_coleta_mensagem', s)+27), Length(s));
+    msg := Copy(msg, 1, (Pos('"', msg)-1));
+
+    if (Pos(CDESTAXA_STR_QRCODE, msg) > 0) then
+      msg := CarregarCampoString(aStrList.Values['automacao_coleta_mensagem']);
+
+    if NaoEstaVazio(msg) then
+      fautomacao_coleta_mensagem := msg;
+  end;
 end;
 
 procedure TACBrTEFDestaxaAutomacaoColeta.Clear;
@@ -1330,11 +1350,18 @@ begin
     RX := RecvTerminated(fDestaxaClient.TimeOut, fDestaxaClient.Terminador);
     fDestaxaClient.GravarLog('TACBrTEFDestaxaSocket.Resposta - RX: ' + sLineBreak + RX);
 
+    // Trata erro de Timeout
     Erro := LastError;
     if NaoEstaZerado(Erro) then
       fDestaxaClient.TratarErro;
 
     Resposta.AsString := RX;
+    if (Requisicao.servico = dxsFinalizar) and (Resposta.servico <> dxsFinalizar) then
+    begin
+      Erro := -1;
+      Continue;
+    end;
+
     if (Resposta.automacao_coleta_sequencial > 0) then
       ColetaResposta.AsString := RX;
 
@@ -1555,6 +1582,22 @@ begin
   Result := fSocket;
 end;
 
+procedure TACBrTEFDestaxaClient.AutomacaoExibirQRCode;
+var
+  msgs: TSplitResult;
+begin
+  if EstaVazio(ColetaResposta.automacao_coleta_mensagem)  then
+    Exit;
+
+  msgs := Split(';', ColetaResposta.automacao_coleta_mensagem);
+  if (Length(msgs) < 3) or (msgs[0] <> CDESTAXA_STR_QRCODE) then
+    Exit;
+
+  fAguardandoQRCode := Assigned(fOnExibirQRCode);
+  if fAguardandoQRCode then
+    fOnExibirQRCode(msgs[2]);
+end;
+
 procedure TACBrTEFDestaxaClient.AutomacaoColetarOpcao;
 var
   wOpcao: Integer;
@@ -1634,13 +1677,17 @@ end;
 
 procedure TACBrTEFDestaxaClient.ProcessarColeta;
 var
-  Cancelar: Boolean;
+  Cancelar, Aguardar: Boolean;
 begin
+  Aguardar := True;
   Cancelar := False;
-  while (ColetaResposta.automacao_coleta_retorno in [dcrExecutarProcedimento, dcrErroParametrosInvalidos, dcrErroTempoLimiteExcedido]) do
+  while (ColetaResposta.automacao_coleta_retorno in [dcrExecutarProcedimento, dcrErroParametrosInvalidos]) do
   begin
     ColetaRequisicao.Clear;
-    if NaoEstaVazio(ColetaResposta.automacao_coleta_opcao) then
+
+    if (Pos(CDESTAXA_STR_QRCODE, ColetaResposta.automacao_coleta_mensagem) > 0) then
+      AutomacaoExibirQRCode
+    else if NaoEstaVazio(ColetaResposta.automacao_coleta_opcao) then
       AutomacaoColetarOpcao
     else if (ColetaResposta.automacao_coleta_tipo <> dctNenhum) then
       AutomacaoColetarInformacao
@@ -1662,17 +1709,21 @@ begin
       drsErroTempoLimiteExcedido]) then
     fOnExibirMensagem(ColetaResposta.mensagem, 0, Cancelar);
 
-  if (ColetaResposta.automacao_coleta_retorno = dcrCancelarProcedimento) then
+  if (ColetaResposta.automacao_coleta_retorno in [dcrCancelarProcedimento, dcrErroTempoLimiteExcedido]) then
   begin
     if Assigned(fOnExibirMensagem) and fExibirMensagem and NaoEstaVazio(ColetaResposta.automacao_coleta_mensagem) then
       fOnExibirMensagem(ColetaResposta.automacao_coleta_mensagem, 0, Cancelar);
+                                    
+    if (ColetaResposta.automacao_coleta_retorno = dcrCancelarProcedimento) then
+      Aguardar := False;
 
     ColetaRequisicao.Clear;
-    ColetaRequisicao.automacao_coleta_retorno := ColetaResposta.automacao_coleta_retorno;
+    ColetaRequisicao.automacao_coleta_retorno := dcrCancelarProcedimento;
     ColetaRequisicao.automacao_coleta_mensagem := ColetaResposta.automacao_coleta_mensagem;
     ColetaRequisicao.automacao_coleta_sequencial := ColetaResposta.automacao_coleta_sequencial;
     ColetaRequisicao.automacao_coleta_transacao_resposta := ColetaResposta.automacao_coleta_transacao_resposta;
-    Socket.ExecutarColeta(False);
+    Socket.ExecutarColeta(Aguardar);
+    Sleep(200);
   end;
 end;
 
@@ -1709,37 +1760,22 @@ begin
     Exit;
   end;
 
+  if fAguardandoQRCode and Assigned(fOnExibirQRCode) then
+  begin
+    fOnExibirQRCode(EmptyStr);
+    fAguardandoQRCode := False;
+  end;
+
   if  NaoEstaZerado(Resposta.automacao_coleta_sequencial) and Socket.ColetaAutomatica then
     ProcessarColeta;
 end;
 
 procedure TACBrTEFDestaxaClient.TratarErro;
-var
-  Cancelar: Boolean;
-  wSequencial: Integer;
 begin
   GravarLog('TACBrTEFDestaxaSocket.TratarErro: ' +
     IntToStr(Socket.LastError) + ' - ' + Socket.GetErrorDesc(Socket.LastError));
 
-  if (Socket.LastError = 10060) then  // TimeOut
-  begin
-    Cancelar := False;
-    if Assigned(OnAguardarResposta) then
-      OnAguardarResposta(opapiFluxoAPI, Cancelar);
-
-    if Cancelar then
-    begin
-      GravarLog(' - Transação Cancelada pelo Usuário');
-
-      wSequencial := Requisicao.sequencial;
-      Requisicao.Clear;
-      Requisicao.sequencial := wSequencial + 1;
-      Requisicao.retorno := drqCancelarTransacao;
-
-      Socket.ExecutarTransacao;
-    end;
-  end
-  else
+  if (Socket.LastError <> 10060) then
     raise EACBrTEFDestaxaErro.Create(
       ACBrStr('Erro ao Receber resposta do V&SPague' + sLineBreak +
       'Endereço: ' + EnderecoIP + sLineBreak +
@@ -1792,9 +1828,11 @@ begin
   fOnColetarInformacao := Nil;
   fOnAguardarResposta := Nil;
   fOnExibirMensagem := Nil;
+  fOnExibirQRCode := Nil;
   fUltimoSequencial := 0;
   fTimeOut := 1000;
   fExibirMensagem := True;
+  fAguardandoQRCode := False;
   fTerminador := CDESTAXA_TERMINADOR;
 end;
 
@@ -1920,6 +1958,18 @@ begin
   Result := False;
   Socket.Executar(aTransacao);
   Result := (Resposta.retorno in [drsSucessoSemConfirmacao, drsSucessoComConfirmacao]) and (Resposta.servico = dxsExecutar);
+end;
+
+function TACBrTEFDestaxaClient.ExecutarTransacaoAnterior(const aTransacao: String): Boolean;
+var
+  seqAtual: Integer;
+begin
+  seqAtual := fUltimoSequencial;
+  try
+    Result := ExecutarTransacao(aTransacao);
+  finally
+    fUltimoSequencial := seqAtual;
+  end;
 end;
 
 function TACBrTEFDestaxaClient.ExecutarTransacaoSilenciosa(const aTransacao: String): Boolean;

@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Italo Jurisato Junior                           }
+{ Colaboradores nesse arquivo: Italo Giurizzato Junior                         }
 {                              Jean Carlo Cantu                                }
 {                              Tiago Ravache                                   }
 {                              Guilherme Costa                                 }
@@ -799,6 +799,8 @@ type
     FInfoCota: tpSimNaoFacultativo;
     FObservacao: string;
   public
+    constructor Create;
+    destructor Destroy; override;
     property DefFisica: tpSimNao read FDefFisica  write FDefFisica;
     property DefMental: tpSimNao read FDefMental  write FDefMental;
     property DefIntelectual: tpSimNao read FDefIntelectual write FDefIntelectual;
@@ -3184,6 +3186,26 @@ function TInfoIntermCollection.New: TInfoIntermCollectionItem;
 begin
   Result := TInfoIntermCollectionItem.Create;
   Self.Add(Result);
+end;
+
+{ TInfoDeficiencia }
+
+constructor TInfoDeficiencia.Create;
+begin
+  inherited Create;
+  DefFisica := tpNao;
+  DefMental := tpNao;
+  DefIntelectual := tpNao;
+  DefMotora := tpNao;
+  DefVisual := tpNao;
+  DefAuditiva := tpNao;
+  ReabReadap := tpNao;
+end;
+
+destructor TInfoDeficiencia.Destroy;
+begin
+
+  inherited;
 end;
 
 end.

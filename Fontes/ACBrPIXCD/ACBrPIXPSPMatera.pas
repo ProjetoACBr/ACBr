@@ -1007,9 +1007,13 @@ var
 begin
   wJO := TACBrJSONObject.Parse(aJson);
   try
-    Result := wJO.AsJSONObject['data'].ToJSON;
-  except
-    Result := aJson;
+    try
+      Result := wJO.AsJSONObject['data'].ToJSON;
+    except
+      Result := aJson;
+    end;
+  finally
+    wJO.Free;
   end;
 end;
 
@@ -1677,6 +1681,12 @@ begin
   if Assigned(fRetiradaResposta) then
     fRetiradaResposta.Free;
 
+  if Assigned(fExtratoECResposta) then
+    fExtratoECResposta.Free;
+
+  if Assigned(fSaldoECResposta) then
+    fSaldoECResposta.Free;
+
   inherited Destroy;
 end;
 
@@ -1728,6 +1738,12 @@ begin
 
   if Assigned(fRetiradaResposta) then
     fRetiradaResposta.Clear;
+
+  if Assigned(fExtratoECResposta) then
+    fExtratoECResposta.Clear;
+
+  if Assigned(fSaldoECResposta) then
+    fSaldoECResposta.Clear;
 end;
 
 end.

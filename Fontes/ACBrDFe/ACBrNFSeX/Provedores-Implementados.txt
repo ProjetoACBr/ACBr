@@ -36,7 +36,7 @@ DSF                  2.03
 eGoverneISS          1.00  06/09/2022
 eISS                 1.00
 EL                   1.00
-EL                   2.04
+EL                   2.04  21/01/2025
 Elmar                2.02
 EloTech              2.03  10/08/2022
 Equiplano            1.00  22/11/2022
@@ -87,6 +87,7 @@ ISSIntel             1.00
 ISSJoinville         2.04  10/08/2022
 ISSLegal             2.03
 ISSLencois           1.00
+ISSMap               1.00
 ISSNatal             1.00
 ISSNet               1.00  04/08/2022 (NotaControl)
 ISSNet               2.04             (NotaControl)

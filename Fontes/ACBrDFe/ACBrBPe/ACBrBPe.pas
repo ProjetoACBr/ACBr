@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Italo Jurisato Junior                           }
+{ Colaboradores nesse arquivo: Italo Giurizzato Junior                         }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -414,11 +414,11 @@ end;
 
 function TACBrBPe.GravarStream(AStream: TStream): Boolean;
 begin
-  if EstaVazio(FEventoBPe.Xml) then
+  if EstaVazio(FEventoBPe.XmlEnvio) then
     FEventoBPe.GerarXML;
 
   AStream.Size := 0;
-  WriteStrToStream(AStream, AnsiString(FEventoBPe.Xml));
+  WriteStrToStream(AStream, AnsiString(FEventoBPe.XmlEnvio));
   Result := True;
 end;
 

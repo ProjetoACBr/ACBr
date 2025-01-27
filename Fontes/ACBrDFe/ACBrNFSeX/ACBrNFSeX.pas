@@ -99,7 +99,7 @@ type
       const ANumLote: String = '');
 
     procedure ConsultarNFSePorRps(const ANumRPS, ASerie, ATipo: String;
-      const ACodVerificacao: string = '');
+      const ACodVerificacao: string = ''; const ACNPJTomador: string = '');
 
     // Usado pelos provedores que seguem a versão 1 do layout da ABRASF.
     procedure ConsultarNFSePorNumero(const aNumero: string; aPagina: Integer = 1);
@@ -168,7 +168,9 @@ type
     procedure SubstituirNFSe(const ANumNFSe: String; const ASerieNFSe: String;
       const ACodCancelamento: string; const AMotCancelamento: String = '';
       const ANumLote: String = ''; const ACodVerificacao: String = '';
-      const ANumNFSeSub: String = '');
+      const ANumNFSeSub: String = ''); overload;
+
+    procedure SubstituirNFSe(aInfCancelamento: TInfCancelamento); overload;
 
     function LinkNFSe(const ANumNFSe: String; const ACodVerificacao: String;
       const AChaveAcesso: String = ''; const AValorServico: String = '';
@@ -473,6 +475,9 @@ begin
   FWebService.Emite.ModoEnvio := aModoEnvio;
 
   FProvider.Emite;
+
+  if FWebService.Emite.Erros.Count > 0 then
+    Exit;
 
   if Configuracoes.Geral.ConsultaLoteAposEnvio and
      (FWebService.Emite.ModoEnvio = meLoteAssincrono) then
@@ -786,7 +791,7 @@ begin
 end;
 
 procedure TACBrNFSeX.ConsultarNFSePorRps(const ANumRPS, ASerie, ATipo,
-  ACodVerificacao: String);
+  ACodVerificacao, ACNPJTomador: String);
 begin
   if not Assigned(FProvider) then
     raise EACBrNFSeException.Create(ERR_SEM_PROVEDOR);
@@ -796,6 +801,7 @@ begin
   FWebService.ConsultaNFSeporRps.SerieRps := ASerie;
   FWebService.ConsultaNFSeporRps.TipoRps := ATipo;
   FWebService.ConsultaNFSeporRps.CodigoVerificacao := ACodVerificacao;
+  FWebService.ConsultaNFSeporRps.CNPJCPFTomador := ACNPJTomador;
 
   FProvider.ConsultaNFSeporRps;
 end;
@@ -1060,6 +1066,7 @@ begin
     NumeroNFSeSubst := aInfCancelamento.NumeroNFSeSubst;
     SerieNFSeSubst := aInfCancelamento.SerieNFSeSubst;
     CodServ := aInfCancelamento.CodServ;
+    CNPJCPFTomador := aInfCancelamento.CNPJCPFTomador;
 
     if aInfCancelamento.CodMunicipio = 0 then
       aInfCancelamento.CodMunicipio := Configuracoes.Geral.CodigoMunicipio;
@@ -1121,6 +1128,42 @@ begin
     NumeroLote := aNumLote;
     CodVerificacao := aCodVerificacao;
     NumeroNFSeSubst := ANumNFSeSub;
+    CodMunicipio := Configuracoes.Geral.CodigoMunicipio;
+  end;
+
+  FProvider.SubstituiNFSe;
+end;
+
+procedure TACBrNFSeX.SubstituirNFSe(aInfCancelamento: TInfCancelamento);
+begin
+  if aInfCancelamento.NumeroNFSe = '' then
+    GerarException(ACBrStr('ERRO: Numero da NFS-e não informada'));
+
+  if aInfCancelamento.CodCancelamento = '' then
+    GerarException(ACBrStr('ERRO: Código de Cancelamento não informado'));
+
+  if NotasFiscais.Count <= 0 then
+    GerarException(ACBrStr('ERRO: Nenhum RPS adicionado ao Lote'));
+
+  if not Assigned(FProvider) then
+    raise EACBrNFSeException.Create(ERR_SEM_PROVEDOR);
+
+  FWebService.SubstituiNFSe.Clear;
+
+  with FWebService.SubstituiNFSe.InfCancelamento do
+  begin
+    NumeroNFSe := aInfCancelamento.NumeroNFSe;
+    SerieNFSe := aInfCancelamento.SerieNFSe;
+    CodCancelamento := aInfCancelamento.CodCancelamento;
+    MotCancelamento := TiraAcentos(ChangeLineBreak(aInfCancelamento.MotCancelamento));
+    NumeroLote := aInfCancelamento.NumeroLote;
+    CodVerificacao := aInfCancelamento.CodVerificacao;
+    NumeroNFSeSubst := aInfCancelamento.NumeroNFSeSubst;
+
+    if aInfCancelamento.CodMunicipio = 0 then
+      aInfCancelamento.CodMunicipio := Configuracoes.Geral.CodigoMunicipio;
+
+    CodMunicipio := aInfCancelamento.CodMunicipio;
   end;
 
   FProvider.SubstituiNFSe;

@@ -46,6 +46,161 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/01/2025
+-- ACBrTEFScopeAPI, ACBrTEFAPIScope --
+[*] Ajustes para funcionamento de transações PIX
+
+-- ACBrTEFAPIScope --
+[*] Ajuste em 'EfetuarPagamento', para adicionar resposta em TC_DECIDE_P_ADM_EST
+    conformer valor do parâmetro 'Financiamento'
+    (por: DSA)
+
+24/01/2025
+-- ACBrTEFMSitefAndroidAPI --
+[*] Ajuste na 'IniciarTransacao', para considerar parâmetros de TLS 'tokenRegistroTls'
+    https://www.projetoacbr.com.br/forum/topic/71696-componente-elgintef-e-msitef-android/page/4/?&_rid=61#findComment-526559
+    (por: Dércio Luis Zanatta)
+
+-- ACBrTEFDCliDTEF --
+[+] Adicionado o método
+    function ColetaPinPad(TipoColeta: TACBrTEFDCliDTEFTipoColetaPinPad): string;
+    https://www.projetoacbr.com.br/forum/index.php?showtopic=81438
+    (por: Desenvolvimento Automafour)
+
+20/01/2025
+-- ACBrTEFAPIElginComum
+[-] Correção de vazamento de memória - TK-6471
+    por: Clayton Alves
+
+16/01/2025
+-- ACBrTEFDDestaxaComum -- 
+[-] Correção de problema no fluxo ao ocorrer Timeout após a transação ser iniciada.
+    por: Elias César
+
+09/01/2025
+-- ACBrTEFDestaxaComum --
+[-] Alteração para aguardar primeira resposta do client Destaxa antes de permitir Cancelar o Fluxo.
+    por: Elias César
+
+07/01/2025
+-- ACBrTEFAPIDestaxa --
+[-] Correção na confirmação da transação "Digital Pagar".
+    por: Elias César
+
+27/12/2024
+-- ACBrTEFComum --
+[*] Ajustes para a classe 'TACBrTEFArquivo' usar a busca por Chave alfanumérica
+
+-- ACBrTEFAPIScope, ACBrTEFScopeAPI --
+[*] Refatoração de classes e métodos, para simplificação, e melhor isolamento de
+    classes
+
+-- ACBrTEFAPIScope --
+[+] Implementação de Definiçoes de Campo e Validação em 'QuandoPerguntarCampoAPI'
+
+-- ACBrTEFPayGoWebComum --
+[*] Métodos 'ValidarMMAA' e 'ValidarDDMMAA' movidos para ACBrUtil.Base
+    (por: DSA)
+
+23/12/2024
+-- ACBrTEFCliSiTefComum --
+[*] Ajustes nos textos de mensagens de resolução de transação Pendente
+
+-- ACBrTEFAPICliSiTef --
+[*] Ajuste em 'TACBrTEFAPIClassCliSiTef.ResolverTransacaoPendente' para exibir
+    mensagens quando Confirmar ou Estornar a transação Pendente, conforme
+    requisito de homologação
+[*] Ajuste para que todas as transações iniciadas, possuam um identificados único
+    Se nada for informado, usa a Data e Hora com a mascara 'yyyymmddhhmmss'
+    https://www.projetoacbr.com.br/forum/index.php?showtopic=80973
+
+-- ACBrTEFAPIComum --
+[*] Método 'TACBrTEFAPIRespostas.AcharTransacao', modificado para não considerar
+    o Case na busca por 'REDE'
+    (por: DSA)
+
+18/12/2024
+-- ACBrTEFAPI --
+[-] Remoção da propriedade 'NaoRemoverMascaraResposta'.
+
+-- ACBrTEFAPICliSiTef, ACBrTEFAPIElgin, ACBrTEFAPIPaygoWeb --
+[-] Ajuste por removação da propriedade 'NaoRemoverMascaraResposta'.
+
+-- ACBrTEFAPIDestaxa --
+[+] Inclusão da função 'AplicarMascaraData()' para tratar automaticamente a resposta
+    do evento QuandoPerguntarCampoAPI().
+    por: Elias César
+
+17/12/2024
+-- ACBrTEFDestaxaComum --
+[-] Correção de exibição do QRCode na tela.
+    por: Elias César
+
+17/12/2024
+-- ACBrTEFAPICliSiTef, ACBrTEFAPIElgin, ACBrTEFAPIPaygoWeb --
+[*] Altera para definir a propriedade 'NaoRemoverMascaraResposta' ao chamar evento
+    'QuandoPerguntarCampo' nos demais TEFs.
+    por: Elias César
+
+11/12/2024
+-- ACBrTEFAPIDestaxaComum --
+[+] Criação de função para possibilitar executar transação sem alterar último sequencial
+
+-- ACBrTEFAPIDestaxa --
+[*] Alterada TACBrTEFRespDestaxa para possibilitar o acesso às propriedades da resposta
+    original do TEF Destaxa;
+[*] Ajuste para confirmar as Transações que estão pendentes dentro da venda.
+    por: Elias César
+
+11/12/2024
+-- ACBrTEFAPIDestaxa --
+[-] Correção para retorno correto ao efetuar Venda Pix.
+    por: Digital Way
+[+] Correção de problema ao imprimir comprovantes de Cancelamento.
+    por: Elias César
+
+10/12/2024
+-- ACBrTEFAPICliSiTef, ACBrTEFCliSiTefComum --
+[-] Ajuste para que o método "ConteudoToProperty" sempre considere a resposta
+    lida pelo método "CarregarRespostasPendentes" com o Status de Confirmar = True
+
+-- ACBrTEFAPICliSiTef --
+[*] Ajuste no método "EfetuarPagamento", para não adicionar restrições na
+    transação, quando a operação for igual a 0
+    (por: DSA)
+
+09/12/2024
+-- ACBrTEFAPIDestaxa --
+[*] Correção para parâmetro "Confirmar Transação Automaticamente";
+[+] Inclusão dos campos BIN e UltimosQuatroDigitos  no "ConteudoToProperty".
+    por: Elias César
+
+05/12/2024
+-- ACBrTEFAPIDestaxa --
+[*] Alteração para não utilizar o comando Administracao Pendente para carregar
+    as transações pendentes ao inicializar o TEF. Será utilizado o arquivo bkp.
+    por: Elias César
+
+04/12/2024
+-- ACBrTEFAPIDestaxa --
+[*] Correção para respeitar o parâmetro "Perguntar" para Transações Pendentes.
+
+-- ACBrTEFAPIDestaxaComum --
+[*] Ajuste na leitura da mensagem com quebra de linha;
+[*] Ajuste para não enviar comandos após finalizar a transação;
+[+] Incluído sleep para não concatenar os comandos enviados ao client.
+    por: Elias César
+
+03/12/2024
+-- ACBrTEFDestaxaComum --
+[*] Ajuste para não exibir QRCode e não enviar como mensagem o hexa da imagem.
+    por: Elias César
+
+02/12/2024
+-- ACBrTEFAPIDestaxa, ACBrTEFDestaxaComum --
+[+] Inclusão de eventos para envio do QRCode pra tela.
+    por: Elias César
+
 29/11/2024
 -- ACBrTEFDestaxaComum --
 [-] Correção da máscara de envio de valores float ao client.

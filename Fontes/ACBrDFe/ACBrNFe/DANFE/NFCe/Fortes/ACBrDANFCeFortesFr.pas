@@ -45,7 +45,7 @@ uses
    Forms, Graphics,
   {$EndIf}
   ACBrNFeDANFEClass, ACBrBase,
-  pcnNFe, pcnConversao, ACBrDFeUtil,
+  ACBrNFe.Classes, pcnConversao, ACBrDFeUtil,
   RLConsts, RLUtils, RLReport, RLBarcode, RLPDFFilter, RLHTMLFilter,
   RLFilters, RLPrinters, RLTypes, Controls;
 
@@ -507,6 +507,7 @@ procedure TACBrNFeDANFCeFortesFr.rlbRodapeBeforePrint(Sender: TObject;
 var
   i:integer;
   MsgTributos: String;
+  LinhaCmd: String;
 begin
   with ACBrNFeDANFCeFortes.FpNFe do
   begin
@@ -548,6 +549,28 @@ begin
 
     if InfAdic.infCpl <> '' then
       lObservacoes.Lines.Add( StringReplace( InfAdic.infCpl, fACBrNFeDANFCeFortes.CaractereQuebraDeLinha, #13, [rfReplaceAll] ) );
+
+    // Informações sobre a Entrega
+
+    if Entrega.xLgr <> '' then
+    begin
+      lObservacoes.Lines.Add(ACBrStr('INFORMAÇÕES SOBRE A ENTREGA'));
+
+      if Entrega.xNome <> '' then
+        lObservacoes.Lines.Add(Entrega.xNome);
+
+      LinhaCmd := Trim(
+        Trim(Entrega.xLgr) + ' ' +
+        IfThen(Trim(Entrega.xLgr) = '','',Trim(Entrega.nro)) + ' ' +
+        Trim(Entrega.xCpl) + ' ' +
+        Trim(Entrega.xBairro) + ' ' +
+        Trim(Entrega.xMun) + ' ' +
+        Trim(Entrega.UF)
+      );
+
+      if LinhaCmd <> '' then
+        lObservacoes.Lines.Add(LinhaCmd);
+    end;
 
     lObservacoes.Visible := ( lObservacoes.Lines.Count > 0 );
   end;
@@ -1348,9 +1371,28 @@ begin
 end;
 
 procedure TACBrNFeDANFCeFortes.ImprimirDANFEPDF(NFE: TNFe);
+var I : Integer;
 begin
-  AtribuirNFe(NFE);
-  Imprimir(False, fiPDF);
+  //AtribuirNFe(NFE);
+  //Imprimir(False, fiPDF);
+  FPArquivoPDF := '';
+  if (NFE = nil) then
+  begin
+    try
+      for I := 0 to Pred(TACBrNFe(ACBrNFe).NotasFiscais.Count) do
+      begin
+        FIndexImpressaoIndividual := I;
+        AtribuirNFe(TACBrNFe(ACBrNFe).NotasFiscais[I].NFe);
+        Imprimir(False, fiPDF);
+      end;
+    finally
+      FIndexImpressaoIndividual := 0;
+    end;
+  end else
+  begin
+    AtribuirNFe(NFE);
+    Imprimir(False, fiPDF);
+  end;
 end;
 
 procedure TACBrNFeDANFCeFortes.ImprimirDANFEPDF(AStream: TStream; ANFE: TNFe);
@@ -1457,9 +1499,13 @@ begin
           end
           else
           begin
-            RLFiltro.FileName := PathWithDelim(ACBrNFeDANFCeFortes.PathPDF) + ChangeFileExt( RLLayout.JobTitle, '.pdf');
+            //RLFiltro.FileName := PathWithDelim(ACBrNFeDANFCeFortes.PathPDF) + ChangeFileExt( RLLayout.JobTitle, '.pdf');
+            RLFiltro.FileName := DefinirNomeArquivo(ACBrNFeDANFCeFortes.PathPDF,
+                                                    OnlyNumber(FpNFe.infNFe.ID) + '-nfe.pdf',
+                                                    ACBrNFeDANFCeFortes.NomeDocumento);
             RLFiltro.FilterPages( RLLayout.Pages );
             ACBrNFeDANFCeFortes.FPArquivoPDF := RLFiltro.FileName;
+
           end;
         end;
       end;
@@ -1476,7 +1522,7 @@ begin
     if not Assigned(ACBrNFe) then
       raise Exception.Create('Componente ACBrNFe não atribuído');
 
-    FpNFe := TACBrNFe(ACBrNFe).NotasFiscais.Items[0].NFe;
+    FpNFe := TACBrNFe(ACBrNFe).NotasFiscais[0].NFe;
   end
   else
     FpNFe := NFE;

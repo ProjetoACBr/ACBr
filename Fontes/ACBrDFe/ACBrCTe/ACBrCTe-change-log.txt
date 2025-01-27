@@ -44,6 +44,68 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+24/01/2025
+-- ACBrCTeConhecimentos --
+[*] Alteração visando os campos do grupo <fluxo>
+   Por: Italo Giurizzato Junior
+
+20/01/2025
+-- pcteCTe --
+[*] Remoção de unit por estar em desuso.
+   Por: Italo Giurizzato Junior
+
+10/01/2025
+-- ACBrCTe.Conversao/ACBrCTe.EventoClass/ACBrCTe.RetEnvEvento --
+[*] Ajustes para a leitura de Eventos do Fisco.
+   Por: Italo Giurizzato Junior
+
+08/01/2025
+-- ACBrCTe.EnvEvento --
+[*] Melhorias no código.
+   Por: Italo Giurizzato Junior
+
+07/01/2025
+-- Diversos --
+[*] #TK-6403: Realizado a substituição da unit de classes de: pcteCTe
+    por: ACBrCTe.Classes 
+   Por: Italo Giurizzato Junior
+
+23/12/2024
+-- pcteConsts --
+[*] Remoção de unit sem uso.
+   Por: Italo Giurizzato Junior
+-- pcteCTeR --
+[-] #TK-6418: Alteração visando a leitura correta do grupo <toma> presente nos
+    documentos: CT-e OS e CT-e Simplificado.
+   Por: Evertof/Italo Giurizzato Junior
+
+11/12/2024
+-- pcteRetEnvCTe --
+[*] Remoção de unit sem uso.
+   Por: Italo Giurizzato Junior
+
+-- ACBrCTe.Classes --
+[+] #TK-6344: Criação da nova unit que contem as classes do CT-e.
+   Por: Italo Giurizzato Junior
+
+10/12/2024
+-- ACBrCTe.XmlHandler --
+[-] #TK-6336: Correção, para a leitura de CT-e Simplificado.
+   Por: Evertof
+
+09/12/2024
+-- ACBrCTeConhecimentos, pcteConversaoCTe --
+[*] Realizado ajustes e validação para que não ocorra erro de assinatura - #TK-6313
+    Por: Antonio Carlos Junior, Diego Folieni, Italo Giurizzato Junior.
+
+03/12/2024
+-- ACBrCTeWebServices/ACBrCTe.ConsSit/ACBrCTe.EnvEvento/ACBrCTe.RetConsSit --
+-- pcteCTeW/pcteInutCTe/pcteProcCTe --
+[*] #TK-5994: Realizado a substituição da unit de constantes de: pcteConsts
+    por: ACBrCTe.Consts 
+   Por: Italo Giurizzato Junior
+
 27/11/2024
 -- ACBrCTe.Consts --
 [+] #TK-5994: Disponibilizado a nova Unit de Constantes do CTe, mas ela ainda não esta

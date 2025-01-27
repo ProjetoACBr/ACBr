@@ -181,13 +181,12 @@ end;
 
 procedure TBoletoW_Sicoob.GerarHeader;
 begin
-  FPHeaders.Clear;
+  ClearHeaderParams;
   DefinirContentType;
   DefinirKeyUser;
 
   if NaoEstaVazio(Boleto.Cedente.CedenteWS.ClientID) then
-    FPHeaders.Add(C_SICOOB_CLIENT + ': ' + Boleto.Cedente.CedenteWS.ClientID);
-//  HTTPSend.Headers.Add('Accept-Encoding: ' + C_ACCEPT_ENCODING);
+    AddHeaderParam(C_SICOOB_CLIENT, Boleto.Cedente.CedenteWS.ClientID);
 end;
 
 procedure TBoletoW_Sicoob.GerarDados;
@@ -265,11 +264,10 @@ end;
 
 procedure TBoletoW_Sicoob.DefinirParamOAuth;
 begin
-  if Boleto.Cedente.CedenteWS.ClientSecret = '' then
-    Boleto.Cedente.CedenteWS.ClientSecret:= Boleto.Cedente.CedenteWS.ClientID;
   FParamsOAuth := Format( 'client_id=%s&scope=%s&grant_type=client_credentials',
                    [Boleto.Cedente.CedenteWS.ClientID,
                     Boleto.Cedente.CedenteWS.Scope] );
+  OAuth.ExigirClientSecret := False;
 end;
 
 function TBoletoW_Sicoob.DateBancoobtoDateTime(const AValue: String): TDateTime;

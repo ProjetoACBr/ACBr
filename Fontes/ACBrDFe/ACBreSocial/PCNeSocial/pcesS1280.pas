@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Italo Jurisato Junior                           }
+{ Colaboradores nesse arquivo: Italo Giurizzato Junior                         }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -474,8 +474,9 @@ begin
       InfoAtivConcom.fator13  := StringToFloatDef(INIRec.ReadString(sSecao, 'fator13', ''), 0);
 
       sSecao := 'infoPercTransf11096';
-      if INIRec.ReadString(sSecao, 'percTrans', '') <> '' then
-        infoPercTransf11096.percTransf  := StrToIntDef(INIRec.ReadString(sSecao, 'percTrans', ''), 0);
+      sFim := INIRec.ReadString(sSecao, 'percTrans', INIRec.ReadString(sSecao, 'percTransf', ''));
+      if Trim(sFim) <> '' then
+        infoPercTransf11096.percTransf  := StrToIntDef(sFim, 0);
     end;
 
     GerarXML;

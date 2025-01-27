@@ -80,6 +80,7 @@ type
     FNomeArqRetorno: String;
     FDensidadeGravacao: String;
     FCIP: String;
+    FKeySoftwareHouse: String;
 
   public
     constructor Create(const ATipo: TACBrLibRespostaTipo; const AFormato: TACBrLibCodificacao); reintroduce;
@@ -96,6 +97,7 @@ type
     property NomeArqRetorno: String read FNomeArqRetorno write FNomeArqRetorno;
     property DensidadeGravacao: String read FDensidadeGravacao write FDensidadeGravacao;
     property CIP: String read FCIP write FCIP;
+    property KeySoftwareHouse: String read FKeySoftwareHouse write FKeySoftwareHouse;
 
   end;
 
@@ -128,6 +130,7 @@ type
     FID : Integer;
     FIDRej : Integer;
     FMotivoRejeicao : String;
+    FMotivoRejeicaoComando: string;
 
   public
     constructor Create( const AIDRej: Integer; const AID: Integer; const ATipo: TACBrLibRespostaTipo; const AFormato: TACBrLibCodificacao);
@@ -135,6 +138,7 @@ type
 
   published
     property MotivoRejeicao : String read FMotivoRejeicao write FMotivoRejeicao;
+    property MotivoRejeicaoComando: string read FMotivoRejeicaoComando write FMotivoRejeicaoComando;
 
   end;
 
@@ -172,7 +176,7 @@ type
     FRejeicoes: TObjectList;
     FHoraBaixa: String;
     FEstadoTituloCobranca : String;
-
+    FLiquidadoBanco:integer;
 
 
   public
@@ -211,10 +215,7 @@ type
     property Rejeicoes: TObjectList read FRejeicoes write FRejeicoes;
     property EstadoTituloCobranca: String read FEstadoTituloCobranca write FEstadoTituloCobranca;
     property HoraBaixa: String read FHoraBaixa write FHoraBaixa;
-   
-
-
-
+    property LiquidadoBanco: integer read FLiquidadoBanco write FLiquidadoBanco;
   end;
 
   { TRetornoBoleto }
@@ -368,6 +369,7 @@ type
     FCodigoCanalTituloCobranca: String;
     FCodigoEstadoTituloCobranca: string;
     FEstadoTituloCobranca: String;
+    FLiquidadoBanco : integer;
 
   public
     constructor Create( AID: Integer; const ATipo: TACBrLibRespostaTipo; const AFormato: TACBrLibCodificacao);
@@ -445,9 +447,7 @@ type
     property CodigoCanalTituloCobranca: String read FCodigoCanalTituloCobranca write FCodigoCanalTituloCobranca;
     property EstadoTituloCobranca: String read FEstadoTituloCobranca write FEstadoTituloCobranca;
     property CodigoEstadoTituloCobranca: String read FCodigoEstadoTituloCobranca write FCodigoEstadoTituloCobranca;
-
-
-
+    property LiquidadoBanco: integer read FLiquidadoBanco write FLiquidadoBanco;
   end;
 
   { TRetornoRejeicoesWeb }
@@ -730,8 +730,8 @@ begin
     CodigoCanalTituloCobranca:=DadosRet.TituloRet.CodigoCanalTituloCobranca;
     EstadoTituloCobranca:=DadosRet.TituloRet.EstadoTituloCobranca;;
     CodigoEstadoTituloCobranca:=DadosRet.TituloRet.CodigoEstadoTituloCobranca;
-
-
+    if DadosRet.TituloRet.LiquidadoBanco > 0 then
+       LiquidadoBanco :=DadosRet.TituloRet.LiquidadoBanco;
     if (NaoEstaVazio(DadosRet.TituloRet.EMV)) then
     begin
       emv:= DadosRet.TituloRet.EMV;
@@ -835,6 +835,11 @@ end;
 procedure TRetornoRejeicoesTitulo.Processar(const ACBrBoleto: TACBrBoleto);
 begin
   MotivoRejeicao := ACBrBoleto.ListadeBoletos[FID].DescricaoMotivoRejeicaoComando[FIDRej];
+  if ACBrBoleto.ListadeBoletos[FID].MotivoRejeicaoComando.Count > 0 then
+  begin
+    ACBrBoleto.ListadeBoletos[FID].MotivoRejeicaoComando.Delimiter:='|';
+    MotivoRejeicaoComando := ACBrBoleto.ListadeBoletos[FID].MotivoRejeicaoComando.CommaText;
+  end;
 end;
 
 { TRetornoBoleto }
@@ -935,6 +940,8 @@ begin
     SeuNumero := ACBrBoleto.ListadeBoletos[FID].SeuNumero;
     CodTipoOcorrencia := GetEnumName( TypeInfo(TACBrTipoOcorrencia),
                                              Integer(ACBrBoleto.ListadeBoletos[FID].OcorrenciaOriginal.Tipo));
+    if ACBrBoleto.ListadeBoletos[FID].Liquidacao.Banco > 0 then
+       LiquidadoBanco := ACBrBoleto.ListadeBoletos[FID].Liquidacao.Banco;
     DescricaoTipoOcorrencia := ACBrBoleto.ListadeBoletos[FID].OcorrenciaOriginal.Descricao;
 
     for I:= 0 to  ACBrBoleto.ListadeBoletos[FID].DescricaoMotivoRejeicaoComando.Count-1 do
@@ -996,6 +1003,7 @@ begin
     NomeArqRetorno := ACBrBoleto.NomeArqRetorno;
     DensidadeGravacao := ACBrBoleto.Banco.DensidadeGravacao;
     CIP := ACBrBoleto.Banco.CIP;
+    KeySoftwareHouse:= ACBrBoleto.KeySoftwareHouse;
   end;
 end;
 

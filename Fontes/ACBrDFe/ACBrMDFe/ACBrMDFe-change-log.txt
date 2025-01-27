@@ -42,6 +42,48 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/01/2025
+-- pmdfeMDFe --
+[*] Remoção de unit por estar em desuso.
+   Por: Italo Giurizzato Junior
+
+08/01/2025
+-- ACBrMDFe.EnvEvento --
+[*] Melhorias no código.
+   Por: Italo Giurizzato Junior
+
+07/01/2025
+-- Diversos --
+[*] #TK-6409: Realizado a substituição da unit de classes de: pmdfeMDFe
+    por: ACBrMDFe.Classes 
+   Por: Italo Giurizzato Junior
+
+23/12/2024
+-- pmdfeConsts --
+[*] Remoção de unit sem uso.
+   Por: Italo Giurizzato Junior
+
+11/12/2024
+-- ACBrMDFe.Classes --
+[+] #TK-6345: Criação da nova unit que contem as classes do MDF-e.
+   Por: Italo Giurizzato Junior
+-- ACBrMDFeWebServices.pas --
+[*] Corrigida leitura do xml da consulta por chave quando houverem caracteres especiais.
+   Por: Renato Rubinho
+
+03/12/2024
+-- pmdfeConsMDFeNaoEnc/pmdfeConsSitMDFe/pmdfeEnvEventoMDFe/pmdfeEventoMDFe --
+-- pmdfeProcInfraSA/pmdfeRetConsMDFeNaoEnc/pmdfeRetConsSitMDFe --
+-- pmdfeRetEnvEventoMDFe/pmdfeRetEnvMDFe --
+[*] #TK-5874: Removido as units acima por estarem em desuso.
+   Por: Italo Giurizzato Junior
+-- ACBrMDFeWebServices/ACBrMDFe.XmlWriter/ACBrMDFe.ConsNaoEnc/ACBrMDFe.ConsSit --
+-- ACBrMDFe.EnvEvento/ACBrMDFe.RetConsSit/pmdfeConsMDFeNaoEnc/pmdfeConsSitMDFe --
+-- pmdfeEnvEventoMDFe/pmdfeMDFeW/pmdfeProcMDFe --
+[*] #TK-5997: Realizado a substituição da unit de constantes de: pmdfeConsts
+    por: ACBrMDFe.Consts 
+   Por: Italo Giurizzato Junior
+
 27/11/2024
 -- ACBrMDFe.Consts --
 [+] #TK-5997: Disponibilizado a nova Unit de Constantes do MDFe, mas ela ainda não esta

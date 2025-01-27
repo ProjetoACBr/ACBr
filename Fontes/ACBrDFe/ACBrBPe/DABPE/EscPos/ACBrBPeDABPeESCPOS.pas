@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Italo Jurisato Junior                           }
+{ Colaboradores nesse arquivo: Italo Giurizzato Junior                         }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -506,7 +506,7 @@ begin
   TextoObservacao := Trim(FpBPe.InfAdic.infAdFisco);
   if TextoObservacao <> '' then
   begin
-    TextoObservacao := StringReplace(FpBPe.InfAdic.infAdFisco, ';', sLineBreak, [rfReplaceAll]);
+    TextoObservacao := StringReplace(FpBPe.InfAdic.infAdFisco, CaractereQuebraDeLinha, sLineBreak, [rfReplaceAll]);
     FPosPrinter.Buffer.Add('<c>' + TextoObservacao);
   end;
 end;
@@ -518,7 +518,7 @@ begin
   TextoObservacao := Trim(FpBPe.InfAdic.infCpl);
   if TextoObservacao <> '' then
   begin
-    TextoObservacao := StringReplace(FpBPe.InfAdic.infCpl, ';', sLineBreak, [rfReplaceAll]);
+    TextoObservacao := StringReplace(FpBPe.InfAdic.infCpl, CaractereQuebraDeLinha, sLineBreak, [rfReplaceAll]);
     FPosPrinter.Buffer.Add('<c>' + TextoObservacao);
   end;
 end;

@@ -44,9 +44,9 @@ uses
    System.Contnrs,
   {$IfEnd}
   pcnConversao,
-  pmdfeConsts,
   ACBrBase, ACBrXmlBase,
   ACBrDFeComum.Proc,
+  ACBrMDFe.Consts,
   ACBrMDFe.RetEnvEvento,
   ACBrMDFe.ProcInfraSA;
 
@@ -146,6 +146,8 @@ var
 begin
   Document := TACBrXmlDocument.Create;
 
+  Result := False;
+
   try
     try
       if XmlRetorno = '' then Exit;
@@ -233,8 +235,6 @@ begin
           Result := True;
         end;
       end;
-
-      Result := True;
     except
       Result := False;
     end;

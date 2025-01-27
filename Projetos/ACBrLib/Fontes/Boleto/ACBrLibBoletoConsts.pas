@@ -67,7 +67,9 @@ const
   CChaveOrientacaoBanco = 'OrientacaoBanco';
   CChaveTipoCobranca = 'TipoCobranca';
   CChaveCasasDecimaisMoraJuros = 'CasasDecimaisMoraJuros';
+  CChaveDensidadeGravacao = 'DensidadeGravacao';
   CChaveCIP = 'CIP';
+  CChaveKeySoftwareHouse = 'KeySoftwareHouse';
 
   CSessaoBoletoCedenteConfig = 'BoletoCedenteConfig';
   CChaveAgencia= 'Agencia';

@@ -138,21 +138,21 @@ uses
 procedure TBoletoW_Itau_API.DefinirURL;
 begin
 
-  FPURL := IfThen(Boleto.Configuracoes.WebService.Ambiente = tawsProducao, C_URL, C_URL_HOM);
+  FPURL := IfThen(Boleto.Configuracoes.WebService.Ambiente in [tawsProducao, tawsHomologacao], C_URL, C_URL_HOM);
   case Boleto.Configuracoes.WebService.Operacao of
     tpInclui:
       begin
         if Boleto.Cedente.CedenteWS.IndicadorPix then
-         FPURL := IfThen(Boleto.Configuracoes.WebService.Ambiente = tawsProducao, C_URL_PIX, C_URL_PIX_HOM) + '/boletos_pix'
+         FPURL := IfThen(Boleto.Configuracoes.WebService.Ambiente in [tawsProducao, tawsHomologacao], C_URL_PIX, C_URL_PIX_HOM) + '/boletos_pix'
         else
-         FPURL := IfThen(Boleto.Configuracoes.WebService.Ambiente = tawsProducao, C_URL, C_URL_HOM) + '/boletos';
+         FPURL := IfThen(Boleto.Configuracoes.WebService.Ambiente  in [tawsProducao, tawsHomologacao], C_URL, C_URL_HOM) + '/boletos';
       end;
 
     tpConsulta:
-      FPURL := IfThen(Boleto.Configuracoes.WebService.Ambiente = tawsProducao, C_URL_CONSULTA, C_URL_HOM) + '/boletos?' + DefinirParametros;
+      FPURL := IfThen(Boleto.Configuracoes.WebService.Ambiente  in [tawsProducao, tawsHomologacao], C_URL_CONSULTA, C_URL_HOM) + '/boletos?' + DefinirParametros;
 
     tpConsultaDetalhe:
-      FPURL := IfThen(Boleto.Configuracoes.WebService.Ambiente = tawsProducao,
+      FPURL := IfThen(Boleto.Configuracoes.WebService.Ambiente  in [tawsProducao, tawsHomologacao],
         C_URL_CONSULTA, C_URL_HOM) + '/boletos?' + DefinirParametros;
 
     tpAltera:
@@ -266,9 +266,9 @@ end;
 
 procedure TBoletoW_Itau_API.DefinirKeyUser;
 begin
-  FPHeaders.Clear;
-  FPHeaders.Add('x-itau-apikey: ' + Boleto.Cedente.CedenteWS.ClientID);
-  FPHeaders.Add('x-itau-correlationID: ' + Boleto.Cedente.CedenteWS.ClientID);
+  ClearHeaderParams;
+  AddHeaderParam('x-itau-apikey', Boleto.Cedente.CedenteWS.ClientID);
+  AddHeaderParam('x-itau-correlationID', Boleto.Cedente.CedenteWS.ClientID);
 end;
 
 function TBoletoW_Itau_API.DefinirParametros: String;
@@ -363,7 +363,7 @@ end;
 
 function TBoletoW_Itau_API.ValidaAmbiente: Integer;
 begin
-  Result := StrToIntDef(IfThen(Boleto.Configuracoes.WebService.Ambiente = tawsProducao, '1', '2'), 2);
+  Result := StrToIntDef(IfThen(Boleto.Configuracoes.WebService.Ambiente in [tawsProducao, tawsHomologacao], '1', '2'), 2);
 end;
 
 procedure TBoletoW_Itau_API.GeraIdBeneficiario(AJson: TACBrJSONObject);
@@ -523,10 +523,10 @@ begin
     if (ATitulo.Instrucao1) <> '' then
     begin
       LJsonDados.AddPair('codigo_instrucao_cobranca', Copy(trim((ATitulo.Instrucao1)), 1, 1));
-      if Boleto.Cedente.CedenteWS.IndicadorPix then
-        LJsonDados.AddPair('quantidade_dias_apos_vencimento', Copy(trim((ATitulo.Instrucao1)), 3, 2))
-      else
-        LJsonDados.AddPair('quantidade_dias_instrucao_cobranca', Copy(trim((ATitulo.Instrucao1)), 3, 2));
+      //if Boleto.Cedente.CedenteWS.IndicadorPix then
+      LJsonDados.AddPair('quantidade_dias_apos_vencimento', Copy(trim((ATitulo.Instrucao1)), 3, 2));
+      //else
+      //  LJsonDados.AddPair('quantidade_dias_instrucao_cobranca', Copy(trim((ATitulo.Instrucao1)), 3, 2));
       LJsonDados.AddPair('dia_util', StrToBool(IfThen(ATitulo.TipoDiasProtesto = diUteis,'True','False')));
       LJsonArray.AddElementJSON(LJsonDados);
     end;
@@ -534,10 +534,10 @@ begin
     begin
       LJsonDados2 := TACBrJSONObject.Create;
       LJsonDados2.AddPair('codigo_instrucao_cobranca', Copy(trim((ATitulo.Instrucao2)), 1, 1));
-      if Boleto.Cedente.CedenteWS.IndicadorPix then
-        LJsonDados.AddPair('quantidade_dias_apos_vencimento', Copy(trim((ATitulo.Instrucao2)), 3, 2))
-      else
-        LJsonDados.AddPair('quantidade_dias_instrucao_cobranca', Copy(trim((ATitulo.Instrucao2)), 3, 2));
+      //if Boleto.Cedente.CedenteWS.IndicadorPix then
+      LJsonDados.AddPair('quantidade_dias_apos_vencimento', Copy(trim((ATitulo.Instrucao2)), 3, 2));
+      //else
+      //LJsonDados.AddPair('quantidade_dias_instrucao_cobranca', Copy(trim((ATitulo.Instrucao2)), 3, 2));
       LJsonDados2.AddPair('dia_util', StrToBool(IfThen(ATitulo.TipoDiasProtesto = diUteis,'True','False')));
       LJsonArray.AddElementJSON(LJsonDados2);
     end;
@@ -545,10 +545,10 @@ begin
     begin
       LJsonDados3 := TACBrJSONObject.Create;
       LJsonDados3.AddPair('codigo_instrucao_cobranca', Copy(trim((ATitulo.Instrucao3)), 1,1));
-      if Boleto.Cedente.CedenteWS.IndicadorPix then
-        LJsonDados.AddPair('quantidade_dias_apos_vencimento', Copy(trim((ATitulo.Instrucao3)), 3, 2))
-      else
-        LJsonDados.AddPair('quantidade_dias_instrucao_cobranca', Copy(trim((ATitulo.Instrucao3)), 3, 2));
+      //if Boleto.Cedente.CedenteWS.IndicadorPix then
+      LJsonDados.AddPair('quantidade_dias_apos_vencimento', Copy(trim((ATitulo.Instrucao3)), 3, 2));
+      //else
+      //LJsonDados.AddPair('quantidade_dias_instrucao_cobranca', Copy(trim((ATitulo.Instrucao3)), 3, 2));
       LJsonDados3.AddPair('dia_util', StrToBool(IfThen(ATitulo.TipoDiasProtesto = diUteis,'True','False')));
       LJsonArray.AddElementJSON(LJsonDados3);
     end;
@@ -1242,7 +1242,7 @@ begin
 
   if Assigned(OAuth) then
   begin
-    if OAuth.Ambiente = tawsProducao then
+    if OAuth.Ambiente in [tawsProducao, tawsHomologacao] then
       OAuth.URL := C_URL_OAUTH_PROD
     else
       OAuth.URL := C_URL_OAUTH_HOM;

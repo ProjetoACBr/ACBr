@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2024 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Italo Jurisato Junior                           }
+{ Colaboradores nesse arquivo: Italo Giurizzato Junior                         }
 {                                                                              }
 {  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
@@ -554,6 +554,7 @@ begin
     FBPeW.Opcoes.IdentarXML     := Configuracoes.Geral.IdentarXML;
     FBPeW.Opcoes.NormatizarMunicipios   := Configuracoes.Arquivos.NormatizarMunicipios;
     FBPeW.Opcoes.PathArquivoMunicipios  := Configuracoes.Arquivos.PathArquivoMunicipios;
+    FBPeW.Opcoes.QuebraLinha := Configuracoes.WebServices.QuebradeLinha;
 
     TimeZoneConf.Assign( Configuracoes.WebServices.TimeZoneConf );
 
@@ -974,7 +975,7 @@ end;
 function TBilhete.LerArqIni(const AIniString: String): Boolean;
 var
   INIRec: TMemIniFile;
-  sSecao, versao, sFim: String;
+  sSecao, sFim: String;
   OK: Boolean;
   I: Integer;
   ItemPag: TpagCollectionItem;
@@ -990,9 +991,6 @@ begin
     with FBPe do
     begin
       infBPe.versao := StringToFloatDef(INIRec.ReadString('infBPe', 'versao', VersaoBPeToStr(FConfiguracoes.Geral.VersaoDF)),0);
-
-//      versao := FloatToString(infBPe.versao, '.', '#0.00');
-//      FConfiguracoes.Geral.VersaoDF := StrToVersaoBPe(OK, versao);
 
       Ide.tpAmb   := StrToTipoAmbiente(OK, INIRec.ReadString(sSecao, 'tpAmb', IntToStr(Integer(FConfiguracoes.WebServices.Ambiente))));
       Ide.modelo  := INIRec.ReadInteger('ide', 'mod', 63);

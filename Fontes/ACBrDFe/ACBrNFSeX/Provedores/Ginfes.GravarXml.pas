@@ -66,7 +66,6 @@ procedure TNFSeW_Ginfes.Configuracao;
 begin
   inherited Configuracao;
 
-  NrOcorrAliquota := 0;
   NrOcorrValorPis := 1;
   NrOcorrValorCofins := 1;
   NrOcorrValorInss := 1;
@@ -74,6 +73,9 @@ begin
   NrOcorrValorCsll := 1;
   NrOcorrValorIss := 1;
   DivAliq100  := True;
+
+  if FpAOwner.ConfigGeral.Params.TemParametro('NaoDividir100') then
+    DivAliq100 := False;
 
   PrefixoPadrao := 'ns4';
 end;

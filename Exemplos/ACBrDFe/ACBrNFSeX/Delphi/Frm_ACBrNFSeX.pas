@@ -48,7 +48,6 @@ type
     edtPathLogs: TEdit;
     chkSalvarGer: TCheckBox;
     cbFormaEmissao: TComboBox;
-    cbxAtualizarXML: TCheckBox;
     cbxExibirErroSchema: TCheckBox;
     edtFormatoAlerta: TEdit;
     cbxRetirarAcentos: TCheckBox;
@@ -274,6 +273,8 @@ type
     btnInformacoes: TButton;
     Label50: TLabel;
     edtCidComProv: TEdit;
+    Label51: TLabel;
+    cbFormatoDiscr: TComboBox;
 
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
@@ -831,7 +832,11 @@ begin
            proSimple, proSmarAPD, proWebFisco, proBauhaus, proeISS, proISSCampinas,
            proSoftPlan, proXTRTecnologia] then
       begin
+        Servico.Valores.Aliquota := 4.54;
         Servico.Valores.ValorServicos := 0;
+
+        // Provedor Infisc
+        Servico.Valores.totalAproxTrib := 0;
 
         with Servico.ItemServico.New do
         begin
@@ -921,6 +926,9 @@ begin
           DadosProfissionalParceiro.IdentificacaoParceiro.InscricaoMunicipal := '123';
           DadosProfissionalParceiro.RazaoSocial := 'Nome do Parceiro';
           DadosProfissionalParceiro.PercentualProfissionalParceiro := 5;
+
+          // Provedor Infisc
+          totalAproxTribServ := 0;
         end;
       end
       else
@@ -962,7 +970,7 @@ begin
         Servico.Valores.BaseCalculo := Servico.Valores.ValorServicos -
         Servico.Valores.ValorDeducoes - Servico.Valores.DescontoIncondicionado;
 
-        Servico.Valores.Aliquota := 2;
+        Servico.Valores.Aliquota := 4.54;
 
         Servico.Valores.tribMun.cPaisResult := 0;
         // TtribISSQN = (tiOperacaoTributavel, tiImunidade, tiExportacao, tiNaoIncidencia);
@@ -1038,6 +1046,7 @@ begin
 
       Servico.CodigoPais := 1058; // Brasil
       Servico.MunicipioIncidencia := StrToIntDef(edtCodCidade.Text, 0);
+      Servico.MunicipioPrestacaoServico := 'Cidade onde servico executado';
 
       // Provedor GeisWeb
       // tlDevidoNoMunicPrestador, tlDevidoNoMunicTomador, tlSimplesNacional, tlIsentoImune
@@ -1638,7 +1647,7 @@ begin
       Tomador.Endereco.CodigoPais := 0;
       Tomador.Endereco.CEP := '14800000';
       Tomador.Endereco.xPais := 'BRASIL';
-      Tomador.Contato.Telefone := '22223333';
+      Tomador.Contato.Telefone := '1622223333';
       Tomador.Contato.Email := 'nome@provedor.com.br';
 
       {=========================================================================
@@ -1747,7 +1756,7 @@ procedure TfrmACBrNFSe.btnCancNFSeClick(Sender: TObject);
 var
   Titulo, NumNFSe, Codigo, Motivo, NumLote, CodVerif, SerNFSe, NumRps,
   SerRps, ValNFSe, ChNFSe, eMailTomador, vNumRPS, xCodServ, CodMun,
-  xDataEmissao: String;
+  xDataEmissao, xCNPJTomador: string;
   DataEmissao: TDateTime;
   CodCanc: Integer;
   InfCancelamento: TInfCancelamento;
@@ -1929,6 +1938,13 @@ begin
     Alimentar_Componente(vNumRPS, '1');
   end;
 
+  if ACBrNFSeX1.Configuracoes.Geral.Provedor = proISSMap then
+  begin
+    xCNPJTomador := '';
+    if not(InputQuery(Titulo, 'CNPJ/CPF Tomador', xCNPJTomador)) then
+      exit;
+  end;
+
   InfCancelamento := TInfCancelamento.Create;
 
   try
@@ -1948,6 +1964,7 @@ begin
       DataEmissaoNFSe := DataEmissao;
       CodServ         := xCodServ;
       CodMunicipio    := StrToIntDef(CodMun, 0);
+      CNPJCPFTomador  := xCNPJTomador;
     end;
 
     ACBrNFSeX1.CancelarNFSe(InfCancelamento);
@@ -2518,19 +2535,20 @@ end;
 
 procedure TfrmACBrNFSe.btnConsultarNFSeRPSClick(Sender: TObject);
 var
-  NumeroRps, SerieRps, TipoRps, CodVerificacao: String;
+  Titulo, NumeroRps, SerieRps, TipoRps, CodVerificacao, xCNPJTomador: string;
   iTipoRps: Integer;
 begin
+  Titulo := 'Consultar NFSe por RPS';
   NumeroRps := '';
-  if not (InputQuery('Consultar NFSe por RPS', 'Numero do RPS:', NumeroRps)) then
+  if not (InputQuery(Titulo, 'Numero do RPS:', NumeroRps)) then
     exit;
 
   SerieRps := '1';
-  if not (InputQuery('Consultar NFSe por RPS', 'Serie do RPS:', SerieRps)) then
+  if not (InputQuery(Titulo, 'Serie do RPS:', SerieRps)) then
     exit;
 
   TipoRps := '1';
-  if not (InputQuery('Consultar NFSe por RPS', 'Tipo do RPS:', TipoRps)) then
+  if not (InputQuery(Titulo, 'Tipo do RPS:', TipoRps)) then
     exit;
 
   // Provedor ISSDSF e Siat
@@ -2564,15 +2582,23 @@ begin
     end;
   end;
 
+  CodVerificacao := '';
   if ACBrNFSeX1.Configuracoes.Geral.Provedor in [proGiap, proGoverna,
      proPrescon, proIntertec] then
   begin
-    CodVerificacao := '123';
-    if not (InputQuery('Consultar NFSe por RPS', 'Codigo Verificação:', CodVerificacao)) then
+    if not (InputQuery(Titulo, 'Codigo Verificação:', CodVerificacao)) then
       exit;
   end;
 
-  ACBrNFSeX1.ConsultarNFSePorRps(NumeroRps, SerieRps, TipoRps, CodVerificacao);
+  xCNPJTomador := '';
+  if ACBrNFSeX1.Configuracoes.Geral.Provedor = proISSMap then
+  begin
+    if not (InputQuery(Titulo, 'CNPJ/CPF Tomador:', xCNPJTomador)) then
+      exit;
+  end;
+
+  ACBrNFSeX1.ConsultarNFSePorRps(NumeroRps, SerieRps, TipoRps, CodVerificacao,
+    xCNPJTomador);
 
   ChecarResposta(tmConsultarNFSePorRps);
 end;
@@ -3845,16 +3871,23 @@ end;
 
 procedure TfrmACBrNFSe.btnSubsNFSeClick(Sender: TObject);
 var
-  vNumRPS, Codigo, Motivo, sNumNFSe, sSerieNFSe, NumLote, CodVerif,
-  sNumNFSeSub: String;
+  Titulo, vNumRPS, Codigo, Motivo, sNumNFSe, sSerieNFSe, NumLote, CodVerif,
+  sNumNFSeSub, sCodMun: string;
   CodCanc: Integer;
+  InfCancelamento: TInfCancelamento;
 begin
+  Titulo := 'Substituir NFS-e';
+
   vNumRPS := '';
-  if not(InputQuery('Substituir NFS-e', 'Numero do novo RPS', vNumRPS)) then
+  if not(InputQuery(Titulo, 'Numero do novo RPS', vNumRPS)) then
     exit;
 
   ACBrNFSeX1.NotasFiscais.Clear;
   Alimentar_Componente(vNumRPS, '1');
+
+  sNumNFSe := vNumRPS;
+  if not(InputQuery(Titulo, 'Numero da NFS-e', sNumNFSe)) then
+    exit;
 
   // Codigo de Cancelamento
   // 1 - Erro de emissão
@@ -3862,7 +3895,7 @@ begin
   // 3 - RPS Cancelado na Emissão
 
   Codigo := '1';
-  if not(InputQuery('Substituir NFSe', 'Código de Cancelamento', Codigo)) then
+  if not(InputQuery(Titulo, 'Código de Cancelamento', Codigo)) then
     exit;
 
   // Provedor SigEp o código de cancelamento é diferente
@@ -3881,48 +3914,79 @@ begin
   if ACBrNFSeX1.Configuracoes.Geral.Provedor in [proAgili, proConam, proEquiplano,
     proGoverna, proIPM, proISSDSF, proISSLencois, proModernizacaoPublica,
     proPublica, proSiat, proSigISS, proSmarAPD, proWebFisco, proSudoeste,
-    proBauhaus, proISSCampinas] then
+    proBauhaus, proISSCampinas, proSigep] then
   begin
     Motivo := 'Teste de Cancelamento';
-    if not (InputQuery('Cancelar NFSe', 'Motivo de Cancelamento', Motivo)) then
+    if not (InputQuery(Titulo, 'Motivo de Cancelamento', Motivo)) then
       exit;
   end;
-
-  sNumNFSe := vNumRPS;
-  if not(InputQuery('Substituir NFS-e', 'Numero da NFS-e', sNumNFSe)) then
-    exit;
 
   sSerieNFSe := '';
   if ACBrNFSeX1.Configuracoes.Geral.Provedor = proiiBrasil then
   begin
-    if not(InputQuery('Substituir NFS-e', 'Série da NFS-e', sSerieNFSe)) then
+    if not(InputQuery(Titulo, 'Série da NFS-e', sSerieNFSe)) then
       exit;
   end;
 
+  NumLote := '';
   if ACBrNFSeX1.Configuracoes.Geral.Provedor = proAssessorPublico then
   begin
     NumLote := '1';
-    if not (InputQuery('Cancelar NFSe', 'Numero do Lote', NumLote)) then
+    if not (InputQuery(Titulo, 'Numero do Lote', NumLote)) then
       exit;
   end;
 
+  CodVerif := '';
   if ACBrNFSeX1.Configuracoes.Geral.Provedor in [proISSLencois, proGoverna,
        proSiat, proSigep, proElotech] then
   begin
     CodVerif := '12345678';
-    if not (InputQuery('Cancelar NFSe', 'Código de Verificação', CodVerif)) then
+    if not (InputQuery(Titulo, 'Código de Verificação', CodVerif)) then
       exit;
   end;
 
+  sNumNFSeSub := '';
   if ACBrNFSeX1.Configuracoes.Geral.Provedor in [proBauhaus] then
   begin
     sNumNFSeSub := '1';
-    if not(InputQuery('Substituir NFSe', 'Numero da NFSe Substituta', sNumNFSeSub)) then
+    if not(InputQuery(Titulo, 'Numero da NFSe Substituta', sNumNFSeSub)) then
       exit;
   end;
 
-  ACBrNFSeX1.SubstituirNFSe(sNumNFSe, sSerieNFSe, Codigo,
-                                        Motivo, NumLote, CodVerif, sNumNFSeSub);
+  sCodMun := '';
+  if ACBrNFSeX1.Configuracoes.Geral.Provedor = proFiorilli then
+  begin
+    sCodMun := '';
+    if not (InputQuery(Titulo, 'Código IBGE do municipio de incidencia', sCodMun)) then
+      exit;
+  end;
+
+  if ACBrNFSeX1.Configuracoes.Geral.Provedor in [proAssessorPublico, proBauhaus,
+       proElotech, proFiorilli, proGoverna, proiiBrasil, proISSLencois, proSiat,
+       proSigep] then
+  begin
+    InfCancelamento := TInfCancelamento.Create;
+
+    try
+      with InfCancelamento do
+      begin
+        NumeroNFSe      := sNumNFSe;
+        SerieNFSe       := sSerieNFSe;
+        CodCancelamento := Codigo;
+        MotCancelamento := Motivo;
+        NumeroLote      := NumLote;
+        CodVerificacao  := CodVerif;
+        CodMunicipio    := StrToIntDef(sCodMun, 0);
+      end;
+
+      ACBrNFSeX1.SubstituirNFSe(InfCancelamento);
+    finally
+      InfCancelamento.Free;
+    end;
+  end
+  else
+    ACBrNFSeX1.SubstituirNFSe(sNumNFSe, sSerieNFSe, Codigo, Motivo, NumLote,
+                                CodVerif, sNumNFSeSub);
 
   ChecarResposta(tmSubstituirNFSe);
 end;
@@ -4205,6 +4269,7 @@ var
   X: TSSLXmlSignLib;
   Y: TSSLType;
   L: TLayoutNFSe;
+  J: TFormatoDiscriminacao;
 begin
   cbSSLLib.Items.Clear;
   for T := Low(TSSLLib) to High(TSSLLib) do
@@ -4241,6 +4306,11 @@ begin
     cbLayoutNFSe.Items.Add(GetEnumName(TypeInfo(TLayoutNFSe), integer(L)));
   cbLayoutNFSe.ItemIndex := 0;
 
+  cbFormatoDiscr.Items.Clear;
+  for J := Low(TFormatoDiscriminacao) to High(TFormatoDiscriminacao) do
+    cbFormatoDiscr.Items.Add(GetEnumName(TypeInfo(TFormatoDiscriminacao), integer(J)));
+  cbFormatoDiscr.ItemIndex := 0;
+
   LerConfiguracao;
 
   pgRespostas.ActivePageIndex := 0;
@@ -4264,10 +4334,10 @@ begin
     Ini.WriteString( 'Certificado', 'Senha',      edtSenha.Text);
     Ini.WriteString( 'Certificado', 'NumSerie',   edtNumSerie.Text);
 
-    Ini.WriteBool(   'Geral', 'AtualizarXML',     cbxAtualizarXML.Checked);
     Ini.WriteBool(   'Geral', 'ExibirErroSchema', cbxExibirErroSchema.Checked);
     Ini.WriteString( 'Geral', 'FormatoAlerta',    edtFormatoAlerta.Text);
     Ini.WriteInteger('Geral', 'FormaEmissao',     cbFormaEmissao.ItemIndex);
+    Ini.WriteInteger('Geral', 'FormatoDiscr',     cbFormatoDiscr.ItemIndex);
     Ini.WriteBool(   'Geral', 'RetirarAcentos',   cbxRetirarAcentos.Checked);
     Ini.WriteBool(   'Geral', 'Salvar',           chkSalvarGer.Checked);
     Ini.WriteString( 'Geral', 'PathSalvar',       edtPathLogs.Text);
@@ -4402,10 +4472,10 @@ begin
     edtSenha.Text          := Ini.ReadString( 'Certificado', 'Senha',      '');
     edtNumSerie.Text       := Ini.ReadString( 'Certificado', 'NumSerie',   '');
 
-    cbxAtualizarXML.Checked     := Ini.ReadBool(   'Geral', 'AtualizarXML',     True);
     cbxExibirErroSchema.Checked := Ini.ReadBool(   'Geral', 'ExibirErroSchema', True);
     edtFormatoAlerta.Text       := Ini.ReadString( 'Geral', 'FormatoAlerta',    'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.');
     cbFormaEmissao.ItemIndex    := Ini.ReadInteger('Geral', 'FormaEmissao',     0);
+    cbFormatoDiscr.ItemIndex    := Ini.ReadInteger('Geral', 'FormatoDiscr',     0);
 
     chkSalvarGer.Checked      := Ini.ReadBool(  'Geral', 'Salvar',         True);
     cbxRetirarAcentos.Checked := Ini.ReadBool(  'Geral', 'RetirarAcentos', True);
@@ -5190,6 +5260,8 @@ begin
     FormatoAlerta    := edtFormatoAlerta.Text;
     FormaEmissao     := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
 
+    FormatoDiscriminacao := TFormatoDiscriminacao(cbFormatoDiscr.ItemIndex);
+
     ConsultaLoteAposEnvio := chkConsultaLoteAposEnvio.Checked;
     ConsultaAposCancelar  := chkConsultaAposCancelar.Checked;
     MontarPathSchema := chkMontarPathSchemas.Checked;
@@ -5230,6 +5302,9 @@ begin
 
   with ACBrNFSeX1.Configuracoes.WebServices do
   begin
+    // Redefini a quebra de linha que por padrão é "|'
+    QuebradeLinha := ';';
+
     Ambiente   := StrToTpAmb(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
     Visualizar := cbxVisualizar.Checked;
     Salvar     := chkSalvarSOAP.Checked;

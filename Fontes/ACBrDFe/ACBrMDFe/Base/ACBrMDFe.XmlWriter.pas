@@ -40,7 +40,7 @@ uses
   Classes, SysUtils,
   pcnConversao,
   ACBrXmlBase, ACBrXmlDocument, ACBrXmlWriter,
-  pmdfeMDFe,
+  ACBrMDFe.Classes,
   pmdfeConversaoMDFe;
 
 type
@@ -215,7 +215,7 @@ uses
   StrUtils,
   Math,
   ACBrDFeConsts,
-  pmdfeConsts,
+  ACBrMDFe.Consts,
   ACBrValidador,
   ACBrDFeUtil,
   ACBrUtil.Base,

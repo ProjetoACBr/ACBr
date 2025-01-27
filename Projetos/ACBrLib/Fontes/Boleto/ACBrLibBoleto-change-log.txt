@@ -41,9 +41,45 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+23/01/2025
+-- ACBrLibBoletoRespostas.pas --
+[-] TK-6508 - Ajustado para validar o conteudo antes de MotivoRejeicaoComando 
+  https://www.projetoacbr.com.br/forum/topic/81409-boleto-banco-inter-arquivo-retorno-fora-de-padr%C3%B5es-quando-tem-erro/
+  Por: Daniel Morais InfoCotidiano / Panda
 
-26/11/2024
---- ACBrLibBoletoConfig ---
+23/01/2025
+-- ACBrLibBoletoRespostas.pas --
+[-] TK-6141-2 - Ajustado para evitar AV
+  Por: Daniel Morais InfoCotidiano 
+  
+15/01/2025
+-- ACBrLibBoletoRespostas.pas --
+[*] TK-6141 - Retorno INI devolver o banco que foi liquidado, propriedade LiquidadoBanco
+  https://www.projetoacbr.com.br/forum/topic/80275-mapear-campo-banco-cobrador-237-bradesco-carteira-09/
+  Por: Daniel de Morais InfoCotidiano
+
+30/12/2024
+--- ACBrLibBoletoConfig.pas,ACBrLibBoletoRespostas.pas, ACBrLibBoletoDataModule.pas, ACBrLibBoletoConsts.pas ---
+[*] TK-6431 Ajustado a lib para ler a nova propriedade KeySoftwareHouse, utilizado parceria BB
+	por Daniel de Morais InfoCotidiano 
+
+16/12/2024
+--- ACBrLibBoletoDataModule.pas, ACBrLibBoletoConfig.pas ---
+[-] TK-6298-1 Ajustado tratamento como outros campos da seção e retorno foi OK
+    https://www.projetoacbr.com.br/forum/topic/80839-banco-bs2-arquivo-cnab400-erro-na-valida%C3%A7%C3%A3o/page/2/?&_rid=1706#findComment-524987
+	por Daniel de Morais InfoCotidiano 
+
+03/12/2024
+--- ACBrLibBoletoConfig.pas, ACBrLibBoletoConsts.pas, ACBrLibBoletoDataModule.pas ---
+[-] TK-6302 Descomentado a propriedade DensidadeGravacao para ser utilizada com a lib
+    Por: Daniel de Morais InfoCotidiano
+
+02/12/2024
+--- ACBrLibBoletoRespostas.pas ---
+[*] TK-6276 Adicionado na resposta a propriedade MotivoRejeicaoComando.
+	https://www.projetoacbr.com.br/forum/topic/80760-acbrlibboleto-arquivo-de-retorno-cnab-leitura-dos-c%C3%B3digos-de-motivosrejei%C3%A7%C3%A3o/
+    Por: Daniel de Morais InfoCotidiano
+	
 [*] Alteração valor padrão da propriedade UseCertificateHTTP para True.
     Por: Antonio Carlos Junior / Victor Panda
 

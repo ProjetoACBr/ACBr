@@ -42,6 +42,41 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+31/12/2024
+-- ACBrLibPIXCDBase --
+[*] Mapeando exceção EACBrPixHttpException no método MateraIncluirChavePix para exibir o 
+    JSON de resposta na descrição da exceção.
+    Por: Júlio Cavalcanti 
+
+26/12/2024
+-- ACBrLibPIXCDConsoleMTDemo.lpi --
+[+] Adicionado novo Projeto, 100% CONSOLE e MT versão Demonstração.
+[+] Compatível com compilação em Linux 64 e Android 32 e 64
+    Por: Antonio Carlos Junior
+
+18/12/2024
+--- ACBrLibPIXCDBase ---
+[*] Ajuste nos métodos MateraSolicitarRetirada, MateraConsultarAliasRetirada, MateraSolicitarDevolucao, MateraConsultarMotivosDevolucao, MateraConsultarExtratoEC             para mapear exceções de erro HTTP e trazer o JSON de retorno.
+    Por: Júlio Cavalcanti, Elias César, Daniel Oliveira
+
+17/12/2024
+-- ACBrLibPIXCDConsoleMT.lpi --
+[+] Adicionado novo Projeto, 100% CONSOLE e MT
+[+] Compatível com compilação em Linux 64 e Android 32 e 64
+    Por: Antonio Carlos Junior
+
+12/12/2024
+--- ACBrLibPIXCDMateraRespostas ---
+[*] Ajuste na classe TLibPIXCDMateraDestinationAccount e TLibPIXCDMateraBankTransfer para retornar o texto ao invés do valor.
+    Por: Antonio Carlos Junior, Elias César, Júlio Cavalcanti
+
+10/12/2024
+-- ACBrLibPIXCDDataModule, ACBrLibPIXCDConsts, ACBrLibPIXCDConfig --
+[*] Inclusão das propriedades ArquivoChavePrivada e ArquivoCertificado para uso do PSP Cielo em Produção.
+    #TK-6118 - ACBrPIXCD - Como passar os certificados - PSP Cielo - Produção.
+    Por: Antonio Carlos Junior
+
+
 21/11/2024
 --- ACBrLibPIXCDRespostas ---
 [*] Ajuste no Status da Devolução e Cobranças para retornar o texto ao invés do valor.

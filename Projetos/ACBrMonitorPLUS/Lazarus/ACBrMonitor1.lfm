@@ -21486,11 +21486,11 @@ object FrmACBrMonitor: TFrmACBrMonitor
             Height = 519
             Top = 0
             Width = 1121
-            ActivePage = tsRemessaRetorno
+            ActivePage = tsWebBoleto
             Align = alClient
             Font.Height = -13
             ParentFont = False
-            TabIndex = 3
+            TabIndex = 6
             TabOrder = 0
             OnChange = pgBoletoChange
             object tsBeneficiario: TTabSheet
@@ -22825,6 +22825,21 @@ object FrmACBrMonitor: TFrmACBrMonitor
                 Caption = 'Código Flash'
                 ParentColor = False
               end
+              object edtBoletoKeySoftwareHouse: TEdit
+                Left = 760
+                Height = 25
+                Top = 122
+                Width = 112
+                TabOrder = 10
+              end
+              object Label289: TLabel
+                Left = 760
+                Height = 17
+                Top = 104
+                Width = 109
+                Caption = 'KeySoftwareHouse'
+                ParentColor = False
+              end
             end
             object tsRelatorio: TTabSheet
               HelpType = htKeyword
@@ -23484,6 +23499,15 @@ object FrmACBrMonitor: TFrmACBrMonitor
                   ImageIndex = 17
                   OnClick = sbArquivoCRTClick
                 end
+                object ChkBoletoUseCertificadoHTTP: TCheckBox
+                  Left = 755
+                  Height = 21
+                  Top = 128
+                  Width = 146
+                  Anchors = [akRight]
+                  Caption = 'Usar Certificado HTTP'
+                  TabOrder = 7
+                end
               end
               object grbWsConfig: TGroupBox
                 Left = 8
@@ -23603,7 +23627,7 @@ object FrmACBrMonitor: TFrmACBrMonitor
                 object lblPathLogBoleto: TLabel
                   Left = 478
                   Height = 17
-                  Top = 56
+                  Top = 50
                   Width = 51
                   Caption = 'Path Log'
                   Font.Height = -13
@@ -35159,6 +35183,7 @@ object FrmACBrMonitor: TFrmACBrMonitor
     Cedente.TipoInscricao = pJuridica
     Cedente.IdentDistribuicao = tbBancoDistribui
     Cedente.PIX.TipoChavePIX = tchNenhuma
+    Cedente.IntegradoraBoleto = tibNenhum
     NumeroArquivo = 0
     ACBrBoletoFC = ACBrBoletoFCFortes1
     Configuracoes.Arquivos.LogNivel = logNenhum

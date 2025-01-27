@@ -39,7 +39,7 @@ interface
 
 uses
   Classes, SysUtils, StrUtils,
-  ACBrNFeConfiguracoes, pcnNFe,
+  ACBrNFeConfiguracoes, ACBrNFe.Classes,
   {$IfDef USE_ACBr_XMLDOCUMENT}
     ACBrNFe.XmlReader, ACBrNFe.XmlWriter,
   {$Else}
@@ -4295,7 +4295,7 @@ var
 begin
   // Verifica se precisa Converter de UTF8 para a String nativa da IDE //
 
-  if (XmlEhUTF8BOM(AXMLString)) then
+  if (Trim(AXMLString) <> '') and (XmlEhUTF8BOM(AXMLString)) then
   begin
     //Se tiver o BOM, eu ignoro os bytes do mesmo.
     XMLStr := Copy(AXMLString, 4, Length(AXMLString));

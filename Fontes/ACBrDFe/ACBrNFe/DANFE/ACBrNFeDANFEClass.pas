@@ -42,7 +42,7 @@ uses
   Classes,
   ACBrBase, 
   ACBrDFeDANFeReport,
-  pcnNFe, 
+  ACBrNFe.Classes,
   pcnConversao, 
   pcnConversaoNFe, 
   StrUtilsEx, 
@@ -511,7 +511,7 @@ begin
           Result := Result + 'LOTE: ' + rastro.Items[i].nLote + sQuebraLinha;
 
         if (dr_qLote in FDetRastros) then
-          Result := Result + 'QTD: ' + FormatFloatBr(rastro.Items[i].qLote) + sQuebraLinha;
+          Result := Result + 'QTD: ' + FormatFloatBr(rastro.Items[i].qLote, FloatMask(3)) + sQuebraLinha;
 
         if (dr_dFab in FDetRastros) then
           Result := Result + 'FAB: ' + FormatDateBr(rastro.Items[i].dFab) + sQuebraLinha;

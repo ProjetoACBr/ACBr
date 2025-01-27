@@ -44,6 +44,91 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/01/2025
+-- pcnNFe --
+[*] Remoção de unit por estar em desuso.
+   Por: Italo Giurizzato Junior
+
+09/01/2025
+-- ACBrNFe.XmlWriter --
+[*] Corrige problema na geração do grupo agropecuário.
+  Por: Diego Folieni
+
+08/01/2025
+-- ACBrNFe.EnvEvento --
+[*] Melhorias no código.
+   Por: Italo Giurizzato Junior
+
+07/01/2025
+-- ACBrNFeDANFeESCPOS/ACBrDANFCeFortesFr/ACBrDANFCeFortesFrA4 --
+[+] #TK-6435: Incluído no DANFE a impressão do endereço de entrega caso este esteja
+    no XML da NFC-e.
+   Por: Italo Giurizzato Junior
+
+-- ACBrNFe.Classes/pcnNFe/pcnNFeR/pcnNFeW --
+[-] Ajustes para corrigir erro de compilação/instalação se o uso do ACBrXmlDocument.
+   Por: Italo Giurizzato Junior
+-- Diversos --
+[*] #TK-6415: Realizado a substituição da unit de classes de: pcnNFe
+    por: ACBrNFe.Classes 
+   Por: Italo Giurizzato Junior
+
+23/12/2024
+-- ACBrNFeDANFEClass --
+[*] #TK-6398: Ajustado a quantidade de casas decimais do campo qLote. 
+   Por: Italo Giurizzato Junior
+-- pcnNFeConsts --
+[*] Remoção de unit sem uso.
+   Por: Italo Giurizzato Junior
+
+20/12/2024
+-- pcnNFe --
+[*] #TK-6132: Altera o tipo dos campos qCom/qTrib para Double visando corrigir divergência no comportamento das compilações x86 e x64.
+  Por: Diego Folieni
+
+19/12/2024
+-- ACBrNFe.XmlWriter --
+[*] Imposta uma condição para que as tags do ICMS 51 sejam obrigatórias se a UF for PR.
+   Por: Italo Giurizzato Junior
+
+13/12/2024
+-- Diversos --
+[+] #TK-5944: Implementado a unit especifica para imprimir a DANFE em Etiqueta
+    em Fortes.
+  Por: Rodrigo Ogioni/Italo Giurizzato Junior
+
+12/12/2024
+-- ACBrNFeWebService --
+[*] #TK-5992: Trocado a unit pcnRetEnvNFe pela ACBrDFeComum.RetEnvio que não
+    utiliza a pcnLeitor para realizar a leitura do XML de retorno do envio da
+    NF-e.
+  Por: Italo Giurizzato Junior
+
+11/12/2024
+-- ACBrNFe.Classes --
+[+] #TK-6346: Criação da nova unit que contem as classes do NF-e.
+   Por: Italo Giurizzato Junior
+
+04/12/2024
+-- ACBrNFe.XmlWriter --
+[-] Corrigido as condições para gerar algumas tags do CST 60 e CSOSN 500.
+   Por: Italo Giurizzato Junior
+
+03/12/2024
+-- pcnModeloNFe --
+[*] Removida a referida unit por ela não ser utilizada pelo componente.
+   Por: Italo Giurizzato Junior
+-- ACBrNFeWebServices/ACBrNFe.AdmCSC/ACBrNFe.ConsSit/ACBrNFe.EnvEvento --
+-- ACBrNFe.Inut/ACBrNFe.RetConsSit/pcnNFeW/pcnProcNFe --
+[*] #TK-5993: Realizado a substituição da unit de constantes de: pcnNFeConsts
+    por: ACBrNFe.Consts 
+   Por: Italo Giurizzato Junior
+
+02/12/2024
+-- ACBrNFe.XmlWriter --
+[-] Corrigido a geração da tag vICMSSubstituto para o ICMS60.
+   Por: Italo Giurizzato Junior
+
 29/11/2024
 -- ACBrNFeNotasFiscais --
 [*] Alterado a condição na leitura do arquivo INI que determina se vai ler os

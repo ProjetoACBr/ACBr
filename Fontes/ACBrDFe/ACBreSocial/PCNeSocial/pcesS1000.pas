@@ -5,7 +5,7 @@
 {                                                                              }
 { Direitos Autorais Reservados (c) 2020 Daniel Simoes de Almeida               }
 {                                                                              }
-{ Colaboradores nesse arquivo: Italo Jurisato Junior                           }
+{ Colaboradores nesse arquivo: Italo Giurizzato Junior                         }
 {                              Jean Carlo Cantu                                }
 {                              Tiago Ravache                                   }
 {                              Guilherme Costa                                 }
@@ -573,7 +573,8 @@ begin
         GerarInfoCadastro;
       if ModoLancamento = mlAlteracao then
         if (InfoEmpregador.novaValidadeInst()) then
-          GerarIdePeriodo(InfoEmpregador.novaValidade, 'novaValidade');
+          if InfoEmpregador.NovaValidade.IniValid <> '' then
+            GerarIdePeriodo(InfoEmpregador.novaValidade, 'novaValidade');
     end;
 
     GerarModoFechamento(Self.ModoLancamento);
