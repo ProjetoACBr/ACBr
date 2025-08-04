@@ -39,6 +39,17 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+04/08/2025
+-- ACBrDFe, ACBrDFeWebService --
+[+] Inclusão do evento OnTransmitted em TACBrDFe.
+
+-- ACBrDFeDANFeReport --
+[+] Inclusão do método 'ImprimirCupomVerde' responsável pela impressão Reduzida do Cupom Verde.
+
+-- ACBrNFeDANFeESCPOS --
+[+] Implementação do novo método 'ImprimirCupomVerde'.
+    por: Elias César
+
 31/07/2025
 -- ACBrXmlBase --
 [*] Acrescentado a troca de </br> por ; (ponto e virgula) na função RemoverCaracteresDesnecessarios.

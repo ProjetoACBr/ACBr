@@ -102,6 +102,7 @@ type
     procedure ImprimirINUTILIZACAO(ANFe: TNFe = nil); virtual;
     procedure ImprimirINUTILIZACAOPDF(ANFe: TNFe = nil); overload; virtual;
     procedure ImprimirINUTILIZACAOPDF(AStream: TStream; ANFe: TNFe = nil); overload; virtual;
+    procedure ImprimirCupomVerde(const QRCode, MsgRodape: String; ANFe: TNFe = nil); virtual;
 
     function SeparadorDetalhamentos: String; virtual;
     function ManterCodigo(const scEAN, scProd: String): String; virtual;
@@ -376,6 +377,11 @@ end;
 procedure TACBrDFeDANFeReport.ImprimirINUTILIZACAOPDF(AStream: TStream; ANFe: TNFe);
 begin
   ErroAbstract('ImprimirINUTILIZACAOPDF');
+end;
+
+procedure TACBrDFeDANFeReport.ImprimirCupomVerde(const QRCode, MsgRodape: String; ANFe: TNFe);
+begin
+  ErroAbstract('ImprimirCupomVerde');
 end;
 
 function TACBrDFeDANFeReport.SeparadorDetalhamentos: String;

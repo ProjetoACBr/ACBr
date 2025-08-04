@@ -85,6 +85,7 @@ type
     function GerarInformacoesQRCode(const DadosQRCode: String; Cancelamento: Boolean = False): String;
     procedure GerarMensagemInteresseContribuinte;
     procedure GerarTotalTributos;
+    procedure GerarCupomVerde(const QRCode, MsgRodape: String);
 
     procedure GerarRodape;
     procedure GerarDadosEvento;
@@ -101,6 +102,7 @@ type
     procedure ImprimirEVENTO(NFE : TNFe = nil);override;
     procedure ImprimirINUTILIZACAO(ANFe: TNFe = nil); override;
 
+    procedure ImprimirCupomVerde(const QRCode, MsgRodape: String; NFE: TNFe = nil); override;
     procedure ImprimirRelatorio(const ATexto: TStrings; const AVias: Integer = 1;
       const ACortaPapel: Boolean = True; const ALogo : Boolean = True);
   published
@@ -532,6 +534,34 @@ begin
         QuebraLinhas(Format(MsgTributos,[FormatFloatBr(FpNFe.Total.ICMSTot.vTotTrib)]),
                           ColunasCondensado));
     end;
+  end;
+end;
+
+procedure TACBrNFeDANFeESCPOS.GerarCupomVerde(const QRCode, MsgRodape: String);
+var
+  TextoLateral: TStringList;
+  AlturaMax, EsquerdaQRCode: Integer;
+begin
+  FPosPrinter.Buffer.Add('<n>' + OnlyNumber(FpNFe.infNFe.ID) + '</n>');
+  FPosPrinter.Buffer.Add(' ');
+
+  TextoLateral := TStringList.Create;
+  try
+    TextoLateral.Text := GerarInformacoesIdentificacaoNFCe(True);
+    AjustaStringList(TextoLateral); // Ajusta corretamente o numero de Linhas
+
+    AlturaMax := FPosPrinter.CalcularAlturaTexto(TextoLateral.Count);
+    EsquerdaQRCode := Trunc(Max(CLarguraRegiaoEsquerda - Trunc(AlturaMax/2),0) / 2);
+
+    FPosPrinter.Buffer.Add('<mp>' +
+      FPosPrinter.ConfigurarRegiaoModoPagina(EsquerdaQRCode, 0, AlturaMax,
+     (CLarguraRegiaoEsquerda - EsquerdaQRCode)) + GerarInformacoesQRCode(QRCode, False));
+      FPosPrinter.Buffer.Add(FPosPrinter.ConfigurarRegiaoModoPagina
+     (CLarguraRegiaoEsquerda, 0, AlturaMax, 325) + TextoLateral.Text + '</mp>');
+    FPosPrinter.Buffer.Add('</ce>' + TagLigaCondensado + MsgRodape);
+    GerarRodape;
+  finally
+    TextoLateral.Free;
   end;
 end;
 
@@ -1150,6 +1180,24 @@ begin
   end;
   GerarRodape;
   FPosPrinter.Imprimir('', False, True, True, NumCopias);
+end;
+
+procedure TACBrNFeDANFeESCPOS.ImprimirCupomVerde(
+  const QRCode, MsgRodape: String; NFE: TNFe);
+begin
+  if (not Assigned(NFE)) then
+  begin
+    if (not Assigned(ACBrNFe)) then
+      raise Exception.Create(ACBrStr('Componente ACBrNFe não atribuído'));
+
+    FpNFe := TACBrNFe(ACBrNFe).NotasFiscais.Items[0].NFE;
+  end
+  else
+    FpNFe := NFE;
+
+  AtivarPosPrinter;
+  GerarCupomVerde(QRCode, MsgRodape);
+  FPosPrinter.Imprimir(EmptyStr, False, True, True);
 end;
 
 {$IfDef FPC}
