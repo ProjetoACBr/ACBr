@@ -1,311 +1,1856 @@
-object Form1: TForm1
-  Left = 582
-  Height = 466
-  Top = 186
-  Width = 466
-  Caption = 'Form1'
-  ClientHeight = 466
-  ClientWidth = 466
+object frPrincipal: TfrPrincipal
+  Left = 553
+  Height = 572
+  Top = 245
+  Width = 833
+  Caption = 'Aplicativo de Demonstração Cupom Verde'
+  ClientHeight = 572
+  ClientWidth = 833
+  Icon.Data = {
+    9E09000000000100010018180000010020008809000016000000280000001800
+    0000300000000100200000000000000900006400000064000000000000000000
+    0000344715003447151234471577344715DF344715FA344715E13447157A3447
+    15133447150334471561344715E0344715FD344715FD344715FC344715FC3447
+    15FD344715FC344715F2344715C43447156B3447151A34471500344715000000
+    00003447150934471573344715E4344715B934471590344715B8344715E53447
+    157634471527344715C6344715CA3447158B3447158734471588344715883447
+    15883447158934471599344715C7344715E3344715A33447152B344715003447
+    150034471533344715CF344715AC344715223447150834471521344715AA3447
+    15D03447155C344715DD34471594344715103447150334471503344715033447
+    1503344715043447150B3447152634471579344715E3344715AF344715223447
+    15003447155A344715E43447155B3447150034471500344715003447155C3447
+    15E53447155F3447159E344715DD3447157A3447154734471547344715483447
+    15483447154434471517344715003447150734471568344715E7344715803447
+    150834471564344715E33447154E344715003447150034471500344715503447
+    15E4344715543447152B344715BC344715F8344715EC344715E6344715E33447
+    15E4344715DB34471551344715003447150034471511344715A8344715CA3447
+    152D34471564344715E33447154E344715003447150034471500344715513447
+    15E434471555344715023447157F344715FC344715FF344715BB344715653447
+    155C344715593447151F34471500344715003447150034471560344715E33447
+    155934471564344715E33447154E344715003447150034471500344715513447
+    15E434471555344715013447157A344715EF344715D4344715DC344715663447
+    150A344715003447150034471500344715003447150034471543344715E13447
+    157434471564344715E33447154E344715003447150034471500344715513447
+    15E434471555344715013447157B344715DD3447155A344715AD344715DF3447
+    158E3447157234471573344715743447153F344715013447153F344715E03447
+    157834471564344715E33447154E344715003447150034471500344715513447
+    15E434471555344715013447157C344715DD3447152E34471530344715CC3447
+    15FE344715F6344715E5344715E03447157C344715043447153F344715E03447
+    157834471564344715E33447154E344715003447150034471500344715503447
+    15E534471555344715013447157B344715DE3447152E34471509344715A63447
+    15FF344715F73447159B3447153D3447151B344715003447153F344715E03447
+    157834471564344715E33447154E344715003447150034471500344715483447
+    15E43447156134471501344715433447157B344715183447150A344715A73447
+    15DF344715C2344715DB3447156434471509344715003447153F344715E03447
+    157834471564344715E33447154E344715003447150034471500344715303447
+    15D53447158E344715063447150334471507344715003447150B344715AB3447
+    15C234471542344715AF344715DE3447155F344715023447153F344715E03447
+    157834471564344715E33447154E344715003447150034471500344715113447
+    15A2344715D634471533344715003447150034471500344715073447157D3447
+    158E3447151034471529344715BC344715CA344715283447153D344715E03447
+    157834471564344715E33447154E344715003447150034471500344715003447
+    1549344715DB344715AD344715283447150034471500344715003447150F3447
+    151234471501344715003447155B344715E6344715533447153C344715DF3447
+    157934471564344715E33447154E344715003447150034471500344715003447
+    15083447156E344715E4344715BF34471561344715293447151A344715183447
+    1518344715183447151634471554344715E5344715733447155C344715E63447
+    157034471564344715E33447154E344715003447150000000000344715003447
+    1500344715083447155D344715C3344715E5344715D9344715CC344715CB3447
+    15CB344715CB344715CA344715D9344715FA344715E1344715E0344715C93447
+    153A34471564344715E33447154E344715003447150000000000334615003346
+    15003447150034471503344715253447155F3447158B3447159A3447159C3447
+    159C3447159C3447159A344715B6344715F4344715C53447158D344715433447
+    150634471564344715E33447154E344715003447150000000000000000000000
+    000034471500344715003447150034471500344715063447150B3447150C3447
+    150C3447150C3447150934471549344715E43447156D34471508344715003447
+    150034471564344715E33447154E344715003447150000000000000000000000
+    0000000000000000000034471500344715003447150034471500344715003447
+    1500344715003447150034471540344715E23447156534471500344715003447
+    150034471564344715E33447154D344715003447150034471500344715003447
+    1500344715003447150034471500344715003447150034471500344715003447
+    1500344715003447150034471541344715E23447156634471501344715000000
+    000034471564344715E334471563344715443447152F34471503344715023447
+    152E344715473447151534471500344715113447154534471532344715043447
+    15013447152A344715453447155B344715E23447156634471501344715000000
+    000034471564344715ED344715D8344715EB344715CE34471553344715513447
+    15CD344715ED34471597344715363447158E344715EB344715D43447155B3447
+    154C344715C8344715EC344715D7344715F13447156534471501344715000000
+    000034471558344715EC344715EC3447159D344715C4344715DE344715DE3447
+    15C63447159D344715E0344715D6344715E3344715A1344715BF344715E03447
+    15DD344715CB34471599344715E7344715F33447155A34471500344715000000
+    000034471524344715903447157A3447151434471544344715C8344715C93447
+    15463447151334471586344715DF34471590344715173447153D344715C23447
+    15CE3447154D3447151134471572344715973447152734471500344715000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000
+  }
+  OnCreate = FormCreate
   LCLVersion = '3.8.0.0'
-  object PageControl1: TPageControl
+  object pgPrincipal: TPageControl
     Left = 0
-    Height = 466
+    Height = 572
     Top = 0
-    Width = 466
-    ActivePage = tsEnviarXML
+    Width = 833
+    ActivePage = tsFluxo
     Align = alClient
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
-    object tsConsultarCPF: TTabSheet
-      Caption = 'Consultar CPF'
-      ClientHeight = 438
-      ClientWidth = 458
-      object edCPF: TEdit
-        Left = 40
-        Height = 23
-        Top = 43
-        Width = 216
+    object tsFluxo: TTabSheet
+      Caption = 'Fluxo de Venda'
+      ClientHeight = 544
+      ClientWidth = 825
+      object pnFluxoBackground: TPanel
+        Left = 0
+        Height = 544
+        Top = 0
+        Width = 825
+        Align = alClient
+        BevelOuter = bvNone
+        ClientHeight = 544
+        ClientWidth = 825
+        Color = 15263976
+        ParentBackground = False
+        ParentColor = False
         TabOrder = 0
-        Text = '40864390858'
-      end
-      object btConsultar: TButton
-        Left = 40
-        Height = 25
-        Top = 80
-        Width = 75
-        Caption = 'Consultar'
-        TabOrder = 1
-        OnClick = btConsultarClick
-      end
-      object mmLog: TMemo
-        Left = 40
-        Height = 272
-        Top = 128
-        Width = 384
-        ReadOnly = True
-        TabOrder = 2
-      end
-      object lbCPF: TLabel
-        Left = 40
-        Height = 15
-        Top = 29
-        Width = 21
-        Caption = 'CPF'
-        ParentColor = False
-      end
-    end
-    object tsEnviarXML: TTabSheet
-      Caption = 'Enviar XML'
-      ClientHeight = 438
-      ClientWidth = 458
-      object edXML: TEdit
-        Left = 32
-        Height = 23
-        Top = 48
-        Width = 368
-        TabOrder = 0
-      end
-      object btAcharXML: TSpeedButton
-        Left = 400
-        Height = 23
-        Top = 48
-        Width = 24
-        Anchors = [akTop, akRight]
-        Flat = True
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Glyph.Data = {
-          36040000424D3604000000000000360000002800000010000000100000000100
-          2000000000000004000064000000640000000000000000000000000000000000
-          0000000000000000000000000000000000000000000000000000000000000000
-          0000000000000000000000000000000000000000000000000000000000000000
-          0000000000000000000000000000000000000000000000000000000000000000
-          0000000000000000000000000000000000000000000000000000000000000000
-          0000000000000000000000000000000000000000000000000000000000000000
-          0000000000000000000100000065000000140000000000000000000000000000
-          0000000000000000000000000000000000000000000000000000000000000000
-          00000000000100000083000000F6000000540000000000000000000000000000
-          0000000000000000000000000000000000000000000000000000000000000000
-          000600000088000000F70000006B000000000000000000000000000000000000
-          000000000000000000050000004B00000096000000A800000081000000260000
-          0076000000F30000007100000000000000000000000000000000000000000000
-          00000000000800000098000000F4000000C0000000B1000000DD000000E90000
-          00CF000000660000000300000000000000000000000000000000000000000000
-          00000000006D000000F90000004C000000070000000200000013000000A10000
-          00E5000000220000000000000000000000000000000000000000000000000000
-          000A000000CF0000009500000000000000000000000000000000000000120000
-          00DE000000770000000000000000000000000000000000000000000000000000
-          001A000000E20000005D00000000000000000000000000000000000000040000
-          00B80000009A0000000000000000000000000000000000000000000000000000
-          0011000000D800000076000000000000000000000000000000000000000D0000
-          00D4000000850000000000000000000000000000000000000000000000000000
-          000000000094000000E200000019000000000000000000000000000000670000
-          00F30000003B0000000000000000000000000000000000000000000000000000
-          000000000017000000CB000000EA0000008900000068000000A1000000F70000
-          0083000000020000000000000000000000000000000000000000000000000000
-          000000000000000000160000008D000000D1000000DA000000C30000005A0000
-          0004000000000000000000000000000000000000000000000000000000000000
-          00000000000000000000000000000000000B0000001300000005000000000000
-          0000000000000000000000000000000000000000000000000000000000000000
-          0000000000000000000000000000000000000000000000000000000000000000
-          0000000000000000000000000000000000000000000000000000
-        }
-        OnClick = btAcharXMLClick
-        ShowHint = True
-        ParentFont = False
-        ParentShowHint = False
-      end
-      object edCPF1: TEdit
-        Left = 32
-        Height = 23
-        Top = 102
-        Width = 120
-        TabOrder = 1
-        Text = '40864390858'
-      end
-      object lbCPF1: TLabel
-        Left = 32
-        Height = 15
-        Top = 88
-        Width = 21
-        Caption = 'CPF'
-        ParentColor = False
-      end
-      object edCodOperador: TEdit
-        Left = 168
-        Height = 23
-        Top = 102
-        Width = 120
-        TabOrder = 2
-      end
-      object lbCodOperador: TLabel
-        Left = 168
-        Height = 15
-        Top = 88
-        Width = 92
-        Caption = 'Código Operador'
-        ParentColor = False
-      end
-      object edCodDocumento: TEdit
-        Left = 304
-        Height = 23
-        Top = 102
-        Width = 120
-        TabOrder = 3
-      end
-      object lbCodDocumento: TLabel
-        Left = 304
-        Height = 15
-        Top = 88
-        Width = 105
-        Caption = 'Código Documento'
-        ParentColor = False
-      end
-      object gbComprovantes: TGroupBox
-        Left = 16
-        Height = 110
-        Top = 146
-        Width = 425
-        Caption = 'Comprovantes'
-        ClientHeight = 90
-        ClientWidth = 421
-        TabOrder = 4
-        object lbDescricao: TLabel
-          Left = 16
-          Height = 15
-          Top = 5
-          Width = 51
-          Caption = 'Descrição'
-          ParentColor = False
-        end
-        object edDescricao: TEdit
-          Left = 16
-          Height = 23
-          Top = 21
-          Width = 120
-          TabOrder = 0
-        end
-        object lbParcelas: TLabel
-          Left = 152
-          Height = 15
-          Top = 5
-          Width = 43
-          Caption = 'Parcelas'
-          ParentColor = False
-        end
-        object edParcelas: TEdit
-          Left = 152
-          Height = 23
-          Top = 21
-          Width = 120
-          TabOrder = 1
-        end
-        object lbValorTotal: TLabel
-          Left = 288
-          Height = 15
-          Top = 5
-          Width = 55
-          Caption = 'Valor Total'
-          ParentColor = False
-        end
-        object edValorTotal: TEdit
-          Left = 285
-          Height = 23
-          Top = 21
-          Width = 120
-          TabOrder = 2
-        end
-        object btAdicionar: TButton
-          Left = 16
-          Height = 25
-          Top = 53
-          Width = 120
-          Caption = 'Adicionar'
-          TabOrder = 3
-          OnClick = btAdicionarClick
-        end
-        object lbComprovantes: TLabel
-          Left = 152
-          Height = 21
-          Top = 57
-          Width = 118
-          Caption = 'Comprovantes: 0'
-          Font.Height = -16
+        object pnFluxoPagto: TPanel
+          Left = 0
+          Height = 544
+          Top = 0
+          Width = 825
+          Align = alClient
+          BevelOuter = bvNone
+          ClientHeight = 544
+          ClientWidth = 825
+          Color = 15263976
+          Font.Name = 'Arial'
+          ParentBackground = False
           ParentColor = False
           ParentFont = False
+          TabOrder = 0
+          object gbFluxoCliente: TGroupBox
+            Left = 0
+            Height = 80
+            Top = 81
+            Width = 825
+            Align = alTop
+            Caption = 'CLIENTE'
+            ClientHeight = 60
+            ClientWidth = 821
+            Font.Name = 'Arial'
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 1
+            object pnFluxoCliente: TPanel
+              Left = 0
+              Height = 60
+              Top = 0
+              Width = 821
+              Align = alClient
+              BevelOuter = bvNone
+              ClientHeight = 60
+              ClientWidth = 821
+              ParentBackground = False
+              TabOrder = 0
+              object lbFluxoClienteNome: TLabel
+                Left = 312
+                Height = 15
+                Top = 0
+                Width = 34
+                Caption = 'Nome'
+                ParentColor = False
+              end
+              object edFluxoClienteNome: TEdit
+                Left = 312
+                Height = 31
+                Top = 15
+                Width = 487
+                Font.Height = -20
+                Font.Name = 'Arial'
+                ParentFont = False
+                TabOrder = 1
+              end
+              object lbFluxoClienteDoc: TLabel
+                Left = 24
+                Height = 15
+                Top = 0
+                Width = 59
+                Caption = 'CPF/CNPJ'
+                ParentColor = False
+              end
+              object edFluxoClienteDoc: TEdit
+                Left = 24
+                Height = 31
+                Top = 15
+                Width = 264
+                Font.Height = -20
+                Font.Name = 'Arial'
+                ParentFont = False
+                TabOrder = 0
+                OnExit = edFluxoClienteDocExit
+              end
+              object lbFluxoClienteSempreVerde: TLabel
+                Left = 24
+                Height = 15
+                Top = 45
+                Width = 126
+                Caption = 'Cliente Sempre Verde!'
+                Font.Color = clGreen
+                Font.Name = 'Arial'
+                Font.Style = [fsBold]
+                ParentColor = False
+                ParentFont = False
+                Visible = False
+              end
+            end
+          end
+          object gbFluxoItens: TGroupBox
+            Left = 0
+            Height = 155
+            Top = 171
+            Width = 825
+            Align = alTop
+            Caption = 'ITENS'
+            ClientHeight = 135
+            ClientWidth = 821
+            Font.Name = 'Arial'
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 2
+            object pnFluxoDadosItem: TPanel
+              Left = 0
+              Height = 135
+              Top = 0
+              Width = 311
+              Align = alLeft
+              BevelOuter = bvNone
+              ClientHeight = 135
+              ClientWidth = 311
+              ParentBackground = False
+              TabOrder = 0
+              object edFluxoItemEAN: TEdit
+                AnchorSideRight.Side = asrBottom
+                Left = 24
+                Height = 23
+                Top = 63
+                Width = 122
+                TabOrder = 1
+              end
+              object lbFluxoItemEAN: TLabel
+                Left = 24
+                Height = 15
+                Top = 48
+                Width = 24
+                Caption = 'EAN'
+                ParentColor = False
+              end
+              object lbFluxoItemValor: TLabel
+                Left = 166
+                Height = 15
+                Top = 48
+                Width = 27
+                Caption = 'Valor'
+                ParentColor = False
+              end
+              object edFluxoItemDescricao: TEdit
+                Left = 24
+                Height = 23
+                Top = 15
+                Width = 264
+                TabOrder = 0
+              end
+              object lbFluxoItemDescricao: TLabel
+                Left = 24
+                Height = 15
+                Top = 0
+                Width = 56
+                Caption = 'Descrição'
+                ParentColor = False
+              end
+              object btFluxoItemIncluir: TBitBtn
+                Left = 24
+                Height = 26
+                Top = 100
+                Width = 122
+                Caption = 'Incluir'
+                ImageIndex = 31
+                OnClick = btFluxoItemIncluirClick
+                TabOrder = 3
+              end
+              object btFluxoItemExcluir: TBitBtn
+                AnchorSideLeft.Side = asrBottom
+                Left = 166
+                Height = 26
+                Top = 100
+                Width = 122
+                Caption = 'Excluir'
+                ImageIndex = 32
+                OnClick = btFluxoItemExcluirClick
+                TabOrder = 4
+              end
+              object edFluxoItemValor: TEdit
+                Left = 166
+                Height = 23
+                Top = 63
+                Width = 122
+                Alignment = taRightJustify
+                TabOrder = 2
+                Text = '0,00'
+              end
+            end
+            object gdFluxoItens: TStringGrid
+              Left = 311
+              Height = 135
+              Top = 0
+              Width = 488
+              Align = alLeft
+              ColCount = 3
+              FixedCols = 0
+              Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect, goSmoothScroll]
+              RowCount = 2
+              TabOrder = 1
+              TitleStyle = tsNative
+              ColWidths = (
+                140
+                188
+                133
+              )
+              Cells = (
+                6
+                0
+                0
+                'Ean'
+                0
+                1
+                '0123456789012'
+                1
+                0
+                'Descrição'
+                1
+                1
+                'Batata Doce'
+                2
+                0
+                'Valor'
+                2
+                1
+                '3,69'
+              )
+            end
+          end
+          object gbFluxoStatus: TGroupBox
+            Left = 0
+            Height = 66
+            Top = 0
+            Width = 825
+            Align = alTop
+            Caption = 'Status'
+            ClientHeight = 46
+            ClientWidth = 821
+            ParentBackground = False
+            TabOrder = 0
+            object pnFluxoStatus: TPanel
+              Left = 0
+              Height = 46
+              Top = 0
+              Width = 821
+              Align = alClient
+              BevelOuter = bvNone
+              Caption = 'VENDENDO'
+              Color = clMenuHighlight
+              Font.Color = clWhite
+              Font.Height = -24
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentColor = False
+              ParentFont = False
+              TabOrder = 0
+            end
+          end
+          object pnFluxoRodape: TPanel
+            Left = 0
+            Height = 90
+            Top = 341
+            Width = 825
+            Align = alTop
+            AutoSize = True
+            BevelOuter = bvNone
+            ClientHeight = 90
+            ClientWidth = 825
+            ParentBackground = False
+            TabOrder = 3
+            object pnFluxoBotoes: TPanel
+              Left = 664
+              Height = 90
+              Top = 0
+              Width = 161
+              Align = alRight
+              Anchors = [akTop, akLeft, akRight, akBottom]
+              BevelOuter = bvNone
+              ClientHeight = 90
+              ClientWidth = 161
+              Font.Height = -16
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentBackground = False
+              ParentFont = False
+              TabOrder = 1
+              object pnFluxoBotoesRight: TPanel
+                Left = 137
+                Height = 90
+                Top = 0
+                Width = 24
+                Align = alRight
+                BevelOuter = bvNone
+                ParentBackground = False
+                TabOrder = 1
+              end
+              object pnFluxoBotoesPrincipais: TPanel
+                Left = 0
+                Height = 90
+                Top = 0
+                Width = 137
+                Align = alClient
+                BevelOuter = bvNone
+                ClientHeight = 90
+                ClientWidth = 137
+                ParentBackground = False
+                TabOrder = 0
+                object btFluxoFinalizar: TBitBtn
+                  Left = 0
+                  Height = 30
+                  Top = 0
+                  Width = 137
+                  Align = alTop
+                  Caption = 'FINALIZAR'
+                  ImageIndex = 33
+                  OnClick = btFluxoFinalizarClick
+                  TabOrder = 0
+                end
+                object btFluxoVendaCancelar: TBitBtn
+                  Left = 0
+                  Height = 30
+                  Top = 60
+                  Width = 137
+                  Align = alTop
+                  Caption = 'CANCELAR'
+                  ImageIndex = 33
+                  OnClick = btFluxoVendaCancelarClick
+                  TabOrder = 2
+                end
+                object btFluxoNovaVenda: TBitBtn
+                  Left = 0
+                  Height = 30
+                  Top = 30
+                  Width = 137
+                  Align = alTop
+                  Caption = 'NOVA VENDA'
+                  ImageIndex = 23
+                  OnClick = btFluxoNovaVendaClick
+                  TabOrder = 1
+                end
+              end
+            end
+            object pnFluxoTotal: TPanel
+              Left = 0
+              Height = 90
+              Top = 0
+              Width = 312
+              Align = alLeft
+              BevelOuter = bvNone
+              ClientHeight = 90
+              ClientWidth = 312
+              ParentBackground = False
+              TabOrder = 0
+              object gbFluxoTotal: TGroupBox
+                Left = 0
+                Height = 80
+                Top = 0
+                Width = 312
+                Align = alTop
+                Caption = 'TOTAL'
+                ClientHeight = 61
+                ClientWidth = 308
+                Font.Name = 'Tahoma'
+                ParentBackground = False
+                ParentFont = False
+                TabOrder = 0
+                object pnFluxoTotalStr: TPanel
+                  Left = 0
+                  Height = 61
+                  Top = 0
+                  Width = 308
+                  Align = alTop
+                  BevelOuter = bvNone
+                  Caption = 'R$ 3,69'
+                  Font.Height = -35
+                  Font.Name = 'Tahoma'
+                  Font.Style = [fsBold]
+                  ParentBackground = False
+                  ParentFont = False
+                  TabOrder = 0
+                end
+              end
+            end
+          end
+          object pnFluxoDiv1: TPanel
+            Left = 0
+            Height = 15
+            Top = 66
+            Width = 825
+            Align = alTop
+            BevelOuter = bvNone
+            ParentBackground = False
+            TabOrder = 4
+          end
+          object pnFluxoDiv2: TPanel
+            Left = 0
+            Height = 10
+            Top = 161
+            Width = 825
+            Align = alTop
+            BevelOuter = bvNone
+            ParentBackground = False
+            TabOrder = 5
+          end
+          object pnFluxoDiv3: TPanel
+            Left = 0
+            Height = 15
+            Top = 326
+            Width = 825
+            Align = alTop
+            BevelOuter = bvNone
+            ParentBackground = False
+            TabOrder = 6
+          end
         end
       end
-      object btEnviar: TButton
-        Left = 32
-        Height = 25
-        Top = 272
-        Width = 120
-        Caption = 'Enviar'
-        TabOrder = 5
-        OnClick = btEnviarClick
+    end
+    object tsEndpoints: TTabSheet
+      Caption = 'Endpoints'
+      ClientHeight = 544
+      ClientWidth = 825
+      object pgEndpoints: TPageControl
+        Left = 0
+        Height = 544
+        Top = 0
+        Width = 466
+        ActivePage = tsConsultarCPF
+        Align = alLeft
+        TabIndex = 0
+        TabOrder = 0
+        object tsConsultarCPF: TTabSheet
+          Caption = 'Consultar CPF'
+          ClientHeight = 516
+          ClientWidth = 458
+          object edCPF: TEdit
+            Left = 40
+            Height = 23
+            Top = 43
+            Width = 384
+            TabOrder = 0
+          end
+          object btConsultar: TButton
+            Left = 40
+            Height = 25
+            Top = 80
+            Width = 75
+            Caption = 'Consultar'
+            TabOrder = 1
+            OnClick = btConsultarClick
+          end
+          object lbCPF: TLabel
+            Left = 40
+            Height = 15
+            Top = 29
+            Width = 21
+            Caption = 'CPF'
+            ParentColor = False
+          end
+        end
+        object tsEnviarXML: TTabSheet
+          Caption = 'Enviar XML'
+          ClientHeight = 516
+          ClientWidth = 458
+          object edXML: TEdit
+            Left = 32
+            Height = 23
+            Top = 48
+            Width = 368
+            TabOrder = 0
+          end
+          object btAcharXML: TSpeedButton
+            Left = 400
+            Height = 23
+            Top = 48
+            Width = 24
+            Anchors = [akTop, akRight]
+            Flat = True
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Glyph.Data = {
+              36040000424D3604000000000000360000002800000010000000100000000100
+              2000000000000004000064000000640000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000100000065000000140000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              00000000000100000083000000F6000000540000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              000600000088000000F70000006B000000000000000000000000000000000000
+              000000000000000000050000004B00000096000000A800000081000000260000
+              0076000000F30000007100000000000000000000000000000000000000000000
+              00000000000800000098000000F4000000C0000000B1000000DD000000E90000
+              00CF000000660000000300000000000000000000000000000000000000000000
+              00000000006D000000F90000004C000000070000000200000013000000A10000
+              00E5000000220000000000000000000000000000000000000000000000000000
+              000A000000CF0000009500000000000000000000000000000000000000120000
+              00DE000000770000000000000000000000000000000000000000000000000000
+              001A000000E20000005D00000000000000000000000000000000000000040000
+              00B80000009A0000000000000000000000000000000000000000000000000000
+              0011000000D800000076000000000000000000000000000000000000000D0000
+              00D4000000850000000000000000000000000000000000000000000000000000
+              000000000094000000E200000019000000000000000000000000000000670000
+              00F30000003B0000000000000000000000000000000000000000000000000000
+              000000000017000000CB000000EA0000008900000068000000A1000000F70000
+              0083000000020000000000000000000000000000000000000000000000000000
+              000000000000000000160000008D000000D1000000DA000000C30000005A0000
+              0004000000000000000000000000000000000000000000000000000000000000
+              00000000000000000000000000000000000B0000001300000005000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000
+            }
+            OnClick = btAcharXMLClick
+            ShowHint = True
+            ParentFont = False
+            ParentShowHint = False
+          end
+          object edCPF1: TEdit
+            Left = 32
+            Height = 23
+            Top = 102
+            Width = 120
+            TabOrder = 1
+          end
+          object lbCPF1: TLabel
+            Left = 32
+            Height = 15
+            Top = 88
+            Width = 21
+            Caption = 'CPF'
+            ParentColor = False
+          end
+          object edCodOperador: TEdit
+            Left = 168
+            Height = 23
+            Top = 102
+            Width = 120
+            TabOrder = 2
+          end
+          object lbCodOperador: TLabel
+            Left = 168
+            Height = 15
+            Top = 88
+            Width = 92
+            Caption = 'Código Operador'
+            ParentColor = False
+          end
+          object edCodDocumento: TEdit
+            Left = 304
+            Height = 23
+            Top = 102
+            Width = 120
+            TabOrder = 3
+          end
+          object lbCodDocumento: TLabel
+            Left = 304
+            Height = 15
+            Top = 88
+            Width = 105
+            Caption = 'Código Documento'
+            ParentColor = False
+          end
+          object gbComprovantes: TGroupBox
+            Left = 16
+            Height = 110
+            Top = 146
+            Width = 425
+            Caption = 'Comprovantes'
+            ClientHeight = 90
+            ClientWidth = 421
+            TabOrder = 4
+            object lbDescricao: TLabel
+              Left = 16
+              Height = 15
+              Top = 5
+              Width = 51
+              Caption = 'Descrição'
+              ParentColor = False
+            end
+            object edDescricao: TEdit
+              Left = 16
+              Height = 23
+              Top = 21
+              Width = 120
+              TabOrder = 0
+            end
+            object lbParcelas: TLabel
+              Left = 152
+              Height = 15
+              Top = 5
+              Width = 43
+              Caption = 'Parcelas'
+              ParentColor = False
+            end
+            object edParcelas: TEdit
+              Left = 152
+              Height = 23
+              Top = 21
+              Width = 120
+              TabOrder = 1
+            end
+            object lbValorTotal: TLabel
+              Left = 288
+              Height = 15
+              Top = 5
+              Width = 55
+              Caption = 'Valor Total'
+              ParentColor = False
+            end
+            object edValorTotal: TEdit
+              Left = 285
+              Height = 23
+              Top = 21
+              Width = 120
+              TabOrder = 2
+            end
+            object btAdicionar: TButton
+              Left = 16
+              Height = 25
+              Top = 53
+              Width = 120
+              Caption = 'Adicionar'
+              TabOrder = 3
+              OnClick = btAdicionarClick
+            end
+            object lbComprovantes: TLabel
+              Left = 152
+              Height = 21
+              Top = 57
+              Width = 118
+              Caption = 'Comprovantes: 0'
+              Font.Height = -16
+              ParentColor = False
+              ParentFont = False
+            end
+          end
+          object btEnviar: TButton
+            Left = 32
+            Height = 25
+            Top = 272
+            Width = 120
+            Caption = 'Enviar'
+            TabOrder = 5
+            OnClick = btEnviarClick
+          end
+          object lbXML2: TLabel
+            Left = 32
+            Height = 15
+            Top = 34
+            Width = 24
+            Caption = 'XML'
+            ParentColor = False
+          end
+          object btLimpar: TButton
+            Left = 168
+            Height = 25
+            Top = 272
+            Width = 120
+            Caption = 'Limpar'
+            TabOrder = 6
+            OnClick = btLimparClick
+          end
+        end
+        object tsCancelarDocumento: TTabSheet
+          Caption = 'Cancelar Documento'
+          ClientHeight = 516
+          ClientWidth = 458
+          object lbChave: TLabel
+            Left = 40
+            Height = 15
+            Top = 29
+            Width = 33
+            Caption = 'Chave'
+            ParentColor = False
+          end
+          object edChave: TEdit
+            Left = 40
+            Height = 23
+            Top = 43
+            Width = 384
+            TabOrder = 0
+          end
+          object btCancelar: TButton
+            Left = 40
+            Height = 25
+            Top = 80
+            Width = 75
+            Caption = 'Cancelar'
+            TabOrder = 1
+            OnClick = btCancelarClick
+          end
+        end
       end
-      object lbXML2: TLabel
-        Left = 32
-        Height = 15
-        Top = 34
-        Width = 24
-        Caption = 'XML'
-        ParentColor = False
-      end
-      object btLimpar: TButton
-        Left = 168
-        Height = 25
-        Top = 272
-        Width = 120
-        Caption = 'Limpar'
-        TabOrder = 6
-        OnClick = btLimparClick
-      end
-      object mmLogEnviar: TMemo
-        Left = 32
-        Height = 96
-        Top = 320
-        Width = 392
-        ReadOnly = True
-        TabOrder = 7
+      object gbEndpointsLog: TGroupBox
+        Left = 466
+        Height = 544
+        Top = 0
+        Width = 359
+        Align = alClient
+        Caption = 'Log'
+        ClientHeight = 524
+        ClientWidth = 355
+        TabOrder = 1
+        object pnEndpointsLog: TPanel
+          Left = 0
+          Height = 50
+          Top = 474
+          Width = 355
+          Align = alBottom
+          BevelOuter = bvNone
+          ClientHeight = 50
+          ClientWidth = 355
+          TabOrder = 0
+          object btApagarLog: TButton
+            Left = 248
+            Height = 33
+            Top = 8
+            Width = 99
+            Caption = 'ApagarLog'
+            TabOrder = 0
+            OnClick = btApagarLogClick
+          end
+        end
+        object mmLog: TMemo
+          Left = 0
+          Height = 474
+          Top = 0
+          Width = 355
+          Align = alClient
+          TabOrder = 1
+        end
       end
     end
-    object tsCancelarDocumento: TTabSheet
-      Caption = 'Cancelar Documento'
-      ClientHeight = 438
-      ClientWidth = 458
-      object lbChave: TLabel
-        Left = 40
-        Height = 15
-        Top = 29
-        Width = 33
-        Caption = 'Chave'
-        ParentColor = False
-      end
-      object edChave: TEdit
-        Left = 40
-        Height = 23
-        Top = 43
-        Width = 384
-        TabOrder = 0
-      end
-      object btCancelar: TButton
-        Left = 40
-        Height = 25
-        Top = 80
-        Width = 75
-        Caption = 'Cancelar'
+    object tsConfig: TTabSheet
+      Caption = 'Configuração'
+      ClientHeight = 544
+      ClientWidth = 825
+      object pnConfigRodape: TPanel
+        Left = 0
+        Height = 50
+        Top = 494
+        Width = 825
+        Align = alBottom
+        BevelOuter = bvNone
+        ClientHeight = 50
+        ClientWidth = 825
         TabOrder = 1
-        OnClick = btCancelarClick
+        object btConfigCancelar: TButton
+          Left = 701
+          Height = 27
+          Top = 13
+          Width = 115
+          Caption = 'Cancelar'
+          TabOrder = 1
+        end
+        object btConfigSalvar: TButton
+          Left = 580
+          Height = 27
+          Top = 13
+          Width = 115
+          Caption = 'Salvar'
+          TabOrder = 0
+          OnClick = btConfigSalvarClick
+        end
       end
-      object mmLogCancelar: TMemo
-        Left = 40
-        Height = 272
-        Top = 128
-        Width = 384
-        ReadOnly = True
-        TabOrder = 2
+      object pgConfig: TPageControl
+        Left = 0
+        Height = 494
+        Top = 0
+        Width = 825
+        ActivePage = tsConfigCupomVerde
+        Align = alClient
+        TabIndex = 0
+        TabOrder = 0
+        object tsConfigCupomVerde: TTabSheet
+          Caption = 'Cupom Verde'
+          ClientHeight = 466
+          ClientWidth = 817
+          object pnConfigCupomVerde: TPanel
+            Left = 187
+            Height = 332
+            Top = 59
+            Width = 440
+            BevelOuter = bvNone
+            ClientHeight = 332
+            ClientWidth = 440
+            TabOrder = 0
+            object gbConfigLog: TGroupBox
+              Left = 0
+              Height = 82
+              Top = 250
+              Width = 440
+              Align = alClient
+              Caption = 'Log'
+              ClientHeight = 62
+              ClientWidth = 436
+              TabOrder = 2
+              object pnConfigLog: TPanel
+                Left = 0
+                Height = 62
+                Top = 0
+                Width = 436
+                Align = alClient
+                BevelOuter = bvNone
+                ClientHeight = 62
+                ClientWidth = 436
+                TabOrder = 0
+                object lbConfigLogArq: TLabel
+                  Left = 15
+                  Height = 15
+                  Top = 5
+                  Width = 42
+                  Caption = 'Arquivo'
+                  ParentColor = False
+                end
+                object lbConfigLogNivel: TLabel
+                  Left = 304
+                  Height = 15
+                  Top = 5
+                  Width = 27
+                  Caption = 'Nível'
+                  ParentColor = False
+                end
+                object edConfigLogArq: TEdit
+                  Left = 15
+                  Height = 23
+                  Top = 20
+                  Width = 251
+                  Anchors = [akTop, akLeft, akRight]
+                  TabOrder = 0
+                end
+                object btConfigLogArq: TSpeedButton
+                  Left = 265
+                  Height = 23
+                  Hint = 'Abrir Arquivo de Log'
+                  Top = 20
+                  Width = 24
+                  ImageIndex = 9
+                  ShowHint = True
+                  ParentFont = False
+                  ParentShowHint = False
+                end
+                object cbConfigLogNivel: TComboBox
+                  Left = 304
+                  Height = 23
+                  Top = 20
+                  Width = 115
+                  ItemHeight = 15
+                  ItemIndex = 2
+                  Items.Strings = (
+                    'Nenhum'
+                    'Baixo'
+                    'Normal'
+                    'Alto'
+                    'Muito Alto'
+                  )
+                  Style = csDropDownList
+                  TabOrder = 1
+                  Text = 'Normal'
+                end
+              end
+            end
+            object gbConfigProxy: TGroupBox
+              Left = 0
+              Height = 125
+              Top = 125
+              Width = 440
+              Align = alTop
+              Caption = 'Proxy'
+              ClientHeight = 105
+              ClientWidth = 436
+              TabOrder = 1
+              object pnConfigProxy: TPanel
+                Left = 0
+                Height = 105
+                Top = 0
+                Width = 436
+                Align = alClient
+                BevelOuter = bvNone
+                ClientHeight = 105
+                ClientWidth = 436
+                TabOrder = 0
+                object lbConfigProxyHost: TLabel
+                  Left = 15
+                  Height = 15
+                  Top = 5
+                  Width = 25
+                  Caption = 'Host'
+                  ParentColor = False
+                end
+                object lbConfigProxyPorta: TLabel
+                  Left = 304
+                  Height = 15
+                  Top = 5
+                  Width = 28
+                  Anchors = [akTop, akRight]
+                  Caption = 'Porta'
+                  ParentColor = False
+                end
+                object lbConfigProxyUsuario: TLabel
+                  Left = 15
+                  Height = 15
+                  Top = 50
+                  Width = 40
+                  Caption = 'Usuário'
+                  ParentColor = False
+                end
+                object edConfigProxyHost: TEdit
+                  Left = 15
+                  Height = 23
+                  Top = 20
+                  Width = 274
+                  Anchors = [akTop, akLeft, akRight]
+                  TabOrder = 0
+                end
+                object lbConfigProxySenha: TLabel
+                  Left = 304
+                  Height = 15
+                  Top = 50
+                  Width = 32
+                  Anchors = [akTop, akRight]
+                  Caption = 'Senha'
+                  ParentColor = False
+                end
+                object edConfigProxyUsuario: TEdit
+                  Left = 15
+                  Height = 23
+                  Top = 64
+                  Width = 274
+                  Anchors = [akTop, akLeft, akRight]
+                  TabOrder = 2
+                end
+                object edConfigProxySenha: TEdit
+                  Left = 304
+                  Height = 23
+                  Top = 65
+                  Width = 93
+                  Anchors = [akTop, akRight]
+                  EchoMode = emPassword
+                  PasswordChar = '*'
+                  TabOrder = 3
+                end
+                object edConfigProxyPorta: TSpinEdit
+                  Left = 304
+                  Height = 23
+                  Top = 20
+                  Width = 115
+                  Anchors = [akTop, akRight]
+                  MaxValue = 999999
+                  TabOrder = 1
+                end
+                object btConfigProxySenha: TSpeedButton
+                  Left = 396
+                  Height = 23
+                  Top = 65
+                  Width = 23
+                  AllowAllUp = True
+                  Anchors = [akTop, akRight]
+                  GroupIndex = 1
+                  ImageIndex = 7
+                end
+              end
+            end
+            object gpCupomVerde: TGroupBox
+              Left = 0
+              Height = 125
+              Top = 0
+              Width = 440
+              Align = alTop
+              Caption = 'Cupom Verde'
+              ClientHeight = 105
+              ClientWidth = 436
+              TabOrder = 0
+              object pnPSP: TPanel
+                Left = 0
+                Height = 105
+                Top = 0
+                Width = 436
+                Align = alClient
+                BevelOuter = bvNone
+                ClientHeight = 105
+                ClientWidth = 436
+                TabOrder = 0
+                object lbConfigAmbiente: TLabel
+                  Left = 15
+                  Height = 15
+                  Top = 50
+                  Width = 52
+                  Caption = 'Ambiente'
+                  ParentColor = False
+                end
+                object cbConfigAmbiente: TComboBox
+                  Left = 15
+                  Height = 23
+                  Top = 65
+                  Width = 274
+                  ItemHeight = 15
+                  Items.Strings = (
+                    'Homologacao'
+                    'Producao'
+                  )
+                  Style = csDropDownList
+                  TabOrder = 1
+                end
+                object lbConfigTimeout: TLabel
+                  Left = 304
+                  Height = 15
+                  Top = 50
+                  Width = 45
+                  Caption = 'Timeout'
+                  ParentColor = False
+                end
+                object edConfigTimeout: TSpinEdit
+                  Left = 304
+                  Height = 23
+                  Top = 65
+                  Width = 115
+                  Increment = 10
+                  MaxValue = 999999
+                  TabOrder = 2
+                  Value = 9000
+                end
+                object edConfigxAPIKey: TEdit
+                  Left = 15
+                  Height = 23
+                  Top = 20
+                  Width = 274
+                  Anchors = [akTop, akLeft, akRight]
+                  TabOrder = 0
+                end
+                object lbConfigxAPIKey: TLabel
+                  Left = 15
+                  Height = 15
+                  Top = 5
+                  Width = 42
+                  Caption = 'xAPIKey'
+                  ParentColor = False
+                end
+                object edConfigOperador: TEdit
+                  Left = 304
+                  Height = 23
+                  Top = 20
+                  Width = 115
+                  Anchors = [akTop, akLeft, akRight]
+                  TabOrder = 3
+                end
+                object lbConfigOperador: TLabel
+                  Left = 304
+                  Height = 15
+                  Top = 5
+                  Width = 50
+                  Caption = 'Operador'
+                  ParentColor = False
+                end
+              end
+            end
+          end
+        end
+        object tsConfigNFCe: TTabSheet
+          Caption = 'NFCe'
+          ClientHeight = 466
+          ClientWidth = 817
+          object pnConfigNFCe: TPanel
+            Left = 20
+            Height = 385
+            Top = 35
+            Width = 771
+            BevelOuter = bvNone
+            ClientHeight = 385
+            ClientWidth = 771
+            TabOrder = 0
+            object gpConfigEmitente: TGroupBox
+              Left = 0
+              Height = 160
+              Top = 0
+              Width = 771
+              Align = alTop
+              Caption = 'Emitente'
+              ClientHeight = 140
+              ClientWidth = 767
+              TabOrder = 0
+              object pnConfigEmitente: TPanel
+                Left = 0
+                Height = 140
+                Top = 0
+                Width = 767
+                Align = alClient
+                BevelOuter = bvNone
+                ClientHeight = 140
+                ClientWidth = 767
+                TabOrder = 0
+                object edConfigEmitenteCNPJ: TEdit
+                  Left = 10
+                  Height = 23
+                  Top = 20
+                  Width = 115
+                  TabOrder = 0
+                end
+                object lbConfigEmitenteCNPJ: TLabel
+                  Left = 10
+                  Height = 15
+                  Top = 5
+                  Width = 27
+                  Caption = 'CNPJ'
+                  ParentColor = False
+                end
+                object lbConfigEmitenteIE: TLabel
+                  Left = 139
+                  Height = 15
+                  Top = 5
+                  Width = 42
+                  Caption = 'Insc.Est.'
+                  ParentColor = False
+                end
+                object lbConfigEmitenteRazaoSocial: TLabel
+                  Left = 436
+                  Height = 15
+                  Top = 5
+                  Width = 65
+                  Caption = 'Razão Social'
+                  ParentColor = False
+                end
+                object lbConfigEmitenteFantasia: TLabel
+                  Left = 273
+                  Height = 15
+                  Top = 5
+                  Width = 43
+                  Caption = 'Fantasia'
+                  ParentColor = False
+                end
+                object lbConfigEmitenteLogradouro: TLabel
+                  Left = 436
+                  Height = 15
+                  Top = 45
+                  Width = 62
+                  Caption = 'Logradouro'
+                  ParentColor = False
+                end
+                object lbConfigEmitenteNumero: TLabel
+                  Left = 699
+                  Height = 15
+                  Top = 45
+                  Width = 44
+                  Caption = 'Numero'
+                  ParentColor = False
+                end
+                object lbConfigEmitenteBairro: TLabel
+                  Left = 10
+                  Height = 15
+                  Top = 89
+                  Width = 31
+                  Caption = 'Bairro'
+                  ParentColor = False
+                end
+                object lbConfigEmitenteCodCidade: TLabel
+                  Left = 323
+                  Height = 15
+                  Top = 89
+                  Width = 68
+                  Caption = 'Cód. Cidade '
+                  ParentColor = False
+                end
+                object lbConfigEmitenteCidade: TLabel
+                  Left = 139
+                  Height = 15
+                  Top = 89
+                  Width = 37
+                  Caption = 'Cidade'
+                  ParentColor = False
+                end
+                object lbConfigEmitenteUF: TLabel
+                  Left = 274
+                  Height = 15
+                  Top = 88
+                  Width = 14
+                  Caption = 'UF'
+                  ParentColor = False
+                end
+                object lbConfigEmitenteCEP: TLabel
+                  Left = 273
+                  Height = 15
+                  Top = 45
+                  Width = 21
+                  Caption = 'CEP'
+                  ParentColor = False
+                end
+                object lbConfigEmitenteFone: TLabel
+                  Left = 139
+                  Height = 15
+                  Top = 45
+                  Width = 26
+                  Caption = 'Fone'
+                  ParentColor = False
+                end
+                object edConfigEmitenteIE: TEdit
+                  Left = 139
+                  Height = 23
+                  Top = 20
+                  Width = 121
+                  TabOrder = 1
+                end
+                object edConfigEmitenteRazaoSocial: TEdit
+                  Left = 436
+                  Height = 23
+                  Top = 20
+                  Width = 316
+                  TabOrder = 3
+                end
+                object edConfigEmitenteFantasia: TEdit
+                  Left = 273
+                  Height = 23
+                  Top = 20
+                  Width = 144
+                  TabOrder = 2
+                end
+                object edConfigEmitenteFone: TEdit
+                  Left = 139
+                  Height = 23
+                  Top = 60
+                  Width = 121
+                  TabOrder = 5
+                end
+                object edConfigEmitenteCEP: TEdit
+                  Left = 273
+                  Height = 23
+                  Top = 60
+                  Width = 144
+                  TabOrder = 6
+                end
+                object edConfigEmitenteLogradouro: TEdit
+                  Left = 436
+                  Height = 23
+                  Top = 60
+                  Width = 250
+                  TabOrder = 7
+                end
+                object edConfigEmitenteNumero: TEdit
+                  Left = 699
+                  Height = 23
+                  Top = 60
+                  Width = 53
+                  TabOrder = 8
+                end
+                object edConfigEmitenteBairro: TEdit
+                  Left = 10
+                  Height = 23
+                  Top = 103
+                  Width = 115
+                  TabOrder = 9
+                end
+                object edConfigEmitenteCodCidade: TEdit
+                  Left = 323
+                  Height = 23
+                  Top = 103
+                  Width = 94
+                  TabOrder = 12
+                end
+                object edConfigEmitenteCidade: TEdit
+                  Left = 139
+                  Height = 23
+                  Top = 103
+                  Width = 121
+                  TabOrder = 10
+                end
+                object edConfigEmitenteUF: TEdit
+                  Left = 274
+                  Height = 23
+                  Top = 103
+                  Width = 39
+                  TabOrder = 11
+                end
+                object cbConfigEmitenteTipoEmpresa: TComboBox
+                  Left = 10
+                  Height = 23
+                  Top = 60
+                  Width = 115
+                  ItemHeight = 15
+                  Items.Strings = (
+                    'Simples Nacional'
+                    'Simples Nacional, excesso sublimite de receita bruta'
+                    'Regime Normal'
+                  )
+                  Style = csDropDownList
+                  TabOrder = 4
+                end
+                object lbConfigEmitenteTipoEmpresa: TLabel
+                  Left = 10
+                  Height = 15
+                  Top = 45
+                  Width = 72
+                  Caption = 'Tipo Empresa'
+                  ParentColor = False
+                end
+                object lbConfigEmitenteComplemento: TLabel
+                  Left = 436
+                  Height = 15
+                  Top = 89
+                  Width = 77
+                  Caption = 'Complemento'
+                  ParentColor = False
+                end
+                object edConfigEmitenteComplemento: TEdit
+                  Left = 436
+                  Height = 23
+                  Top = 103
+                  Width = 316
+                  TabOrder = 13
+                end
+              end
+            end
+            object pnConfig2: TPanel
+              Left = 0
+              Height = 80
+              Top = 160
+              Width = 771
+              Align = alTop
+              BevelOuter = bvNone
+              ClientHeight = 80
+              ClientWidth = 771
+              TabOrder = 1
+              object gbConfigCertificado: TGroupBox
+                Left = 0
+                Height = 80
+                Top = 0
+                Width = 426
+                Align = alLeft
+                Caption = 'Certificado'
+                ClientHeight = 60
+                ClientWidth = 422
+                TabOrder = 0
+                object pnConfigCertificado: TPanel
+                  Left = 0
+                  Height = 60
+                  Top = 0
+                  Width = 422
+                  Align = alClient
+                  BevelOuter = bvNone
+                  ClientHeight = 60
+                  ClientWidth = 422
+                  TabOrder = 0
+                  object edConfigCertificadoCaminho: TEdit
+                    Left = 10
+                    Height = 23
+                    Top = 20
+                    Width = 228
+                    TabOrder = 0
+                  end
+                  object lbConfigCertificadoCaminho: TLabel
+                    Left = 10
+                    Height = 15
+                    Top = 5
+                    Width = 49
+                    Caption = 'Caminho'
+                    ParentColor = False
+                  end
+                  object btConfigCertificado: TSpeedButton
+                    Left = 237
+                    Height = 24
+                    Top = 19
+                    Width = 23
+                    Glyph.Data = {
+                      76010000424D7601000000000000760000002800000020000000100000000100
+                      04000000000000010000130B0000130B00001000000000000000000000000000
+                      800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+                      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0033333333B333
+                      333B33FF33337F3333F73BB3777BB7777BB3377FFFF77FFFF77333B000000000
+                      0B3333777777777777333330FFFFFFFF07333337F33333337F333330FFFFFFFF
+                      07333337F3FF3FFF7F333330F00F000F07333337F77377737F333330FFFFFFFF
+                      07333FF7F3FFFF3F7FFFBBB0F0000F0F0BB37777F7777373777F3BB0FFFFFFFF
+                      0BBB3777F3FF3FFF77773330F00F000003333337F773777773333330FFFF0FF0
+                      33333337F3FF7F37F3333330F08F0F0B33333337F7737F77FF333330FFFF003B
+                      B3333337FFFF77377FF333B000000333BB33337777777F3377FF3BB3333BB333
+                      3BB33773333773333773B333333B3333333B7333333733333337
+                    }
+                    NumGlyphs = 2
+                  end
+                  object lbConfigCertificadoSenha: TLabel
+                    Left = 273
+                    Height = 15
+                    Top = 5
+                    Width = 32
+                    Caption = 'Senha'
+                    ParentColor = False
+                  end
+                  object edConfigCertificadoSenha: TEdit
+                    Left = 273
+                    Height = 23
+                    Top = 20
+                    Width = 144
+                    EchoMode = emPassword
+                    PasswordChar = '*'
+                    TabOrder = 1
+                  end
+                end
+              end
+              object gbConfigWebservice: TGroupBox
+                Left = 426
+                Height = 80
+                Top = 0
+                Width = 345
+                Align = alClient
+                Caption = 'Webservice'
+                ClientHeight = 60
+                ClientWidth = 341
+                TabOrder = 1
+                object pnConfigWebservice: TPanel
+                  Left = 0
+                  Height = 60
+                  Top = 0
+                  Width = 341
+                  Align = alClient
+                  BevelOuter = bvNone
+                  ClientHeight = 60
+                  ClientWidth = 341
+                  TabOrder = 0
+                  object cbConfigWebserviceNFCeAmbiente: TComboBox
+                    Left = 145
+                    Height = 23
+                    Top = 20
+                    Width = 118
+                    ItemHeight = 15
+                    ItemIndex = 1
+                    Items.Strings = (
+                      'Producao'
+                      'Homologacao'
+                    )
+                    ReadOnly = True
+                    Style = csDropDownList
+                    TabOrder = 1
+                    Text = 'Homologacao'
+                  end
+                  object lbConfigWebserviceNFCeAmbiente: TLabel
+                    Left = 145
+                    Height = 15
+                    Top = 5
+                    Width = 52
+                    Caption = 'Ambiente'
+                    ParentColor = False
+                  end
+                  object edConfigWebserviceTimeout: TSpinEdit
+                    Left = 274
+                    Height = 23
+                    Top = 20
+                    Width = 52
+                    Increment = 10
+                    MaxValue = 999999
+                    MinValue = 1000
+                    TabOrder = 2
+                    Value = 5000
+                  end
+                  object cbConfigWebserviceUF: TComboBox
+                    Left = 10
+                    Height = 23
+                    Top = 20
+                    Width = 129
+                    ItemHeight = 15
+                    ItemIndex = 24
+                    Items.Strings = (
+                      'AC'
+                      'AL'
+                      'AP'
+                      'AM'
+                      'BA'
+                      'CE'
+                      'DF'
+                      'ES'
+                      'GO'
+                      'MA'
+                      'MT'
+                      'MS'
+                      'MG'
+                      'PA'
+                      'PB'
+                      'PR'
+                      'PE'
+                      'PI'
+                      'RJ'
+                      'RN'
+                      'RS'
+                      'RO'
+                      'RR'
+                      'SC'
+                      'SP'
+                      'SE'
+                      'TO'
+                    )
+                    Style = csDropDownList
+                    TabOrder = 0
+                    Text = 'SP'
+                  end
+                  object lbConfigNFCeAmbiente1: TLabel
+                    Left = 10
+                    Height = 15
+                    Top = 5
+                    Width = 64
+                    Caption = 'UF Emitente'
+                    ParentColor = False
+                  end
+                  object lbConfigNFCeAmbiente2: TLabel
+                    Left = 274
+                    Height = 15
+                    Top = 5
+                    Width = 45
+                    Caption = 'Timeout'
+                    ParentColor = False
+                  end
+                end
+              end
+            end
+            object Panel1: TPanel
+              Left = 0
+              Height = 145
+              Top = 240
+              Width = 771
+              Align = alClient
+              BevelOuter = bvNone
+              ClientHeight = 145
+              ClientWidth = 771
+              TabOrder = 2
+              object gbConfigGeral: TGroupBox
+                Left = 0
+                Height = 145
+                Top = 0
+                Width = 426
+                Align = alLeft
+                Caption = 'Geral'
+                ClientHeight = 125
+                ClientWidth = 422
+                TabOrder = 0
+                object pnConfigGeral: TPanel
+                  Left = 0
+                  Height = 125
+                  Top = 0
+                  Width = 422
+                  Align = alClient
+                  BevelOuter = bvNone
+                  ClientHeight = 125
+                  ClientWidth = 422
+                  TabOrder = 0
+                  object edConfigGeralSerie: TEdit
+                    Left = 10
+                    Height = 23
+                    Top = 20
+                    Width = 115
+                    TabOrder = 0
+                  end
+                  object lbConfigGeralSerie: TLabel
+                    Left = 10
+                    Height = 15
+                    Top = 5
+                    Width = 25
+                    Caption = 'Serie'
+                    ParentColor = False
+                  end
+                  object lbConfigGeralNFCeUlt: TLabel
+                    Left = 139
+                    Height = 15
+                    Top = 5
+                    Width = 67
+                    Caption = 'Ultima NFCe'
+                    ParentColor = False
+                  end
+                  object edConfigGeralNFCeUlt: TEdit
+                    Left = 139
+                    Height = 23
+                    Top = 20
+                    Width = 121
+                    TabOrder = 1
+                  end
+                  object edConfigGeralIdToken: TEdit
+                    Left = 273
+                    Height = 23
+                    Top = 20
+                    Width = 144
+                    TabOrder = 2
+                  end
+                  object lbConfigGeralIdToken: TLabel
+                    Left = 273
+                    Height = 15
+                    Top = 5
+                    Width = 79
+                    Caption = 'IdToken/IdCSC'
+                    ParentColor = False
+                  end
+                  object edConfigGeralToken: TEdit
+                    Left = 10
+                    Height = 23
+                    Top = 70
+                    Width = 407
+                    TabOrder = 3
+                  end
+                  object lbConfigGeralToken: TLabel
+                    Left = 10
+                    Height = 15
+                    Top = 55
+                    Width = 59
+                    Caption = 'Token/CSC'
+                    ParentColor = False
+                  end
+                end
+              end
+              object gbConfigEscPos: TGroupBox
+                Left = 426
+                Height = 145
+                Top = 0
+                Width = 345
+                Align = alClient
+                Caption = 'Impressão EscPos'
+                ClientHeight = 125
+                ClientWidth = 341
+                ParentBackground = False
+                TabOrder = 1
+                object pnConfigEscPos: TPanel
+                  Left = 0
+                  Height = 125
+                  Top = 0
+                  Width = 341
+                  Align = alClient
+                  BevelOuter = bvNone
+                  ClientHeight = 125
+                  ClientWidth = 341
+                  TabOrder = 0
+                  object cbConfigEscPosPorta: TComboBox
+                    Left = 145
+                    Height = 23
+                    Top = 20
+                    Width = 118
+                    ItemHeight = 15
+                    TabOrder = 1
+                  end
+                  object cbConfigEscPosModelo: TComboBox
+                    Left = 10
+                    Height = 23
+                    Top = 20
+                    Width = 129
+                    ItemHeight = 15
+                    Style = csDropDownList
+                    TabOrder = 0
+                  end
+                  object cbConfigEscPosPagCodigo: TComboBox
+                    Left = 10
+                    Height = 23
+                    Top = 70
+                    Width = 129
+                    ItemHeight = 15
+                    Style = csDropDownList
+                    TabOrder = 3
+                  end
+                  object edConfigEscPosColunas: TSpinEdit
+                    Left = 274
+                    Height = 23
+                    Top = 20
+                    Width = 52
+                    MaxValue = 9999
+                    TabOrder = 2
+                  end
+                  object edConfigEscPosEspLinhas: TSpinEdit
+                    Left = 145
+                    Height = 23
+                    Top = 70
+                    Width = 83
+                    MaxValue = 9999
+                    TabOrder = 4
+                  end
+                  object edConfigEscPosLinhasPular: TSpinEdit
+                    Left = 243
+                    Height = 23
+                    Top = 70
+                    Width = 83
+                    MaxValue = 9999
+                    TabOrder = 5
+                  end
+                  object cbConfigEscPosCortarPapel: TCheckBox
+                    Left = 10
+                    Height = 19
+                    Hint = 'Conecta a Porta Serial a cada comando enviado'#13#10'Desconecta da Porta Serial após o envio'
+                    Top = 97
+                    Width = 83
+                    Caption = 'Cortar Papel'
+                    Checked = True
+                    State = cbChecked
+                    TabOrder = 6
+                  end
+                  object lbConfigEscPosModelo: TLabel
+                    Left = 10
+                    Height = 15
+                    Top = 5
+                    Width = 41
+                    Caption = 'Modelo'
+                    ParentColor = False
+                  end
+                  object lbConfigEscPosPorta: TLabel
+                    Left = 145
+                    Height = 15
+                    Top = 5
+                    Width = 28
+                    Caption = 'Porta'
+                    ParentColor = False
+                  end
+                  object lbConfigEscPosPagCodigo: TLabel
+                    Left = 10
+                    Height = 15
+                    Top = 55
+                    Width = 62
+                    Caption = 'Pag.Codigo'
+                    ParentColor = False
+                  end
+                  object lbConfigEscPosColunas: TLabel
+                    Left = 274
+                    Height = 15
+                    Top = 5
+                    Width = 43
+                    Caption = 'Colunas'
+                    ParentColor = False
+                  end
+                  object lbConfigEscPosEspacoLinhas: TLabel
+                    Left = 145
+                    Height = 15
+                    Top = 55
+                    Width = 74
+                    Caption = 'Espaço Linhas'
+                    ParentColor = False
+                  end
+                  object lbConfigEscPosLinhasPular: TLabel
+                    Left = 243
+                    Height = 15
+                    Top = 55
+                    Width = 64
+                    Caption = 'Linhas Pular'
+                    ParentColor = False
+                  end
+                end
+              end
+            end
+          end
+        end
       end
     end
   end
@@ -313,13 +1858,81 @@ object Form1: TForm1
     ProxyPort = '8080'
     ContentsEncodingCompress = []
     NivelLog = 0
-    xApiKey = '12c392ad-ec0b-4ec5-bd3b-605044ea4d34'
+    xApiKey = 'b66bec4d-ff07-421b-ae50-77575ee36edc'
     Ambiente = cvaHomologacao
-    Left = 88
-    Top = 40
+    Left = 296
+    Top = 8
   end
   object OpenDialog1: TOpenDialog
-    Left = 192
-    Top = 40
+    Left = 432
+    Top = 8
+  end
+  object ACBrNFe1: TACBrNFe
+    OnTransmitted = ACBrNFe1Transmitted
+    Configuracoes.Geral.SSLLib = libOpenSSL
+    Configuracoes.Geral.SSLCryptLib = cryOpenSSL
+    Configuracoes.Geral.SSLHttpLib = httpOpenSSL
+    Configuracoes.Geral.SSLXmlSignLib = xsLibXml2
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Geral.ModeloDF = moNFCe
+    Configuracoes.Geral.IdCSC = '000001'
+    Configuracoes.Geral.CSC = '8fc01cdf-3db3-4973-baf7-0f02f157363b'
+    Configuracoes.Arquivos.PathSchemas = 'C:\Pascal\Componentes\ACBr\trunk2\Exemplos\ACBrTCP\ACBrCupomVerde\Lazarus\Schemas\ve200\'
+    Configuracoes.Arquivos.OrdenacaoPath = <>
+    Configuracoes.Arquivos.PathNFe = 'C:\Pascal\Componentes\ACBr\trunk2\Exemplos\ACBrTCP\ACBrCupomVerde\Lazarus\NFCe'
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    Configuracoes.Certificados.ArquivoPFX = 'CertificadoACBr_2025.pfx'
+    Configuracoes.Certificados.Senha = 'ACBr2025!'
+    Configuracoes.RespTec.IdCSRT = 0
+    DANFE = ACBrNFCeDANFeESCPOS1
+    Left = 368
+    Top = 8
+  end
+  object tmCupomSempreVerde: TTimer
+    Enabled = False
+    OnTimer = tmCupomSempreVerdeTimer
+    Left = 496
+    Top = 8
+  end
+  object ACBrPosPrinter1: TACBrPosPrinter
+    EspacoEntreLinhas = 30
+    ConfigBarras.MostrarCodigo = False
+    ConfigBarras.LarguraLinha = 0
+    ConfigBarras.Altura = 0
+    ConfigBarras.Margem = 0
+    ConfigQRCode.Tipo = 2
+    ConfigQRCode.LarguraModulo = 4
+    ConfigQRCode.ErrorLevel = 0
+    LinhasEntreCupons = 5
+    Left = 560
+    Top = 8
+  end
+  object ACBrNFCeDANFeESCPOS1: TACBrNFeDANFeESCPOS
+    Sistema = 'Projeto ACBr - www.projetoacbr.com.br'
+    MargemInferior = 8
+    MargemSuperior = 8
+    MargemEsquerda = 6
+    MargemDireita = 5.1
+    ExpandeLogoMarcaConfig.Altura = 0
+    ExpandeLogoMarcaConfig.Esquerda = 0
+    ExpandeLogoMarcaConfig.Topo = 0
+    ExpandeLogoMarcaConfig.Largura = 0
+    ExpandeLogoMarcaConfig.Dimensionar = False
+    ExpandeLogoMarcaConfig.Esticar = True
+    CasasDecimais.Formato = tdetInteger
+    CasasDecimais.qCom = 2
+    CasasDecimais.vUnCom = 2
+    CasasDecimais.MaskqCom = ',0.00'
+    CasasDecimais.MaskvUnCom = ',0.00'
+    CasasDecimais.Aliquota = 2
+    CasasDecimais.MaskAliquota = ',0.00'
+    ACBrNFe = ACBrNFe1
+    TipoDANFE = tiNFCe
+    ImprimeQRCodeLateral = True
+    PosPrinter = ACBrPosPrinter1
+    Left = 624
+    Top = 8
   end
 end

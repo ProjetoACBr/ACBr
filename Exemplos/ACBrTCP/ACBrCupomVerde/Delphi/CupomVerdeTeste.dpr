@@ -2,12 +2,12 @@ program CupomVerdeTeste;
 
 uses
   Forms,
-  Principal in 'Principal.pas' {frACBrCupomVerdeTeste};
+  Principal in 'Principal.pas';
 
 {$R *.res}
 
 begin
   Application.Initialize;
-  Application.CreateForm(TfrACBrCupomVerdeTeste, frACBrCupomVerdeTeste);
+  Application.CreateForm(TfrPrincipal, frPrincipal);
   Application.Run;
 end.
