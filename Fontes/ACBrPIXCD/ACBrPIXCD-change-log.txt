@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/08/2025
+-- ACBrPIXPSPAppLess --
+[*] Alteração para disparar exception caso o PSP AppLess não esteja configurado em ambiente de produção.
+    por: Elias César
+
 31/07/2025
 -- ACBrPIXPSPAppLess --
 [*] Incluída validação do parâmetro E2Eid ao efetuar uma devolução com PSP AppLess.

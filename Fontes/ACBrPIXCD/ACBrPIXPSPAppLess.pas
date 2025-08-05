@@ -51,17 +51,16 @@ uses
 
 const
   cAppLessURLProducao     = 'https://api.appless.dev/pay/prd';
-  cAppLessURLHomologacao  = 'https://api.appless.dev/pay/hml';
   cAppLessPathAuthToken   = '/auth';
   cAppLessEndpointOrder   = '/order';
   cAppLessEndpointOrders  = '/orders';
   cAppLessEndpointCancel  = '/cancel';
   cAppLessEndpointEndToEndId = '/endtoendid';
-  cAppLessURLAuthHomolog  = cAppLessURLHomologacao+ cAppLessPathAuthToken;
-  cAppLessURLAuthProducao = cAppLessURLProducao+ cAppLessPathAuthToken;
+  cAppLessURLAuthProducao = cAppLessURLProducao + cAppLessPathAuthToken;
 
 resourcestring
   sErroParametroIncorreto = 'Para efetuar a devolução com PSP AppLess informe o orderId no campo E2Eid';
+  sErroAmbienteNaoImplementado = 'PSP AppLess não possui ambiente de homologação';
 
 type
 
@@ -443,7 +442,7 @@ begin
   if (aAmbiente = ambProducao) then
     Result := cAppLessURLProducao
   else
-    Result := cAppLessURLHomologacao;
+    raise EACBrPixException.Create(ACBrStr(sErroAmbienteNaoImplementado));
 end;
 
 function TACBrPSPAppLess.CalcularEndPointPath(const aMethod, aEndPoint: String): String;
@@ -607,7 +606,7 @@ begin
   if (ACBrPixCD.Ambiente = ambProducao) then
     wURL := cAppLessURLAuthProducao
   else
-    wURL := cAppLessURLAuthHomolog;
+    raise EACBrPixException.Create(ACBrStr(sErroAmbienteNaoImplementado));
 
   wBody := TACBrJSONObject.Create;
   try
