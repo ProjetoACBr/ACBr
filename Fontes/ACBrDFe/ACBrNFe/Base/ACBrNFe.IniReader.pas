@@ -37,8 +37,7 @@ unit ACBrNFe.IniReader;
 interface
 
 uses
-  Classes, SysUtils,
-  IniFiles,
+  Classes, SysUtils, IniFiles,
   ACBrNFe.Classes,
   pcnConversao,
   pcnConversaoNFe;
@@ -1891,7 +1890,6 @@ begin
   if AINIRec.SectionExists(sSecao) then
   begin
     IBSCBS.vBC := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBC', ''), 0);
-    IBSCBS.vIBS := StringToFloatDef(AINIRec.ReadString(sSecao, 'vIBS', ''), 0);
 
     Ler_IBSCBS_gIBSCBS_gIBSUF(AINIRec, IBSCBS.gIBSUF, Idx);
     Ler_IBSCBS_gIBSCBS_gIBSMun(AINIRec, IBSCBS.gIBSMun, Idx);

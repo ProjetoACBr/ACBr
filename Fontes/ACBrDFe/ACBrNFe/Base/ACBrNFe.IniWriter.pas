@@ -37,8 +37,7 @@ unit ACBrNFe.IniWriter;
 interface
 
 uses
-  Classes, SysUtils,
-  IniFiles,
+  Classes, SysUtils, IniFiles,
   ACBrNFe.Classes,
   pcnProcNFe;
 
@@ -1620,7 +1619,6 @@ begin
   sSecao := 'gIBSCBS' + IntToStrZero(Idx + 1, 3);
 
   AINIRec.WriteFloat(sSecao, 'vBC', IBSCBS.vBC);
-  AINIRec.WriteFloat(sSecao, 'vIBS', IBSCBS.vIBS);
 
   Gerar_IBSCBS_gIBSCBS_gIBSUF(AINIRec, IBSCBS.gIBSUF, Idx);
   Gerar_IBSCBS_gIBSCBS_gIBSMun(AINIRec, IBSCBS.gIBSMun, Idx);
