@@ -43,6 +43,15 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+05/08/2025
+-- ACBrNFSeXServicos --
+[+] #TK-7457: Incluído diversas cidades de São Paulo
+   Por: Anderson Grolli
+[*] #TK-7448: A cidade Rio Paranaiba/MG mudou a URL, o provedor continua o mesmo.
+   Por: Flavio Realtec
+[*] #TK-7461: A cidade Ariranha/SP mudou a URL, o provedor continua o mesmo.
+   Por: Gabriel Leal7
+
 31/07/2025
 -- ACBrNFSeXServicos --
 [*] #TK-7436: Incluído o Params GerarTag para a cidade Coronel Bicaco/RS.
