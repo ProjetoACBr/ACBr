@@ -98,7 +98,7 @@ type
     FnDue: String;
     FnItem: Integer;
     FnItemDue: Integer;
-    FqItem: Integer;
+    FqItem: Double;
     FmotAlteracao: Integer;
 
   public
@@ -107,7 +107,7 @@ type
     property nDue: String           read FnDue         write FnDue;
     property nItem: Integer         read FnItem        write FnItem;
     property nItemDue: Integer      read FnItemDue     write FnItemDue;
-    property qItem: Integer         read FqItem        write FqItem;
+    property qItem: Double          read FqItem        write FqItem;
     property motAlteracao: Integer  read FmotAlteracao write FmotAlteracao;
   end;
 
@@ -662,7 +662,7 @@ begin
                 FdocZip.Items[i].FprocEvento.detEvento.FitensAverbados.Items[j].FnDue         := oLeitorInfZip.rCampo(tcStr, 'nDue');
                 FdocZip.Items[i].FprocEvento.detEvento.FitensAverbados.Items[j].FnItem        := oLeitorInfZip.rCampo(tcInt, 'nItem');
                 FdocZip.Items[i].FprocEvento.detEvento.FitensAverbados.Items[j].FnItemDue     := oLeitorInfZip.rCampo(tcInt, 'nItemDue');
-                FdocZip.Items[i].FprocEvento.detEvento.FitensAverbados.Items[j].FqItem        := oLeitorInfZip.rCampo(tcInt, 'qItem');
+                FdocZip.Items[i].FprocEvento.detEvento.FitensAverbados.Items[j].FqItem        := oLeitorInfZip.rCampo(tcDe4, 'qItem');
                 FdocZip.Items[i].FprocEvento.detEvento.FitensAverbados.Items[j].FmotAlteracao := oLeitorInfZip.rCampo(tcInt, 'motAlteracao');
 
                 inc(j);
