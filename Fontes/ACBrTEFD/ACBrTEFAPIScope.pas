@@ -471,9 +471,12 @@ begin
 
   s := fpACBrTEFAPI.DadosAutomacao.MensagemPinPad;
   if (s = '') then
+  begin
     s := fpACBrTEFAPI.DadosAutomacao.NomeSoftwareHouse + '|' +
          fpACBrTEFAPI.DadosAutomacao.NomeAplicacao + ' ' +
          fpACBrTEFAPI.DadosAutomacao.VersaoAplicacao;
+  end;
+
   fTEFScopeAPI.MsgPinPad := s;
   fTEFScopeAPI.PortaPinPad := fpACBrTEFAPI.DadosTerminal.PortaPinPad;
   fTEFScopeAPI.GravarLogScope := (fpACBrTEFAPI.ArqLOG <> '');

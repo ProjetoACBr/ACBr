@@ -45,6 +45,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+06/08/2025
+-- ACBrTEFScopeAPI --
+[*] Ajustes para gravação de Logs com métodos mais atuais
+    https://www.projetoacbr.com.br/forum/index.php?showtopic=84716
+    (por: gbrlfr e DSA)
+
 22/07/2025
 -- ACBrTEFAPIDirectPin, ACBrTEFDirectPinAPI, ACBrTEFTPagAPI --
 [*] Ajuste no Payload para correto funcionamento da chamada do DirectPin

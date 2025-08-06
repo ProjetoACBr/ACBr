@@ -1425,6 +1425,8 @@ type
     xScopeAbreSessaoTEF: function(): LongInt; {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
     xScopeSetAplColeta: function(): LongInt; {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
     xScopeStatus: function(): LongInt; {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
+    xScopeStartLog: function(): LongInt; {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
+    xScopeStopLog: function(): LongInt; {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
     xScopeGetParam: function (_TipoParam: LongInt; _lpParam: PParam_Coleta): LongInt;
       {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
     xScopeGetParamExt: function (_TipoParam: LongInt; _lpParam: PParam_Coleta_Ext): LongInt;
@@ -1557,6 +1559,9 @@ type
     procedure DoException(const AErrorMsg: String );
     procedure TratarErroScope(AErrorCode: LongInt);
     procedure TratarErroPinPadScope(AErrorCode: LongInt);
+
+    procedure IniciarCapturaLogs;
+    procedure FinalizarCapturaLogs;
 
     procedure AbrirComunicacaoScope(VerificaSessaoAberta: Boolean = True);
     procedure FecharComunicacaoScope;
@@ -1778,6 +1783,7 @@ begin
   LoadLibFunctions;
 
   try
+    IniciarCapturaLogs;
     AbrirPinPad;   // Chama AbrirComunicacaoScope
   except
     FecharComunicacaoScope;
@@ -1796,6 +1802,7 @@ begin
   FecharSessaoTEF;
   FecharComunicacaoScope;
   FecharPinPad;
+  FinalizarCapturaLogs;
 
   UnLoadLibFunctions;
   fInicializada := False;
@@ -2070,6 +2077,8 @@ begin
   ScopeFunctionDetect(sLibName, 'ScopeAbreSessaoTEF', @xScopeAbreSessaoTEF);
   ScopeFunctionDetect(sLibName, 'ScopeSetAplColeta', @xScopeSetAplColeta);
   ScopeFunctionDetect(sLibName, 'ScopeStatus', @xScopeStatus);
+  ScopeFunctionDetect(sLibName, 'ScopeStartLog', @xScopeStartLog);
+  ScopeFunctionDetect(sLibName, 'ScopeStopLog', @xScopeStopLog);
   ScopeFunctionDetect(sLibName, 'ScopeGetParam', @xScopeGetParam);
   ScopeFunctionDetect(sLibName, 'ScopeGetParamExt', @xScopeGetParamExt, False);
   ScopeFunctionDetect(sLibName, 'ScopeResumeParam', @xScopeResumeParam);
@@ -2236,6 +2245,9 @@ var
 
   procedure AjusarSessaoLogAPI(const ASessao: String);
   begin
+    if not fGravarLogScope then
+      Exit;
+      
     AjustarParamSeNaoExistir(ASessao, 'TraceLevel', '8');
     AjustarParamSeNaoExistir(ASessao, 'LogFiles', '4');
     AjustarParamSeNaoExistir(ASessao, 'LogSize', '3072000');
@@ -2345,15 +2357,15 @@ begin
 
     SecName := 'SCOPEAPI';
     ini.WriteString(SecName, 'ArqControlPath', fDiretorioTrabalho + 'control');
-    ini.WriteString(SecName, 'ArqTracePath', fDiretorioTrabalho + 'logs');
-    AjustarParamSeNaoExistir(SecName, 'TraceApi', IfThen(fGravarLogScope, 's', 'n'));
-    AjustarParamSeNaoExistir(SecName, 'TraceSrl', IfThen(fGravarLogScope, 's', 'n'));
-    AjustarParamSeNaoExistir(SecName, 'TracePin', IfThen(fGravarLogScope, 's', 'n'));
-    AjustarParamSeNaoExistir(SecName, 'RedecardBit47Tag6', '1');
+    //ini.WriteString(SecName, 'ArqTracePath', fDiretorioTrabalho + 'logs');
+    //AjustarParamSeNaoExistir(SecName, 'TraceApi', IfThen(fGravarLogScope, 's', 'n'));
+    //AjustarParamSeNaoExistir(SecName, 'TraceSrl', IfThen(fGravarLogScope, 's', 'n'));
+    //AjustarParamSeNaoExistir(SecName, 'TracePin', IfThen(fGravarLogScope, 's', 'n'));
+    //AjustarParamSeNaoExistir(SecName, 'RedecardBit47Tag6', '1');
 
-    //AjusarSessaoLogAPI('SCOPELOGAPI');
-    //AjusarSessaoLogAPI('SCOPELOGPRF');
-    //AjusarSessaoLogAPI('SCOPELOGSRL');
+    AjusarSessaoLogAPI('SCOPELOGAPI');
+    AjusarSessaoLogAPI('SCOPELOGPRF');
+    AjusarSessaoLogAPI('SCOPELOGSRL');
 
     ini.UpdateFile;
   finally
@@ -2812,6 +2824,30 @@ begin
 
   if (MsgErro <> '') then
     DoException(MsgErro);
+end;
+
+procedure TACBrTEFScopeAPI.IniciarCapturaLogs;
+var
+  ret:LongInt;
+begin
+  if not fGravarLogScope then
+    Exit;
+
+  GravarLog('ScopeStartLog()');
+  ret := xScopeStartLog();
+  GravarLog('  ret: '+IntToStr(ret));
+end;
+
+procedure TACBrTEFScopeAPI.FinalizarCapturaLogs;
+var
+  ret:LongInt;
+begin
+  if not fGravarLogScope then
+    Exit;
+
+  GravarLog('ScopeStopLog()');
+  ret := xScopeStopLog();
+  GravarLog('  ret: '+IntToStr(ret));
 end;
 
 procedure TACBrTEFScopeAPI.AbrirComunicacaoScope(VerificaSessaoAberta: Boolean);
