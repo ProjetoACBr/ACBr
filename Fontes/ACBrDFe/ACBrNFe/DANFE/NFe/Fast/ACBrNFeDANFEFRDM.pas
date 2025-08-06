@@ -2420,51 +2420,39 @@ const
 var
   fsShowDialog : Boolean;
   NomeArq: String;
-  I : Integer;
 begin
-  for I := 1 to TACBrNFe(DANFEClassOwner.ACBrNFe).NotasFiscais.Count do
+  if PrepareReport(ANFE) then
   begin
-    DANFEClassOwner.FIndexImpressaoIndividual := I;
-    if PrepareReport(ANFE) then
-    begin
-      if (AStream <> nil) then
-        frxPDFExport.Stream := AStream;
+    if (AStream <> nil) then
+      frxPDFExport.Stream := AStream;
 
-      frxPDFExport.Author        := DANFEClassOwner.Sistema;
-      frxPDFExport.Creator       := DANFEClassOwner.Sistema;
-      frxPDFExport.Producer      := DANFEClassOwner.Sistema;
-      frxPDFExport.Title         := TITULO_PDF;
-      frxPDFExport.Subject       := TITULO_PDF;
-      frxPDFExport.Keywords      := TITULO_PDF;
-      frxPDFExport.EmbeddedFonts := IncorporarFontesPdf;
-      frxPDFExport.Background    := IncorporarBackgroundPdf;
-      frxPDFExport.PrintOptimized := OtimizaImpressaoPdf;
+    frxPDFExport.Author        := DANFEClassOwner.Sistema;
+    frxPDFExport.Creator       := DANFEClassOwner.Sistema;
+    frxPDFExport.Producer      := DANFEClassOwner.Sistema;
+    frxPDFExport.Title         := TITULO_PDF;
+    frxPDFExport.Subject       := TITULO_PDF;
+    frxPDFExport.Keywords      := TITULO_PDF;
+    frxPDFExport.EmbeddedFonts := IncorporarFontesPdf;
+    frxPDFExport.Background    := IncorporarBackgroundPdf;
+    frxPDFExport.PrintOptimized := OtimizaImpressaoPdf;
 
-      fsShowDialog := frxPDFExport.ShowDialog;
-      try
-        frxPDFExport.ShowDialog := False;
+    fsShowDialog := frxPDFExport.ShowDialog;
+    try
+      frxPDFExport.ShowDialog := False;
+      frxPDFExport.FileName := DefinirNomeArquivo(DANFEClassOwner.PathPDF,
+                               OnlyNumber(NFe.infNFe.ID) + '-nfe.pdf',
+                               DANFEClassOwner.NomeDocumento);
 
-        //NomeArq := Trim(DANFEClassOwner.NomeDocumento);
-        //if EstaVazio(NomeArq) then
-        //  NomeArq := OnlyNumber(NFe.infNFe.ID) + '-nfe.pdf';
-        //frxPDFExport.FileName := PathWithDelim(DANFEClassOwner.PathPDF) +	NomeArq;
+      if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
+        ForceDirectories(ExtractFileDir(frxPDFExport.FileName));
 
-
-        frxPDFExport.FileName := DefinirNomeArquivo(DANFEClassOwner.PathPDF,
-                                 OnlyNumber(NFe.infNFe.ID) + '-nfe.pdf',
-                                 DANFEClassOwner.NomeDocumento);
-
-        if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
-          ForceDirectories(ExtractFileDir(frxPDFExport.FileName));
-
-        frxReport.Export(frxPDFExport);
-      finally
-        frxPDFExport.ShowDialog := fsShowDialog;
-      end;
-    end
-    else
-      frxPDFExport.FileName := '';
-  end;
+      frxReport.Export(frxPDFExport);
+    finally
+      frxPDFExport.ShowDialog := fsShowDialog;
+    end;
+  end
+  else
+    frxPDFExport.FileName := '';
 end;
 
 procedure TACBrNFeFRClass.ImprimirDANFEResumido(ANFE: TNFe);
@@ -2479,22 +2467,18 @@ begin
 end;
 
 procedure TACBrNFeFRClass.ImprimirEVENTO(ANFE: TNFe);
-var I : Integer;
+var
   OK : boolean;
 begin
-  for I := 1 to TACBrNFe(DANFEClassOwner.ACBrNFe).EventoNFe.Evento.Count do
-  begin
-    DANFEClassOwner.FIndexImpressaoIndividual        := -2;
-    DANFEClassOwner.FIndexImpressaoEventosIndividual := I;
-    OK := PrepareReportEvento;
-  end;
+
+  OK := PrepareReportEvento;
   if OK then
   begin
     if DANFEClassOwner.MostraPreview then
       frxReport.ShowPreparedReport
     else
       frxReport.Print;
-    end;
+  end;
 end;
 
 procedure TACBrNFeFRClass.ImprimirEVENTOPDF(ANFE: TNFe = nil; AStream: TStream = nil);
@@ -2503,51 +2487,39 @@ const
 var
   NomeArq: String;
   fsShowDialog: Boolean;
-  I : integer;
 begin
-  for I := 1 to TACBrNFe(DANFEClassOwner.ACBrNFe).EventoNFe.Evento.Count do
+  if PrepareReportEvento(ANFE) then
   begin
-    DANFEClassOwner.FIndexImpressaoIndividual        := -1;
-    DANFEClassOwner.FIndexImpressaoEventosIndividual := I;
+    if (AStream <> nil) then
+      frxPDFExport.Stream := AStream;
+    frxPDFExport.Author        := DANFEClassOwner.Sistema;
+    frxPDFExport.Creator       := DANFEClassOwner.Sistema;
+    frxPDFExport.Producer      := DANFEClassOwner.Sistema;
+    frxPDFExport.Title         := TITULO_PDF;
+    frxPDFExport.Subject       := TITULO_PDF;
+    frxPDFExport.Keywords      := TITULO_PDF;
+    frxPDFExport.EmbeddedFonts := IncorporarFontesPdf;
+    frxPDFExport.Background    := IncorporarBackgroundPdf;
+    frxPDFExport.PrintOptimized := OtimizaImpressaoPdf;
 
-    if PrepareReportEvento(ANFE) then
-    begin
-      DANFEClassOwner.FIndexImpressaoEventosIndividual := I;
-      if (AStream <> nil) then
-        frxPDFExport.Stream := AStream;
-      frxPDFExport.Author        := DANFEClassOwner.Sistema;
-      frxPDFExport.Creator       := DANFEClassOwner.Sistema;
-      frxPDFExport.Producer      := DANFEClassOwner.Sistema;
-      frxPDFExport.Title         := TITULO_PDF;
-      frxPDFExport.Subject       := TITULO_PDF;
-      frxPDFExport.Keywords      := TITULO_PDF;
-      frxPDFExport.EmbeddedFonts := IncorporarFontesPdf;
-      frxPDFExport.Background    := IncorporarBackgroundPdf;
-      frxPDFExport.PrintOptimized := OtimizaImpressaoPdf;
+    fsShowDialog := frxPDFExport.ShowDialog;
+    try
+      frxPDFExport.ShowDialog := False;
 
-      fsShowDialog := frxPDFExport.ShowDialog;
-      try
-        frxPDFExport.ShowDialog := False;
-        //NomeArq := Trim(DANFEClassOwner.NomeDocumento);
-        //if EstaVazio(NomeArq) then
-        //  NomeArq := OnlyNumber(TACBrNFe(DANFEClassOwner.ACBrNFe).EventoNFe.Evento.Items[0].InfEvento.ID) + '-procEventoNFe.pdf';
-        //frxPDFExport.FileName := PathWithDelim(DANFEClassOwner.PathPDF) + NomeArq;
+      frxPDFExport.FileName := DefinirNomeArquivo(DANFEClassOwner.PathPDF,
+                                 OnlyNumber(Evento.Evento[DANFEClassOwner.FIndexImpressaoEventosIndividual-1].InfEvento.id) + '-procEventoNFe.pdf',
+                                 DANFEClassOwner.NomeDocumento);
 
-        frxPDFExport.FileName := DefinirNomeArquivo(DANFEClassOwner.PathPDF,
-                                   OnlyNumber(Evento.Evento[DANFEClassOwner.FIndexImpressaoEventosIndividual-1].InfEvento.id) + '-procEventoNFe.pdf',
-                                   DANFEClassOwner.NomeDocumento);
+      if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
+        ForceDirectories(ExtractFileDir(frxPDFExport.FileName));
 
-        if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
-          ForceDirectories(ExtractFileDir(frxPDFExport.FileName));
-
-        frxReport.Export(frxPDFExport);
-      finally
-        frxPDFExport.ShowDialog := fsShowDialog;
-      end;
-    end
-    else
-      frxPDFExport.Filename := '';
-  end;
+      frxReport.Export(frxPDFExport);
+    finally
+      frxPDFExport.ShowDialog := fsShowDialog;
+    end;
+  end
+  else
+    frxPDFExport.Filename := '';
 end;
 
 procedure TACBrNFeFRClass.ImprimirINUTILIZACAO(ANFE: TNFe);
@@ -2587,9 +2559,11 @@ begin
     try
       frxPDFExport.ShowDialog := False;
       NomeArq := Trim(DANFEClassOwner.NomeDocumento);
-      if EstaVazio(NomeArq) then
-        NomeArq := OnlyNumber(TACBrNFe(DANFEClassOwner.ACBrNFe).InutNFe.RetInutNFe.Id) + '-procInutNFe.pdf';
-      frxPDFExport.FileName := PathWithDelim(DANFEClassOwner.PathPDF) + NomeArq;
+
+
+      frxPDFExport.FileName := DefinirNomeArquivo(DANFEClassOwner.PathPDF,
+                                   OnlyNumber(TACBrNFe(DANFEClassOwner.ACBrNFe).InutNFe.Id) + '-procInutNFe.pdf',
+                                   DANFEClassOwner.NomeDocumento);
 
       if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
         ForceDirectories(ExtractFileDir(frxPDFExport.FileName));
