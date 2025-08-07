@@ -45,6 +45,12 @@ Símbolo : Significado
 
 07/08/2025
 -- ACBrNFSeXServicos --
+[*] #TK-7466: A cidade Nova Itaberaba/SC trocou de provedor, agora é IPM versão 1.01
+[+] #TK-7466: Incluída a cidade Gramado dos Loureiros/RS, provedor DataSmart versão 2.02
+   Por: VEXCOM Sistemas - Valtair
+[+] #TK-7474: Incluído diversas cidades de Mato Grosso.
+[+] #TK-7478: Incluído diversas cidades de Goias.
+   Por: Anderson Grolli
 [+] #TK-7473: Incluído diversas cidades de Mato Grosso do Sul.
 [+] #TK-7470: Incluído diversas cidades do Rio Grande do Sul.
 [+] #TK-7467: Incluído diversas cidades do Paraná.
