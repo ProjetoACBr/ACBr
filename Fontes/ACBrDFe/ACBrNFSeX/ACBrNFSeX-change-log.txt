@@ -43,6 +43,18 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+07/08/2025
+-- ACBrNFSeXServicos --
+[+] #TK-7473: Incluído diversas cidades de Mato Grosso do Sul.
+[+] #TK-7470: Incluído diversas cidades do Rio Grande do Sul.
+[+] #TK-7467: Incluído diversas cidades do Paraná.
+[+] #TK-7469: Incluído diversas cidades de Santa Catarina.
+   Por: Anderson Grolli
+[*] #TK-7471: A cidade Pedra Preta/MT mudou a URL, o provedor continua o mesmo.
+   Por: Anderson Grolli
+[*] #TK-7466: A cidade Tangara da Serra/MT trocou de provedor, agora é Centi versão 2.02
+   Por: Diego Reckziegel
+
 05/08/2025
 -- ACBrNFSeXServicos --
 [+] #TK-7457: Incluído diversas cidades de São Paulo
