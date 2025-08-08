@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/08/2025
+-- ACBrDFeComum.RetDistDFeInt --
+[*] Corrigido o tipo do campo qItem de Integer para Double.
+   Por: M & M INFORMATICA LTDA
+
 26/03/2025
 -- ACBrDFeComum.RetConsCad --
 [*] Alteração visando retornar o CEP como uma string em vez de Integer, pelo fato
