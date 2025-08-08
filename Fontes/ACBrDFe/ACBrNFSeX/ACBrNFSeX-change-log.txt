@@ -45,6 +45,9 @@ Símbolo : Significado
 
 07/08/2025
 -- ACBrNFSeXServicos --
+[*] #TK-7451: Incluído o Params NaoFormatarItemServicoSemZeroEsquerda para a cidade 
+              Jundiaí/SP.
+   Por: Italo Giurizzato Junior
 [*] #TK-7466: A cidade Nova Itaberaba/SC trocou de provedor, agora é IPM versão 1.01
 [+] #TK-7466: Incluída a cidade Gramado dos Loureiros/RS, provedor DataSmart versão 2.02
    Por: VEXCOM Sistemas - Valtair
