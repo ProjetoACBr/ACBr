@@ -1126,7 +1126,7 @@ begin
       tawsSandBox    : OAuth.URL.URLSandBox     := C_URL_OAUTH_SANDBOX;
     end;
 
-    OAuth.Payload := not (OAuth.Ambiente = tawsProducao);
+    OAuth.Payload := True;
   end;
 end;
 
