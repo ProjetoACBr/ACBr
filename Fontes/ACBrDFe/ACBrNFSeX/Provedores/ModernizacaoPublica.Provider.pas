@@ -77,6 +77,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.XMLHTML, ACBrUtil.Strings,
   ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes,
   ACBrNFSeXNotasFiscais, ModernizacaoPublica.GravarXml, ModernizacaoPublica.LerXml;

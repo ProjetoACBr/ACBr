@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 08/08/2025
+-- ModernizacaoPublica.GravarXml --
+[*] #TK-7477: Removido a linha que defini o formato da aliquota como sendo um valor
+              inteiro.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXLerXml --
 [*] #TK-7477: Trocado a função StrToFloatDef para StringToFloatDef na leitura de
               campo que contem valores, essa troca visa aceitar tanto o ponto como 
