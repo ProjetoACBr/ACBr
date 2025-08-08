@@ -199,7 +199,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   AuxNode := ANode.Childrens.FindAnyNs('infProt');
-  if Assigned(ANode) then
+  if Assigned(AuxNode) then
   begin
     NFe.procNFe.tpAmb    := StrToTpAmb(ok, ObterConteudo(AuxNode.Childrens.Find('tpAmb'), tcStr));
     NFe.procNFe.verAplic := ObterConteudo(AuxNode.Childrens.Find('verAplic'), tcStr);
