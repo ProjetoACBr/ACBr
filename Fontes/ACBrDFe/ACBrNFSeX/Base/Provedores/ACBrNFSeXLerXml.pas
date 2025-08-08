@@ -40,6 +40,7 @@ uses
   SysUtils, Classes, IniFiles, types,
   ACBrBase,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrXmlReader,
   ACBrXmlDocument,
   ACBrNFSeXInterface, ACBrNFSeXClass, ACBrNFSeXConversao;
@@ -414,12 +415,12 @@ begin
     if xItemServico = '' then
       xItemServico := NFSe.Servico.ItemListaServico;
 
-    fQuantidade := StrToFloatDef(ExtraiValorCampo('Quantidade', True), 0);
-    fValorUnitario := StrToFloatDef(ExtraiValorCampo('ValorUnitario', True), 0);
-    fValorServico := StrToFloatDef(ExtraiValorCampo('ValorServico', True), 0);
-    fValorBC := StrToFloatDef(ExtraiValorCampo('ValorBaseCalculo', True), 0);
-    fAliquota := StrToFloatDef(ExtraiValorCampo('Aliquota', True), 0);
-    fValorISS := StrToFloatDef(ExtraiValorCampo('ValorISS', True), 0);
+    fQuantidade := StringToFloatDef(ExtraiValorCampo('Quantidade', True), 0);
+    fValorUnitario := StringToFloatDef(ExtraiValorCampo('ValorUnitario', True), 0);
+    fValorServico := StringToFloatDef(ExtraiValorCampo('ValorServico', True), 0);
+    fValorBC := StringToFloatDef(ExtraiValorCampo('ValorBaseCalculo', True), 0);
+    fAliquota := StringToFloatDef(ExtraiValorCampo('Aliquota', True), 0);
+    fValorISS := StringToFloatDef(ExtraiValorCampo('ValorISS', True), 0);
 
     with NFSe.Servico.ItemServico.New do
     begin
@@ -622,7 +623,7 @@ begin
       InfID.ID := AINIRec.ReadString(sSecao, 'ID', '');
       NfseSubstituida := AINIRec.ReadString(sSecao, 'NfseSubstituida', '');
       NfseSubstituidora := AINIRec.ReadString(sSecao, 'NfseSubstituidora', '');
-      ValorCredito := StrToFloatDef(AINIRec.ReadString(sSecao, 'ValorCredito', ''), 0);
+      ValorCredito := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorCredito', ''), 0);
       ChaveAcesso := AINIRec.ReadString(sSecao, 'ChaveAcesso', '');
       Link := AINIRec.ReadString(sSecao, 'Link', '');
       DescricaoCodigoTributacaoMunicipio := AINIRec.ReadString(sSecao, 'DescricaoCodigoTributacaoMunicipio', '');
@@ -938,8 +939,8 @@ begin
       Servico.Tributacao := FpAOwner.StrToTributacao(Ok, AINIRec.ReadString(sSecao, 'Tributacao', ''));
       // Provedor ISSSaoPaulo
       Servico.ValorTotalRecebido := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorTotalRecebido', ''), 0);
-      Servico.ValorCargaTributaria := StrToFloatDef(AINIRec.ReadString(sSecao, 'ValorCargaTributaria', ''), 0);
-      Servico.PercentualCargaTributaria := StrToFloatDef(AINIRec.ReadString(sSecao, 'PercentualCargaTributaria', ''), 0);
+      Servico.ValorCargaTributaria := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorCargaTributaria', ''), 0);
+      Servico.PercentualCargaTributaria := StringToFloatDef(AINIRec.ReadString(sSecao, 'PercentualCargaTributaria', ''), 0);
       Servico.FonteCargaTributaria := AINIRec.ReadString(sSecao, 'FonteCargaTributaria', '');
 
       // Provedor IssNet e Padrão Nacional
@@ -984,9 +985,9 @@ begin
         TipoDeducao := FpAOwner.StrToTipoDeducao(Ok, AINIRec.ReadString(sSecao, 'TipoDeducao', ''));
         CpfCnpjReferencia := AINIRec.ReadString(sSecao, 'CpfCnpjReferencia', '');
         NumeroNFReferencia := AINIRec.ReadString(sSecao, 'NumeroNFReferencia', '');
-        ValorTotalReferencia := StrToFloatDef(AINIRec.ReadString(sSecao, 'ValorTotalReferencia', ''), 0);
-        PercentualDeduzir := StrToFloatDef(AINIRec.ReadString(sSecao, 'PercentualDeduzir', ''), 0);
-        ValorDeduzir := StrToFloatDef(sFim, 0);
+        ValorTotalReferencia := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorTotalReferencia', ''), 0);
+        PercentualDeduzir := StringToFloatDef(AINIRec.ReadString(sSecao, 'PercentualDeduzir', ''), 0);
+        ValorDeduzir := StringToFloatDef(sFim, 0);
       end;
 
       Inc(i);
@@ -1005,8 +1006,8 @@ begin
       begin
         Codigo := AINIRec.ReadInteger(sSecao, 'Codigo', 0);
         Descricao := AINIRec.ReadString(sSecao, 'Descricao', '');
-        Aliquota := StrToFloatDef(AINIRec.ReadString(sSecao, 'Aliquota', ''), 0);
-        Valor := StrToFloatDef(sFim, 0);
+        Aliquota := StringToFloatDef(AINIRec.ReadString(sSecao, 'Aliquota', ''), 0);
+        Valor := StringToFloatDef(sFim, 0);
       end;
       Inc(i);
     end;
@@ -1026,7 +1027,7 @@ begin
         nItemDesp := AINIRec.ReadString(sSecao, 'nItemDesp', '');
         xDesp := AINIRec.ReadString(sSecao, 'xDesp', '');
         dDesp := AINIRec.ReadDateTime(sSecao, 'dDesp', 0);
-        vDesp := StrToFloatDef(sFim, 0);
+        vDesp := StringToFloatDef(sFim, 0);
       end;
 
       Inc(i);
@@ -1063,7 +1064,7 @@ begin
         QtdHospedes := AINIRec.ReadInteger(sSecao, 'QtdHospedes', 0);
         CheckIn := AINIRec.ReadDateTime(sSecao, 'CheckIn', 0);
         QtdDiarias := AINIRec.ReadInteger(sSecao, 'QtdDiarias', 0);
-        ValorDiaria := StrToFloatDef(AINIRec.ReadString(sSecao, 'ValorDiaria', ''), 0);
+        ValorDiaria := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorDiaria', ''), 0);
       end;
 
       Inc(i);
@@ -1153,9 +1154,9 @@ begin
         Item.DadosDeducao.TipoDeducao := FpAOwner.StrToTipoDeducao(Ok, AINIRec.ReadString(sSecao, 'TipoDeducao', ''));
         Item.DadosDeducao.CpfCnpj := AINIRec.ReadString(sSecao, 'CpfCnpj', '');
         Item.DadosDeducao.NumeroNotaFiscalReferencia := AINIRec.ReadString(sSecao, 'NumeroNotaFiscalReferencia', '');
-        Item.DadosDeducao.ValorTotalNotaFiscal := StrToFloatDef(AINIRec.ReadString(sSecao, 'ValorTotalNotaFiscal', ''), 0);
-        Item.DadosDeducao.PercentualADeduzir := StrToFloatDef(AINIRec.ReadString(sSecao, 'PercentualADeduzir', ''), 0);
-        Item.DadosDeducao.ValorADeduzir := StrToFloatDef(AINIRec.ReadString(sSecao, 'ValorADeduzir', ''), 0);
+        Item.DadosDeducao.ValorTotalNotaFiscal := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorTotalNotaFiscal', ''), 0);
+        Item.DadosDeducao.PercentualADeduzir := StringToFloatDef(AINIRec.ReadString(sSecao, 'PercentualADeduzir', ''), 0);
+        Item.DadosDeducao.ValorADeduzir := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorADeduzir', ''), 0);
       end;
 
       Inc(i);
@@ -1233,10 +1234,10 @@ begin
     sSecao := 'ValoresNFSe';
     if AINIRec.SectionExists(sSecao) then
     begin
-      ValoresNfse.BaseCalculo := StrToFloatDef(AINIRec.ReadString(sSecao, 'BaseCalculo', ''), 0);
-      ValoresNfse.Aliquota := StrToFloatDef(AINIRec.ReadString(sSecao, 'Aliquota', ''), 0);
-      ValoresNfse.ValorLiquidoNfse := StrToFloatDef(AINIRec.ReadString(sSecao, 'ValorLiquidoNfse', ''), 0);
-      ValoresNfse.ValorIss := StrToFloatDef(AINIRec.ReadString(sSecao, 'ValorIss', ''), 0);
+      ValoresNfse.BaseCalculo := StringToFloatDef(AINIRec.ReadString(sSecao, 'BaseCalculo', ''), 0);
+      ValoresNfse.Aliquota := StringToFloatDef(AINIRec.ReadString(sSecao, 'Aliquota', ''), 0);
+      ValoresNfse.ValorLiquidoNfse := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorLiquidoNfse', ''), 0);
+      ValoresNfse.ValorIss := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorIss', ''), 0);
     end;
 
     // Condição de Pagamento usado pelo provedor Betha versão 1 do Layout da ABRASF

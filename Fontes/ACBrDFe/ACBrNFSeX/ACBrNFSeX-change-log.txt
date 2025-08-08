@@ -44,6 +44,11 @@ Símbolo : Significado
 
 
 08/08/2025
+-- ACBrNFSeXLerXml --
+[*] #TK-7477: Trocado a função StrToFloatDef para StringToFloatDef na leitura de
+              campo que contem valores, essa troca visa aceitar tanto o ponto como 
+              a virgula como separador de decimal em função da configuração.
+   Por: Italo Giurizzato Junior
 -- SigISSWeb.LerXml --
 [*] #TK-7475: Trocado o tipo de campo de tcDat para tcDatVcto do campo DataEmissao
               ao ler o XML de um RPS.
