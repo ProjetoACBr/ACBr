@@ -56,6 +56,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrNFSeXConversao;
 
 //==============================================================================
@@ -68,7 +69,7 @@ uses
 function TNFSeW_SigISSWeb.GerarXml: Boolean;
 var
   NFSeNode: TACBrXmlNode;
-  tomadorIdentificado, tipoPessoa: string;
+  tomadorIdentificado, tipoPessoa, item: string;
 begin
   Configuracao;
 
@@ -161,8 +162,10 @@ begin
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'descricao', 1, 100, 1,
                                                NFSe.Servico.Discriminacao, ''));
 
+  item := FormatarItemServico(NFSe.Servico.ItemListaServico, FormatoItemListaServico);
+
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'id_codigo_servico', 1, 5, 1,
-                                            NFSe.Servico.ItemListaServico, ''));
+                                                                     item, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cancelada', 1, 1, 1, 'N', ''));
 

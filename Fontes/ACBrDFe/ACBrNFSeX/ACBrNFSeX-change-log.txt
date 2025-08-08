@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+08/08/2025
+-- SigISSWeb.LerXml --
+[*] #TK-7475: Trocado o tipo de campo de tcDat para tcDatVcto do campo DataEmissao
+              ao ler o XML de um RPS.
+   Por: jaidomini
+
 07/08/2025
 -- ACBrNFSeXServicos --
 [*] #TK-7451: Incluído o Params NaoFormatarItemServicoSemZeroEsquerda para a cidade 

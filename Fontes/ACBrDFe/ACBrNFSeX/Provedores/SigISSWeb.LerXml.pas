@@ -38,8 +38,11 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrXmlBase, ACBrXmlDocument,
-  ACBrNFSeXConversao, ACBrNFSeXLerXml;
+  ACBrXmlBase,
+  ACBrXmlDocument,
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao,
+  ACBrNFSeXLerXml;
 
 type
   { TNFSeR_SigISSWeb }
@@ -326,7 +329,7 @@ begin
     Numero := ObterConteudo(ANode.Childrens.FindAnyNs('numero_nf'), tcStr);
     SeriePrestacao := ObterConteudo(ANode.Childrens.FindAnyNs('serie'), tcStr);
 
-    DataEmissao := ObterConteudo(ANode.Childrens.FindAnyNs('data_emissao'), tcDat);
+    DataEmissao := ObterConteudo(ANode.Childrens.FindAnyNs('data_emissao'), tcDatVcto);
 //    <forma_de_pagamento></forma_de_pagamento>
 
     Servico.Discriminacao := ObterConteudo(ANode.Childrens.FindAnyNs('descricao'), tcStr);
