@@ -653,7 +653,7 @@ begin
               end;
 
               j := 0;
-              while Leitor.rExtrai(3, 'itensAverbados', '', j + 1) <> '' do
+              while oLeitorInfZip.rExtrai(3, 'itensAverbados', '', j + 1) <> '' do
               begin
                 FdocZip.Items[i].FprocEvento.detEvento.FitensAverbados.New;
 

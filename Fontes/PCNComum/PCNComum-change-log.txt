@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/08/2025
+-- pcnRetDistDFeInt --
+[*] #TK-7484: Alteração visando a leitura do grupo itensAverbados.
+  Por: M & M INFORMATICA LTDA
+
 26/02/2025
 -- pcnLeitor --
 [*] #TK-6581: Altera uso da ReverterFiltroTextoXML pela DecodeHTMLEntities
