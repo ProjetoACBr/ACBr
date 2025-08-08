@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 08/08/2025
+-- ACBrNFSeXServicos --
+[*] #TK-7480: A cidade Cianorte/PR trocou de URL, o provedor continua o mesmo.
+   Por: Arthur Haupt Pacheco
 -- DeISS.GravarXml --
 [*] #TK-7483: Alterado as condições para definir se a tag ValorIss deve ou não ser
               gerada no XML.
