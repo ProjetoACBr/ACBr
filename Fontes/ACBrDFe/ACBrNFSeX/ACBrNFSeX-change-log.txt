@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 08/08/2025
+-- DeISS.GravarXml --
+[*] #TK-7483: Alterado as condições para definir se a tag ValorIss deve ou não ser
+              gerada no XML.
+   Por: Danilo MSI Soluções
 -- ModernizacaoPublica.GravarXml --
 [*] #TK-7477: Removido a linha que defini o formato da aliquota como sendo um valor
               inteiro.
