@@ -155,17 +155,21 @@
         <UnitName Value="ACBrConsultaCNPJ.WS.CNPJWS"/>
       </Item29>
       <Item30>
-        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBr.Auth.JWT.pas"/>
-        <UnitName Value="ACBr.Auth.JWT"/>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrConsultaCNPJ\ACBrConsultaCNPJ.WS.MinhaReceita.pas"/>
+        <UnitName Value="ACBrConsultaCNPJ.WS.MinhaReceita"/>
       </Item30>
       <Item31>
-        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrCupomVerde.pas"/>
-        <UnitName Value="ACBrCupomVerde"/>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBr.Auth.JWT.pas"/>
+        <UnitName Value="ACBr.Auth.JWT"/>
       </Item31>
       <Item32>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrCupomVerde.pas"/>
+        <UnitName Value="ACBrCupomVerde"/>
+      </Item32>
+      <Item33>
         <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrIMendes.pas"/>
         <UnitName Value="ACBrIMendes"/>
-      </Item32>
+      </Item33>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">

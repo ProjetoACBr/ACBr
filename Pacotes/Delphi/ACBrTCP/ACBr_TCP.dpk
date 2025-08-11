@@ -50,6 +50,7 @@ contains
   ACBrConsultaCNPJ.WS.BrasilAPI in '..\..\..\Fontes\ACBrTCP\ACBrConsultaCNPJ\ACBrConsultaCNPJ.WS.BrasilAPI.pas',
   ACBrConsultaCNPJ.WS.ReceitaWS in '..\..\..\Fontes\ACBrTCP\ACBrConsultaCNPJ\ACBrConsultaCNPJ.WS.ReceitaWS.pas',
   ACBrConsultaCNPJ.WS.CNPJWS in '..\..\..\Fontes\ACBrTCP\ACBrConsultaCNPJ\ACBrConsultaCNPJ.WS.CNPJWS.pas',
+  ACBrConsultaCNPJ.WS.MinhaReceita in '..\..\..\Fontes\ACBrTCP\ACBrConsultaCNPJ\ACBrConsultaCNPJ.WS.MinhaReceita.pas',
   ACBrConsultaCPF in '..\..\..\Fontes\ACBrTCP\ACBrConsultaCPF.pas',
   ACBrCotacao in '..\..\..\Fontes\ACBrTCP\ACBrCotacao.pas',
   ACBrMail in '..\..\..\Fontes\ACBrTCP\ACBrMail.pas',
