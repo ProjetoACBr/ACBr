@@ -406,7 +406,7 @@ end;
 
 procedure TBoletoW_Sicoob_V3.RequisicaoJson;
 var
-  Data: string;
+  LNumContrato : Integer;
   LJson: TACBrJSONObject;
 begin
   if not Assigned(aTitulo) then
@@ -469,7 +469,9 @@ begin
 
     LJson.AddPair('gerarPdf',false);
     LJson.AddPair('codigoCadastrarPIX',StrToInt(IfThen(Boleto.Cedente.CedenteWS.IndicadorPix,'1','0')));
-
+    LNumContrato := StrToIntDef(aTitulo.ACBrBoleto.Cedente.CodigoCedente, 0);
+    if LNumContrato > 0 then
+      LJson.AddPair('numeroContratoCobranca',LNumContrato);
     FPDadosMsg := LJson.ToJSON;
   finally
     LJson.Free;
