@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrXmlBase, ACBrXmlDocument,
+  ACBrXmlBase,
+  ACBrXmlDocument,
   ACBrNFSeXGravarXml;
 
 type
@@ -57,6 +58,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrNFSeXConversao,
   ACBrNFSeXConsts,
   ACBrUtil.Strings;
@@ -129,7 +131,7 @@ begin
     Result[i].AppendChild(AddNode(tcStr, '#55', 'iServico', 1, 6, 1,
                  OnlyNumber(NFSe.Servico.ItemServico[i].ItemListaServico), ''));
 
-    Result[i].AppendChild(AddNode(tcStr, '#55', 'sCNAE', 1, 6, 1,
+    Result[i].AppendChild(AddNode(tcStr, '#55', 'sCNAE', 1, 9, 1,
                                    NFSe.Servico.ItemServico[i].CodigoCnae, ''));
 
     Result[i].AppendChild(AddNode(tcDe2, '#57', 'nValorServico', 1, 15, 1,

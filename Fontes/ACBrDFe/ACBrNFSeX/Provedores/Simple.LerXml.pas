@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrXmlBase, ACBrXmlDocument,
+  ACBrXmlBase,
+  ACBrXmlDocument,
   ACBrNFSeXConversao, ACBrNFSeXLerXml;
 
 type
@@ -58,6 +59,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Base,
   ACBrUtil.Strings;
 
@@ -198,7 +200,7 @@ begin
     SeriePrestacao := ObterConteudo(ANode.Childrens.FindAnyNs('sSerie'), tcStr);
     DataEmissao := ObterConteudo(ANode.Childrens.FindAnyNs('dDataEmissao'), tcDatHor);
     CodigoVerificacao := ObterConteudo(ANode.Childrens.FindAnyNs('sCodigoVerificador'), tcStr);
-    SituacaoNfse := StrToStatusNFSe(Ok, ObterConteudo(ANode.Childrens.FindAnyNs('sSituacao'), tcStr));
+    SituacaoNfse := StrToEnumerado(Ok, ObterConteudo(ANode.Childrens.FindAnyNs('sSituacao'), tcStr), ['N', 'C'], [snNormal, snCancelado]);
     Competencia := DataEmissao;
 
     Servico.Valores.ValorServicos := ObterConteudo(ANode.Childrens.FindAnyNs('nValorTotal'), tcDe2);

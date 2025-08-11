@@ -717,6 +717,8 @@ begin
     tpRetorno := aInfConsultaNFSe.tpRetorno;
     ChaveNFSe := aInfConsultaNFSe.ChaveNFSe;
     Pagina := aInfConsultaNFSe.Pagina;
+    NumeroRps := aInfConsultaNFSe.NumeroRps;
+    DataRecibo := aInfConsultaNFSe.DataRecibo;
   end;
 
   ConsultarNFSe;

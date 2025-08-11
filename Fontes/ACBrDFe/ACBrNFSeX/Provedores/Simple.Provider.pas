@@ -100,6 +100,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrDFeException,
@@ -209,8 +210,8 @@ procedure TACBrNFSeProviderSimple.GerarMsgDadosEmitir(
   Response: TNFSeEmiteResponse; Params: TNFSeParamsResponse);
 begin
   Response.ArquivoEnvio := '<tNota>' +
-                          Params.Xml +
-                       '</tNota>';
+                              Params.Xml +
+                           '</tNota>';
 end;
 
 procedure TACBrNFSeProviderSimple.TratarRetornoEmitir(Response: TNFSeEmiteResponse);
@@ -296,7 +297,7 @@ var
   AErro: TNFSeEventoCollectionItem;
   Emitente: TEmitenteConfNFSe;
 begin
-  if EstaVazio(Response.NumeroRps) then
+  if EstaVazio(Response.InfConsultaNFSe.NumeroRps) then
   begin
     AErro := Response.Erros.New;
     AErro.Codigo := Cod102;
@@ -304,11 +305,21 @@ begin
     Exit;
   end;
 
+  if Response.InfConsultaNFSe.DataRecibo = 0 then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod136;
+    AErro.Descricao := ACBrStr(Desc136);
+    Exit;
+  end;
+
   Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
 
-  Response.ArquivoEnvio := '<iRPS>' + Response.NumeroRps + '</iRPS>' +
-                       '<sCPFCNPJ>' + OnlyNumber(Emitente.CNPJ) + '</sCPFCNPJ>' +
-                       '<dDataRecibo>' + '</dDataRecibo>';
+  Response.ArquivoEnvio := '<iRPS>' + Response.InfConsultaNFSe.NumeroRps + '</iRPS>' +
+                           '<sCPFCNPJ>' + OnlyNumber(Emitente.CNPJ) + '</sCPFCNPJ>' +
+                           '<dDataRecibo>' +
+                             FormatDateTime('YYYY-MM-DD', Response.InfConsultaNFSe.DataRecibo) +
+                           '</dDataRecibo>';
 end;
 
 procedure TACBrNFSeProviderSimple.TratarRetornoConsultaNFSeporRps(
@@ -398,7 +409,7 @@ begin
       Response.Metodo := tmConsultarNFSe;
 
       Response.ArquivoEnvio := '<iNota>' + Response.InfConsultaNFSe.NumeroIniNFSe + '</iNota>' +
-                           '<sCPFCNPJ>' + OnlyNumber(Emitente.CNPJ) + '</sCPFCNPJ>';
+                               '<sCPFCNPJ>' + OnlyNumber(Emitente.CNPJ) + '</sCPFCNPJ>';
     end;
   end;
 end;
@@ -501,12 +512,12 @@ begin
   Response.Metodo := tmConsultarNFSePorFaixa;
 
   Response.ArquivoEnvio := '<dDataInicial>' +
-                         FormatDateTime('YYYY-MM-DD', Response.InfConsultaNFSe.DataInicial) +
-                       '</dDataInicial>' +
-                       '<dDataFinal>' +
-                         FormatDateTime('YYYY-MM-DD', Response.InfConsultaNFSe.DataFinal) +
-                       '</dDataFinal>' +
-                       '<sCPFCNPJ>' + OnlyNumber(Emitente.CNPJ) + '</sCPFCNPJ>';
+                             FormatDateTime('YYYY-MM-DD', Response.InfConsultaNFSe.DataInicial) +
+                           '</dDataInicial>' +
+                           '<dDataFinal>' +
+                             FormatDateTime('YYYY-MM-DD', Response.InfConsultaNFSe.DataFinal) +
+                           '</dDataFinal>' +
+                           '<sCPFCNPJ>' + OnlyNumber(Emitente.CNPJ) + '</sCPFCNPJ>';
 end;
 
 procedure TACBrNFSeProviderSimple.TratarRetornoConsultaNFSeporFaixa(
@@ -605,25 +616,25 @@ begin
   Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
 
   Response.ArquivoEnvio := '<tCancelamentoNota>' +
-                         '<CancelamentoNota>' +
-                           '<sRetornoCanc>' + '</sRetornoCanc>' +
-                           '<sContribuinteCanc>' +
-                             OnlyNumber(Emitente.CNPJ) +
-                           '</sContribuinteCanc>' +
-                           '<iNotaCanc>' +
-                             Response.InfCancelamento.NumeroNFSe +
-                           '</iNotaCanc>' +
-                           '<sSerieCanc>' +
-                             Response.InfCancelamento.SerieNFSe +
-                           '</sSerieCanc>' +
-                           '<dDataCancelamento>' +
-                             FormatDateTime('YYYY-MM-DD', Date) +
-                           '</dDataCancelamento>' +
-                           '<sMotivoCanc>' +
-                             Response.InfCancelamento.MotCancelamento +
-                           '</sMotivoCanc>' +
-                         '</CancelamentoNota>' +
-                       '</tCancelamentoNota>';
+                           '<CancelamentoNota>' +
+                             '<sRetornoCanc>' + '</sRetornoCanc>' +
+                             '<sContribuinteCanc>' +
+                               OnlyNumber(Emitente.CNPJ) +
+                             '</sContribuinteCanc>' +
+                             '<iNotaCanc>' +
+                               Response.InfCancelamento.NumeroNFSe +
+                             '</iNotaCanc>' +
+                             '<sSerieCanc>' +
+                               Response.InfCancelamento.SerieNFSe +
+                             '</sSerieCanc>' +
+                             '<dDataCancelamento>' +
+                               FormatDateTime('YYYY-MM-DD', Date) +
+                             '</dDataCancelamento>' +
+                             '<sMotivoCanc>' +
+                               Response.InfCancelamento.MotCancelamento +
+                             '</sMotivoCanc>' +
+                           '</CancelamentoNota>' +
+                         '</tCancelamentoNota>';
 end;
 
 procedure TACBrNFSeProviderSimple.TratarRetornoCancelaNFSe(

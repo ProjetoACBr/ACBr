@@ -49,7 +49,9 @@ uses
      {$ENDIF}
    {$ENDIF}
   {$ENDIF}
-  ACBrBase, ACBrDFe, ACBrDFeConfiguracoes, ACBrDFeSSL,
+  ACBrBase,
+  ACBrDFe.Conversao,
+  ACBrDFe, ACBrDFeConfiguracoes, ACBrDFeSSL,
   ACBrXmlDocument, ACBrNFSeXConversao;
 
 resourcestring
@@ -268,7 +270,8 @@ type
    FCodVerificacao: string;
    FChaveNFSe: string;
    FPagina: Integer;
-
+   FNumeroRps: string;
+   FDataRecibo: TDateTime;
  public
    constructor Create;
 
@@ -295,6 +298,8 @@ type
    property CodVerificacao: string  read FCodVerificacao write FCodVerificacao;
    property ChaveNFSe: string       read FChaveNFSe     write FChaveNFSe;
    property Pagina: Integer         read FPagina        write FPagina;
+   property NumeroRps: string       read FNumeroRps     write FNumeroRps;
+   property DataRecibo: TDateTime   read FDataRecibo    write FDataRecibo;
  end;
 
   TInfConsultaLinkNFSe = class
@@ -1586,6 +1591,8 @@ begin
   CodVerificacao:= '';
   ChaveNFSe     := '';
   Pagina        := 1;
+  NumeroRps     := '';
+  DataRecibo    := 0;
 end;
 
 function TInfConsultaNFSe.LerFromIni(const AIniStr: string): Boolean;
@@ -1627,6 +1634,8 @@ begin
     CodVerificacao := INIRec.ReadString(sSecao, 'CodVerificacao', '');
     ChaveNFSe     := INIRec.ReadString(sSecao, 'ChaveNFSe', '');
     Pagina        := INIRec.ReadInteger(sSecao, 'Pagina', 1);
+    NumeroRps     := INIRec.ReadString(sSecao, 'NumeroRps', '');
+    DataRecibo    := StringToDateTime(INIRec.ReadString(sSecao, 'DataRecibo', '0'));
 
     Result := True;
   finally

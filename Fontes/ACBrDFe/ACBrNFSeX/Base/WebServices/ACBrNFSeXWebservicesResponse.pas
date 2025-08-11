@@ -343,6 +343,7 @@ type
     FCodigoVerificacao: string;
     FCancelamento: TNFSeCancelamento;
     FCNPJCPFTomador: string;
+    FInfConsultaNFSe: TInfConsultaNFSe;
   public
     constructor Create;
     destructor Destroy; override;
@@ -355,6 +356,7 @@ type
     property CodigoVerificacao: string read FCodigoVerificacao write FCodigoVerificacao;
     property Cancelamento: TNFSeCancelamento read FCancelamento write FCancelamento;
     property CNPJCPFTomador: string read FCNPJCPFTomador write FCNPJCPFTomador;
+    property InfConsultaNFSe: TInfConsultaNFSe read FInfConsultaNFSe write FInfConsultaNFSe;
   end;
 
   TNFSeConsultaNFSeResponse = class(TNFSeWebserviceResponse)
@@ -879,6 +881,11 @@ begin
     FCancelamento.Free;
 
   FCancelamento := TNFSeCancelamento.Create;
+
+  if Assigned(FInfConsultaNFSe) then
+    FInfConsultaNFSe.Free;
+
+  FInfConsultaNFSe := TInfConsultaNFSe.Create;
 end;
 
 constructor TNFSeConsultaNFSeporRpsResponse.Create;
@@ -892,6 +899,9 @@ destructor TNFSeConsultaNFSeporRpsResponse.Destroy;
 begin
   if Assigned(FCancelamento) then
     FCancelamento.Free;
+
+  if Assigned(FInfConsultaNFSe) then
+    FInfConsultaNFSe.Free;
 
   inherited Destroy;
 end;
