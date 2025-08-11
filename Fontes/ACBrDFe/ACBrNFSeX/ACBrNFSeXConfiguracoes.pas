@@ -84,6 +84,7 @@ type
  private
    FCNPJ: String;
    FInscMun: String;
+   FCodigoImobiliario: String;
    FRazSocial: String;
    FWSUser: String;
    FWSSenha: String;
@@ -98,14 +99,15 @@ type
    procedure Assign(Source: TPersistent); override;
 
  published
-   property CNPJ: String           read FCNPJ           write FCNPJ;
-   property InscMun: String        read FInscMun        write FInscMun;
-   property RazSocial: String      read FRazSocial      write FRazSocial;
-   property WSUser: String         read FWSUser         write FWSUser;
-   property WSSenha: String        read FWSSenha        write FWSSenha;
-   property WSFraseSecr: String    read FWSFraseSecr    write FWSFraseSecr;
-   property WSChaveAcesso: String  read FWSChaveAcesso  write FWSChaveAcesso;
-   property WSChaveAutoriz: String read FWSChaveAutoriz write FWSChaveAutoriz;
+   property CNPJ: String              read FCNPJ              write FCNPJ;
+   property InscMun: String           read FInscMun           write FInscMun;
+   property CodigoImobiliario: String read FCodigoImobiliario write FCodigoImobiliario;
+   property RazSocial: String         read FRazSocial         write FRazSocial;
+   property WSUser: String            read FWSUser            write FWSUser;
+   property WSSenha: String           read FWSSenha           write FWSSenha;
+   property WSFraseSecr: String       read FWSFraseSecr       write FWSFraseSecr;
+   property WSChaveAcesso: String     read FWSChaveAcesso     write FWSChaveAcesso;
+   property WSChaveAutoriz: String    read FWSChaveAutoriz    write FWSChaveAutoriz;
 
    property DadosEmitente: TDadosEmitente read FDadosEmitente write FDadosEmitente;
  end;
@@ -330,14 +332,15 @@ constructor TEmitenteConfNFSe.Create;
 begin
   inherited Create;
 
-  FCNPJ           := '';
-  FInscMun        := '';
-  FRazSocial      := '';
-  FWSUser         := '';
-  FWSSenha        := '';
-  FWSFraseSecr    := '';
-  FWSChaveAcesso  := '';
-  FWSChaveAutoriz := '';
+  FCNPJ              := '';
+  FInscMun           := '';
+  FCodigoImobiliario := '';
+  FRazSocial         := '';
+  FWSUser            := '';
+  FWSSenha           := '';
+  FWSFraseSecr       := '';
+  FWSChaveAcesso     := '';
+  FWSChaveAutoriz    := '';
 
   FDadosEmitente := TDadosEmitente.Create;
 end;
@@ -346,14 +349,15 @@ procedure TEmitenteConfNFSe.Assign(Source: TPersistent);
 begin
   if Source is TEmitenteConfNFSe then
   begin
-    FCNPJ           := TEmitenteConfNFSe(Source).CNPJ;
-    FInscMun        := TEmitenteConfNFSe(Source).InscMun;
-    FRazSocial      := TEmitenteConfNFSe(Source).RazSocial;
-    FWSUser         := TEmitenteConfNFSe(Source).WSUser;
-    FWSSenha        := TEmitenteConfNFSe(Source).WSSenha;
-    FWSFraseSecr    := TEmitenteConfNFSe(Source).WSFraseSecr;
-    FWSChaveAcesso  := TEmitenteConfNFSe(Source).WSChaveAcesso;
-    FWSChaveAutoriz := TEmitenteConfNFSe(Source).WSChaveAutoriz;
+    FCNPJ              := TEmitenteConfNFSe(Source).CNPJ;
+    FInscMun           := TEmitenteConfNFSe(Source).InscMun;
+    FCodigoImobiliario := TEmitenteConfNFSe(Source).CodigoImobiliario;
+    FRazSocial         := TEmitenteConfNFSe(Source).RazSocial;
+    FWSUser            := TEmitenteConfNFSe(Source).WSUser;
+    FWSSenha           := TEmitenteConfNFSe(Source).WSSenha;
+    FWSFraseSecr       := TEmitenteConfNFSe(Source).WSFraseSecr;
+    FWSChaveAcesso     := TEmitenteConfNFSe(Source).WSChaveAcesso;
+    FWSChaveAutoriz    := TEmitenteConfNFSe(Source).WSChaveAutoriz;
 
     FDadosEmitente.Assign(TEmitenteConfNFSe(Source).DadosEmitente);
   end
@@ -459,6 +463,7 @@ begin
   begin
     AIni.WriteString(fpConfiguracoes.SessaoIni, 'Emitente.CNPJ', CNPJ);
     AIni.WriteString(fpConfiguracoes.SessaoIni, 'Emitente.InscMun', InscMun);
+    AIni.WriteString(fpConfiguracoes.SessaoIni, 'Emitente.CodigoImobiliario', CodigoImobiliario);
     AIni.WriteString(fpConfiguracoes.SessaoIni, 'Emitente.RazSocial', RazSocial);
     AIni.WriteString(fpConfiguracoes.SessaoIni, 'Emitente.WSUser', WSUser);
     AIni.WriteString(fpConfiguracoes.SessaoIni, 'Emitente.WSSenha', WSSenha);
@@ -499,6 +504,7 @@ begin
   begin
     CNPJ := AIni.ReadString(fpConfiguracoes.SessaoIni, 'Emitente.CNPJ', CNPJ);
     InscMun := AIni.ReadString(fpConfiguracoes.SessaoIni, 'Emitente.InscMun', InscMun);
+    CodigoImobiliario := AIni.ReadString(fpConfiguracoes.SessaoIni, 'Emitente.CodigoImobiliario', CodigoImobiliario);
     RazSocial := AIni.ReadString(fpConfiguracoes.SessaoIni, 'Emitente.RazSocial', RazSocial);
     WSUser := AIni.ReadString(fpConfiguracoes.SessaoIni, 'Emitente.WSUser', WSUser);
     WSSenha := AIni.ReadString(fpConfiguracoes.SessaoIni, 'Emitente.WSSenha', WSSenha);

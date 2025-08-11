@@ -43,6 +43,16 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+11/08/2025
+-- ACBrNFSeXConfiguracoes/AssessorPublico.Provider --
+[*] #TK-7432: Criado a propriedade de configuração CodigoImobiliario dentro de Emitente.
+   Por: João Vitor Bogo/Italo Giurizzato Junior
+-- ACBrNFSeX/ACBrNFSeXConsts/ACBrNFSeXWebserviceBase/ACBrNFSeXWebservicesResponse --
+-- Simple.GravarXml/Simple.LerXml/Simple.Provider --
+[*] #TK-7287: Alterações visando gerar o XML de Consulta da NFS-e Por RPS com o campo
+              dDataRecibo.
+   Por: lucasatz/Italo Giurizzato Junior
+
 08/08/2025
 -- ACBrNFSeXServicos --
 [*] #TK-7480: A cidade Cianorte/PR trocou de URL, o provedor continua o mesmo.
