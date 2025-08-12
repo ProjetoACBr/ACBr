@@ -45,6 +45,8 @@ Símbolo : Significado
 
 12/08/2025
 -- ACBrNFSeXServicos --
+[*] Alterado de https para http a URL da cidade Jurinu/SP.
+   Por: Italo Giurizzato Junior
 [*] A cidade Teresopolis/RJ trocou de provedor, agora é Fiorilli.
    Por: MagoSchmidt
 
