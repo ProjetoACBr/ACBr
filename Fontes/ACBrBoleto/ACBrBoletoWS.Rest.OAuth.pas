@@ -119,6 +119,7 @@ implementation
 uses
   ACBrUtil.DateTime,
   ACBrUtil.Strings,
+  ACBrUtil.XMLHTML,
   ACBrUtil.Base,
   ACBrBoletoWS,
   ACBrJSON,
@@ -201,8 +202,11 @@ function TOAuth.getScope: String;
 begin
   if FScope = '' then
     Raise EACBrBoletoWSOAuthException.Create(ACBrStr('Scope não Informado'));
-
-  Result := FScope;
+  //decodificando para garantir que não está vindo já codificado
+  //por exemplo: escopoA%20escopoB%20escopoC
+  Result := URLDecodeRFC3986(FScope);
+  if not Self.Payload then
+    Result := URLEncodeRFC3986(Result);
 end;
 
 procedure TOAuth.ProcessarRespostaOAuth(const ARetorno: AnsiString);

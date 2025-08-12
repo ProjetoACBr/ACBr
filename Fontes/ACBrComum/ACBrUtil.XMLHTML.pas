@@ -145,6 +145,8 @@ function ReverterFiltroTextoXML(aTexto: String): String;
 function GetNamedEntity(const Entity: string): string;
 function DecodeHTMLEntities(const S: string): string;
 function xml4line(texto: String): String;
+function URLEncodeRFC3986(const S: string): string;
+function URLDecodeRFC3986(const S: string): string;
 
 implementation
 
@@ -671,6 +673,49 @@ begin
     Result := Xml.Text;
   finally
     Xml.Free;
+  end;
+end;
+
+function URLEncodeRFC3986(const S: string): string;
+const
+  UNSAFE_CHARS = ['A'..'Z','a'..'z','0'..'9','-','_','.','~'];
+var
+  I: Integer;
+begin
+  Result := '';
+  for I := 1 to Length(S) do
+  begin
+    if S[I] in UNSAFE_CHARS then
+      Result := Result + S[I]
+    else
+      Result := Result + '%' + IntToHex(Ord(S[I]), 2);
+  end;
+end;
+
+function URLDecodeRFC3986(const S: string): string;
+var
+  I: Integer;
+  LHexVal: string;
+begin
+  Result := '';
+  I := 1;
+  while I <= Length(S) do
+  begin
+    if S[I] = '%' then
+    begin
+      // Garante que existem dois dígitos após o %
+      if (I + 2 <= Length(S)) and
+         (S[I+1] in ['0'..'9','A'..'F','a'..'f']) and
+         (S[I+2] in ['0'..'9','A'..'F','a'..'f']) then
+      begin
+        LHexVal := S[I+1] + S[I+2];
+        Result := Result + Chr(StrToInt('$' + LHexVal));
+        Inc(I, 3);
+        Continue;
+      end;
+    end;
+    Result := Result + S[I];
+    Inc(I);
   end;
 end;
 
