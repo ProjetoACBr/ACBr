@@ -300,7 +300,8 @@ type
   private
     famount: Double;
     fchannel: String;
-    fcustumerCPF: String;
+    fcustomerCNPJ: String;
+    fcustomerCPF: String;
     fcustumerSocialName: String;
     fexpiration: Integer;
     fexternalId: String;
@@ -320,7 +321,8 @@ type
     property amount: Double read famount write famount;
     property externalId: String read fexternalId write fexternalId;
     property custumerSocialName: String read fcustumerSocialName write fcustumerSocialName;
-    property customerCPF: String read fcustumerCPF write fcustumerCPF;
+    property customerCPF: String read fcustomerCPF write fcustomerCPF;
+    property customerCNPJ: String read fcustomerCNPJ write fcustomerCNPJ;
     property typeOrder: String read ftypeOrder write ftypeOrder;
     property channel: String read Fchannel write fchannel;
     property installments: Integer read finstallments write finstallments;
@@ -344,6 +346,7 @@ type
     property externalId;
     property custumerSocialName;
     property customerCPF;
+    property customerCNPJ;
   end;
 
   { TACBrAppLessCalendario }
@@ -1378,7 +1381,8 @@ begin
   aJson
     .AddPair('amount', famount)
     .AddPair('channel', fchannel, False)
-    .AddPair('custumerCPF', fcustumerCPF, False)
+    .AddPair('customerCPF', fcustomerCPF, False)
+    .AddPair('customerCNPJ', fcustomerCNPJ, False)
     .AddPair('custumerSocialName', fcustumerSocialName, False)
     .AddPair('expiration', fexpiration, False)
     .AddPair('externalId', fexternalId)
@@ -1402,7 +1406,8 @@ begin
   aJson
     .Value('amount', famount)
     .Value('channel', fchannel)
-    .Value('custumerCPF', fcustumerCPF)
+    .Value('customerCPF', fcustomerCPF)
+    .Value('customerCNPJ', fcustomerCNPJ)
     .Value('custumerSocialName', fcustumerSocialName)
     .Value('expiration', fexpiration)
     .Value('externalId', fexternalId)
@@ -1427,7 +1432,8 @@ procedure TACBrAppLessOrderClass.Clear;
 begin
   famount := 0;
   fchannel := EmptyStr;
-  fcustumerCPF := EmptyStr;
+  fcustomerCPF := EmptyStr;
+  fcustomerCNPJ := EmptyStr;
   fcustumerSocialName := EmptyStr;
   fexpiration := 0;
   fexternalId := EmptyStr;
@@ -1447,7 +1453,8 @@ begin
   Result :=
     EstaZerado(famount) and
     EstaVazio(fchannel) and
-    EstaVazio(fcustumerCPF) and
+    EstaVazio(fcustomerCPF) and
+    EstaVazio(fcustomerCNPJ) and
     EstaVazio(fcustumerSocialName) and
     EstaZerado(fexpiration) and
     EstaVazio(fexternalId) and
@@ -1467,7 +1474,8 @@ begin
 
   famount := Source.amount;
   fchannel := Source.channel;
-  fcustumerCPF := Source.customerCPF;
+  fcustomerCPF := Source.customerCPF;
+  fcustomerCNPJ := Source.customerCNPJ;
   fcustumerSocialName := Source.custumerSocialName;
   fexpiration := Source.expiration;
   fexternalId := Source.externalId;

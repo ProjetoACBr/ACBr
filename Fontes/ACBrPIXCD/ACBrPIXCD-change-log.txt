@@ -47,6 +47,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/08/2025
+-- ACBrPIXPSPAppLess --
+[*] Alteração para preencher a propriedade correta ao informar um CNPJ na criação da cobrança.
+
+-- ACBrSchemasAppLess --
+[-] Correção da propriedade customerCPF;
+[+] Inclusão da propriedade customerCNPJ.
+    por: Julio Cavalcanti
+
 05/08/2025
 -- ACBrPIXPSPAppLess --
 [*] Alteração para disparar exception caso o PSP AppLess não esteja configurado em ambiente de produção.

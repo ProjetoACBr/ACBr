@@ -174,9 +174,14 @@ begin
   try
     wCob.AsJSON := aJsonCobSolicitada;
 
+    OrderRequest.Clear;
     OrderRequest.amount := wCob.valor.original;
-    OrderRequest.customerCPF := IfThen(EstaVazio(wCob.devedor.cpf), wCob.devedor.cnpj, wCob.devedor.cpf);
     OrderRequest.custumerSocialName := wCob.devedor.nome;
+
+    if not EstaVazio(wCob.devedor.cpf) then
+      OrderRequest.customerCPF:= wCob.devedor.cpf
+    else
+      OrderRequest.customerCNPJ:= wCob.devedor.cnpj;
 
     if (URLPathParams.Count = 1) then
       OrderRequest.externalId := URLPathParams[0]
