@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+12/08/2025
+-- ACBrNFSeXServicos --
+[*] A cidade Teresopolis/RJ trocou de provedor, agora é Fiorilli.
+   Por: MagoSchmidt
+
 11/08/2025
 -- ACBrNFSeXConfiguracoes/AssessorPublico.Provider --
 [*] #TK-7432: Criado a propriedade de configuração CodigoImobiliario dentro de Emitente.
