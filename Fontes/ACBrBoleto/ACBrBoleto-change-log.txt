@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+12/08/2025
+-- ACBrBoletoW_Bradesco --
+[+] Ajustes de rotas, add cedente pessoa física e nossonumero.
+	TK-6963 - Adequação dos endpoints para a consultaDetalhe.
+    Por: Victor Gonzales Pandaaa / Daniel de Morais InfoCotidiano
+
 30/07/2025
 -- ACBrBoletoW_Cora.pas --
 [+] #TK-7437 adicionado tpBaixa Método POST para Baixa

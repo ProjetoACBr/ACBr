@@ -156,14 +156,14 @@ const
   // Portal (com certificado)
   PATH_PIX_PORTAL         = '/boleto-hibrido/cobranca-registro/v1/gerarBoleto';
   PATH_COB_PORTAL         = '/boleto/cobranca-registro/v1/cobranca';
-  PATH_BAIXAR_PORTAL      = '/boleto/cobranca-registro/v1/titulo-baixar';
-  PATH_ALTVENC_PORTAL     = '/boleto/cobranca-registro/v1/alterar-titulo';
-  PATH_CONSULTA_PORTAL    = '/boleto/cobranca-registro/v1/titulo-consultar';
+  PATH_BAIXAR_PORTAL      = '/boleto/cobranca-baixa/v1/baixar';
+  PATH_ALTERAR_PORTAL     = '/boleto/cobranca-altera/v1/alterar';
+  PATH_CONSULTA_PORTAL    = '/boleto/cobranca-consulta/v1/consultar';
 
   // Legado (sem certificado)
   PATH_COB_LEGADO         = '/v1/boleto-hibrido/registrar-boleto';
   PATH_BAIXAR_LEGADO      = '/v1/boleto/titulo-baixar';
-  PATH_ALTVENC_LEGADO     = '/v1/boleto/alterar-titulo';
+  PATH_ALTERAR_LEGADO     = '/v1/boleto/alterar-titulo';
   PATH_CONSULTA_LEGADO    = '/v1/boleto/titulo-consultar';
 
 
@@ -242,9 +242,9 @@ begin
 
           ACBrBoleto.toRemessaAlterarVencimento:
             if LUseCert then
-              LPath := PATH_ALTVENC_PORTAL
+              LPath := PATH_ALTERAR_PORTAL
             else
-              LPath := PATH_ALTVENC_LEGADO;
+              LPath := PATH_ALTERAR_LEGADO;
         else
           raise Exception.Create('Tipo de ocorrência não suportado para alteração.');
         end;
@@ -529,9 +529,17 @@ begin
   LJsonObject := TACBrJSONObject.Create;
   LJsonCnpjCPF := TACBrJSONObject.Create;
   try
-    LJsonCnpjCPF.AddPair('cpfCnpj', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
-    LJsonCnpjCPF.AddPair('filial', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
-    LJsonCnpjCPF.AddPair('controle', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2));
+    if Boleto.Cedente.TipoInscricao = pJuridica then
+    begin
+      LJsonCnpjCPF.AddPair('cpfCnpj', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
+      LJsonCnpjCPF.AddPair('filial', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
+      LJsonCnpjCPF.AddPair('controle', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2));
+    end else
+    begin
+      LJsonCnpjCPF.AddPair('cpfCnpj', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 9));
+      LJsonCnpjCPF.AddPair('filial', '0');
+      LJsonCnpjCPF.AddPair('controle', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 10, 2));
+    end;
     LJsonObject.AddPair('cpfCnpj', LJsonCnpjCPF);
     LJsonObject.AddPair('produto', RemoveZerosEsquerda(ATitulo.Carteira));
     LJsonObject.AddPair('negociacao', AgenciaContaFormatada(11));
@@ -559,11 +567,17 @@ var
 begin
   LJsonObject := TACBrJSONObject.Create;
   try
-    LJsonObject.AddPair('nuCPFCNPJ',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
-    LJsonObject.AddPair('filialCPFCNPJ',Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
-    LJsonObject.AddPair('ctrlCPFCNPJ', IfThen(Boleto.Cedente.TipoInscricao = pJuridica,
-                                        Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2),
-                                        Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 10, 2)));
+    if Boleto.Cedente.TipoInscricao = pJuridica then
+    begin
+      LJsonObject.AddPair('nuCPFCNPJ',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
+      LJsonObject.AddPair('filialCPFCNPJ',Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
+      LJsonObject.AddPair('ctrlCPFCNPJ',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2));
+    end else
+    begin
+      LJsonObject.AddPair('nuCPFCNPJ',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 9));
+      LJsonObject.AddPair('filialCPFCNPJ', '0');
+      LJsonObject.AddPair('ctrlCPFCNPJ',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 10, 2));
+    end;
     LJsonObject.AddPair('idProduto', ATitulo.Carteira);
     LJsonObject.AddPair('nuNegociação', AgenciaContaFormatada(18));
     LJsonObject.AddPair('nuTítulo', OnlyNumber(ATitulo.NossoNumero));
@@ -640,11 +654,18 @@ begin
   try
     LJsonObject.AddPair('registrarTitulo', 1); //1 = Registrar o título 2 = Somente consistir dados do título
     LJsonObject.AddPair('codUsuario', 'APISERVIC');//FIXO.
-    LJsonObject.AddPair('nroCpfCnpjBenef', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
-    LJsonObject.AddPair('filCpfCnpjBenef', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
-    LJsonObject.AddPair('digCpfCnpjBenef', IfThen(Boleto.Cedente.TipoInscricao = pJuridica,
-                                           Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2),
-                                           Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 10, 2)));
+    if Boleto.Cedente.TipoInscricao = pJuridica then
+    begin
+      LJsonObject.AddPair('nroCpfCnpjBenef',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
+      LJsonObject.AddPair('filCpfCnpjBenef',Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
+      LJsonObject.AddPair('digCpfCnpjBenef',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2));
+    end else
+    begin
+      LJsonObject.AddPair('nroCpfCnpjBenef',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 9));
+      LJsonObject.AddPair('filCpfCnpjBenef', '0');
+      LJsonObject.AddPair('digCpfCnpjBenef',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 10, 2));
+    end;
+
     LJsonObject.AddPair('tipoAcesso', 2);//FIXO.
     LJsonObject.AddPair('cpssoaJuridContr', 0);//FIXO.
     LJsonObject.AddPair('ctpoContrNegoc', 0);//FIXO.
@@ -657,9 +678,9 @@ begin
     //tipoRegistro: 1-Título 2-Título com Instrução de Protesto 3-Título com Instrução de Protesto Falimentar.
     LJsonObject.AddPair('tipoRegistro', 1);//NÃO Obrigatório;
     LJsonObject.AddPair('cprodtServcOper', 0);//FIXO.
-    if Boleto.Configuracoes.WebService.UseCertificateHTTP then //PORTAL DEVELOPERS
-      LJsonObject.AddPair('ctitloCobrCdent', OnlyNumber(ATitulo.NossoNumero)+ATitulo.ACBrBoleto.Banco.CalcularDigitoVerificador(ATitulo))
-    else
+//    if Boleto.Configuracoes.WebService.UseCertificateHTTP then //PORTAL DEVELOPERS
+//      LJsonObject.AddPair('ctitloCobrCdent', OnlyNumber(ATitulo.NossoNumero)+ATitulo.ACBrBoleto.Banco.CalcularDigitoVerificador(ATitulo))
+//    else
       LJsonObject.AddPair('ctitloCobrCdent', OnlyNumber(ATitulo.NossoNumero));//LEGADO
 
     //ctitloCliCdent: Identificador do título pelo beneficiário(Seu Número).
@@ -842,9 +863,18 @@ begin
   LJsonObject := TACBrJSONObject.Create;
   try
     LJsonCpfCnpj := TACBrJSONObject.Create;
-    LJsonCpfCnpj.AddPair('cpfCnpj', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
-    LJsonCpfCnpj.AddPair('filial', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
-    LJsonCpfCnpj.AddPair('controle', Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2));
+
+    if Boleto.Cedente.TipoInscricao = pJuridica then
+    begin
+      LJsonCpfCnpj.AddPair('cpfCnpj',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 8));
+      LJsonCpfCnpj.AddPair('filial',Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 9, 4));
+      LJsonCpfCnpj.AddPair('controle',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 13, 2));
+    end else
+    begin
+      LJsonCpfCnpj.AddPair('cpfCnpj',    Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 1, 9));
+      LJsonCpfCnpj.AddPair('filial', '0');
+      LJsonCpfCnpj.AddPair('controle',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 10, 2));
+    end;
     LJsonObject.AddPair('cpfCnpj', LJsonCpfCnpj);
 
     LJsonObject.AddPair('produto', RemoveZerosEsquerda(ATitulo.Carteira));
