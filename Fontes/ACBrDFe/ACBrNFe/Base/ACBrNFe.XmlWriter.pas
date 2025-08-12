@@ -1000,6 +1000,8 @@ begin
       OnlyNumber(NFe.Retirada.fone), DSC_FONE));
     Result.AppendChild(AddNode(tcStr, 'F14', 'email', 01, 60, 0,
       NFe.Retirada.Email, DSC_EMAIL));
+    Result.AppendChild(AddNode(tcStr, 'F15', 'IE', 02, 14, 0,
+      OnlyNumber(NFe.Retirada.IE), DSC_IE));
   end;
 end;
 
@@ -2005,7 +2007,7 @@ begin
             01, 15, 1, NFe.Det[i].Imposto.ICMS.qBCMono, DSC_QBCMONO));
           xmlNode.AppendChild(AddNode(tcDe4, 'N15', 'adRemICMS',
             01, 5, 0, NFe.Det[i].Imposto.ICMS.adRemICMS, DSC_ADREMICMS));
-          xmlNode.AppendChild(AddNode(tcDe2, 'N15', 'vICMSMonoOp',
+          xmlNode.AppendChild(AddNode(tcDe4, 'N15', 'vICMSMonoOp',
             01, 15, 0, NFe.Det[i].Imposto.ICMS.vICMSMonoOp, DSC_VICMSMONOOP));
           xmlNode.AppendChild(AddNode(tcDe4, 'N15', 'pDif',
             01, 5, 0, NFe.Det[i].Imposto.ICMS.pDif, DSC_PDIF));
