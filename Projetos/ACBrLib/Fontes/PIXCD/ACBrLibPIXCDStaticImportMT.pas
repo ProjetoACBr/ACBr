@@ -102,6 +102,9 @@ const
  function PIXCD_GerarQRCodeEstatico(const libHandle: TLibHandle; AValor: Double; const AinfoAdicional: PAnsiChar; const ATxId: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
    {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrPIXCDLIBName;
 
+ function PIXCD_GerarQRCodeEstaticoComChavePix(const libHandle: TLibHandle; const AChavePix: PAnsiChar; AValor: Double; const AinfoAdicional: PAnsiChar; const ATxId: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
+   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrPIXCDLIBName;
+
  function PIXCD_ConsultarPix (const libHandle: TLibHandle; const Ae2eid: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
    {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrPIXCDLIBName;
 

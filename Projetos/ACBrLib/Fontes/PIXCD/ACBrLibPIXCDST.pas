@@ -79,6 +79,9 @@ function PIXCD_ConfigGravarValor(const eSessao, eChave, eValor: PAnsiChar): inte
 function PIXCD_GerarQRCodeEstatico(AValor: Double; const AinfoAdicional: PAnsiChar; const ATxID: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 
+function PIXCD_GerarQRCodeEstaticoComChavePix(const AChavePix: PAnsiChar; AValor: Double; const AinfoAdicional: PAnsiChar; const ATxID: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
 function PIXCD_ConsultarPix(const Ae2eid: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 
@@ -251,6 +254,23 @@ begin
   except
     on E: EACBrLibException do
      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function PIXCD_GerarQRCodeEstaticoComChavePix(const AChavePix: PAnsiChar;
+  AValor: Double; const AinfoAdicional: PAnsiChar; const ATxID: PAnsiChar;
+  const sResposta: PAnsiChar; var esTamanho: integer): integer; cdecl;
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibPIXCD(pLib^.Lib).GerarQRCodeEstaticoComChavePix(
+      AChavePix, AValor, AinfoAdicional, ATxId, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
 
     on E: Exception do
       Result := ErrExecutandoMetodo;

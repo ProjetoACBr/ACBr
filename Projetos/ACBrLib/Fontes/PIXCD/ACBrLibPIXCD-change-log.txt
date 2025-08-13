@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/08/2025
+-- ACBrLibPIXCD --
+[+] Inclusão de novo método para gerar QrCode estático com chave pix.
+    por: Julio Cavalcanti
+
 10/07/2025
 -- ACBrLibPIXCDDataModule, ACBrLibPIXCDConsts, ACBrLibPIXCDConfig --
 [+] ACBrLibPIXCD - Migração Matera -> PIXNoPDV

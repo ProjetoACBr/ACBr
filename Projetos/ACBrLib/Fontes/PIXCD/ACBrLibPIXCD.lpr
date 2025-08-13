@@ -71,6 +71,7 @@ exports
 
   //PIXCD
   PIXCD_GerarQRCodeEstatico,
+  PIXCD_GerarQRCodeEstaticoComChavePix,
 
   //EndPoint /pix
   PIXCD_ConsultarPix,
