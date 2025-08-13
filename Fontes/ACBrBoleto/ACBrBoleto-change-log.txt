@@ -48,6 +48,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+13/08/2025
+-- ACBrBoletoConversao.pas --
+[+] Criado a função ConverterEBCDICToCodigoBarras usado no retorno BradescoAPI.
+    Por: Victor Gonzales Pandaaa 
+
 12/08/2025
 -- ACBrBoletoW_Bradesco --
 [+] Ajustes de rotas, add cedente pessoa física e nossonumero.

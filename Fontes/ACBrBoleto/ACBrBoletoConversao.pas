@@ -96,10 +96,78 @@ type
   {Tipo Ambiente WS Boleto}
   TTipoAmbienteWS = (tawsProducao, tawsHomologacao, tawsSandBox);
 
+
   {Type Generico para passar parametros para Body e Header das requisicoes}
   TParams = record
     prName,PrValue:String;
   end;
+  type
+    TACBrEBCDIC = record
+      Codigo: string[5];
+      Valor: string[2];
+  end;
+  const
+  EBCDIC_TABELA: array[0..99] of TACBrEBCDIC = (
+    (Codigo: 'nnWWn'; Valor: '00'), (Codigo: 'NnwwN'; Valor: '01'),
+    (Codigo: 'nNwwN'; Valor: '02'), (Codigo: 'NNwwn'; Valor: '03'),
+    (Codigo: 'nnWwN'; Valor: '04'), (Codigo: 'NnWwn'; Valor: '05'),
+    (Codigo: 'nNWwn'; Valor: '06'), (Codigo: 'nnwWN'; Valor: '07'),
+    (Codigo: 'NnwWn'; Valor: '08'), (Codigo: 'nNwWn'; Valor: '09'),
+
+    (Codigo: 'wnNNw'; Valor: '10'), (Codigo: 'WnnnW'; Valor: '11'),
+    (Codigo: 'wNnnW'; Valor: '12'), (Codigo: 'WNnnw'; Valor: '13'),
+    (Codigo: 'wnNnW'; Valor: '14'), (Codigo: 'WnNnw'; Valor: '15'),
+    (Codigo: 'wNNnw'; Valor: '16'), (Codigo: 'wnnNW'; Valor: '17'),
+    (Codigo: 'WnnNw'; Valor: '18'), (Codigo: 'wNnNw'; Valor: '19'),
+
+    (Codigo: 'nwNNw'; Valor: '20'), (Codigo: 'NwnnW'; Valor: '21'),
+    (Codigo: 'nWnnW'; Valor: '22'), (Codigo: 'NWnnw'; Valor: '23'),
+    (Codigo: 'nwNnW'; Valor: '24'), (Codigo: 'NwNnw'; Valor: '25'),
+    (Codigo: 'nWNnw'; Valor: '26'), (Codigo: 'nwnNW'; Valor: '27'),
+    (Codigo: 'NwnNw'; Valor: '28'), (Codigo: 'nWnNw'; Valor: '29'),
+
+    (Codigo: 'wwNNn'; Valor: '30'), (Codigo: 'WwnnN'; Valor: '31'),
+    (Codigo: 'wWnnN'; Valor: '32'), (Codigo: 'WWnnn'; Valor: '33'),
+    (Codigo: 'wwNnN'; Valor: '34'), (Codigo: 'WwNnn'; Valor: '35'),
+    (Codigo: 'wWNnn'; Valor: '36'), (Codigo: 'wwnNN'; Valor: '37'),
+    (Codigo: 'WwnNn'; Valor: '38'), (Codigo: 'wWnNn'; Valor: '39'),
+
+    (Codigo: 'nnWNw'; Valor: '40'), (Codigo: 'NnwnW'; Valor: '41'),
+    (Codigo: 'nNwnW'; Valor: '42'), (Codigo: 'NNwnw'; Valor: '43'),
+    (Codigo: 'nnWnW'; Valor: '44'), (Codigo: 'NnWnw'; Valor: '45'),
+    (Codigo: 'nNWnw'; Valor: '46'), (Codigo: 'nnwNW'; Valor: '47'),
+    (Codigo: 'NnwNw'; Valor: '48'), (Codigo: 'nNwNw'; Valor: '49'),
+
+    (Codigo: 'wnWNn'; Valor: '50'), (Codigo: 'WnwnN'; Valor: '51'),
+    (Codigo: 'wNwnN'; Valor: '52'), (Codigo: 'WNwnn'; Valor: '53'),
+    (Codigo: 'wnWnN'; Valor: '54'), (Codigo: 'WnWnn'; Valor: '55'),
+    (Codigo: 'wNWnn'; Valor: '56'), (Codigo: 'wnwNN'; Valor: '57'),
+    (Codigo: 'WnwNn'; Valor: '58'), (Codigo: 'wNwNn'; Valor: '59'),
+
+    (Codigo: 'nwWNn'; Valor: '60'), (Codigo: 'NwwnN'; Valor: '61'),
+    (Codigo: 'nWwnN'; Valor: '62'), (Codigo: 'NWwnn'; Valor: '63'),
+    (Codigo: 'nwWnN'; Valor: '64'), (Codigo: 'NwWnn'; Valor: '65'),
+    (Codigo: 'nWWnn'; Valor: '66'), (Codigo: 'nwwNN'; Valor: '67'),
+    (Codigo: 'NwwNn'; Valor: '68'), (Codigo: 'nWwNn'; Valor: '69'),
+
+    (Codigo: 'nnNWw'; Valor: '70'), (Codigo: 'NnnwW'; Valor: '71'),
+    (Codigo: 'nNnwW'; Valor: '72'), (Codigo: 'NNnww'; Valor: '73'),
+    (Codigo: 'nnNwW'; Valor: '74'), (Codigo: 'NnNww'; Valor: '75'),
+    (Codigo: 'nNNww'; Valor: '76'), (Codigo: 'nnnWW'; Valor: '77'),
+    (Codigo: 'NnnWw'; Valor: '78'), (Codigo: 'nNnWw'; Valor: '79'),
+
+    (Codigo: 'wnNWn'; Valor: '80'), (Codigo: 'WnnwN'; Valor: '81'),
+    (Codigo: 'wNnwN'; Valor: '82'), (Codigo: 'WNnwn'; Valor: '83'),
+    (Codigo: 'wnNwN'; Valor: '84'), (Codigo: 'WnNwn'; Valor: '85'),
+    (Codigo: 'wNNwn'; Valor: '86'), (Codigo: 'wnnWN'; Valor: '87'),
+    (Codigo: 'WnnWn'; Valor: '88'), (Codigo: 'wNnWn'; Valor: '89'),
+
+    (Codigo: 'nwNWn'; Valor: '90'), (Codigo: 'NwnwN'; Valor: '91'),
+    (Codigo: 'nWnwN'; Valor: '92'), (Codigo: 'NWnwn'; Valor: '93'),
+    (Codigo: 'nwNwN'; Valor: '94'), (Codigo: 'NwNwn'; Valor: '95'),
+    (Codigo: 'nWNwn'; Valor: '96'), (Codigo: 'nwnWN'; Valor: '97'),
+    (Codigo: 'NwnWn'; Valor: '98'), (Codigo: 'nWnWn'; Valor: '99')
+  );
   function StrToTipoOperacao(out ok: Boolean; const s: String): TOperacao;
   function TipoOperacaoToStr(const t: TOperacao): String;
 
@@ -118,6 +186,7 @@ type
   function StrToMetodoHTTP(out ok: Boolean; const s: String): TMetodoHTTP;
   function MetodoHTTPToStr(const t: TMetodoHTTP): String;
   function AmbienteBoletoWSToStr(const AAmbiente : TTipoAmbienteWS) : String;
+  function ConverterEBCDICToCodigoBarras(const ALinhaCodificada: string): string;
 const
   CFormatoDataPadrao = 'ddmmyyyy';
   S_MIME_TYPE = 'text/xml';
@@ -222,6 +291,41 @@ begin
     tawsProducao    : Result := 'Produção';
     tawsHomologacao : Result := 'Homologação';
     tawsSandbox     : Result := 'SandBox';
+  end;
+end;
+
+function ConverterEBCDICToCodigoBarras(const ALinhaCodificada: string): string;
+var
+  I, IDX, LTotalBlocos: Integer;
+  LBloco: string[5];
+  LLinhaEBCDIC : String;
+  LEncontrado: Boolean;
+begin
+  Result := '';
+  LLinhaEBCDIC := ALinhaCodificada;
+  LLinhaEBCDIC := StringReplace(LLinhaEBCDIC, '<', '', [rfReplaceAll]);
+  LLinhaEBCDIC := StringReplace(LLinhaEBCDIC, '>', '', [rfReplaceAll]);
+
+  LTotalBlocos := Length(LLinhaEBCDIC) div 5;
+
+  for I := 0 to Pred(LTotalBlocos) do
+  begin
+  
+    LBloco      := Copy(LLinhaEBCDIC, I * 5 + 1, 5);
+    LEncontrado := False;
+
+    for IDX := Low(EBCDIC_TABELA) to High(EBCDIC_TABELA) do
+    begin
+      if EBCDIC_TABELA[IDX].Codigo = LBloco then
+      begin
+        Result := Result + EBCDIC_TABELA[IDX].Valor;
+        LEncontrado := True;
+        Break;
+      end;
+    end;
+
+    if not LEncontrado then
+      raise Exception.CreateFmt('Bloco inválido encontrado: "%s" na posição %d', [LBloco, I + 1]);
   end;
 end;
 
