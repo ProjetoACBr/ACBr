@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 13/08/2025
+-- ACBrNFSeXProviderABRASFv1/ACBrNFSeXProviderABRASFv2/ACBrNFSeXProviderBase --
+-- PadraoNacional.Provider --
+[*] #TK-7422: Ajustes visando a leitura da propriedade PathNome.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXWebservicesResponse --
 [*] Alteração visando não limpar a propriedade PathNome.
    Por: Italo Giurizzato Junior

@@ -2258,7 +2258,7 @@ var
   Document: TACBrXmlDocument;
   ANode, AuxNode: TACBrXmlNode;
   Ret: TRetCancelamento;
-  IdAttr, xCancelamento, xXMLNS: string;
+  IdAttr, xCancelamento, xXMLNS, nomeArq: string;
   AErro: TNFSeEventoCollectionItem;
   Inicio, Fim: Integer;
 begin
@@ -2382,7 +2382,9 @@ begin
                             SepararDados(Response.ArquivoRetorno, 'DataHora', True) +
                          '</Cancelamento>';
 
-        SalvarXmlCancelamento(Ret.Pedido.InfID.ID + '-procCancNFSe', xCancelamento, Response.PathNome);
+        nomeArq := '';
+        SalvarXmlCancelamento(Ret.Pedido.InfID.ID + '-procCancNFSe', xCancelamento, nomeArq);
+        Response.PathNome := nomeArq;
       end
       else
       begin

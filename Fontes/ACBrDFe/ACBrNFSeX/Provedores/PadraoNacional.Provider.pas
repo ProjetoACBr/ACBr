@@ -39,10 +39,12 @@ interface
 uses
   SysUtils, Classes, Variants,
   ACBrJSON, ACBrDFeSSL,
-  ACBrXmlBase, 
+  ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXNotasFiscais,
-  ACBrNFSeXClass, ACBrNFSeXConversao,
+  ACBrNFSeXClass,
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
   ACBrNFSeXProviderProprio,
   ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
@@ -624,7 +626,7 @@ procedure TACBrNFSeProviderPadraoNacional.PrepararEnviarEvento(
   Response: TNFSeEnviarEventoResponse);
 var
   AErro: TNFSeEventoCollectionItem;
-  xEvento, xUF, xAutorEvento, IdAttr, xCamposEvento: string;
+  xEvento, xUF, xAutorEvento, IdAttr, xCamposEvento, nomeArq: string;
 begin
   with Response.InfEvento.pedRegEvento do
   begin
@@ -721,7 +723,9 @@ begin
     Response.ArquivoEnvio := xEvento;
     FpChave := chNFSe;
 
-    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, Response.PathNome);
+    nomeArq := '';
+    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq);
+    Response.PathNome := nomeArq;
   end;
 end;
 
@@ -730,7 +734,7 @@ procedure TACBrNFSeProviderPadraoNacional.TratarRetornoEnviarEvento(
 var
   Document: TACBrJSONObject;
   AErro: TNFSeEventoCollectionItem;
-  EventoXml, IDEvento: string;
+  EventoXml, IDEvento, nomeArq: string;
   DocumentXml: TACBrXmlDocument;
   ANode: TACBrXmlNode;
   Ok: Boolean;
@@ -799,7 +803,9 @@ begin
 
             Response.idNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('chNFSe'), tcStr);
 
-            SalvarXmlEvento(IDEvento + '-procEveNFSe', EventoXml, Response.PathNome);
+            nomeArq := '';
+            SalvarXmlEvento(IDEvento + '-procEveNFSe', EventoXml, nomeArq);
+            Response.PathNome := nomeArq;
           except
             on E:Exception do
             begin
@@ -872,7 +878,7 @@ var
   i: Integer;
   AErro: TNFSeEventoCollectionItem;
   AResumo: TNFSeResumoCollectionItem;
-  IDEvento, TipoEvento, ArquivoXml: string;
+  IDEvento, TipoEvento, ArquivoXml, nomeArq: string;
   DocumentXml: TACBrXmlDocument;
   ANode: TACBrXmlNode;
   Ok: Boolean;
@@ -941,7 +947,9 @@ begin
 
             Response.idNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('chNFSe'), tcStr);
 
-            SalvarXmlEvento(IDEvento + '-procEveNFSe', ArquivoXml, Response.PathNome);
+            nomeArq := '';
+            SalvarXmlEvento(IDEvento + '-procEveNFSe', ArquivoXml, nomeArq);
+            Response.PathNome := nomeArq;
           except
             on E:Exception do
             begin
@@ -987,7 +995,8 @@ var
   Document, JSon: TACBrJSONObject;
   JSonLoteDFe: TACBrJSONArray;
   i: Integer;
-  CnpjCpfDps, SerieDps, TipoDoc, ArquivoXml, NumNFSe, NumDps, IDEvento: string;
+  CnpjCpfDps, SerieDps, TipoDoc, ArquivoXml, NumNFSe, NumDps, IDEvento,
+  nomeArq: string;
   DocumentXml: TACBrXmlDocument;
   ANode: TACBrXmlNode;
   ANota: TNotaFiscal;
@@ -1099,7 +1108,9 @@ begin
 
                 Response.idNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('chNFSe'), tcStr);
 
-                SalvarXmlEvento(IDEvento + '-procEveNFSe', ArquivoXml, Response.PathNome);
+                nomeArq := '';
+                SalvarXmlEvento(IDEvento + '-procEveNFSe', ArquivoXml, nomeArq);
+                Response.PathNome := nomeArq;
               except
                 on E:Exception do
                 begin

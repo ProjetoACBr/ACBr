@@ -39,6 +39,7 @@ interface
 uses
   SysUtils, Classes,
   ACBrBase, ACBrDFe,
+  ACBrXmlBase,
   ACBrNFSeXParametros, ACBrNFSeXInterface, ACBrNFSeXClass, ACBrNFSeXConversao,
   ACBrNFSeXLerXml, ACBrNFSeXGravarXml, ACBrNFSeXNotasFiscais,
   ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
@@ -88,8 +89,8 @@ type
     procedure SalvarXmlNfse(aNota: TNotaFiscal); overload;
     procedure SalvarXmlNfse(const NumeroNFSe: string; const aXml: AnsiString); overload;
     procedure SalvarPDFNfse(const aNome: string; const aPDF: AnsiString);
-    procedure SalvarXmlEvento(const aNome: string; const aEvento: AnsiString; PathNome: string);
-    procedure SalvarXmlCancelamento(const aNome, aCancelamento: string; PathNome: string);
+    procedure SalvarXmlEvento(const aNome: string; const aEvento: AnsiString; out PathNome: string);
+    procedure SalvarXmlCancelamento(const aNome, aCancelamento: string; out PathNome: string);
 
     function CarregarXmlNfse(aNota: TNotaFiscal; const aXml: string): TNotaFiscal;
 
@@ -322,7 +323,7 @@ uses
   ACBrConsts,
   ACBrUtil.DateTime,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.FilesIO, ACBrUtil.XMLHTML,
-  ACBrXmlBase, ACBrDFeException, ACBrDFeUtil,
+  ACBrDFe.Conversao, ACBrDFeException, ACBrDFeUtil,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts;
 
 { TACBrNFSeXProvider }
@@ -1143,7 +1144,7 @@ begin
 end;
 
 procedure TACBrNFSeXProvider.SalvarXmlEvento(const aNome: string;
-  const aEvento: AnsiString; PathNome: string);
+  const aEvento: AnsiString; out PathNome: string);
 var
   aPath, aNomeArq, Extensao: string;
   aConfig: TConfiguracoesNFSe;
@@ -1156,7 +1157,6 @@ begin
                         aConfig.Geral.Emitente.DadosEmitente.InscricaoEstadual);
 
   aNomeArq := PathWithDelim(aPath) + aNome + '.xml';
-  PathNome := aNomeArq;
 
   if FAOwner.Configuracoes.Arquivos.Salvar then
   begin
@@ -1185,10 +1185,12 @@ begin
 
     WriteToTXT(aNomeArq, ArqEvento, False, False);
   end;
+
+  PathNome := aNomeArq;
 end;
 
 procedure TACBrNFSeXProvider.SalvarXmlCancelamento(const aNome,
-  aCancelamento: string; PathNome: string);
+  aCancelamento: string; out PathNome: string);
 var
   aPath, aNomeArq, Extensao: string;
   aConfig: TConfiguracoesNFSe;
@@ -1201,7 +1203,6 @@ begin
                         aConfig.Geral.Emitente.DadosEmitente.InscricaoEstadual);
 
   aNomeArq := PathWithDelim(aPath) + aNome + '.xml';
-  PathNome := aNomeArq;
 
   if FAOwner.Configuracoes.Arquivos.Salvar then
   begin
@@ -1230,6 +1231,8 @@ begin
 
     WriteToTXT(aNomeArq, ArqCancelamento, False, False);
   end;
+
+  PathNome := aNomeArq;
 end;
 
 procedure TACBrNFSeXProvider.SetNameSpaceURI(const aMetodo: TMetodo);

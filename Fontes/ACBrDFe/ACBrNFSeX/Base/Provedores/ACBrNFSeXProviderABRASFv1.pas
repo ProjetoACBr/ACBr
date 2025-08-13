@@ -39,7 +39,7 @@ interface
 uses
   SysUtils, Classes,
   ACBrDFe.Conversao,
-  ACBrXmlBase, 
+  ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXProviderBase, ACBrNFSeXWebservicesResponse;
 
@@ -1503,7 +1503,7 @@ var
   Document: TACBrXmlDocument;
   ANode, AuxNode, ANodePed, ANodeInfCon: TACBrXmlNode;
   Ret: TRetCancelamento;
-  IdAttr, xCancelamento, xXMLNS: string;
+  IdAttr, xCancelamento, xXMLNS, nomeArq: string;
   Inicio, Fim: Integer;
 begin
   Document := TACBrXmlDocument.Create;
@@ -1610,7 +1610,9 @@ begin
                               SepararDados(Response.ArquivoRetorno, 'InfConfirmacaoCancelamento', True) +
                            '</Cancelamento>';
 
-          SalvarXmlCancelamento(Ret.Pedido.InfID.ID + '-procCancNFSe', xCancelamento, Response.PathNome);
+          nomeArq := '';
+          SalvarXmlCancelamento(Ret.Pedido.InfID.ID + '-procCancNFSe', xCancelamento, nomeArq);
+          Response.PathNome := nomeArq;
         end
         else
           Ret.Situacao := '';
