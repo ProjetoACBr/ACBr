@@ -222,6 +222,7 @@ type
     FtpEvento: TtpEvento;
     FnSeqEvento: Integer;
     FNumNotaSubstituidora: string;
+    FPathNome: string;
 
     FAlertas: TNFSeEventoCollection;
     FErros: TNFSeEventoCollection;
@@ -232,7 +233,6 @@ type
     FArquivoEnvio: string;
     FArquivoRetorno: string;
     FHtmlRetorno: string;
-    FPathNome: string;
 
     function GetXmlEnvio: string;
     procedure SetXmlEnvio(const Value: string);
@@ -639,7 +639,6 @@ begin
   tpEvento := teCancelamento;
   nSeqEvento := 0;
   HtmlRetorno := '';
-  PathNome := '';
 
   if Assigned(FErros) then
   begin

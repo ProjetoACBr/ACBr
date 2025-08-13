@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+13/08/2025
+-- ACBrNFSeXWebservicesResponse --
+[*] Alteração visando não limpar a propriedade PathNome.
+   Por: Italo Giurizzato Junior
+
 12/08/2025
 -- ACBrNFSeXServicos --
 [*] Alterado de https para http a URL da cidade Jurinu/SP.
