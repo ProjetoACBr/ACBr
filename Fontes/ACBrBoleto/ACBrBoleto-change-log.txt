@@ -49,6 +49,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 13/08/2025
+-- ACBrBoletoRet_Bradesco.pas --
+[+] TK-6705 - Implemetado o tratamento da resposta da consulta detalheBradesco.
+    Por: Daniel de Morais InfoCotidano 
+
+13/08/2025
 -- ACBrBoletoConversao.pas --
 [+] Criado a função ConverterEBCDICToCodigoBarras usado no retorno BradescoAPI.
     Por: Victor Gonzales Pandaaa 

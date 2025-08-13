@@ -57,6 +57,9 @@ type
  TRetornoEnvio_Bradesco = class(TRetornoEnvioREST)
  private
    function DateBradescoToDateTime(Const AValue : String) : TDateTime;
+   function CodigoBaixaToDescricao(Const AValue : Integer): string;
+   function CodigoStatusTituloToDescricao(Const AValue : Integer): string;
+   function ValorInteiroParaDouble(Const AValue : integer) : Real;
  public
    constructor Create(ABoletoWS: TACBrBoleto); override;
    destructor  Destroy; Override;
@@ -118,7 +121,7 @@ function TRetornoEnvio_Bradesco.LerRetorno(const ARetornoWS: TACBrBoletoRetornoW
 var
   LJsonObject: TACBrJSONObject;
   LMensagemRejeicao: TACBrBoletoRejeicao;
-  LJsonViolacao, LjsonDetalhe:TACBrJSONObject;
+  LJsonViolacao, LjsonDetalhe, LjsonTitulo, LjsonTituloCedente, LJsonTitulosBaixa, LjsonTituloSacado:TACBrJSONObject;
   LJsonViolacoes, LJsonDetalhes: TACBrJSONArray;
   LTipoOperacao : TOperacao;
   i :Integer;
@@ -127,6 +130,10 @@ begin
   LTipoOperacao := ACBrBoleto.Configuracoes.WebService.Operacao;
   ARetornoWs.JSONEnvio      := EnvWs;
   ARetornoWS.HTTPResultCode := HTTPResultCode;
+  // Quando na consulta nao devolver o nosso numero, pegar do titulo.
+  If Assigned(ACBrTitulo) then
+     ARetornoWS.DadosRet.TituloRet.NossoNumero := ACBrTitulo.NossoNumero;
+
   if RetWS <> '' then
   begin
     try
@@ -163,7 +170,7 @@ begin
           if (LTipoOperacao = tpInclui) then
           begin
             ARetornoWS.DadosRet.TituloRet.NossoNumero                 := LJsonObject.AsString['ctitloCobrCdent'];
-            ARetornoWS.DadosRet.TituloRet.CodBarras                   := OnlyNumber(LJsonObject.AsString['codBarras10']);
+            ARetornoWS.DadosRet.TituloRet.CodBarras                   := ConverterEBCDICToCodigoBarras(LJsonObject.AsString['codBarras10']);
             ARetornoWS.DadosRet.TituloRet.LinhaDig                    := OnlyNumber(LJsonObject.AsString['linhaDig10']);
             ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca        := LJsonObject.AsString['codStatus10'];//Ex. A Vencer/Vencido
             ARetornoWS.DadosRet.TituloRet.CodigoEstadoTituloCobranca  := LJsonObject.AsString['codStatus10'];//Ex 01.
@@ -181,7 +188,52 @@ begin
           else
           if (LTipoOperacao = tpConsultaDetalhe) then
           begin
-            //Implementar.
+            LjsonTitulo := LJsonObject.AsJSONObject['titulo'];
+            ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca        := CodigoStatusTituloToDescricao(LjsonTitulo.AsInteger['codStatus']);
+            ARetornoWS.DadosRet.TituloRet.CodigoEstadoTituloCobranca  := LjsonTitulo.AsString['codStatus'];//Ex. A Vencer/Vencido
+
+            LjsonTituloSacado := LjsonTitulo.AsJSONObject['sacado'];
+            ARetornoWS.DadosRet.TituloRet.Sacado.NomeSacado           := LjsonTituloSacado.AsString['nome'];
+            ARetornoWS.DadosRet.TituloRet.Sacado.Logradouro           := LjsonTituloSacado.AsString['endereco'];
+            ARetornoWS.DadosRet.TituloRet.Sacado.Bairro               := LjsonTituloSacado.AsString['bairro'];
+            ARetornoWS.DadosRet.TituloRet.Sacado.CNPJCPF              := LjsonTituloSacado.AsString['cnpj'];
+            ARetornoWS.DadosRet.TituloRet.Sacado.Cidade               := LjsonTituloSacado.AsString['cidade'];
+            ARetornoWS.DadosRet.TituloRet.Sacado.UF                   := LjsonTituloSacado.AsString['uf'];
+            ARetornoWS.DadosRet.TituloRet.Sacado.CEP                  := LjsonTituloSacado.AsString['cep']+LjsonTituloSacado.AsString['cepc'];
+
+            ARetornoWS.DadosRet.TituloRet.SeuNumero                   := LjsonTitulo.AsString['snumero'];
+            ARetornoWS.DadosRet.TituloRet.DataRegistro                := DateBradescoToDateTime(LjsonTitulo.AsString['dataReg']);
+            ARetornoWS.DadosRet.TituloRet.DataProcessamento           := DateBradescoToDateTime(LjsonTitulo.AsString['dataEmis']);
+            ARetornoWS.DadosRet.TituloRet.Vencimento                  := DateBradescoToDateTime(LjsonTitulo.AsString['dataVenctoBol']);
+            ARetornoWS.DadosRet.TituloRet.DataDocumento               := DateBradescoToDateTime(LjsonTitulo.AsString['dataEmis']);
+            ARetornoWS.DadosRet.TituloRet.DataMovimento               := DateBradescoToDateTime(LjsonTitulo.AsString['dtPagto']);
+            ARetornoWS.DadosRet.TituloRet.DataBaixa                   := DateBradescoToDateTime(LjsonTitulo.AsString['dtPagto']);
+            ARetornoWS.DadosRet.TituloRet.CodBarras                   := ConverterEBCDICToCodigoBarras(LJsonObject.AsString['codBarras']);
+            ARetornoWS.DadosRet.TituloRet.LinhaDig                    := OnlyNumber(LjsonTitulo.AsString['linhaDig']);
+            ARetornoWS.DadosRet.TituloRet.ValorDocumento              := ValorInteiroParaDouble(LjsonTitulo.AsInteger['valorMoedaBol']);
+            ARetornoWS.DadosRet.TituloRet.ValorPago                   := ValorInteiroParaDouble(LjsonTitulo.AsInteger['valorPagamento']);
+            ARetornoWS.DadosRet.TituloRet.ValorAbatimento             := ValorInteiroParaDouble(LjsonTitulo.AsInteger['valAbat']);
+            ARetornoWS.DadosRet.TituloRet.DataMulta                   := DateBradescoToDateTime(LjsonTitulo.AsString['dataMulta']);
+            ARetornoWS.DadosRet.TituloRet.ValorMulta                  := ValorInteiroParaDouble(LjsonTitulo.AsInteger['valMulta']);
+            ARetornoWS.DadosRet.TituloRet.DataMoraJuros               := DateBradescoToDateTime(LjsonTitulo.AsString['dataPerm']);
+            ARetornoWS.DadosRet.TituloRet.ValorMoraJuros              := ValorInteiroParaDouble(LjsonTitulo.AsInteger['valPerm']);
+            ARetornoWS.DadosRet.TituloRet.DataDesconto               := DateBradescoToDateTime(LjsonTitulo.AsString['dataDesc1']);
+            ARetornoWS.DadosRet.TituloRet.ValorDesconto              := ValorInteiroParaDouble(LjsonTitulo.AsInteger['valDesc1']);
+            ARetornoWS.DadosRet.TituloRet.DataDesconto2               := DateBradescoToDateTime(LjsonTitulo.AsString['dataDesc2']);
+            ARetornoWS.DadosRet.TituloRet.ValorDesconto2              := ValorInteiroParaDouble(LjsonTitulo.AsInteger['valDesc2']);
+            ARetornoWS.DadosRet.TituloRet.DataDesconto3               := DateBradescoToDateTime(LjsonTitulo.AsString['dataDesc3']);
+            ARetornoWS.DadosRet.TituloRet.ValorDesconto3              := ValorInteiroParaDouble(LjsonTitulo.AsInteger['valDesc3']);
+            if LjsonTitulo.IsJSONObject('baixa') then
+            begin
+              LJsonTitulosBaixa := LjsonTitulo.AsJSONObject['baixa'];
+              if LJsonTitulosBaixa.AsInteger['codigo'] >= 51 then
+              begin
+                ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca        := IntToStrZero(LJsonTitulosBaixa.AsInteger['codigo'],0);
+                ARetornoWS.DadosRet.TituloRet.CodigoEstadoTituloCobranca  := CodigoBaixaToDescricao(LJsonTitulosBaixa.AsInteger['codigo']);
+                ARetornoWS.DadosRet.TituloRet.DataMovimento               := DateBradescoToDateTime(LJsonTitulosBaixa.AsString['data']);
+                ARetornoWS.DadosRet.TituloRet.DataBaixa                   := DateBradescoToDateTime(LJsonTitulosBaixa.AsString['data']);
+              end;
+            end;
           end;
         end;
       finally
@@ -307,6 +359,113 @@ function TRetornoEnvio_Bradesco.RetornoEnvio(const AIndex: Integer): Boolean;
 begin
   Result:=inherited RetornoEnvio(AIndex);
 end;
+
+
+
+function TRetornoEnvio_Bradesco.CodigoBaixaToDescricao(
+  const AValue: Integer): string;
+begin
+  case AValue of
+    51: Result := 'POR ACERTO';
+    52: Result := 'BAIXA POR REGISTRO DUPLICADO';
+    53: Result := 'POR DECURSO DE PRAZO';
+    54: Result := 'POR MEDIDA JUDICIAL';
+    55: Result := 'POR REMESSA (CEB)';
+    56: Result := 'COBRADO - POR RASTREAMENTO';
+    57: Result := 'CONFORME SEU PEDIDO';
+    58: Result := 'PROTESTADO';
+    59: Result := 'DEVOLVIDO';
+    60: Result := 'ENTREGUE FRANCO DE PAGAMENTO';
+    61: Result := 'PAGO';
+    62: Result := 'PAGO EM CARTORIO';
+    63: Result := 'SUSTADO RETIRADO DE CARTORIO';
+    64: Result := 'SUSTADO SEM REMESSA A CARTORIO';
+    66: Result := 'CREDITO EXDD';
+    67: Result := 'CREDITO EXDD - PAGO EM CARTORIO';
+    68: Result := 'COBRADO - POR BAIXA MANUAL';
+    69: Result := 'COBRADO - POR BAIXA MANUAL - PAGO EM CARTORIO';
+  else
+    Result := 'CÓDIGO DESCONHECIDO';
+  end;
+
+end;
+
+
+function TRetornoEnvio_Bradesco.CodigoStatusTituloToDescricao(
+  const AValue: Integer): string;
+begin
+  case AValue of
+    01: Result := 'A VENCER / VENCIDO';
+    02: Result := 'COM PAGAMENTO VINCULADO';
+    03: Result := 'COM PAGTO VINCULADO E INSTRUCAO AGENDADA';
+    04: Result := 'COM INSTRUCAO DE PROTESTO';
+    05: Result := 'COM INSTR. DE PROTESTO E PAGTO VINCULADO';
+    06: Result := 'EM PODER DO CARTORIO';
+    07: Result := 'COM INSTR. E PEDIDO SUSTACAO - SEM BAIXA';
+    08: Result := 'COM INSTR. E PEDIDO SUSTACAO - COM BAIXA';
+    09: Result := 'EM CARTORIO E PEDIDO SUSTACAO - S/ BAIXA';
+    10: Result := 'EM CARTORIO E PEDIDO SUSTACAO - C/ BAIXA';
+    11: Result := 'COM BAIXA SOLICITADA';
+    12: Result := 'COM EXECUCAO SOLICITADA';
+    13: Result := 'PAGO NO DIA';
+    14: Result := 'EM CARTORIO COM PAGAMENTO VINCULADO';
+    15: Result := 'INSTR. PED. SUST. - S/ BAIXA - PGTO VINC';
+    16: Result := 'INSTR. PED. SUST. - C/ BAIXA - PGTO VINC';
+    17: Result := 'CARTORIO PED. SUST.-S/ BAIXA - PGTO VINC';
+    18: Result := 'CARTORIO PED. SUST.-C/ BAIXA - PGTO VINC';
+    19: Result := 'SUSTADO SEM REMESSA AO CARTORIO';
+    20: Result := 'SUSTADO RETIRADO DE CARTORIO';
+    21: Result := 'SUSTADO JUDICIALMENTE';
+    22: Result := 'PENDENTE NO DISTRIBUIDOR';
+    23: Result := 'TITULO COM IRREGULARIDADE';
+    24: Result := 'AGUARDANDO APONTAMENTO DE IRREGULARIDADE';
+    25: Result := 'AGUARDANDO SOLICIT. DE SUSTACAO C/ BAIXA';
+    26: Result := 'AGUARDANDO SOLICIT. DE SUSTACAO S/BAIXA';
+    27: Result := 'SOLIC. SUSTACAO C/ENVIO CARTOR. C/BAIXA';
+    28: Result := 'SOLIC. SUSTACAO C/ENVIO CARTOR. S/BAIXA';
+    29: Result := 'EM CARTORIO COM EDITAL';
+    30: Result := 'COM PAGAMENTO RETIDO';
+    31: Result := 'COM INSTR NEGATIVACAO';
+    32: Result := 'EM PROC NEGATIVACAO';
+    33: Result := 'NEGATIVADO';
+    34: Result := 'EXCL NEG S/BAIXA';
+    35: Result := 'EXCL NEG C/BAIXA';
+    51: Result := 'POR ACERTO';
+    52: Result := 'BAIXA POR RESGISTRO DUPLICADO';
+    53: Result := 'POR DECURSO DE PRAZO';
+    54: Result := 'POR MEDIDA JUDICIAL';
+    55: Result := 'POR REMESSA ( CEB )';
+    56: Result := 'COBRADO - POR RASTREAMENTO';
+    57: Result := 'CONFORME SEU PEDIDO';
+    58: Result := 'PROTESTADO';
+    59: Result := 'DEVOLVIDO';
+    60: Result := 'ENTREGUE FRANCO DE PAGAMENTO';
+    61: Result := 'PAGO';
+    62: Result := 'PAGO EM CARTORIO';
+    63: Result := 'SUSTADO RETIRADO DE CARTORIO';
+    64: Result := 'SUSTADO SEM REMESSA A CARTORIO';
+    65: Result := 'TRANSFERIDO PARA DESCONTO';
+    66: Result := 'CREDITO EXDD';
+    67: Result := 'CREDITO EXDD - PAGO EM CARTORIO';
+    68: Result := 'COBRADO - POR BAIXA MANUAL';
+    69: Result := 'COBRADO-POR BAIXA MANUAL-PAGO EM CATORIO';
+    70: Result := 'TRANSFERENCIA RECEBIVEIS';
+    71: Result := 'DEVOLUCAO TRANSF RECEBIVEIS';
+    72: Result := 'TRANSF. FUNDOS RECEB./COBRANCA';
+    73: Result := 'DEV. FUNDOS RECEB./COBRANCA';
+    98: Result := 'POR REGISTRO DUPLICADO';
+    99: Result := 'COM REATIVACAO SOLICITADA';
+  else
+    Result := 'CÓDIGO DESCONHECIDO';
+  end;
+end;
+
+function TRetornoEnvio_Bradesco.ValorInteiroParaDouble(
+  const AValue: integer): Real;
+begin
+  Result := AValue / 100 ;
+end;
+
 
 end.
 
