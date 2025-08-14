@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/08/2025
+-- ACBrNFe.XmlWriter --
+[*] A geração dos campos CST e cClassTrib do IBSCBS estavam como opcionais, sendo que o 
+    correto é obrigatório.
+   Por: Italo Giurizzato Junior
+
 01/08/2025
 -- ACBrNFe.Classes/ACBrNFe.IniReader/ACBrNFe.IniWriter/ACBrNFe.XmlReader/ACBrNFe.XmlWriter --
 [*] #TK-7446: Alteração visando deixar o componente em conformidade com a versão 1.20 da 

@@ -4178,10 +4178,10 @@ begin
     FpGerarGrupoIBSCBSTot := True;
     Result := FDocument.CreateElement('IBSCBS');
 
-    Result.AppendChild(AddNode(tcStr, 'UB12', 'CST', 3, 3, 0,
+    Result.AppendChild(AddNode(tcStr, 'UB12', 'CST', 3, 3, 1,
                                           CSTIBSCBSToStr(IBSCBS.CST), DSC_CST));
 
-    Result.AppendChild(AddNode(tcStr, 'UB13', 'cClassTrib', 6, 6, 0,
+    Result.AppendChild(AddNode(tcStr, 'UB13', 'cClassTrib', 6, 6, 1,
                            cClassTribToStr(IBSCBS.cClassTrib), DSC_CCLASSTRIB));
 
     case IBSCBS.CST of
