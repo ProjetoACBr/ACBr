@@ -42,8 +42,6 @@ uses
    System.Generics.Collections, System.Generics.Defaults,
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
-  {$Else}
-   Contnrs,
   {$IfEnd}
   IniFiles,
   ACBrBase, ACBrDFe, ACBrNFSeXConfiguracoes, ACBrNFSeXClass, ACBrNFSeXConversao;

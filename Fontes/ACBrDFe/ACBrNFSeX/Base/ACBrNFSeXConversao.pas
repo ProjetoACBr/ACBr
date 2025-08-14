@@ -619,18 +619,54 @@ const
     ('1', '2');
 
 // Reforma Tributária
+
+type
+  TfinNFSe = (fnfsRegular);
+
+const
+  TfinNFSeArrayStrings: array[TfinNFSe] of string = ('0');
+
+type
+  TindFinal = (ifSim, ifNao);
+
+const
+  TindFinalArrayStrings: array[TindFinal] of string = ('1', '0');
+
+type
+  TindPessoas = (ipTomadorAdquirenteDestinatarioIguais,
+    ipTomadorAdquirenteIguais, ipAdquirenteDestinatarioIguais,
+    ipTomadorDestinatarioIguais, ipTomadorAdquirenteDestinatarioDiferentes);
+
+const
+  TindPessoasArrayStrings: array[TindPessoas] of string = ('0', '1', '2', '3',
+    '4');
+
+type
+  TtipoChaveDFe = (tcNFSe, tcNFe, tcCTe, tcOutro);
+
+const
+  TtipoChaveDFeArrayStrings: array[TtipoChaveDFe] of string = ('1', '2', '3',
+    '9');
+
+type
+  TtpReeRepRes = (trrr01, trrr02, trrr03, trrr04, trrr99);
+
+const
+  TtpReeRepResArrayStrings: array[TtpReeRepRes] of string = ('01', '02', '03',
+    '04', '99');
+
 type
   TindCompGov  = (icgNenhum, icgSim, icgNao);
 
 const
   TindCompGovArrayStrings: array[TindCompGov] of string = ('', '1', '0');
-
+(*
 type
   TmodoPrestServ  = (mpsPresencial, mpsNaoPresencial);
 
 const
   TmodoPrestServArrayStrings: array[TmodoPrestServ] of string = ('1', '2');
-
+*)
 {
   Declaração das funções de conversão
 }
@@ -784,8 +820,8 @@ function StrToambGer(out ok: Boolean; const s: string): TambGer;
 function tpEmisToStr(const t: TtpEmis): string;
 function StrTotpEmis(out ok: Boolean; const s: string): TtpEmis;
 
-function procEmiToStr(const t: TprocEmi): string;
-function StrToprocEmi(out ok: Boolean; const s: string): TprocEmi;
+function procEmisToStr(const t: TprocEmi): string;
+function StrToprocEmis(out ok: Boolean; const s: string): TprocEmi;
 
 function tpEventoToStr(const t: TtpEvento): string;
 function StrTotpEvento(out ok: Boolean; const s: string): TtpEvento;
@@ -813,12 +849,28 @@ function LogradouroLocalPrestacaoServicoToStr(t: TLogradouroLocalPrestacaoServic
 function StrToLogradouroLocalPrestacaoServico(const s: string): TLogradouroLocalPrestacaoServico;
 
 // Reforma Tributária
+function finNFSeToStr(const t: TfinNFSe): string;
+function StrTofinNFSe(const s: string): TfinNFSe;
+
+function indFinalToStr(const t: TindFinal): string;
+function StrToindFinal(const s: string): TindFinal;
+
+function indPessoasToStr(const t: TindPessoas): string;
+function StrToindPessoas(const s: string): TindPessoas;
+
+function tipoChaveDFeToStr(const t: TtipoChaveDFe): string;
+function StrTotipoChaveDFe(const s: string): TtipoChaveDFe;
+
+function tpReeRepResToStr(const t: TtpReeRepRes): string;
+function StrTotpReeRepRes(const s: string): TtpReeRepRes;
+
 function indCompGovToStr(const t: TindCompGov): string;
 function StrToindCompGov(const s: string): TindCompGov;
 
+(*
 function modoPrestServToStr(const t: TmodoPrestServ): string;
 function StrTomodoPrestServ(const s: string): TmodoPrestServ;
-
+*)
 const
   SiglaISO2Pais: array[0..247] of string = ('AF', 'AL', 'CW', 'DE', 'BF', 'AD',
         'AO', 'AI', 'AQ', 'AG', 'SA', 'DZ', 'AR', 'AM', 'AW', 'AU', 'AT', 'AZ',
@@ -885,11 +937,42 @@ const
     8273, 8281, 8311, 8338, 8451, 8478, 8486, 8508, 8583, 8630, 8664, 8753,
     8702, 8885, 8907);
 
+function StrToEnumerado(out ok: boolean; const s: string; const AString: array of string;
+  const AEnumerados: array of variant): variant;
+function EnumeradoToStr(const t: variant; const AString:
+  array of string; const AEnumerados: array of variant): variant;
+
 implementation
 
 uses
   ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.FilesIO,
-  ACBrXmlBase;
+  ACBrXmlBase,
+  ACBrDFe.Conversao;
+
+function StrToEnumerado(out ok: boolean; const s: string; const AString:
+  array of string; const AEnumerados: array of variant): variant;
+var
+  i: integer;
+begin
+  result := -1;
+  for i := Low(AString) to High(AString) do
+    if AnsiSameText(s, AString[i]) then
+      result := AEnumerados[i];
+  ok := result <> -1;
+  if not ok then
+    result := AEnumerados[0];
+end;
+
+function EnumeradoToStr(const t: variant; const AString:
+  array of string; const AEnumerados: array of variant): variant;
+var
+  i: integer;
+begin
+  result := '';
+  for i := Low(AEnumerados) to High(AEnumerados) do
+    if t = AEnumerados[i] then
+      result := AString[i];
+end;
 
 function CodIBGEToCodTOM(const ACodigo: Integer): string;
 var
@@ -13143,14 +13226,14 @@ begin
                            [tePadraoNacional, teProprio]);
 end;
 
-function procEmiToStr(const t: TprocEmi): string;
+function procEmisToStr(const t: TprocEmi): string;
 begin
   result := EnumeradoToStr(t,
                            ['1', '2', '3'],
                            [peWebService, peWebFisco, peAppFisco]);
 end;
 
-function StrToprocEmi(out ok: Boolean; const s: string): TprocEmi;
+function StrToprocEmis(out ok: Boolean; const s: string): TprocEmi;
 begin
   result := StrToEnumerado(ok, s,
                            ['1', '2', '3'],
@@ -13361,6 +13444,106 @@ begin
 end;
 
 // Reforma Tributária
+function finNFSeToStr(const t: TfinNFSe): string;
+begin
+  Result := TfinNFSeArrayStrings[t];
+end;
+
+function StrTofinNFSe(const s: string): TfinNFSe;
+var
+  idx: TfinNFSe;
+begin
+  for idx:= Low(TfinNFSeArrayStrings) to High(TfinNFSeArrayStrings) do
+  begin
+    if (TfinNFSeArrayStrings[idx] = s) then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TfinNFSe: %s', [s]);
+end;
+
+function indFinalToStr(const t: TindFinal): string;
+begin
+  Result := TindFinalArrayStrings[t];
+end;
+
+function StrToindFinal(const s: string): TindFinal;
+var
+  idx: TindFinal;
+begin
+  for idx:= Low(TindFinalArrayStrings) to High(TindFinalArrayStrings) do
+  begin
+    if (TindFinalArrayStrings[idx] = s) then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TindFinal: %s', [s]);
+end;
+
+function indPessoasToStr(const t: TindPessoas): string;
+begin
+  Result := TindPessoasArrayStrings[t];
+end;
+
+function StrToindPessoas(const s: string): TindPessoas;
+var
+  idx: TindPessoas;
+begin
+  for idx:= Low(TindPessoasArrayStrings) to High(TindPessoasArrayStrings) do
+  begin
+    if (TindPessoasArrayStrings[idx] = s) then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TindPessoas: %s', [s]);
+end;
+
+function tipoChaveDFeToStr(const t: TtipoChaveDFe): string;
+begin
+  Result := TtipoChaveDFeArrayStrings[t];
+end;
+
+function StrTotipoChaveDFe(const s: string): TtipoChaveDFe;
+var
+  idx: TtipoChaveDFe;
+begin
+  for idx:= Low(TtipoChaveDFeArrayStrings) to High(TtipoChaveDFeArrayStrings) do
+  begin
+    if (TtipoChaveDFeArrayStrings[idx] = s) then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TtipoChaveDFe: %s', [s]);
+end;
+
+function tpReeRepResToStr(const t: TtpReeRepRes): string;
+begin
+  Result := TtpReeRepResArrayStrings[t];
+end;
+
+function StrTotpReeRepRes(const s: string): TtpReeRepRes;
+var
+  idx: TtpReeRepRes;
+begin
+  for idx:= Low(TtpReeRepResArrayStrings) to High(TtpReeRepResArrayStrings) do
+  begin
+    if (TtpReeRepResArrayStrings[idx] = s) then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TtpReeRepRes: %s', [s]);
+end;
+
 function indCompGovToStr(const t: TindCompGov): string;
 begin
   Result := TindCompGovArrayStrings[t];
@@ -13381,6 +13564,7 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para TindCompGov: %s', [s]);
 end;
 
+(*
 function modoPrestServToStr(const t: TmodoPrestServ): string;
 begin
   Result := TmodoPrestServArrayStrings[t];
@@ -13400,5 +13584,5 @@ begin
   end;
   raise EACBrException.CreateFmt('Valor string inválido para TmodoPrestServ: %s', [s]);
 end;
-
+*)
 end.

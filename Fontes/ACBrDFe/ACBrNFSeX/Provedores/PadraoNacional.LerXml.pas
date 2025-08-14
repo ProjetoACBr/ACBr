@@ -37,8 +37,7 @@ unit PadraoNacional.LerXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
-  IniFiles,
+  SysUtils, Classes, StrUtils, IniFiles,
   ACBrXmlBase, ACBrXmlDocument,
   ACBrNFSeXClass,
   ACBrNFSeXConversao, ACBrNFSeXLerXml;
@@ -125,14 +124,14 @@ type
     procedure Ler_EnderecoNacionalAdquirente(const ANode: TACBrXmlNode; endNac: TendNac);
     procedure Ler_EnderecoExteriorAdquirente(const ANode: TACBrXmlNode; endExt: TendExt);
 
-    procedure Ler_ServicoIBSCBS(const ANode: TACBrXmlNode; serv: Tserv);
+//    procedure Ler_ServicoIBSCBS(const ANode: TACBrXmlNode; serv: Tserv);
     procedure Ler_gCompraGov(const ANode: TACBrXmlNode; gCompraGov: TgCompraGov);
 
     procedure Ler_ValoresIBSCBS(const ANode: TACBrXmlNode; valores: Tvalorestrib);
     procedure Ler_Tributos(const ANode: TACBrXmlNode; trib: Ttrib);
 
     procedure Ler_gIBSCBS(const ANode: TACBrXmlNode; gIBSCBS: TgIBSCBS);
-
+    {
     procedure Ler_gIBSCredPres(const ANode: TACBrXmlNode; gIBSCredPres: TgIBSCredPres);
 
     procedure Ler_gIBSUF(const ANode: TACBrXmlNode; gIBSUF: TgIBSUFValores);
@@ -150,7 +149,7 @@ type
     procedure Ler_gDifCBS(const ANode: TACBrXmlNode; gCBS: TgCBSValores);
     procedure Ler_gDevTribCBS(const ANode: TACBrXmlNode; gCBS: TgCBSValores);
     procedure Ler_gDesonCBS(const ANode: TACBrXmlNode; gCBS: TgCBSValores);
-
+    }
     procedure Ler_IBSCBSNFSe(const ANode: TACBrXmlNode; IBSCBS: TIBSCBSNfse);
     procedure Ler_CompGov(const ANode: TACBrXmlNode; CompGov: TCompGov);
     procedure Ler_ValoresIBSCBSNFSe(const ANode: TACBrXmlNode; valores: TvaloresIBSCBS);
@@ -190,12 +189,14 @@ type
     // Reforma Tributária
     procedure LerINIDestinatario(AINIRec: TMemIniFile; Dest: TDadosdaPessoa);
     procedure LerINIAdquirente(AINIRec: TMemIniFile; Adq: TDadosdaPessoa);
-    procedure LerINIServicoIBSCBS(AINIRec: TMemIniFile; serv: Tserv);
+//    procedure LerINIServicoIBSCBS(AINIRec: TMemIniFile; serv: Tserv);
     procedure LerINIgIBSCBS(AINIRec: TMemIniFile; gIBSCBS: TgIBSCBS);
+    {
     procedure LerINIgIBSCredPres(AINIRec: TMemIniFile; gIBSCredPres: TgIBSCredPres);
     procedure LerINIgIBSUF(AINIRec: TMemIniFile; gIBSUF: TgIBSUFValores);
     procedure LerINIgIBSMun(AINIRec: TMemIniFile; gIBSMun: TgIBSMunValores);
     procedure LerINIgCBS(AINIRec: TMemIniFile; gCBS: TgCBSValores);
+    }
     {
 
     procedure LerINIIBSCBSNFSe(AINIRec: TMemIniFile; IBSCBS: TIBSCBSNfse);
@@ -967,7 +968,7 @@ begin
     NFSe.infNFSe.verAplic := ObterConteudo(AuxNode.Childrens.FindAnyNs('verAplic'), tcStr);
     NFSe.infNFSe.ambGer := StrToambGer(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('ambGer'), tcStr));
     NFSe.infNFSe.tpEmis := StrTotpEmis(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpEmis'), tcStr));
-    NFSe.infNFSe.procEmi := StrToprocEmi(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('procEmi'), tcStr));
+    NFSe.infNFSe.procEmi := StrToprocEmis(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('procEmi'), tcStr));
     NFSe.infNFSe.cStat := ObterConteudo(AuxNode.Childrens.FindAnyNs('cStat'), tcInt);
     NFSe.infNFSe.dhProc := ObterConteudo(AuxNode.Childrens.FindAnyNs('dhProc'), tcDatHor);
     NFSe.infNFSe.nDFSe := ObterConteudo(AuxNode.Childrens.FindAnyNs('nDFSe'), tcStr);
@@ -1566,7 +1567,7 @@ begin
 
   Ler_Destinatario(ANode.Childrens.FindAnyNs('dest'), IBSCBS.dest);
   Ler_Adquirente(ANode.Childrens.FindAnyNs('adq'), IBSCBS.adq);
-  Ler_ServicoIBSCBS(ANode.Childrens.FindAnyNs('serv'), IBSCBS.serv);
+//  Ler_ServicoIBSCBS(ANode.Childrens.FindAnyNs('serv'), IBSCBS.serv);
   Ler_ValoresIBSCBS(ANode.Childrens.FindAnyNs('valores'), IBSCBS.valores);
 end;
 
@@ -1580,8 +1581,6 @@ begin
   Dest.CNPJCPF := ObterCNPJCPF(ANode);
   Dest.NIF := ObterConteudo(ANode.Childrens.FindAnyNs('NIF'), tcStr);
   Dest.cNaoNIF := StrToNaoNIF(Ok, ObterConteudo(ANode.Childrens.FindAnyNs('cNaoNIF'), tcStr));
-
-  Dest.CAEPF := ObterConteudo(ANode.Childrens.FindAnyNs('CAEPF'), tcStr);
 
   Dest.xNome := ObterConteudo(ANode.Childrens.FindAnyNs('xNome'), tcStr);
 
@@ -1636,8 +1635,6 @@ begin
   Adq.NIF := ObterConteudo(ANode.Childrens.FindAnyNs('NIF'), tcStr);
   Adq.cNaoNIF := StrToNaoNIF(Ok, ObterConteudo(ANode.Childrens.FindAnyNs('cNaoNIF'), tcStr));
 
-  Adq.CAEPF := ObterConteudo(ANode.Childrens.FindAnyNs('CAEPF'), tcStr);
-
   Adq.xNome := ObterConteudo(ANode.Childrens.FindAnyNs('xNome'), tcStr);
 
   Ler_EnderecoAdquirente(ANode.Childrens.FindAnyNs('end'), Adq.ender);
@@ -1679,7 +1676,7 @@ begin
   endExt.xCidade := ObterConteudo(ANode.Childrens.FindAnyNs('xCidade'), tcStr);
   endExt.xEstProvReg := ObterConteudo(ANode.Childrens.FindAnyNs('xEstProvReg'), tcStr);
 end;
-
+{
 procedure TNFSeR_PadraoNacional.Ler_ServicoIBSCBS(const ANode: TACBrXmlNode;
   serv: Tserv);
 begin
@@ -1692,7 +1689,7 @@ begin
 
   Ler_gCompraGov(ANode.Childrens.FindAnyNs('gCompraGov'), serv.gCompraGov);
 end;
-
+}
 procedure TNFSeR_PadraoNacional.Ler_gCompraGov(const ANode: TACBrXmlNode;
   gCompraGov: TgCompraGov);
 begin
@@ -1722,15 +1719,16 @@ procedure TNFSeR_PadraoNacional.Ler_gIBSCBS(
 begin
   if not Assigned(ANode) then Exit;
 
-  gIBSCBS.cstIBSCBS := StrToCSTIBSCBS(ObterConteudo(ANode.Childrens.FindAnyNs('cstIBSCBS'), tcStr));
-  gIBSCBS.cClassTribIBSCBS := StrTocClassTrib(ObterConteudo(ANode.Childrens.FindAnyNs('cClassTribIBSCBS'), tcStr));
-
+  gIBSCBS.CST := StrToCSTIBSCBS(ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
+  gIBSCBS.cClassTrib := ObterConteudo(ANode.Childrens.FindAnyNs('cClassTrib'), tcStr);
+  {
   Ler_gIBSCredPres(ANode.Childrens.FindAnyNs('gIBSCredPres'), gIBSCBS.gIBSCredPres);
   Ler_gIBSUF(ANode.Childrens.FindAnyNs('gIBSUF'), gIBSCBS.gIBSUF);
   Ler_gIBSMun(ANode.Childrens.FindAnyNs('gIBSMun'), gIBSCBS.gIBSMun);
   Ler_gCBS(ANode.Childrens.FindAnyNs('gCBS'), gIBSCBS.gCBS);
+  }
 end;
-
+(*
 procedure TNFSeR_PadraoNacional.Ler_gIBSCredPres(const ANode: TACBrXmlNode;
   gIBSCredPres: TgIBSCredPres);
 begin
@@ -1857,7 +1855,7 @@ begin
   gCBS.cClassTribCBSDeson := StrTocClassTrib(ObterConteudo(ANode.Childrens.FindAnyNs('cClassTribCBSDeson'), tcStr));
   gCBS.pAliqCBSDeson := ObterConteudo(ANode.Childrens.FindAnyNs('pAliqCBSDeson'), tcDe2);
 end;
-
+*)
 procedure TNFSeR_PadraoNacional.Ler_IBSCBSNFSe(const ANode: TACBrXmlNode;
   IBSCBS: TIBSCBSNfse);
 begin
@@ -2029,12 +2027,14 @@ begin
   // Reforma Tributária
   LerINIDestinatario(AINIRec, NFSe.IBSCBS.dest);
   LerINIAdquirente(AINIRec, NFSe.IBSCBS.adq);
-  LerINIServicoIBSCBS(AINIRec, NFSe.IBSCBS.serv);
+//  LerINIServicoIBSCBS(AINIRec, NFSe.IBSCBS.serv);
   LerINIgIBSCBS(AINIRec, NFSe.IBSCBS.valores.trib.gIBSCBS);
+  {
   LerINIgIBSCredPres(AINIRec, NFSe.IBSCBS.valores.trib.gIBSCBS.gIBSCredPres);
   LerINIgIBSUF(AINIRec, NFSe.IBSCBS.valores.trib.gIBSCBS.gIBSUF);
   LerINIgIBSMun(AINIRec, NFSe.IBSCBS.valores.trib.gIBSCBS.gIBSMun);
   LerINIgCBS(AINIRec, NFSe.IBSCBS.valores.trib.gIBSCBS.gCBS);
+  }
 end;
 
 procedure TNFSeR_PadraoNacional.LerIniNfse(AINIRec: TMemIniFile);
@@ -2066,12 +2066,14 @@ begin
   // Reforma Tributária
   LerINIDestinatario(AINIRec, NFSe.IBSCBS.dest);
   LerINIAdquirente(AINIRec, NFSe.IBSCBS.adq);
-  LerINIServicoIBSCBS(AINIRec, NFSe.IBSCBS.serv);
+//  LerINIServicoIBSCBS(AINIRec, NFSe.IBSCBS.serv);
   LerINIgIBSCBS(AINIRec, NFSe.IBSCBS.valores.trib.gIBSCBS);
+  {
   LerINIgIBSCredPres(AINIRec, NFSe.IBSCBS.valores.trib.gIBSCBS.gIBSCredPres);
   LerINIgIBSUF(AINIRec, NFSe.IBSCBS.valores.trib.gIBSCBS.gIBSUF);
   LerINIgIBSMun(AINIRec, NFSe.IBSCBS.valores.trib.gIBSCBS.gIBSMun);
   LerINIgCBS(AINIRec, NFSe.IBSCBS.valores.trib.gIBSCBS.gCBS);
+  }
 
   with NFSe.Servico.Valores do
   begin
@@ -2112,7 +2114,7 @@ begin
       NFSe.infNFSe.verAplic := AINIRec.ReadString(sSecao, 'verAplic', '');
       NFSe.infNFSe.ambGer := StrToambGer(Ok, AINIRec.ReadString(sSecao, 'ambGer', ''));
       NFSe.infNFSe.tpEmis := StrTotpEmis(Ok, AINIRec.ReadString(sSecao, 'tpEmis', ''));
-      NFSe.infNFSe.procEmi := StrToprocEmi(Ok, AINIRec.ReadString(sSecao, 'procEmi', ''));
+      NFSe.infNFSe.procEmi := StrToprocEmis(Ok, AINIRec.ReadString(sSecao, 'procEmi', ''));
       NFSe.infNFSe.cStat := AINIRec.ReadInteger(sSecao, 'cStat', 0);
       NFSe.infNFSe.dhProc := StringToDateTimeDef(AINIRec.ReadString(sSecao, 'dhProc', ''), 0);
       NFSe.infNFSe.nDFSe := AINIRec.ReadString(sSecao, 'nDFSe', '');
@@ -2620,7 +2622,6 @@ begin
     Dest.CNPJCPF := AINIRec.ReadString(sSecao, 'CNPJCPF', '');
     Dest.Nif := AINIRec.ReadString(sSecao, 'NIF', '');
     Dest.cNaoNIF := StrToNaoNIF(Ok, AINIRec.ReadString(sSecao, 'cNaoNIF', '0'));
-    Dest.CAEPF := AINIRec.ReadString(sSecao, 'CAEPF', '');
     Dest.xNome := AINIRec.ReadString(sSecao, 'xNome', '');
 
     Dest.ender.endNac.CEP := AINIRec.ReadString(sSecao, 'CEP', '');
@@ -2652,7 +2653,6 @@ begin
     Adq.CNPJCPF := AINIRec.ReadString(sSecao, 'CNPJCPF', '');
     Adq.Nif := AINIRec.ReadString(sSecao, 'NIF', '');
     Adq.cNaoNIF := StrToNaoNIF(Ok, AINIRec.ReadString(sSecao, 'cNaoNIF', '0'));
-    Adq.CAEPF := AINIRec.ReadString(sSecao, 'CAEPF', '');
     Adq.xNome := AINIRec.ReadString(sSecao, 'xNome', '');
 
     Adq.ender.endNac.CEP := AINIRec.ReadString(sSecao, 'CEP', '');
@@ -2671,7 +2671,7 @@ begin
     Adq.email := AINIRec.ReadString(sSecao, 'Email', '');
   end;
 end;
-
+{
 procedure TNFSeR_PadraoNacional.LerINIServicoIBSCBS(AINIRec: TMemIniFile; serv: Tserv);
 var
   sSecao: string;
@@ -2687,7 +2687,7 @@ begin
     serv.gCompraGov.indCompGov := StrToindCompGov(AINIRec.ReadString(sSecao, 'indCompGov', ''));
   end;
 end;
-
+}
 procedure TNFSeR_PadraoNacional.LerINIgIBSCBS(AINIRec: TMemIniFile;
   gIBSCBS: TgIBSCBS);
 var
@@ -2696,16 +2696,17 @@ begin
   sSecao := 'gIBSCBS';
   if AINIRec.SectionExists(sSecao) then
   begin
-    gIBSCBS.cstIBSCBS := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'cstIBSCBS', ''));
-    gIBSCBS.cClassTribIBSCBS := StrTocClassTrib(AINIRec.ReadString(sSecao, 'cClassTribIBSCBS', ''));
-
+    gIBSCBS.CST := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CST', ''));
+    gIBSCBS.cClassTrib := AINIRec.ReadString(sSecao, 'cClassTrib', '');
+    {
     LerINIgIBSCredPres(AINIRec, gIBSCBS.gIBSCredPres);
     LerINIgIBSUF(AINIRec, gIBSCBS.gIBSUF);
     LerINIgIBSMun(AINIRec, gIBSCBS.gIBSMun);
     LerINIgCBS(AINIRec, gIBSCBS.gCBS);
+    }
   end;
 end;
-
+(*
 procedure TNFSeR_PadraoNacional.LerINIgIBSCredPres(AINIRec: TMemIniFile;
   gIBSCredPres: TgIBSCredPres);
 var
@@ -2769,5 +2770,5 @@ begin
     gCBS.pAliqCBSDeson := StringToFloatDef(AINIRec.ReadString(sSecao, 'pAliqCBSDeson', ''), 0);
   end;
 end;
-
+*)
 end.
