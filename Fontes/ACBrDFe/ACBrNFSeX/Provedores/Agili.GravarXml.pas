@@ -37,8 +37,9 @@ unit Agili.GravarXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils, MaskUtils,
-  ACBrXmlBase, ACBrXmlDocument, IniFiles,
+  SysUtils, Classes, StrUtils, MaskUtils, IniFiles,
+  ACBrXmlBase,
+  ACBrXmlDocument,
   ACBrNFSeXClass,
   ACBrNFSeXParametros, ACBrNFSeXGravarXml, ACBrNFSeXConversao, ACBrNFSeXConsts;
 
@@ -106,6 +107,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Base,
   ACBrUtil.Strings;
 
@@ -119,6 +121,8 @@ uses
 procedure TNFSeW_Agili.Configuracao;
 begin
   inherited Configuracao;
+
+  FormatoItemListaServico := filsSemFormatacao;
 
   FpAtividadeEconomica := Trim(FpAOwner.ConfigGeral.Params.ValorParametro('NomeTagAtividadeEconomica'));
 
@@ -484,19 +488,24 @@ begin
   case VersaoNFSe of
     ve100:
       begin
-        Result.AppendChild(AddNode(tcStr, '#1', 'CodigoAtividadeEconomica', 1, 140, 0,
-                                   NFSe.Servico.CodigoTributacaoMunicipio, ''));
+        if FpAtividadeEconomica = 'CodigoAtividadeEconomica' then
+        begin
+          Result.AppendChild(AddNode(tcStr, '#1', 'CodigoAtividadeEconomica', 1, 140, 0,
+            NFSe.Servico.CodigoTributacaoMunicipio, ''));
+        end
+        else
+        if FpAtividadeEconomica = 'CodigoCnaeAtividadeEconomica' then
+        begin
+          Result.AppendChild(AddNode(tcStr, '#1', 'CodigoCnaeAtividadeEconomica', 1, 140, 0,
+            FormatarCnae(NFSe.Servico.CodigoCnae), ''));
+        end
+        else
+        begin
+          item := FormatarItemServico(NFSe.Servico.ItemListaServico, FormatoItemListaServico);
 
-//        Result.AppendChild(AddNode(tcStr, '#1', 'CodigoListaServicoMunicipal', 1, 140, 0,
-//                                   NFSe.Servico.CodigoTributacaoMunicipio, ''));
-
-        Result.AppendChild(AddNode(tcStr, '#1', 'CodigoCnaeAtividadeEconomica', 1, 140, 0,
-                                    FormatarCnae(NFSe.Servico.CodigoCnae), ''));
-
-        item := FormatarItemServico(NFSe.Servico.ItemListaServico, FormatoItemListaServico);
-
-        Result.AppendChild(AddNode(tcStr, '#1', 'ItemLei116AtividadeEconomica', 1, 140, 0,
-                                                                     item, ''));
+          Result.AppendChild(AddNode(tcStr, '#1', 'ItemLei116AtividadeEconomica', 1, 140, 0,
+            item, ''));
+        end;
       end;
 
     ve101:
@@ -508,14 +517,7 @@ begin
                                     FormatarCnae(NFSe.Servico.CodigoCnae), ''));
       end;
   end;
-  {
-  if NaoEstaVazio(NFSe.Servico.CodigoTributacaoMunicipio) then
-    Result.AppendChild(AddNode(tcStr, '#1', FpAtividadeEconomica, 1, 140, 1,
-                                    NFSe.Servico.CodigoTributacaoMunicipio, ''))
-  else
-    Result.AppendChild(AddNode(tcStr, '#1', FpAtividadeEconomica, 1, 140, 1,
-                                    FormatarCnae(NFSe.Servico.CodigoCnae), ''));
-  }
+
   xmlNode := GerarExigibilidadeISSQN;
   Result.AppendChild(xmlNode);
 

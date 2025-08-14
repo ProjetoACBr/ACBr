@@ -38,9 +38,13 @@ interface
 
 uses
   SysUtils, Classes, StrUtils, MaskUtils, IniFiles,
+  ACBrXmlBase,
   ACBrNFSeXClass,
-  ACBrXmlBase, ACBrXmlDocument,
-  ACBrNFSeXParametros, ACBrNFSeXConversao, ACBrNFSeXLerXml;
+  ACBrXmlDocument,
+  ACBrDFe.Conversao,
+  ACBrNFSeXParametros,
+  ACBrNFSeXConversao,
+  ACBrNFSeXLerXml;
 
 type
   { Provedor com layout próprio }

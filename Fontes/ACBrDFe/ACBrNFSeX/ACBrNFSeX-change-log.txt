@@ -44,6 +44,11 @@ Símbolo : Significado
 
 
 14/08/2025
+-- Agili.GravarXml/Agili.LerXml/Agili.Provider --
+[*] #TK-7503: Alteração impondo condições para gerar as tags: CodigoAtividadeEconomica,
+    CodigoCnaeAtividadeEconomica e ItemLei116AtividadeEconomica para atender as diversas
+    cidades que contrataram o provedor Agili.
+   Por: Diego Reckziegel
 -- ACBrNFSeX --
 [*] #TK-7502: Alterado o método Emitir para que não execute o sleep de forma
     desnecessária. 
