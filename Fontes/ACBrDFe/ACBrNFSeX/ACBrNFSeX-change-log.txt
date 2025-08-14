@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 14/08/2025
+-- ACBrNFSeX --
+[*] #TK-7502: Alterado o método Emitir para que não execute o sleep de forma
+    desnecessária. 
+   Por: Gabriel Bonzanini
 -- ACBrNFSeXNotasFiscais/ACBrNFSeXParametros/ACBrNFSeXClass/ACBrNFSeXConversao --
 -- PadraoNacional.GravarXml/PadraoNacional.LerXml --
 [*] #TK-7301: Ajustes visando a versão 1.2 da NT 2025/003 da Reforma Tributária.

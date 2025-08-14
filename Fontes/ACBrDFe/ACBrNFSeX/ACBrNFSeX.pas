@@ -500,13 +500,17 @@ begin
           Situacao := 0;
           Intervalo := max(IntervaloTentativas, 1000);
 
-          while (Situacao < 3) and (qTentativas < Tentativas) do
+          while True do
           begin
             FProvider.ConsultaSituacao;
 
             Situacao := StrToIntDef(FWebService.ConsultaSituacao.Situacao, 0);
             Inc(qTentativas);
-            sleep(Intervalo);
+
+            if (Situacao < 3) and (qTentativas < Tentativas) then
+              sleep(Intervalo)
+            else
+              break;
           end;
         end;
       end;
