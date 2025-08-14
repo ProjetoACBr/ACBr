@@ -68,6 +68,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.XMLHTML,
   ACBrDFeException, Sistemas4R.GravarXml, Sistemas4R.LerXml;
 
@@ -180,7 +181,7 @@ begin
 
   Result := RemoverCaracteresDesnecessarios(Result);
   Result := ParseText(Result);
-  Result := StringReplace(Result, '&amp;', '&', [rfReplaceAll]);
+  Result := StringReplace(Result, '&', '&amp;', [rfReplaceAll]);
   Result := RemoverIdentacao(Result);
 end;
 

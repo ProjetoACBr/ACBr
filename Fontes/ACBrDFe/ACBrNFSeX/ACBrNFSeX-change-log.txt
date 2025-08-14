@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 14/08/2025
+-- Sistemas4R.GravarXml/Sistemas4R.Provider --
+[*] #TK-7495: Alteração no TratarXmlRetornando para que o XML retornado seja lido 
+    corretamente, a troca do "&amp;" por "&" estava ocorrendo erro de leitura.
+   Por: Sunny
 -- Agili.GravarXml/Agili.LerXml/Agili.Provider --
 [*] #TK-7503: Alteração impondo condições para gerar as tags: CodigoAtividadeEconomica,
     CodigoCnaeAtividadeEconomica e ItemLei116AtividadeEconomica para atender as diversas
