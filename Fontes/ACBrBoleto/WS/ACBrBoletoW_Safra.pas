@@ -240,7 +240,6 @@ end;
 
 procedure TBoletoW_Safra.RequisicaoJson;
 var
-  LData: string;
   LJson: TACBrJSONObject;
 begin
   if Assigned(aTitulo) then
@@ -415,13 +414,11 @@ Const
   TP_MENSAGEM_FICHA  = 2;
 var
   LJsonMensagem : TACBrJSONObject;
-  LJsonArrayMensagem: TACBrJSONArray;
 begin
   if Assigned(aTitulo) then
   begin
     if Assigned(AJson) then
     begin
-      LJsonArrayMensagem := TACBrJSONArray.Create;
       LJsonMensagem      := TACBrJSONObject.Create;
       LJsonMensagem.AddPair('posicao', TP_MENSAGEM_RECIBO);
       LJsonMensagem.AddPair('mensagem', Copy('', 1, 72));
@@ -447,7 +444,7 @@ end;
 
 procedure TBoletoW_Safra.GerarBenificiarioFinal(AJson: TACBrJSONObject);
 var
-  LJsonSacadorAvalista, LJsonPairSacadorAvalista    : TACBrJsonObject;
+  LJsonSacadorAvalista    : TACBrJsonObject;
 begin
   if Assigned(aTitulo) then
   begin

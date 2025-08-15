@@ -237,7 +237,7 @@ begin
       FDFeSSL.SSLHttpClass.DataReq.LoadFromStream(LStream);
       FDFeSSL.HTTPMethod(MetodoHTTPToStr(htPOST), C_URL_OAUTH_PROD );
 
-      LJson.Parse( UTF8Decode(ReadStrFromStream(FDFeSSL.SSLHttpClass.DataResp, FDFeSSL.SSLHttpClass.DataResp.Size )) );
+      LJson.Parse( UTF8ToString(ReadStrFromStream(FDFeSSL.SSLHttpClass.DataResp, FDFeSSL.SSLHttpClass.DataResp.Size )) );
 
       if( LJson.AsString['codigo' ] = '' ) then // se não veio código de erro
         begin

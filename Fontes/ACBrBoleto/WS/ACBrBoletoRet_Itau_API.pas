@@ -421,13 +421,12 @@ end;
 function TRetornoEnvio_Itau_API.LerListaRetorno: Boolean;
 var
   LJsonObject, LJsonBoletoObject, LJsonPagadorObject, LErrosObject: TACBrJSONObject;
-  LJsonArray, LJsonBoletosArray, LJsonBoletoIndividualArray, LJsonArrayMensagens, LJsonArrayErros, LJsonArrayOperacaoCobranca : TACBrJSONArray;
+  LJsonArray, LJsonBoletosArray, LJsonArrayMensagens, LJsonArrayErros : TACBrJSONArray;
   ListaRetorno: TACBrBoletoRetornoWS;
   LListaRejeicao : TACBrBoletoRejeicao;
   LTrataBoleto, LSemRegistros : Boolean;
-  LValorPago : double;
   LMsgRetorno, LStatusBoleto : String;
-  I, j, K: Integer;
+  I, j: Integer;
 begin
   Result := True;
   ListaRetorno := ACBrBoleto.CriarRetornoWebNaLista;

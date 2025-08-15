@@ -190,7 +190,7 @@ end;
 procedure TACBrBancoCredisan.GerarRegistroTransacao400(ACBrTitulo: TACBrTitulo; ARemessa: TStringList);
 var
   LNossoNumero, LDigitoNossoNumero, LMensagem,
-  LConvenio, LParcela, LIndicadorSacador,
+  LParcela, LIndicadorSacador,
   LPrefixoTitulo, LLinha, LAgencia, LConta,
   LTipoEspecieDoc, LTipoAceite, LValorTaxaMoraMes,
   LValorTaxaMulta, LDataDesconto, LTipoSacado,

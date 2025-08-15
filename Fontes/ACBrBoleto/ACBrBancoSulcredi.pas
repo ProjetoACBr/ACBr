@@ -76,7 +76,10 @@ implementation
 uses
   {$IFDEF COMPILER6_UP} DateUtils {$ELSE} ACBrD5 {$ENDIF},
   StrUtils,
-  ACBrUtil;
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  ACBrUtil.Math,
+  ACBrUtil.DateTime;
 
 { TACBrBancoSulcredi }
 

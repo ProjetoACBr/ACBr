@@ -711,7 +711,7 @@ var
   LMensagemRejeicao: TACBrBoletoRejeicao;
   LJsonArray: TACBrJSONArray;
   I, X: Integer;
-  LSituacao, LSituacaoBoleto : AnsiString;
+  LSituacaoBoleto : AnsiString;
 begin
   LListaRetorno := ACBrBoleto.CriarRetornoWebNaLista;
   LListaRetorno.HTTPResultCode := HTTPResultCode;

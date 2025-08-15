@@ -310,12 +310,11 @@ end;
 function TRetornoEnvio_Cora.LerListaRetorno: Boolean;
 var
   ListaRetorno: TACBrBoletoRetornoWS;
-  LJSON, LPaymentOptions, LBankSlip: TACBrJsonObject;
+  LJSON: TACBrJsonObject;
   LJSONArray : TACBrJSONArray;
   ARejeicao: TACBrBoletoRejeicao;
   I: Integer;
   Indice: Integer;
-  LNossoNumeroInicial : Byte;
 begin
   Result := True;
   ListaRetorno := ACBrBoleto.CriarRetornoWebNaLista;

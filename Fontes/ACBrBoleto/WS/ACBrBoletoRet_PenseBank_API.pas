@@ -88,7 +88,7 @@ end;
 function TRetornoEnvio_PenseBank_API.LerRetorno(const ARetornoWS: TACBrBoletoRetornoWS): Boolean;
 var
   LJsonObject, LItemObject, LJsonViolacao: TACBrJSONObject;
-  LJsonArray, LJsonViolacoes: TACBrJSONArray;
+  LJsonViolacoes: TACBrJSONArray;
   LMensagemRejeicao: TACBrBoletoRejeicao;
   LTipoOperacao : TOperacao;
   X: Integer;

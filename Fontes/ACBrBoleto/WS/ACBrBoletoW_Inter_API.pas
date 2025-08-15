@@ -244,8 +244,6 @@ end;
 
 procedure TBoletoW_Inter_API.RequisicaoBaixa;
 var
-  Stream: TMemoryStream;
-  Str: String;
   LJson: TACBrJSONObject;
 begin
   FPContentType := 'x-www-form-urlencoded';
@@ -655,7 +653,7 @@ end;
 
 procedure TBoletoW_Inter_API.GerarDesconto(AJson: TACBrJSONObject);
 var
-  LJsonDesconto, LJsonDesconto2, LJsonDesconto3: TACBrJSONObject;
+  LJsonDesconto: TACBrJSONObject;
 begin
   if Assigned(ATitulo) and Assigned(AJson) then
   begin

@@ -297,7 +297,6 @@ end;
 procedure TBoletoW_Sicoob.RequisicaoBaixa;
 var
   LJson: TACBrJSONObject;
-  LData: string;
 begin
   if not Assigned(aTitulo) then
     Exit;
@@ -323,7 +322,6 @@ end;
 
 procedure TBoletoW_Sicoob.RequisicaoJson;
 var
-  Data: string;
   LJson: TACBrJSONObject;
 begin
   if not Assigned(aTitulo) then
@@ -395,7 +393,6 @@ end;
 
 procedure TBoletoW_Sicoob.RequisicaoAltera;
 var
-  LData: string;
   LJson: TACBrJSONObject;
   LNumeroDocumento: string;
 begin
@@ -485,7 +482,7 @@ end;
 
 procedure TBoletoW_Sicoob.GerarInstrucao(AJson: TACBrJSONObject);
 var
-  JsonPairInstrucao, JsonDadosInstrucao: TACBrJSONObject;
+  JsonDadosInstrucao: TACBrJSONObject;
   JsonArrayInstrucao: TACBrJSONArray;
 begin
   if not Assigned(aTitulo) or not Assigned(AJson) then
