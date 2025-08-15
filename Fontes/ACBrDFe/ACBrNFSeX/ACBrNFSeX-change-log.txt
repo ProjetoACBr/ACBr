@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+15/08/2025
+[*] #TK-7509: Incluído o Params: FormatarItemServicoSemZeroEsquerda para a cidade Belford Roxo/RJ.
+[*] #TK-7514: A cidade Sao Goncalo do Sapucai/MG trocou de provedor, agora é Bauhaus.
+   Por: João Antônio
+
 14/08/2025
 -- Sistemas4R.GravarXml/Sistemas4R.Provider --
 [*] #TK-7495: Alteração no TratarXmlRetornando para que o XML retornado seja lido 
