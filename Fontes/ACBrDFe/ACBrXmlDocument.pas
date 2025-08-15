@@ -448,7 +448,7 @@ var
   CDataValue: string;
   CDataNode: TACBrXmlNode;
 begin
-  if pos('CDATA', AContent) > 0 then
+  if pos('<![CDATA[', AContent) > 0 then
   begin
     CDataValue := RetornarConteudoEntre(AContent, '<![CDATA[', ']]>');
     CDataNode := FXmlDoc.CreateCDATA(CDataValue);

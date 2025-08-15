@@ -39,6 +39,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/08/2025
+-- ACBrXmlDocument --
+[*] TK-7506: Alterado a string de busca de "CDATA" para "<![CDATA[" na procedure SetContent,
+    para evitar realizar alterações quando encontrar nomes de empresa do tipo "TECDATA".
+   Por: leomcl
+
 04/08/2025
 -- ACBrDFe, ACBrDFeWebService --
 [+] Inclusão do evento OnTransmitted em TACBrDFe.
