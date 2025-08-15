@@ -334,7 +334,8 @@ begin
   FCTe.infCTeNorm.refCTeCanc := AINIRec.ReadString('infCTeNorm', 'refCTeCanc', '');
 
   case FCTe.ide.tpCTe of
-    tcNormal:
+    tcNormal,
+    tcSubstituto:
       begin
         Ler_InfServico(AINIRec, FCTe.infCTeNorm.infServico);
         Ler_InfDocReferencia(AINIRec, FCTe.infCTeNorm.infDocRef);
@@ -344,6 +345,7 @@ begin
         Ler_InfCTeNormalCobr(AINIRec, FCTe.infCTeNorm.cobr);
         Ler_InfGTVe(AINIRec, FCTe.infCTeNorm.infGTVe);
       end;
+
     tcComplemento:
       begin
         Ler_InfCTeComplemento(AINIRec, FCTe.infCteComp);
