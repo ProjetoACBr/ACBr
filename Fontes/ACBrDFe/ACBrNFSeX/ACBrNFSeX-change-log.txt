@@ -44,6 +44,11 @@ Símbolo : Significado
 
 
 15/08/2025
+-- ACBrNFSeXWebservicesResponse/PadraoNacional.Provider --
+[*] #TK-7510: Acrescentados novos campos na lista de resumos para trazer informações dados
+    dos eventos baixados pelo ConsultarDFe.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXServicos --
 [*] #TK-7509: Incluído o Params: FormatarItemServicoSemZeroEsquerda para a cidade Belford Roxo/RJ.
 [*] #TK-7514: A cidade Sao Goncalo do Sapucai/MG trocou de provedor, agora é Bauhaus.
    Por: João Antônio

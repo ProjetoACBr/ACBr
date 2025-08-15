@@ -90,6 +90,9 @@ type
     FidNota: string;
     FidRps: string;
     FNomeArq: string;
+    FnSeqEvento: Integer;
+    FidEvento: string;
+    FtpEvento: TtpEvento;
   public
     property NumeroNota: string read FNumeroNota write FNumeroNota;
     property CodigoVerificacao: string read FCodigoVerificacao write FCodigoVerificacao;
@@ -108,6 +111,9 @@ type
     property idNota: string read FidNota write FidNota;
     property idRps: string read FidRps write FidRps;
     property NomeArq: string read FNomeArq write FNomeArq;
+    property nSeqEvento: Integer read FnSeqEvento write FnSeqEvento;
+    property idEvento: string read FidEvento write FidEvento;
+    property tpEvento: TtpEvento read FtpEvento write FtpEvento;
   end;
 
   TNFSeResumoCollection = class(TACBrObjectList)

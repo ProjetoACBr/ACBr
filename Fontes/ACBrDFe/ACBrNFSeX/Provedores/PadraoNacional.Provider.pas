@@ -1111,6 +1111,13 @@ begin
                 nomeArq := '';
                 SalvarXmlEvento(IDEvento + '-procEveNFSe', ArquivoXml, nomeArq);
                 Response.PathNome := nomeArq;
+
+                // Monta a Lista de Resumos pois pode conter mais de um evento no retorno
+                AResumo.nSeqEvento := Response.nSeqEvento;
+                AResumo.Data := Response.Data;
+                AResumo.idEvento := Response.idEvento;
+                AResumo.tpEvento := Response.tpEvento;
+                AResumo.idNota := Response.idNota;
               except
                 on E:Exception do
                 begin
