@@ -787,7 +787,7 @@ begin
       Result[i].SetAttribute('chNFComAnt', NFCom.Det[i].chNFComAnt);
 
     if NFCom.Det[i].nItemAnt > 0 then
-      Result[i].SetAttribute('nItemAnt', FormatFloat('000', NFCom.Det[i].nItemAnt));
+      Result[i].SetAttribute('nItemAnt', FormatFloat('###0', NFCom.Det[i].nItemAnt));
 
     if NFCom.Det[i].indNFComAntPapelFatCentral = tiSim then
       Result[i].SetAttribute('indNFComAntPapelFatCentral', '1');
