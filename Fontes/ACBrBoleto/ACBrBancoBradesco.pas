@@ -592,7 +592,7 @@ begin
   LURL := Trim(Copy(ALinha, 29,77));
   LtxId := Trim(Copy(ALinha,106,35));
   if NaoEstaVazio(lURL) and NaoEstaVazio(LtxId) then
-     ACBrTitulo.QrCode.PIXQRCodeDinamico(Lurl, LtxId, ACBrTitulo);
+    ACBrTitulo.QrCode.PIXQRCodeDinamico(Lurl, LtxId, ACBrTitulo);
 end;
 
 function TACBrBancoBradesco.TipoOcorrenciaToDescricao(const TipoOcorrencia: TACBrTipoOcorrencia): String;

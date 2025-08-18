@@ -1244,7 +1244,7 @@ begin
                  and (copy(Linha, 18, 2) = '03')
                  and (Trim(Copy(Linha, 82, 77))<>'')
                  and (Trim(Copy(Linha, 159, 35))<>''))  then
-          QrCode.PIXQRCodeDinamico(Trim(Copy(Linha, 82, 77)), Trim(Copy(Linha, 159, 35)), Titulo);
+          Titulo.QrCode.PIXQRCodeDinamico(Trim(Copy(Linha, 82, 77)), Trim(Copy(Linha, 159, 35)), Titulo);
       end;
     finally
       ACBrBanco.TamanhoMaximoNossoNum := 12;
@@ -1401,7 +1401,7 @@ begin
           LUrl := Trim(Copy(Linha,03,77));
           LTxId:= Trim(Copy(Linha,80,35));
           if NaoEstaVazio(lURL) and NaoEstaVazio(LtxId) then
-            QrCode.PIXQRCodeDinamico(LUrl,LTxId, Titulo);
+            Titulo.QrCode.PIXQRCodeDinamico(LUrl,LTxId, Titulo);
         end;
       end;
    end;

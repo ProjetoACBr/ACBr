@@ -2381,9 +2381,8 @@ begin
 
         OcorrenciaOriginal.Tipo := CodOcorrenciaToTipo(StrToIntDef(Copy(SegT, 16, 2), 0));
 
-        if Trim(Copy(SegY,82,77))<>'' then
-          QrCode.PIXQRCodeDinamico(Trim(Copy(SegY,82,77)),Trim(Copy(SegY,159,35)), Titulo);
-
+        if (Trim(Copy(SegY,82,77))<>'') and (Trim(Copy(SegY,159,35)) <> '') then
+          Titulo.QrCode.PIXQRCodeDinamico(Trim(Copy(SegY,82,77)),Trim(Copy(SegY,159,35)), Titulo);
 
         IdxMotivo := 214;
         while (IdxMotivo < 223) do

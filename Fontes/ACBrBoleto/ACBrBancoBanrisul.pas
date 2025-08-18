@@ -1128,7 +1128,7 @@ begin
             end;
 
             if Trim(Copy(FSegY,82,77)) <> '' then
-              QrCode.PIXQRCodeDinamico(Trim(Copy(FSegY,82,77)),Trim(Copy(FSegY,159,35)), Titulo);
+              Titulo.QrCode.PIXQRCodeDinamico(Trim(Copy(FSegY,82,77)),Trim(Copy(FSegY,159,35)), Titulo);
           end;
         except
           FTituloErro.Add(' - Linhas '+ IntToStr(Index) +' e '+ IntToStr(Index + 1));
