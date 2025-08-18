@@ -43,6 +43,15 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+18/08/2025
+-- ACBrNFSeXServicos --
+[*] #TK-7525: Alterado os Links da cidade de Tangara da Serra/MT.
+   Por: acf Batista/Leandro Ledo
+[*] #TK-7521: Alterado as URLs da cidade de Araquari/SC.
+   Por: Desenv. AT Info Sistemas
+[*] #TK-7520: A cidade Juara/MT trocou de provedor, agora é Agili.
+   Por: Leandro Ledo
+
 15/08/2025
 -- ACBrNFSeXWebservicesResponse/PadraoNacional.Provider --
 [*] #TK-7510: Acrescentados novos campos na lista de resumos para trazer informações dados
