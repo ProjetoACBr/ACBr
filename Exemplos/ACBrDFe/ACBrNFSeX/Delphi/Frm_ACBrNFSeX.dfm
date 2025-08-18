@@ -2,7 +2,7 @@ object frmACBrNFSe: TfrmACBrNFSe
   Left = 282
   Top = 118
   Caption = 'ACBrNFSeX - Programa Exemplo - Vers'#227'o Delphi'
-  ClientHeight = 612
+  ClientHeight = 643
   ClientWidth = 866
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,7 +17,7 @@ object frmACBrNFSe: TfrmACBrNFSe
     Left = 0
     Top = 0
     Width = 297
-    Height = 612
+    Height = 643
     Align = alLeft
     TabOrder = 0
     object lblColaborador: TLabel
@@ -1710,14 +1710,14 @@ object frmACBrNFSe: TfrmACBrNFSe
     Left = 297
     Top = 0
     Width = 569
-    Height = 612
+    Height = 643
     Align = alClient
     TabOrder = 1
     object pgRespostas: TPageControl
       Left = 1
       Top = 204
       Width = 567
-      Height = 407
+      Height = 438
       ActivePage = TabSheet8
       Align = alClient
       TabOrder = 0
@@ -1728,7 +1728,7 @@ object frmACBrNFSe: TfrmACBrNFSe
           Left = 0
           Top = 0
           Width = 559
-          Height = 379
+          Height = 410
           Align = alClient
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -1747,11 +1747,11 @@ object frmACBrNFSe: TfrmACBrNFSe
           Left = 0
           Top = 0
           Width = 559
-          Height = 379
+          Height = 410
           Align = alClient
           TabOrder = 0
           ControlData = {
-            4C000000C63900002C2700000000000000000000000000000000000000000000
+            4C000000C6390000602A00000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126200000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -1765,11 +1765,11 @@ object frmACBrNFSe: TfrmACBrNFSe
           Left = 0
           Top = 0
           Width = 559
-          Height = 379
+          Height = 410
           Align = alClient
           TabOrder = 0
           ControlData = {
-            4C000000C63900002C2700000000000000000000000000000000000000000000
+            4C000000C6390000602A00000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126200000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -1782,11 +1782,11 @@ object frmACBrNFSe: TfrmACBrNFSe
           Left = 0
           Top = 0
           Width = 559
-          Height = 379
+          Height = 410
           Align = alClient
           TabOrder = 0
           ControlData = {
-            4C000000C63900002C2700000000000000000000000000000000000000000000
+            4C000000C6390000602A00000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126200000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000

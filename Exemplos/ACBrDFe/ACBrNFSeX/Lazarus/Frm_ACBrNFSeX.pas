@@ -43,12 +43,15 @@ type
     btnInformacoes: TButton;
     btnLerINI: TButton;
     cbLayoutNFSe: TComboBox;
+    edtCidComProv: TEdit;
     Label48: TLabel;
     Label49: TLabel;
+    Label50: TLabel;
     lblLayout: TLabel;
     pnlMenus: TPanel;
     pnlCentral: TPanel;
     PageControl1: TPageControl;
+    rgReformaTributaria: TRadioGroup;
     TabSheet1: TTabSheet;
     PageControl4: TPageControl;
     TabSheet3: TTabSheet;
@@ -389,6 +392,63 @@ type
     procedure btnConsultarParamMunicBeneficioClick(Sender: TObject);
   private
     { Private declarations }
+    CidAC: Integer;
+    CidAL: Integer;
+    CidAP: Integer;
+    CidAM: Integer;
+    CidBA: Integer;
+    CidCE: Integer;
+    CidDF: Integer;
+    CidES: Integer;
+    CidGO: Integer;
+    CidMA: Integer;
+    CidMT: Integer;
+    CidMS: Integer;
+    CidMG: Integer;
+    CidPA: Integer;
+    CidPB: Integer;
+    CidPR: Integer;
+    CidPE: Integer;
+    CidPI: Integer;
+    CidRJ: Integer;
+    CidRN: Integer;
+    CidRS: Integer;
+    CidRO: Integer;
+    CidRR: Integer;
+    CidSC: Integer;
+    CidSP: Integer;
+    CidSE: Integer;
+    CidTO: Integer;
+
+    CidComProvAC: Integer;
+    CidComProvAL: Integer;
+    CidComProvAP: Integer;
+    CidComProvAM: Integer;
+    CidComProvBA: Integer;
+    CidComProvCE: Integer;
+    CidComProvDF: Integer;
+    CidComProvES: Integer;
+    CidComProvGO: Integer;
+    CidComProvMA: Integer;
+    CidComProvMT: Integer;
+    CidComProvMS: Integer;
+    CidComProvMG: Integer;
+    CidComProvPA: Integer;
+    CidComProvPB: Integer;
+    CidComProvPR: Integer;
+    CidComProvPE: Integer;
+    CidComProvPI: Integer;
+    CidComProvRJ: Integer;
+    CidComProvRN: Integer;
+    CidComProvRS: Integer;
+    CidComProvRO: Integer;
+    CidComProvRR: Integer;
+    CidComProvSC: Integer;
+    CidComProvSP: Integer;
+    CidComProvSE: Integer;
+    CidComProvTO: Integer;
+    CidComPadroNacional: Integer;
+
     procedure GravarConfiguracao;
     procedure LerConfiguracao;
     procedure ConfigurarComponente;
@@ -420,7 +480,8 @@ uses
   blcksock,
   Grids,
   IniFiles, Printers,
-  pcnAuxiliar, pcnConversao,
+  pcnAuxiliar,
+  ACBrDFe.Conversao,
   ACBrOpenSSLUtils, OpenSSLExt,
   ACBrDFeConfiguracoes, ACBrDFeSSL,
   ACBrDFeUtil,
@@ -678,7 +739,13 @@ begin
       Servico.ItemListaServico := '010601';
 
 //      Servico.CodigoNBS := '123456789';
-      Servico.Discriminacao := 'discriminacao I; discriminacao II';
+      Servico.Discriminacao := 'discriminacao I' +
+        ACBrNFSeX1.Configuracoes.WebServices.QuebradeLinha +
+        'discriminacao II' +
+        ACBrNFSeX1.Configuracoes.WebServices.QuebradeLinha +
+        'discriminacao III' +
+        ACBrNFSeX1.Configuracoes.WebServices.QuebradeLinha +
+        'discriminacao IV';
 
       // TnfseResponsavelRetencao = ( rtTomador, rtPrestador, rtIntermediario, rtNenhum )
       //                              '1',       '',          '2',             ''
@@ -697,7 +764,7 @@ begin
       Prestador.IdentificacaoPrestador.CpfCnpj := edtEmitCNPJ.Text;
       Prestador.IdentificacaoPrestador.InscricaoMunicipal := edtEmitIM.Text;
 
-      Prestador.cUF := UFtoCUF(edtEmitUF.Text);
+      Prestador.cUF := UFparaCodigoUF(edtEmitUF.Text);
 
       Prestador.Endereco.CodigoMunicipio := edtCodCidade.Text;
 
@@ -747,6 +814,121 @@ begin
 
 //      ConstrucaoCivil.CodigoObra := '88888';
 //      ConstrucaoCivil.Art        := '433';
+
+      // Reforma Tributária
+      if rgReformaTributaria.ItemIndex = 0 then
+      begin
+        IBSCBS.finNFSe := fnfsRegular;
+        IBSCBS.indFinal := ifSim;
+        IBSCBS.cIndOp := '123456';
+        // tcgNenhum, tcgUniao, tcgEstados, tcgDistritoFederal, tcgMunicipios, tcgOutro
+        IBSCBS.tpEnteGov := tcgNenhum;
+        // Se tpEnteGov = tcgOutro informar a sua descrição
+        IBSCBS.xTpEnteGov := '';
+        // ipTomadorAdquirenteDestinatarioIguais, ipTomadorAdquirenteIguais,
+        // ipAdquirenteDestinatarioIguais, ipTomadorDestinatarioIguais,
+        // ipTomadorAdquirenteDestinatarioDiferentes);
+        IBSCBS.indPessoas := ipTomadorAdquirenteDestinatarioDiferentes;
+
+        IBSCBS.dest.CNPJCPF := '12345678901';
+        IBSCBS.dest.Nif := '';
+        IBSCBS.dest.cNaoNIF := tnnNaoInformado;
+        IBSCBS.dest.xNome := 'Nome do Destinatario';
+        IBSCBS.dest.fone := '1622223333';
+        IBSCBS.dest.email := 'nome@provedor.com.br';
+        IBSCBS.dest.ender.endNac.cMun := StrToIntDef(edtCodCidade.Text, 0);
+        IBSCBS.dest.ender.endNac.CEP := '14800000';
+        IBSCBS.dest.ender.xLgr := 'RUA PRINCIPAL';
+        IBSCBS.dest.ender.nro := '100';
+        IBSCBS.dest.ender.xCpl := '';
+        IBSCBS.dest.ender.xBairro := 'CENTRO';
+
+        IBSCBS.adq.CNPJCPF := '12345678901';
+        IBSCBS.adq.Nif := '';
+        IBSCBS.adq.cNaoNIF := tnnNaoInformado;
+        IBSCBS.adq.xNome := 'Nome do Destinatario';
+        IBSCBS.adq.fone := '1622223333';
+        IBSCBS.adq.email := 'nome@provedor.com.br';
+        IBSCBS.adq.ender.endNac.cMun := StrToIntDef(edtCodCidade.Text, 0);
+        IBSCBS.adq.ender.endNac.CEP := '14800000';
+        IBSCBS.adq.ender.xLgr := 'RUA PRINCIPAL';
+        IBSCBS.adq.ender.nro := '100';
+        IBSCBS.adq.ender.xCpl := '';
+        IBSCBS.adq.ender.xBairro := 'CENTRO';
+
+        IBSCBS.imovel.inscImobFisc := '12345678901';
+        IBSCBS.imovel.cCIB := '12345678';
+        IBSCBS.imovel.ender.cep := '14800000';
+        IBSCBS.imovel.ender.endExt.cEndPost := '';
+        IBSCBS.imovel.ender.endExt.xCidade := '';
+        IBSCBS.imovel.ender.endExt.xEstProvReg := '';
+        IBSCBS.imovel.ender.xLgr := 'RUA PRINCIPAL';
+        IBSCBS.imovel.ender.nro := '100';
+        IBSCBS.imovel.ender.xCpl := '';
+        IBSCBS.imovel.ender.xBairro := 'CENTRO';
+
+        with IBSCBS.valores.gReeRepRes.documentos.New do
+        begin
+          {
+            Grupo de informações de documentos fiscais eletrônicos que se
+            encontram no repositório nacional.
+          }
+          // tcNFSe, tcNFe, tcCTe, tcOutro
+          dFeNacional.tipoChaveDFe := tcNFSe;
+          // Informar a descrição se o tipo for tcOutro
+          dFeNacional.xtipoChaveDFe := '';
+          dFeNacional.ChaveDFe := '';
+
+          {
+            Grupo de informações de documento fiscais, eletrônicos ou não,
+            que não se encontram no repositório nacional.
+          }
+          docFiscalOutro.cMunDocFiscal := 0;
+          docFiscalOutro.nDocFiscal := '';
+          docFiscalOutro.xDocFiscal := '';
+
+          {
+            Grupo de informações de documento não fiscal.
+          }
+          docOutro.nDoc := '12345';
+          docOutro.xDoc := 'Descricao do documento';
+
+          // Os grupos: dFeNacional, docFiscalOutro e docOutro são mutuamente
+          // excludentes, portanto somente um deles pode estar presente no XML
+
+          {
+            Grupo de informações do fornecedor do documento referenciado
+          }
+          fornec.CNPJCPF := '';
+          fornec.NIF := '';
+          // tnnNaoInformado, tnnDispensado, tnnNaoExigencia
+          fornec.cNaoNIF := tnnNaoInformado;
+          fornec.xNome := '';
+          fornec.dtEmiDoc := Date;
+          fornec.dtCompDoc := Date;
+          // trrr01, trrr02, trrr03, trrr04, trrr99
+          fornec.tpReeRepRes := trrr99;
+          // Informar a descrição se o tipo for trrr99.
+          fornec.xTpReeRepRes := '';
+          fornec.vlrReeRepRes := 0;
+        end;
+
+        // cst000, cst010, cst011, cst200, cst210, cst221, cst400, cst410
+        // cst510, cst550, cst800, cst820
+        IBSCBS.valores.trib.gIBSCBS.CST := cst000;
+        IBSCBS.valores.trib.gIBSCBS.cClassTrib := '000001';
+
+        // cpNenhum, cp01, cp02, cp03, cp04, cp05, cp06, cp07, cp08, cp09, cp10,
+        // cp11, cp12, cp13
+        IBSCBS.valores.trib.gIBSCBS.cCredPres := cpNenhum;
+
+        IBSCBS.valores.trib.gIBSCBS.gTribRegular.CSTReg := cst000;
+        IBSCBS.valores.trib.gIBSCBS.gTribRegular.cClassTribReg := '000001';
+
+        IBSCBS.valores.trib.gIBSCBS.gDif.pDifUF := 5;
+        IBSCBS.valores.trib.gIBSCBS.gDif.pDifMun := 5;
+        IBSCBS.valores.trib.gIBSCBS.gDif.pDifCBS := 5;
+      end;
     end;
   end;
 end;
@@ -1577,7 +1759,7 @@ begin
       Prestador.RazaoSocial  := edtEmitRazao.Text;
       Prestador.NomeFantasia := edtEmitRazao.Text;
       // Para o provedor ISSDigital deve-se informar também:
-      Prestador.cUF := UFtoCUF(edtEmitUF.Text);
+      Prestador.cUF := UFparaCodigoUF(edtEmitUF.Text);
 
       Prestador.Endereco.CodigoMunicipio := edtCodCidade.Text;
       Prestador.Endereco.Endereco := edtEmitLogradouro.Text;
@@ -1666,9 +1848,68 @@ var
   Cidades: TStringList;
   I: Integer;
   sNome, sCod, sUF: String;
+  TotalCidades, CidComProv: Integer;
 begin
   IniCidades := TMemIniFile.Create('');
   try
+    CidComProv := 0;
+    CidAC := 0;
+    CidAL := 0;
+    CidAP := 0;
+    CidAM := 0;
+    CidBA := 0;
+    CidCE := 0;
+    CidDF := 0;
+    CidES := 0;
+    CidGO := 0;
+    CidMA := 0;
+    CidMT := 0;
+    CidMS := 0;
+    CidMG := 0;
+    CidPA := 0;
+    CidPB := 0;
+    CidPR := 0;
+    CidPE := 0;
+    CidPI := 0;
+    CidRJ := 0;
+    CidRN := 0;
+    CidRS := 0;
+    CidRO := 0;
+    CidRR := 0;
+    CidSC := 0;
+    CidSP := 0;
+    CidSE := 0;
+    CidTO := 0;
+
+    CidComProvAC := 0;
+    CidComProvAL := 0;
+    CidComProvAP := 0;
+    CidComProvAM := 0;
+    CidComProvBA := 0;
+    CidComProvCE := 0;
+    CidComProvDF := 0;
+    CidComProvES := 0;
+    CidComProvGO := 0;
+    CidComProvMA := 0;
+    CidComProvMT := 0;
+    CidComProvMS := 0;
+    CidComProvMG := 0;
+    CidComProvPA := 0;
+    CidComProvPB := 0;
+    CidComProvPR := 0;
+    CidComProvPE := 0;
+    CidComProvPI := 0;
+    CidComProvRJ := 0;
+    CidComProvRN := 0;
+    CidComProvRS := 0;
+    CidComProvRO := 0;
+    CidComProvRR := 0;
+    CidComProvSC := 0;
+    CidComProvSP := 0;
+    CidComProvSE := 0;
+    CidComProvTO := 0;
+    CidComPadroNacional := 0;
+
     Cidades := TStringList.Create;
     try
       IniCidades.SetStrings(ACBrNFSeX1.Configuracoes.WebServices.Params);
@@ -1685,13 +1926,226 @@ begin
           sUF   := IniCidades.ReadString(sCod, 'UF', '');
 
           cbCidades.Items.Add(Format('%s/%s/%s', [sNome, sCod, sUF]));
+		  
+          if IniCidades.ReadString(sCod, 'UF', '') = 'AC' then
+            Inc(CidAC);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'AL' then
+            Inc(CidAL);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'AP' then
+            Inc(CidAP);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'AM' then
+            Inc(CidAM);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'BA' then
+            Inc(CidBA);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'CE' then
+            Inc(CidCE);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'DF' then
+            Inc(CidDF);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'ES' then
+            Inc(CidES);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'GO' then
+            Inc(CidGO);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'MA' then
+            Inc(CidMA);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'MT' then
+            Inc(CidMT);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'MS' then
+            Inc(CidMS);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'MG' then
+            Inc(CidMG);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'PA' then
+            Inc(CidPA);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'PB' then
+            Inc(CidPB);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'PR' then
+            Inc(CidPR);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'PE' then
+            Inc(CidPE);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'PI' then
+            Inc(CidPI);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'RJ' then
+            Inc(CidRJ);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'RN' then
+            Inc(CidRN);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'RS' then
+            Inc(CidRS);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'RO' then
+            Inc(CidRO);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'RR' then
+            Inc(CidRR);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'SC' then
+            Inc(CidSC);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'SP' then
+            Inc(CidSP);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'SE' then
+            Inc(CidSE);
+          if IniCidades.ReadString(sCod, 'UF', '') = 'TO' then
+            Inc(CidTO);
+
+          if IniCidades.ReadString(sCod, 'Provedor', '') <> '' then
+          begin
+            Inc(CidComProv);
+
+            if IniCidades.ReadString(sCod, 'UF', '') = 'AC' then
+              Inc(CidComProvAC);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'AL' then
+              Inc(CidComProvAL);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'AP' then
+              Inc(CidComProvAP);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'AM' then
+              Inc(CidComProvAM);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'BA' then
+              Inc(CidComProvBA);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'CE' then
+              Inc(CidComProvCE);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'DF' then
+              Inc(CidComProvDF);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'ES' then
+              Inc(CidComProvES);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'GO' then
+              Inc(CidComProvGO);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'MA' then
+              Inc(CidComProvMA);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'MT' then
+              Inc(CidComProvMT);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'MS' then
+              Inc(CidComProvMS);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'MG' then
+              Inc(CidComProvMG);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'PA' then
+              Inc(CidComProvPA);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'PB' then
+              Inc(CidComProvPB);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'PR' then
+              Inc(CidComProvPR);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'PE' then
+              Inc(CidComProvPE);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'PI' then
+              Inc(CidComProvPI);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'RJ' then
+              Inc(CidComProvRJ);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'RN' then
+              Inc(CidComProvRN);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'RS' then
+              Inc(CidComProvRS);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'RO' then
+              Inc(CidComProvRO);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'RR' then
+              Inc(CidComProvRR);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'SC' then
+              Inc(CidComProvSC);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'SP' then
+              Inc(CidComProvSP);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'SE' then
+              Inc(CidComProvSE);
+            if IniCidades.ReadString(sCod, 'UF', '') = 'TO' then
+              Inc(CidComProvTO);
+
+            if IniCidades.ReadString(sCod, 'Provedor', '') = 'PadraoNacional' then
+              Inc(CidComPadroNacional);
+          end;
         end;
       end;
 
       //Sort
       cbCidades.Sorted := false;
       cbCidades.Sorted := true;
-      edtTotalCidades.Text := IntToStr(cbCidades.Items.Count);
+      TotalCidades := cbCidades.Items.Count;
+      edtTotalCidades.Text := IntToStr(TotalCidades);
+      edtCidComProv.Text := IntToStr(CidComProv);
+
+      memoLog.Lines.Clear;
+      memoLog.Lines.Add('Total de cidades atendidas: ' + edtCidComProv.Text +
+                         FormatFloat(' ( #00.00 % )', CidComProv * 100 / TotalCidades) +
+                         ' de um total de ' + edtTotalCidades.Text);
+      memoLog.Lines.Add(' ');
+      memoLog.Lines.Add('Cidades atendidas por UF');
+      memoLog.Lines.Add('AC: ' + FormatFloat('000', CidComProvAC) + ' de ' +
+                        FormatFloat('000', CidAC) +
+                        FormatFloat(' ( #00.00 % )', CidComProvAC * 100 / CidAC));
+      memoLog.Lines.Add('AL: ' + FormatFloat('000', CidComProvAL) + ' de ' +
+                        FormatFloat('000', CidAL) +
+                        FormatFloat(' ( #00.00 % )', CidComProvAL * 100 / CidAL));
+      memoLog.Lines.Add('AP: ' + FormatFloat('000', CidComProvAP) + ' de ' +
+                        FormatFloat('000', CidAP) +
+                        FormatFloat(' ( #00.00 % )', CidComProvAP * 100 / CidAP));
+      memoLog.Lines.Add('AM: ' + FormatFloat('000', CidComProvAM) + ' de ' +
+                        FormatFloat('000', CidAM) +
+                        FormatFloat(' ( #00.00 % )', CidComProvAM * 100 / CidAM));
+      memoLog.Lines.Add('BA: ' + FormatFloat('000', CidComProvBA) + ' de ' +
+                        FormatFloat('000', CidBA) +
+                        FormatFloat(' ( #00.00 % )', CidComProvBA * 100 / CidBA));
+      memoLog.Lines.Add('CE: ' + FormatFloat('000', CidComProvCE) + ' de ' +
+                        FormatFloat('000', CidCE) +
+                        FormatFloat(' ( #00.00 % )', CidComProvCE * 100 / CidCE));
+      memoLog.Lines.Add('DF: ' + FormatFloat('000', CidComProvDF) + ' de ' +
+                        FormatFloat('000', CidDF) +
+                        FormatFloat(' ( #00.00 % )', CidComProvDF * 100 / CidDF));
+      memoLog.Lines.Add('ES: ' + FormatFloat('000', CidComProvES) + ' de ' +
+                        FormatFloat('000', CidES) +
+                        FormatFloat(' ( #00.00 % )', CidComProvES * 100 / CidES));
+      memoLog.Lines.Add('GO: ' + FormatFloat('000', CidComProvGO) + ' de ' +
+                        FormatFloat('000', CidGO) +
+                        FormatFloat(' ( #00.00 % )', CidComProvGO * 100 / CidGO));
+      memoLog.Lines.Add('MA: ' + FormatFloat('000', CidComProvMA) + ' de ' +
+                        FormatFloat('000', CidMA) +
+                        FormatFloat(' ( #00.00 % )', CidComProvMA * 100 / CidMA));
+      memoLog.Lines.Add('MT: ' + FormatFloat('000', CidComProvMT) + ' de ' +
+                        FormatFloat('000', CidMT) +
+                        FormatFloat(' ( #00.00 % )', CidComProvMT * 100 / CidMT));
+      memoLog.Lines.Add('MS: ' + FormatFloat('000', CidComProvMS) + ' de ' +
+                        FormatFloat('000', CidMS) +
+                        FormatFloat(' ( #00.00 % )', CidComProvMS * 100 / CidMS));
+      memoLog.Lines.Add('MG: ' + FormatFloat('000', CidComProvMG) + ' de ' +
+                        FormatFloat('000', CidMG) +
+                        FormatFloat(' ( #00.00 % )', CidComProvMG * 100 / CidMG));
+      memoLog.Lines.Add('PA: ' + FormatFloat('000', CidComProvPA) + ' de ' +
+                        FormatFloat('000', CidPA) +
+                        FormatFloat(' ( #00.00 % )', CidComProvPA * 100 / CidPA));
+      memoLog.Lines.Add('PB: ' + FormatFloat('000', CidComProvPB) + ' de ' +
+                        FormatFloat('000', CidPB) +
+                        FormatFloat(' ( #00.00 % )', CidComProvPB * 100 / CidPB));
+      memoLog.Lines.Add('PR: ' + FormatFloat('000', CidComProvPR) + ' de ' +
+                        FormatFloat('000', CidPR) +
+                        FormatFloat(' ( #00.00 % )', CidComProvPR * 100 / CidPR));
+      memoLog.Lines.Add('PE: ' + FormatFloat('000', CidComProvPE) + ' de ' +
+                        FormatFloat('000', CidPE) +
+                        FormatFloat(' ( #00.00 % )', CidComProvPE * 100 / CidPE));
+      memoLog.Lines.Add('PI: ' + FormatFloat('000', CidComProvPI) + ' de ' +
+                        FormatFloat('000', CidPI) +
+                        FormatFloat(' ( #00.00 % )', CidComProvPI * 100 / CidPI));
+      memoLog.Lines.Add('RJ: ' + FormatFloat('000', CidComProvRJ) + ' de ' +
+                        FormatFloat('000', CidRJ) +
+                        FormatFloat(' ( #00.00 % )', CidComProvRJ * 100 / CidRJ));
+      memoLog.Lines.Add('RN: ' + FormatFloat('000', CidComProvRN) + ' de ' +
+                        FormatFloat('000', CidRN) +
+                        FormatFloat(' ( #00.00 % )', CidComProvRN * 100 / CidRN));
+      memoLog.Lines.Add('RS: ' + FormatFloat('000', CidComProvRS) + ' de ' +
+                        FormatFloat('000', CidRS) +
+                        FormatFloat(' ( #00.00 % )', CidComProvRS * 100 / CidRS));
+      memoLog.Lines.Add('RO: ' + FormatFloat('000', CidComProvRO) + ' de ' +
+                        FormatFloat('000', CidRO) +
+                        FormatFloat(' ( #00.00 % )', CidComProvRO * 100 / CidRO));
+      memoLog.Lines.Add('RR: ' + FormatFloat('000', CidComProvRR) + ' de ' +
+                        FormatFloat('000', CidRR) +
+                        FormatFloat(' ( #00.00 % )', CidComProvRR * 100 / CidRR));
+      memoLog.Lines.Add('SC: ' + FormatFloat('000', CidComProvSC) + ' de ' +
+                        FormatFloat('000', CidSC) +
+                        FormatFloat(' ( #00.00 % )', CidComProvSC * 100 / CidSC));
+      memoLog.Lines.Add('SP: ' + FormatFloat('000', CidComProvSP) + ' de ' +
+                        FormatFloat('000', CidSP) +
+                        FormatFloat(' ( #00.00 % )', CidComProvSP * 100 / CidSP));
+      memoLog.Lines.Add('SE: ' + FormatFloat('000', CidComProvSE) + ' de ' +
+                        FormatFloat('000', CidSE) +
+                        FormatFloat(' ( #00.00 % )', CidComProvSE * 100 / CidSE));
+      memoLog.Lines.Add('TO: ' + FormatFloat('000', CidComProvTO) + ' de ' +
+                        FormatFloat('000', CidTO) +
+                        FormatFloat(' ( #00.00 % )', CidComProvTO * 100 / CidTO));
+      memoLog.Lines.Add(' ');
+      memoLog.Lines.Add(FormatFloat('0000', CidComPadroNacional) + ' adotaram o Padrão Nacional');
+      memoLog.Lines.Add(' ');
+      memoLog.Lines.Add('Veja como você pode colaborar: ');
+      memoLog.Lines.Add('https://www.projetoacbr.com.br/forum/topic/84760-como-colabora-com-a-inclus%C3%A3o-de-novas-cidades-ao-componente-acbrnfsex/');
     finally
       FreeAndNil(Cidades);
     end;
@@ -3684,7 +4138,7 @@ end;
 procedure TfrmACBrNFSe.FormCreate(Sender: TObject);
 var
   T: TSSLLib;
-  I: TpcnTipoEmissao;
+  I: TACBrTipoEmissao;
   U: TSSLCryptLib;
   V: TSSLHttpLib;
   X: TSSLXmlSignLib;
@@ -3717,8 +4171,8 @@ begin
   cbSSLType.ItemIndex := 5;
 
   cbFormaEmissao.Items.Clear;
-  for I := Low(TpcnTipoEmissao) to High(TpcnTipoEmissao) do
-    cbFormaEmissao.Items.Add(GetEnumName(TypeInfo(TpcnTipoEmissao), integer(I)));
+  for I := Low(TACBrTipoEmissao) to High(TACBrTipoEmissao) do
+    cbFormaEmissao.Items.Add(GetEnumName(TypeInfo(TACBrTipoEmissao), integer(I)));
   cbFormaEmissao.ItemIndex := 0;
 
   cbLayoutNFSe.Items.Clear;
@@ -4428,7 +4882,7 @@ begin
   memoLog.Lines.Add('------------------------------');
 
   memoLog.Lines.Add('Requisição');
-  memoLog.Lines.Add('Ambiente: ' + TpAmbToStr(ACBrNFSeX1.Configuracoes.WebServices.Ambiente));
+  memoLog.Lines.Add('Ambiente: ' + TipoAmbienteToStr(ACBrNFSeX1.Configuracoes.WebServices.Ambiente));
   memoLog.Lines.Add('Cidade  : ' + ACBrNFSeX1.Configuracoes.Geral.xMunicipio + '/' +
                                    ACBrNFSeX1.Configuracoes.Geral.xUF);
   memoLog.Lines.Add('Provedor: ' + ACBrNFSeX1.Configuracoes.Geral.xProvedor +
@@ -5013,7 +5467,7 @@ begin
     ExibirErroSchema := cbxExibirErroSchema.Checked;
     RetirarAcentos   := cbxRetirarAcentos.Checked;
     FormatoAlerta    := edtFormatoAlerta.Text;
-    FormaEmissao     := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
+    FormaEmissao     := TACBrTipoEmissao(cbFormaEmissao.ItemIndex);
 
     ConsultaLoteAposEnvio := chkConsultaLoteAposEnvio.Checked;
     ConsultaAposCancelar  := chkConsultaAposCancelar.Checked;
@@ -5055,7 +5509,7 @@ begin
 
   with ACBrNFSeX1.Configuracoes.WebServices do
   begin
-    Ambiente   := StrToTpAmb(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
+    Ambiente   := StrToTipoAmbiente(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
     Visualizar := cbxVisualizar.Checked;
     Salvar     := chkSalvarSOAP.Checked;
     UF         := edtEmitUF.Text;

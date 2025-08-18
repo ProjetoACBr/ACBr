@@ -10,9 +10,8 @@ object frmACBrNFSe: TfrmACBrNFSe
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
-  OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
+  OnCreate = FormCreate
   object pnlMenus: TPanel
     Left = 0
     Height = 601
@@ -24,6 +23,7 @@ object frmACBrNFSe: TfrmACBrNFSe
     Font.Color = clWindowText
     Font.Height = -11
     Font.Name = 'Tahoma'
+    ParentBackground = False
     ParentFont = False
     TabOrder = 0
     object lblColaborador: TLabel
@@ -117,10 +117,10 @@ object frmACBrNFSe: TfrmACBrNFSe
           Font.Height = -11
           Font.Name = 'Tahoma'
           MultiLine = True
+          Options = [nboMultiLine]
           ParentFont = False
           TabIndex = 3
           TabOrder = 0
-          Options = [nboMultiLine]
           object TabSheet3: TTabSheet
             Caption = 'Certificado'
             ClientHeight = 434
@@ -200,6 +200,7 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
+              ParentBackground = False
               ParentFont = False
               TabOrder = 4
               object Label1: TLabel
@@ -249,8 +250,8 @@ object frmACBrNFSe: TfrmACBrNFSe
                   3BB33773333773333773B333333B3333333B7333333733333337
                 }
                 NumGlyphs = 2
-                OnClick = sbtnCaminhoCertClick
                 ParentFont = False
+                OnClick = sbtnCaminhoCertClick
               end
               object Label25: TLabel
                 Left = 6
@@ -287,8 +288,8 @@ object frmACBrNFSe: TfrmACBrNFSe
                   3BB33773333773333773B333333B3333333B7333333733333337
                 }
                 NumGlyphs = 2
-                OnClick = sbtnGetCertClick
                 ParentFont = False
+                OnClick = sbtnGetCertClick
               end
               object sbtnNumSerie: TSpeedButton
                 Left = 204
@@ -313,8 +314,8 @@ object frmACBrNFSe: TfrmACBrNFSe
                   3BB33773333773333773B333333B3333333B7333333733333337
                 }
                 NumGlyphs = 2
-                OnClick = sbtnNumSerieClick
                 ParentFont = False
+                OnClick = sbtnNumSerieClick
               end
               object edtCaminho: TEdit
                 Left = 6
@@ -361,9 +362,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnDataValidadeClick
               ParentFont = False
               TabOrder = 5
+              OnClick = btnDataValidadeClick
             end
             object btnNumSerie: TButton
               Left = 112
@@ -374,9 +375,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnNumSerieClick
               ParentFont = False
               TabOrder = 6
+              OnClick = btnNumSerieClick
             end
             object btnSubName: TButton
               Left = 8
@@ -387,9 +388,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnSubNameClick
               ParentFont = False
               TabOrder = 7
+              OnClick = btnSubNameClick
             end
             object btnCNPJ: TButton
               Left = 112
@@ -400,9 +401,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnCNPJClick
               ParentFont = False
               TabOrder = 8
+              OnClick = btnCNPJClick
             end
             object btnIssuerName: TButton
               Left = 188
@@ -413,9 +414,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnIssuerNameClick
               ParentFont = False
               TabOrder = 9
+              OnClick = btnIssuerNameClick
             end
             object grpCalculo: TGroupBox
               Left = 2
@@ -428,6 +429,7 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
+              ParentBackground = False
               ParentFont = False
               TabOrder = 10
               object edtTexto: TEdit
@@ -451,15 +453,15 @@ object frmACBrNFSe: TfrmACBrNFSe
                 Font.Color = clWindowText
                 Font.Height = -11
                 Font.Name = 'Tahoma'
-                OnClick = btnSha256Click
                 ParentFont = False
                 TabOrder = 1
+                OnClick = btnSha256Click
               end
               object cbAssinar: TCheckBox
                 Left = 142
-                Height = 19
+                Height = 17
                 Top = 27
-                Width = 55
+                Width = 53
                 Caption = 'Assinar'
                 Checked = True
                 Font.Color = clWindowText
@@ -479,9 +481,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnHTTPSClick
               ParentFont = False
               TabOrder = 11
+              OnClick = btnHTTPSClick
             end
             object btnLeituraX509: TButton
               Left = 144
@@ -492,9 +494,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnLeituraX509Click
               ParentFont = False
               TabOrder = 12
+              OnClick = btnLeituraX509Click
             end
             object cbSSLLib: TComboBox
               Left = 80
@@ -505,10 +507,10 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Height = -11
               Font.Name = 'Tahoma'
               ItemHeight = 13
-              OnChange = cbSSLLibChange
               ParentFont = False
               Style = csDropDownList
               TabOrder = 0
+              OnChange = cbSSLLibChange
             end
             object cbCryptLib: TComboBox
               Left = 80
@@ -519,10 +521,10 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Height = -11
               Font.Name = 'Tahoma'
               ItemHeight = 13
-              OnChange = cbCryptLibChange
               ParentFont = False
               Style = csDropDownList
               TabOrder = 1
+              OnChange = cbCryptLibChange
             end
             object cbHttpLib: TComboBox
               Left = 80
@@ -533,10 +535,10 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Height = -11
               Font.Name = 'Tahoma'
               ItemHeight = 13
-              OnChange = cbHttpLibChange
               ParentFont = False
               Style = csDropDownList
               TabOrder = 2
+              OnChange = cbHttpLibChange
             end
             object cbXmlSignLib: TComboBox
               Left = 80
@@ -547,10 +549,10 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Height = -11
               Font.Name = 'Tahoma'
               ItemHeight = 13
-              OnChange = cbXmlSignLibChange
               ParentFont = False
               Style = csDropDownList
               TabOrder = 3
+              OnChange = cbXmlSignLibChange
             end
           end
           object TabSheet4: TTabSheet
@@ -573,6 +575,7 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
+              ParentBackground = False
               ParentFont = False
               TabOrder = 0
               object sbtnPathSalvar: TSpeedButton
@@ -598,8 +601,8 @@ object frmACBrNFSe: TfrmACBrNFSe
                   3BB33773333773333773B333333B3333333B7333333733333337
                 }
                 NumGlyphs = 2
-                OnClick = sbtnPathSalvarClick
                 ParentFont = False
+                OnClick = sbtnPathSalvarClick
               end
               object Label29: TLabel
                 Left = 6
@@ -648,8 +651,8 @@ object frmACBrNFSe: TfrmACBrNFSe
                   3BB33773333773333773B333333B3333333B7333333733333337
                 }
                 NumGlyphs = 2
-                OnClick = spPathSchemasClick
                 ParentFont = False
+                OnClick = spPathSchemasClick
               end
               object Label6: TLabel
                 Left = 7
@@ -676,9 +679,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               end
               object chkSalvarGer: TCheckBox
                 Left = 6
-                Height = 19
+                Height = 17
                 Top = 132
-                Width = 196
+                Width = 194
                 Caption = 'Salvar Arquivos de Envio e Resposta'
                 Font.Color = clWindowText
                 Font.Height = -11
@@ -700,9 +703,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               end
               object cbxAtualizarXML: TCheckBox
                 Left = 6
-                Height = 19
+                Height = 17
                 Top = 2
-                Width = 84
+                Width = 82
                 Caption = 'Atualizar XML'
                 Font.Color = clWindowText
                 Font.Height = -11
@@ -712,9 +715,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               end
               object cbxExibirErroSchema: TCheckBox
                 Left = 6
-                Height = 19
+                Height = 17
                 Top = 18
-                Width = 109
+                Width = 107
                 Caption = 'Exibir Erro Schema'
                 Font.Color = clWindowText
                 Font.Height = -11
@@ -735,9 +738,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               end
               object cbxRetirarAcentos: TCheckBox
                 Left = 6
-                Height = 19
+                Height = 17
                 Top = 114
-                Width = 188
+                Width = 186
                 Caption = 'Retirar Acentos dos XMLs enviados'
                 Font.Color = clWindowText
                 Font.Height = -11
@@ -758,9 +761,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               end
               object chkConsultaLoteAposEnvio: TCheckBox
                 Left = 7
-                Height = 19
+                Height = 17
                 Top = 250
-                Width = 146
+                Width = 144
                 Caption = 'Consultar Lote Após Envio'
                 Font.Color = clWindowText
                 Font.Height = -11
@@ -770,9 +773,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               end
               object chkConsultaAposCancelar: TCheckBox
                 Left = 7
-                Height = 19
+                Height = 17
                 Top = 266
-                Width = 138
+                Width = 136
                 Caption = 'Consultar Após Cancelar'
                 Font.Color = clWindowText
                 Font.Height = -11
@@ -782,9 +785,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               end
               object chkMontarPathSchemas: TCheckBox
                 Left = 7
-                Height = 19
+                Height = 17
                 Top = 185
-                Width = 239
+                Width = 237
                 Caption = 'Montar automaticamente o Path dos Schemas'
                 Font.Color = clWindowText
                 Font.Height = -11
@@ -816,10 +819,10 @@ object frmACBrNFSe: TfrmACBrNFSe
                 Font.Height = -11
                 Font.Name = 'Tahoma'
                 ItemHeight = 13
-                OnChange = cbSSLLibChange
                 ParentFont = False
                 Style = csDropDownList
                 TabOrder = 11
+                OnChange = cbSSLLibChange
               end
             end
             object btnInformacoes: TButton
@@ -831,9 +834,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnInformacoesClick
               ParentFont = False
               TabOrder = 1
+              OnClick = btnInformacoesClick
             end
           end
           object TabSheet7: TTabSheet
@@ -856,6 +859,7 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
+              ParentBackground = False
               ParentFont = False
               TabOrder = 0
               object lTimeOut: TLabel
@@ -949,9 +953,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               end
               object cbxVisualizar: TCheckBox
                 Left = 8
-                Height = 19
+                Height = 17
                 Top = 60
-                Width = 119
+                Width = 117
                 Caption = 'Visualizar Mensagem'
                 Font.Color = clWindowText
                 Font.Height = -11
@@ -984,14 +988,15 @@ object frmACBrNFSe: TfrmACBrNFSe
                   'Produção'
                   'Homologação'
                 )
+                ParentBackground = False
                 ParentFont = False
                 TabOrder = 0
               end
               object chkSalvarSOAP: TCheckBox
                 Left = 8
-                Height = 19
+                Height = 17
                 Top = 78
-                Width = 127
+                Width = 125
                 Caption = 'Salvar envelope SOAP'
                 Font.Color = clWindowText
                 Font.Height = -11
@@ -1024,10 +1029,10 @@ object frmACBrNFSe: TfrmACBrNFSe
                 Font.Height = -11
                 Font.Name = 'Tahoma'
                 ItemHeight = 13
-                OnChange = cbSSLTypeChange
                 ParentFont = False
                 Style = csDropDownList
                 TabOrder = 4
+                OnChange = cbSSLTypeChange
               end
               object edtSenhaWeb: TEdit
                 Left = 3
@@ -1098,6 +1103,7 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
+              ParentBackground = False
               ParentFont = False
               TabOrder = 1
               object Label8: TLabel
@@ -1206,6 +1212,7 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
+              ParentBackground = False
               ParentFont = False
               TabOrder = 2
               object Label36: TLabel
@@ -1247,9 +1254,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               end
               object cbxAjustarAut: TCheckBox
                 Left = 6
-                Height = 19
+                Height = 17
                 Top = 0
-                Width = 227
+                Width = 225
                 Caption = 'Ajustar Automaticamente prop. "Aguardar"'
                 Font.Color = clWindowText
                 Font.Height = -11
@@ -1889,10 +1896,10 @@ object frmACBrNFSe: TfrmACBrNFSe
                 'Votuporanga/3557105/SP'
                 'Nova Serrana/3145208/MG'
               )
-              OnChange = cbCidadesChange
               ParentFont = False
               TabOrder = 10
               Text = 'Selecione uma Cidade'
+              OnChange = cbCidadesChange
             end
             object edtCNPJPrefeitura: TEdit
               Left = 8
@@ -1930,11 +1937,32 @@ object frmACBrNFSe: TfrmACBrNFSe
               ParentColor = False
               ParentFont = False
             end
+            object Label50: TLabel
+              Left = 149
+              Height = 13
+              Top = 328
+              Width = 107
+              Caption = 'Cidades com Provedor'
+            end
+            object edtCidComProv: TEdit
+              Left = 149
+              Height = 21
+              Top = 344
+              Width = 111
+              Font.Color = clRed
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = [fsBold]
+              ParentFont = False
+              ReadOnly = True
+              TabStop = False
+              TabOrder = 16
+            end
           end
           object TabSheet13: TTabSheet
             Caption = 'Arquivos'
-            ClientHeight = 570
-            ClientWidth = 353
+            ClientHeight = 434
+            ClientWidth = 279
             Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'Tahoma'
@@ -1963,14 +1991,14 @@ object frmACBrNFSe: TfrmACBrNFSe
                 3BB33773333773333773B333333B3333333B7333333733333337
               }
               NumGlyphs = 2
-              OnClick = sbPathNFSeClick
               ParentFont = False
+              OnClick = sbPathNFSeClick
             end
             object Label35: TLabel
               Left = 6
-              Height = 17
+              Height = 13
               Top = 116
-              Width = 125
+              Width = 100
               Caption = 'Pasta Arquivos NFSe'
               Font.Color = clWindowText
               Font.Height = -11
@@ -1980,9 +2008,9 @@ object frmACBrNFSe: TfrmACBrNFSe
             end
             object chkSalvarArq: TCheckBox
               Left = 6
-              Height = 23
+              Height = 17
               Top = 0
-              Width = 251
+              Width = 199
               Caption = 'Salvar Arquivos em Pastas Separadas'
               Font.Color = clWindowText
               Font.Height = -11
@@ -1992,9 +2020,9 @@ object frmACBrNFSe: TfrmACBrNFSe
             end
             object cbxPastaMensal: TCheckBox
               Left = 6
-              Height = 23
+              Height = 17
               Top = 16
-              Width = 178
+              Width = 142
               Caption = 'Criar Pastas Mensalmente'
               Font.Color = clWindowText
               Font.Height = -11
@@ -2004,9 +2032,9 @@ object frmACBrNFSe: TfrmACBrNFSe
             end
             object cbxAdicionaLiteral: TCheckBox
               Left = 6
-              Height = 23
+              Height = 17
               Top = 32
-              Width = 245
+              Width = 193
               Caption = 'Adicionar Literal no nome das pastas'
               Font.Color = clWindowText
               Font.Height = -11
@@ -2016,9 +2044,9 @@ object frmACBrNFSe: TfrmACBrNFSe
             end
             object cbxEmissaoPathNFSe: TCheckBox
               Left = 6
-              Height = 23
+              Height = 17
               Top = 48
-              Width = 318
+              Width = 244
               Caption = 'Salvar Documento pelo campo Data de Emissão'
               Font.Color = clWindowText
               Font.Height = -11
@@ -2028,9 +2056,9 @@ object frmACBrNFSe: TfrmACBrNFSe
             end
             object cbxSepararPorCNPJ: TCheckBox
               Left = 6
-              Height = 23
+              Height = 17
               Top = 80
-              Width = 255
+              Width = 202
               Caption = 'Separar Arqs pelo CNPJ do Certificado'
               Font.Color = clWindowText
               Font.Height = -11
@@ -2040,7 +2068,7 @@ object frmACBrNFSe: TfrmACBrNFSe
             end
             object edtPathNFSe: TEdit
               Left = 6
-              Height = 25
+              Height = 21
               Top = 132
               Width = 235
               Font.Color = clWindowText
@@ -2054,8 +2082,8 @@ object frmACBrNFSe: TfrmACBrNFSe
       end
       object TabSheet2: TTabSheet
         Caption = 'Documento Auxiliar'
-        ClientHeight = 600
-        ClientWidth = 361
+        ClientHeight = 478
+        ClientWidth = 287
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Tahoma'
@@ -2063,9 +2091,9 @@ object frmACBrNFSe: TfrmACBrNFSe
         ParentFont = False
         object Label7: TLabel
           Left = 8
-          Height = 17
+          Height = 13
           Top = 8
-          Width = 152
+          Width = 121
           Caption = 'Logo Marca da Prefeitura'
           Font.Color = clWindowText
           Font.Height = -11
@@ -2096,14 +2124,14 @@ object frmACBrNFSe: TfrmACBrNFSe
             3BB33773333773333773B333333B3333333B7333333733333337
           }
           NumGlyphs = 2
-          OnClick = sbtnLogoMarcaClick
           ParentFont = False
+          OnClick = sbtnLogoMarcaClick
         end
         object Label39: TLabel
           Left = 8
-          Height = 17
+          Height = 13
           Top = 112
-          Width = 228
+          Width = 178
           Caption = 'Logo Marca do Prestador de Serviços'
           Font.Color = clWindowText
           Font.Height = -11
@@ -2134,14 +2162,14 @@ object frmACBrNFSe: TfrmACBrNFSe
             3BB33773333773333773B333333B3333333B7333333733333337
           }
           NumGlyphs = 2
-          OnClick = sbtnPrestLogoClick
           ParentFont = False
+          OnClick = sbtnPrestLogoClick
         end
         object Label40: TLabel
           Left = 8
-          Height = 17
+          Height = 13
           Top = 151
-          Width = 117
+          Width = 93
           Caption = 'Nome da Prefeitura'
           Font.Color = clWindowText
           Font.Height = -11
@@ -2151,9 +2179,9 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object Label46: TLabel
           Left = 8
-          Height = 17
+          Height = 13
           Top = 198
-          Width = 62
+          Width = 49
           Caption = 'Pasta PDF'
           Font.Color = clWindowText
           Font.Height = -11
@@ -2184,12 +2212,12 @@ object frmACBrNFSe: TfrmACBrNFSe
             3BB33773333773333773B333333B3333333B7333333733333337
           }
           NumGlyphs = 2
-          OnClick = sbtnPathPDFClick
           ParentFont = False
+          OnClick = sbtnPathPDFClick
         end
         object edtLogoMarca: TEdit
           Left = 8
-          Height = 25
+          Height = 21
           Top = 24
           Width = 228
           Font.Color = clWindowText
@@ -2223,12 +2251,13 @@ object frmACBrNFSe: TfrmACBrNFSe
             'Retrato'
             'Paisagem'
           )
+          ParentBackground = False
           ParentFont = False
           TabOrder = 1
         end
         object edtPrestLogo: TEdit
           Left = 8
-          Height = 25
+          Height = 21
           Top = 128
           Width = 228
           Font.Color = clWindowText
@@ -2239,7 +2268,7 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object edtPrefeitura: TEdit
           Left = 8
-          Height = 25
+          Height = 21
           Top = 167
           Width = 249
           Font.Color = clWindowText
@@ -2250,7 +2279,7 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object edtPathPDF: TEdit
           Left = 8
-          Height = 25
+          Height = 21
           Top = 214
           Width = 235
           Font.Color = clWindowText
@@ -2262,8 +2291,8 @@ object frmACBrNFSe: TfrmACBrNFSe
       end
       object TabSheet14: TTabSheet
         Caption = 'Email'
-        ClientHeight = 600
-        ClientWidth = 361
+        ClientHeight = 478
+        ClientWidth = 287
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Tahoma'
@@ -2271,9 +2300,9 @@ object frmACBrNFSe: TfrmACBrNFSe
         ParentFont = False
         object Label3: TLabel
           Left = 8
-          Height = 17
+          Height = 13
           Top = 8
-          Width = 89
+          Width = 69
           Caption = 'Servidor SMTP'
           Font.Color = clWindowText
           Font.Height = -11
@@ -2283,9 +2312,9 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object Label4: TLabel
           Left = 206
-          Height = 17
+          Height = 13
           Top = 8
-          Width = 33
+          Width = 26
           Caption = 'Porta'
           Font.Color = clWindowText
           Font.Height = -11
@@ -2295,9 +2324,9 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object Label5: TLabel
           Left = 8
-          Height = 17
+          Height = 13
           Top = 48
-          Width = 45
+          Width = 36
           Caption = 'Usuário'
           Font.Color = clWindowText
           Font.Height = -11
@@ -2307,9 +2336,9 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object Label26: TLabel
           Left = 137
-          Height = 17
+          Height = 13
           Top = 48
-          Width = 38
+          Width = 30
           Caption = 'Senha'
           Font.Color = clWindowText
           Font.Height = -11
@@ -2319,9 +2348,9 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object Label27: TLabel
           Left = 8
-          Height = 17
+          Height = 13
           Top = 88
-          Width = 155
+          Width = 122
           Caption = 'Assunto do email enviado'
           Font.Color = clWindowText
           Font.Height = -11
@@ -2331,9 +2360,9 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object Label28: TLabel
           Left = 8
-          Height = 17
+          Height = 13
           Top = 175
-          Width = 120
+          Width = 93
           Caption = 'Mensagem do Email'
           Font.Color = clWindowText
           Font.Height = -11
@@ -2343,9 +2372,9 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object Label42: TLabel
           Left = 9
-          Height = 17
+          Height = 13
           Top = 307
-          Width = 126
+          Width = 99
           Caption = 'e-mail do Remetente'
           Font.Color = clWindowText
           Font.Height = -11
@@ -2355,7 +2384,7 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object edtSmtpHost: TEdit
           Left = 8
-          Height = 25
+          Height = 21
           Top = 24
           Width = 193
           Font.Color = clWindowText
@@ -2366,7 +2395,7 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object edtSmtpPort: TEdit
           Left = 206
-          Height = 25
+          Height = 21
           Top = 24
           Width = 51
           Font.Color = clWindowText
@@ -2377,7 +2406,7 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object edtSmtpUser: TEdit
           Left = 8
-          Height = 25
+          Height = 21
           Top = 64
           Width = 120
           Font.Color = clWindowText
@@ -2388,7 +2417,7 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object edtSmtpPass: TEdit
           Left = 137
-          Height = 25
+          Height = 21
           Top = 64
           Width = 120
           Font.Color = clWindowText
@@ -2399,7 +2428,7 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object edtEmailAssunto: TEdit
           Left = 8
-          Height = 25
+          Height = 21
           Top = 104
           Width = 249
           Font.Color = clWindowText
@@ -2410,9 +2439,9 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object cbEmailSSL: TCheckBox
           Left = 10
-          Height = 23
+          Height = 17
           Top = 136
-          Width = 196
+          Width = 153
           Caption = 'SMTP exige conexão segura'
           Font.Color = clWindowText
           Font.Height = -11
@@ -2433,7 +2462,7 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object edtEmailRemetente: TEdit
           Left = 8
-          Height = 25
+          Height = 21
           Top = 323
           Width = 249
           Font.Color = clWindowText
@@ -2444,9 +2473,9 @@ object frmACBrNFSe: TfrmACBrNFSe
         end
         object cbEmailTLS: TCheckBox
           Left = 10
-          Height = 23
+          Height = 17
           Top = 152
-          Width = 187
+          Width = 144
           Caption = 'SMTP exige conexão - TLS'
           Font.Color = clWindowText
           Font.Height = -11
@@ -2480,9 +2509,9 @@ object frmACBrNFSe: TfrmACBrNFSe
         93337FFFF7737777733300000033333333337777773333333333
       }
       NumGlyphs = 2
-      OnClick = btnSalvarConfigClick
       ParentFont = False
       TabOrder = 1
+      OnClick = btnSalvarConfigClick
     end
   end
   object pnlCentral: TPanel
@@ -2496,12 +2525,13 @@ object frmACBrNFSe: TfrmACBrNFSe
     Font.Color = clWindowText
     Font.Height = -11
     Font.Name = 'Tahoma'
+    ParentBackground = False
     ParentFont = False
     TabOrder = 1
     object pgRespostas: TPageControl
       Left = 1
-      Height = 436
-      Top = 164
+      Height = 396
+      Top = 204
       Width = 567
       ActivePage = TabSheet8
       Align = alClient
@@ -2513,7 +2543,7 @@ object frmACBrNFSe: TfrmACBrNFSe
       TabOrder = 0
       object TabSheet8: TTabSheet
         Caption = 'Log'
-        ClientHeight = 410
+        ClientHeight = 370
         ClientWidth = 559
         Font.Color = clWindowText
         Font.Height = -11
@@ -2522,7 +2552,7 @@ object frmACBrNFSe: TfrmACBrNFSe
         ParentFont = False
         object memoLog: TMemo
           Left = 0
-          Height = 410
+          Height = 370
           Top = 0
           Width = 559
           Align = alClient
@@ -2536,8 +2566,8 @@ object frmACBrNFSe: TfrmACBrNFSe
       end
       object TabSheet9: TTabSheet
         Caption = 'XML de Envio'
-        ClientHeight = 529
-        ClientWidth = 701
+        ClientHeight = 370
+        ClientWidth = 559
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Tahoma'
@@ -2545,9 +2575,9 @@ object frmACBrNFSe: TfrmACBrNFSe
         ParentFont = False
         inline WBXmlEnvio: TSynEdit
           Left = 0
-          Height = 529
+          Height = 370
           Top = 0
-          Width = 701
+          Width = 559
           Align = alClient
           Font.Height = -13
           Font.Name = 'Courier New'
@@ -2587,6 +2617,8 @@ object frmACBrNFSe: TfrmACBrNFSe
             object SynGutterMarks1: TSynGutterMarks
               Width = 24
               MouseActions = <>
+              MaxExtraMarksColums = 0
+              Options = [sgmoDeDuplicateMarksOnOverflow]
             end
             object SynGutterLineNumber1: TSynGutterLineNumber
               Width = 17
@@ -2622,8 +2654,8 @@ object frmACBrNFSe: TfrmACBrNFSe
       end
       object TabSheet6: TTabSheet
         Caption = 'XML de Retorno'
-        ClientHeight = 529
-        ClientWidth = 701
+        ClientHeight = 370
+        ClientWidth = 559
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Tahoma'
@@ -2631,92 +2663,7 @@ object frmACBrNFSe: TfrmACBrNFSe
         ParentFont = False
         inline WBXmlRetorno: TSynEdit
           Left = 0
-          Height = 529
-          Top = 0
-          Width = 701
-          Align = alClient
-          Font.Height = -13
-          Font.Name = 'Courier New'
-          Font.Pitch = fpFixed
-          Font.Quality = fqNonAntialiased
-          ParentColor = False
-          ParentFont = False
-          TabOrder = 0
-          Gutter.Width = 57
-          Gutter.MouseActions = <>
-          RightGutter.Width = 0
-          RightGutter.MouseActions = <>
-          Keystrokes = <>
-          MouseActions = <>
-          MouseTextActions = <>
-          MouseSelActions = <>
-          VisibleSpecialChars = [vscSpace, vscTabAtLast]
-          SelectedColor.BackPriority = 50
-          SelectedColor.ForePriority = 50
-          SelectedColor.FramePriority = 50
-          SelectedColor.BoldPriority = 50
-          SelectedColor.ItalicPriority = 50
-          SelectedColor.UnderlinePriority = 50
-          SelectedColor.StrikeOutPriority = 50
-          BracketHighlightStyle = sbhsBoth
-          BracketMatchColor.Background = clNone
-          BracketMatchColor.Foreground = clNone
-          BracketMatchColor.Style = [fsBold]
-          FoldedCodeColor.Background = clNone
-          FoldedCodeColor.Foreground = clGray
-          FoldedCodeColor.FrameColor = clGray
-          MouseLinkColor.Background = clNone
-          MouseLinkColor.Foreground = clBlue
-          LineHighlightColor.Background = clNone
-          LineHighlightColor.Foreground = clNone
-          inline SynLeftGutterPartList1: TSynGutterPartList
-            object SynGutterMarks1: TSynGutterMarks
-              Width = 24
-              MouseActions = <>
-            end
-            object SynGutterLineNumber1: TSynGutterLineNumber
-              Width = 17
-              MouseActions = <>
-              MarkupInfo.Background = clBtnFace
-              MarkupInfo.Foreground = clNone
-              DigitCount = 2
-              ShowOnlyLineNumbersMultiplesOf = 1
-              ZeroStart = False
-              LeadingZeros = False
-            end
-            object SynGutterChanges1: TSynGutterChanges
-              Width = 4
-              MouseActions = <>
-              ModifiedColor = 59900
-              SavedColor = clGreen
-            end
-            object SynGutterSeparator1: TSynGutterSeparator
-              Width = 2
-              MouseActions = <>
-              MarkupInfo.Background = clWhite
-              MarkupInfo.Foreground = clGray
-            end
-            object SynGutterCodeFolding1: TSynGutterCodeFolding
-              MouseActions = <>
-              MarkupInfo.Background = clNone
-              MarkupInfo.Foreground = clGray
-              MouseActionsExpanded = <>
-              MouseActionsCollapsed = <>
-            end
-          end
-        end
-      end
-      object TabSheet5: TTabSheet
-        Caption = 'XML das Notas'
-        ClientHeight = 410
-        ClientWidth = 559
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        ParentFont = False
-        inline WBXmlNotas: TSynEdit
-          Left = 0
-          Height = 410
+          Height = 370
           Top = 0
           Width = 559
           Align = alClient
@@ -2758,6 +2705,95 @@ object frmACBrNFSe: TfrmACBrNFSe
             object SynGutterMarks1: TSynGutterMarks
               Width = 24
               MouseActions = <>
+              MaxExtraMarksColums = 0
+              Options = [sgmoDeDuplicateMarksOnOverflow]
+            end
+            object SynGutterLineNumber1: TSynGutterLineNumber
+              Width = 17
+              MouseActions = <>
+              MarkupInfo.Background = clBtnFace
+              MarkupInfo.Foreground = clNone
+              DigitCount = 2
+              ShowOnlyLineNumbersMultiplesOf = 1
+              ZeroStart = False
+              LeadingZeros = False
+            end
+            object SynGutterChanges1: TSynGutterChanges
+              Width = 4
+              MouseActions = <>
+              ModifiedColor = 59900
+              SavedColor = clGreen
+            end
+            object SynGutterSeparator1: TSynGutterSeparator
+              Width = 2
+              MouseActions = <>
+              MarkupInfo.Background = clWhite
+              MarkupInfo.Foreground = clGray
+            end
+            object SynGutterCodeFolding1: TSynGutterCodeFolding
+              MouseActions = <>
+              MarkupInfo.Background = clNone
+              MarkupInfo.Foreground = clGray
+              MouseActionsExpanded = <>
+              MouseActionsCollapsed = <>
+            end
+          end
+        end
+      end
+      object TabSheet5: TTabSheet
+        Caption = 'XML das Notas'
+        ClientHeight = 370
+        ClientWidth = 559
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        ParentFont = False
+        inline WBXmlNotas: TSynEdit
+          Left = 0
+          Height = 370
+          Top = 0
+          Width = 559
+          Align = alClient
+          Font.Height = -13
+          Font.Name = 'Courier New'
+          Font.Pitch = fpFixed
+          Font.Quality = fqNonAntialiased
+          ParentColor = False
+          ParentFont = False
+          TabOrder = 0
+          Gutter.Width = 57
+          Gutter.MouseActions = <>
+          RightGutter.Width = 0
+          RightGutter.MouseActions = <>
+          Keystrokes = <>
+          MouseActions = <>
+          MouseTextActions = <>
+          MouseSelActions = <>
+          VisibleSpecialChars = [vscSpace, vscTabAtLast]
+          SelectedColor.BackPriority = 50
+          SelectedColor.ForePriority = 50
+          SelectedColor.FramePriority = 50
+          SelectedColor.BoldPriority = 50
+          SelectedColor.ItalicPriority = 50
+          SelectedColor.UnderlinePriority = 50
+          SelectedColor.StrikeOutPriority = 50
+          BracketHighlightStyle = sbhsBoth
+          BracketMatchColor.Background = clNone
+          BracketMatchColor.Foreground = clNone
+          BracketMatchColor.Style = [fsBold]
+          FoldedCodeColor.Background = clNone
+          FoldedCodeColor.Foreground = clGray
+          FoldedCodeColor.FrameColor = clGray
+          MouseLinkColor.Background = clNone
+          MouseLinkColor.Foreground = clBlue
+          LineHighlightColor.Background = clNone
+          LineHighlightColor.Foreground = clNone
+          inline SynLeftGutterPartList1: TSynGutterPartList
+            object SynGutterMarks1: TSynGutterMarks
+              Width = 24
+              MouseActions = <>
+              MaxExtraMarksColums = 0
+              Options = [sgmoDeDuplicateMarksOnOverflow]
             end
             object SynGutterLineNumber1: TSynGutterLineNumber
               Width = 17
@@ -2795,7 +2831,7 @@ object frmACBrNFSe: TfrmACBrNFSe
     object pgcProvedores: TPageControl
       Left = 1
       Height = 163
-      Top = 1
+      Top = 41
       Width = 567
       ActivePage = tsDemais
       Align = alTop
@@ -2844,9 +2880,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnGerarEnviarLoteClick
               ParentFont = False
               TabOrder = 3
+              OnClick = btnGerarEnviarLoteClick
             end
             object btnGerarEnviarNFSe: TButton
               Left = 184
@@ -2857,9 +2893,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnGerarEnviarNFSeClick
               ParentFont = False
               TabOrder = 4
+              OnClick = btnGerarEnviarNFSeClick
             end
             object btnGerarEnviarSincrono: TButton
               Left = 367
@@ -2870,9 +2906,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnGerarEnviarSincronoClick
               ParentFont = False
               TabOrder = 5
+              OnClick = btnGerarEnviarSincronoClick
             end
             object btnImprimir: TButton
               Left = 184
@@ -2883,9 +2919,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnImprimirClick
               ParentFont = False
               TabOrder = 1
+              OnClick = btnImprimirClick
             end
             object btnEnviaremail: TButton
               Left = 367
@@ -2896,9 +2932,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnEnviarEmailClick
               ParentFont = False
               TabOrder = 2
+              OnClick = btnEnviarEmailClick
             end
             object btnLinkNFSe: TButton
               Left = 184
@@ -2909,9 +2945,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnLinkNFSeClick
               ParentFont = False
               TabOrder = 7
+              OnClick = btnLinkNFSeClick
             end
             object btnGerarLoteRPS: TButton
               Left = 367
@@ -2922,9 +2958,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnGerarLoteRPSClick
               ParentFont = False
               TabOrder = 8
+              OnClick = btnGerarLoteRPSClick
             end
             object btnSubsNFSe: TButton
               Left = 1
@@ -2935,9 +2971,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnSubsNFSeClick
               ParentFont = False
               TabOrder = 6
+              OnClick = btnSubsNFSeClick
             end
             object btnEmitir: TButton
               Left = 1
@@ -2949,9 +2985,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Height = -13
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
-              OnClick = btnEmitirClick
               ParentFont = False
               TabOrder = 0
+              OnClick = btnEmitirClick
             end
           end
           object tsConsultas: TTabSheet
@@ -2972,9 +3008,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarSitLoteClick
               ParentFont = False
               TabOrder = 0
+              OnClick = btnConsultarSitLoteClick
             end
             object btnConsultarLote: TButton
               Left = 186
@@ -2985,9 +3021,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarLoteClick
               ParentFont = False
               TabOrder = 1
+              OnClick = btnConsultarLoteClick
             end
             object btnConsultarNFSeRPS: TButton
               Left = 369
@@ -2998,9 +3034,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSeRPSClick
               ParentFont = False
               TabOrder = 2
+              OnClick = btnConsultarNFSeRPSClick
             end
             object btnConsultarNFSePeriodo: TButton
               Left = 186
@@ -3011,9 +3047,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSePeriodoClick
               ParentFont = False
               TabOrder = 4
+              OnClick = btnConsultarNFSePeriodoClick
             end
             object btnConsultarNFSePeloNumero: TButton
               Left = 3
@@ -3024,9 +3060,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSePeloNumeroClick
               ParentFont = False
               TabOrder = 3
+              OnClick = btnConsultarNFSePeloNumeroClick
             end
             object btnConsultarNFSeFaixa: TButton
               Left = 369
@@ -3037,9 +3073,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSeFaixaClick
               ParentFont = False
               TabOrder = 5
+              OnClick = btnConsultarNFSeFaixaClick
             end
             object btnConsultarNFSeGenerico: TButton
               Left = 186
@@ -3050,9 +3086,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSeGenericoClick
               ParentFont = False
               TabOrder = 6
+              OnClick = btnConsultarNFSeGenericoClick
             end
             object btnConsultarNFSePelaChave: TButton
               Left = 3
@@ -3063,9 +3099,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSePelaChaveClick
               ParentFont = False
               TabOrder = 7
+              OnClick = btnConsultarNFSePelaChaveClick
             end
             object btnConsultarLinkNFSe: TButton
               Left = 369
@@ -3076,9 +3112,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarLinkNFSeClick
               ParentFont = False
               TabOrder = 8
+              OnClick = btnConsultarLinkNFSeClick
             end
           end
           object tsConsServPrest: TTabSheet
@@ -3099,9 +3135,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSeServicoPrestadoPorNumeroClick
               ParentFont = False
               TabOrder = 0
+              OnClick = btnConsultarNFSeServicoPrestadoPorNumeroClick
             end
             object btnConsultarNFSeServicoPrestadoPorPeriodo: TButton
               Left = 259
@@ -3112,9 +3148,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSeServicoPrestadoPorPeriodoClick
               ParentFont = False
               TabOrder = 1
+              OnClick = btnConsultarNFSeServicoPrestadoPorPeriodoClick
             end
             object btnConsultarNFSeServicoPrestadoPorTomador: TButton
               Left = 3
@@ -3125,9 +3161,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSeServicoPrestadoPorTomadorClick
               ParentFont = False
               TabOrder = 2
+              OnClick = btnConsultarNFSeServicoPrestadoPorTomadorClick
             end
             object btnConsultarNFSeServicoPrestadoPorIntermediario: TButton
               Left = 259
@@ -3138,9 +3174,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSeServicoPrestadoPorIntermediarioClick
               ParentFont = False
               TabOrder = 3
+              OnClick = btnConsultarNFSeServicoPrestadoPorIntermediarioClick
             end
           end
           object tsConsServTom: TTabSheet
@@ -3161,9 +3197,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSeServicoTomadoPorNumeroClick
               ParentFont = False
               TabOrder = 0
+              OnClick = btnConsultarNFSeServicoTomadoPorNumeroClick
             end
             object btnConsultarNFSeServicoTomadoPorPeriodo: TButton
               Left = 259
@@ -3174,9 +3210,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSeServicoTomadoPorPeriodoClick
               ParentFont = False
               TabOrder = 1
+              OnClick = btnConsultarNFSeServicoTomadoPorPeriodoClick
             end
             object btnConsultarNFSeServicoTomadoPorPrestador: TButton
               Left = 3
@@ -3187,9 +3223,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSeServicoTomadoPorPrestadorClick
               ParentFont = False
               TabOrder = 2
+              OnClick = btnConsultarNFSeServicoTomadoPorPrestadorClick
             end
             object btnConsultarNFSeServicoTomadoPorIntermediario: TButton
               Left = 259
@@ -3200,9 +3236,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSeServicoTomadoPorIntermediarioClick
               ParentFont = False
               TabOrder = 3
+              OnClick = btnConsultarNFSeServicoTomadoPorIntermediarioClick
             end
             object btnConsultarNFSeServicoTomadoPorTomador: TButton
               Left = 3
@@ -3213,9 +3249,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSeServicoTomadoPorTomadorClick
               ParentFont = False
               TabOrder = 4
+              OnClick = btnConsultarNFSeServicoTomadoPorTomadorClick
             end
           end
           object tsCancelamento: TTabSheet
@@ -3236,9 +3272,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnCancNFSeClick
               ParentFont = False
               TabOrder = 0
+              OnClick = btnCancNFSeClick
             end
           end
           object tsTeste: TTabSheet
@@ -3259,9 +3295,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnGerarEnviarTeste_SPClick
               ParentFont = False
               TabOrder = 0
+              OnClick = btnGerarEnviarTeste_SPClick
             end
             object mmoObs: TMemo
               Left = 3
@@ -3298,9 +3334,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnGerarTokenClick
               ParentFont = False
               TabOrder = 0
+              OnClick = btnGerarTokenClick
             end
             object btnLerINI: TButton
               Left = 3
@@ -3311,9 +3347,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnLerINIClick
               ParentFont = False
               TabOrder = 1
+              OnClick = btnLerINIClick
             end
           end
         end
@@ -3358,9 +3394,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnImprimirPNClick
               ParentFont = False
               TabOrder = 1
+              OnClick = btnImprimirPNClick
             end
             object btnEnviaremailPN: TButton
               Left = 369
@@ -3371,9 +3407,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnEnviaremailPNClick
               ParentFont = False
               TabOrder = 2
+              OnClick = btnEnviaremailPNClick
             end
             object btnEmitirPN: TButton
               Left = 3
@@ -3384,9 +3420,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -13
               Font.Name = 'Tahoma'
-              OnClick = btnEmitirPNClick
               ParentFont = False
               TabOrder = 0
+              OnClick = btnEmitirPNClick
             end
           end
           object tsEventos1: TTabSheet
@@ -3407,9 +3443,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnEventoCancNFSePNClick
               ParentFont = False
               TabOrder = 0
+              OnClick = btnEventoCancNFSePNClick
             end
             object btnEventoCancPorSubPN: TButton
               Left = 187
@@ -3420,9 +3456,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnEventoCancPorSubPNClick
               ParentFont = False
               TabOrder = 1
+              OnClick = btnEventoCancPorSubPNClick
             end
             object btnEventoAnaliseCancPN: TButton
               Left = 368
@@ -3433,9 +3469,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnEventoAnaliseCancPNClick
               ParentFont = False
               TabOrder = 2
+              OnClick = btnEventoAnaliseCancPNClick
             end
             object btnEventoConfPrestPN: TButton
               Left = 4
@@ -3446,9 +3482,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnEventoConfPrestPNClick
               ParentFont = False
               TabOrder = 3
+              OnClick = btnEventoConfPrestPNClick
             end
             object btnEventoConfTomPN: TButton
               Left = 187
@@ -3459,9 +3495,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnEventoConfTomPNClick
               ParentFont = False
               TabOrder = 4
+              OnClick = btnEventoConfTomPNClick
             end
             object btnEventoConfInterPN: TButton
               Left = 368
@@ -3472,9 +3508,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnEventoConfInterPNClick
               ParentFont = False
               TabOrder = 5
+              OnClick = btnEventoConfInterPNClick
             end
             object btnEventoRejPrestPN: TButton
               Left = 4
@@ -3485,9 +3521,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnEventoRejPrestPNClick
               ParentFont = False
               TabOrder = 6
+              OnClick = btnEventoRejPrestPNClick
             end
             object btnEventoRejTomPN: TButton
               Left = 187
@@ -3498,9 +3534,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnEventoRejTomPNClick
               ParentFont = False
               TabOrder = 7
+              OnClick = btnEventoRejTomPNClick
             end
             object btnEventoRejInterPN: TButton
               Left = 368
@@ -3511,9 +3547,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnEventoRejInterPNClick
               ParentFont = False
               TabOrder = 8
+              OnClick = btnEventoRejInterPNClick
             end
           end
           object tsConsultas1: TTabSheet
@@ -3534,9 +3570,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarDPSPorChavePNClick
               ParentFont = False
               TabOrder = 0
+              OnClick = btnConsultarDPSPorChavePNClick
             end
             object btnConsultarNFSePelaChavePN: TButton
               Left = 186
@@ -3547,9 +3583,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarNFSePelaChavePNClick
               ParentFont = False
               TabOrder = 1
+              OnClick = btnConsultarNFSePelaChavePNClick
             end
             object btnObterPDFdoDANFSEPN: TButton
               Left = 3
@@ -3560,9 +3596,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnObterPDFdoDANFSEPNClick
               ParentFont = False
               TabOrder = 2
+              OnClick = btnObterPDFdoDANFSEPNClick
             end
             object btnConsultarEventoChavPN: TButton
               Left = 3
@@ -3573,9 +3609,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarEventoChavPNClick
               ParentFont = False
               TabOrder = 3
+              OnClick = btnConsultarEventoChavPNClick
             end
             object btnConsultarDFe: TButton
               Left = 186
@@ -3586,9 +3622,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarDFeClick
               ParentFont = False
               TabOrder = 4
+              OnClick = btnConsultarDFeClick
             end
           end
           object tsConsultarParametros: TTabSheet
@@ -3609,9 +3645,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarParamMunicConvenioClick
               ParentFont = False
               TabOrder = 0
+              OnClick = btnConsultarParamMunicConvenioClick
             end
             object btnConsultarParamMunicAliquota: TButton
               Left = 3
@@ -3622,9 +3658,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarParamMunicAliquotaClick
               ParentFont = False
               TabOrder = 1
+              OnClick = btnConsultarParamMunicAliquotaClick
             end
             object btnConsultarParamMunicHistAliquota: TButton
               Left = 186
@@ -3635,9 +3671,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarParamMunicHistAliquotaClick
               ParentFont = False
               TabOrder = 2
+              OnClick = btnConsultarParamMunicHistAliquotaClick
             end
             object btnConsultarParamMunicRegimesEspeciais: TButton
               Left = 3
@@ -3648,9 +3684,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarParamMunicRegimesEspeciaisClick
               ParentFont = False
               TabOrder = 3
+              OnClick = btnConsultarParamMunicRegimesEspeciaisClick
             end
             object btnConsultarParamMunicRetencoes: TButton
               Left = 186
@@ -3661,9 +3697,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarParamMunicRetencoesClick
               ParentFont = False
               TabOrder = 4
+              OnClick = btnConsultarParamMunicRetencoesClick
             end
             object btnConsultarParamMunicBeneficio: TButton
               Left = 369
@@ -3674,13 +3710,44 @@ object frmACBrNFSe: TfrmACBrNFSe
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'Tahoma'
-              OnClick = btnConsultarParamMunicBeneficioClick
               ParentFont = False
               TabOrder = 5
+              OnClick = btnConsultarParamMunicBeneficioClick
             end
           end
         end
       end
+    end
+    object rgReformaTributaria: TRadioGroup
+      Left = 1
+      Height = 40
+      Top = 1
+      Width = 567
+      Align = alTop
+      AutoFill = True
+      Caption = 'Gera os campos da ReformaTributaria (somente Padrão Nacional)'
+      ChildSizing.LeftRightSpacing = 6
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.ShrinkHorizontal = crsScaleChilds
+      ChildSizing.ShrinkVertical = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 2
+      ClientHeight = 22
+      ClientWidth = 563
+      Columns = 2
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ItemIndex = 1
+      Items.Strings = (
+        'Sim'
+        'Não'
+      )
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 2
     end
   end
   object OpenDialog1: TOpenDialog
@@ -3743,9 +3810,9 @@ object frmACBrNFSe: TfrmACBrNFSe
     CasasDecimais.MaskAliquota = ',0.00'
     ACBrNFSe = ACBrNFSeX1
     Cancelada = False
-    Provedor = proNenhum
     TamanhoFonte = 6
     FormatarNumeroDocumentoNFSe = True
+    Provedor = proNenhum
     Producao = snSim
     Left = 470
     Top = 265
