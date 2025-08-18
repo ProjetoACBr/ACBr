@@ -37,8 +37,8 @@ unit ACBrNFSeXGravarXml_ABRASFv2;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
-  ACBrXmlDocument, INIFiles, ACBrNFSeXClass,
+  SysUtils, Classes, StrUtils, IniFiles,
+  ACBrXmlDocument, ACBrNFSeXClass,
   ACBrNFSeXGravarXml;
 
 type
@@ -346,6 +346,7 @@ uses
   ACBrUtil.Base,
   ACBrUtil.DateTime,
   ACBrUtil.Strings,
+  ACBrDFe.Conversao,
   ACBrXmlBase,
   ACBrNFSeXConversao, ACBrNFSeXConsts;
 

@@ -132,6 +132,7 @@ implementation
 
 uses
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.FilesIO, ACBrConsts,
+  ACBrDFe.Conversao,
   ACBrNFSeXConversao;
 
 //==============================================================================

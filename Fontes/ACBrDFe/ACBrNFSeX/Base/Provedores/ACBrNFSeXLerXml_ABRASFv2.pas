@@ -148,6 +148,7 @@ implementation
 
 uses
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.FilesIO,
+  ACBrDFe.Conversao,
   ACBrUtil.DateTime,
   ACBrConsts,
   ACBrNFSeXConversao;

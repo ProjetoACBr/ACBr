@@ -250,6 +250,8 @@ begin
     Exit;
 
   LInicio := 0;
+  LCaractereInicial := ' ';
+  LCaractereFinal := ' ';
 
   for I := 1 to Length(ADiscriminacao) do
   begin
@@ -599,7 +601,6 @@ var
   Ok: Boolean;
   i: Integer;
   Item: TItemServicoCollectionItem;
-  ItemDocDeducao: TDocDeducaoCollectionItem;
   ItemParcelas: TParcelasCollectionItem;
 begin
   Result := True;

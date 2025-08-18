@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 18/08/2025
+-- Diversos --
+[*] #TK-7301: Ajustes visando a versão 1.2 da NT 2025/003 da Reforma Tributária,
+    implementado a leitura do XML do DPS do Padrão Nacional.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] #TK-7525: Alterado os Links da cidade de Tangara da Serra/MT.
    Por: acf Batista/Leandro Ledo

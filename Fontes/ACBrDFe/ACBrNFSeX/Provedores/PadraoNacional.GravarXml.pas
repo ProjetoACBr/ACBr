@@ -1648,7 +1648,6 @@ begin
       Result.AppendChild(nodeArray[i]);
     end;
   end;
-
 end;
 
 function TNFSeW_PadraoNacional.GerarDocumentos: TACBrXmlNodeArray;
