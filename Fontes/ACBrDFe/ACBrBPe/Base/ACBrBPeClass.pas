@@ -129,7 +129,7 @@ type
   TgTribRegular = class(TObject)
   private
     FCSTReg: TCSTIBSCBS;
-    FcClassTribReg: TcClassTrib;
+    FcClassTribReg: string;
     FpAliqEfetRegIBSUF: Double;
     FvTribRegIBSUF: Double;
     FpAliqEfetRegIBSMun: Double;
@@ -138,7 +138,7 @@ type
     FvTribRegCBS: Double;
   public
     property CSTReg: TCSTIBSCBS read FCSTReg write FCSTReg;
-    property cClassTribReg: TcClassTrib read FcClassTribReg write FcClassTribReg;
+    property cClassTribReg: string read FcClassTribReg write FcClassTribReg;
     property pAliqEfetRegIBSUF: Double read FpAliqEfetRegIBSUF write FpAliqEfetRegIBSUF;
     property vTribRegIBSUF: Double read FvTribRegIBSUF write FvTribRegIBSUF;
     property pAliqEfetRegIBSMun: Double read FpAliqEfetRegIBSMun write FpAliqEfetRegIBSMun;
@@ -274,14 +274,14 @@ type
   TIBSCBS = class(TObject)
   private
     FCST: TCSTIBSCBS;
-    FcClassTrib: TcClassTrib;
+    FcClassTrib: string;
     FgIBSCBS: TgIBSCBS;
   public
     constructor Create;
     destructor Destroy; override;
 
     property CST: TCSTIBSCBS read FCST write FCST;
-    property cClassTrib: TcClassTrib read FcClassTrib write FcClassTrib;
+    property cClassTrib: string read FcClassTrib write FcClassTrib;
     property gIBSCBS: TgIBSCBS read FgIBSCBS write FgIBSCBS;
   end;
 

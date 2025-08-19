@@ -534,7 +534,7 @@ begin
                                           CSTIBSCBSToStr(IBSCBS.CST), DSC_CST));
 
     Result.AppendChild(AddNode(tcStr, '#2', 'cClassTrib', 6, 6, 1,
-                           cClassTribToStr(IBSCBS.cClassTrib), DSC_CCLASSTRIB));
+                                            IBSCBS.cClassTrib, DSC_CCLASSTRIB));
 
     if IBSCBS.gIBSCBS.vBC > 0 then
       Result.AppendChild(Gerar_IBSCBS_gIBSCBS(IBSCBS.gIBSCBS));
@@ -692,7 +692,7 @@ begin
                                  CSTIBSCBSToStr(gTribRegular.CSTReg), DSC_CST));
 
   Result.AppendChild(AddNode(tcStr, '#57', 'cClassTribReg', 6, 6, 1,
-                  cClassTribToStr(gTribRegular.cClassTribReg), DSC_CCLASSTRIB));
+                                   gTribRegular.cClassTribReg, DSC_CCLASSTRIB));
 
   Result.AppendChild(AddNode(tcDe4, '#58', 'pAliqEfetRegIBSUF', 1, 7, 1,
                                     gTribRegular.pAliqEfetRegIBSUF, DSC_PALIQ));
