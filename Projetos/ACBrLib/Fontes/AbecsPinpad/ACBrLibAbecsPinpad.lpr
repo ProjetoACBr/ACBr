@@ -35,7 +35,7 @@
 library ACBrLibAbecsPinpad;
 
 uses
-  Interfaces, sysutils, Classes,
+  Interfaces, sysutils, Classes, Forms,
   ACBrLibConfig, ACBrLibComum,
   {$IFDEF MT}ACBrLibAbecsPinpadMT{$ELSE}ACBrLibAbecsPinpadST{$ENDIF},
   ACBrLibAbecsPinpadConfig, ACBrLibAbecsPinpadDataModule,
@@ -96,5 +96,7 @@ begin
   {$ENDIF}
 
   MainThreadID := GetCurrentThreadId();
+  Application.FindGlobalComponentEnabled:= false;
+  Application.Initialize;
 end.
 

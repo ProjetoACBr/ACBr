@@ -41,7 +41,7 @@ uses
     cmem, // the c memory manager is on some systems much faster for multi-threading
    {$ENDIF}
   {$ENDIF}
-  Interfaces, sysutils, Classes,
+  Interfaces, sysutils, Classes, Forms,
   ACBrLibConfig, ACBrLibComum,
   ACBrLibLCBClass, ACBrLibLCBConfig, ACBrLibLCBDataModule;
 
@@ -81,5 +81,7 @@ begin
 
   pLibClass := TACBrLibLCB; // Ajusta a classe a ser criada
   MainThreadID := GetCurrentThreadId();
+  Application.FindGlobalComponentEnabled:= false;
+  Application.Initialize;
 end.
 

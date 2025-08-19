@@ -41,7 +41,7 @@ uses
     cmem, // the c memory manager is on some systems much faster for multi-threading
    {$ENDIF}
   {$ENDIF}
-  Interfaces, sysutils, Classes,
+  Interfaces, sysutils, Classes, Forms,
   ACBrLibConfig, ACBrLibComum,
   {$IFDEF MT}ACBrLibSedexMT{$ELSE}ACBrLibSedexST{$ENDIF},
   ACBrLibSedexConfig, ACBrLibSedexDataModule, ACBrLibSedexRespostas;
@@ -79,5 +79,7 @@ begin
   {$ENDIF}
 
   MainThreadID := GetCurrentThreadId();
+  Application.FindGlobalComponentEnabled:= false;
+  Application.Initialize;
 end.
 
