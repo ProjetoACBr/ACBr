@@ -63,7 +63,7 @@
         <PackageName Value="FCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="6">
+    <Units Count="5">
       <Unit0>
         <Filename Value="ACBrComumTestCases.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -74,21 +74,17 @@
         <UnitName Value="ACBrUtilTest"/>
       </Unit1>
       <Unit2>
-        <Filename Value="..\..\..\Fontes\ACBrComum\ACBrCompress.pas"/>
+        <Filename Value="..\..\ACBrTests.Util.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="..\..\ACBrTests.Util.pas"/>
+        <Filename Value="ACBrUtil.StringsTests.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="ACBrUtil.StringsTests.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit4>
-      <Unit5>
         <Filename Value="ACBrUtil.DateTimeTests.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit5>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
