@@ -119,7 +119,7 @@ Version 1.25 (15.05.2003)
 Version 1.26 (27.05.2004)
 - fixed a bug for Code93 (wrong checksum calculation for barcode with more than 14 chars)
 Version 1.27 (27.10.2004)
-- added Code128 Charset A control codes from 0 to 31 
+- added Code128 Charset A control codes from 0 to 31
 
 
 Todo (missing features)
@@ -150,7 +150,11 @@ uses
   {$IFDEF VisualCLX}
    QGraphics
   {$ELSE}
+   {$IfDef FMX}
+   FMX.Graphics, FMX.Types, System.UIConsts, FMX.TextLayout
+   {$Else}
    Graphics
+   {$EndIf}
    {$IFDEF DELPHICOMPILER16_UP}
     ,System.UITypes
    {$ENDIF}
@@ -320,10 +324,10 @@ type
     property ShowText:TBarcodeOption read FShowText write SetShowText default bcoNone;
     property ShowTextFont: TFont read FShowTextFont write SetShowTextFont;
     property ShowTextPosition: TShowTextPosition read FShowTextPosition write SetShowTextPosition default stpTopLeft;
-    property Width : integer read GetWidth write SetWidth stored False;
-    property Color:TColor read FColor write FColor default clWhite;
-    property ColorBar:TColor read FColorBar write FColorBar default clBlack;
-      property OnChange:TNotifyEvent read FOnChange write FOnChange;
+    property Width: integer read GetWidth write SetWidth stored False;
+    property Color: TColor read FColor write FColor default {$IFNDEF FMX}clWhite{$ELSE}TColors.White{$ENDIF};
+    property ColorBar: TColor read FColorBar write FColorBar default {$IFNDEF FMX}clBlack{$ELSE}TColors.Black{$ENDIF};
+    property OnChange: TNotifyEvent read FOnChange write FOnChange;
   end;
 
 { used for EAN 8/13 }
@@ -331,7 +335,7 @@ function CheckSumModulo10(const data:string):string;
 
 implementation
 
-uses SysUtils, Math;
+uses SysUtils, Math{$IfDef FMX}, System.Math.Vectors{$ENDIF};
 
 
 {$DEFINE ASSERT_SUPPORTED}
@@ -552,8 +556,8 @@ begin
   FCheckSum := FALSE;
   FCheckSumMethod := csmModulo10;
   FShowText := bcoNone;
-  FColor    := clWhite;
-  FColorBar := clBlack;
+  FColor    := {$IFNDEF FMX}clWhite{$ELSE}TColors.White{$ENDIF};
+  FColorBar := {$IFNDEF FMX}clBlack{$ELSE}TColors.Black{$ENDIF};
   FShowTextFont := TFont.Create;
   FShowTextPosition := stpTopLeft;
 end;
@@ -1955,6 +1959,8 @@ Examples:
 data[] : see procedure OneBarProps
 
 }
+
+{$IFNDEF FMX}
 procedure TAsBarcode.DoLines(data:string; Canvas:TCanvas);
 
 var i:integer;
@@ -2036,9 +2042,43 @@ begin
     end;
   end;
 end;
+{$ELSE}
+procedure TAsBarcode.DoLines(data:string; Canvas:TCanvas);
+var
+  i, n: Integer;
+  wid: Integer;
+  x, topY, bottomY: Single;
+  R: TRectF;
+  lt : TBarLineType;
+begin
+  n := data.Length;
+  if n = 0 then Exit;
 
+  R := RectF(FLeft, FTop, Self.Width, Self.Height);
 
+  // fundo branco
+  Canvas.Fill.Kind := TBrushKind.Solid;
+  Canvas.Fill.Color := TAlphaColorRec.Alpha or TAlphaColor(FColor);
+  Canvas.FillRect(R, 0, 0, [], 1);
 
+  topY := R.Top;
+  bottomY := R.Bottom;
+
+  Canvas.Fill.Color := TAlphaColorRec.Alpha or TAlphaColor(FColorBar);
+
+  x := R.Left;
+  for i := 1 to n do
+  begin
+    OneBarProps(data[i], wid, lt);
+
+    if (lt = black) or (lt = black_half) then
+      Canvas.FillRect(TRectF.Create(x, topY, x + wid, bottomY), 0, 0, [], 1);
+
+    x := x + wid;
+  end;
+end;
+{$ENDIF}
+{$IFNDEF FMX}
 procedure TAsBarcode.DrawBarcode(Canvas:TCanvas);
 var
   data : string;
@@ -2077,6 +2117,28 @@ begin
     SaveBrush.Free;
   end;
 end;
+{$ELSE}
+procedure TAsBarcode.DrawBarcode(Canvas: TCanvas);
+var
+  data : string;
+  State: TCanvasSaveState;
+begin
+  data  := MakeData;
+
+  Canvas.BeginScene;
+  State := Canvas.SaveState;
+
+  try
+    DoLines(data, Canvas);
+
+    if FShowText <> bcoNone then
+      DrawText(Canvas);
+  finally
+    Canvas.RestoreState(State);
+    Canvas.EndScene;
+  end;
+end;
+{$ENDIF}
 
 
 {
@@ -2096,6 +2158,7 @@ end;
   the first character is outside of the bound of the barcode, and this
   can cause some problems (expecially in a report)
 }
+{$IFNDEF FMX}
 procedure TAsBarcode.DrawText(Canvas:TCanvas);
 var
   PosX, PosY: Integer;
@@ -2143,7 +2206,7 @@ begin
         begin
           Brush.Style := bsSolid;     // Apagando a area de impressão do Código //
           FillRect(Rect(PosX,PosY,PosX + TextWidth(FText), PosY + TextHeight(Text)) ) ;
-          
+
           TextOut(PosX, PosY, FText);         {contents of Barcode}
         end ;
 
@@ -2165,6 +2228,126 @@ begin
     end;
   end;
 end;
+{$ELSE}
+procedure TAsBarcode.DrawText(Canvas: TCanvas);
+var
+  PosX, PosY: Single;
+  TW, TH: Single;
+  TextColor: TAlphaColor;
+
+  function MeasureTextSize(const AText: string; const AFont: TFont): TSizeF;
+  var
+    TL: TTextLayout;
+  begin
+    TL := TTextLayoutManager.DefaultTextLayout.Create;
+    try
+      TL.BeginUpdate;
+      try
+        TL.Text := AText;
+        TL.Font.Assign(AFont);
+        TL.WordWrap := False;
+        TL.Trimming := TTextTrimming.None;
+        TL.HorizontalAlign := TTextAlign.Leading;
+        TL.VerticalAlign := TTextAlign.Leading;
+        TL.TopLeft := PointF(0, 0);
+        TL.MaxSize := PointF(1e7, 1e7); // área grande para medir sem quebra
+      finally
+        TL.EndUpdate;
+      end;
+      Result := TSizeF.Create(TL.TextRect.Width, TL.TextRect.Height);
+    finally
+      TL.Free;
+    end;
+  end;
+
+  procedure ClearRect(const X, Y, W, H: Single);
+  var
+    R: TRectF;
+    OldFill: TAlphaColor;
+  begin
+    R := TRectF.Create(PointF(X, Y), W, H);
+    OldFill := Canvas.Fill.Color;
+    try
+      Canvas.Fill.Color := TAlphaColorRec.Alpha or TAlphaColor(FColor); // cor de fundo do componente
+      Canvas.FillRect(R, 0, 0, [], 1.0);
+    finally
+      Canvas.Fill.Color := OldFill;
+    end;
+  end;
+
+  procedure DrawOneText(const AText: string; const AFont: TFont;
+                        const ATextColor: TAlphaColor; X, Y: Single);
+  var
+    S: TSizeF;
+    R: TRectF;
+  begin
+    if AText = '' then Exit;
+
+    // mede e prepara o retângulo alvo
+    S := MeasureTextSize(AText, AFont);
+    TW := S.Width;
+    TH := S.Height;
+
+    R := TRectF.Create(PointF(X, Y), TW, TH);
+
+    // limpa fundo
+    ClearRect(R.Left, R.Top, R.Width, R.Height);
+
+    // desenha o texto
+    Canvas.Font.Assign(AFont);               // respeita a fonte
+    Canvas.Fill.Color := ATextColor;         // cor do texto
+    Canvas.FillText(R, AText, False, 1.0, [], TTextAlign.Leading, TTextAlign.Leading);
+  end;
+
+var
+  TextToShow, TypToShow: string;
+  CodeSize: TSizeF;
+begin
+  TextColor := TAlphaColorRec.Alpha or TAlphaColor(FColorBar); // ajuste conforme sua preferência (ou campo próprio)
+
+  try
+    TextToShow := FText;
+    TypToShow  := GetTypText;
+
+    // 1) Texto do CÓDIGO (FText)
+    if FShowText in [bcoCode, bcoBoth] then
+    begin
+      CodeSize := MeasureTextSize(TextToShow, ShowTextFont);
+
+      // X
+      case ShowTextPosition of
+        stpTopLeft, stpBottomLeft:
+          PosX := FLeft;
+        stpTopRight, stpBottomRight:
+          PosX := FLeft + (Width - CodeSize.Width);
+      else
+          PosX := FLeft + (Width - CodeSize.Width) * 0.5; // center
+      end;
+
+      // Y
+      case ShowTextPosition of
+        stpTopLeft, stpTopCenter, stpTopRight:
+          PosY := FTop;
+      else
+          PosY := FTop + (Height - CodeSize.Height);       // bottom*
+      end;
+
+      DrawOneText(TextToShow, ShowTextFont, TextColor, PosX, PosY);
+    end;
+
+    // 2) Texto do TIPO (GetTypText)
+    if FShowText in [bcoTyp, bcoBoth] then
+    begin
+      PosX := FLeft;
+      PosY := FTop + (ShowTextFont.Size * 2.5); // ajuste fino se quiser
+      DrawOneText(TypToShow, ShowTextFont, TextColor, PosX, PosY);
+    end;
+
+  finally
+
+  end;
+end;
+{$ENDIF}
 
 
 procedure TAsBarcode.DoChange;
@@ -2300,3 +2483,4 @@ begin
 end;
 
 end.
+
