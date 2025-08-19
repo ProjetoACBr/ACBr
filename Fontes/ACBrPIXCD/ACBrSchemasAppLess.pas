@@ -302,7 +302,7 @@ type
     fchannel: String;
     fcustomerCNPJ: String;
     fcustomerCPF: String;
-    fcustumerSocialName: String;
+    fcustomerSocialName: String;
     fexpiration: Integer;
     fexternalId: String;
     finstallments: Integer;
@@ -320,7 +320,7 @@ type
 
     property amount: Double read famount write famount;
     property externalId: String read fexternalId write fexternalId;
-    property custumerSocialName: String read fcustumerSocialName write fcustumerSocialName;
+    property customerSocialName: String read fcustomerSocialName write fcustomerSocialName;
     property customerCPF: String read fcustomerCPF write fcustomerCPF;
     property customerCNPJ: String read fcustomerCNPJ write fcustomerCNPJ;
     property typeOrder: String read ftypeOrder write ftypeOrder;
@@ -344,7 +344,7 @@ type
   public
     property amount;
     property externalId;
-    property custumerSocialName;
+    property customerSocialName;
     property customerCPF;
     property customerCNPJ;
   end;
@@ -1383,7 +1383,7 @@ begin
     .AddPair('channel', fchannel, False)
     .AddPair('customerCPF', fcustomerCPF, False)
     .AddPair('customerCNPJ', fcustomerCNPJ, False)
-    .AddPair('custumerSocialName', fcustumerSocialName, False)
+    .AddPair('customerSocialName', fcustomerSocialName, False)
     .AddPair('expiration', fexpiration, False)
     .AddPair('externalId', fexternalId)
     .AddPair('installments', finstallments, False)
@@ -1408,7 +1408,7 @@ begin
     .Value('channel', fchannel)
     .Value('customerCPF', fcustomerCPF)
     .Value('customerCNPJ', fcustomerCNPJ)
-    .Value('custumerSocialName', fcustumerSocialName)
+    .Value('customerSocialName', fcustomerSocialName)
     .Value('expiration', fexpiration)
     .Value('externalId', fexternalId)
     .Value('installments', finstallments)
@@ -1434,7 +1434,7 @@ begin
   fchannel := EmptyStr;
   fcustomerCPF := EmptyStr;
   fcustomerCNPJ := EmptyStr;
-  fcustumerSocialName := EmptyStr;
+  fcustomerSocialName := EmptyStr;
   fexpiration := 0;
   fexternalId := EmptyStr;
   finstallments := 0;
@@ -1455,7 +1455,7 @@ begin
     EstaVazio(fchannel) and
     EstaVazio(fcustomerCPF) and
     EstaVazio(fcustomerCNPJ) and
-    EstaVazio(fcustumerSocialName) and
+    EstaVazio(fcustomerSocialName) and
     EstaZerado(fexpiration) and
     EstaVazio(fexternalId) and
     EstaZerado(finstallments) and
@@ -1476,7 +1476,7 @@ begin
   fchannel := Source.channel;
   fcustomerCPF := Source.customerCPF;
   fcustomerCNPJ := Source.customerCNPJ;
-  fcustumerSocialName := Source.custumerSocialName;
+  fcustomerSocialName := Source.customerSocialName;
   fexpiration := Source.expiration;
   fexternalId := Source.externalId;
   finstallments := Source.installments;

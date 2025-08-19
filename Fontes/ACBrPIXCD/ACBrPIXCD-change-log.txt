@@ -47,6 +47,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/08/2025
+-- ACBrSchemasAppLess --
+[-] Correção da propriedade customerSocialName.
+
 12/08/2025
 -- ACBrPIXPSPAppLess --
 [*] Alteração para preencher a propriedade correta ao informar um CNPJ na criação da cobrança.

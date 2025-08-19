@@ -176,7 +176,7 @@ begin
 
     OrderRequest.Clear;
     OrderRequest.amount := wCob.valor.original;
-    OrderRequest.custumerSocialName := wCob.devedor.nome;
+    OrderRequest.customerSocialName := wCob.devedor.nome;
 
     if not EstaVazio(wCob.devedor.cpf) then
       OrderRequest.customerCPF:= wCob.devedor.cpf
