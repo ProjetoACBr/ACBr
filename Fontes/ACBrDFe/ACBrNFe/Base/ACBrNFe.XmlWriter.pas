@@ -4140,7 +4140,7 @@ begin
                                               CSTISToStr(ISel.CSTIS), DSC_CST));
 
   Result.AppendChild(AddNode(tcStr, 'UB04', 'cClassTribIS', 6, 6, 1,
-                         cClassTribISToStr(ISel.cClassTribIS), DSC_CCLASSTRIB));
+                                            ISel.cClassTribIS, DSC_CCLASSTRIB));
 
   if (ISel.vBCIS > 0) or (ISel.pIS > 0) or (ISel.uTrib <> '') or
      (ISel.qTrib > 0) or (ISel.vIS > 0) then
@@ -4173,7 +4173,7 @@ begin
   Result := nil;
   FpGerarGrupoIBSCBSTot := False;
 
-  if (IBSCBS.CST <> cstNenhum) and (IBSCBS.cClassTrib <> ctNenhum) then
+  if (IBSCBS.CST <> cstNenhum) and (IBSCBS.cClassTrib <> '') then
   begin
     FpGerarGrupoIBSCBSTot := True;
     Result := FDocument.CreateElement('IBSCBS');
@@ -4182,7 +4182,7 @@ begin
                                           CSTIBSCBSToStr(IBSCBS.CST), DSC_CST));
 
     Result.AppendChild(AddNode(tcStr, 'UB13', 'cClassTrib', 6, 6, 1,
-                           cClassTribToStr(IBSCBS.cClassTrib), DSC_CCLASSTRIB));
+                                            IBSCBS.cClassTrib, DSC_CCLASSTRIB));
 
     case IBSCBS.CST of
       cst000, cst200, cst220, cst510:
@@ -4359,7 +4359,7 @@ begin
                                   CSTIBSCBSToStr(TribRegular.CSTReg), DSC_CST));
 
   Result.AppendChild(AddNode(tcStr, '#57', 'cClassTribReg', 6, 6, 1,
-                   cClassTribToStr(TribRegular.cClassTribReg), DSC_CCLASSTRIB));
+                                    TribRegular.cClassTribReg, DSC_CCLASSTRIB));
 
   Result.AppendChild(AddNode(tcDe4, '#58', 'pAliqEfetRegIBSUF', 1, 7, 1,
                                      TribRegular.pAliqEfetRegIBSUF, DSC_PALIQ));

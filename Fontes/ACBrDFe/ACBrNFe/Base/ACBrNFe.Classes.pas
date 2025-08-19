@@ -1400,7 +1400,7 @@ type
   TgIS = class(TObject)
   private
     FCSTIS: TCSTIS;
-    FcClassTribIS: TcClassTribIS;
+    FcClassTribIS: string;
     FvBCIS: Double;
     FpIS: Double;
     FpISEspec: Double;
@@ -1411,7 +1411,7 @@ type
     procedure Assign(Source: TgIS);
 
     property CSTIS: TCSTIS read FCSTIS write FCSTIS;
-    property cClassTribIS: TcClassTribIS read FcClassTribIS write FcClassTribIS;
+    property cClassTribIS: string read FcClassTribIS write FcClassTribIS;
     property vBCIS: Double read FvBCIS write FvBCIS;
     property pIS: Double read FpIS write FpIS;
     property pISEspec: Double read FpISEspec write FpISEspec;
@@ -1541,7 +1541,7 @@ type
   TgTribRegular = class(TObject)
   private
     FCSTReg: TCSTIBSCBS;
-    FcClassTribReg: TcClassTrib;
+    FcClassTribReg: string;
     FpAliqEfetRegIBSUF: Double;
     FvTribRegIBSUF: Double;
     FpAliqEfetRegIBSMun: Double;
@@ -1551,7 +1551,7 @@ type
   public
     procedure Assign(Source: TgTribRegular);
     property CSTReg: TCSTIBSCBS read FCSTReg write FCSTReg;
-    property cClassTribReg: TcClassTrib read FcClassTribReg write FcClassTribReg;
+    property cClassTribReg: string read FcClassTribReg write FcClassTribReg;
     property pAliqEfetRegIBSUF: Double read FpAliqEfetRegIBSUF write FpAliqEfetRegIBSUF;
     property vTribRegIBSUF: Double read FvTribRegIBSUF write FvTribRegIBSUF;
     property pAliqEfetRegIBSMun: Double read FpAliqEfetRegIBSMun write FpAliqEfetRegIBSMun;
@@ -1702,7 +1702,7 @@ type
   TIBSCBS = class(TObject)
   private
     FCST: TCSTIBSCBS;
-    FcClassTrib: TcClassTrib;
+    FcClassTrib: string;
 
     FgIBSCBS: TgIBSCBS;
     FgIBSCBSMono: TgIBSCBSMono;
@@ -1714,7 +1714,7 @@ type
     procedure Assign(Source: TIBSCBS);
 
     property CST: TCSTIBSCBS read FCST write FCST;
-    property cClassTrib: TcClassTrib read FcClassTrib write FcClassTrib;
+    property cClassTrib: string read FcClassTrib write FcClassTrib;
 
     property gIBSCBS: TgIBSCBS read FgIBSCBS write FgIBSCBS;
     property gIBSCBSMono: TgIBSCBSMono read FgIBSCBSMono write FgIBSCBSMono;

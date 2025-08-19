@@ -1704,7 +1704,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   ISel.CSTIS := StrToCSTIS(ObterConteudo(ANode.Childrens.Find('CSTIS'), tcStr));
-  ISel.cClassTribIS := StrTocClassTribIS(ObterConteudo(ANode.Childrens.Find('cClassTribIS'), tcStr));
+  ISel.cClassTribIS := ObterConteudo(ANode.Childrens.Find('cClassTribIS'), tcStr);
   ISel.vBCIS := ObterConteudo(ANode.Childrens.Find('vBCIS'), tcDe2);
   ISel.pIS := ObterConteudo(ANode.Childrens.Find('pIS'), tcDe2);
   ISel.pISEspec := ObterConteudo(ANode.Childrens.Find('pISEspec'), tcDe2);
@@ -1718,7 +1718,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   IBSCBS.CST := StrToCSTIBSCBS(ObterConteudo(ANode.Childrens.Find('CST'), tcStr));
-  IBSCBS.cClassTrib := StrTocClassTrib(ObterConteudo(ANode.Childrens.Find('cClassTrib'), tcStr));
+  IBSCBS.cClassTrib := ObterConteudo(ANode.Childrens.Find('cClassTrib'), tcStr);
 
   Ler_IBSCBS_gIBSCBS(IBSCBS.gIBSCBS, ANode.Childrens.Find('gIBSCBS'));
   Ler_IBSCBS_gIBSCBSMono(IBSCBS.gIBSCBSMono, ANode.Childrens.Find('gIBSCBSMono'));
@@ -1825,7 +1825,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   gTribRegular.CSTReg := StrToCSTIBSCBS(ObterConteudo(ANode.Childrens.Find('CSTReg'), tcStr));
-  gTribRegular.cClassTribReg := StrTocClassTrib(ObterConteudo(ANode.Childrens.Find('cClassTribReg'), tcStr));
+  gTribRegular.cClassTribReg := ObterConteudo(ANode.Childrens.Find('cClassTribReg'), tcStr);
   gTribRegular.pAliqEfetRegIBSUF := ObterConteudo(ANode.Childrens.Find('pAliqEfetRegIBSUF'), tcDe4);
   gTribRegular.vTribRegIBSUF := ObterConteudo(ANode.Childrens.Find('vTribRegIBSUF'), tcDe2);
   gTribRegular.pAliqEfetRegIBSMun := ObterConteudo(ANode.Childrens.Find('pAliqEfetRegIBSMun'), tcDe4);

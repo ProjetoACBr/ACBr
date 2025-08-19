@@ -413,14 +413,6 @@ const
     '000');
 
 type
-  TcClassTribIS = (ctisNenhum,
-    ctis000001);
-
-const
-  TcClassTribISArrayStrings: array[TcClassTribIS] of string = ('',
-    '000001');
-
-type
   TTpCredPresIBSZFM = (tcpNenhum, tcpSemCredito, tcpBensConsumoFinal, tcpBensCapital,
                        tcpBensIntermediarios, tcpBensInformaticaOutros);
 
@@ -518,9 +510,6 @@ function StrTotpNFCredito(const s: string): TtpNFCredito;
 
 function CSTISToStr(const t: TCSTIS): string;
 function StrToCSTIS(const s: string): TCSTIS;
-
-function cClassTribISToStr(const t: TcClassTribIS): string;
-function StrTocClassTribIS(const s: string): TcClassTribIS;
 
 function TpCredPresIBSZFMToStr(const t: TTpCredPresIBSZFM): string;
 function StrToTpCredPresIBSZFM(const s: string): TTpCredPresIBSZFM;
@@ -1748,26 +1737,6 @@ begin
     end;
   end;
   raise EACBrException.CreateFmt('Valor string inválido para TCSTIS: %s', [s]);
-end;
-
-function cClassTribISToStr(const t: TcClassTribIS): string;
-begin
-  Result := TcClassTribISArrayStrings[t];
-end;
-
-function StrTocClassTribIS(const s: string): TcClassTribIS;
-var
-  idx: TcClassTribIS;
-begin
-  for idx:= Low(TcClassTribISArrayStrings) to High(TcClassTribISArrayStrings) do
-  begin
-    if(TcClassTribISArrayStrings[idx] = s)then
-    begin
-      Result := idx;
-      exit;
-    end;
-  end;
-  raise EACBrException.CreateFmt('Valor string inválido para TcClassTribIS: %s', [s]);
 end;
 
 function TpCredPresIBSZFMToStr(const t: TTpCredPresIBSZFM): string;

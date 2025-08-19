@@ -1851,7 +1851,7 @@ begin
   if AINIRec.SectionExists(sSecao) then
   begin
     ISel.CSTIS := StrToCSTIS(AINIRec.ReadString(sSecao, 'CSTIS', ''));
-    ISel.cClassTribIS := StrTocClassTribIS(AINIRec.ReadString(sSecao, 'cClassTribIS', ''));
+    ISel.cClassTribIS := AINIRec.ReadString(sSecao, 'cClassTribIS', '');
     ISel.vBCIS := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCIS', ''), 0);
     ISel.pIS := StringToFloatDef(AINIRec.ReadString(sSecao, 'pIS', ''), 0);
     ISel.pISEspec := StringToFloatDef(AINIRec.ReadString(sSecao, 'pISEspec', ''), 0);
@@ -1871,7 +1871,7 @@ begin
   if AINIRec.SectionExists(sSecao) then
   begin
     IBSCBS.CST := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CST', '000'));
-    IBSCBS.cClassTrib := StrTocClassTrib(AINIRec.Readstring(sSecao, 'cClassTrib', '000001'));
+    IBSCBS.cClassTrib := AINIRec.Readstring(sSecao, 'cClassTrib', '000001');
 
     Ler_IBSCBS_gIBSCBS(AINIRec, IBSCBS.gIBSCBS, Idx);
     Ler_IBSCBS_gIBSCBSMono(AINIRec, IBSCBS.gIBSCBSMono, Idx);
@@ -1977,7 +1977,7 @@ begin
   if AINIRec.SectionExists(sSecao) then
   begin
     gTribRegular.CSTReg := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CSTReg', '000'));
-    gTribRegular.cClassTribReg := StrTocClassTrib(AINIRec.ReadString(sSecao, 'cClassTribReg', '000001'));
+    gTribRegular.cClassTribReg := AINIRec.ReadString(sSecao, 'cClassTribReg', '000001');
 
     gTribRegular.pAliqEfetRegIBSUF := StringToFloatDef(AINIRec.ReadString(sSecao, 'pAliqEfetRegIBSUF', ''), 0);
     gTribRegular.vTribRegIBSUF := StringToFloatDef(AINIRec.ReadString(sSecao, 'vTribRegIBSUF', ''), 0);
