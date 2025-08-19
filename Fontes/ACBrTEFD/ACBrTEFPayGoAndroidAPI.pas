@@ -88,28 +88,6 @@ const
 type
   EACBrTEFPGWebAndroid = class(EACBrTEFErro);
 
-  TACBrURI = class
-  private
-    fScheme: String;
-    fAuthority: String;
-    fParams: TACBrInformacoes;
-    fPath: String;
-    function GetURI: String;
-    procedure SetURI(const AValue: String);
-  public
-    constructor Create(const AScheme, AAuthority: String; APath: String = ''); overload;
-    constructor Create; overload;
-    destructor Destroy; override;
-    procedure Clear;
-
-    property Scheme: String read fScheme;
-    property Authority: String read fAuthority;
-    property Params: TACBrInformacoes read fParams;
-    property Path: String read fPath write fPath;
-
-    property URI: String read GetURI write SetURI;
-  end;
-
   TACBrTEFPGWebAndroidEstadoTransacao = procedure(AIntent: JIntent) of object;
 
   TACBrTEFPGWebAndroidAvaliarTransacaoPendente = procedure(pszReqNum: String;
@@ -616,130 +594,6 @@ begin
     Result := 2
   else
     Result := 128;
-end;
-
-
-
-{ TACBrURI }
-
-constructor TACBrURI.Create(const AScheme, AAuthority: String; APath: String);
-begin
-  if AScheme.IsEmpty then
-    raise Exception.Create('TACBrURI.Create, "Scheme" não informado');
-
-  if AAuthority.IsEmpty then
-    raise Exception.Create('TACBrURI.Create, "Authority" não informado');
-
-  Create;
-  fScheme := AScheme;
-  fAuthority := AAuthority;
-  fPath := APath;
-end;
-
-constructor TACBrURI.Create;
-begin
-  inherited Create;
-  fParams := TACBrInformacoes.Create;
-
-  Clear;
-end;
-
-destructor TACBrURI.Destroy;
-begin
-  fParams.Free;
-  inherited;
-end;
-
-procedure TACBrURI.Clear;
-begin
-  fParams.Clear;
-  fScheme := '';
-  fAuthority := '';
-  fPath := '';
-end;
-
-function TACBrURI.GetURI: String;
-var
-  AParam: TACBrInformacao;
-  AValue, Params: string;
-begin
-  Result := fScheme + '://' +
-            fAuthority;
-
-  if not fPath.IsEmpty then
-    Result := Result + '/'+ fPath;
-
-  Result := String(EncodeURL(AnsiString(Result)));
-  
-  Params := '';
-  if (fParams.Count > 0) then
-  begin
-    for AParam in fParams do
-    begin
-      if AParam.Tipo = tiBoolean then
-        AValue := ifthen(AParam.AsBoolean, 'true', 'false')
-      else
-        AValue := AParam.AsString;
-
-      Params := Params + AParam.Nome+'='+String(EncodeURLElement(AnsiString(AValue))) + '&';
-    end;
-
-    Delete(Params, Params.Length, 1);  // Remove último &
-
-    if (not Params.IsEmpty) then
-      Params := '?' + Params;
-  end;
-
-  Result := Result + Params;
-end;
-
-procedure TACBrURI.SetURI(const AValue: String);
-var
-  p1, p2, le, i: Integer;
-  UriStr, ParamStr: String;
-  SL: TStringList;
-begin
-  Clear;
-  UriStr := AValue;
-
-  le := Length(UriStr);
-  p1 := pos(':', UriStr);  // Achando o Schema
-  if (p1 < 1) then
-    raise Exception.Create('TACBrURI.SetURI, no Scheme definition');
-
-  // Pula separador do Schema
-  fScheme := copy(UriStr, 1, p1-1);
-  while UriStr[p1].IsInArray([':','/']) do
-    Inc(p1);
-
-  // Achando os Parâmetros
-  p2 := PosEx('?', UriStr, p1+1);
-  if (p2 < 1) then
-    p2 := le;
-
-  ParamStr := copy(UriStr, p2+1, le );
-
-  // Achando a Authority e Path
-  fAuthority := copy(UriStr, p1, p2-p1);
-  p1 := Pos('/', fAuthority);
-  if (p1 > 0) then
-  begin
-    fPath := copy(fAuthority, p1+1, Length(fAuthority));
-    fAuthority := copy(fAuthority, 1, p1-1);
-  end;
-
-  // Achando todos os Parâmetros
-  if (ParamStr <> '') then
-  begin
-    SL := TStringList.Create;
-    try
-      SL.Text := ParamStr.Replace('&', sLineBreak);
-      for i := 0 to SL.Count-1 do
-        Params.AddField(SL.KeyNames[i]).AsString := SL.ValueFromIndex[i];
-    finally
-      SL.Free;
-    end;
-  end;
 end;
 
 { TACBrTEFPGWebAndroidPersonalizacao }
@@ -1321,7 +1175,7 @@ begin
   fDadosTransacao.Clear;
   ExistsPending := (fDadosPendentesURI.Params.Count > 0);
 
-  if (fOutputURI.fScheme = URI_Scheme) and
+  if (fOutputURI.Scheme = URI_Scheme) and
      (fOutputURI.Authority = URI_AuthorityPayment) and
      (fOutputURI.Path = URI_PathOutput) then
   begin
