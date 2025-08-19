@@ -67,6 +67,7 @@ begin
   pLibClass := TACBrLibBPe; // Ajusta a classe a ser criada
 
   MainThreadID := GetCurrentThreadId();
+  Application.FindGlobalComponentEnabled := False;
   Application.Initialize;
 end.
 

@@ -97,6 +97,7 @@ begin
   {$ENDIF}
 
   MainThreadID := GetCurrentThreadId();
+  Application.FindGlobalComponentEnabled := False;
   Application.Initialize;
 
 end.
