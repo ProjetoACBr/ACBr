@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/08/2025
+-- ACBrDFe.Conversao --
+[*] O campo cClassTrib deixa de ser enumerado e passa a ser string.
+   Por: Italo Giurizzato Junior
+
 15/08/2025
 -- ACBrXmlDocument --
 [*] TK-7506: Alterado a string de busca de "CDATA" para "<![CDATA[" na procedure SetContent,
