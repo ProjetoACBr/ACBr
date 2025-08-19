@@ -937,8 +937,11 @@ begin
 end;
 
 procedure ACBrURITeste.SetURI1;
+var
+  s: String;
 begin
-  fURI.URI := 'app://payment/input?currencyCode=986&transactionId=1&amount=100&operation=VENDA';
+  s := 'app://payment/input?currencyCode=986&transactionId=1&amount=100&operation=VENDA';
+  fURI.URI := s;
   CheckEquals(fURI.Scheme, 'app');
   CheckEquals(fURI.Authority, 'payment');
   CheckEquals(fURI.Path, 'input');
@@ -951,11 +954,15 @@ begin
   CheckEquals(fURI.Params.Items[2].AsString,'100');
   CheckEquals(fURI.Params.Items[3].Nome,'operation');
   CheckEquals(fURI.Params.Items[3].AsString,'VENDA');
+  CheckEquals(fURI.URI, s);
 end;
 
 procedure ACBrURITeste.SetURI2;
+var
+  s: String;
 begin
-  fURI.URI := 'app://confirmation/confirmation?confirmationTransactionId=0000000000.0000.000000.0000.REDE-SUB&transactionStatus=CONFIRMADO_AUTOMATICO';
+  s := 'app://confirmation/confirmation?confirmationTransactionId=0000000000.0000.000000.0000.REDE-SUB&transactionStatus=CONFIRMADO_AUTOMATICO';
+  fURI.URI := s;
   CheckEquals(fURI.Scheme, 'app');
   CheckEquals(fURI.Authority, 'confirmation');
   CheckEquals(fURI.Path, 'confirmation');
@@ -964,6 +971,7 @@ begin
   CheckEquals(fURI.Params.Items[0].AsString,'0000000000.0000.000000.0000.REDE-SUB');
   CheckEquals(fURI.Params.Items[1].Nome,'transactionStatus');
   CheckEquals(fURI.Params.Items[1].AsString,'CONFIRMADO_AUTOMATICO');
+  CheckEquals(fURI.URI, s);
 end;
 
 { ComparaValorTest }
