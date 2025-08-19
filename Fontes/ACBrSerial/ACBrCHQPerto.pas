@@ -196,7 +196,7 @@ begin
     VerificaErro(EnviaComando('#' + UpperCase(fpCidade)));
 
   { Data }
-  DataStr := FormatDateTime('ddmmyy', fpData);
+  DataStr := FormatDateTime('ddmmyyyy', fpData);
   VerificaErro(EnviaComando('!' + DataStr));
 
   { Comanda Preenchimento }
