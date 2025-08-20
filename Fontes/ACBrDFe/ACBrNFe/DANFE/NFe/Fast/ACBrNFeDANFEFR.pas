@@ -428,7 +428,7 @@ begin
     for I := 1 to TACBrNFe(FdmDanfe.DANFEClassOwner.ACBrNFe).EventoNFe.Evento.Count do
     begin
       FdmDanfe.DANFEClassOwner.FIndexImpressaoIndividual := I;
-      FdmDanfe.ImprimirDANFEPDF(NFE);
+      FdmDanfe.ImprimirEVENTOPDF(NFE);
       FPArquivoPDF := FdmDanfe.frxPDFExport.FileName;
     end;
   end;    
