@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@projetoacbr/acbrlib-cep-node": "^1.0.1"
+  }
+}
