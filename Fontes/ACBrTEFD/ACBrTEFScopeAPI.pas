@@ -1410,6 +1410,7 @@ type
     fPinPadSeguro: Boolean;
     fPortaPinPad: String;
     fPortaTCP: String;
+    fUsarScopeClientConnector: Boolean;
     fSessaoAberta: Boolean;
     fVersaoAutomacao: String;
     fInformacoesPinPad: String;
@@ -1647,6 +1648,8 @@ type
     property PermitirSaque: Boolean read fPermitirSaque write fPermitirSaque default True;
     property ConfirmarTransacoesPendentes: Boolean read fConfirmarTransacoesPendentes
       write fConfirmarTransacoesPendentes default True;
+    property UsarScopeClientConnector: Boolean read fUsarScopeClientConnector
+      write fUsarScopeClientConnector default False;
 
     property Carregada: Boolean read fCarregada;
     property Inicializada: Boolean read fInicializada write SetInicializada;
@@ -1735,6 +1738,7 @@ begin
   fPermitirCancelarOperacaoPinPad := True;
   fPermitirSaque := True;
   fConfirmarTransacoesPendentes := True;
+  fUsarScopeClientConnector := False;
   fIntervaloColeta := CINTERVALO_COLETA;
   fOnGravarLog := Nil;
   fOnExibeMensagem := Nil;
@@ -2303,7 +2307,7 @@ begin
         AjustarParamSeNaoExistir(SecName, 'WKPAN', IfThen(fPinPadSeguro, 's', 'n'));
 
         // Configuração para PIX, sempre será em LocalHost
-        if (fEnderecoIP = '127.0.0.1') or (LowerCase(fEnderecoIP) = 'localhost') then
+        if fUsarScopeClientConnector then
         begin
           AjustarParamSeNaoExistir(SecName, 'ThinClient', 's');
           AjustarParamSeNaoExistir(SecName, 'CRTYPE', '1');
