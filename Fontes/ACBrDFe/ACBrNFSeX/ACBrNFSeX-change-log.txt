@@ -67,9 +67,9 @@ Símbolo : Significado
 [*] #TK-7526 Incluido o Params NaoDividir100 para a cidade Coronel Frabiciano/MG.
    Por: C4Dev
 [*] ACBR-7928 Alterado as URLs da cidade Horizontina/RS, o provedor continua o mesmo.
-   Por: Rodrigo Alvim
-[*] ACBR-7927 A cidade Santana de Anchieta/SC trocou de provedor, agora é Betha.
-   Por: Rodrigo Alvim
+   Por: BSSOFT/Maico Smaniotto
+[*] ACBR-7927 A cidade Anchieta/SC trocou de provedor, agora é Betha.
+   Por: Lux.sistemas
 [*] ACBR-7926 A cidade Santana de Parnaiba/SP trocou de provedor, agora é SimplISS.
    Por: Rodrigo Alvim
 
