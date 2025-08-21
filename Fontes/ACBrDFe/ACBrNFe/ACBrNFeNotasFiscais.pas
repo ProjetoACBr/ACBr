@@ -275,8 +275,14 @@ begin
   begin
     if not Assigned(DANFE) then
       raise EACBrNFeException.Create('Componente DA'+ModeloDFToPrefixo(Configuracoes.Geral.ModeloDF)+' não associado.')
-    else
+    else begin
+      if (DANFE.ClassName = 'TACBrNFeDANFCEFR') or
+         (DANFE.ClassName = 'TACBrNFeDANFEFR') then
+        DANFE.FIndexImpressaoIndividual := Index + 1
+      else
+        DANFE.FIndexImpressaoIndividual := Index;
       DANFE.ImprimirDANFEPDF(NFe);
+    end;
   end;
 end;
 
