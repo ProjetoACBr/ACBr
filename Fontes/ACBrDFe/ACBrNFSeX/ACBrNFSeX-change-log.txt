@@ -42,6 +42,37 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/08/2025
+-- ACBrNFSeXServicos --
+[*] #TK-7544 Alterado a URL da cidade de Pontal/SP, o provedor continua o mesmo.
+   Por: colmanetti
+[*] #TK-7543 Alterado a URL da cidade de Concordia/SC, o provedor continua o mesmo.
+   Por: Wesley Santos
+[*] #TK-7542 Incluido o Link da cidade de Salvador/BA, o provedor continua o mesmo.
+   Por: tryideas sistemas
+[*] #TK-7541 A cidade Três Barras/SC mudou de provedor, agora é IPM.
+   Por: Raianne Gottschalk
+[*] #TK-7540 A cidade Guarantã do Norte/MT mudou de provedor, agora é Agili.
+   Por: Denise Maria Cotoman
+[*] #TK-7539 Incluido o Params: NaoDividir100 para a cidade Frutal/MG.
+   Por: Diego Reckziegel
+[*] #TK-7538 A cidade Imperatriz/MA trocou de provedor, agora é Bauhaus.
+   Por: Bruno
+[*] #TK-7537 Alterado a URL da cidade Massaranduba/SC, o provedor continua o mesmo.
+   Por: Ramon Valentim
+[*] #TK-7530 Alterado as URLs de Homologação da cidade Varzea Grande/MT, o provedor continua o mesmo.
+   Por: Anderson Grolli
+[*] #TK-7529 A cidade Teresina/PI trocou de provedor, agora é DSF versão 2.03
+   Por: Anderson Grolli
+[*] #TK-7526 Incluido o Params NaoDividir100 para a cidade Coronel Frabiciano/MG.
+   Por: C4Dev
+[*] ACBR-7928 Alterado as URLs da cidade Horizontina/RS, o provedor continua o mesmo.
+   Por: Rodrigo Alvim
+[*] ACBR-7927 A cidade Santana de Anchieta/SC trocou de provedor, agora é Betha.
+   Por: Rodrigo Alvim
+[*] ACBR-7926 A cidade Santana de Parnaiba/SP trocou de provedor, agora é SimplISS.
+   Por: Rodrigo Alvim
+
 20/08/2025
 -- ACBrNFSeXServicos --
 [*] Atualiza URL da cidade de Morro Agudo/SP
