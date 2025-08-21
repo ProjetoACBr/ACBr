@@ -1,0 +1,13 @@
+{
+  "name": "Demo ACBrLib NFe",
+  "version": "1.0.0",
+  "description": "Demo ACBrLib NFe",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Projeto ACBr",
+  "dependencies": {
+    "@projetoacbr/acbrlib-nfe-node": "^1.0.1"
+  }
+}
