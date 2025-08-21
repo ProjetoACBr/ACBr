@@ -225,7 +225,7 @@ begin
 
         if cStat in [101, 151, 155] then
         begin
-          ANodeAux := ANode.Childrens.FindAnyNs('retCancNFe ');
+          ANodeAux := ANode.Childrens.FindAnyNs('retCancNFe');
 
           if ANodeAux <> nil then
           begin
