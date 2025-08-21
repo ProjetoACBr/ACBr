@@ -263,7 +263,7 @@ end;
 function PIXCD_GerarQRCodeEstaticoComChavePix(const libHandle: PLibHandle;
   AChavePix: PAnsiChar; AValor: Double; const AinfoAdicional: PAnsiChar;
   const ATxID: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer
-  ): integer; cdecl;
+  ): integer; {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 begin
   try
     VerificarLibInicializada(libHandle);
