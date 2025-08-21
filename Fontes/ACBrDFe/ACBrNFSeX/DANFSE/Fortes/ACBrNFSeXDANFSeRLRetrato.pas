@@ -525,6 +525,7 @@ begin
   With fpNFSe do
   begin
     rllRegimeEspecial.Caption := ACBrStr(FProvider.RegimeEspecialTributacaoDescricao(RegimeEspecialTributacao));
+    RLLabel54.Visible := rllRegimeEspecial.Caption  <> '';
     rllNatOperacao.Lines.Text := ACBrStr(FProvider.NaturezaOperacaoDescricao(NaturezaOperacao));
     MostrarNaturezaOperacao := rllNatOperacao.Caption <> '';
     RLLabel137.Visible := MostrarNaturezaOperacao;
