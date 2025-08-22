@@ -596,6 +596,7 @@ type
     fTimerOcioso: TACBrThreadTimer;
     fTempoOcioso: TDateTime;
     fUltimoQRCode: String;
+    fVersaoLib: String;
 
     fTempoTarefasAutomaticas: String;
 
@@ -647,9 +648,6 @@ type
               {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
     xPW_iPPDisplay: function(const pszMsg: PAnsiChar): SmallInt;
               {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
-    xPW_iPPDisplayImage: function(pszImagePath: PAnsiChar; iTimeOut: SmallInt;
-              fWaitKey: SmallInt; var piKey: SmallInt): SmallInt;
-              {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
     xPW_iPPGetUserData: function(uiMessageId: Word; bMinLen: Byte; bMaxLen: Byte;
               iToutSec:  SmallInt; pszData: PAnsiChar): SmallInt;
               {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
@@ -694,6 +692,9 @@ type
               {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
     xPW_iPPEndMenu : function: SmallInt;
               {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
+
+    function GetVersaoLib: String;
+    function GetTemProtecao: Boolean;
 
     procedure SetCNPJEstabelecimento(const AValue: String);
     procedure SetDiretorioTrabalho(const AValue: String);
@@ -770,7 +771,6 @@ type
     procedure ExibirMensagemPinPad(const MsgPinPad: String);
     function ObterDadoPinPad(iMessageId: Word; MinLen, MaxLen: Byte;
       TimeOutSec: SmallInt): String;
-    function VersaoLib: String;
     procedure ObterOperacoes(TipoOperacao: Byte; Operacoes: TArrPW_OperationsEx);
 
     function ValidarRespostaCampo(var AResposta: String;
@@ -848,6 +848,9 @@ type
       write fOnAguardaPinPad;
     property OnAvaliarTransacaoPendente: TACBrTEFPGWebAPIAvaliarTransacaoPendente
       read fOnAvaliarTransacaoPendente write fOnAvaliarTransacaoPendente;
+
+    property VersaoLib: String read GetVersaoLib;
+    property TemProtecao: Boolean read GetTemProtecao;
   end;
 
 function PWRETToString(iRET: SmallInt): String;
@@ -1169,6 +1172,7 @@ begin
   fUsouPinPad := False;
   fTempoTarefasAutomaticas := '';
   fUltimoQRCode := '';
+  fVersaoAplicacao := '';
   fIsDebug := False;
 
   fPathLib := '';
@@ -1216,7 +1220,7 @@ end;
 procedure TACBrTEFPGWebAPI.Inicializar;
 var
   iRet: SmallInt;
-  MsgError, ver, msg, img: String;
+  MsgError, msg, img: String;
 begin
   if fInicializada then
     Exit;
@@ -1291,16 +1295,21 @@ begin
     msg := PadRight(SoftwareHouse, 16) +
          PadRight(NomeAplicacao + ' ' + VersaoAplicacao, 16);
 
-  if Assigned(xPW_iPPSetIdleImage) then
-    DefinirMensagemPinPad(msg, img);
-
   fInicializada := True;
   SetEmTransacao(False);
 
-  ver := VersaoLib;
-  if CompareVersions(ver, CACBrTEFPGWebLibMinVersion) < 0 then
+  fVersaoLib := '';
+  GetVersaoLib;
+  if CompareVersions(VersaoLib, CACBrTEFPGWebLibMinVersion) < 0 then
     DoException(Format( ACBrStr(sErrLibVersaoInvalida),
-                        [LibFullName, ver, CACBrTEFPGWebLibMinVersion]) );
+                        [LibFullName, VersaoLib, CACBrTEFPGWebLibMinVersion]) );
+
+  if Assigned(xPW_iPPSetIdleImage) then
+  try
+    DefinirMensagemPinPad(msg, img);
+  except
+    { Ignora Exception, pois Pinpad pode ainda não estar pronto }
+  end;
 end;
 
 procedure TACBrTEFPGWebAPI.DesInicializar;
@@ -1312,6 +1321,7 @@ begin
   if Assigned(xPW_End) then
     xPW_End;
 
+  fVersaoLib := '';
   UnLoadLibFunctions;
   SetPGWebLibPermiteAtualiza(fAtualizaPGWebLibAutomaticamente);
   fInicializada := False;
@@ -1341,7 +1351,6 @@ begin
   xPW_iPPDataConfirmation := Nil;
   xPW_iPPTestKey := Nil;
   xPW_iPPDisplay := Nil;
-  xPW_iPPDisplayImage := Nil;
   xPW_iPPGetUserData := Nil;
   xPW_iPPWaitEvent := Nil;
   xPW_iPPRemoveCard := Nil;
@@ -1927,14 +1936,19 @@ begin
   end;
 end;
 
-function TACBrTEFPGWebAPI.VersaoLib: String;
+function TACBrTEFPGWebAPI.GetVersaoLib: String;
 begin
-  if not fInicializada then
-    Inicializar;
+  if (fVersaoLib = '') then
+  begin
+    if not fInicializada then
+      Inicializar;
 
-  IniciarTransacao(PWOPER_VERSION);
-  ExecutarTransacao;
-  Result := fDadosTransacao.ValueInfo[PWINFO_RESULTMSG];
+    IniciarTransacao(PWOPER_VERSION);
+    ExecutarTransacao;
+    fVersaoLib := fDadosTransacao.ValueInfo[PWINFO_RESULTMSG];
+  end;
+
+  Result := fVersaoLib
 end;
 
 procedure TACBrTEFPGWebAPI.ObterOperacoes(TipoOperacao: Byte;
@@ -3168,6 +3182,19 @@ begin
   fCNPJEstabelecimento := ACNPJ;
 end;
 
+function TACBrTEFPGWebAPI.GetTemProtecao: Boolean;
+var
+  s: TSplitResult;
+  l: Integer;
+begin
+  //Versão com proteção – v4.1.47.0
+  //Versão sem proteção – v4.1.47.900
+
+  s := Split('.',VersaoLib);
+  l := Length(s)-1;
+  Result := not (copy(s[l], 2, 1) = '9');
+end;
+
 function TACBrTEFPGWebAPI.GetVarPathPGWebLib: String;
 begin
   {$IfDef MSWINDOWS}
@@ -3261,7 +3288,6 @@ procedure TACBrTEFPGWebAPI.LoadLibFunctions;
    PGWebFunctionDetect(sLibName, 'PW_iPPConfirmData', @xPW_iPPConfirmData);
    PGWebFunctionDetect(sLibName, 'PW_iPPGenericCMD', @xPW_iPPGenericCMD);
    PGWebFunctionDetect(sLibName, 'PW_iPPDisplay', @xPW_iPPDisplay);
-   PGWebFunctionDetect(sLibName, 'PW_iPPDisplayImage', @xPW_iPPDisplayImage, False);
    PGWebFunctionDetect(sLibName, 'PW_iPPGetUserData', @xPW_iPPGetUserData);
    PGWebFunctionDetect(sLibName, 'PW_iPPWaitEvent', @xPW_iPPWaitEvent);
    PGWebFunctionDetect(sLibName, 'PW_iPPRemoveCard', @xPW_iPPRemoveCard);
