@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+22/08/2025
+-- ACBrBoletoRet_Bradesco.pas --
+[+] #ACBR-7943 - Implementada leitura do NossoNumero opcional Com o Sem DV do arquivo de retorno do leiaute próprio Sofisa. - https://www.projetoacbr.com.br/forum/topic/85085-contribuicao-sofisa-lernossonumerocompleto/
+    Por: Marcos Lenharo
+
 13/08/2025
 -- ACBrBoletoRet_Bradesco.pas --
 [+] TK-6705 - Implemetado o tratamento da resposta da consulta detalheBradesco.
