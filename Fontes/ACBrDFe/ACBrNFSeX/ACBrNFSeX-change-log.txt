@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/08/2025
+-- SigISSWeb.GravarXml --
+[*] #ACBr-7930: Ajustes visando a emissão de uma nota com tomador do exterior.
+   Por: ArecoDesenv
 -- Diversos --
 [*] #ACBr-7925: Ajustes visando a versão 1.1 da NT 2025/004 da Reforma Tributária,
     implementado a escrita do XML do DPS e a leitura do XML da NFSe do Padrão Nacional.
