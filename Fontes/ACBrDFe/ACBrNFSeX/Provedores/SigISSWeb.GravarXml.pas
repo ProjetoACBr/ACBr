@@ -154,8 +154,13 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'deducao', 1, 15, 1,
                                        NFSe.Servico.Valores.ValorDeducoes, ''));
 
-  NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'valor_servico', 1, 15, 1,
-                                       NFSe.Servico.Valores.ValorLiquidoNfse, ''));
+  if NFSe.Servico.Valores.IssRetido = stRetencao then
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'valor_servico', 1, 15, 1,
+                                        NFSe.Servico.Valores.ValorServicos -
+                                        NFSe.Servico.Valores.ValorDeducoes, ''))
+  else
+    NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'valor_servico', 1, 15, 1,
+                                    NFSe.Servico.Valores.ValorLiquidoNfse, ''));
 
   NFSeNode.AppendChild(AddNode(tcDatVcto, '#1', 'data_emissao', 10, 10, 1,
                                                          NFSe.DataEmissao, ''));

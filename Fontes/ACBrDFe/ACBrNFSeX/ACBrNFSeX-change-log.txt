@@ -44,6 +44,9 @@ Símbolo : Significado
 
 25/08/2025
 -- SigISSWeb.GravarXml --
+[*] #ACBr-7932: Ajustes visando a emissão de uma nota com ISSRetido com deduções.
+   Por: Anderson Grolli
+-- SigISSWeb.GravarXml --
 [*] #ACBr-7930: Ajustes visando a emissão de uma nota com tomador do exterior.
    Por: ArecoDesenv
 -- Diversos --
