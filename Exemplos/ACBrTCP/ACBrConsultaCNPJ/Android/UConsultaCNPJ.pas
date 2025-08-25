@@ -26,11 +26,6 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     EditCNPJ: TEdit;
-    Label2: TLabel;
-    EditCaptcha: TEdit;
-    Label3: TLabel;
-    Image1: TImage;
-    LabAtualizarCaptcha: TButton;
     ACBrConsultaCNPJ1: TACBrConsultaCNPJ;
     Timer1: TTimer;
     Panel4: TPanel;
@@ -73,15 +68,16 @@ type
     GestureManager1: TGestureManager;
     StyleBook1: TStyleBook;
     ImageList1: TImageList;
-    procedure Timer1Timer(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure LabAtualizarCaptchaClick(Sender: TObject);
+    cnpjProvedoresCmbox: TComboBox;
+    Label2: TLabel;
+    Label3: TLabel;
     procedure btnBuscarClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure cnpjProvedoresCmboxClick(Sender: TObject);
   private
     { Private declarations }
     procedure Consultar;
-    procedure PedirPermissoesInternet;
   public
     { Public declarations }
   end;
@@ -127,12 +123,12 @@ end;
 procedure TF_ConsultaCNPJ.Consultar;
 
 begin
-  if EditCaptcha.Text <> '' then
+
   begin
           try
                if ACBrConsultaCNPJ1.Consulta(
                         EditCNPJ.Text,
-                        EditCaptcha.Text,
+                        '',
                         ckRemoverEspacosDuplos.IsChecked
                       ) then
                 begin
@@ -184,82 +180,28 @@ begin
            // Sleep(1500);
           end;
        end;
-  end
-  else
-  begin
-    TThread.Synchronize(nil, procedure
-    begin
-        ShowMessage('É necessário digitar o captcha.');
-        EditCaptcha.SetFocus;
-    end);
-    // TerminarTelaDeEspera;
-   AniIndicator1.Enabled := False;
-   AniIndicator1.Visible := False;
-   // Sleep(1500);
   end;
 end;
 
 
-procedure TF_ConsultaCNPJ.FormShow(Sender: TObject);
-begin
-  Timer1.Enabled:= False;
-  PedirPermissoesInternet;
-  Timer1.Enabled:= True;
-end;
-
-procedure TF_ConsultaCNPJ.Timer1Timer(Sender: TObject);
-begin
-  Timer1.Enabled:= False;
-  LabAtualizarCaptchaClick(LabAtualizarCaptcha);
-  EditCNPJ.SetFocus;
-end;
-
-
-procedure TF_ConsultaCNPJ.PedirPermissoesInternet;
-Var
-  Ok: Boolean;
-begin
-  Ok := True;
-  {$IfDef ANDROID}
-  PermissionsService.RequestPermissions( [JStringToString(TJManifest_permission.JavaClass.INTERNET)],
-      procedure(const APermissions: TArray<string>; const AGrantResults: TArray<TPermissionStatus>)
-      var
-        GR: TPermissionStatus;
-      begin
-        for GR in AGrantResults do
-          if (GR <> TPermissionStatus.Granted) then
-          begin
-            Ok := False;
-            Break;
-          end;
-      end );
-
-  if not OK then
-    raise EPermissionException.Create( 'Sem permissões para acesso a Internet');
-  {$EndIf}
-end;
-
-procedure TF_ConsultaCNPJ.LabAtualizarCaptchaClick(Sender: TObject);
+procedure TF_ConsultaCNPJ.FormCreate(Sender: TObject);
 var
-  Stream: TMemoryStream;
-  Img: {$IFDEF WIN} TPNGImage {$ELSE IFDEF ANDROID} TBitmap {$ENDIF WIN};
+provedor : TACBrCNPJProvedorWS;
 begin
-  Stream:= TMemoryStream.Create;
-  Img:= {$IFDEF WIN} TPNGImage.Create {$ELSE IFDEF ANDROID} TBitmap.Create {$ENDIF};
-  try
-    ACBrConsultaCNPJ1.Captcha(Stream);
-    Img.LoadFromStream(Stream);
-    {$IFDEF WIN}
-    Image1.Picture.Assign(Img);
-    {$ELSE IFDEF ANDROID}
-    Image1.Bitmap.Assign(Img);
-    {$ENDIF}
-    EditCaptcha.Text := '';
-    EditCaptcha.SetFocus;
-  finally
-    Stream.Free;
-    Img.Free;
-  end;
+
+  cnpjProvedoresCmbox.ItemIndex := 0;
+  // preenche cnpjProvedorCmbox com os nomes dos provedores
+  for provedor := Low(TACBrCNPJProvedorWS) to High(TACBrCNPJProvedorWS) do
+        cnpjProvedoresCmbox.Items.add(GetEnumName(TypeInfo(TACBrCNPJProvedorWs), Ord(provedor)));
+
+end;
+
+procedure TF_ConsultaCNPJ.cnpjProvedoresCmboxClick(Sender: TObject);
+var
+index : integer;
+begin
+  index := cnpjProvedoresCmbox.ItemIndex;
+  ACBrConsultaCNPJ1.Provedor := TACBrCNPJProvedorWS(index);
 end;
 
 end.
