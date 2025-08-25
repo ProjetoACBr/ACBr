@@ -116,16 +116,12 @@ type
 
     // Reforma Tributária
     function GerarIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode;
+    function Gerar_gRefNFSe(gRefNFSe: TgRefNFSeCollection): TACBrXmlNode;
 
     function GerarDestinatario(Dest: TDadosdaPessoa): TACBrXmlNode;
     function GerarEnderecoDestinatario(ender: Tender): TACBrXmlNode;
     function GerarEnderecoNacionalDestinatario(endNac: TendNac): TACBrXmlNode;
     function GerarEnderecoExteriorDestinatario(endExt: TendExt): TACBrXmlNode;
-
-    function GerarAdquirente(Adq: TDadosdaPessoa): TACBrXmlNode;
-    function GerarEnderecoAdquirente(ender: Tender): TACBrXmlNode;
-    function GerarEnderecoNacionalAdquirente(endNac: TendNac): TACBrXmlNode;
-    function GerarEnderecoExteriorAdquirente(endExt: TendExt): TACBrXmlNode;
 
     function GerarImovel(Imovel: TDadosimovel): TACBrXmlNode;
     function GerarEnderecoNacionalImovel(ender: TenderImovel): TACBrXmlNode;
@@ -255,8 +251,8 @@ begin
   Result.AppendChild(GerarValores);
 
   // Reforma Tributária
-  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.adq.xNome <> '') or
-     (NFSe.IBSCBS.imovel.cCIB <> '') or (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+     (NFSe.IBSCBS.imovel.ender.CEP <> '') or
      (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '')
      { or
      (NFSe.IBSCBS.valores.trib.gIBSCBS.gIBSCredPres.pCredPresIBS > 0)} then
@@ -1377,25 +1373,44 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'cIndOp', 6, 6, 1,
                                                             IBSCBS.cIndOp, ''));
 
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpOper', 1, 1, 0,
+                                            tpOperGovToStr(IBSCBS.tpOper), ''));
+
+  if IBSCBS.gRefNFSe.Count > 0 then
+    Result.AppendChild(Gerar_gRefNFSe(IBSCBS.gRefNFSe));
+
   Result.AppendChild(AddNode(tcStr, '#1', 'tpEnteGov', 1, 1, 0,
                                          tpEnteGovToStr(IBSCBS.tpEnteGov), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'xTpEnteGov', 1, 100, 0,
-                                                        IBSCBS.xTpEnteGov, ''));
-
-  Result.AppendChild(AddNode(tcStr, '#1', 'indPessoas', 1, 1, 1,
-                                       indPessoasToStr(IBSCBS.indPessoas), ''));
+  Result.AppendChild(AddNode(tcStr, '#1', 'indDest', 1, 1, 1,
+                                             indDestToStr(IBSCBS.indDest), ''));
 
   if IBSCBS.dest.xNome <> '' then
     Result.AppendChild(GerarDestinatario(IBSCBS.dest));
-
-  if IBSCBS.adq.xNome <> '' then
-    Result.AppendChild(GerarAdquirente(IBSCBS.adq));
 
   if (IBSCBS.imovel.cCIB <> '') or (IBSCBS.imovel.ender.xLgr <> '') then
     Result.AppendChild(GerarImovel(IBSCBS.imovel));
 
   Result.AppendChild(GerarIBSCBSValores(IBSCBS.valores));
+end;
+
+function TNFSeW_PadraoNacional.Gerar_gRefNFSe(
+  gRefNFSe: TgRefNFSeCollection): TACBrXmlNode;
+var
+  i: Integer;
+begin
+  Result := nil;
+
+  if gRefNFSe.Count > 99 then
+    wAlerta('BB02', 'gRefNFSe', DSC_REFNFSE, ERR_MSG_MAIOR_MAXIMO + '99');
+
+  Result := FDocument.CreateElement('gRefNFSe');
+
+  for i := 0 to gRefNFSe.Count - 1 do
+  begin
+    Result.AppendChild(AddNode(tcStr, '#1','refNFSe', 50, 50, 1,
+                                             gRefNFSe[i].refNFSe, DSC_REFNFSE));
+  end;
 end;
 
 function TNFSeW_PadraoNacional.GerarDestinatario(Dest: TDadosdaPessoa): TACBrXmlNode;
@@ -1461,88 +1476,6 @@ begin
 end;
 
 function TNFSeW_PadraoNacional.GerarEnderecoExteriorDestinatario(
-  endExt: TendExt): TACBrXmlNode;
-begin
-  Result := CreateElement('endExt');
-
-  Result.AppendChild(AddNode(tcStr, '#1', 'cPais', 2, 2, 1,
-                                     CodIBGEPaisToSiglaISO2(endExt.cPais), ''));
-
-  Result.AppendChild(AddNode(tcStr, '#1', 'cEndPost', 1, 11, 1,
-                                                          endExt.cEndPost, ''));
-
-  Result.AppendChild(AddNode(tcStr, '#1', 'xCidade', 1, 60, 1,
-                                                           endExt.xCidade, ''));
-
-  Result.AppendChild(AddNode(tcStr, '#1', 'xEstProvReg', 1, 60, 1,
-                                                       endExt.xEstProvReg, ''));
-end;
-
-function TNFSeW_PadraoNacional.GerarAdquirente(
-  Adq: TDadosdaPessoa): TACBrXmlNode;
-begin
-  Result := CreateElement('adq');
-
-  if Adq.CNPJCPF <> '' then
-    Result.AppendChild(AddNodeCNPJCPF('#1', '#1', Adq.CNPJCPF))
-  else
-  if Adq.Nif <> '' then
-    Result.AppendChild(AddNode(tcStr, '#1', 'NIF', 1, 40, 1, Adq.Nif, ''))
-  else
-    Result.AppendChild(AddNode(tcStr, '#1', 'cNaoNIF', 1, 1, 1,
-                                                NaoNIFToStr(Adq.cNaoNIF), ''));
-
-  Result.AppendChild(AddNode(tcStr, '#1', 'xNome', 1, 300, 1, Adq.xNome, ''));
-
-  Result.AppendChild(GerarEnderecoAdquirente(Adq.ender));
-
-  Result.AppendChild(AddNode(tcStr, '#1', 'fone', 6, 20, 0, Adq.fone, ''));
-
-  Result.AppendChild(AddNode(tcStr, '#1', 'email', 1, 80, 0, Adq.email, ''));
-
-end;
-
-function TNFSeW_PadraoNacional.GerarEnderecoAdquirente(
-  ender: Tender): TACBrXmlNode;
-begin
-  Result := nil;
-
-  if (ender.endNac.cMun <> 0) or (ender.endExt.cPais <> 0) then
-  begin
-    Result := CreateElement('end');
-
-    if (ender.endNac.cMun <> 0) then
-      Result.AppendChild(GerarEnderecoNacionalDestinatario(ender.endNac))
-    else
-      Result.AppendChild(GerarEnderecoExteriorDestinatario(ender.endExt));
-
-    Result.AppendChild(AddNode(tcStr, '#1', 'xLgr', 1, 255, 1, ender.xLgr, ''));
-
-    Result.AppendChild(AddNode(tcStr, '#1', 'nro', 1, 60, 1, ender.nro, ''));
-
-    Result.AppendChild(AddNode(tcStr, '#1', 'xCpl', 1, 156, 0, ender.xCpl, ''));
-
-    Result.AppendChild(AddNode(tcStr, '#1', 'xBairro', 1, 60, 1,
-                                                            ender.xBairro, ''));
-  end;
-end;
-
-function TNFSeW_PadraoNacional.GerarEnderecoNacionalAdquirente(
-  endNac: TendNac): TACBrXmlNode;
-begin
-  Result := nil;
-
-  if endNac.CEP <> '' then
-  begin
-    Result := CreateElement('endNac');
-
-    Result.AppendChild(AddNode(tcInt, '#1', 'cMun', 7, 7, 1, endNac.cMun, ''));
-
-    Result.AppendChild(AddNode(tcStr, '#1', 'CEP', 8, 8, 1, endNac.CEP, ''));
-  end;
-end;
-
-function TNFSeW_PadraoNacional.GerarEnderecoExteriorAdquirente(
   endExt: TendExt): TACBrXmlNode;
 begin
   Result := CreateElement('endExt');

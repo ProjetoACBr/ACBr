@@ -633,13 +633,10 @@ const
   TindFinalArrayStrings: array[TindFinal] of string = ('1', '0');
 
 type
-  TindPessoas = (ipTomadorAdquirenteDestinatarioIguais,
-    ipTomadorAdquirenteIguais, ipAdquirenteDestinatarioIguais,
-    ipTomadorDestinatarioIguais, ipTomadorAdquirenteDestinatarioDiferentes);
+  TindDest = (idTomadorAdquirenteDestinatarioIguais, idTomadorAdquirenteIguais);
 
 const
-  TindPessoasArrayStrings: array[TindPessoas] of string = ('0', '1', '2', '3',
-    '4');
+  TindDestArrayStrings: array[TindDest] of string = ('0', '1');
 
 type
   TtipoChaveDFe = (tcNFSe, tcNFe, tcCTe, tcOutro);
@@ -855,8 +852,8 @@ function StrTofinNFSe(const s: string): TfinNFSe;
 function indFinalToStr(const t: TindFinal): string;
 function StrToindFinal(const s: string): TindFinal;
 
-function indPessoasToStr(const t: TindPessoas): string;
-function StrToindPessoas(const s: string): TindPessoas;
+function indDestToStr(const t: TindDest): string;
+function StrToindDest(const s: string): TindDest;
 
 function tipoChaveDFeToStr(const t: TtipoChaveDFe): string;
 function StrTotipoChaveDFe(const s: string): TtipoChaveDFe;
@@ -13484,24 +13481,24 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para TindFinal: %s', [s]);
 end;
 
-function indPessoasToStr(const t: TindPessoas): string;
+function indDestToStr(const t: TindDest): string;
 begin
-  Result := TindPessoasArrayStrings[t];
+  Result := TindDestArrayStrings[t];
 end;
 
-function StrToindPessoas(const s: string): TindPessoas;
+function StrToindDest(const s: string): TindDest;
 var
-  idx: TindPessoas;
+  idx: TindDest;
 begin
-  for idx:= Low(TindPessoasArrayStrings) to High(TindPessoasArrayStrings) do
+  for idx:= Low(TindDestArrayStrings) to High(TindDestArrayStrings) do
   begin
-    if (TindPessoasArrayStrings[idx] = s) then
+    if (TindDestArrayStrings[idx] = s) then
     begin
       Result := idx;
       exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TindPessoas: %s', [s]);
+  raise EACBrException.CreateFmt('Valor string inválido para TindDest: %s', [s]);
 end;
 
 function tipoChaveDFeToStr(const t: TtipoChaveDFe): string;

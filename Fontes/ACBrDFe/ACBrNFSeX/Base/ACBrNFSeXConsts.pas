@@ -146,6 +146,9 @@ resourcestring
   DSC_FONE = 'Telefone';
   DSC_EMAIL = 'Endereço de E-mail';
 
+  // Reforma Tributária
+  DSC_REFNFSE = 'Chave da NFS-e referenciada';
+
   // Descrição de Mensagens de Erro - Futuramente vai para ACBrDFeConst
   ERR_MSG_MAIOR = 'Tamanho maior que o máximo permitido';
   ERR_MSG_MENOR = 'Tamanho menor que o mínimo permitido';
