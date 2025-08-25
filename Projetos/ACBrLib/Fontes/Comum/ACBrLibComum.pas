@@ -81,6 +81,7 @@ type
     function GetNome: String;
     function GetDescricao: String;
     function GetVersao: String;
+    function GetInformacaoAdicional: String;
 
   protected
     fpConfig: TLibConfig;
@@ -104,6 +105,7 @@ type
 
     property Nome: String read GetNome;
     property Versao: String read GetVersao;
+    property informacaoAdicional: String read GetInformacaoAdicional;
     property OpenSSLInfo: String read GetOpenSSLInfo;
     property Descricao: String read GetDescricao;
     property TraduzirUltimoRetorno: Boolean read FTraduzirUltimoRetorno write FTraduzirUltimoRetorno;
@@ -142,6 +144,7 @@ type
 {%region Constructor/Destructor}
 function LIB_Inicializar(var libHandle: PLibHandle; pLibClass: TACBrLibClass; const eArqConfig, eChaveCrypt: PAnsiChar): Integer;
 function LIB_Finalizar(libHandle: PLibHandle): Integer;
+function LIB_Finalizar_Liberar(var libHandle : PLibHandle ): Integer;
 function LIB_Inicalizada(const libHandle: PLibHandle): Boolean;
 {%endregion}
 
@@ -279,6 +282,23 @@ begin
   end;
 
   Result := FVersao;
+end;
+
+function TACBrLib.GetInformacaoAdicional: String;
+begin
+  result:= '';
+  {$IFNDEF MT}
+  result:= 'ST';
+  {$ELSE}
+  result:= 'MT';
+  {$ENDIF}
+
+  {$IFDEF STDCALL}
+  result:= result + ' STDCALL';
+  {$ELSE}
+  result:= result + ' cdecl';
+  {$ENDIF}
+
 end;
 
 function TACBrLib.GetNome: String;
@@ -689,7 +709,7 @@ end;
 
 function LIB_Inicializar(var libHandle: PLibHandle; pLibClass: TACBrLibClass; const eArqConfig, eChaveCrypt: PAnsiChar): Integer;
 var
-  ArqConfig, ChaveCrypt: Ansistring;
+  ArqConfig, ChaveCrypt, infoAdicional: Ansistring;
 begin
   try
     ArqConfig := Ansistring(eArqConfig);
@@ -700,7 +720,8 @@ begin
     libHandle^.Lib := pLibClass.Create(ArqConfig, eChaveCrypt);
     libHandle^.Lib.Inicializar;
     libHandle^.Lib.GravarLog('LIB_Inicializar( ' + IfThen(libHandle^.Lib.Config.EhMemory, CLibMemory, libHandle^.Lib.Config.NomeArquivo) + ', ' + StringOfChar('*', Length(ChaveCrypt)) + ' )', logSimples);
-    libHandle^.Lib.GravarLog('   ' + libHandle^.Lib.Nome + ' - ' + libHandle^.Lib.Versao, logSimples);
+    libHandle^.Lib.GravarLog('   ' + libHandle^.Lib.Nome + ' - ' + libHandle^.Lib.Versao + ' - ' + libHandle
+    ^.Lib.informacaoAdicional, logSimples);
 
     with libHandle^.Lib.fpLibRetorno do
     begin
@@ -735,6 +756,16 @@ begin
 
     on E: Exception do
       Result := libHandle^.Lib.SetRetorno(ErrLibNaoFinalizada, E.Message);
+  end;
+end;
+
+function LIB_Finalizar_Liberar(var libHandle: PLibHandle): Integer;
+begin
+  result := 0;
+  if Assigned(libHandle) then
+  begin
+    result:= LIB_Finalizar(libHandle);
+    libHandle := nil;
   end;
 end;
 
