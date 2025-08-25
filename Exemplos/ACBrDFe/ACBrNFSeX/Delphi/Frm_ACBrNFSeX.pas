@@ -456,6 +456,7 @@ implementation
 
 uses
   strutils, math, TypInfo, DateUtils, blcksock, FileCtrl, Grids, IniFiles, Printers,
+  ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrOpenSSLUtils, OpenSSLExt,
   ACBrDFeConfiguracoes, ACBrDFeSSL,
@@ -745,14 +746,20 @@ begin
         IBSCBS.finNFSe := fnfsRegular;
         IBSCBS.indFinal := ifSim;
         IBSCBS.cIndOp := '123456';
+        // togNenhum, togFornecimento, togRecebimentoPag
+        IBSCBS.tpOper := togNenhum;
+
+        // Grupo de NFS-e referenciadas.
+        with IBSCBS.gRefNFSe.New do
+        begin
+          // Chave da NFS-e referenciada
+          refNFSe := '';
+        end;
+
         // tcgNenhum, tcgUniao, tcgEstados, tcgDistritoFederal, tcgMunicipios, tcgOutro
         IBSCBS.tpEnteGov := tcgNenhum;
-        // Se tpEnteGov = tcgOutro informar a sua descrição
-        IBSCBS.xTpEnteGov := '';
-        // ipTomadorAdquirenteDestinatarioIguais, ipTomadorAdquirenteIguais,
-        // ipAdquirenteDestinatarioIguais, ipTomadorDestinatarioIguais,
-        // ipTomadorAdquirenteDestinatarioDiferentes);
-        IBSCBS.indPessoas := ipTomadorAdquirenteDestinatarioDiferentes;
+        // idTomadorAdquirenteDestinatarioIguais, idTomadorAdquirenteIguais,
+        IBSCBS.indDest := idTomadorAdquirenteDestinatarioIguais;
 
         IBSCBS.dest.CNPJCPF := '12345678901';
         IBSCBS.dest.Nif := '';
@@ -766,19 +773,6 @@ begin
         IBSCBS.dest.ender.nro := '100';
         IBSCBS.dest.ender.xCpl := '';
         IBSCBS.dest.ender.xBairro := 'CENTRO';
-
-        IBSCBS.adq.CNPJCPF := '12345678901';
-        IBSCBS.adq.Nif := '';
-        IBSCBS.adq.cNaoNIF := tnnNaoInformado;
-        IBSCBS.adq.xNome := 'Nome do Destinatario';
-        IBSCBS.adq.fone := '1622223333';
-        IBSCBS.adq.email := 'nome@provedor.com.br';
-        IBSCBS.adq.ender.endNac.cMun := StrToIntDef(edtCodCidade.Text, 0);
-        IBSCBS.adq.ender.endNac.CEP := '14800000';
-        IBSCBS.adq.ender.xLgr := 'RUA PRINCIPAL';
-        IBSCBS.adq.ender.nro := '100';
-        IBSCBS.adq.ender.xCpl := '';
-        IBSCBS.adq.ender.xBairro := 'CENTRO';
 
         IBSCBS.imovel.inscImobFisc := '12345678901';
         IBSCBS.imovel.cCIB := '12345678';
@@ -1231,6 +1225,9 @@ begin
       case ACBrNFSeX1.Configuracoes.Geral.Provedor of
         proIPM:
           Servico.CodigoTributacaoMunicipio := '';
+
+        proAgili:
+          Servico.CodigoTributacaoMunicipio := '4.07';
       else
         Servico.CodigoTributacaoMunicipio := '63194';
       end;
