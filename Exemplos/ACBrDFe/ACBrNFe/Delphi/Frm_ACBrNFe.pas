@@ -924,7 +924,7 @@ begin
         begin
           //  Informações do tributo: Imposto Seletivo
           ISel.CSTIS := cstis000;
-          ISel.cClassTribIS := ctis000001;
+          ISel.cClassTribIS := '000001';
 
           ISel.vBCIS := 100;
           ISel.pIS := 5;
@@ -935,7 +935,7 @@ begin
 
           //  Informações do tributo: IBS / CBS
           IBSCBS.CST := cst000;
-          IBSCBS.cClassTrib := ct000001;
+          IBSCBS.cClassTrib := '000001';
 
           IBSCBS.gIBSCBS.vBC := 100;
 
@@ -973,7 +973,7 @@ begin
           IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet := 5;
 
           IBSCBS.gIBSCBS.gTribRegular.CSTReg := cst000;
-          IBSCBS.gIBSCBS.gTribRegular.cClassTribReg := ct000001;
+          IBSCBS.gIBSCBS.gTribRegular.cClassTribReg := '000001';
           IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSUF := 5;
           IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSUF := 50;
           IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSMun := 5;
@@ -1761,7 +1761,7 @@ begin
     begin
       //  Informações do tributo: Imposto Seletivo
       ISel.CSTIS := cstis000;
-      ISel.cClassTribIS := ctis000001;
+      ISel.cClassTribIS := '000001';
 
       ISel.vBCIS := 100;
       ISel.pIS := 5;
@@ -1772,7 +1772,7 @@ begin
 
       //  Informações do tributo: IBS / CBS
       IBSCBS.CST := cst000;
-      IBSCBS.cClassTrib := ct000001;
+      IBSCBS.cClassTrib := '000001';
 
       IBSCBS.gIBSCBS.vBC := 100;
 
@@ -1810,7 +1810,7 @@ begin
       IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet := 5;
 
       IBSCBS.gIBSCBS.gTribRegular.CSTReg := cst000;
-      IBSCBS.gIBSCBS.gTribRegular.cClassTribReg := ct000001;
+      IBSCBS.gIBSCBS.gTribRegular.cClassTribReg := '000001';
       IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSUF := 5;
       IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSUF := 50;
       IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSMun := 5;
