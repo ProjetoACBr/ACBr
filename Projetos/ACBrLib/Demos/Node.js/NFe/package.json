@@ -8,6 +8,6 @@
   },
   "author": "Projeto ACBr",
   "dependencies": {
-    "@projetoacbr/acbrlib-nfe-node": "^1.0.1"
+    "@projetoacbr/acbrlib-nfe-node": "^1.0.4"
   }
 }
