@@ -1,0 +1,13 @@
+{
+  "name": "ExemploACBrReinf",
+  "version": "1.0.0",
+  "description": "Exemplo de uso da biblioteca ACBrReinf",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "@projetoacbr/acbrlib-reinf-node": "^1.0.4",
+    "koffi": "^2.12.0"
+  }
+}
