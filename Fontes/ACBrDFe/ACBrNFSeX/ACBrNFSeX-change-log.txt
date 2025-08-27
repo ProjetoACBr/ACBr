@@ -42,6 +42,25 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/08/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-7956 Incluída a cidade Boa Esperanca do Norte/MT, o provedor é Agili.
+   Por: VEXCOM Sistemas - Valtair
+[*] #ACBr-7955 Alterado o Params da cidade Horizontina/RS, o provedor continua o mesmo.
+   Por: Fabricio Fries
+[*] #ACBr-7953 Alterado as URLs da cidade Ararangua/SC, o provedor continua o mesmo.
+   Por: Mario Inacio
+[*] #ACBr-7952 A cidade Bastos/SP trocou de provedor, agora é Fiorilli.
+   Por: Luiz Eduardo Bodo
+[*] #ACBr-7946 Alterado as URLs da cidade Santa Rosa/RS, o provedor continua o mesmo.
+   Por: maico.smaniotto
+[*] #ACBr-7946 Alterado as URLs da cidade Guaranirin/SC, o provedor continua o mesmo.
+   Por: Diogo Loff
+[*] #ACBr-7946 Alterado as URLs da cidade Cascavel/PR, o provedor continua o mesmo.
+   Por: christian@adminfo.com.br
+[*] #ACBr-7931 Alterado o Params da cidade Rondonopolis/MT, o provedor continua o mesmo.
+   Por: Italo Giurizzato Junior
+
 25/08/2025
 -- SigISSWeb.GravarXml --
 [*] #ACBr-7932: Ajustes visando a emissão de uma nota com ISSRetido com deduções.
