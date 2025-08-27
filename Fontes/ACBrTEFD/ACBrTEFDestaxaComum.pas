@@ -483,6 +483,7 @@ type
 
     procedure ExecutarTransacao;
     procedure ExecutarColeta(AguardarResposta: Boolean = True);
+    procedure AguardarResposta;
 
     procedure Reconectar;
     function Conectar: Integer;
@@ -1418,6 +1419,41 @@ begin
   end;
 end;
 
+procedure TACBrTEFDestaxaSocket.AguardarResposta;
+var
+  Erro: Integer;
+  RX: AnsiString;
+begin
+  Erro := -1;
+  Resposta.Clear;
+  ColetaResposta.Clear;
+  ColetaRequisicao.Clear;
+  while NaoEstaZerado(Erro) do
+  begin
+    fDestaxaClient.GravarLog('TACBrTEFDestaxaSocket - Aguardando Resposta...');
+    RX := RecvTerminated(fDestaxaClient.TimeOut, fDestaxaClient.Terminador);
+    fDestaxaClient.GravarLog('TACBrTEFDestaxaSocket.Resposta - RX: ' + sLineBreak + RX);
+
+    // Trata erro de Timeout
+    Erro := LastError;
+    if NaoEstaZerado(Erro) then
+      fDestaxaClient.TratarErro;
+
+    Resposta.AsString := RX;
+    if (Requisicao.servico = dxsFinalizar) and (Resposta.servico <> dxsFinalizar) then
+    begin
+      Erro := -1;
+      Continue;
+    end;
+
+    if (Resposta.automacao_coleta_sequencial > 0) then
+      ColetaResposta.AsString := RX;
+
+    if Assigned(fOnQuandoReceberResposta) then
+      fOnQuandoReceberResposta(RX);
+  end;
+end;
+
 function TACBrTEFDestaxaSocket.Desconectar: Integer;
 begin
   CloseSocket;
@@ -1725,6 +1761,9 @@ begin
     Socket.ExecutarColeta(Aguardar);
     Sleep(200);
   end;
+
+  if (ColetaResposta.automacao_coleta_retorno = dcrFinalizarProcedimento) then
+    Socket.AguardarResposta;
 end;
 
 procedure TACBrTEFDestaxaClient.ProcessarResposta;
