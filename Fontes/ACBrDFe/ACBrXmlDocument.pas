@@ -394,8 +394,15 @@ begin
 end;
 
 function TACBrXmlNode.GetContent: string;
+var
+  con: xmlCharPtr;
 begin
-  Result := UTF8ToNativeString(AnsiString(xmlNodeGetContent(FXmlNode)));
+  con := xmlNodeGetContent(FXmlNode);
+  try
+    Result := UTF8ToNativeString(AnsiString(con));
+  finally
+    xmlFree(con);
+  end;
 end;
 
 function TACBrXmlNode.GetInnerXml: string;
@@ -749,8 +756,15 @@ begin
 end;
 
 function TACBrXmlAttribute.GetContent: string;
+var
+  con: xmlCharPtr;
 begin
-  Result := UTF8ToNativeString(AnsiString(xmlGetNoNsProp(FParentNode.FXmlNode, xmlAttInternal^.Name)));
+  con := xmlGetNoNsProp(FParentNode.FXmlNode, xmlAttInternal^.Name);
+  try
+    Result := UTF8ToNativeString(AnsiString(con));
+  finally
+    xmlFree(con);
+  end;
 end;
 
 procedure TACBrXmlAttribute.SetName(AName: string);
