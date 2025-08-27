@@ -314,7 +314,7 @@ begin
 
   if MDFe.procMDFe.nProt <> '' then
   begin
-    xmlNode := FDocument.CreateElement('MDFeProc', 'http://www.portalfiscal.inf.br/mdfe');
+    xmlNode := FDocument.CreateElement('mdfeProc', 'http://www.portalfiscal.inf.br/mdfe');
     xmlNode.SetAttribute('versao', FloatToString(MDFe.infMDFe.Versao, '.', '#0.00'));
     xmlNode.AppendChild(MDFeNode);
     FDocument.Root := xmlNode;

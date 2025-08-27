@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/08/2025
+-- ACBrMDFe.XmlWriter --
+[*] #ACBr-7971: Corrigido a nomenclatura da tag principal do documento para mdfeProc, conforme consta
+    no Schema.
+  Por: THx
 -- ACBrMDFeWebServices --
 [-] #ACBr-7974: Correção na rotina que salva os eventos, estava somando 15 ao tamanho da tag
     sendo que o correto é 16 e foi colocado uma checagem para testar a presença da tag procInfraSA.
