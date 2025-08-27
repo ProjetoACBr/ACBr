@@ -7,7 +7,7 @@
     "start": "node main.js"
   },
   "dependencies": {
-    "@projetoacbr/acbrlib-reinf-node": "^1.0.4",
+    "@projetoacbr/acbrlib-reinf-node": "latest",
     "koffi": "^2.12.0"
   }
 }
