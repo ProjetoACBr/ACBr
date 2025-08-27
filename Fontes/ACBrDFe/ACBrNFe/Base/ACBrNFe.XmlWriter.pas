@@ -1301,7 +1301,7 @@ begin
 
   Result.AppendChild(AddNode(tcStr, 'I30', 'xPed', 01, 15, 0,
     NFe.Det[i].Prod.xPed, DSC_XPED));
-  Result.AppendChild(AddNode(tcStr, 'I31', 'nItemPed', 06, 06, 0,
+  Result.AppendChild(AddNode(tcStr, 'I31', 'nItemPed', 01, 06, 0,
     OnlyNumber(NFe.Det[i].Prod.nItemPed), DSC_NITEMPED));
   Result.AppendChild(AddNode(tcStr, 'I70', 'nFCI', 36, 36, 0,
     NFe.Det[i].Prod.nFCI, DSC_NFCI));
