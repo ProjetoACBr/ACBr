@@ -1703,7 +1703,7 @@ begin
   while Retorno <> '' do
   begin
     Inicio := Pos('<procEventoMDFe', Retorno);
-    Fim    := Pos('</procEventoMDFe>', Retorno) + 15;
+    Fim    := Pos('</procEventoMDFe>', Retorno) + 16;
 
     aEvento := Copy(Retorno, Inicio, Fim - Inicio + 1);
 
@@ -1732,6 +1732,9 @@ begin
 
     if FPConfiguracoesMDFe.Arquivos.SalvarEvento and (aProcEvento <> '') then
       FPDFeOwner.Gravar( aIDEvento + '-procEventoMDFe.xml', aProcEvento, sPathEvento);
+
+    // Pode haver essa tag depois dos eventos, para evitar criar eventos não mapeados dar break.
+    if (Pos('<procInfraSA', Retorno) = 1) then break;
   end;
 end;
 

@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/08/2025
+-- ACBrMDFeWebServices --
+[-] #ACBr-7974: Correção na rotina que salva os eventos, estava somando 15 ao tamanho da tag
+    sendo que o correto é 16 e foi colocado uma checagem para testar a presença da tag procInfraSA.
+  Por: CONCEPT AUTOMACAO
+
 18/07/2025
 -- ACBrMDFe.XmlWriter --
 [*] Correção no tamanho mínimo e máximo da tag idCSRT.
