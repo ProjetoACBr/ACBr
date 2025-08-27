@@ -352,16 +352,19 @@ begin
       '2'                                                      +  // 001 a 001 Identificação do Registro
       '0';                                                        // 002 a 002 Zero
 
-    for I := 0 to ACBrTitulo.Mensagem.Count - 1 do
+    I := 0;
+    while (I < ACBrTitulo.Mensagem.Count) do
     begin
-      if i = 5  then
+      if I = 5  then
         Break;
 
       wLinha := wLinha +
         PadRight(ACBrTitulo.Mensagem[I],69);                      // 003 a 071 Mensagem Livre 69 posições
+
+      inc(I);
     end;                                                          // 072 a 140 Mensagem Livre 69 posições
                                                                   // 141 a 209 Mensagem Livre 69 posições
-    mensagemBranco := (5 - i - 1) * 69;                           // 210 a 278 Mensagem Livre 69 posições
+    mensagemBranco := (5 - I) * 69;                              // 210 a 278 Mensagem Livre 69 posições
     wLinha := wLinha + Space(mensagemBranco);                     // 279 a 347 Mensagem Livre 69 posições
 
     wLinha := wLinha + Space(47);                                 // 348 a 394 Brancos

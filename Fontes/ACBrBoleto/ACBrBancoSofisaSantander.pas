@@ -313,17 +313,19 @@ begin
       begin
         wLinha:= wLinha + #13#10                         +
                  '2' + '0';
-        for I := 0 to Mensagem.Count - 1 do
+        I := 0;
+        while (I < ACBrTitulo.Mensagem.Count) do
         begin
-          if i = 5  then
+          if I = 5  then
             Break;
 
           wLinha := wLinha +
             PadRight(Mensagem[I],69);
 
+          inc(I);
         end;
 
-        mensagemBranco := (5 - i) * 69;
+        mensagemBranco := (5 - I) * 69;
 
         wLinha := wLinha + Space(mensagemBranco) + Space(47);
         wLinha := wLinha +  IntToStrZero(aRemessa.Count  + 2, 6 );

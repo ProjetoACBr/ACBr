@@ -49,8 +49,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/08/2025
+-- ACBrBancoSofisa, ACBrBancoSofisaItau, ACBrBancoSofisaSantander --
+[*] #ACBR-7944 - Corrigida geração do segmento de mensagem no CNAB400 Sofisa quando houverem menos de 5 mensagens. - https://www.projetoacbr.com.br/forum/topic/85084-contribuicao-sofisa-tamanho-de-registro-de-mensagens/
+    Por: Marcos Lenharo
+
 22/08/2025
--- ACBrBoletoRet_Bradesco.pas --
+-- ACBrBancoSofisa --
 [+] #ACBR-7943 - Implementada leitura do NossoNumero opcional Com o Sem DV do arquivo de retorno do leiaute próprio Sofisa. - https://www.projetoacbr.com.br/forum/topic/85085-contribuicao-sofisa-lernossonumerocompleto/
     Por: Marcos Lenharo
 
