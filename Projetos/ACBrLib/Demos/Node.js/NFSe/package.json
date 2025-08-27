@@ -1,0 +1,13 @@
+{
+  "name": "Demo ACBrLibNFSe",
+  "version": "1.0.0",
+  "description": "Demo ACBrLibNFSe",
+  "main": "main.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "author": "Projeto ACBr",
+  "dependencies": {
+    "@projetoacbr/acbrlib-nfse-node": "latest"
+  }
+}
