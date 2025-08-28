@@ -489,7 +489,7 @@ begin
   with fpNFCom.Det[FNumItem] do
   begin
     rlmDescricao.Lines.Text := Prod.xProd;
-    txtUnidade.Lines.Text := uMedToStr(Prod.uMed);
+    txtUnidade.Lines.Text := uMedToDescricao(Prod.uMed);
     txtQuantidade.Lines.Text := fpDANFCom.FormatarQuantidade(Prod.qFaturada);
     txtValorUnitario.Lines.Text := fpDANFCom.FormatarValorUnitario(Prod.vItem);
     txtValorTotal.Caption := FormatFloatBr(Prod.vProd);

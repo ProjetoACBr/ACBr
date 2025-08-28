@@ -234,6 +234,7 @@ function StrToMotSub(const s: string): TmotSub;
 
 function uMedToStr(const t: TuMed): string;
 function StrTouMed(const s: string): TuMed;
+function uMedToDescricao(const t: TuMed ): string;
 
 function CSTICMSToStr(const t: TCSTIcms): string;
 function StrToCSTICMS(const s: string): TCSTIcms;
@@ -595,6 +596,18 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para TuMed: %s', [s]);
+end;
+
+function uMedToDescricao(const t: TuMed ): string;
+begin
+  case t of
+    umMinuto: result := 'Minuto';
+    umMB    : result := 'MB';
+    umGB    : result := 'GB';
+    umUN    : result := 'UN';
+  else
+    result := '';
+  end;
 end;
 
 function CSTICMSToStr(const t: TCSTIcms): string;
