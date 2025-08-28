@@ -56,6 +56,7 @@ type
   public
     function GerarToken(const ACabecalho, AMSG: String): string; override;
     function GerarNFSe(const ACabecalho, AMSG: String): string; override;
+    function ConsultarNFSePorRps(const ACabecalho, AMSG: string): string; override;
     function Cancelar(const ACabecalho, AMSG: String): string; override;
 
     function TratarXmlRetornado(const aXML: string): string; override;
@@ -80,6 +81,9 @@ type
 
     procedure PrepararEmitir(Response: TNFSeEmiteResponse); override;
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
+
+    procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
+    procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
 
     procedure PrepararCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
     procedure TratarRetornoCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
@@ -124,6 +128,7 @@ begin
 
     ServicosDisponibilizados.EnviarUnitario := True;
     ServicosDisponibilizados.GerarToken := True;
+    ServicosDisponibilizados.ConsultarRps := True;
     ServicosDisponibilizados.CancelarNfse := True;
   end;
 
@@ -290,74 +295,6 @@ begin
     Response.Token := xRetorno;
 end;
 
-procedure TACBrNFSeProviderSigISSWeb.PrepararCancelaNFSe(
-  Response: TNFSeCancelaNFSeResponse);
-var
-  AErro: TNFSeEventoCollectionItem;
-//  Emitente: TEmitenteConfNFSe;
-//  CodMun: Integer;
-begin
-  if Response.InfCancelamento.NumeroNFSe = '' then
-  begin
-    AErro := Response.Erros.New;
-    AErro.Codigo := Cod108;
-    AErro.Descricao := ACBrStr(Desc108);
-    Exit;
-  end;
-
-  if Response.InfCancelamento.SerieNFSe = '' then
-  begin
-    AErro := Response.Erros.New;
-    AErro.Codigo := Cod112;
-    AErro.Descricao := ACBrStr(Desc112);
-    Exit;
-  end;
-
-  if Response.InfCancelamento.MotCancelamento = '' then
-  begin
-    AErro := Response.Erros.New;
-    AErro.Codigo := Cod120;
-    AErro.Descricao := ACBrStr(Desc110);
-    Exit;
-  end;
-
-//  Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
-//  CodMun := TACBrNFSeX(FAOwner).Configuracoes.Geral.CodigoMunicipio;
-
-
-  FpPath := 'rest/nfes/cancela/' +
-            Response.InfCancelamento.NumeroNFSe +
-            '/serie/' +
-            Response.InfCancelamento.SerieNFSe +
-            '/motivo/' +
-            StringReplace(Response.InfCancelamento.MotCancelamento,' ','%20',[rfReplaceAll]);
-  FpMethod := 'GET';
-  FpMimeType := 'application/json';
-  {
-  Response.ArquivoEnvio := '<cancelamentoNfseLote xmlns="http://www.SigISSWeb.com/nfse">' +
-                             '<codigoMunicipio>' +
-                                CodIBGEToCodTOM(CodMun) +
-                             '</codigoMunicipio>' +
-                             '<dtEmissao>' +
-                                FormatDateTime('YYYY-MM-DD', Response.InfCancelamento.DataEmissaoNFSe) +
-                                'T' +
-                                FormatDateTime('HH:NN:SS', Response.InfCancelamento.DataEmissaoNFSe) +
-                             '</dtEmissao>' +
-                             '<autenticacao>' +
-                               '<token>' +
-                                  Emitente.WSChaveAutoriz +
-                               '</token>' +
-                             '</autenticacao>' +
-                             '<numeroNota>' +
-                                Response.InfCancelamento.NumeroNFSe +
-                             '</numeroNota>' +
-                             '<chaveSeguranca>' +
-                                Response.InfCancelamento.ChaveNFSe +
-                             '</chaveSeguranca>' +
-                           '</cancelamentoNfseLote>';
-  }
-end;
-
 procedure TACBrNFSeProviderSigISSWeb.PrepararEmitir(
   Response: TNFSeEmiteResponse);
 var
@@ -469,6 +406,157 @@ begin
   end;
 end;
 
+procedure TACBrNFSeProviderSigISSWeb.PrepararConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+begin
+  if EstaVazio(Response.NumeroRps) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod102;
+    AErro.Descricao := ACBrStr(Desc102);
+    Exit;
+  end;
+
+  if EstaVazio(Response.SerieRps) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod103;
+    AErro.Descricao := ACBrStr(Desc103);
+    Exit;
+  end;
+
+  FpPath := 'rest/nfes/pegaxml/' +
+            Response.NumeroRps +
+            '/serierps/' +
+            Response.SerieRps;
+  FpMethod := 'GET';
+  FpMimeType := 'application/json';
+end;
+
+procedure TACBrNFSeProviderSigISSWeb.TratarRetornoConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  Document: TACBrXmlDocument;
+  AErro: TNFSeEventoCollectionItem;
+  ANode: TACBrXmlNode;
+  ANota: TNotaFiscal;
+begin
+  Document := TACBrXmlDocument.Create;
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit
+      end;
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+
+      ANode := Document.Root;
+
+      Response.CodigoVerificacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('codigo'), tcStr);
+      Response.NumeroNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('numero_nf'), tcStr);
+      Response.SerieNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('serie'), tcStr);
+      Response.NumeroRps := ObterConteudoTag(ANode.Childrens.FindAnyNs('rps'), tcStr);
+      Response.SerieRps := ObterConteudoTag(ANode.Childrens.FindAnyNs('serie_rps'), tcStr);
+      Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('data_emissao'), tcDatVcto);
+
+      ProcessarMensagemErros(ANode, Response);
+
+      Response.Sucesso := (Response.Erros.Count = 0);
+
+      if Response.Sucesso then
+      begin
+        ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(Response.NumeroRps);
+
+        ANota := CarregarXmlNfse(ANota, ANode.OuterXml);
+        SalvarXmlNfse(ANota);
+      end;
+    except
+      on E: Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
+  end;
+end;
+
+procedure TACBrNFSeProviderSigISSWeb.PrepararCancelaNFSe(
+  Response: TNFSeCancelaNFSeResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+//  Emitente: TEmitenteConfNFSe;
+//  CodMun: Integer;
+begin
+  if Response.InfCancelamento.NumeroNFSe = '' then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod108;
+    AErro.Descricao := ACBrStr(Desc108);
+    Exit;
+  end;
+
+  if Response.InfCancelamento.SerieNFSe = '' then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod112;
+    AErro.Descricao := ACBrStr(Desc112);
+    Exit;
+  end;
+
+  if Response.InfCancelamento.MotCancelamento = '' then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod120;
+    AErro.Descricao := ACBrStr(Desc110);
+    Exit;
+  end;
+
+//  Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+//  CodMun := TACBrNFSeX(FAOwner).Configuracoes.Geral.CodigoMunicipio;
+
+
+  FpPath := 'rest/nfes/cancela/' +
+            Response.InfCancelamento.NumeroNFSe +
+            '/serie/' +
+            Response.InfCancelamento.SerieNFSe +
+            '/motivo/' +
+            StringReplace(Response.InfCancelamento.MotCancelamento,' ','%20',[rfReplaceAll]);
+  FpMethod := 'GET';
+  FpMimeType := 'application/json';
+  {
+  Response.ArquivoEnvio := '<cancelamentoNfseLote xmlns="http://www.SigISSWeb.com/nfse">' +
+                             '<codigoMunicipio>' +
+                                CodIBGEToCodTOM(CodMun) +
+                             '</codigoMunicipio>' +
+                             '<dtEmissao>' +
+                                FormatDateTime('YYYY-MM-DD', Response.InfCancelamento.DataEmissaoNFSe) +
+                                'T' +
+                                FormatDateTime('HH:NN:SS', Response.InfCancelamento.DataEmissaoNFSe) +
+                             '</dtEmissao>' +
+                             '<autenticacao>' +
+                               '<token>' +
+                                  Emitente.WSChaveAutoriz +
+                               '</token>' +
+                             '</autenticacao>' +
+                             '<numeroNota>' +
+                                Response.InfCancelamento.NumeroNFSe +
+                             '</numeroNota>' +
+                             '<chaveSeguranca>' +
+                                Response.InfCancelamento.ChaveNFSe +
+                             '</chaveSeguranca>' +
+                           '</cancelamentoNfseLote>';
+  }
+end;
+
 procedure TACBrNFSeProviderSigISSWeb.TratarRetornoCancelaNFSe(
   Response: TNFSeCancelaNFSeResponse);
 var
@@ -577,6 +665,19 @@ end;
 
 function TACBrNFSeXWebserviceSigISSWeb.GerarNFSe(const ACabecalho,
   AMSG: String): string;
+var
+  Request: string;
+begin
+  FAjustaSetHeader := True;
+  FPMsgOrig := AMSG;
+
+  Request := AMSG;
+
+  Result := Executar('', Request, [], []);
+end;
+
+function TACBrNFSeXWebserviceSigISSWeb.ConsultarNFSePorRps(const ACabecalho,
+  AMSG: string): string;
 var
   Request: string;
 begin

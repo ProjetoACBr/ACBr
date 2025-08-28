@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 28/08/2025
+-- SigISSWeb.Provider --
+[+] #ACBr-7950 Implementado o ConsultarNFSePorRps.
+   Por: Soma Soluções em TI
 -- ACBrNFSeXDANFSeRLRetrato --
 [*] #ACBr-7954 Incluída no DANFSE a impressão do NBS se este estiver presente no XML da NFS-e.
    Por: Soma Soluções em TI
