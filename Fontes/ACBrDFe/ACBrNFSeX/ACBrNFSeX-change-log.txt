@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/08/2025
+-- ACBrNFSeXDANFSeRLRetrato --
+[*] #ACBr-7954 Incluída no DANFSE a impressão do NBS se este estiver presente no XML da NFS-e.
+   Por: Soma Soluções em TI
+
 27/08/2025
 -- ACBrNFSeXServicos --
 [*] #ACBr-7956 Incluída a cidade Boa Esperanca do Norte/MT, o provedor é Agili.
