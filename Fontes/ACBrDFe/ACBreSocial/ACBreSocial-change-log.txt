@@ -52,6 +52,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/08/2025
+-- pcesConversaoeSocial --
+[+] #ACBR-7979: Novos itens no enumerado tpMotivosAfastamento - https://www.projetoacbr.com.br/forum/topic/85248-atualiza%C3%A7%C3%A3o-dos-c%C3%B3digos-de-motivos-de-afastamento-do-evento-s-2230/
+  Por: Sófolha
+
 11/07/2025
 -- pcesS2200 --
 [-] #TK-7331: Revertido a remoção indevida das informações da tag sucessaovinc.
