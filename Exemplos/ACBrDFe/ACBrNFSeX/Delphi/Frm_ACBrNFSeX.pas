@@ -462,7 +462,8 @@ uses
   ACBrDFeConfiguracoes, ACBrDFeSSL,
   ACBrDFeUtil,
   ACBrNFSeXWebserviceBase,
-  Frm_Status, Frm_SelecionarCertificado;
+  Frm_Status, Frm_SelecionarCertificado,
+  pcnConversao;
 
 const
   SELDIRHELP = 1000;
@@ -976,7 +977,7 @@ begin
       // snSim = Ambiente de Produção
       // snNao = Ambiente de Homologação
       {=== Usado pelo provedor Infisc, eGoverneISS ===}
-      if ACBrNFSeX1.Configuracoes.WebServices.Ambiente = taProducao then
+      if ACBrNFSeX1.Configuracoes.WebServices.Ambiente = TpcnTipoAmbiente(taProducao) then
         Producao := snSim
       else
         Producao := snNao;
@@ -5196,7 +5197,7 @@ var
     end;
   end;
 begin
-  Ambiente := TipoAmbienteToStr(ACBrNFSeX1.Configuracoes.WebServices.Ambiente);
+  Ambiente := TpAmbToStr(ACBrNFSeX1.Configuracoes.WebServices.Ambiente);
 
   if Ambiente = '1' then
     Ambiente := Ambiente + ' - Produção'
@@ -5812,7 +5813,7 @@ begin
     ExibirErroSchema := cbxExibirErroSchema.Checked;
     RetirarAcentos   := cbxRetirarAcentos.Checked;
     FormatoAlerta    := edtFormatoAlerta.Text;
-    FormaEmissao     := TACBrTipoEmissao(cbFormaEmissao.ItemIndex);
+    FormaEmissao     := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
 
     FormatoDiscriminacao := TFormatoDiscriminacao(cbFormatoDiscr.ItemIndex);
 
@@ -5859,7 +5860,7 @@ begin
     // Redefini a quebra de linha que por padrão é "|'
     QuebradeLinha := ';';
 
-    Ambiente   := StrToTipoAmbiente(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
+    Ambiente   := StrToTpAmb(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
     Visualizar := cbxVisualizar.Checked;
     Salvar     := chkSalvarSOAP.Checked;
     UF         := edtEmitUF.Text;
