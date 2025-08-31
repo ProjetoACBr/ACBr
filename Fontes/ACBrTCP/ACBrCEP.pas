@@ -67,7 +67,8 @@ type
                          wsCepAberto,
                          wsWSCep,
                          wsOpenCep,
-                         wsBrasilAPI );
+                         wsBrasilAPI,
+                         wsCepAwesomeAPI );
 
   EACBrCEPException = class ( Exception );
 
@@ -334,6 +335,16 @@ type
     procedure BuscarPorCEP(const ACEP: String); override;
   end;
 
+  { TACBrWSCepAwesomeAPI } // https://docs.awesomeapi.com.br/
+  TACBrWSCepAwesomeAPI = class(TACBrCEPWSClass)
+  private
+    FCepBusca: String;
+    procedure ProcessaResposta;
+  public
+    constructor Create( AOwner : TACBrCEP ); override;
+    Procedure BuscarPorCEP(const ACEP : String ); override;
+  end;
+
 implementation
 
 uses
@@ -452,6 +463,7 @@ begin
     wsWSCep            : fACBrCEPWS := TACBrWSWSCEP.Create(Self);
     wsOpenCep          : fACBrCEPWS := TACBrWSOpenCEP.Create(Self);
     wsBrasilAPI        : fACBrCEPWS := TACBrWSBrasilAPI.Create(Self);
+    wsCepAwesomeAPI    : fACBrCEPWS := TACBrWSCepAwesomeAPI.Create(Self);
   else
      fACBrCEPWS := TACBrCEPWSClass.Create( Self ) ;
   end ;
@@ -1619,6 +1631,54 @@ begin
     LACBrCEPEnderecos.UF              := LJson.AsString['state'];
     LACBrCEPEnderecos.Longitude       := LJson.AsJSONObject['location'].AsJSONObject['coordinates'].AsString['longitude'];
     LACBrCEPEnderecos.Latitude        := LJson.AsJSONObject['location'].AsJSONObject['coordinates'].AsString['latitude'];
+  finally
+    LJson.Free;
+    BuscaEfetuada;
+  end;
+end;
+
+{ TACBrWSCepAwesomeapi }
+
+procedure TACBrWSCepAwesomeapi.BuscarPorCEP(const ACEP: String);
+var
+  LCEP: string;
+begin
+  FCepBusca := ACep;
+  LCEP := OnlyNumber( ACEP );
+
+  if ACEP = '' then
+    raise EACBrCEPException.Create( ACBrStr(ERROR_CEP_OBRIGATORIO) );
+
+  fOwner.HTTPGet( fpURL + LCEP ) ;
+  ProcessaResposta();
+end;
+
+constructor TACBrWSCepAwesomeapi.Create(AOwner: TACBrCEP);
+begin
+  inherited Create(AOwner);
+  fpURL := 'https://cep.awesomeapi.com.br/json/';
+end;
+
+procedure TACBrWSCepAwesomeapi.ProcessaResposta;
+var
+  aux: String;
+  LJson: TACBrJSONObject;
+  LACBrCEPEnderecos: TACBrCEPEndereco;
+begin
+  aux := UTF8ToNativeString(ParseText(fOwner.HTTPResponse, True, fOwner.RespIsUTF8));
+  LJson := TACBrJSONObject.Parse(aux);
+
+  try
+    LACBrCEPEnderecos := fOwner.Enderecos.New;
+
+    LACBrCEPEnderecos.CEP             := LJson.AsString['cep'];
+    LACBrCEPEnderecos.Logradouro      := LJson.AsString['address_name'];
+    LACBrCEPEnderecos.Bairro          := LJson.AsString['district'];
+    LACBrCEPEnderecos.Municipio       := LJson.AsString['city'];
+    LACBrCEPEnderecos.UF              := LJson.AsString['state'];
+    LACBrCEPEnderecos.Longitude       := LJson.AsString['lng'];
+    LACBrCEPEnderecos.Latitude        := LJson.AsString['lat'];
+    LACBrCEPEnderecos.IBGE_Municipio  := LJson.AsString['city_ibge'];
   finally
     LJson.Free;
     BuscaEfetuada;
