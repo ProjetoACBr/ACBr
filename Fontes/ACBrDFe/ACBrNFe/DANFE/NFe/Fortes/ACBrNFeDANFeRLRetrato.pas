@@ -906,7 +906,7 @@ begin
     if (fpNFe.procNFe.cStat > 0) then
     begin
       case fpNFe.procNFe.cStat of
-        100:
+        100, 150:
         begin
           rlbCodigoBarras.Visible := True;
           rllXMotivo.Visible := False;
