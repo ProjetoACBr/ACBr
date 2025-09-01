@@ -399,6 +399,14 @@ begin
           Ler_RetEvento(ANode);
         end;
 
+        if (ANode.LocalName = 'NFeDFe') then
+        begin
+          versao := ObterConteudoTag(ANode.Childrens.FindAnyNs('procEventoNFe').Childrens.FindAnyNs('procEventoNFe').Attributes.Items['versao']);
+
+          Ler_InfEvento(ANode.Childrens.FindAnyNs('procEventoNFe').Childrens.FindAnyNs('procEventoNFe').Childrens.FindAnyNs('evento').Childrens.FindAnyNs('infEvento'));
+          Ler_RetEvento(ANode);
+        end;
+
         if ANode.LocalName = 'retEnvEvento' then
           Ler_RetEvento(ANode);
 
