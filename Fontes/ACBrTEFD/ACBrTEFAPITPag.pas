@@ -348,7 +348,7 @@ begin
   else if (teftcVoucher in CartoesAceitos) then
     Params.transactionType := Cardinal(TRANSACTION_TYPE_VOUCHER)
   else
-    Params.transactionType := Cardinal(TRANSACTION_TYPE_CREDIT);
+    Params.transactionType := Cardinal(TRANSACTION_TYPE_NONE);
 
   if (Financiamento > tefmfAVista) then
     Params.creditType := Cardinal(CREDIT_TYPE_INSTALLMENT)
