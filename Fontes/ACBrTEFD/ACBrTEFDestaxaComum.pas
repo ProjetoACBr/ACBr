@@ -1763,7 +1763,11 @@ begin
   end;
 
   if (ColetaResposta.automacao_coleta_retorno = dcrFinalizarProcedimento) then
+  begin
+    if Assigned(fOnExibirMensagem) and fExibirMensagem and NaoEstaVazio(ColetaResposta.automacao_coleta_mensagem) then
+      fOnExibirMensagem(ColetaResposta.automacao_coleta_mensagem, -1, Cancelar);
     Socket.AguardarResposta;
+  end;
 end;
 
 procedure TACBrTEFDestaxaClient.ProcessarResposta;
