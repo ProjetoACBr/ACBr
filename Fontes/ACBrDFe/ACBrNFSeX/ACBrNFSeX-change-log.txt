@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/09/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-7985 Alterado as URLs da cidade Novo Hamburgo/RS, o provedor continua o mesmo.
+   Por: Roberto Krug
+[*] #ACBr-7989 Alterado as URLs da cidade Lapa/PR, o provedor continua o mesmo.
+   Por: Anderson Grolli
+
 29/08/2025
 -- ACBrNFSeXServicos --
 [*] #ACBr-7980 Alterado as URLs da cidade Brotas/SP, o provedor continua o mesmo.
