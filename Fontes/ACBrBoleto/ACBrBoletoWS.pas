@@ -86,6 +86,7 @@ type
     function GerarRemessa: String; virtual;
     function Enviar: Boolean; virtual;
 
+
     property DFeSSL: TDFeSSL read FDFeSSL write FDFeSSL;
     property httpsend: THTTPSend read FHTTPSend write FHTTPSend;
     property BoletoWS: TBoletoWS read FBoletoWS;
@@ -94,7 +95,7 @@ type
     property ATitulo: TACBrTitulo read FTitulo;
     property RetornoBanco: TRetornoEnvioClass read FRetornoBanco write FRetornoBanco;
     property OAuth: TOAuth read FOAuth write FOAuth;
-
+    function NovoTokenAutenticacao( var AToken: String; var AValidadeToken: TDateTime; const ANewForceToken: Boolean = False) : Boolean; virtual;
   public
     constructor Create(ABoletoWS: TBoletoWS); virtual;
     destructor Destroy; Override;
@@ -127,8 +128,8 @@ type
     destructor Destroy; override;
     procedure DoLog(const AString: String; const ANivelSeveridadeLog : TNivelLog);
     function Enviar: Boolean; override;
+    function NovoTokenAutenticacao( out AToken : String; out AValidadeToken : TDateTime ) : Boolean; virtual;
     property RetornoBanco: TRetornoEnvioClass read FRetornoBanco;
-
   end;
 
     { TRetornoEnvioClass }
@@ -334,6 +335,11 @@ function TBoletoWSClass.GerarRemessa: String;
 begin
   Result := '';
   raise EACBrBoletoWSException.Create(ACBrStr(ClassName + Format(S_METODO_NAO_IMPLEMENTADO, [ C_GERAR_REMESSA ])));
+end;
+
+function TBoletoWSClass.NovoTokenAutenticacao(var AToken: String; var AValidadeToken: TDateTime; const ANewForceToken: Boolean): Boolean;
+begin
+  Result := False;
 end;
 
 function TBoletoWSClass.Enviar: Boolean;
@@ -567,6 +573,12 @@ begin
   FBoletoWSClass.FBoleto := FBoleto;
 end;
 
+function TBoletoWS.NovoTokenAutenticacao(out AToken: String; out AValidadeToken: TDateTime): Boolean;
+begin
+  Banco  := FBoleto.Banco.TipoCobranca;
+  Result := FBoletoWSClass.NovoTokenAutenticacao(AToken, AValidadeToken);
+end;
+
 destructor TBoletoWS.Destroy;
 begin
   if Assigned(FBoletoWSClass) then
@@ -598,6 +610,7 @@ begin
         LJsonEnvio             := FBoletoWSClass.GerarRemessa;
         Result                 := FBoletoWSClass.Enviar;
         FRetornoWS             := FBoletoWSClass.FRetornoWS;
+
 
 
         RetornoBanco.RetWS  := FRetornoWS;

@@ -77,7 +77,7 @@
 {.$DEFINE USE_ZLibExGZ}
 
 // Para Remover Warnings de CAST causados por WideString/String/AnsiString, descomente a linha abaixo. (Apenas Delphi)
-{.$DEFINE REMOVE_CAST_WARN}
+{$DEFINE REMOVE_CAST_WARN}
 
 // Para usar CLX no Windows / Delphi descomente essa linha
 //------------------------------------------------------------------------------

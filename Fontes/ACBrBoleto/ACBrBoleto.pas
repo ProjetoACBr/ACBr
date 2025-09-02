@@ -1009,8 +1009,10 @@ type
   end;
 
   { TACBrWebService }
-  TACBrWebServiceOnAntesAutenticar  = procedure(var aToken: String; var aValidadeToken: TDateTime) of object;
-  TACBrWebServiceOnDepoisAutenticar = procedure(const aToken: String; const aValidadeToken: TDateTime) of object;
+  TACBrWebServiceOnAntesAutenticar   = procedure(var AToken: String; var AValidadeToken: TDateTime) of object;
+  TACBrWebServiceOnDepoisAutenticar  = procedure(const AToken: String; const AValidadeToken: TDateTime) of object;
+  TACBrWebServiceOnPrecisaAutenticar = procedure(var AToken: String; var AValidadeToken: TDateTime) of object;
+
   {$IFDEF RTL230_UP}
   [ComponentPlatformsAttribute(piacbrAllPlatforms)]
   {$ENDIF RTL230_UP}
@@ -1516,6 +1518,7 @@ type
     fPrefixArqRemessa : string;
     fOnAntesAutenticar:  TACBrWebServiceOnAntesAutenticar;
     fOnDepoisAutenticar: TACBrWebServiceOnDepoisAutenticar;
+    fOnPrecisaAutenticar: TACBrWebServiceOnPrecisaAutenticar;
     FKeySoftwareHouse: String;
 
     procedure SetACBrBoletoFC(const Value: TACBrBoletoFCClass);
@@ -1578,6 +1581,7 @@ type
 
     function EnviarBoleto: Boolean; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método Enviar' {$ENDIF};
     function Enviar: Boolean;
+    function GerarTokenAutenticacao( out AToken: String; out AValidadeToken: TDateTime) : Boolean;
 
     function GetOcorrenciasRemessa() : TACBrOcorrenciasRemessa;
   	function GetOcorrenciasRetorno() : TACBrOcorrenciasRetorno;
@@ -1609,9 +1613,11 @@ type
     property RemoveAcentosArqRemessa: Boolean    read fRemoveAcentosArqRemessa write fRemoveAcentosArqRemessa default False;
     property LerNossoNumeroCompleto : Boolean    read fLerNossoNumeroCompleto write fLerNossoNumeroCompleto default False;
     property Configuracoes: TConfiguracoes       read fConfiguracoes          write fConfiguracoes;
-    property OnAntesAutenticar : TACBrWebServiceOnAntesAutenticar  read fOnAntesAutenticar  write fOnAntesAutenticar;
-    property OnDepoisAutenticar: TACBrWebServiceOnDepoisAutenticar read fOnDepoisAutenticar write fOnDepoisAutenticar;
     property KeySoftwareHouse: String 			     read FKeySoftwareHouse 	    write FKeySoftwareHouse;
+    property OnAntesAutenticar   : TACBrWebServiceOnAntesAutenticar    read fOnAntesAutenticar    write fOnAntesAutenticar;
+    property OnDepoisAutenticar  : TACBrWebServiceOnDepoisAutenticar   read fOnDepoisAutenticar   write fOnDepoisAutenticar;
+    property OnPrecisaAutenticar : TACBrWebServiceOnPrecisaAutenticar  read fOnPrecisaAutenticar  write fOnPrecisaAutenticar;
+
 
   end;
 
@@ -3662,6 +3668,21 @@ begin
    finally
       SLRemessa.Free;
    end;
+end;
+
+function TACBrBoleto.GerarTokenAutenticacao(out AToken: String; out AValidadeToken: TDateTime): Boolean;
+var
+  LBoletoWS: TBoletoWS;
+  LBoletoWSClass : TBoletoWSClass;
+begin
+  LBoletoWS      := TBoletoWS.Create(Self);
+  LBoletoWSClass := TBoletoWSClass.Create(LBoletoWS);
+
+  try
+    Result := LBoletoWS.NovoTokenAutenticacao(AToken, AValidadeToken);
+  finally
+    LBoletoWS.Free;
+  end;
 end;
 
 procedure TACBrBoleto.LerRetorno(AStream: TStream);
