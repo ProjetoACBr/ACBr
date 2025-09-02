@@ -306,6 +306,7 @@ type
     lblTipoChavePix: TLabel;
     edtChavePix: TEdit;
     Label99: TLabel;
+    btnGerarTokenWS: TButton;
     procedure btnImpressaoHTMLClick(Sender: TObject);
     procedure btnImpressaoPDFClick(Sender: TObject);
     procedure btnBoletoIndividualClick(Sender: TObject);
@@ -334,9 +335,19 @@ type
     procedure edtPesquisaArqCRTClick(Sender: TObject);
     procedure edtPesquisaArqKEYClick(Sender: TObject);
     procedure Label98Click(Sender: TObject);
+    procedure cbxBancoChange(Sender: TObject);
+
+    procedure btnGerarTokenWSClick(Sender: TObject);
+
+    procedure OnAntesAutenticar(var AToken: String; var AValidadeToken: TDateTime); //Obrigatório implementar para o Banco do Brasil API
+    procedure OnDepoisAutenticar(const AToken: String; const AValidadeToken: TDateTime); //Obrigatório implementar para o Banco do Brasil API
+    procedure OnPrecisaAutenticar(var AToken: String; var AValidadeToken: TDateTime); //Obrigatório implementar para o Banco do Brasil API
   private
-    FACBrBoleto : TACBrBoleto;
-    FACBrMail   : TACBrMail;
+    FACBrBoleto        : TACBrBoleto;
+    FACBrMail          : TACBrMail;
+    FToken             : String;    //Obrigatório implementar para o Banco do Brasil API
+    FDataValidadeToken : TDateTime; //Obrigatório implementar para o Banco do Brasil API
+
     {$IFDEF GERADOR_FORTES_REPORT}
       FACBrBoletoFCRL   : TACBrBoletoFCFortes;
     {$ENDIF}
@@ -452,6 +463,12 @@ begin
   finally
     IniFile.Free;
   end;
+end;
+
+procedure TfrmDemoBoleto.OnAntesAutenticar(var AToken: String; var AValidadeToken: TDateTime);
+begin
+  AToken         := FToken;
+  AValidadeToken := FDataValidadeToken;
 end;
 
 procedure TfrmDemoBoleto.AplicarConfiguracoesAoComponente;
@@ -933,6 +950,10 @@ var
   CurrentStyle : longint;
 begin
   FACBrBoleto := TACBrBoleto.Create(Self);
+  FACBrBoleto.OnAntesAutenticar   := OnAntesAutenticar;
+  FACBrBoleto.OnDepoisAutenticar  := OnDepoisAutenticar;
+  FACBrBoleto.OnPrecisaAutenticar := OnPrecisaAutenticar;
+
   FACBrMail   := TACBrMail.Create(FACBrBoleto);
   {$IFDEF GERADOR_FORTES_REPORT}
     FACBrBoletoFCRL   := TACBrBoletoFCFortes.Create(FACBrBoleto);
@@ -992,9 +1013,13 @@ begin
 	for Banco := Low(TACBrTipoCobranca) to High(TACBrTipoCobranca) do
   begin
     LBanco := GetEnumName(TypeInfo(TACBrTipoCobranca), integer(Banco) );
-    if not ((pos('Brasil',LBanco) > 0) or (pos('Bancoob',LBanco) > 0) or (pos('Nordeste',LBanco) > 0))  then
-      LBanco := StringReplace(LBanco, 'cobBanco','', [rfReplaceAll,rfIgnoreCase]);
-    LBanco := StringReplace(LBanco, 'cob','', [rfReplaceAll,rfIgnoreCase]);
+
+    if not ((pos('BancoDoBrasil',LBanco) > 0)
+             or (pos('BancoDa',LBanco) > 0)
+             or (pos('Bancoob',LBanco) > 0)
+             or (pos('Nordeste',LBanco) > 0))  then
+      LBanco := StringReplace(LBanco, 'cobBanco','', [rfIgnoreCase]);
+    LBanco := StringReplace(LBanco, 'cob','', [rfIgnoreCase]);
     cbxBanco.Items.AddObject( LBanco , TObject(integer(Banco)) );
   end;
 end;
@@ -1101,6 +1126,21 @@ begin
     edtPassword.PasswordChar := #0
   else
     edtPassword.PasswordChar := '@';
+end;
+
+procedure TfrmDemoBoleto.OnDepoisAutenticar(const AToken: String; const AValidadeToken: TDateTime);
+begin
+  FToken             := AToken;
+  FDataValidadeToken := AValidadeToken;
+  OutputDebugStringW( PWideChar( 'Token::'+ FToken ) );
+  OutputDebugStringW( PWideChar( 'Validade ::' + DateTimeToStr(FDataValidadeToken) ) );
+end;
+
+procedure TfrmDemoBoleto.OnPrecisaAutenticar(var AToken: String; var AValidadeToken: TDateTime);
+begin
+  FACBrBoleto.GerarTokenAutenticacao(AToken, AValidadeToken);
+  FToken             := AToken;
+  FDataValidadeToken := AValidadeToken;
 end;
 
 procedure TfrmDemoBoleto.btnEnviarEmailClick(Sender: TObject);
@@ -1387,6 +1427,11 @@ begin
   GravarIniComponente;
 end;
 
+procedure TfrmDemoBoleto.btnGerarTokenWSClick(Sender: TObject);
+begin
+  FACBrBoleto.GerarTokenAutenticacao(FToken, FDataValidadeToken);
+end;
+
 procedure TfrmDemoBoleto.btnImpressaoPDFIndividualClick(Sender: TObject);
 var Index : Cardinal;
 begin
@@ -1463,6 +1508,12 @@ begin
   if dlgSave.Execute then
     edtPathLog.Text := PathWithDelim(ExtractFilePath(dlgSave.FileName));
     edtArquivoLog.Text := ExtractFileName(dlgSave.FileName);
+end;
+
+procedure TfrmDemoBoleto.cbxBancoChange(Sender: TObject);
+begin
+  FToken := '';
+  FDataValidadeToken := 0;
 end;
 
 procedure TfrmDemoBoleto.cbxMotorRelatorioChange(Sender: TObject);

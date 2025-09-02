@@ -18,7 +18,7 @@ object frmDemoBoleto: TfrmDemoBoleto
     Top = 0
     Width = 986
     Height = 523
-    ActivePage = TabSheet1
+    ActivePage = TabSheet2
     Align = alClient
     TabOrder = 0
     object TabSheet1: TTabSheet
@@ -1053,6 +1053,7 @@ object frmDemoBoleto: TfrmDemoBoleto
           Style = csDropDownList
           Sorted = True
           TabOrder = 6
+          OnChange = cbxBancoChange
         end
         object cbxTipoDistribuicao: TComboBox
           Left = 255
@@ -1961,12 +1962,12 @@ object frmDemoBoleto: TfrmDemoBoleto
     Left = 795
     Top = 244
     Width = 166
-    Height = 86
+    Height = 119
     Caption = 'WebServices / API '
     TabOrder = 3
     object btnWSConsulta: TButton
       Left = 11
-      Top = 20
+      Top = 55
       Width = 145
       Height = 25
       Caption = 'Consultar Boleto'
@@ -1975,17 +1976,26 @@ object frmDemoBoleto: TfrmDemoBoleto
     end
     object btnWSRegistrar: TButton
       Left = 11
-      Top = 50
+      Top = 86
       Width = 145
       Height = 25
       Caption = 'Registrar Boleto On Line'
       TabOrder = 1
       OnClick = btnWSRegistrarClick
     end
+    object btnGerarTokenWS: TButton
+      Left = 11
+      Top = 24
+      Width = 145
+      Height = 25
+      Caption = 'Gerar Token'
+      TabOrder = 2
+      OnClick = btnGerarTokenWSClick
+    end
   end
   object GroupBox13: TGroupBox
     Left = 795
-    Top = 335
+    Top = 369
     Width = 166
     Height = 88
     Caption = 'Ini '
