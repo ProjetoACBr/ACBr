@@ -396,11 +396,14 @@ begin
   try
     BoletoWS.RetornoBanco.CodRetorno := 0;
     BoletoWS.RetornoBanco.Msg        := '';
+
+    DefinirProxy;
+
     DefinirAuthorization;
     DefinirURL;
     DefinirContentType;
     DefinirCertificado;
-    DefinirProxy;
+
 
     //Grava json gerado
     BoletoWS.DoLog('Comando Enviar: ' + ClassName, logSimples);
