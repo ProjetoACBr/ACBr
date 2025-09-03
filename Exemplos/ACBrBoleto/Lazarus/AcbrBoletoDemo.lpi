@@ -47,7 +47,7 @@
     </RequiredPackages>
     <Units>
       <Unit>
-        <Filename Value="AcbrBoletoDemo.dpr"/>
+        <Filename Value="AcbrBoletoDemo.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
