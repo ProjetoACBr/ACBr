@@ -34,7 +34,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
     end
     object rlbContinuacaoInformacoesComplementares: TRLBand
       Left = 99
-      Top = 628
+      Top = 693
       Width = 998
       Height = 35
       AutoSize = True
@@ -107,7 +107,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
     end
     object rlbCabecalhoItens: TRLBand
       Left = 99
-      Top = 443
+      Top = 508
       Width = 998
       Height = 35
       AutoExpand = False
@@ -851,7 +851,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
     end
     object rlbDadosAdicionais: TRLBand
       Left = 99
-      Top = 692
+      Top = 757
       Width = 998
       Height = 124
       AlignToBottom = True
@@ -1504,7 +1504,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
     end
     object rlbFatura: TRLBand
       Left = 99
-      Top = 139
+      Top = 204
       Width = 998
       Height = 54
       BandType = btTitle
@@ -2482,7 +2482,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
     end
     object rlbImposto: TRLBand
       Left = 99
-      Top = 247
+      Top = 312
       Width = 998
       Height = 58
       BandType = btTitle
@@ -3004,7 +3004,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
     end
     object rlbTransp: TRLBand
       Left = 99
-      Top = 305
+      Top = 370
       Width = 998
       Height = 80
       BandType = btTitle
@@ -3631,7 +3631,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
     end
     object rlbISSQN: TRLBand
       Left = 99
-      Top = 663
+      Top = 728
       Width = 998
       Height = 29
       BandType = btFooter
@@ -3815,7 +3815,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
     end
     object rlbAvisoContingencia: TRLBand
       Left = 99
-      Top = 415
+      Top = 480
       Width = 998
       Height = 28
       BandType = btColumnHeader
@@ -4025,7 +4025,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
     end
     object RLBFaturaReal: TRLBand
       Left = 99
-      Top = 95
+      Top = 160
       Width = 998
       Height = 44
       BandType = btTitle
@@ -4236,7 +4236,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
     end
     object rlbCanceladaDenegada: TRLBand
       Left = 99
-      Top = 385
+      Top = 450
       Width = 998
       Height = 30
       BandType = btColumnHeader
@@ -4261,7 +4261,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
     end
     object subItens: TRLSubDetail
       Left = 99
-      Top = 478
+      Top = 543
       Width = 998
       Height = 150
       Borders.Sides = sdCustom
@@ -5474,7 +5474,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
       Left = 99
       Top = 28
       Width = 998
-      Height = 1
+      Height = 66
       BandType = btTitle
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
@@ -5720,14 +5720,14 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
       end
       object rlbQuandoRetiradaAngleLabel1: TRLAngleLabel
         Left = 6
-        Top = 2
-        Width = 10
-        Height = 62
+        Top = 6
+        Width = 7
+        Height = 54
         Angle = 90.000000000000000000
         Caption = 'INFORMA'#199#213'ES'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
-        Font.Height = -8
+        Font.Height = -7
         Font.Name = 'Arial'
         Font.Style = [fsBold]
         Layout = tlCenter
@@ -5869,7 +5869,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
     end
     object rlbQuandoEntrega: TRLBand
       Left = 99
-      Top = 29
+      Top = 94
       Width = 998
       Height = 66
       BandType = btTitle
@@ -6266,7 +6266,7 @@ inherited frlDANFeRLPaisagem: TfrlDANFeRLPaisagem
     end
     object rlbPagamentoReal: TRLBand
       Left = 99
-      Top = 193
+      Top = 258
       Width = 998
       Height = 54
       BandType = btTitle
