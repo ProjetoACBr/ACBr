@@ -49,6 +49,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/09/2025
+-- ACBrBoletoRet_Sicoob_V3 --
+[-] adicionado ansiuppercase status C_PAGO na verificação do status
+	https://discord.com/channels/798697718800318484/809129039159230514/1412840499806470215
+    Por: Eduardo Casotti
+
 27/08/2025
 -- ACBrBancoSofisa, ACBrBancoSofisaItau, ACBrBancoSofisaSantander --
 [*] #ACBR-7944 - Corrigida geração do segmento de mensagem no CNAB400 Sofisa quando houverem menos de 5 mensagens. - https://www.projetoacbr.com.br/forum/topic/85084-contribuicao-sofisa-tamanho-de-registro-de-mensagens/

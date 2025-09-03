@@ -294,8 +294,7 @@ begin
               ARetornoWS.DadosRet.TituloRet.Sacado.CNPJCPF        := LJSonObject.AsJSONObject['pagador'].asString['numeroCpfCnpj'];
             end;
 
-            if(LJSonObject.asString['situacaoBoleto'] = C_PAGO) or (AnsiUpperCase(LJSonObject.asString['situacaoBoleto']) = C_BAIXADO) then
-            begin
+            if(AnsiUpperCase(LJSonObject.asString['situacaoBoleto']) = C_PAGO) or (AnsiUpperCase(LJSonObject.asString['situacaoBoleto']) = C_BAIXADO) then            begin
              // WorkAround para pegar DataPagamento e Valor de Pagamento
              LJsonListaHistoricoArray :=  LJSonObject.AsJSONArray['listaHistorico'];
              for i := 0 to Pred(LJsonListaHistoricoArray.Count) do
