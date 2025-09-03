@@ -1132,8 +1132,8 @@ procedure TfrmDemoBoleto.OnDepoisAutenticar(const AToken: String; const AValidad
 begin
   FToken             := AToken;
   FDataValidadeToken := AValidadeToken;
-  OutputDebugStringW( PWideChar( 'Token::'+ FToken ) );
-  OutputDebugStringW( PWideChar( 'Validade ::' + DateTimeToStr(FDataValidadeToken) ) );
+  //OutputDebugStringW( PWideChar( 'Token::'+ FToken ) );
+  //OutputDebugStringW( PWideChar( 'Validade ::' + DateTimeToStr(FDataValidadeToken) ) );
 end;
 
 procedure TfrmDemoBoleto.OnPrecisaAutenticar(var AToken: String; var AValidadeToken: TDateTime);
