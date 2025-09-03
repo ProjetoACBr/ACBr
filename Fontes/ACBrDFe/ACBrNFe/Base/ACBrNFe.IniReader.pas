@@ -122,6 +122,12 @@ type
     procedure Ler_IBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBS; Idx: Integer);
     procedure Ler_IBSCBS_gIBSCBS(AINIRec: TMemIniFile; IBSCBS: TgIBSCBS; Idx: Integer);
     procedure Ler_IBSCBS_gIBSCBSMono(AINIRec: TMemIniFile; IBSCBSMono: TgIBSCBSMono; Idx: Integer);
+
+    procedure Ler_IBSCBS_gMonoPadrao(AINIRec: TMemIniFile; gMonoPadrao: TgMonoPadrao; Idx: Integer);
+    procedure Ler_IBSCBS_gMonoReten(AINIRec: TMemIniFile; gMonoReten: TgMonoReten; Idx: Integer);
+    procedure Ler_IBSCBS_gMonoRet(AINIRec: TMemIniFile; gMonoRet: TgMonoRet; Idx: Integer);
+    procedure Ler_IBSCBS_gMonoDif(AINIRec: TMemIniFile; gMonoDif: TgMonoDif; Idx: Integer);
+
     procedure Ler_IBSCBS_gTransfCred(AINIRec: TMemIniFile; gTransfCred: TgTransfCred; Idx: Integer);
     procedure Ler_IBSCBS_gCredPresIBSZFM(AINIRec: TMemIniFile; gCredPresIBSZFM: TCredPresIBSZFM; Idx: Integer);
 
@@ -1890,6 +1896,7 @@ begin
   if AINIRec.SectionExists(sSecao) then
   begin
     IBSCBS.vBC := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBC', ''), 0);
+    IBSCBS.vIBS := StringToFloatDef(AINIRec.ReadString(sSecao, 'vIBS', ''), 0);
 
     Ler_IBSCBS_gIBSCBS_gIBSUF(AINIRec, IBSCBS.gIBSUF, Idx);
     Ler_IBSCBS_gIBSCBS_gIBSMun(AINIRec, IBSCBS.gIBSMun, Idx);
@@ -2032,27 +2039,80 @@ begin
 
   if AINIRec.SectionExists(sSecao) then
   begin
-    IBSCBSMono.qBCMono := StringToFloatDef(AINIRec.ReadString(sSecao, 'qBCMono', ''), 0);
-    IBSCBSMono.adRemIBS := StringToFloatDef(AINIRec.ReadString(sSecao, 'adRemIBS', ''), 0);
-    IBSCBSMono.adRemCBS := StringToFloatDef(AINIRec.ReadString(sSecao, 'adRemCBS', ''), 0);
-    IBSCBSMono.vIBSMono := StringToFloatDef(AINIRec.ReadString(sSecao, 'vIBSMono', ''), 0);
-    IBSCBSMono.vCBSMono := StringToFloatDef(AINIRec.ReadString(sSecao, 'vCBSMono', ''), 0);
-    IBSCBSMono.qBCMonoReten := StringToFloatDef(AINIRec.ReadString(sSecao, 'qBCMonoReten', ''), 0);
-    IBSCBSMono.adRemIBSReten := StringToFloatDef(AINIRec.ReadString(sSecao, 'adRemIBSReten', ''), 0);
-    IBSCBSMono.vIBSMonoReten := StringToFloatDef(AINIRec.ReadString(sSecao, 'vIBSMonoReten', ''), 0);
-    IBSCBSMono.adRemCBSReten := StringToFloatDef(AINIRec.ReadString(sSecao, 'adRemCBSReten', ''), 0);
-    IBSCBSMono.vCBSMonoReten := StringToFloatDef(AINIRec.ReadString(sSecao, 'vCBSMonoReten', ''), 0);
-    IBSCBSMono.qBCMonoRet := StringToFloatDef(AINIRec.ReadString(sSecao, 'qBCMonoRet', ''), 0);
-    IBSCBSMono.adRemIBSRet := StringToFloatDef(AINIRec.ReadString(sSecao, 'adRemIBSRet', ''), 0);
-    IBSCBSMono.vIBSMonoRet := StringToFloatDef(AINIRec.ReadString(sSecao, 'vIBSMonoRet', ''), 0);
-    IBSCBSMono.adRemCBSRet := StringToFloatDef(AINIRec.ReadString(sSecao, 'adRemCBSRet', ''), 0);
-    IBSCBSMono.vCBSMonoRet := StringToFloatDef(AINIRec.ReadString(sSecao, 'vCBSMonoRet', ''), 0);
-    IBSCBSMono.pDifIBS := StringToFloatDef(AINIRec.ReadString(sSecao, 'pDifIBS', ''), 0);
-    IBSCBSMono.vIBSMonoDif := StringToFloatDef(AINIRec.ReadString(sSecao, 'vIBSMonoDif', ''), 0);
-    IBSCBSMono.pDifCBS := StringToFloatDef(AINIRec.ReadString(sSecao, 'pDifCBS', ''), 0);
-    IBSCBSMono.vCBSMonoDif := StringToFloatDef(AINIRec.ReadString(sSecao, 'vCBSMonoDif', ''), 0);
     IBSCBSMono.vTotIBSMonoItem := StringToFloatDef(AINIRec.ReadString(sSecao, 'vTotIBSMonoItem', ''), 0);
     IBSCBSMono.vTotCBSMonoItem := StringToFloatDef(AINIRec.ReadString(sSecao, 'vTotCBSMonoItem', ''), 0);
+
+    Ler_IBSCBS_gMonoPadrao(AINIRec, IBSCBSMono.gMonoPadrao, Idx);
+    Ler_IBSCBS_gMonoReten(AINIRec, IBSCBSMono.gMonoReten, Idx);
+    Ler_IBSCBS_gMonoRet(AINIRec, IBSCBSMono.gMonoRet, Idx);
+    Ler_IBSCBS_gMonoDif(AINIRec, IBSCBSMono.gMonoDif, Idx);
+  end;
+end;
+
+procedure TNFeIniReader.Ler_IBSCBS_gMonoPadrao(AINIRec: TMemIniFile;
+  gMonoPadrao: TgMonoPadrao; Idx: Integer);
+var
+  sSecao: string;
+begin
+  sSecao := 'gMonoPadrao' + IntToStrZero(Idx, 3);
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gMonoPadrao.qBCMono := StringToFloatDef(AINIRec.ReadString(sSecao, 'qBCMono', ''), 0);
+    gMonoPadrao.adRemIBS := StringToFloatDef(AINIRec.ReadString(sSecao, 'adRemIBS', ''), 0);
+    gMonoPadrao.adRemCBS := StringToFloatDef(AINIRec.ReadString(sSecao, 'adRemCBS', ''), 0);
+    gMonoPadrao.vIBSMono := StringToFloatDef(AINIRec.ReadString(sSecao, 'vIBSMono', ''), 0);
+    gMonoPadrao.vCBSMono := StringToFloatDef(AINIRec.ReadString(sSecao, 'vCBSMono', ''), 0);
+  end;
+end;
+
+procedure TNFeIniReader.Ler_IBSCBS_gMonoReten(AINIRec: TMemIniFile;
+  gMonoReten: TgMonoReten; Idx: Integer);
+var
+  sSecao: string;
+begin
+  sSecao := 'gMonoReten' + IntToStrZero(Idx, 3);
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gMonoReten.qBCMonoReten := StringToFloatDef(AINIRec.ReadString(sSecao, 'qBCMonoReten', ''), 0);
+    gMonoReten.adRemIBSReten := StringToFloatDef(AINIRec.ReadString(sSecao, 'adRemIBSReten', ''), 0);
+    gMonoReten.vIBSMonoReten := StringToFloatDef(AINIRec.ReadString(sSecao, 'vIBSMonoReten', ''), 0);
+    gMonoReten.adRemCBSReten := StringToFloatDef(AINIRec.ReadString(sSecao, 'adRemCBSReten', ''), 0);
+    gMonoReten.vCBSMonoReten := StringToFloatDef(AINIRec.ReadString(sSecao, 'vCBSMonoReten', ''), 0);
+  end;
+end;
+
+procedure TNFeIniReader.Ler_IBSCBS_gMonoRet(AINIRec: TMemIniFile;
+  gMonoRet: TgMonoRet; Idx: Integer);
+var
+  sSecao: string;
+begin
+  sSecao := 'gMonoRet' + IntToStrZero(Idx, 3);
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gMonoRet.qBCMonoRet := StringToFloatDef(AINIRec.ReadString(sSecao, 'qBCMonoRet', ''), 0);
+    gMonoRet.adRemIBSRet := StringToFloatDef(AINIRec.ReadString(sSecao, 'adRemIBSRet', ''), 0);
+    gMonoRet.vIBSMonoRet := StringToFloatDef(AINIRec.ReadString(sSecao, 'vIBSMonoRet', ''), 0);
+    gMonoRet.adRemCBSRet := StringToFloatDef(AINIRec.ReadString(sSecao, 'adRemCBSRet', ''), 0);
+    gMonoRet.vCBSMonoRet := StringToFloatDef(AINIRec.ReadString(sSecao, 'vCBSMonoRet', ''), 0);
+  end;
+end;
+
+procedure TNFeIniReader.Ler_IBSCBS_gMonoDif(AINIRec: TMemIniFile;
+  gMonoDif: TgMonoDif; Idx: Integer);
+var
+  sSecao: string;
+begin
+  sSecao := 'gMonoDif' + IntToStrZero(Idx, 3);
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gMonoDif.pDifIBS := StringToFloatDef(AINIRec.ReadString(sSecao, 'pDifIBS', ''), 0);
+    gMonoDif.vIBSMonoDif := StringToFloatDef(AINIRec.ReadString(sSecao, 'vIBSMonoDif', ''), 0);
+    gMonoDif.pDifCBS := StringToFloatDef(AINIRec.ReadString(sSecao, 'pDifCBS', ''), 0);
+    gMonoDif.vCBSMonoDif := StringToFloatDef(AINIRec.ReadString(sSecao, 'vCBSMonoDif', ''), 0);
   end;
 end;
 

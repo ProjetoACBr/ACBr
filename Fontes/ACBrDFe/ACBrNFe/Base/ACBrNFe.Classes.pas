@@ -1612,60 +1612,101 @@ type
     property gTribCompraGov: TgTribCompraGov read FgTribCompraGov write FgTribCompraGov;
   end;
 
-  { TgIBSCBSMono }
+  { TgMonoPadrao }
 
-  TgIBSCBSMono = class(TObject)
+  TgMonoPadrao = class(TObject)
   private
     FqBCMono: Double;
     FadRemIBS: Double;
     FadRemCBS: Double;
     FvIBSMono: Double;
     FvCBSMono: Double;
-
-    FqBCMonoReten: Double;
-    FadRemIBSReten: Double;
-    FvIBSMonoReten: Double;
-    FadRemCBSReten: Double;
-    FvCBSMonoReten: Double;
-
-    FqBCMonoRet: Double;
-    FadRemIBSRet: Double;
-    FvIBSMonoRet: Double;
-    FadRemCBSRet: Double;
-    FvCBSMonoRet: Double;
-
-    FpDifIBS: Double;
-    FvIBSMonoDif: Double;
-    FpDifCBS: Double;
-    FvCBSMonoDif: Double;
-
-    FvTotIBSMonoItem: Double;
-    FvTotCBSMonoItem: Double;
   public
-    procedure Assign(Source: TgIBSCBSMono);
+    procedure Assign(Source: TgMonoPadrao);
 
     property qBCMono: Double read FqBCMono write FqBCMono;
     property adRemIBS: Double read FadRemIBS write FadRemIBS;
     property adRemCBS: Double read FadRemCBS write FadRemCBS;
     property vIBSMono: Double read FvIBSMono write FvIBSMono;
     property vCBSMono: Double read FvCBSMono write FvCBSMono;
+  end;
+
+  { TgMonoReten }
+
+  TgMonoReten = class(TObject)
+  private
+    FqBCMonoReten: Double;
+    FadRemIBSReten: Double;
+    FvIBSMonoReten: Double;
+    FadRemCBSReten: Double;
+    FvCBSMonoReten: Double;
+  public
+    procedure Assign(Source: TgMonoReten);
 
     property qBCMonoReten: Double read FqBCMonoReten write FqBCMonoReten;
     property adRemIBSReten: Double read FadRemIBSReten write FadRemIBSReten;
     property vIBSMonoReten: Double read FvIBSMonoReten write FvIBSMonoReten;
     property adRemCBSReten: Double read FadRemCBSReten write FadRemCBSReten;
     property vCBSMonoReten: Double read FvCBSMonoReten write FvCBSMonoReten;
+  end;
+
+  { TgMonoRet }
+
+  TgMonoRet = class(TObject)
+  private
+    FqBCMonoRet: Double;
+    FadRemIBSRet: Double;
+    FvIBSMonoRet: Double;
+    FadRemCBSRet: Double;
+    FvCBSMonoRet: Double;
+  public
+    procedure Assign(Source: TgMonoRet);
 
     property qBCMonoRet: Double read FqBCMonoRet write FqBCMonoRet;
     property adRemIBSRet: Double read FadRemIBSRet write FadRemIBSRet;
     property vIBSMonoRet: Double read FvIBSMonoRet write FvIBSMonoRet;
     property adRemCBSRet: Double read FadRemCBSRet write FadRemCBSRet;
     property vCBSMonoRet: Double read FvCBSMonoRet write FvCBSMonoRet;
+  end;
+
+  { TgMonoDif }
+
+  TgMonoDif = class(TObject)
+  private
+    FpDifIBS: Double;
+    FvIBSMonoDif: Double;
+    FpDifCBS: Double;
+    FvCBSMonoDif: Double;
+  public
+    procedure Assign(Source: TgMonoDif);
 
     property pDifIBS: Double read FpDifIBS write FpDifIBS;
     property vIBSMonoDif: Double read FvIBSMonoDif write FvIBSMonoDif;
     property pDifCBS: Double read FpDifCBS write FpDifCBS;
     property vCBSMonoDif: Double read FvCBSMonoDif write FvCBSMonoDif;
+  end;
+
+  { TgIBSCBSMono }
+
+  TgIBSCBSMono = class(TObject)
+  private
+    FgMonoPadrao: TgMonoPadrao;
+    FgMonoReten: TgMonoReten;
+    FgMonoRet: TgMonoRet;
+    FgMonoDif: TgMonoDif;
+
+    FvTotIBSMonoItem: Double;
+    FvTotCBSMonoItem: Double;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure Assign(Source: TgIBSCBSMono);
+
+    property gMonoPadrao: TgMonoPadrao read FgMonoPadrao write FgMonoPadrao;
+    property gMonoReten: TgMonoReten read FgMonoReten write FgMonoReten;
+    property gMonoRet: TgMonoRet read FgMonoRet write FgMonoRet;
+    property gMonoDif: TgMonoDif read FgMonoDif write FgMonoDif;
 
     property vTotIBSMonoItem: Double read FvTotIBSMonoItem write FvTotIBSMonoItem;
     property vTotCBSMonoItem: Double read FvTotCBSMonoItem write FvTotCBSMonoItem;
@@ -5187,35 +5228,80 @@ begin
   inherited;
 end;
 
-{ TgIBSCBSMono }
+{ TgMonoPadrao }
 
-procedure TgIBSCBSMono.Assign(Source: TgIBSCBSMono);
+procedure TgMonoPadrao.Assign(Source: TgMonoPadrao);
 begin
   qBCMono := Source.qBCMono;
   adRemIBS := Source.adRemIBS;
   adRemCBS := Source.adRemCBS;
   vIBSMono := Source.vIBSMono;
   vCBSMono := Source.vCBSMono;
+end;
 
+{ TgMonoReten }
+
+procedure TgMonoReten.Assign(Source: TgMonoReten);
+begin
   qBCMonoReten := Source.qBCMonoReten;
   adRemIBSReten := Source.adRemIBSReten;
   vIBSMonoReten := Source.vIBSMonoReten;
   adRemCBSReten := Source.adRemCBSReten;
   vCBSMonoReten := Source.vCBSMonoReten;
+end;
 
+{ TgMonoRet }
+
+procedure TgMonoRet.Assign(Source: TgMonoRet);
+begin
   qBCMonoRet := Source.qBCMonoRet;
   adRemIBSRet := Source.adRemIBSRet;
   vIBSMonoRet := Source.vIBSMonoRet;
   adRemCBSRet := Source.adRemCBSRet;
   vCBSMonoRet := Source.vCBSMonoRet;
+end;
 
+{ TgMonoDif }
+
+procedure TgMonoDif.Assign(Source: TgMonoDif);
+begin
   pDifIBS := Source.pDifIBS;
   vIBSMonoDif := Source.vIBSMonoDif;
   pDifCBS := Source.pDifCBS;
   vCBSMonoDif := Source.vCBSMonoDif;
+end;
+
+{ TgIBSCBSMono }
+
+procedure TgIBSCBSMono.Assign(Source: TgIBSCBSMono);
+begin
+  gMonoPadrao.Assign(Source.gMonoPadrao);
+  gMonoReten.Assign(Source.gMonoReten);
+  gMonoRet.Assign(Source.gMonoRet);
+  gMonoDif.Assign(Source.gMonoDif);
 
   vTotIBSMonoItem := Source.vTotIBSMonoItem;
   vTotCBSMonoItem := Source.vTotCBSMonoItem;
+end;
+
+constructor TgIBSCBSMono.Create;
+begin
+  inherited Create;
+
+  FgMonoPadrao := TgMonoPadrao.Create;
+  FgMonoReten := TgMonoReten.Create;
+  FgMonoRet := TgMonoRet.Create;
+  FgMonoDif := TgMonoDif.Create;
+end;
+
+destructor TgIBSCBSMono.Destroy;
+begin
+  FgMonoPadrao.Free;
+  FgMonoReten.Free;
+  FgMonoRet.Free;
+  FgMonoDif.Free;
+
+  inherited;
 end;
 
 { TIBSCBSTot }

@@ -45,6 +45,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 03/09/2025
+-- ACBrNFe.Classes/ACBrNFe.IniReader/ACBrNFe.IniWriter/ACBrNFe.XmlReader/ACBrNFe.XmlWriter --
+[*] Alteração visando deixar o componente em conformidade com a versão 1.20 da NT 2025/002.
+   Por: Italo Giurizzato Junior
+
 -- ACBrNFeDANFeRLPaisagem.dfm --
 [*] #ACBR-5592 - Corrigida impressão do quadro de Local de Retirada no DANFe paisagem em Fortes. - https://www.projetoacbr.com.br/forum/topic/82535-danfe-n%C3%A3o-exibe-local-de-retirada-no-modelo-paisagem-apenas-local-de-entrega/
    Por: Renato Rubinho

@@ -36,10 +36,12 @@ interface
 
 uses
   Classes, SysUtils,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrNFe.Classes,
   pcnConversao,
   pcnConversaoNFe,
-  ACBrXmlDocument, ACBrXmlWriter, ACBrXmlBase;
+  ACBrXmlDocument, ACBrXmlWriter;
 
 type
   TNFeXmlWriterOptions = class(TACBrXmlWriterOptions)
@@ -174,19 +176,22 @@ type
 
     function Gerar_IBSCBS_gIBSCBS(IBSCBS: TgIBSCBS): TACBrXmlNode;
     function Gerar_IBSCBS_gIBSCBSMono(IBSCBSMono: TgIBSCBSMono): TACBrXmlNode;
+
+    function Gerar_gMonoPadrao(gMonoPadrao: TgMonoPadrao): TACBrXmlNode;
+    function Gerar_gMonoReten(gMonoReten: TgMonoReten): TACBrXmlNode;
+    function Gerar_gMonoRet(gMonoRet: TgMonoRet): TACBrXmlNode;
+    function Gerar_gMonoDif(gMonoDif: TgMonoDif): TACBrXmlNode;
+
     function Gerar_IBSCBS_gTransfCred(gTransfCred: TgTransfCred): TACBrXmlNode;
     function Gerar_IBSCBS_gCredPresIBSZFM(gCredPresIBSZFM: TCredPresIBSZFM): TACBrXmlNode;
 
     function Gerar_IBSCBS_gIBSCBS_gIBSUF(IBSUF: TgIBSUF): TACBrXmlNode;
-    function Gerar_IBSCBS_gIBSCBS_gIBSUF_gDif(Dif: TgDif): TACBrXmlNode;
-    function Gerar_IBSCBS_gIBSCBS_gIBSMun_gDif(Dif: TgDif): TACBrXmlNode;
-
-    function Gerar_IBSCBS_gIBSCBS_gIBSCBSUFMun_gDevTrib(DevTrib: TgDevTrib): TACBrXmlNode;
-    function Gerar_IBSCBS_gIBSCBS_gIBSCBSUFMun_gRed(Red: TgRed): TACBrXmlNode;
-
     function Gerar_IBSCBS_gIBSCBS_gIBSMun(IBSMun: TgIBSMun): TACBrXmlNode;
-
     function Gerar_IBSCBS_gIBSCBS_gCBS(CBS: TgCBS): TACBrXmlNode;
+
+    function Gerar_IBSCBS_gIBSCBS_gDif(Dif: TgDif): TACBrXmlNode;
+    function Gerar_IBSCBS_gIBSCBS_gDevTrib(DevTrib: TgDevTrib): TACBrXmlNode;
+    function Gerar_IBSCBS_gIBSCBS_gRed(Red: TgRed): TACBrXmlNode;
 
     function Gerar_IBSCBS_gIBSCBS_gTribRegular(TribRegular: TgTribRegular): TACBrXmlNode;
 
@@ -239,7 +244,6 @@ uses
   ACBrValidador,
   ACBrDFeUtil,
   ACBrDFeConsts,
-  ACBrDFe.Conversao,
   ACBrUtil.Strings, ACBrUtil.Base, ACBrUtil.DateTime,
   ACBrNFe.Consts,
   ACBrNFe;
@@ -320,6 +324,7 @@ begin
   NFe.ide.tpEmis := tpEmis;
 }
   Result := False;
+  FpGerarGrupoIBSCBSTot := False;
 
   ListaDeAlertas.Clear;
 
@@ -4171,7 +4176,6 @@ end;
 function TNFeXmlWriter.Gerar_IBSCBS(IBSCBS: TIBSCBS): TACBrXmlNode;
 begin
   Result := nil;
-  FpGerarGrupoIBSCBSTot := False;
 
   if (IBSCBS.CST <> cstNenhum) and (IBSCBS.cClassTrib <> '') then
   begin
@@ -4204,7 +4208,6 @@ begin
           Result.AppendChild(Gerar_IBSCBS_gCredPresIBSZFM(IBSCBS.gCredPresIBSZFM));
     end;
 
-
 //  cst010 = Tributação com alíquotas uniformes sem informações de qual DF-e usar
 //  cst011 = Tributação com alíquotas uniformes reduzidas sem informações de qual DF-e usar
 //  cst221 = Alíquota fixa rateada usado na NFSe
@@ -4225,6 +4228,10 @@ begin
 
   Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSUF(IBSCBS.gIBSUF));
   Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSMun(IBSCBS.gIBSMun));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB35', 'vIBS', 1, 15, 1,
+                                                      IBSCBS.vIBS, DSC_VIBS));
+
   Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gCBS(IBSCBS.gCBS));
 
   if IBSCBS.gTribRegular.pAliqEfetRegIBSUF > 0 then
@@ -4249,62 +4256,17 @@ begin
                                                      IBSUF.pIBSUF, DSC_PIBSUF));
 
   if IBSUF.gDif.pDif > 0 then
-    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSUF_gDif(IBSUF.gDif));
+    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gDif(IBSUF.gDif));
 
   if IBSUF.gDevTrib.vDevTrib > 0 then
-    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSUFMun_gDevTrib(IBSUF.gDevTrib));
+    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gDevTrib(IBSUF.gDevTrib));
 
   if (IBSUF.gRed.pRedAliq > 0) or (IBSUF.gRed.pAliqEfet > 0) or
      (NFe.Ide.gCompraGov.pRedutor > 0) then
-    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSUFMun_gRed(IBSUF.gRed));
+    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gRed(IBSUF.gRed));
 
   Result.AppendChild(AddNode(tcDe2, 'UB35', 'vIBSUF', 1, 15, 1,
                                                      IBSUF.vIBSUF, DSC_VIBSUF));
-end;
-
-function TNFeXmlWriter.Gerar_IBSCBS_gIBSCBS_gIBSUF_gDif(
-  Dif: TgDif): TACBrXmlNode;
-begin
-  Result := FDocument.CreateElement('gDif');
-
-  Result.AppendChild(AddNode(tcDe4, 'UB22', 'pDif', 1, 7, 1,
-                                                           Dif.pDif, DSC_PDIF));
-
-  Result.AppendChild(AddNode(tcDe2, 'UB23', 'vDif', 1, 15, 1,
-                                                           Dif.vDif, DSC_VDIF));
-end;
-
-function TNFeXmlWriter.Gerar_IBSCBS_gIBSCBS_gIBSMun_gDif(
-  Dif: TgDif): TACBrXmlNode;
-begin
-  Result := FDocument.CreateElement('gDif');
-
-  Result.AppendChild(AddNode(tcDe4, 'UB22', 'pDif', 1, 7, 1,
-                                                           Dif.pDif, DSC_PDIF));
-
-  Result.AppendChild(AddNode(tcDe2, 'UB23', 'vDif', 1, 15, 1,
-                                                           Dif.vDif, DSC_VDIF));
-end;
-
-function TNFeXmlWriter.Gerar_IBSCBS_gIBSCBS_gIBSCBSUFMun_gDevTrib(
-  DevTrib: TgDevTrib): TACBrXmlNode;
-begin
-  Result := FDocument.CreateElement('gDevTrib');
-
-  Result.AppendChild(AddNode(tcDe2, 'UB25', 'vDevTrib', 1, 15, 1,
-                                               DevTrib.vDevTrib, DSC_VDEVTRIB));
-end;
-
-function TNFeXmlWriter.Gerar_IBSCBS_gIBSCBS_gIBSCBSUFMun_gRed(
-  Red: TgRed): TACBrXmlNode;
-begin
-  Result := FDocument.CreateElement('gRed');
-
-  Result.AppendChild(AddNode(tcDe4, 'UB27', 'pRedAliq', 1, 7, 1,
-                                                   Red.pRedAliq, DSC_PREDALIQ));
-
-  Result.AppendChild(AddNode(tcDe4, 'UB28', 'pAliqEfet', 1, 7, 1,
-                                                 Red.pAliqEfet, DSC_PALIQEFET));
 end;
 
 function TNFeXmlWriter.Gerar_IBSCBS_gIBSCBS_gIBSMun(
@@ -4316,14 +4278,14 @@ begin
                                                   IBSMun.pIBSMun, DSC_PIBSMUN));
 
   if IBSMun.gDif.pDif > 0 then
-    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSMun_gDif(IBSMun.gDif));
+    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gDif(IBSMun.gDif));
 
   if IBSMun.gDevTrib.vDevTrib > 0 then
-    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSUFMun_gDevTrib(IBSMun.gDevTrib));
+    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gDevTrib(IBSMun.gDevTrib));
 
   if (IBSMun.gRed.pRedAliq > 0) or (IBSMun.gRed.pAliqEfet > 0) or
      (NFe.Ide.gCompraGov.pRedutor > 0) then
-    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSUFMun_gRed(IBSMun.gRed));
+    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gRed(IBSMun.gRed));
 
   Result.AppendChild(AddNode(tcDe2, 'UB35', 'vIBSMun', 1, 15, 1,
                                                    IBSMun.vIBSMun, DSC_VIBSUF));
@@ -4337,17 +4299,50 @@ begin
                                                            CBS.pCBS, DSC_PCBS));
 
   if CBS.gDif.pDif > 0 then
-    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSMun_gDif(CBS.gDif));
+    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gDif(CBS.gDif));
 
   if CBS.gDevTrib.vDevTrib > 0 then
-    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSUFMun_gDevTrib(CBS.gDevTrib));
+    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gDevTrib(CBS.gDevTrib));
 
   if (CBS.gRed.pRedAliq > 0) or (CBS.gRed.pAliqEfet > 0) or
      (NFe.Ide.gCompraGov.pRedutor > 0) then
-    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSUFMun_gRed(CBS.gRed));
+    Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gRed(CBS.gRed));
 
   Result.AppendChild(AddNode(tcDe2, 'UB83', 'vCBS', 1, 15, 1,
                                                            CBS.vCBS, DSC_VCBS));
+end;
+
+function TNFeXmlWriter.Gerar_IBSCBS_gIBSCBS_gDif(
+  Dif: TgDif): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gDif');
+
+  Result.AppendChild(AddNode(tcDe4, 'UB22', 'pDif', 1, 7, 1,
+                                                           Dif.pDif, DSC_PDIF));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB23', 'vDif', 1, 15, 1,
+                                                           Dif.vDif, DSC_VDIF));
+end;
+
+function TNFeXmlWriter.Gerar_IBSCBS_gIBSCBS_gDevTrib(
+  DevTrib: TgDevTrib): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gDevTrib');
+
+  Result.AppendChild(AddNode(tcDe2, 'UB25', 'vDevTrib', 1, 15, 1,
+                                               DevTrib.vDevTrib, DSC_VDEVTRIB));
+end;
+
+function TNFeXmlWriter.Gerar_IBSCBS_gIBSCBS_gRed(
+  Red: TgRed): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gRed');
+
+  Result.AppendChild(AddNode(tcDe4, 'UB27', 'pRedAliq', 1, 7, 1,
+                                                   Red.pRedAliq, DSC_PREDALIQ));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB28', 'pAliqEfet', 1, 7, 1,
+                                                 Red.pAliqEfet, DSC_PALIQEFET));
 end;
 
 function TNFeXmlWriter.Gerar_IBSCBS_gIBSCBS_gTribRegular(
@@ -4428,77 +4423,28 @@ function TNFeXmlWriter.Gerar_IBSCBS_gIBSCBSMono(
 begin
   Result := FDocument.CreateElement('gIBSCBSMono');
 
-  if (IBSCBSMono.adRemIBS > 0) or (IBSCBSMono.adRemCBS > 0) or
-     (IBSCBSMono.vIBSMono > 0) or (IBSCBSMono.vCBSMono > 0) then
+  if (IBSCBSMono.gMonoPadrao.adRemIBS > 0) or (IBSCBSMono.gMonoPadrao.adRemCBS > 0) or
+     (IBSCBSMono.gMonoPadrao.vIBSMono > 0) or (IBSCBSMono.gMonoPadrao.vCBSMono > 0) then
   begin
-    Result.AppendChild(AddNode(tcDe4, 'UB85', 'qBCMono', 1, 15, 0,
-                                              IBSCBSMono.qBCMono, DSC_QBCMONO));
-
-    Result.AppendChild(AddNode(tcDe4, 'UB86', 'adRemIBS', 1, 7, 1,
-                                            IBSCBSMono.adRemIBS, DSC_ADREMIBS));
-
-    Result.AppendChild(AddNode(tcDe4, 'UB87', 'adRemCBS', 1, 7, 1,
-                                            IBSCBSMono.adRemCBS, DSC_ADREMCBS));
-
-    Result.AppendChild(AddNode(tcDe2, 'UB88', 'vIBSMono', 1, 15, 1,
-                                            IBSCBSMono.vIBSMono, DSC_VIBSMONO));
-
-    Result.AppendChild(AddNode(tcDe2, 'UB89', 'vCBSMono', 1, 15, 1,
-                                            IBSCBSMono.vCBSMono, DSC_VCBSMONO));
+    Result.AppendChild(Gerar_gMonoPadrao(IBSCBSMono.gMonoPadrao));
   end;
 
-  if (IBSCBSMono.adRemIBSReten > 0) or (IBSCBSMono.vIBSMonoReten > 0) or
-     (IBSCBSMono.adRemCBSReten > 0) or (IBSCBSMono.vCBSMonoReten > 0) then
+  if (IBSCBSMono.gMonoReten.adRemIBSReten > 0) or (IBSCBSMono.gMonoReten.vIBSMonoReten > 0) or
+     (IBSCBSMono.gMonoReten.adRemCBSReten > 0) or (IBSCBSMono.gMonoReten.vCBSMonoReten > 0) then
   begin
-    Result.AppendChild(AddNode(tcDe4, 'UB91', 'qBCMonoReten', 1, 15, 0,
-                                    IBSCBSMono.qBCMonoReten, DSC_QBCMONORETEN));
-
-    Result.AppendChild(AddNode(tcDe4, 'UB92', 'adRemIBSReten', 1, 7, 1,
-                                  IBSCBSMono.adRemIBSReten, DSC_ADREMIBSRETEN));
-
-    Result.AppendChild(AddNode(tcDe2, 'UB93', 'vIBSMonoReten', 1, 15, 1,
-                                  IBSCBSMono.vIBSMonoReten, DSC_VIBSMONORETEN));
-
-    Result.AppendChild(AddNode(tcDe4, 'UB92', 'adRemCBSReten', 1, 7, 1,
-                                  IBSCBSMono.adRemCBSReten, DSC_ADREMIBSRETEN));
-
-    Result.AppendChild(AddNode(tcDe2, 'UB93', 'vCBSMonoReten', 1, 15, 1,
-                                  IBSCBSMono.vCBSMonoReten, DSC_VIBSMONORETEN));
+    Result.AppendChild(Gerar_gMonoReten(IBSCBSMono.gMonoReten));
   end;
 
-  if (IBSCBSMono.adRemIBSRet > 0) or (IBSCBSMono.vIBSMonoRet > 0) or
-     (IBSCBSMono.adRemCBSRet > 0) or (IBSCBSMono.vCBSMonoRet > 0) then
+  if (IBSCBSMono.gMonoRet.adRemIBSRet > 0) or (IBSCBSMono.gMonoRet.vIBSMonoRet > 0) or
+     (IBSCBSMono.gMonoRet.adRemCBSRet > 0) or (IBSCBSMono.gMonoRet.vCBSMonoRet > 0) then
   begin
-    Result.AppendChild(AddNode(tcDe4, 'UB91', 'qBCMonoRet', 1, 15, 0,
-                                      IBSCBSMono.qBCMonoRet, DSC_QBCMONORETEN));
-
-    Result.AppendChild(AddNode(tcDe4, 'UB92', 'adRemIBSRet', 1, 7, 1,
-                                    IBSCBSMono.adRemIBSRet, DSC_ADREMIBSRETEN));
-
-    Result.AppendChild(AddNode(tcDe2, 'UB93', 'vIBSMonoRet', 1, 15, 1,
-                                    IBSCBSMono.vIBSMonoRet, DSC_VIBSMONORETEN));
-
-    Result.AppendChild(AddNode(tcDe4, 'UB92', 'adRemCBSRet', 1, 7, 1,
-                                    IBSCBSMono.adRemCBSRet, DSC_ADREMIBSRETEN));
-
-    Result.AppendChild(AddNode(tcDe2, 'UB93', 'vCBSMonoRet', 1, 15, 1,
-                                    IBSCBSMono.vCBSMonoRet, DSC_VIBSMONORETEN));
+    Result.AppendChild(Gerar_gMonoRet(IBSCBSMono.gMonoRet));
   end;
 
-  if (IBSCBSMono.pDifIBS > 0) or (IBSCBSMono.vIBSMonoDif > 0) or
-     (IBSCBSMono.pDifCBS > 0) or (IBSCBSMono.vCBSMonoDif > 0) then
+  if (IBSCBSMono.gMonoDif.pDifIBS > 0) or (IBSCBSMono.gMonoDif.vIBSMonoDif > 0) or
+     (IBSCBSMono.gMonoDif.pDifCBS > 0) or (IBSCBSMono.gMonoDif.vCBSMonoDif > 0) then
   begin
-    Result.AppendChild(AddNode(tcDe4, 'UB100', 'pDifIBS', 1, 7, 1,
-                                              IBSCBSMono.pDifIBS, DSC_PDIFIBS));
-
-    Result.AppendChild(AddNode(tcDe2, 'UB101', 'vIBSMonoDif', 1, 15, 1,
-                                      IBSCBSMono.vIBSMonoDif, DSC_VIBSMONODIF));
-
-    Result.AppendChild(AddNode(tcDe2, 'UB102', 'pDifCBS', 1, 7, 1,
-                                              IBSCBSMono.pDifCBS, DSC_PDIFCBS));
-
-    Result.AppendChild(AddNode(tcDe2, 'UB103', 'vCBSMonoDif', 1, 15, 1,
-                                      IBSCBSMono.vCBSMonoDif, DSC_VCBSMONODIF));
+    Result.AppendChild(Gerar_gMonoDif(IBSCBSMono.gMonoDif));
   end;
 
   Result.AppendChild(AddNode(tcDe2, 'UB104', 'vTotIBSMonoItem', 1, 15, 1,
@@ -4506,6 +4452,84 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, 'UB105', 'vTotCBSMonoItem', 1, 15, 1,
                                   IBSCBSMono.vTotCBSMonoItem, DSC_VTOTCBSMONO));
+end;
+
+function TNFeXmlWriter.Gerar_gMonoPadrao(
+  gMonoPadrao: TgMonoPadrao): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gMonoPadrao');
+
+  Result.AppendChild(AddNode(tcDe4, 'UB85', 'qBCMono', 1, 15, 0,
+                                             gMonoPadrao.qBCMono, DSC_QBCMONO));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB86', 'adRemIBS', 1, 7, 1,
+                                           gMonoPadrao.adRemIBS, DSC_ADREMIBS));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB87', 'adRemCBS', 1, 7, 1,
+                                           gMonoPadrao.adRemCBS, DSC_ADREMCBS));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB88', 'vIBSMono', 1, 15, 1,
+                                           gMonoPadrao.vIBSMono, DSC_VIBSMONO));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB89', 'vCBSMono', 1, 15, 1,
+                                           gMonoPadrao.vCBSMono, DSC_VCBSMONO));
+end;
+
+function TNFeXmlWriter.Gerar_gMonoReten(gMonoReten: TgMonoReten): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gMonoReten');
+
+  Result.AppendChild(AddNode(tcDe4, 'UB91', 'qBCMonoReten', 1, 15, 0,
+                                    gMonoReten.qBCMonoReten, DSC_QBCMONORETEN));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB92', 'adRemIBSReten', 1, 7, 1,
+                                  gMonoReten.adRemIBSReten, DSC_ADREMIBSRETEN));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB93', 'vIBSMonoReten', 1, 15, 1,
+                                  gMonoReten.vIBSMonoReten, DSC_VIBSMONORETEN));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB92', 'adRemCBSReten', 1, 7, 1,
+                                  gMonoReten.adRemCBSReten, DSC_ADREMIBSRETEN));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB93', 'vCBSMonoReten', 1, 15, 1,
+                                  gMonoReten.vCBSMonoReten, DSC_VIBSMONORETEN));
+end;
+
+function TNFeXmlWriter.Gerar_gMonoRet(gMonoRet: TgMonoRet): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gMonoRet');
+
+  Result.AppendChild(AddNode(tcDe4, 'UB91', 'qBCMonoRet', 1, 15, 0,
+                                        gMonoRet.qBCMonoRet, DSC_QBCMONORETEN));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB92', 'adRemIBSRet', 1, 7, 1,
+                                      gMonoRet.adRemIBSRet, DSC_ADREMIBSRETEN));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB93', 'vIBSMonoRet', 1, 15, 1,
+                                      gMonoRet.vIBSMonoRet, DSC_VIBSMONORETEN));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB92', 'adRemCBSRet', 1, 7, 1,
+                                      gMonoRet.adRemCBSRet, DSC_ADREMIBSRETEN));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB93', 'vCBSMonoRet', 1, 15, 1,
+                                      gMonoRet.vCBSMonoRet, DSC_VIBSMONORETEN));
+end;
+
+function TNFeXmlWriter.Gerar_gMonoDif(gMonoDif: TgMonoDif): TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gMonoDif');
+
+  Result.AppendChild(AddNode(tcDe4, 'UB100', 'pDifIBS', 1, 7, 1,
+                                                gMonoDif.pDifIBS, DSC_PDIFIBS));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB101', 'vIBSMonoDif', 1, 15, 1,
+                                        gMonoDif.vIBSMonoDif, DSC_VIBSMONODIF));
+
+  Result.AppendChild(AddNode(tcDe4, 'UB102', 'pDifCBS', 1, 7, 1,
+                                                gMonoDif.pDifCBS, DSC_PDIFCBS));
+
+  Result.AppendChild(AddNode(tcDe2, 'UB103', 'vCBSMonoDif', 1, 15, 1,
+                                        gMonoDif.vCBSMonoDif, DSC_VCBSMONODIF));
 end;
 
 function TNFeXmlWriter.Gerar_IBSCBS_gTransfCred(
