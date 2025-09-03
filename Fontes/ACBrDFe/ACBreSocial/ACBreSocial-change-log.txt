@@ -52,6 +52,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/09/2025
+-- pcesConversaoeSocial --
+[*] ACBR-7988 - Restaurados itens que haviam sido removidos dos enumerados e arrays referentes às versões do eSocial que foram depreciadas.
+    Por: Renato Rubinho
+
 28/08/2025
 -- pcesConversaoeSocial --
 [+] #ACBR-7979: Novos itens no enumerado tpMotivosAfastamento - https://www.projetoacbr.com.br/forum/topic/85248-atualiza%C3%A7%C3%A3o-dos-c%C3%B3digos-de-motivos-de-afastamento-do-evento-s-2230/

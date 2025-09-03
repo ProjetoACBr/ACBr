@@ -1262,7 +1262,8 @@
             "02_05_00",
             "S01_00_00",
             "S01_01_00",
-            "S01_02_00"});
+            "S01_02_00",
+            "S01_03_00"});
             this.cmbVersaoDF.Location = new System.Drawing.Point(12, 185);
             this.cmbVersaoDF.Name = "cmbVersaoDF";
             this.cmbVersaoDF.Size = new System.Drawing.Size(242, 21);

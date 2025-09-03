@@ -48,7 +48,7 @@ namespace ACBrLibeSocial.Demo
                 cmbXmlSign.EnumDataSource(SSLXmlSignLib.xsLibXml2);
                 cmbTipoEmpregador.EnumDataSource(TipoEmpregador.tePessoaJuridica);
                 cmbFormaEmissao.EnumDataSource(TipoEmissao.teNormal);
-                cmbVersaoDF.SelectedItem = "S01_02_00";
+                cmbVersaoDF.SelectedItem = "S01_03_00";
 
                 // Altera as config de log
                 ACBreSocial.Config.Principal.LogNivel = NivelLog.logParanoico;
@@ -182,7 +182,7 @@ namespace ACBrLibeSocial.Demo
             txtEmpregador.Text = ACBreSocial.Config.IdEmpregador;
             txtTransmissor.Text = ACBreSocial.Config.IdTransmissor;
             cmbTipoEmpregador.SetSelectedValue(ACBreSocial.Config.TipoEmpregador);
-            cmbVersaoDF.SelectedIndex.ToString(ACBreSocial.Config.VersaoDF);
+            cmbVersaoDF.SelectedIndex = Convert.ToInt32(ACBreSocial.Config.VersaoDF);
 
             //Config Webservice
             cmbUfDestino.SelectedItem = ACBreSocial.Config.DFe.UF;

@@ -651,11 +651,11 @@ type
 
   tpNacProf               = (ttpProfissionalBrasileiro, ttpProfissionalEstrangeiro);
 
-  TVersaoeSocial          = ({ve02_04_01, ve02_04_02, ve02_05_00, }veS01_00_00, veS01_01_00, veS01_02_00, veS01_03_00);
+  TVersaoeSocial          = (ve02_04_01, ve02_04_02, ve02_05_00, veS01_00_00, veS01_01_00, veS01_02_00, veS01_03_00);
 const
-  TVersaoeSocialArrayStrings : array[TVersaoeSocial] of string = ({'02_04_01', '02_04_02', '02_05_00', }'S01_00_00', 'S01_01_00', 'S01_02_00', 'S01_03_00');
-  TVersaoeSocialSchemasArrayStrings : array[TVersaoeSocial] of string = ({'v02_04_01', 'v02_04_02', 'v02_05_00', }'v_S_01_00_00', 'v_S_01_01_00', 'v_S_01_02_00', 'v_S_01_03_00');
-  TVersaoeSocialArrayReals : array[TVersaoeSocial] of Real = ({2.0401, 2.0402, 2.0500, }10.0000, 10.1000, 10.2000, 10.3000);
+  TVersaoeSocialArrayStrings : array[TVersaoeSocial] of string = ('02_04_01', '02_04_02', '02_05_00', 'S01_00_00', 'S01_01_00', 'S01_02_00', 'S01_03_00');
+  TVersaoeSocialSchemasArrayStrings : array[TVersaoeSocial] of string = ('v02_04_01', 'v02_04_02', 'v02_05_00', 'v_S_01_00_00', 'v_S_01_01_00', 'v_S_01_02_00', 'v_S_01_03_00');
+  TVersaoeSocialArrayReals : array[TVersaoeSocial] of Real = (2.0401, 2.0402, 2.0500, 10.0000, 10.1000, 10.2000, 10.3000);
 
 type
 
@@ -2597,7 +2597,7 @@ begin
     veS01_02_00: result := 10.2000;
     veS01_03_00: result := 10.3000;
   else
-    result := 0;
+    result := 10.3000;
   end;
 end;
 
@@ -2621,7 +2621,7 @@ begin
     result := veS01_03_00
   else
   begin
-    result := veS01_02_00;
+    result := veS01_03_00;
     ok := False;
   end;
 end;

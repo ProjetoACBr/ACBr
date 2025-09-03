@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/09/2025
+-- ACBrLib.hnd --
+[*] ACBR-7988 - Atualizada documentação da Lib, adicionando a versão S01_03_00 e marcando as que foram depreciadas.
+-- FrmMain.cs, FrmMain.Designer.cs --
+[*] ACBR-7988 - Adicionada versão S01_03_00 no programa de exemplo em c#, corrigida leitura da VersaoDF e preenchimento na combo.
+    Por: Renato Rubinho
+
 01/09/2025
 -- ACBrLibeSocialDataModule.lfm --
 [-] Preenchida versão atual do leiaute no componente, corrigindo erro de inicialização devido às versões antigas descontinuadas. - https://www.projetoacbr.com.br/forum/topic/85280-n%C3%A3o-consigo-atualizar-a-dll-do-esocial
