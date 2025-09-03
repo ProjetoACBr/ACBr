@@ -933,11 +933,19 @@ begin
           ISel.qTrib := 10;
           ISel.vIS := 100;
 
+          {
+            Utilize os CST (cst000, cst200, cst220 e cst510) e os cClassTrib
+            correspondentes para gerar o grupo IBSCBS
+            Utilize o CST cst620 e os cClassTrib correspondentes para gerar o grupo
+            IBSCBSMono
+          }
+
           //  Informações do tributo: IBS / CBS
           IBSCBS.CST := cst000;
           IBSCBS.cClassTrib := '000001';
 
           IBSCBS.gIBSCBS.vBC := 100;
+          IBSCBS.gIBSCBS.vIBS := 100;
 
           IBSCBS.gIBSCBS.gIBSUF.pIBSUF := 5;
           IBSCBS.gIBSCBS.gIBSUF.vIBSUF := 100;
@@ -1000,26 +1008,26 @@ begin
           IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
 
           //  Informações do tributo: IBS / CBS em operações com imposto monofásico
-          IBSCBS.gIBSCBSMono.qBCMono := 1;
-          IBSCBS.gIBSCBSMono.adRemIBS := 5;
-          IBSCBS.gIBSCBSMono.adRemCBS := 5;
-          IBSCBS.gIBSCBSMono.vIBSMono := 100;
-          IBSCBS.gIBSCBSMono.vCBSMono := 100;
+          IBSCBS.gIBSCBSMono.gMonoPadrao.qBCMono := 1;
+          IBSCBS.gIBSCBSMono.gMonoPadrao.adRemIBS := 5;
+          IBSCBS.gIBSCBSMono.gMonoPadrao.adRemCBS := 5;
+          IBSCBS.gIBSCBSMono.gMonoPadrao.vIBSMono := 100;
+          IBSCBS.gIBSCBSMono.gMonoPadrao.vCBSMono := 100;
 
-          IBSCBS.gIBSCBSMono.qBCMonoReten := 1;
-          IBSCBS.gIBSCBSMono.adRemIBSReten := 5;
-          IBSCBS.gIBSCBSMono.vIBSMonoReten := 100;
-          IBSCBS.gIBSCBSMono.vCBSMonoReten := 100;
+          IBSCBS.gIBSCBSMono.gMonoReten.qBCMonoReten := 1;
+          IBSCBS.gIBSCBSMono.gMonoReten.adRemIBSReten := 5;
+          IBSCBS.gIBSCBSMono.gMonoReten.vIBSMonoReten := 100;
+          IBSCBS.gIBSCBSMono.gMonoReten.vCBSMonoReten := 100;
 
-          IBSCBS.gIBSCBSMono.qBCMonoRet := 1;
-          IBSCBS.gIBSCBSMono.adRemIBSRet := 5;
-          IBSCBS.gIBSCBSMono.vIBSMonoRet := 100;
-          IBSCBS.gIBSCBSMono.vCBSMonoRet := 100;
+          IBSCBS.gIBSCBSMono.gMonoRet.qBCMonoRet := 1;
+          IBSCBS.gIBSCBSMono.gMonoRet.adRemIBSRet := 5;
+          IBSCBS.gIBSCBSMono.gMonoRet.vIBSMonoRet := 100;
+          IBSCBS.gIBSCBSMono.gMonoRet.vCBSMonoRet := 100;
 
-          IBSCBS.gIBSCBSMono.pDifIBS := 5;
-          IBSCBS.gIBSCBSMono.vIBSMonoDif := 100;
-          IBSCBS.gIBSCBSMono.pDifCBS := 5;
-          IBSCBS.gIBSCBSMono.vCBSMonoDif := 100;
+          IBSCBS.gIBSCBSMono.gMonoDif.pDifIBS := 5;
+          IBSCBS.gIBSCBSMono.gMonoDif.vIBSMonoDif := 100;
+          IBSCBS.gIBSCBSMono.gMonoDif.pDifCBS := 5;
+          IBSCBS.gIBSCBSMono.gMonoDif.vCBSMonoDif := 100;
 
           IBSCBS.gIBSCBSMono.vTotIBSMonoItem := 100;
           IBSCBS.gIBSCBSMono.vTotCBSMonoItem := 100;
@@ -1770,6 +1778,17 @@ begin
       ISel.qTrib := 10;
       ISel.vIS := 100;
 
+      {
+        Utilize os CST (cst000, cst200, cst220, cst510 e cst550) e os cClassTrib
+        correspondentes para gerar o grupo IBSCBS
+        Utilize o CST cst620 e os cClassTrib correspondentes para gerar o grupo
+        IBSCBSMono
+        Utilize o CST cst800 e os cClassTrib correspondentes para gerar o grupo
+        gTransfCred
+        Utilize o CST cst810 e os cClassTrib correspondentes para gerar o grupo
+        gCredPresIBSZFM
+      }
+
       //  Informações do tributo: IBS / CBS
       IBSCBS.CST := cst000;
       IBSCBS.cClassTrib := '000001';
@@ -1797,6 +1816,9 @@ begin
 
       IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq := 5;
       IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet := 5;
+
+      // vIBS = vIBSUF + vIBSMun
+      IBSCBS.gIBSCBS.vIBS := 100;
 
       IBSCBS.gIBSCBS.gCBS.pCBS := 5;
       IBSCBS.gIBSCBS.gCBS.vCBS := 100;
@@ -1837,26 +1859,26 @@ begin
       IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
 
       //  Informações do tributo: IBS / CBS em operações com imposto monofásico
-      IBSCBS.gIBSCBSMono.qBCMono := 1;
-      IBSCBS.gIBSCBSMono.adRemIBS := 5;
-      IBSCBS.gIBSCBSMono.adRemCBS := 5;
-      IBSCBS.gIBSCBSMono.vIBSMono := 100;
-      IBSCBS.gIBSCBSMono.vCBSMono := 100;
+      IBSCBS.gIBSCBSMono.gMonoPadrao.qBCMono := 1;
+      IBSCBS.gIBSCBSMono.gMonoPadrao.adRemIBS := 5;
+      IBSCBS.gIBSCBSMono.gMonoPadrao.adRemCBS := 5;
+      IBSCBS.gIBSCBSMono.gMonoPadrao.vIBSMono := 100;
+      IBSCBS.gIBSCBSMono.gMonoPadrao.vCBSMono := 100;
 
-      IBSCBS.gIBSCBSMono.qBCMonoReten := 1;
-      IBSCBS.gIBSCBSMono.adRemIBSReten := 5;
-      IBSCBS.gIBSCBSMono.vIBSMonoReten := 100;
-      IBSCBS.gIBSCBSMono.vCBSMonoReten := 100;
+      IBSCBS.gIBSCBSMono.gMonoReten.qBCMonoReten := 1;
+      IBSCBS.gIBSCBSMono.gMonoReten.adRemIBSReten := 5;
+      IBSCBS.gIBSCBSMono.gMonoReten.vIBSMonoReten := 100;
+      IBSCBS.gIBSCBSMono.gMonoReten.vCBSMonoReten := 100;
 
-      IBSCBS.gIBSCBSMono.qBCMonoRet := 1;
-      IBSCBS.gIBSCBSMono.adRemIBSRet := 5;
-      IBSCBS.gIBSCBSMono.vIBSMonoRet := 100;
-      IBSCBS.gIBSCBSMono.vCBSMonoRet := 100;
+      IBSCBS.gIBSCBSMono.gMonoRet.qBCMonoRet := 1;
+      IBSCBS.gIBSCBSMono.gMonoRet.adRemIBSRet := 5;
+      IBSCBS.gIBSCBSMono.gMonoRet.vIBSMonoRet := 100;
+      IBSCBS.gIBSCBSMono.gMonoRet.vCBSMonoRet := 100;
 
-      IBSCBS.gIBSCBSMono.pDifIBS := 5;
-      IBSCBS.gIBSCBSMono.vIBSMonoDif := 100;
-      IBSCBS.gIBSCBSMono.pDifCBS := 5;
-      IBSCBS.gIBSCBSMono.vCBSMonoDif := 100;
+      IBSCBS.gIBSCBSMono.gMonoDif.pDifIBS := 5;
+      IBSCBS.gIBSCBSMono.gMonoDif.vIBSMonoDif := 100;
+      IBSCBS.gIBSCBSMono.gMonoDif.pDifCBS := 5;
+      IBSCBS.gIBSCBSMono.gMonoDif.vCBSMonoDif := 100;
 
       IBSCBS.gIBSCBSMono.vTotIBSMonoItem := 100;
       IBSCBS.gIBSCBSMono.vTotCBSMonoItem := 100;
@@ -2939,7 +2961,8 @@ begin
     LoadXML(ACBrNFe1.WebServices.Enviar.RetWS, WBResposta);
 
     MemoDados.Lines.Add('');
-    MemoDados.Lines.Add('Envio NFCe');
+    MemoDados.Lines.Add('Envio NFe/NFCe');
+    MemoDados.Lines.Add('Chave: ' + ACBrNFe1.NotasFiscais[0].NFe.procNFe.chNFe);
     MemoDados.Lines.Add('tpAmb: ' + TpAmbToStr(ACBrNFe1.WebServices.Enviar.TpAmb));
     MemoDados.Lines.Add('verAplic: ' + ACBrNFe1.WebServices.Enviar.verAplic);
     MemoDados.Lines.Add('cStat: ' + IntToStr(ACBrNFe1.WebServices.Enviar.cStat));
