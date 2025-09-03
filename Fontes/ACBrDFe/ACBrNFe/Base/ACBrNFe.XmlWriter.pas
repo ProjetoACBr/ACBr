@@ -1414,7 +1414,7 @@ begin
   begin
     Result[k] := FDocument.CreateElement('adi');
     Result[k].AppendChild(AddNode(tcInt, 'I26', 'nAdicao', 01,
-      03, 1, NFe.Det[i].Prod.DI[j].adi[k].nAdicao, DSC_NADICAO));
+      03, 0, NFe.Det[i].Prod.DI[j].adi[k].nAdicao, DSC_NADICAO));
     Result[k].AppendChild(AddNode(tcInt, 'I27', 'nSeqAdic', 01,
       03, 1, NFe.Det[i].Prod.DI[j].adi[k].nSeqAdi, DSC_NSEQADIC));
     Result[k].AppendChild(AddNode(tcStr, 'I28', 'cFabricante', 01,
