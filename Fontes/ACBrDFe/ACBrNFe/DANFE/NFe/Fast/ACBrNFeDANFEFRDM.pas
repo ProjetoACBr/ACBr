@@ -1889,7 +1889,6 @@ end;
 
 procedure TACBrNFeFRClass.CarregaDadosEventos;
 var
-  i: Integer;
   CondicoesUso, Correcao: String;
   documentoAtor: String;
 begin
@@ -1922,74 +1921,71 @@ begin
 
     CreateDataSet;
 
-    //for i := 0 to FEvento.Evento.Count - 1 do
-    //begin
-      Append;
+    Append;
 
-      with Evento.Evento[DANFEClassOwner.FIndexImpressaoEventosIndividual -1] do
+    with Evento.Evento[DANFEClassOwner.FIndexImpressaoEventosIndividual -1] do
+    begin
+      FieldByName('DescricaoTipoEvento').AsString := InfEvento.DescricaoTipoEvento(InfEvento.tpEvento);
+
+      // nota fiscal eletronica
+      FieldByName('Modelo').AsString      := Copy(InfEvento.chNFe, 21, 2);
+      FieldByName('Serie').AsString       := Copy(InfEvento.chNFe, 23, 3);
+      FieldByName('Numero').AsString      := Copy(InfEvento.chNFe, 26, 9);
+      FieldByName('MesAno').AsString      := Copy(InfEvento.chNFe, 05, 2) + '/' + copy(InfEvento.chNFe, 03, 2);
+      FieldByName('Barras').AsString      := InfEvento.chNFe;
+      FieldByName('ChaveAcesso').AsString := FormatarChaveAcesso(InfEvento.chNFe);
+
+      // Carta de correção eletrônica
+      FieldByName('cOrgao').AsInteger := InfEvento.cOrgao;
+
+      case InfEvento.tpAmb of
+        taProducao:    FieldByName('tpAmb').AsString := ACBrStr('PRODUÇÃO');
+        taHomologacao: FieldByName('tpAmb').AsString := ACBrStr('HOMOLOGAÇÃO - SEM VALOR FISCAL');
+      end;
+
+      FieldByName('dhEvento').AsDateTime    := InfEvento.dhEvento;
+      FieldByName('TipoEvento').AsString    := InfEvento.TipoEvento;
+      FieldByName('DescEvento').AsString    := InfEvento.DescEvento;
+      FieldByName('nSeqEvento').AsInteger   := InfEvento.nSeqEvento;
+      FieldByName('versaoEvento').AsString  := InfEvento.versaoEvento;
+      FieldByName('cStat').AsInteger        := RetInfEvento.cStat;
+      FieldByName('xMotivo').AsString       := RetInfEvento.xMotivo;
+      FieldByName('nProt').AsString         := RetInfEvento.nProt;
+      FieldByName('dhRegEvento').AsDateTime := RetInfEvento.dhRegEvento;
+
+      if (InfEvento.tpEvento <> teCCe) and (InfEvento.tpEvento <> teAtorInteressadoNFe) then
       begin
-        FieldByName('DescricaoTipoEvento').AsString := InfEvento.DescricaoTipoEvento(InfEvento.tpEvento);
+        FieldByName('xJust').AsString := InfEvento.detEvento.xJust;
+        if InfEvento.tpEvento = teInsucessoEntregaNFe then
+          FieldByName('xJust').AsString := InfEvento.detEvento.xJustMotivo;
+      end
+      else
+      begin
+        CondicoesUso := InfEvento.detEvento.xCondUso;
+        CondicoesUso := StringReplace(CondicoesUso, 'com: I', 'com:'+#13+' I', [rfReplaceAll]);
+        CondicoesUso := StringReplace(CondicoesUso, FDANFEClassOwner.CaractereQuebraDeLinha, FDANFEClassOwner.CaractereQuebraDeLinha + #13, [rfReplaceAll]);
 
-        // nota fiscal eletronica
-        FieldByName('Modelo').AsString      := Copy(InfEvento.chNFe, 21, 2);
-        FieldByName('Serie').AsString       := Copy(InfEvento.chNFe, 23, 3);
-        FieldByName('Numero').AsString      := Copy(InfEvento.chNFe, 26, 9);
-        FieldByName('MesAno').AsString      := Copy(InfEvento.chNFe, 05, 2) + '/' + copy(InfEvento.chNFe, 03, 2);
-        FieldByName('Barras').AsString      := InfEvento.chNFe;
-        FieldByName('ChaveAcesso').AsString := FormatarChaveAcesso(InfEvento.chNFe);
+        Correcao := StringReplace(InfEvento.detEvento.xCorrecao,
+          FDANFEClassOwner.CaractereQuebraDeLinha, #13,
+           [rfReplaceAll]);
 
-        // Carta de correção eletrônica
-        FieldByName('cOrgao').AsInteger := InfEvento.cOrgao;
+        FieldByName('xCondUso').AsString  := CondicoesUso;
+        FieldByName('xCorrecao').AsString := Correcao;
 
-        case InfEvento.tpAmb of
-          taProducao:    FieldByName('tpAmb').AsString := ACBrStr('PRODUÇÃO');
-          taHomologacao: FieldByName('tpAmb').AsString := ACBrStr('HOMOLOGAÇÃO - SEM VALOR FISCAL');
-        end;
-
-        FieldByName('dhEvento').AsDateTime    := InfEvento.dhEvento;
-        FieldByName('TipoEvento').AsString    := InfEvento.TipoEvento;
-        FieldByName('DescEvento').AsString    := InfEvento.DescEvento;
-        FieldByName('nSeqEvento').AsInteger   := InfEvento.nSeqEvento;
-        FieldByName('versaoEvento').AsString  := InfEvento.versaoEvento;
-        FieldByName('cStat').AsInteger        := RetInfEvento.cStat;
-        FieldByName('xMotivo').AsString       := RetInfEvento.xMotivo;
-        FieldByName('nProt').AsString         := RetInfEvento.nProt;
-        FieldByName('dhRegEvento').AsDateTime := RetInfEvento.dhRegEvento;
-
-        if (InfEvento.tpEvento <> teCCe) and (InfEvento.tpEvento <> teAtorInteressadoNFe) then
+        if (InfEvento.tpEvento = teAtorInteressadoNFe) then
         begin
-          FieldByName('xJust').AsString := InfEvento.detEvento.xJust;
-          if InfEvento.tpEvento = teInsucessoEntregaNFe then
-            FieldByName('xJust').AsString := InfEvento.detEvento.xJustMotivo;
-        end
-        else
-        begin
-          CondicoesUso := InfEvento.detEvento.xCondUso;
-          CondicoesUso := StringReplace(CondicoesUso, 'com: I', 'com:'+#13+' I', [rfReplaceAll]);
-          CondicoesUso := StringReplace(CondicoesUso, FDANFEClassOwner.CaractereQuebraDeLinha, FDANFEClassOwner.CaractereQuebraDeLinha + #13, [rfReplaceAll]);
+            documentoAtor := InfEvento.detEvento.autXML[0].CNPJCPF;
 
-          Correcao := StringReplace(InfEvento.detEvento.xCorrecao,
-            FDANFEClassOwner.CaractereQuebraDeLinha, #13,
-             [rfReplaceAll]);
+            FieldByName('xJust').AsString := 'CNPJ: ' + documentoAtor;
+            if (documentoAtor > '') and (length(documentoAtor) < 14) then
+                FieldByName('xJust').AsString := 'CPF: ' + documentoAtor;
 
-          FieldByName('xCondUso').AsString  := CondicoesUso;
-          FieldByName('xCorrecao').AsString := Correcao;
-
-          if (InfEvento.tpEvento = teAtorInteressadoNFe) then
-          begin
-              documentoAtor := InfEvento.detEvento.autXML[0].CNPJCPF;
-
-              FieldByName('xJust').AsString := 'CNPJ: ' + documentoAtor;
-              if (documentoAtor > '') and (length(documentoAtor) < 14) then
-                  FieldByName('xJust').AsString := 'CPF: ' + documentoAtor;
-
-              if (InfEvento.detEvento.tpAutorizacao <> taNaoInformar) then
-                  FieldByName('xJust').AsString := FieldByName('xJust').AsString + ' - Tipo Autorização: ' + AutorizacaoToStr(InfEvento.detEvento.tpAutorizacao);
-          end;
+            if (InfEvento.detEvento.tpAutorizacao <> taNaoInformar) then
+                FieldByName('xJust').AsString := FieldByName('xJust').AsString + ' - Tipo Autorização: ' + AutorizacaoToStr(InfEvento.detEvento.tpAutorizacao);
         end;
       end;
-      Post;
-    //end;
+    end;
+    Post;
   end;
 end;
 
@@ -2121,6 +2117,7 @@ begin
       begin
         NFe := TACBrNFe(DANFEClassOwner.ACBrNFe).NotasFiscais[DANFEClassOwner.FIndexImpressaoIndividual-1].NFe;
         CarregaDadosNFe;
+        AjustaMargensReports;
         Result := frxReport.PrepareReport( DANFEClassOwner.FIndexImpressaoIndividual > 0 );
       end else
       begin
@@ -2128,6 +2125,7 @@ begin
         begin
           NFe := TACBrNFe(DANFEClassOwner.ACBrNFe).NotasFiscais[I].NFe;
           CarregaDadosNFe;
+          AjustaMargensReports;
           Result := frxReport.PrepareReport( not (i > 0) );
         end;
       end;
@@ -2135,18 +2133,12 @@ begin
     else
       raise EACBrNFeDANFEFR.Create('Propriedade ACBrNFe não assinalada.');
   end;
-
-  if Assigned(NFe) then
-  begin
-    AjustaMargensReports;
-  end;
-
 end;
 
 function TACBrNFeFRClass.PrepareReportEvento(ANFE: TNFe = nil): Boolean;
 var
- wProjectStream: TStringStream;
-  I, J: Integer;
+  wProjectStream: TStringStream;
+  J: Integer;
   LResetar : Boolean;
 begin
   SetDataSetsToFrxReport;
@@ -2221,12 +2213,11 @@ begin
       CarregaDadosNFe;
     end;
 
+    AjustaMargensReports;
     Result := frxReport.PrepareReport(LResetar);
   end
   else
     raise EACBrNFeDANFEFR.Create('Propriedade ACBrNFe não assinalada.');
-
-  AjustaMargensReports;
 
 end;
 
@@ -2280,13 +2271,11 @@ begin
     else
       raise EACBrNFeDANFEFR.Create('INUTILIZAÇÃO não foi assinalada.');
 
+    AjustaMargensReports;
     Result := frxReport.PrepareReport;
   end
   else
     raise EACBrNFeDANFEFR.Create('Propriedade ACBrNFe não assinalada.');
-
-  AjustaMargensReports;
-
 end;
 
 procedure TACBrNFeFRClass.frxReportBeforePrint(Sender: TfrxReportComponent);
@@ -2584,16 +2573,19 @@ var
 begin
   for I := 0 to (frxReport.PreviewPages.Count - 1) do
   begin
-    Page := frxReport.PreviewPages.Page[I];
-    if (DANFEClassOwner.MargemSuperior > 0) then
-      Page.TopMargin := DANFEClassOwner.MargemSuperior;
-    if (DANFEClassOwner.MargemInferior > 0) then
-      Page.BottomMargin := DANFEClassOwner.MargemInferior;
-    if (DANFEClassOwner.MargemEsquerda > 0) then
-      Page.LeftMargin := DANFEClassOwner.MargemEsquerda;
-    if (DANFEClassOwner.MargemDireita > 0) then
-      Page.RightMargin := DANFEClassOwner.MargemDireita;
-    frxReport.PreviewPages.ModifyPage(I, Page);
+    if frxReport.Pages[I] is TfrxReportPage then
+    begin
+      Page := frxReport.PreviewPages.Page[I];
+      if (DANFEClassOwner.MargemSuperior > 0) then
+        Page.TopMargin := DANFEClassOwner.MargemSuperior;
+      if (DANFEClassOwner.MargemInferior > 0) then
+        Page.BottomMargin := DANFEClassOwner.MargemInferior;
+      if (DANFEClassOwner.MargemEsquerda > 0) then
+        Page.LeftMargin := DANFEClassOwner.MargemEsquerda;
+      if (DANFEClassOwner.MargemDireita > 0) then
+        Page.RightMargin := DANFEClassOwner.MargemDireita;
+      frxReport.PreviewPages.ModifyPage(I, Page);
+    end;
   end;
 end;
 
