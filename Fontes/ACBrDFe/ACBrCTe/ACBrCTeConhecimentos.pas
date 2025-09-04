@@ -50,9 +50,9 @@ uses
   pcteCTeR,
   pcteCTeW,
   {$EndIf}
+  pcnConversao,
   ACBrXmlBase,
-  ACBrCTe.IniReader, ACBrCTe.IniWriter,
-  pcnConversao;
+  ACBrCTe.IniReader, ACBrCTe.IniWriter;
 
 type
 
