@@ -2227,7 +2227,7 @@ begin
     raise EACBrNFeDANFEFR.Create('Propriedade ACBrNFe não assinalada.');
 
   AjustaMargensReports;
-  DANFEClassOwner.FIndexImpressaoEventosIndividual := 0;
+
 end;
 
 function TACBrNFeFRClass.PrepareReportInutilizacao: Boolean;
@@ -2440,7 +2440,7 @@ begin
     try
       frxPDFExport.ShowDialog := False;
       frxPDFExport.FileName := DefinirNomeArquivo(DANFEClassOwner.PathPDF,
-                               OnlyNumber(NFe.infNFe.ID) + '-nfe.pdf',
+                               OnlyNumber(NFE.infNFe.ID) + '-nfe.pdf',
                                DANFEClassOwner.NomeDocumento);
 
       if not DirectoryExists(ExtractFileDir(frxPDFExport.FileName)) then
