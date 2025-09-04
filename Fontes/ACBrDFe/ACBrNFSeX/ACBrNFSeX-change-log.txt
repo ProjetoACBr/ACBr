@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+04/09/2025
+-- AssessorPublico.LerXml --
+[*] #ACBr-7986 Alteração visando a leitura correta das tagas DATACANCEL e HORACANCEL,
+    se a nota não esta cancelada não temos a data e nem a hora de cancelamento.
+   Por: Fabio Tellini
+
 02/09/2025
 -- ACBrNFSeXServicos --
 [*] #ACBr-7985 Alterado as URLs da cidade Novo Hamburgo/RS, o provedor continua o mesmo.
