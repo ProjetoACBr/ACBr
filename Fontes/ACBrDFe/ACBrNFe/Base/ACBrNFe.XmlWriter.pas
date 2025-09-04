@@ -4229,7 +4229,8 @@ begin
   Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSUF(IBSCBS.gIBSUF));
   Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSMun(IBSCBS.gIBSMun));
 
-  Result.AppendChild(AddNode(tcDe2, 'UB35', 'vIBS', 1, 15, 1,
+  // Tag definida como opcional até que todas as SEFAZ estejam adequadas a NT 2025/001 v1.20
+  Result.AppendChild(AddNode(tcDe2, 'UB35', 'vIBS', 1, 15, 0,
                                                       IBSCBS.vIBS, DSC_VIBS));
 
   Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gCBS(IBSCBS.gCBS));
