@@ -481,6 +481,7 @@ uses
   Grids,
   IniFiles, Printers,
   pcnAuxiliar,
+  pcnConversao,
   ACBrDFe.Conversao,
   ACBrOpenSSLUtils, OpenSSLExt,
   ACBrDFeConfiguracoes, ACBrDFeSSL,
@@ -824,11 +825,11 @@ begin
         // tcgNenhum, tcgUniao, tcgEstados, tcgDistritoFederal, tcgMunicipios, tcgOutro
         IBSCBS.tpEnteGov := tcgNenhum;
         // Se tpEnteGov = tcgOutro informar a sua descrição
-        IBSCBS.xTpEnteGov := '';
+//        IBSCBS.xTpEnteGov := '';
         // ipTomadorAdquirenteDestinatarioIguais, ipTomadorAdquirenteIguais,
         // ipAdquirenteDestinatarioIguais, ipTomadorDestinatarioIguais,
         // ipTomadorAdquirenteDestinatarioDiferentes);
-        IBSCBS.indPessoas := ipTomadorAdquirenteDestinatarioDiferentes;
+//        IBSCBS.indPessoas := ipTomadorAdquirenteDestinatarioDiferentes;
 
         IBSCBS.dest.CNPJCPF := '12345678901';
         IBSCBS.dest.Nif := '';
@@ -842,19 +843,6 @@ begin
         IBSCBS.dest.ender.nro := '100';
         IBSCBS.dest.ender.xCpl := '';
         IBSCBS.dest.ender.xBairro := 'CENTRO';
-
-        IBSCBS.adq.CNPJCPF := '12345678901';
-        IBSCBS.adq.Nif := '';
-        IBSCBS.adq.cNaoNIF := tnnNaoInformado;
-        IBSCBS.adq.xNome := 'Nome do Destinatario';
-        IBSCBS.adq.fone := '1622223333';
-        IBSCBS.adq.email := 'nome@provedor.com.br';
-        IBSCBS.adq.ender.endNac.cMun := StrToIntDef(edtCodCidade.Text, 0);
-        IBSCBS.adq.ender.endNac.CEP := '14800000';
-        IBSCBS.adq.ender.xLgr := 'RUA PRINCIPAL';
-        IBSCBS.adq.ender.nro := '100';
-        IBSCBS.adq.ender.xCpl := '';
-        IBSCBS.adq.ender.xBairro := 'CENTRO';
 
         IBSCBS.imovel.inscImobFisc := '12345678901';
         IBSCBS.imovel.cCIB := '12345678';
@@ -4138,7 +4126,7 @@ end;
 procedure TfrmACBrNFSe.FormCreate(Sender: TObject);
 var
   T: TSSLLib;
-  I: TACBrTipoEmissao;
+  I: TpcnTipoEmissao;
   U: TSSLCryptLib;
   V: TSSLHttpLib;
   X: TSSLXmlSignLib;
@@ -4171,8 +4159,8 @@ begin
   cbSSLType.ItemIndex := 5;
 
   cbFormaEmissao.Items.Clear;
-  for I := Low(TACBrTipoEmissao) to High(TACBrTipoEmissao) do
-    cbFormaEmissao.Items.Add(GetEnumName(TypeInfo(TACBrTipoEmissao), integer(I)));
+  for I := Low(TpcnTipoEmissao) to High(TpcnTipoEmissao) do
+    cbFormaEmissao.Items.Add(GetEnumName(TypeInfo(TpcnTipoEmissao), integer(I)));
   cbFormaEmissao.ItemIndex := 0;
 
   cbLayoutNFSe.Items.Clear;
@@ -4882,7 +4870,7 @@ begin
   memoLog.Lines.Add('------------------------------');
 
   memoLog.Lines.Add('Requisição');
-  memoLog.Lines.Add('Ambiente: ' + TipoAmbienteToStr(ACBrNFSeX1.Configuracoes.WebServices.Ambiente));
+  memoLog.Lines.Add('Ambiente: ' + tpAmbToStr(ACBrNFSeX1.Configuracoes.WebServices.Ambiente));
   memoLog.Lines.Add('Cidade  : ' + ACBrNFSeX1.Configuracoes.Geral.xMunicipio + '/' +
                                    ACBrNFSeX1.Configuracoes.Geral.xUF);
   memoLog.Lines.Add('Provedor: ' + ACBrNFSeX1.Configuracoes.Geral.xProvedor +
@@ -5467,7 +5455,7 @@ begin
     ExibirErroSchema := cbxExibirErroSchema.Checked;
     RetirarAcentos   := cbxRetirarAcentos.Checked;
     FormatoAlerta    := edtFormatoAlerta.Text;
-    FormaEmissao     := TACBrTipoEmissao(cbFormaEmissao.ItemIndex);
+    FormaEmissao     := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
 
     ConsultaLoteAposEnvio := chkConsultaLoteAposEnvio.Checked;
     ConsultaAposCancelar  := chkConsultaAposCancelar.Checked;
@@ -5509,7 +5497,7 @@ begin
 
   with ACBrNFSeX1.Configuracoes.WebServices do
   begin
-    Ambiente   := StrToTipoAmbiente(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
+    Ambiente   := StrTotpAmb(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
     Visualizar := cbxVisualizar.Checked;
     Salvar     := chkSalvarSOAP.Checked;
     UF         := edtEmitUF.Text;
