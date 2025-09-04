@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 04/09/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-7994 Alterado as URLs da cidade Palhoça/SC, o provedor continua o mesmo.
+   Por: Willian Carminatt
 -- AssessorPublico.LerXml --
 [*] #ACBr-7986 Alteração visando a leitura correta das tagas DATACANCEL e HORACANCEL,
     se a nota não esta cancelada não temos a data e nem a hora de cancelamento.
