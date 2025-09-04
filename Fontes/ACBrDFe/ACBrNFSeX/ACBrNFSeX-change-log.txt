@@ -50,6 +50,9 @@ Símbolo : Significado
 [*] #ACBr-7986 Alteração visando a leitura correta das tagas DATACANCEL e HORACANCEL,
     se a nota não esta cancelada não temos a data e nem a hora de cancelamento.
    Por: Fabio Tellini
+-- Bauhaus.LerJson, EloTech.LerXml --
+[*] #ACBR-7998 Corrigido loop infinito na leitura de itens de serviços ao carregar o ini dos provedores Bauhaus e EloTech. - https://www.projetoacbr.com.br/forum/topic/85268-nfse-ponta-grossa
+   Por: Renato Rubinho
 
 02/09/2025
 -- ACBrNFSeXServicos --

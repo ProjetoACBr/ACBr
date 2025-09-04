@@ -101,6 +101,8 @@ begin
     Item.ValorTotal := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorTotal', ''), 0);
 
     LerINISecaoDadosDeducao(AINIRec, Item, i);
+
+    Inc(i);
   end;
 end;
 
