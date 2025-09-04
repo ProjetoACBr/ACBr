@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+04/09/2025
+-- ACBrCTeConhecimentos --
+[*] #ACBr 7995: Possível solução para a leitura de XML com formatação UTF-8 BOM.
+   Por: Italo Giurizzato Junior
+
 19/08/2025
 -- Diversos --
 [*] O campo cClassTrib deixa de ser enumerado e passa a ser string.

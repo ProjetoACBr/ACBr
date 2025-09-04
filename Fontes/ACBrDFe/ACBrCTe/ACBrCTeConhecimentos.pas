@@ -50,8 +50,9 @@ uses
   pcteCTeR,
   pcteCTeW,
   {$EndIf}
+  ACBrXmlBase,
   ACBrCTe.IniReader, ACBrCTe.IniWriter,
-  pcnConversao, pcnLeitor;
+  pcnConversao;
 
 type
 
@@ -194,7 +195,8 @@ type
 implementation
 
 uses
-  dateutils, IniFiles,
+  dateutils,
+  IniFiles,
   synautil,
   ACBrCTe,
   ACBrUtil.Base,
@@ -202,7 +204,9 @@ uses
   ACBrUtil.XMLHTML,
   ACBrUtil.FilesIO,
   ACBrUtil.DateTime,
-  ACBrDFeUtil, pcteConversaoCTe;
+  ACBrDFeUtil,
+  pcteConversaoCTe,
+  ACBrXmlDocument;
 
 { Conhecimento }
 
@@ -295,7 +299,8 @@ procedure Conhecimento.Assinar;
 var
   XMLStr: String;
   XMLUTF8: AnsiString;
-  Leitor: TLeitor;
+  Document: TACBrXmlDocument;
+  ANode, SignatureNode, ReferenceNode, X509DataNode: TACBrXmlNode;
 begin
   with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
   begin
@@ -322,15 +327,26 @@ begin
     // SSL.Assinar() sempre responde em UTF8...
     FXMLOriginal := FXMLAssinado;
 
-    Leitor := TLeitor.Create;
+    Document := TACBrXmlDocument.Create;
     try
-      leitor.Grupo := FXMLAssinado;
-      CTe.signature.URI := Leitor.rAtributo('Reference URI=');
-      CTe.signature.DigestValue := Leitor.rCampo(tcStr, 'DigestValue');
-      CTe.signature.SignatureValue := Leitor.rCampo(tcStr, 'SignatureValue');
-      CTe.signature.X509Certificate := Leitor.rCampo(tcStr, 'X509Certificate');
+      Document.LoadFromXml(FXMLOriginal);
+      ANode := Document.Root;
+
+      if ANode <> nil then
+      begin
+        SignatureNode := ANode.Childrens.FindAnyNs('Signature');
+        ReferenceNode := SignatureNode.Childrens.FindAnyNs('SignedInfo')
+                                      .Childrens.FindAnyNs('Reference');
+        X509DataNode :=  SignatureNode.Childrens.FindAnyNs('KeyInfo')
+                                      .Childrens.FindAnyNs('X509Data');
+
+        CTe.signature.URI := ObterConteudoTag(ReferenceNode.Attributes.Items['URI']);
+        CTe.signature.DigestValue := ObterConteudoTag(ReferenceNode.Childrens.FindAnyNs('DigestValue'), tcStr);
+        CTe.signature.SignatureValue := ObterConteudoTag(SignatureNode.Childrens.FindAnyNs('SignatureValue'), tcStr);
+        CTe.signature.X509Certificate := ObterConteudoTag(X509DataNode.Childrens.FindAnyNs('X509Certificate'), tcStr);
+      end;
     finally
-      Leitor.Free;
+      FreeAndNil(Document);
     end;
 
     with TACBrCTe(TConhecimentos(Collection).ACBrCTe) do
@@ -1197,6 +1213,9 @@ begin
 
     with Self.Add do
     begin
+      if Pos('<', ACTeXML) > 1 then
+        ACTeXML := copy(ACTeXML, Pos('<', ACTeXML), Length(ACTeXML));
+
       LerXML(ACTeXML);
 
       if AGerarCTe then // Recalcula o XML
