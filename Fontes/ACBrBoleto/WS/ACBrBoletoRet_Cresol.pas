@@ -288,12 +288,11 @@ begin
            200:
              if (ListaRetorno.ListaRejeicao.Count = 0) then
              begin
-               if LJsonObject.IsJSONObject('page') then
-               begin
+               if LJsonObject.ValueExists('last') then
                  ListaRetorno.indicadorContinuidade := LJsonObject.AsBoolean['last'] = false;
-                 if ListaRetorno.indicadorContinuidade then
+               if ListaRetorno.indicadorContinuidade then
+                 if LJsonObject.ValueExists('number') then
                    ListaRetorno.proximoIndice         := LJsonObject.AsInteger['number'] + 1;
-               end;
 
                LJsonArray := LJsonObject.AsJSONArray['content'];
                if LJsonArray.Count = 0 then
