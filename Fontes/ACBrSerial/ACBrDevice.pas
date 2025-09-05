@@ -975,7 +975,7 @@ begin
   else if (copy(UPorta, 1, 3) = 'USB') or
     (LowerCase(copy(APorta, 1, 7)) = '\\?\usb') then
     Result := dtUSB
-  else if (fsDeviceRaw.GetLabelPrinterIndex(APorta) > 0) then
+  else if (fsDeviceRaw.GetLabelPrinterIndex(APorta) >= 0) then
     Result := dtRawPrinter
   else
   begin
