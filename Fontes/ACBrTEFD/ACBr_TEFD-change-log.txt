@@ -45,6 +45,20 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/09/2025
+-- ACBrTEFAPIStoneAutoTEF --
+[*] Método 'EfetuarPix', renomeado para 'EnviarPix'
+[+] Adicionado o Método 'CancelarPIX'
+[+] Adicionadas as propriedades 'hasBankStone: Boolean' e 'hasPixKey: Boolean'
+[*] Adicionda verificação em 'EnviarPIX' se hasBankStone e hasPixKey são verdadeiras
+[*] Método 'ConteudoToProperty' modificado para ler 'endTwoEndIdentification' e
+    'transactionId'do PIX
+[*] Método 'AguardarPagamentoPIX', modificado para considerar PIX expirado se
+    ocorrer TimeOut no HTTP
+[*] Método 'CancelarTransacao', modificado para conseguir cancelar transações PIX
+[+] Implementado o método 'ObterDadoPinPad', com o EndPoint 'api/Pinpad/GetCardHolderData'
+    (por: DSA)
+
 02/09/2025
 -- ACBrTEFDestaxaComum --
 [*] Alteração para exibir mensagem quando automacao_coleta_retorno="1".

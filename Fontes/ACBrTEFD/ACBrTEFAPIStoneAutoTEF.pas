@@ -61,8 +61,9 @@ resourcestring
   sACBrStoneAutoTEFSemNomeAplicacao = 'Nome da Aplicação deve ser informado em "DadosAutomacao.NomeAplicacao"';
   sACBrStoneAutoTEFSemVersaoAplicacao = 'Versão da Aplicação deve ser informado em "DadosAutomacao.VersaoAplicacao"';
   sACBrStoneAutoTEFErroAtivacao = 'Erro ao Ativar '+CStoneAutoTEF;
-  sACBrStoneAutoTEFErroModalidadeNaoSuportada = 'Modalidade %s não suportada em '+CStoneAutoTEF;
+  sACBrStoneAutoTEFErroNaoSuportada = '%s não suportada em '+CStoneAutoTEF;
   sACBrStoneAutoTEFErroDadoNaoEJSon = 'Dado informado em %s não é um JSON válido';
+  sACBrStoneAutoTEFErroSemPIXnaConta = 'Sua conta não está configurada para pagamentos com PIX';
 
   sACBrStoneAutoTEFN013 = 'Operação Cancelada pelo Operador';
   sACBrStoneAutoTEFN404 = 'Verifique se o Pinpad está bem conectado e se a porta indicada está correta %s.';
@@ -86,6 +87,8 @@ type
   TACBrTEFAPIClassStoneAutoTEF = class(TACBrTEFAPIClass)
   private
     FExpiracaoPIX: Integer;
+    FhasBankStone: Boolean;
+    FhasPixKey: Boolean;
     FHTTP: THTTPSend;
     FHTTPResponse: AnsiString;
     FHTTPResultCode: Integer;
@@ -118,8 +121,9 @@ type
       DataPreDatado: TDateTime = 0;
       DadosAdicionais: String = ''): Boolean; override;
 
-    procedure EfetuarPix(AValor: Double; ExpiraEm: Integer = 0);
+    procedure EnviarPix(AValor: Double; ExpiraEm: Integer = 0);
     procedure ConsultarStatusPIX(const AtransactionId: String);
+    procedure CancelarPIX(const AtransactionId: String; AValor: Double);
     function AguardarPagamentoPIX(const JSonPIX: String): Boolean;
 
     function EfetuarAdministrativa(
@@ -152,6 +156,9 @@ type
 
     property ExpiracaoPIX: Integer read FExpiracaoPIX write FExpiracaoPIX default CExpiracaoPIXPadrao;
     property Started: TDateTime read FStarted;
+    property hasBankStone: Boolean read FhasBankStone;
+    property hasPixKey: Boolean read FhasPixKey;
+
     property HTTPResultCode: Integer read FHTTPResultCode;
     property HTTPResponse: AnsiString read FHTTPResponse;
 
@@ -268,17 +275,22 @@ begin
       TipoTransacao := jscard.AsInteger['type'];
     end;
 
-    Sucesso := (NSU <> '');
+    Sucesso := (NSU <> '') or js.AsBoolean['wasSuccessfull'];
+
+    EndToEndID := Trim(js.AsString['endTwoEndIdentification']);
+    if (NSU = '') then
+      NSU := js.AsString['transactionId'];     // PIX
+
+    StatusTransacao := js.AsString['code'];
+    if (StatusTransacao = '') then
+      StatusTransacao := js.AsString['reason'];
+    if (StatusTransacao = '') then
+      StatusTransacao := js.AsString['responseCode'];
+    if (StatusTransacao = '') then
+      StatusTransacao := js.AsString['ResponseCode'];
+
     if not Sucesso then
     begin
-      StatusTransacao := js.AsString['code'];
-      if (StatusTransacao = '') then
-        StatusTransacao := js.AsString['reason'];
-      if (StatusTransacao = '') then
-        StatusTransacao := js.AsString['responseCode'];
-      if (StatusTransacao = '') then
-        StatusTransacao := js.AsString['ResponseCode'];
-
       if (StatusTransacao = 'N013') then
         TextoEspecialOperador := ACBrStr(sACBrStoneAutoTEFN013)
       else if (StatusTransacao = 'N404') then
@@ -326,6 +338,8 @@ begin
   fTimeOut := CStoneAutoTEFTimeOut;
   FHTTP := THTTPSend.Create;
   FStarted := 0;
+  FhasPixKey := False;
+  FhasBankStone := False;
   FExpiracaoPIX := CExpiracaoPIXPadrao;
   fpTEFRespClass := TACBrTEFRespStoneAutoTEF;
   LimparRespostaHTTP;
@@ -491,6 +505,8 @@ begin
     js := TACBrJSONObject.Parse(FHTTPResponse);
     try
       FStarted := js.AsISODateTime['Started'];
+      FhasBankStone := js.AsBoolean['hasBankStone'];
+      FhasPixKey := js.AsBoolean['hasPixKey'];
     finally
       js.Free;
     end;
@@ -530,9 +546,9 @@ var
   sBody, saccountType: String;
   iType: Integer;
 begin
-  if (Modalidade in [tefmpCarteiraVirtual]) then
+  if (Modalidade in [tefmpCarteiraVirtual]) then   // PIX
   begin
-    EfetuarPix(ValorPagto);
+    EnviarPix(ValorPagto);
     Result := (FHTTPResultCode = HTTP_OK);
     if Result then
       Result := AguardarPagamentoPIX(FHTTPResponse);
@@ -541,7 +557,7 @@ begin
 
   LimparRespostaHTTP;
   if not (Modalidade in [tefmpCartao]) then
-    DoException(ACBrStr(Format(sACBrStoneAutoTEFErroModalidadeNaoSuportada,
+    DoException(ACBrStr(Format(sACBrStoneAutoTEFErroNaoSuportada,
        [GetEnumName(TypeInfo(TACBrTEFModalidadePagamento), integer(Modalidade) )])));
 
   VerificarPresencaPinPad;
@@ -599,13 +615,16 @@ begin
   Result := (FHTTPResultCode = HTTP_OK);
 end;
 
-procedure TACBrTEFAPIClassStoneAutoTEF.EfetuarPix(AValor: Double; ExpiraEm: Integer);
+procedure TACBrTEFAPIClassStoneAutoTEF.EnviarPix(AValor: Double; ExpiraEm: Integer);
 var
   js: TACBrJSONObject;
   sBody: String;
 begin
   if (ExpiraEm = 0) then
     ExpiraEm := CExpiracaoPIXPadrao;
+
+  if not (hasPixKey and hasBankStone) then    // https://autotef.readme.io/reference/pix
+    DoException(ACBrStr(sACBrStoneAutoTEFErroSemPIXnaConta));
 
   LimparRespostaHTTP;
   VerificarPresencaPinPad;
@@ -640,6 +659,26 @@ begin
   TransmitirHttp(cHTTPMethodPOST, 'api/Pix/Status', sBody);
 end;
 
+procedure TACBrTEFAPIClassStoneAutoTEF.CancelarPIX(const AtransactionId: String;
+  AValor: Double);
+var
+  js: TACBrJSONObject;
+  sBody: String;
+begin
+  LimparRespostaHTTP;
+
+  js := TACBrJSONObject.Create;
+  try
+    js.AddPair('transactionId', AtransactionId);
+    js.AddPair('amount', AValor);
+    sBody := js.ToJSON;
+  finally
+    js.free;
+  end;
+
+  TransmitirHttp(cHTTPMethodPOST, 'api/Pix/Cancel', sBody);
+end;
+
 function TACBrTEFAPIClassStoneAutoTEF.AguardarPagamentoPIX(const JSonPIX: String
   ): Boolean;
 var
@@ -671,6 +710,7 @@ begin
 
       ConsultarStatusPIX(AtransactionId);
       Ok := (FHTTPResultCode = HTTP_OK);
+
       if Ok then
       begin
         js := TACBrJSONObject.Parse(FHTTPResponse);
@@ -681,6 +721,8 @@ begin
           js.Free;
         end;
       end
+      else if (FHTTPResultCode = 0) then
+        isExpired := True
       else
         TratarRetornoComErro;
 
@@ -740,7 +782,7 @@ begin
     Exit;
   end;
 
-  DoException(ACBrStr(Format(sACBrStoneAutoTEFErroModalidadeNaoSuportada,
+  DoException(ACBrStr(Format(sACBrStoneAutoTEFErroNaoSuportada,
     ['EfetuarAdministrativa( '+GetEnumName(TypeInfo(TACBrTEFOperacao), integer(OperacaoAdm) )+' )'])));
 end;
 
@@ -755,7 +797,7 @@ begin
 
   LimparRespostaHTTP;
   Result := False;
-  DoException(ACBrStr(Format(sACBrStoneAutoTEFErroModalidadeNaoSuportada,
+  DoException(ACBrStr(Format(sACBrStoneAutoTEFErroNaoSuportada,
     ['EfetuarAdministrativa( '+CodOperacaoAdm+' )'])));
 end;
 
@@ -767,18 +809,25 @@ var
   sBody: String;
 begin
   LimparRespostaHTTP;
-  js := TACBrJSONObject.Create;
-  try
-    js.AddPair('acquirerTransactionKey', NSU);
-    js.AddPair('amount', Valor);
-    js.AddPair('transactionType', Rede);
-    js.AddPair('panMask', CodigoFinalizacao);
-    sBody := js.ToJSON;
-  finally
-    js.free;
+
+  if (Length(NSU) >= 27) then  // PIX
+    CancelarPIX(NSU, Valor)
+  else
+  begin
+    js := TACBrJSONObject.Create;
+    try
+      js.AddPair('acquirerTransactionKey', NSU);
+      js.AddPair('amount', Valor);
+      js.AddPair('transactionType', Rede);
+      js.AddPair('panMask', CodigoFinalizacao);
+      sBody := js.ToJSON;
+    finally
+      js.free;
+    end;
+
+    TransmitirHttp(cHTTPMethodPOST, 'api/cancel', sBody);
   end;
 
-  TransmitirHttp(cHTTPMethodPOST, 'api/cancel', sBody);
   Result := (FHTTPResultCode = HTTP_OK);
 end;
 
@@ -832,9 +881,30 @@ end;
 function TACBrTEFAPIClassStoneAutoTEF.ObterDadoPinPad(
   TipoDado: TACBrTEFAPIDadoPinPad; TimeOut: integer; MinLen: SmallInt;
   MaxLen: SmallInt): String;
+var
+  js: TACBrJSONObject;
+  id: Integer;
+  Ok: Boolean;
 begin
-  LimparRespostaHTTP;
-  DoException(ACBrStr(Format(sACBrStoneAutoTEFErroModalidadeNaoSuportada, ['ObterDadoPinPad'])));
+  Result := '';
+  if not (TipoDado in [dpDDDeFone, dpRedDDDeFone, dpCPF, dpRedCPF, dpRG, dpRedRG, dp4UltDigitos]) then
+    DoException(ACBrStr(Format(sACBrStoneAutoTEFErroNaoSuportada,
+       [GetEnumName(TypeInfo(TACBrTEFAPIDadoPinPad), integer(TipoDado) )])));
+
+  id := Integer(TipoDado)+1;
+  TransmitirHttp(cHTTPMethodGET, 'api/Pinpad/GetCardHolderData/'+IntToStr(id));
+  Ok := (FHTTPResultCode = HTTP_OK);
+  if Ok then
+  begin
+    js := TACBrJSONObject.Parse(FHTTPResponse);
+    try
+      Result := Trim(js.AsString['cardHolderData']);
+    finally
+      js.Free;
+    end;
+  end
+  else if (FHTTPResultCode <> 400) then
+    TratarRetornoComErro;
 end;
 
 function TACBrTEFAPIClassStoneAutoTEF.VerificarPresencaPinPad: Byte;
