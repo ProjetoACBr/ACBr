@@ -284,7 +284,7 @@ begin
       if (TACBrNFe(ACBrNFe).DANFE.ClassName = 'TACBrNFeDANFCEFR') or
          (TACBrNFe(ACBrNFe).DANFE.ClassName = 'TACBrNFeDANFEFR') then
       begin
-        if FIndexImpressaoIndividual = 0 then
+        if FIndexImpressaoIndividual <= 0 then
           FIndexImpressaoIndividual := 1;
         ANFe := TACBrNFe(ACBrNFe).NotasFiscais[FIndexImpressaoIndividual - 1].NFe
       end else
