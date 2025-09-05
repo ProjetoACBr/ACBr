@@ -63,6 +63,9 @@
         cobBancoSisprime = 58,
         cobBancoAilos = 59,
         cobBancoCora = 60,
-        cobBancoSulcredi = 61
+        cobBancoSulcredi = 61,
+        cobBancoCredisan = 62,
+        cobBancoSofisa = 63,
+        cobBancoVortx = 64
     }
 }
