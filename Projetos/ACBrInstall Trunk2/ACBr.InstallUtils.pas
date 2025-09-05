@@ -301,6 +301,8 @@ begin
     Result := 'Delphi 11 Alexandria'
   else if AVersionStr = 'd29' then
     Result := 'Delphi 12 Athens'
+  else if AVersionStr = 'd37' then
+    Result := 'Delphi 13 Florence'    
   else
     Result := ' - ';
 end;
