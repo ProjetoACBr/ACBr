@@ -497,7 +497,6 @@ begin
           Sleep(AguardarConsultaRet);
 
           qTentativas := 0;
-          Situacao := 0;
           Intervalo := max(IntervaloTentativas, 1000);
 
           while True do

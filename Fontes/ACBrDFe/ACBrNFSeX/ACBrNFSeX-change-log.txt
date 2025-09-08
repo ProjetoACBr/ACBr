@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 08/09/2025
+-- ACBrNFSeXGravarXml/ACBrNFSeXLerXml/PadraoNacional.GravarXml/PadraoNacional.LerXml --
+[*] #ACBr-7925 Alterações visando deixar o componente em conformidade com a NT 2025/004 da 
+    Reforma Tributária.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXLerXml_ABRASFv2/Libre.GravarXml/Libre.LerXml/Libre.Provider --
 [*] #ACBr-8004 O provedor Libre não gera o XML conforme o padrão, ajustes para a 
     leitura das informações da Identificação do Prestador.
