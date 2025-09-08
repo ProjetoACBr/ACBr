@@ -611,6 +611,9 @@ const
   CMetodoGerarPDFBoletoComSenha =    'gerarpdfboletocomsenha';
   CMetodoSetMotorBoletoRelatorio =   'setmotorboletorelatorio';
   CMetodoSetMargem  =                'setmargem';
+  CMetodoInformarToken =             'informartoken';
+  CMetodoRecuperarToken =            'recuperartoken';
+  CMetodoAutenticarToken =           'autenticartoken';
 
   CMetodoAtivar =               'ativar';
   CMetodoDesativar =            'desativar';
