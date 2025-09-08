@@ -52,6 +52,7 @@ type
     function Recepcionar(const ACabecalho, AMSG: String): string; override;
     function GerarNFSe(const ACabecalho, AMSG: String): string; override;
     function ConsultarLote(const ACabecalho, AMSG: String): string; override;
+    function ConsultarNFSePorRps(const ACabecalho, AMSG: String): string; override;
     function Cancelar(const ACabecalho, AMSG: String): string; override;
 
     function TratarXmlRetornado(const aXML: string): string; override;
@@ -76,6 +77,9 @@ type
     procedure PrepararConsultaLoteRps(Response: TNFSeConsultaLoteRpsResponse); override;
     procedure TratarRetornoConsultaLoteRps(Response: TNFSeConsultaLoteRpsResponse); override;
 
+    procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
+    procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
+
     procedure PrepararCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
     procedure TratarRetornoCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
 
@@ -89,6 +93,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Base, ACBrUtil.XMLHTML, ACBrUtil.Strings,
   ACBrDFeException,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts,
@@ -113,6 +118,7 @@ begin
     ServicosDisponibilizados.EnviarLoteAssincrono := True;
     ServicosDisponibilizados.EnviarUnitario := True;
     ServicosDisponibilizados.ConsultarLote := True;
+    ServicosDisponibilizados.ConsultarRps := True;
     ServicosDisponibilizados.CancelarNfse := True;
 
     Particularidades.PermiteTagOutrasInformacoes := True;
@@ -451,6 +457,115 @@ begin
   end;
 end;
 
+procedure TACBrNFSeProvidereGoverneISS.PrepararConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+  Emitente: TEmitenteConfNFSe;
+begin
+  if EstaVazio(Response.NumeroRps) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod102;
+    AErro.Descricao := ACBrStr(Desc102);
+    Exit;
+  end;
+
+  Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+
+  Response.ArquivoEnvio := '<eis:ChaveAutenticacao>' +
+                              Emitente.WSChaveAcesso +
+                           '</eis:ChaveAutenticacao>' +
+                           '<eis:NumeroReciboUnico>' +
+                              Response.NumeroRps +
+                           '</eis:NumeroReciboUnico>';
+end;
+
+procedure TACBrNFSeProvidereGoverneISS.TratarRetornoConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  Document: TACBrXmlDocument;
+  AErro: TNFSeEventoCollectionItem;
+  AResumo: TNFSeResumoCollectionItem;
+  ANode: TACBrXmlNode;
+  I: Integer;
+  ANodeArray: TACBrXmlNodeArray;
+  xMensagemErro: string;
+begin
+  Document := TACBrXmlDocument.Create;
+
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit
+      end;
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+
+      ProcessarMensagemErros(Document.Root, Response, '', 'ConsultarResult');
+
+      Response.Sucesso := (Response.Erros.Count = 0);
+
+      ANode := Document.Root.Childrens.FindAnyNs('ConsultarResult');
+
+      if ANode <> nil then
+      begin
+        ANode := ANode.Childrens.FindAnyNs('NotasGeradas');
+
+        if ANode <> nil then
+        begin
+          ANodeArray := ANode.Childrens.FindAllAnyNs('NotaFiscalLoteGeradaDTO');
+
+          if Assigned(ANodeArray) then
+          begin
+            for I := Low(ANodeArray) to High(ANodeArray) do
+            begin
+              ANode := ANodeArray[I];
+
+              xMensagemErro := ObterConteudoTag(ANode.Childrens.FindAnyNs('MensagemErro'), tcStr);
+
+              if xMensagemErro <> '' then
+              begin
+                AErro := Response.Erros.New;
+                AErro.Codigo := '';
+                AErro.Descricao := ACBrStr(xMensagemErro);
+              end;
+
+              with Response do
+              begin
+                NumeroNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('Numero'), tcStr);
+
+                CodigoVerificacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('Autenticador'), tcStr);
+
+                Link := ObterConteudoTag(ANode.Childrens.FindAnyNs('Link'), tcStr);
+                Link := StringReplace(Link, '&amp;', '&', [rfReplaceAll]);
+              end;
+
+              AResumo := Response.Resumos.New;
+              AResumo.NumeroNota := Response.NumeroNota;
+              AResumo.CodigoVerificacao := Response.CodigoVerificacao;
+              AResumo.Link := Response.Link;
+            end;
+          end;
+        end;
+      end;
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
+  end;
+end;
+
 procedure TACBrNFSeProvidereGoverneISS.PrepararCancelaNFSe(
   Response: TNFSeCancelaNFSeResponse);
 var
@@ -571,6 +686,25 @@ begin
   Request := Request + '</tem:ConsultarLote>';
 
   Result := Executar('http://tempuri.org/INotaFiscalEletronicaServico/ConsultarLote', Request,
+                     [],
+                     ['xmlns:tem="http://tempuri.org/"',
+                      'xmlns:eis="http://schemas.datacontract.org/2004/07/Eissnfe.Negocio.WebServices.Mensagem"',
+                      'xmlns:eis1="http://schemas.datacontract.org/2004/07/Eissnfe.Dominio.DataTransferObject.Prestador"',
+                      'xmlns:eis2="http://schemas.datacontract.org/2004/07/Eissnfe.Dominio.DataTransferObject.Contribuinte"']);
+end;
+
+function TACBrNFSeXWebserviceeGoverneISS.ConsultarNFSePorRps(const ACabecalho,
+  AMSG: String): string;
+var
+  Request: string;
+begin
+  FPMsgOrig := AMSG;
+
+  Request := '<tem:Consultar>';
+  Request := Request + '<tem:request>' + AMSG + '</tem:request>';
+  Request := Request + '</tem:Consultar>';
+
+  Result := Executar('http://tempuri.org/INotaFiscalEletronicaServico/Consultar', Request,
                      [],
                      ['xmlns:tem="http://tempuri.org/"',
                       'xmlns:eis="http://schemas.datacontract.org/2004/07/Eissnfe.Negocio.WebServices.Mensagem"',
