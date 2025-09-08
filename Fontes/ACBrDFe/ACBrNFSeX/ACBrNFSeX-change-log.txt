@@ -70,6 +70,8 @@ Símbolo : Significado
    Por: Hetosoft Sistemas/Aécio Soares Ferreira
 [*] #ACBr-8011 A cidade São Gonçalo/RJ trocou de provedor, agora é ISSIntel
    Por: Gladston
+[+] #ACBR-8002 - Implementado método ImprimirDANFSePDF em stream no DANFSe em FPDF - https://www.projetoacbr.com.br/forum/topic/85437-m%C3%A9todo-nfse_salvarpdf-do-acbrlibnfse-retorna-erro-no-linux-ubuntu/
+   Por: Renato Rubinho
 
 04/09/2025
 -- ACBrNFSeXServicos --

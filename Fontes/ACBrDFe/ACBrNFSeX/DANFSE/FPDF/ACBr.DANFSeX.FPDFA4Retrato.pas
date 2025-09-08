@@ -103,6 +103,7 @@ type
     constructor Create; reintroduce; overload;
     constructor Create(ANFSe: TNFSe); reintroduce; overload;
 
+    procedure SalvarPDF(DadosAuxDANFSe: TDadosNecessariosParaDANFSeX; AStream: TStream); overload;
     procedure SalvarPDF(DadosAuxDANFSe: TDadosNecessariosParaDANFSeX; const NomeArquivoDestinoPDF: String); overload;
     procedure SalvarPDF(NFSe: TNFSe; DadosAuxDANFSe: TDadosNecessariosParaDANFSeX; const NomeArquivoDestinoPDF: String); overload;
 
@@ -863,6 +864,18 @@ begin
   end;
 end;
 
+procedure TACBrDANFSeFPDFA4Retrato.SalvarPDF(DadosAuxDANFSe: TDadosNecessariosParaDANFSeX; AStream: TStream);
+var
+  Engine: TFPDFEngine;
+begin
+  Engine := TFPDFEngine.Create(Self, False);
+  try
+    Engine.SaveToStream(AStream);
+  finally
+    Engine.Free;
+  end;
+end;
+
 procedure TACBrDANFSeFPDFA4Retrato.SalvarPDF(DadosAuxDANFSe: TDadosNecessariosParaDANFSeX;
   const NomeArquivoDestinoPDF: String);
 var
@@ -874,13 +887,10 @@ begin
   finally
     Engine.Free;
   end;
-
 end;
 
 procedure TACBrDANFSeFPDFA4Retrato.SalvarPDF(NFSe: TNFSe; DadosAuxDANFSe: TDadosNecessariosParaDANFSeX;
   const NomeArquivoDestinoPDF: String);
-var
-  Engine: TFPDFEngine;
 begin
   Self.FNFSe := NFSe;
 

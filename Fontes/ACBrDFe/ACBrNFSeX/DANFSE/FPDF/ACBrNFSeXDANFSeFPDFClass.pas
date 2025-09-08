@@ -49,7 +49,7 @@ type
   {$ENDIF RTL230_UP}
   TACBrNFSeXDANFSeFPDF = class(TACBrNFSeXDANFSeClass)
   private
-    procedure ExecutaImpressaoPDFUmaNFSe(var UmaNFSe: TNFSe);
+    procedure ExecutaImpressaoPDFUmaNFSe(var UmaNFSe: TNFSe; AStream: TStream);
   protected
 //    FPrintDialog: boolean;
 //	  FDetalharServico : Boolean;
@@ -59,6 +59,7 @@ type
     destructor Destroy; override;
     procedure ImprimirDANFSe(NFSe: TNFSe = nil); override;
     procedure ImprimirDANFSePDF(NFSe: TNFSe = nil); override;
+    procedure ImprimirDANFSePDF(AStream: TStream; NFSe: TNFSe = nil); overload; override;
   published
 //    property PrintDialog: boolean read FPrintDialog write FPrintDialog;
 //    property DetalharServico: Boolean read FDetalharServico write FDetalharServico default False;
@@ -115,7 +116,7 @@ begin
 //  TfrlDANFSeRLRetrato.Imprimir(Self, Notas);
 end;
 
-procedure TACBrNFSeXDANFSeFPDF.ExecutaImpressaoPDFUmaNFSe(var UmaNFSe: TNFSe);
+procedure TACBrNFSeXDANFSeFPDF.ExecutaImpressaoPDFUmaNFSe(var UmaNFSe: TNFSe; AStream: TStream);
 var
   FProvider: IACBrNFSeXProvider;
   DadosAux: TDadosNecessariosParaDANFSeX;
@@ -162,7 +163,10 @@ begin
       Report.QuebraDeLinha   := DadosAux.QuebradeLinha;
       Report.MensagemRodape := Format('Impresso em %s||%s', [FormatDateTime('dd/mm/yyy HH:nn:ss', Now), Self.Sistema]);
 
-      report.SalvarPDF(DadosAux, FPArquivoPDF);
+      if Assigned(AStream) then
+        Report.SalvarPDF(DadosAux, AStream)
+      else
+        Report.SalvarPDF(DadosAux, FPArquivoPDF);
     finally
       Report.Free;
     end;
@@ -171,8 +175,12 @@ begin
   end;
 end;
 
+procedure TACBrNFSeXDANFSeFPDF.ImprimirDANFSePDF(NFSe: TNFSe);
+begin
+  ImprimirDANFSePDF(nil, NFSe);
+end;
 
-procedure TACBrNFSeXDANFSeFPDF.ImprimirDANFSePDF(NFSe: TNFSe = nil);
+procedure TACBrNFSeXDANFSeFPDF.ImprimirDANFSePDF(AStream: TStream; NFSe: TNFSe);
 var
   i: integer;
   UmaNFSe: TNFSe;
@@ -182,16 +190,14 @@ begin
     for i := 0 to TACBrNFSeX(ACBrNFSe).NotasFiscais.Count - 1 do
     begin
       UmaNFSe := TACBrNFSeX(ACBrNFSe).NotasFiscais.Items[i].NFSe;
-      ExecutaImpressaoPDFUmaNFSe(UmaNFSe);
+      ExecutaImpressaoPDFUmaNFSe(UmaNFSe, AStream);
     end;
   end
   else
   begin
     UmaNFSe := NFSe;
-    ExecutaImpressaoPDFUmaNFSe(UmaNFSe);
+    ExecutaImpressaoPDFUmaNFSe(UmaNFSe, AStream);
   end;
-
-
 end;
 
 end.
