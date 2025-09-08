@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 08/09/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8017 Alterado as URLs da cidade Birigui/SP, o provedor continua o mesmo.
+   Por: CONCEPT AUTOMACAO
+[*] #ACBr-8015 Alterado as URLs da cidade Bom Despacho/MG, o provedor continua o mesmo.
+   Por: Pedro A. Araújo
+[*] #ACBr-8019 Alterado as URLs da cidade Colombo/PR, o provedor continua o mesmo.
+   Por: Marcos Villatore/Fabio Mauricio F
 -- eGoverneISS.GravarXml/eGoverneISS.LerXml/eGoverneISS.Provider --
 [+] #ACBr-8000 Implementado o ConsultarNFSePorRps.
    Por: Microtecs/Italo Giurizzato Junior
