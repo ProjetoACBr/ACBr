@@ -38,6 +38,9 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
+  ACBrXmlDocument,
   ACBrNFSeXLerXml_ABRASFv2;
 
 type
@@ -45,7 +48,7 @@ type
 
   TNFSeR_Libre204 = class(TNFSeR_ABRASFv2)
   protected
-
+    procedure LerPrestadorServico(const ANode: TACBrXmlNode); override;
   public
 
   end;
@@ -56,5 +59,31 @@ implementation
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:
 //     Libre
 //==============================================================================
+
+{ TNFSeR_Libre204 }
+
+procedure TNFSeR_Libre204.LerPrestadorServico(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+begin
+  if not Assigned(ANode) then Exit;
+
+  AuxNode := ANode.Childrens.FindAnyNs('Prestador');
+
+  if AuxNode <> nil then
+  begin
+    LerIdentificacaoPrestador(AuxNode);
+
+    with NFSe.Prestador do
+    begin
+      RazaoSocial := ObterConteudo(AuxNode.Childrens.FindAnyNs('RazaoSocial'), tcStr);
+      RazaoSocial := StringReplace(RazaoSocial, '&amp;', '&', [rfReplaceAll]);
+      NomeFantasia := ObterConteudo(AuxNode.Childrens.FindAnyNs('NomeFantasia'), tcStr);
+    end;
+
+    LerEnderecoPrestadorServico(AuxNode, 'Endereco');
+    LerContatoPrestador(AuxNode);
+  end;
+end;
 
 end.

@@ -64,7 +64,7 @@ type
 
     procedure LerValoresNfse(const ANode: TACBrXmlNode);
 
-    procedure LerPrestadorServico(const ANode: TACBrXmlNode);
+    procedure LerPrestadorServico(const ANode: TACBrXmlNode); virtual;
     procedure LerEnderecoPrestadorServico(const ANode: TACBrXmlNode; const aTag: string); virtual;
     procedure LerContatoPrestadorServico(const ANode: TACBrXmlNode);
     procedure LerContatoPrestador(const ANode: TACBrXmlNode);
@@ -822,7 +822,6 @@ begin
 
   if AuxNode = nil then
     AuxNode := ANode.Childrens.FindAnyNs('Prestador');
-
 
   if AuxNode <> nil then
   begin

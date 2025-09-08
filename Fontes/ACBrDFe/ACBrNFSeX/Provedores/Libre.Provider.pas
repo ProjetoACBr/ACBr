@@ -76,6 +76,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrDFeException, ACBrNFSeX, ACBrUtil.XMLHTML,
   Libre.GravarXml, Libre.LerXml;
 

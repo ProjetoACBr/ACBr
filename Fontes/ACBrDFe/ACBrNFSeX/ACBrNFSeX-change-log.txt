@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 08/09/2025
+-- ACBrNFSeXLerXml_ABRASFv2/Libre.GravarXml/Libre.LerXml/Libre.Provider --
+[*] #ACBr-8004 O provedor Libre não gera o XML conforme o padrão, ajustes para a 
+    leitura das informações da Identificação do Prestador.
+   Por: Bruno Italo/Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [+] #ACBr-8003 Incluída a cidade Aripuana/MT,o provedor é Agili.
    Por: Light System Software
