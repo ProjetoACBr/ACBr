@@ -1,8 +1,10 @@
-﻿using ACBrLib.Core;
+﻿using System;
+using ACBrLib.Core;
 
 namespace ACBrLib.NFe
 {
-    public enum TipoClassTribIS
+    [Obsolete("Foi alterado para string, deixou de ser eNUM", false)]
+    public enum TipoClassTribIS 
     {
         [EnumValue("")]
         ctisNenhum,
