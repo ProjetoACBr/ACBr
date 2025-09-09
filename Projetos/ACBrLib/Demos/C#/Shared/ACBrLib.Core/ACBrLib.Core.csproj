@@ -15,10 +15,10 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <Version>1.2.28.0</Version>
-    <AssemblyVersion>1.2.28.0</AssemblyVersion>
-    <FileVersion>1.2.28.0</FileVersion>
-    <Platforms>AnyCPU</Platforms>
+    <Version>1.2.30.0</Version>
+    <AssemblyVersion>1.2.30.0</AssemblyVersion>
+    <FileVersion>1.2.30.0</FileVersion>
+    <Platforms>AnyCPU;x86</Platforms>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>ProJetoACBr.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
