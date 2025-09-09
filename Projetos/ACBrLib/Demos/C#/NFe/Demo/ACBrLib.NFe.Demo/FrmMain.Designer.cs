@@ -86,6 +86,7 @@
             this.cmbUfDestino = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnOpenSSLInfo = new System.Windows.Forms.Button();
             this.btnObterCertificados = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label26 = new System.Windows.Forms.Label();
@@ -175,7 +176,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.btnOpenSSLInfo = new System.Windows.Forms.Button();
+            this.btn_GerarXmlClass = new System.Windows.Forms.Button();
+            this.btnClasseAltoNivel = new System.Windows.Forms.Button();
             this.btnSalvarPDF = new System.Windows.Forms.Button();
             this.btnGerarChave = new System.Windows.Forms.Button();
             this.btnLimparLista = new System.Windows.Forms.Button();
@@ -212,7 +214,6 @@
             this.btnDFePorNSU = new System.Windows.Forms.Button();
             this.btnDFePorChave = new System.Windows.Forms.Button();
             this.btnCarregarConfiguracoes = new System.Windows.Forms.Button();
-            this.btnClasseAltoNivel = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tbpConfiguracoes.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -916,6 +917,16 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Certificados";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btnOpenSSLInfo
+            // 
+            this.btnOpenSSLInfo.Location = new System.Drawing.Point(6, 344);
+            this.btnOpenSSLInfo.Name = "btnOpenSSLInfo";
+            this.btnOpenSSLInfo.Size = new System.Drawing.Size(118, 23);
+            this.btnOpenSSLInfo.TabIndex = 21;
+            this.btnOpenSSLInfo.Text = "OpenSSLInfo";
+            this.btnOpenSSLInfo.UseVisualStyleBackColor = true;
+            this.btnOpenSSLInfo.Click += new System.EventHandler(this.btnOpenSSLInfo_Click);
             // 
             // btnObterCertificados
             // 
@@ -1867,6 +1878,7 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.btn_GerarXmlClass);
             this.tabPage5.Controls.Add(this.btnClasseAltoNivel);
             this.tabPage5.Controls.Add(this.btnSalvarPDF);
             this.tabPage5.Controls.Add(this.btnGerarChave);
@@ -1889,15 +1901,25 @@
             this.tabPage5.Text = "Envio";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // btnOpenSSLInfo
+            // btn_GerarXmlClass
             // 
-            this.btnOpenSSLInfo.Location = new System.Drawing.Point(6, 344);
-            this.btnOpenSSLInfo.Name = "btnOpenSSLInfo";
-            this.btnOpenSSLInfo.Size = new System.Drawing.Size(118, 23);
-            this.btnOpenSSLInfo.TabIndex = 21;
-            this.btnOpenSSLInfo.Text = "OpenSSLInfo";
-            this.btnOpenSSLInfo.UseVisualStyleBackColor = true;
-            this.btnOpenSSLInfo.Click += new System.EventHandler(this.btnOpenSSLInfo_Click);
+            this.btn_GerarXmlClass.Location = new System.Drawing.Point(130, 151);
+            this.btn_GerarXmlClass.Name = "btn_GerarXmlClass";
+            this.btn_GerarXmlClass.Size = new System.Drawing.Size(113, 24);
+            this.btn_GerarXmlClass.TabIndex = 29;
+            this.btn_GerarXmlClass.Text = "Gerar XML Classe";
+            this.btn_GerarXmlClass.UseVisualStyleBackColor = true;
+            this.btn_GerarXmlClass.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnClasseAltoNivel
+            // 
+            this.btnClasseAltoNivel.Location = new System.Drawing.Point(254, 151);
+            this.btnClasseAltoNivel.Name = "btnClasseAltoNivel";
+            this.btnClasseAltoNivel.Size = new System.Drawing.Size(118, 23);
+            this.btnClasseAltoNivel.TabIndex = 28;
+            this.btnClasseAltoNivel.Text = "Classe Alto Nivel";
+            this.btnClasseAltoNivel.UseVisualStyleBackColor = true;
+            this.btnClasseAltoNivel.Click += new System.EventHandler(this.btnClasseAltoNivel_Click);
             // 
             // btnSalvarPDF
             // 
@@ -2275,16 +2297,6 @@
             this.btnCarregarConfiguracoes.UseVisualStyleBackColor = true;
             this.btnCarregarConfiguracoes.Click += new System.EventHandler(this.btnCarregarConfiguracoes_Click);
             // 
-            // btnClasseAltoNivel
-            // 
-            this.btnClasseAltoNivel.Location = new System.Drawing.Point(254, 154);
-            this.btnClasseAltoNivel.Name = "btnClasseAltoNivel";
-            this.btnClasseAltoNivel.Size = new System.Drawing.Size(118, 23);
-            this.btnClasseAltoNivel.TabIndex = 28;
-            this.btnClasseAltoNivel.Text = "Classe Alto Nivel";
-            this.btnClasseAltoNivel.UseVisualStyleBackColor = true;
-            this.btnClasseAltoNivel.Click += new System.EventHandler(this.btnClasseAltoNivel_Click);
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2540,6 +2552,7 @@
         private System.Windows.Forms.Button btnSalvarPDF;
         private System.Windows.Forms.Button btnClasseAltoNivel;
         private System.Windows.Forms.Button btnOpenSSLInfo;
+        private System.Windows.Forms.Button btn_GerarXmlClass;
     }
 }
 
