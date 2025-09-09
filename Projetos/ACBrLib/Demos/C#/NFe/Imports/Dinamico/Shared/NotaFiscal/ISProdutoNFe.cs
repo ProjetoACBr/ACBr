@@ -15,7 +15,7 @@
         /// <summary>
         /// Código de Classificação Tribútária do Imposto Seletivo
         /// </summary>
-        public TipoClassTribIS cClassTribIS { get; set; }
+        public string cClassTribIS { get; set; }
 
         /// <summary>
         /// Valor da Báse de Cálculo do Imposto Seletivo

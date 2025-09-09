@@ -232,7 +232,9 @@ namespace ACBrLib.NFe
 
                 if (produto.IBSCBS.CST != CSTIBSCBS.cstNenhum)
                 {
+                    //produto.IBSCBS.CST 
                     iniData.WriteToIni(produto.IBSCBS, $"IBSCBS{i + 1:000}");
+
                     if (produto.IBSCBS.gIBSCBS.vBC > 0)
                     {
                         iniData.WriteToIni(produto.IBSCBS.gIBSCBS, $"gIBSCBS{i + 1:000}");
@@ -252,26 +254,39 @@ namespace ACBrLib.NFe
                         {
                             iniData.WriteToIni(produto.IBSCBS.gIBSCBS.gCBSCredPres, $"gCBSCredPres{i + 1:000}");
                         }
-                    }else if (produto.IBSCBS.gIBSCBSMono.adRemIBS > 0)
+                    }
+                    else if (produto.IBSCBS.gIBSCBSMono.vTotCBSMonoItem > 0)
                     {
                         iniData.WriteToIni(produto.IBSCBS.gIBSCBSMono, $"gIBSCBSMono{i + 1:000}");
+
+                        if (produto.IBSCBS.gMonoPadrao.qBCMono >= 0)
+                        {
+                            iniData.WriteToIni(produto.IBSCBS.gMonoPadrao, $"gMonoPadrao{i + 1:000}");                          
+                        }
+                        if (produto.IBSCBS.gMonoReten.qBCMonoReten >= 0)
+                        {
+                            iniData.WriteToIni(produto.IBSCBS.gMonoReten, $"gMonoReten{i + 1:000}");
+                        }
+                        if (produto.IBSCBS.gMonoRet.qBCMonoRet >= 0)
+                        {
+                            iniData.WriteToIni(produto.IBSCBS.gMonoRet, $"gMonoRet{i + 1:000}");
+                        }
+                        if (produto.IBSCBS.gMonoDif.pDifIBS >= 0)
+                        {
+                            iniData.WriteToIni(produto.IBSCBS.gMonoDif, $"gMonoDif{i + 1:000}");
+                        }
                     }
-                    else
-                    {
-                        if (Identificacao.modelo == Core.NFe.ModeloNFe.moNFe &&
-                            produto.IBSCBS?.CST == CSTIBSCBS.cst800)
+                    else if (Identificacao.modelo == Core.NFe.ModeloNFe.moNFe &&
+                            produto.IBSCBS.gTransfCred.vIBS > 0)
                         {
                             iniData.WriteToIni(produto.IBSCBS.gTransfCred, $"gTransfCred{i + 1:000}");
                         }
-                    }
-
-                    if (Identificacao.modelo == Core.NFe.ModeloNFe.moNFe &&
+                    else if (Identificacao.modelo == Core.NFe.ModeloNFe.moNFe &&
                             produto.IBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM != TipoCredPresIBSZFM.tcpNenhum)
                     {
                         iniData.WriteToIni(produto.IBSCBS.gCredPresIBSZFM, $"gCredPresIBSZFM{i + 1:000}");
                     }
-
-                    if (produto.IBSCBS.gIBSCBS.gTribCompraGov.pAliqIBSUF > 0)
+                    else if (produto.IBSCBS.gIBSCBS.gTribCompraGov.pAliqIBSUF > 0)
                     {
                         iniData.WriteToIni(produto.IBSCBS.gIBSCBS.gTribCompraGov, $"gTribCompraGov{i + 1:000}");
                     }
