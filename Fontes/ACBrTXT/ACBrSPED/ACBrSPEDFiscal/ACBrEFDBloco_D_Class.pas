@@ -1878,7 +1878,25 @@ begin
      begin
         with RegD001.RegistroD600.Items[intFor] do
         begin
-          Add( LFill('D600') ) ;
+          Add( LFill('D600')           +
+               LFill( COD_MOD )        +
+               LFill( COD_MUN, 7 )     +
+               LFill( SER,4  )         +
+               LFill( SUB,3 )          +
+               LFill( COD_CONS,2 )     +
+               LFill( QTD_CONS,0 )     +
+               LFill( DT_DOC )         +
+               LFill( VL_DOC,0,2 )     +
+               LFill( VL_DESC,0,2 )    +
+               LFill( VL_SERV,0,2 )    +
+               LFill( VL_SERV_NT,0,2 ) +
+               LFill( VL_TERC,0,2 )    +
+               LFill( VL_DA,0,2 )      +
+               LFill( VL_BC_ICMS,0,2 ) +
+               LFill( VL_ICMS,0,2 )    +
+               LFill( VL_PIS,0,2 )     +
+               LFill( VL_COFINS,0,2 )
+          ) ;
         end;
         /// Registros FILHOS
         WriteRegistroD610( RegD001.RegistroD600.Items[intFor] ) ;
@@ -1906,7 +1924,13 @@ begin
      begin
         with RegD600.RegistroD610.Items[intFor] do
         begin
-          Add( LFill('D610') ) ;
+          Add( LFill('D610')      +
+               LFill(COD_CLASS,0) +
+               LFill(COD_ITEM)    +
+               LFill(QTD,0,3)     +
+               LFill(UNID)        +
+               LFill(VL_ITEM,0,2)
+          );
         end;
         RegistroD990.QTD_LIN_D := RegistroD990.QTD_LIN_D + 1;
      end;
@@ -1930,7 +1954,18 @@ begin
      begin
         with RegD600.RegistroD690.Items[intFor] do
         begin
-          Add( LFill('D690') ) ;
+          Add( LFill('D690') +
+               LFill( CST_ICMS,3 )        +
+               LFill( CFOP,4 )            +
+               LFill( ALIQ_ICMS,6,2 )     +
+               LFill( VL_OPR,0,2 )        +
+               LFill( VL_BC_ICMS,0,2 )    +
+               LFill( VL_ICMS,0,2 )       +
+               LFill( VL_BC_ICMS_UF,0,2 ) +
+               LFill( VL_ICMS_UF,0,2 )    +
+               LFill( VL_RED_BC,0,2 )     +
+               LFill( COD_OBS )
+          ) ;
         end;
         RegistroD990.QTD_LIN_D := RegistroD990.QTD_LIN_D + 1;
      end;

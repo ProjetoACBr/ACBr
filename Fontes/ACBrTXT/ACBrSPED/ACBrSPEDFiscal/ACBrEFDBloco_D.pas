@@ -1376,11 +1376,48 @@ type
 
   TRegistroD600 = class
   private
+    FCOD_MOD: String;
+    FCOD_MUN: String;
+    FSER: String;
+    FSUB: Integer;
+    FCOD_CONS: Integer;
+    FQTD_CONS: Integer;
+    FDT_DOC: TDateTime;
+    FVL_DOC: Currency;
+    FVL_DESC: Currency;
+    FVL_SERV: Currency;
+    FVL_SERV_NT: Currency;
+    FVL_TERC: Currency;
+    FVL_DA: Currency;
+    FVL_BC_ICMS: Currency;
+    FVL_ICMS: Currency;
+    FVL_PIS: Currency;
+    FVL_COFINS: Currency;
+
+
     FRegistroD610: TRegistroD610List;
     FRegistroD690: TRegistroD690List;
   public
     constructor Create; virtual; /// Create
     destructor Destroy; override; /// Destroy
+
+    property COD_MOD: String read FCOD_MOD write FCOD_MOD;
+    property COD_MUN: String read FCOD_MUN write FCOD_MUN;
+    property SER: String read FSER write FSER;
+    property SUB: Integer read FSUB write FSUB;
+    property COD_CONS: Integer read FCOD_CONS write FCOD_CONS;
+    property QTD_CONS: Integer read FQTD_CONS write FQTD_CONS;
+    property DT_DOC: TDateTime read FDT_DOC write FDT_DOC;
+    property VL_DOC: Currency read FVL_DOC write FVL_DOC;
+    property VL_DESC: Currency read FVL_DESC write FVL_DESC;
+    property VL_SERV: Currency read FVL_SERV write FVL_SERV;
+    property VL_SERV_NT: Currency read FVL_SERV_NT write FVL_SERV_NT;
+    property VL_TERC: Currency read FVL_TERC write FVL_TERC;
+    property VL_DA: Currency read FVL_DA write FVL_DA;
+    property VL_BC_ICMS: Currency read FVL_BC_ICMS write FVL_BC_ICMS;
+    property VL_ICMS: Currency read FVL_ICMS write FVL_ICMS;
+    property VL_PIS: Currency read FVL_PIS write FVL_PIS;
+    property VL_COFINS: Currency read FVL_COFINS write FVL_COFINS;
 
     property RegistroD610: TRegistroD610List read FRegistroD610 write FRegistroD610;
     property RegistroD690: TRegistroD690List read FRegistroD690 write FRegistroD690;
@@ -1399,7 +1436,17 @@ type
 
   TRegistroD610 = class
   private
+    FCOD_CLASS: Integer;
+    FCOD_ITEM: String;
+    FQTD: Currency;
+    FUNID: String;
+    FVL_ITEM: Currency;
   public
+    property COD_CLASS: Integer read FCOD_CLASS write FCOD_CLASS;
+    property COD_ITEM: String read FCOD_ITEM write FCOD_ITEM;
+    property QTD: Currency read FQTD write FQTD;
+    property UNID: String read FUNID write FUNID;
+    property VL_ITEM: Currency read FVL_ITEM write FVL_ITEM;
   end;
 
   TRegistroD610List = class(TObjectList)
@@ -1415,7 +1462,27 @@ type
 
   TRegistroD690 = class
   private
+    FCST_ICMS:String;
+    FCFOP: String;
+    FALIQ_ICMS: Currency;
+    FVL_OPR: Currency;
+    FVL_BC_ICMS: Currency;
+    FVL_ICMS: Currency;
+    FVL_BC_ICMS_UF: Currency;
+    FVL_ICMS_UF: Currency;
+    FVL_RED_BC: Currency;
+    FCOD_OBS: String;
   public
+    property CST_ICMS:String read FCST_ICMS write FCST_ICMS;
+    property CFOP: String read FCFOP write FCFOP;
+    property ALIQ_ICMS: Currency read FALIQ_ICMS write FALIQ_ICMS;
+    property VL_OPR: Currency read FVL_OPR write FVL_OPR;
+    property VL_BC_ICMS: Currency read FVL_BC_ICMS write FVL_BC_ICMS;
+    property VL_ICMS: Currency read FVL_ICMS write FVL_ICMS;
+    property VL_BC_ICMS_UF: Currency read FVL_BC_ICMS_UF write FVL_BC_ICMS_UF;
+    property VL_ICMS_UF: Currency read FVL_ICMS_UF write FVL_ICMS_UF;
+    property VL_RED_BC: Currency read FVL_RED_BC write FVL_RED_BC;
+    property COD_OBS: String read FCOD_OBS write FCOD_OBS;
   end;
 
   TRegistroD690List = class(TObjectList)
