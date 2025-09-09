@@ -1,7 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace ACBrLib.Core.DFe
 {
+    [Obsolete("Foi alterado para string.Nao usar eNUM", false)]
     public enum cClassTribIBSCBS
     {
         [EnumValue("")]

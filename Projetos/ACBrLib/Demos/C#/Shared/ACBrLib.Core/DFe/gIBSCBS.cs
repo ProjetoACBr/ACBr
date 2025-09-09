@@ -57,10 +57,6 @@ namespace ACBrLib.NFe
 
         public gMonoReten gMonoReten { get; }
 
-        //public gMonoRet gMonoRet { get; }
-        //public gMonoDif gMonoDif { get; }
-
-
         #endregion Properties
     }
 }
