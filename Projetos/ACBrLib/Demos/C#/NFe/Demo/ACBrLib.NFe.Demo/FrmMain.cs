@@ -124,12 +124,14 @@ namespace ACBrLib.NFe.Demo
             notaFiscal.Identificacao.indIntermed = IndIntermed.iiSemOperacao;
             notaFiscal.Identificacao.verProc = "ACBrNFe";
             //Reforma tributária
+            /*
             notaFiscal.Identificacao.cMunFGIBS = 3554003;
             notaFiscal.Identificacao.tpNFCredito = TipoNFeCredito.tcApropriacaoCreditoPresumido;
             notaFiscal.Identificacao.tpNFDebito = TipoNFeDebito.tdNenhum;
             notaFiscal.Identificacao.tpEnteGov = TipoEnteGov.tcgNenhum;
             notaFiscal.Identificacao.pRedutor = 2.5m;
             notaFiscal.Identificacao.tpOperGov = TipoOperGov.togFornecimento;
+            */
             //--
 
             // Emitente
@@ -198,12 +200,17 @@ namespace ACBrLib.NFe.Demo
             produto.vProd = totalProdutos;
 
             //Reforma tributária
+            /*
             produto.IndBemMovelUsado = IndBemMovelUsado.tieNenhum;
             produto.vItem = 100;
+            */
             //--
             //Reforma tributária
+            /*
             produto.DFeReferenciado.nItem = 100;
             produto.DFeReferenciado.chaveAcesso = "35250518760540000139550010000000011374749890";
+            */
+
             //--
 
             // Tributação
@@ -227,6 +234,7 @@ namespace ACBrLib.NFe.Demo
             produto.infAdProd = "Informação adicional do produto";
 
             //Reforma tributária
+            /*
             produto.IS.CSTIS = CSTIS.cstis000;
             produto.IS.cClassTribIS = "000000" ;
             produto.IS.vBCIS = 100;
@@ -235,6 +243,7 @@ namespace ACBrLib.NFe.Demo
             produto.IS.uTrib = "UNIDAD";
             produto.IS.qTrib = 10;
             produto.IS.vIS = 100;
+            */
 
             //Reforma tributária
 
@@ -309,7 +318,7 @@ namespace ACBrLib.NFe.Demo
             */
 
             // Monofásico
-            
+            /*
             produto.IBSCBS.gIBSCBSMono.vTotCBSMonoItem = 100;
             produto.IBSCBS.gIBSCBSMono.vTotIBSMonoItem = 100;
 
