@@ -15,6 +15,9 @@
         tcgDistritoFederal,
 
         [EnumValue("4")]
-        tcgMunicipios
+        tcgMunicipios,
+
+        [EnumValue("5")]
+        tcgOutro
     }
 }

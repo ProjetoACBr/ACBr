@@ -29,6 +29,8 @@ namespace ACBrLib.NFe
         /// </summary>
         public decimal vBC { get; set; }
 
+        public decimal vIBS { get; set; }
+
         /// <summary>
         /// Grupo de informações do IBS para a UF.
         /// </summary>
@@ -48,6 +50,15 @@ namespace ACBrLib.NFe
         public gCredPres gCBSCredPres { get; }
 
         public gTribCompraGov gTribCompraGov { get; }
+
+        public gIBSCBSMono gIBSCBSMono { get; }
+
+        public gMonoPadrao gMonoPadrao { get; }
+
+        public gMonoReten gMonoReten { get; }
+
+        //public gMonoRet gMonoRet { get; }
+        //public gMonoDif gMonoDif { get; }
 
 
         #endregion Properties

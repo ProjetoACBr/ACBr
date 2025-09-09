@@ -19,7 +19,7 @@ namespace ACBrLib.NFe
         /// <summary>
         /// Código de Classificação Tributária do IBS e CBS
         /// </summary>
-        public cClassTribIBSCBS cClassTribReg { get; set; }
+        public string cClassTribReg { get; set; }
 
         /// <summary>
         /// Valor da alíquota do IBS da UF
