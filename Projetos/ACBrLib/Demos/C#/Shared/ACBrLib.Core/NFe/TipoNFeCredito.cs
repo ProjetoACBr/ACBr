@@ -4,8 +4,10 @@
     {
         [EnumValue("")]
         tcNenhum,
-
         [EnumValue("01")]
-        tc01
+        tcMultaJuros,
+        [EnumValue("02")]
+        tcApropriacaoCreditoPresumido
     }
 }
+

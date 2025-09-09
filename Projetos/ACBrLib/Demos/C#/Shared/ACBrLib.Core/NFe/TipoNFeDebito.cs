@@ -18,6 +18,12 @@
         tdMultaJuros = 04,
 
         [EnumValue("05")]
-        tdTransferenciaCreditoSucessao = 05
+        tdTransferenciaCreditoSucessao = 05,
+
+        [EnumValue("06")]
+        tdPagamentoAntecipado = 06,
+
+        [EnumValue("07")]
+        tdPerdaEmEstoque = 07
     }
 }
