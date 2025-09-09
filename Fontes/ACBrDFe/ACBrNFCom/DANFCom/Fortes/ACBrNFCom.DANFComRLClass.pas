@@ -190,7 +190,7 @@ begin
         end;
       end;
 
-      if Impresso then
+      if not Impresso then
       begin
         TfrmNFComDAEventoRLRetrato.Imprimir(Self, TACBrNFCom(ACBrNFCom).EventoNFCom.Evento.Items[i]);
       end;
