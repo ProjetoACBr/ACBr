@@ -52,6 +52,9 @@ type
 
 implementation
 
+uses
+  ACBrDFe.Conversao;
+
 //==============================================================================
 // Essa unit tem por finalidade exclusiva gerar o XML do RPS do provedor:
 //     Digifred
@@ -67,7 +70,6 @@ begin
   FormatoCompetencia := tcDatHor;
   FormatoAliq := tcDe2;
   NrOcorrCodigoPaisServico := -1;
-  NrOcorrCodigoPaisTomador := -1;
 end;
 
 end.

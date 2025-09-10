@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 10/09/2025
+-- Digifred.GravarXml/Digifred.Provider --
+[*] Ajuste para gerar a tag CodigoPais quando o tomador for do exterior.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] #ACBr-8030 Alterado as URLs de todas as cidades atendidas pelo provedor IPM que
     possuem a porta 7443 em sua URL.
