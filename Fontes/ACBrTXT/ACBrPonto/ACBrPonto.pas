@@ -159,8 +159,8 @@ procedure TACBrPonto.SetDelimitador(const Value: String);
 begin
   FDelimitador := Value;
 
-  FPonto_AFD.Delimitador := Value;
-  FPonto_AFDT.Delimitador := Value;
+  FPonto_AFD.Delimitador   := Value;
+  FPonto_AFDT.Delimitador  := Value;
   FPonto_ACJEF.Delimitador := Value;
   FAEJ.Delimitador := Value;
 end;

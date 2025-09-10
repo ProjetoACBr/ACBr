@@ -29,7 +29,8 @@
 { Daniel Simões de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
 {       Rua Coronel Aureliano de Camargo, 963 - Tatuí - SP - 18270-170         }
 {******************************************************************************}
-
+{$I ACBr.inc}
+//AFD (Arquivo Fonte de Dados).
 unit ACBrPonto_AFD;
 
 interface

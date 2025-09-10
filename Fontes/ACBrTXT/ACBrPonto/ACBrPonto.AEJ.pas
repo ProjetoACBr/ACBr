@@ -31,6 +31,7 @@
 {******************************************************************************}
 
 {$I ACBr.inc}
+//AEJ (Arquivo Eletrônico de Jornada).
 unit ACBrPonto.AEJ;
 
 interface
@@ -52,8 +53,8 @@ type
     Fcaepf: String;
     Fcno: String;
     FrazaoOuNome: String;
-    FdataInicialAej: TDateTime;
-    FdataFinalAej: TDateTime;
+    FdataInicialAej: TDate;
+    FdataFinalAej: TDate;
     FdataHoraGerAej: TDateTime;
     FversaoAej: String;
   public
@@ -66,8 +67,8 @@ type
     property caepf          : String           read Fcaepf           write Fcaepf;
     property cno            : String           read Fcno             write Fcno;
     property razaoOuNome    : String           read FrazaoOuNome     write FrazaoOuNome;
-    property dataInicialAej : TDateTime        read FdataInicialAej  write FdataInicialAej;
-    property dataFinalAej   : TDateTime        read FdataFinalAej    write FdataFinalAej;
+    property dataInicialAej : TDate            read FdataInicialAej  write FdataInicialAej;
+    property dataFinalAej   : TDate            read FdataFinalAej    write FdataFinalAej;
     property dataHoraGerAej : TDateTime        read FdataHoraGerAej  write FdataHoraGerAej;
     property versaoAej      : String           read FversaoAej;
   end;
@@ -346,6 +347,7 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure LimpaRegistros;
+    procedure SaveToFile(sFileName: String);
 
     property Cabecalho : TCabecalhoList  read FCabecalho write FCabecalho;
     property Registro02: TRegistro02List read FRegistro02 write FRegistro02;
@@ -823,6 +825,59 @@ procedure TAEJ.LimpaRegistros;
 begin
   LiberaRegistros;
   CriaRegistros;
+end;
+
+procedure TAEJ.SaveToFile(sFileName: String);
+var
+  txtFile: TextFile;
+begin
+  if sFileName.Trim.IsEmpty then
+    raise Exception.Create('Nome do arquivo não informado!');
+
+  try
+    AssignFile(txtFile, sFileName);
+    try
+      Rewrite(txtFile);
+
+      if Self.Cabecalho.Count > 0 then
+        Write(txtFile, Self.Cabecalho.GetStr);
+
+      if Self.Registro02.Count > 0 then
+        Write(txtFile, Self.Registro02.GetStr);
+
+      if Self.Registro03.Count > 0 then
+        Write(txtFile, Self.Registro03.GetStr);
+
+      if Self.Registro04.Count > 0 then
+        Write(txtFile, Self.Registro04.GetStr);
+
+      if Self.Registro05.Count > 0 then
+        Write(txtFile, Self.Registro05.GetStr);
+
+      if Self.Registro06.Count > 0 then
+        Write(txtFile, Self.Registro06.GetStr);
+
+      if Self.Registro07.Count > 0 then
+        Write(txtFile, Self.Registro07.GetStr);
+
+      if Self.Registro08.Count > 0 then
+        Write(txtFile, Self.Registro08.GetStr);
+
+      Write(txtFile, Self.Trailer.GetStr);
+
+      Write(txtFile, Self.AssinaturaDigital.GetStr);
+
+    finally
+      CloseFile(txtFile);
+    end;
+
+    Self.LimpaRegistros;
+  except
+    on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
 end;
 
 { TAssinaturaDigital }
