@@ -44,6 +44,7 @@ uses
    System.Contnrs,
   {$IfEnd}
   ACBrBase,
+  ACBrDFe.Conversao,
   ACBrXmlBase,
   ACBrXmlDocument;
 

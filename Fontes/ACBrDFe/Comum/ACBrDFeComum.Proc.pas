@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes,
+  ACBrDFe.Conversao,
   ACBrXmlBase;
 
 type
@@ -206,6 +207,10 @@ begin
                 else
                 begin
                  xProtDFe := ANodes[i].OuterXml;
+                  if pos('infProt Id', xProtDFe) = 0 then
+                  xProtDFe := StringReplace(xProtDFe, '<infProt>', '<infProt Id="ID' +
+                    nProt + '">', [rfReplaceAll]);
+
                  Break
                 end;
               end;

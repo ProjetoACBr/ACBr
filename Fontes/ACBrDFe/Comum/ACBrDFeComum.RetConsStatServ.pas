@@ -43,7 +43,9 @@ uses
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IFEND}
-  ACBrBase, ACBrXmlBase;
+  ACBrBase,
+  ACBrDFe.Conversao,
+  ACBrXmlBase;
 
 type
 

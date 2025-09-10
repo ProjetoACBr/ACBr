@@ -44,6 +44,7 @@ uses
    System.Contnrs,
   {$IfEnd}
   ACBrBase,
+  ACBrDFe.Conversao,
   ACBrXmlBase,
   ACBrXmlDocument;
 
@@ -176,6 +177,8 @@ begin
 
   try
     try
+      Result := True;
+
       if XmlRetorno = '' then Exit;
 
       Document.LoadFromXml(XmlRetorno);
@@ -196,8 +199,6 @@ begin
 
         Ler_ProtDFe(ANode);
       end;
-
-      Result := True;
     except
       Result := False;
     end;
