@@ -94,10 +94,14 @@ type
     // Gera ou não o NameSpace no grupo <Rps> da versão 2 do layout da ABRASF.
     FGerarNSRps: Boolean;
     FIniParams: TMemIniFile;
+    // Reforma Tributária
+    FNrOcorrtpOper: Integer;
+    FNrOcorrindDest: Integer;
+    FGerarDest: Boolean;
+    FGerargReeRepRes: Boolean;
 
     function GetOpcoes: TACBrXmlWriterOptions;
     procedure SetOpcoes(AValue: TACBrXmlWriterOptions);
-
   protected
     FpAOwner: IACBrNFSeXProvider;
     LSecao: string;
@@ -213,6 +217,11 @@ type
     property GerarIDRps: Boolean read FGerarIDRps write FGerarIDRps;
     property GerarNSRps: Boolean read FGerarNSRps write FGerarNSRps;
     property IniParams: TMemIniFile read FIniParams write FIniParams;
+    // Reforma Tributária NFSe
+    property NrOcorrtpOper: Integer read FNrOcorrtpOper write FNrOcorrtpOper;
+    property NrOcorrindDest: Integer read FNrOcorrindDest write FNrOcorrindDest;
+    property GerarDest: Boolean read FGerarDest write FGerarDest;
+    property GerargReeRepRes: Boolean read FGerargReeRepRes write FGerargReeRepRes;
   end;
 
 implementation
@@ -286,6 +295,12 @@ begin
   FGerarIDRps := False;
   // Gera ou não o NameSpace no grupo <Rps> da versão 2 do layout da ABRASF.
   FGerarNSRps := True;
+
+  // Reforma Tributária
+  FNrOcorrtpOper := 0;
+  FNrOcorrindDest := 1;
+  FGerarDest := True;
+  FGerargReeRepRes := True;
 end;
 
 procedure TNFSeWClass.ConsolidarVariosItensServicosEmUmSo;
@@ -1367,7 +1382,7 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'cIndOp', 6, 6, 1,
                                                             IBSCBS.cIndOp, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'tpOper', 1, 1, 0,
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpOper', 1, 1, NrOcorrtpOper,
                                             tpOperGovToStr(IBSCBS.tpOper), ''));
 
   if IBSCBS.gRefNFSe.Count > 0 then
@@ -1376,10 +1391,10 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'tpEnteGov', 1, 1, 0,
                                          tpEnteGovToStr(IBSCBS.tpEnteGov), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'indDest', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'indDest', 1, 1, NrOcorrindDest,
                                              indDestToStr(IBSCBS.indDest), ''));
 
-  if IBSCBS.dest.xNome <> '' then
+  if (IBSCBS.dest.xNome <> '') and GerarDest then
     Result.AppendChild(GerarXMLDestinatario(IBSCBS.dest));
 
   if (IBSCBS.imovel.cCIB <> '') or (IBSCBS.imovel.ender.xLgr <> '') then
@@ -1555,7 +1570,7 @@ function TNFSeWClass.GerarXMLIBSCBSValores(
 begin
   Result := CreateElement('valores');
 
-  if valores.gReeRepRes.documentos.Count > 0 then
+  if (valores.gReeRepRes.documentos.Count > 0) and GerargReeRepRes then
     Result.AppendChild(GerarXMLgReeRepRes(valores.gReeRepRes));
 
   Result.AppendChild(GerarXMLTributos(valores.trib));
@@ -1717,10 +1732,10 @@ function TNFSeWClass.GerarXMLgTribRegular(
 begin
   Result := CreateElement('gTribRegular');
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'CST', 3, 3, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'CSTReg', 3, 3, 1,
                                       CSTIBSCBSToStr(gTribRegular.CSTReg), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'cClassTrib', 6, 6, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'cClassTribReg', 6, 6, 1,
                                                gTribRegular.cClassTribReg, ''));
 end;
 
@@ -1876,8 +1891,8 @@ procedure TNFSeWClass.GerarINIgTribRegular(AINIRec: TMemIniFile;
 begin
   LSecao := 'gTribRegular';
 
-  AINIRec.WriteString(LSecao, 'CST', CSTIBSCBSToStr(gTribRegular.CSTReg));
-  AINIRec.WriteString(LSecao, 'cClassTrib', gTribRegular.cClassTribReg);
+  AINIRec.WriteString(LSecao, 'CSTReg', CSTIBSCBSToStr(gTribRegular.CSTReg));
+  AINIRec.WriteString(LSecao, 'cClassTribReg', gTribRegular.cClassTribReg);
 end;
 
 procedure TNFSeWClass.GerarINIgDif(AINIRec: TMemIniFile; gDif: TgDif);

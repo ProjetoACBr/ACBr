@@ -44,6 +44,7 @@ uses
    System.Contnrs,
   {$IfEnd}
   IniFiles,
+  ACBrXmlBase,
   ACBrBase, ACBrDFe, ACBrNFSeXConfiguracoes, ACBrNFSeXClass, ACBrNFSeXConversao;
 
 type
@@ -826,6 +827,7 @@ var
   begin
     Result := FaststringReplace(XMLStr, ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', '', [rfReplaceAll]);
     Result := FaststringReplace(Result, ' xmlns:xsd="http://www.w3.org/2001/XMLSchema"', '', [rfReplaceAll]);
+    Result := RemoverPrefixosDesnecessarios(Result);
   end;
 begin
   MS := TMemoryStream.Create;

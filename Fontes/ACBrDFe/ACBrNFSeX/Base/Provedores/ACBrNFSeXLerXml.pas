@@ -1586,8 +1586,8 @@ procedure TNFSeRClass.LerXMLgTribRegular(const ANode: TACBrXmlNode;
 begin
   if not Assigned(ANode) then Exit;
 
-  gTribRegular.CSTReg := StrToCSTIBSCBS(ObterConteudo(ANode.Childrens.FindAnyNs('CST'), tcStr));
-  gTribRegular.cClassTribReg := ObterConteudo(ANode.Childrens.FindAnyNs('cClassTrib'), tcStr);
+  gTribRegular.CSTReg := StrToCSTIBSCBS(ObterConteudo(ANode.Childrens.FindAnyNs('CSTReg'), tcStr));
+  gTribRegular.cClassTribReg := ObterConteudo(ANode.Childrens.FindAnyNs('cClassTribReg'), tcStr);
 end;
 
 procedure TNFSeRClass.LerXMLgDif(const ANode: TACBrXmlNode;
@@ -1930,8 +1930,8 @@ begin
 
   if AINIRec.SectionExists(sSecao) then
   begin
-    gTribRegular.CSTReg := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CST', ''));
-    gTribRegular.cClassTribReg := AINIRec.ReadString(sSecao, 'cClassTrib', '');
+    gTribRegular.CSTReg := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CSTReg', ''));
+    gTribRegular.cClassTribReg := AINIRec.ReadString(sSecao, 'cClassTribReg', '');
   end;
 end;
 
