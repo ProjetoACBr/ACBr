@@ -42,6 +42,18 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+10/09/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8030 Alterado as URLs de todas as cidades atendidas pelo provedor IPM que
+    possuem a porta 7443 em sua URL.
+   Por: Italo Giurizzato Junior
+[*] #ACBr-8029 Alterado as URLs da cidade Veranopolis/RS, o provedor continua o mesmo.
+   Por: Sandro Felipe Adad
+[*] #ACBr-8027 Alterado as URLs da cidade Indaial/SC, o provedor continua o mesmo.
+   Por: Jhoni Conzatti
+[*] #ACBr-8023 Alterado as URLs da cidade São Lourenço do Sul/RS, o provedor continua o mesmo.
+   Por: C4Dev
+
 08/09/2025
 -- ACBrNFSeXServicos --
 [*] #ACBr-8017 Alterado as URLs da cidade Birigui/SP, o provedor continua o mesmo.
