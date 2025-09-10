@@ -187,7 +187,7 @@ type
     RLDraw58: TRLDraw;
     RLDraw59: TRLDraw;
     rllMsgTeste: TRLLabel;
-    rlLabel15: TRLLabel;
+    rllblDataHora: TRLLabel;
     rllblSistema: TRLLabel;
     rliBarCode: TRLBarcode;
     rliMarcadAgua: TRLImage;
@@ -694,6 +694,7 @@ procedure TfrmCTeDAEventoRLRetrato.rlb_10_SistemaBeforePrint(Sender: TObject;
 begin
   inherited;
 
+  rllblDataHora.Caption := 'DATA E HORA DA IMPRESSÃO: ' + DateTimeToStr(Now);
   rllblSistema.Caption := fpDACTe.Sistema + ' - ' + fpDACTe.Usuario;
 end;
 

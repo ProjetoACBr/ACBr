@@ -1,6 +1,6 @@
 inherited frmCTeDAEventoRLRetrato: TfrmCTeDAEventoRLRetrato
-  Left = 258
-  Top = 140
+  Left = 274
+  Top = 83
   Caption = 'Evento -  Retrato'
   Font.Height = -8
   Font.Name = 'Arial'
@@ -197,7 +197,7 @@ inherited frmCTeDAEventoRLRetrato: TfrmCTeDAEventoRLRetrato
       Color = clWhite
       ParentColor = False
       BeforePrint = rlb_10_SistemaBeforePrint
-      object rlLabel15: TRLLabel
+      object rllblDataHora: TRLLabel
         Left = 2
         Height = 12
         Top = 0
@@ -1655,7 +1655,7 @@ inherited frmCTeDAEventoRLRetrato: TfrmCTeDAEventoRLRetrato
     Top = 23
   end
   inherited Datasource1: TDataSource
-    Left = 128
-    Top = 23
+    Left = 136
+    Top = 20
   end
 end

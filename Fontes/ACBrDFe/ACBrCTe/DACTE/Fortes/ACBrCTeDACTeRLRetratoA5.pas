@@ -47,6 +47,7 @@ uses
   {$ENDIF}
   DB, StrUtils,
   RLReport, RLFilters, RLPDFFilter, RLTypes, RLBarcode, RLRichText,
+  ACBrDFe.Conversao,
   pcnConversao,
   ACBrCTeDACTeRL;
 

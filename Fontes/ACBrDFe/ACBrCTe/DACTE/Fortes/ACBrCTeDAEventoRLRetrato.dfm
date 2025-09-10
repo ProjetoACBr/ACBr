@@ -227,7 +227,7 @@ inherited frmCTeDAEventoRLRetrato: TfrmCTeDAEventoRLRetrato
       Color = clWhite
       ParentColor = False
       BeforePrint = rlb_10_SistemaBeforePrint
-      object rlLabel15: TRLLabel
+      object rllblDataHora: TRLLabel
         Left = 2
         Top = 0
         Width = 140

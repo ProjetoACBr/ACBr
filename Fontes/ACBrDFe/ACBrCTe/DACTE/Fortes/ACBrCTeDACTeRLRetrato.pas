@@ -50,6 +50,7 @@ uses
   DB, StrUtils,
   RLReport, RLFilters, RLPDFFilter, RLMetaFile, RLFeedBack, RLParser,
   RLConsts, RLUtils, RLTypes, RLRichText, RLBarcode, RLPrintDialog, RLPrinters,
+  ACBrDFe.Conversao,
   pcnConversao,
   ACBrCTeDACTeRL;
 

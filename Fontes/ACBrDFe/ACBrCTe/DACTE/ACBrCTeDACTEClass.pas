@@ -41,6 +41,8 @@ interface
 uses
   SysUtils, Classes,
   ACBrBase, ACBrDFeReport,
+  ACBrDFe.Conversao,
+  pcteConversaoCTe,
   ACBrCTe.Classes, pcnConversao;
 
 type

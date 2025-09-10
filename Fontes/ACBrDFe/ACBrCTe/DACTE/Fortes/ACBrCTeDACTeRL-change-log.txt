@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+10/09/2025
+-- Diversos --
+[*] Correção para imprimir a Data/Hora de impressão do evento.
+  Por: Italo Giurizzato Junior
+
 06/03/2025
 -- ACBrCTeDACTeRLRetrato --
 [*] Ajustado tamanho do tipo CTe e do tipo de serviço
