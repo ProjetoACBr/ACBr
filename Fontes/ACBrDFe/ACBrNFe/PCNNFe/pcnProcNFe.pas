@@ -213,7 +213,11 @@ begin
                 Gerador.wAlerta('XR01', 'PROTOCOLO/NFe', 'Numero do protocolo', ERR_MSG_VAZIO)
               else
               begin
-                xProtNFe := LocLeitor.rExtrai(1, 'protNFe', '', i + 1); // +'</protNFe>';
+                xProtNFe := LocLeitor.rExtrai(1, 'protNFe', '', i + 1);
+                nProtLoc := RetornarConteudoEntre(xProtNFe, '<nProt>', '</nProt>');
+                if pos('infProt Id', xProtNFe) = 0 then
+                  xProtNFe := StringReplace(xProtNFe, '<infProt>', '<infProt Id="ID' +
+                    nProtLoc + '">', [rfReplaceAll]);
                 Gerador.ListaDeAlertas.Clear;
                 break;
               end;

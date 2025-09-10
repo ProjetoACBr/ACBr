@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+10/09/2025
+-- pcnProcNFe --
+[*] #ACBr-8033 - Possível solução para constar o ID no grupo infProt.
+   Por: Italo Giurizzato Junior
+
 03/09/2025
 -- ACBrNFe.Classes/ACBrNFe.IniReader/ACBrNFe.IniWriter/ACBrNFe.XmlReader/ACBrNFe.XmlWriter --
 [*] Alteração visando deixar o componente em conformidade com a versão 1.20 da NT 2025/002.
