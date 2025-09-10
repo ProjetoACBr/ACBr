@@ -49,6 +49,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+10/09/2025
+-- ACBrBoletoRet_Itau_API.pas --
+[*] adicionado novo status de retorno "LC Liquidado em Cartorio"
+	https://www.projetoacbr.com.br/forum/topic/84674-tratar-novo-codigo_status-no-retorno-da-api-itau/
+    Por:  Desenv. AT Info Sistemas
+
 03/09/2025
 -- ACBrBoletoRet_Sicoob_V3 --
 [-] adicionado ansiuppercase status C_PAGO na verificação do status

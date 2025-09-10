@@ -368,7 +368,8 @@ begin
     Result := '02'
   else if (LSituacaoBoleto = 'PAGO') or
           (LSituacaoBoleto = 'PAGA') or
-          (LSituacaoBoleto = 'L') then // Liquidado
+          (LSituacaoBoleto = 'L') or
+          (LSituacaoBoleto = 'LC') then // Liquidado em Cartório
     Result := '06'
   else if (LSituacaoBoleto = 'BAIXA POR TER SIDO LIQUIDADO') or
           (LSituacaoBoleto = 'BL') then  // Bolecode Liquidado
@@ -400,6 +401,8 @@ begin
   obtivemos ela de uma reposta do email so suporte Itau }
   if (AStatus = 'L') then
     result := 'Liquidado'
+  else if (AStatus = 'LC') then
+    result := 'Liquidado em Cartório'
   else if (AStatus = 'B') then
     result := 'Baixado'
   else if (AStatus = 'E') then
@@ -644,11 +647,8 @@ begin
               end;
               LJsonArray := LJsonObject.AsJSONArray['data'];
 
-
               for J := 0 to Pred(LJsonArray.Count) do
               begin
-
-
                 LJsonBoletoObject  := LJsonArray.ItemAsJSONObject[J];
                 LStatusBoleto := AnsiUpperCase(LJsonBoletoObject.AsString['codigo_status']);
                 LTrataBoleto := false;
@@ -657,7 +657,7 @@ begin
                     begin
                       if (LStatusBoleto = 'L') or (LStatusBoleto = 'BA') or (LStatusBoleto = 'BC') or
                          (LStatusBoleto = 'BL') or (LStatusBoleto = 'BC') or (LStatusBoleto = 'TS') or
-                         (LStatusBoleto = 'TM')  then
+                         (LStatusBoleto = 'TM') or (LStatusBoleto = 'LC') or (LStatusBoleto = 'B') then  // Novo código de Status - LC - Liquidado em Cartório
                         LTrataBoleto := true
                     end;
                   isbCancelado:
@@ -666,7 +666,8 @@ begin
                       if ACBrBoleto.Cedente.CedenteWS.IndicadorPix then
                       begin
                         if (LStatusBoleto = 'L') or (LStatusBoleto = 'BL') or
-                           (LStatusBoleto = 'TM') or (LStatusBoleto = 'TS') then
+                           (LStatusBoleto = 'TM') or (LStatusBoleto = 'TS') or
+                           (LStatusBoleto = 'LC') then
                           LTrataBoleto := true
                       end
                       else
