@@ -333,7 +333,8 @@ begin
       EstaVazio := ((wAno = 1899) and (wMes = 12) and (wDia = 30));
     end;
 
-    tcDe1, tcDe2, tcDe3, tcDe4, tcDe5, tcDe6, tcDe7, tcDe8, tcDe10:
+//    tcDe1,
+    tcDe2, tcDe3, tcDe4, tcDe5, tcDe6, tcDe7, tcDe8, tcDe10:
     begin
       // adicionar um para que o máximo e mínimo não considerem a virgula
       if not FOpcoes.SuprimirDecimais then
@@ -344,7 +345,7 @@ begin
 
       // Tipo numerico com decimais
       case Tipo of
-        tcDe1: NumeroDecimais := 1;
+//        tcDe1: NumeroDecimais := 1;
         tcDe2: NumeroDecimais := 2;
         tcDe3: NumeroDecimais := 3;
         tcDe4: NumeroDecimais := 4;
@@ -409,7 +410,7 @@ begin
         ConteudoProcessado := PadLeft(ConteudoProcessado, TamMin, '0');
     end;
 
-    tcBool, tcBoolStr:
+    tcBool: //, tcBoolStr:
     begin
       ConteudoProcessado := LowerCase(BoolToStr(valor, True));
       EstaVazio := ConteudoProcessado = '';
