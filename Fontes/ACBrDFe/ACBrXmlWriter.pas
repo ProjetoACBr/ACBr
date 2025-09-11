@@ -38,7 +38,9 @@ interface
 
 uses
   Classes, SysUtils,
-  pcnSignature, ACBrXmlBase,
+  pcnSignature,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrXmlDocument;
 
 type
@@ -155,7 +157,7 @@ var
   Tamanho: integer;
   Ocorrencia: integer;
 begin
-  CNPJCPF := OnlyNumber(trim(CNPJCPF));
+  CNPJCPF := OnlyAlphaNum(trim(CNPJCPF));
   Tamanho := length(CNPJCPF);
   Ocorrencia := integer(obrigatorio);
 
@@ -197,7 +199,7 @@ begin
     exit;
   end;
 
-  CNPJ := OnlyNumber(Trim(CNPJ));
+  CNPJ := OnlyAlphaNum(Trim(CNPJ));
 
   if obrigatorio then
     Result := AddNode(tcEsp, ID, 'CNPJ', 14, 14, 1, CNPJ, DSC_CNPJ)
@@ -331,7 +333,7 @@ begin
       EstaVazio := ((wAno = 1899) and (wMes = 12) and (wDia = 30));
     end;
 
-    tcDe2, tcDe3, tcDe4, tcDe5, tcDe6, tcDe7, tcDe8, tcDe10:
+    tcDe1, tcDe2, tcDe3, tcDe4, tcDe5, tcDe6, tcDe7, tcDe8, tcDe10:
     begin
       // adicionar um para que o máximo e mínimo não considerem a virgula
       if not FOpcoes.SuprimirDecimais then
@@ -342,6 +344,7 @@ begin
 
       // Tipo numerico com decimais
       case Tipo of
+        tcDe1: NumeroDecimais := 1;
         tcDe2: NumeroDecimais := 2;
         tcDe3: NumeroDecimais := 3;
         tcDe4: NumeroDecimais := 4;
@@ -406,7 +409,7 @@ begin
         ConteudoProcessado := PadLeft(ConteudoProcessado, TamMin, '0');
     end;
 
-    tcBool:
+    tcBool, tcBoolStr:
     begin
       ConteudoProcessado := LowerCase(BoolToStr(valor, True));
       EstaVazio := ConteudoProcessado = '';

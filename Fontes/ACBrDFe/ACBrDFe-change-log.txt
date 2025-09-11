@@ -39,6 +39,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/09/2025
+-- ACBrXmlWriter --
+[*] Trocado a função OnlyNumber por OnlyAlphaNum ao gerar a tag CNPJ para contemplar
+    os novos CNPJ alfanumericos.
+   Por: Adonis/Italo Giurizzato Junior
+
 19/08/2025
 -- ACBrDFe.Conversao --
 [*] O campo cClassTrib deixa de ser enumerado e passa a ser string.
