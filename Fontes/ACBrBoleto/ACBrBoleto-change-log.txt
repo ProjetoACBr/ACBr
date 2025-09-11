@@ -48,6 +48,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+11/09/2025
+-- ACBrBancoCredisan.pas --
+[*] ACBr-8039 Ajustado validação CodigoMoraJuros e CodigoMulta para aceitar isento
+	https://www.projetoacbr.com.br/forum/topic/85597-banco-credisan-remessa-sem-codigo-de-multa
+    Por:  Daniel de Morais InfoCotidano
 
 10/09/2025
 -- ACBrBoletoRet_Itau_API.pas --

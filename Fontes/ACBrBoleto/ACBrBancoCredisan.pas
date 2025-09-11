@@ -305,11 +305,11 @@ begin
     else if ACBrTitulo.EspecieDoc = 'OT' then
       LTipoEspecieDoc := '99';
 
-    if ACBrTitulo.CodigoMoraJuros <> cjTaxaMensal then
+    if  (ACBrTitulo.CodigoMoraJuros <> cjIsento) and (ACBrTitulo.CodigoMoraJuros <> cjTaxaMensal) then
       raise Exception.Create('Permitido somente Taxa Juros Mensal');
 
-    if ACBrTitulo.CodigoMulta <> cmPercentual then
-      raise Exception.Create('Permitido somente Taxa Multa Mensal');
+    if (ACBrTitulo.CodigoMulta <> cmIsento) and (ACBrTitulo.CodigoMulta <> cmPercentual) then
+      raise Exception.Create('Permitido somente Taxa (Percentual) Multa Mensal');
 
     LValorTaxaMoraMes := FloatToStr(ACBrTitulo.ValorMoraJuros * 100);
     if ACBrTitulo.MultaValorFixo then
