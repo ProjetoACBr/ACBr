@@ -42,7 +42,8 @@ uses
   ACBrPonto.Conversao,
   ACBrTXTClass,
   Contnrs,
-  DateUtils;
+  DateUtils,
+  ACBrUtil.Base;
 
 type
   TCabecalho = class(TACBrTXTClass)
@@ -53,8 +54,8 @@ type
     Fcaepf: String;
     Fcno: String;
     FrazaoOuNome: String;
-    FdataInicialAej: TDate;
-    FdataFinalAej: TDate;
+    FdataInicialAej: TDateTime;
+    FdataFinalAej: TDateTime;
     FdataHoraGerAej: TDateTime;
     FversaoAej: String;
   public
@@ -67,8 +68,8 @@ type
     property caepf          : String           read Fcaepf           write Fcaepf;
     property cno            : String           read Fcno             write Fcno;
     property razaoOuNome    : String           read FrazaoOuNome     write FrazaoOuNome;
-    property dataInicialAej : TDate            read FdataInicialAej  write FdataInicialAej;
-    property dataFinalAej   : TDate            read FdataFinalAej    write FdataFinalAej;
+    property dataInicialAej : TDateTime        read FdataInicialAej  write FdataInicialAej;
+    property dataFinalAej   : TDateTime        read FdataFinalAej    write FdataFinalAej;
     property dataHoraGerAej : TDateTime        read FdataHoraGerAej  write FdataHoraGerAej;
     property versaoAej      : String           read FversaoAej;
   end;
@@ -831,7 +832,7 @@ procedure TAEJ.SaveToFile(sFileName: String);
 var
   txtFile: TextFile;
 begin
-  if sFileName.Trim.IsEmpty then
+  if EstaVazio(sFileName) then
     raise Exception.Create('Nome do arquivo não informado!');
 
   try
