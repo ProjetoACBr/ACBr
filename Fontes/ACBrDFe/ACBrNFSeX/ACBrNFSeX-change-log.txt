@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/09/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8037 A cidade São Pedro do Butia/RS trocou de provedor, agora é ABase versão 2.01
+   Por: Farol TI
+
 10/09/2025
 -- ACBrNFSeXNotasFiscais/ACBrNFSeXGravarXml/ACBrNFSeXLerXml --
 [-] Correção na grafia das tags referente ao CST e cClassTrib da Tributação Regular.
