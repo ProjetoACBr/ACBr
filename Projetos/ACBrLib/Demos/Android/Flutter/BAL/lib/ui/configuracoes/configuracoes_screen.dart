@@ -44,14 +44,14 @@ class _ConfiguracoesScreenState extends State<ConfiguracoesScreen> {
 
   /// Carrega as configurações da balança do plugin ACBrBAL
   void _loadSettings() async {
+    String currentParity = "0";
+    String currentHandshake = "0";
+    String currentBaudRate = "9600";
+    String currentStopBits = "1";
+    String currentDataBits = "8";
+    String currentModeloBalanca = "0";
+    String currentPorta = "";
     try {
-      String currentParity = "0";
-      String currentHandshake = "0";
-      String currentBaudRate = "9600";
-      String currentStopBits = "1";
-      String currentDataBits = "8";
-      String currentModeloBalanca = "0";
-      String currentPorta = "";
       currentParity =
           await _acbrbalPlugin.configLerValor("BAL_Device", "Parity");
       currentHandshake =
@@ -76,7 +76,9 @@ class _ConfiguracoesScreenState extends State<ConfiguracoesScreen> {
         balDevice.modeloBalanca =
             ModeloBalanca.values[int.parse(currentModeloBalanca)];
         balDevice.porta = currentPorta;
+        portaController.text = currentPorta;
       });
+      debugPrint(currentPorta);
     } catch (e) {
       debugPrint("Erro ao ler configuração: ${e.toString()}");
 
@@ -163,7 +165,9 @@ class _ConfiguracoesScreenState extends State<ConfiguracoesScreen> {
 
   void onChangePorta(String newPorta) {
     setState(() {
+      portaController.text = newPorta;
       balDevice.porta = newPorta;
+
     });
   }
 
@@ -184,12 +188,8 @@ class _ConfiguracoesScreenState extends State<ConfiguracoesScreen> {
             decoration: const InputDecoration(
               labelText: 'Porta',
             ),
-            controller: TextEditingController(text: balDevice.porta),
-            onChanged: (value) {
-              setState(() {
-                balDevice.porta = value;
-              });
-            },
+            controller: portaController,
+            onChanged: (newValue) => onChangePorta(newValue)
           ),
           const SizedBox(height: 16),
           ConfiguracoesDropdowmMenu<ModeloBalanca>(
