@@ -232,7 +232,7 @@ begin
               Result := 'multa';
             toRemessaAlterarPrazoLimiteRecebimento:
               Result := 'data_limite_pagamento';
-            toRemessaAlteracaoValorNominal:
+            toRemessaAlteracaoValorNominal, toRemessaAlterarValorTitulo:
               Result := 'valor_nominal';
           end;
         end;
