@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/09/2025
+-- ACBrCTeDACTeRLClass --
+[*] Correção para compilação do DACTe em Fortes.
+  Por: Renato Rubinho
+
 10/09/2025
 -- Diversos --
 [*] Correção para imprimir a Data/Hora de impressão do evento.
