@@ -163,8 +163,6 @@ type
     function GerarinfRespTec: TACBrXmlNode;
     function GerarAgropecuario: TACBrXmlNode;
     function Gerardefensivo: TACBrXmlNodeArray;
-
-
     function GerarProtNFe: TACBrXmlNode;
 
     // Reforma Tributária

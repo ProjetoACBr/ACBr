@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/09/2025
+-- ACBrNFe.IniWriter/ACBrNFe.XmlWriter --
+[*] Possível solução para gerar o grupo gCBSTot no arquivo INI
+   Por: Italo Giurizzato Junior
+
 10/09/2025
 -- pcnProcNFe --
 [*] #ACBr-8033 - Possível solução para constar o ID no grupo infProt.

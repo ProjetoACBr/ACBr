@@ -1893,13 +1893,16 @@ begin
   begin
     AINIRec.WriteFloat(sSecao, 'vBCIBSCBS', IBSCBSTot.vBCIBSCBS);
 
-    if IBSCBSTot.gIBS.vIBS > 0 then
+    if (IBSCBSTot.gIBS.vIBS > 0) or
+       (IBSCBSTot.gIBS.gIBSUFTot.vDif > 0) or (IBSCBSTot.gIBS.gIBSMunTot.vDif > 0) then
       Gerar_IBSCBSTot_gIBS(AINIRec, IBSCBSTot.gIBS);
 
-    if IBSCBSTot.gCBS.vDif > 0 then
+    if (IBSCBSTot.gCBS.vCBS > 0) or (IBSCBSTot.gCBS.vDif > 0) then
       Gerar_IBSCBSTot_gCBS(AINIRec, IBSCBSTot.gCBS);
 
-    if IBSCBSTot.gMono.vIBSMono > 0 then
+    if (IBSCBSTot.gMono.vIBSMono > 0) or (IBSCBSTot.gMono.vCBSMono > 0) or
+       (IBSCBSTot.gMono.vIBSMonoReten > 0) or (IBSCBSTot.gMono.vCBSMonoReten > 0) or
+       (IBSCBSTot.gMono.vIBSMonoRet > 0) or (IBSCBSTot.gMono.vCBSMonoRet > 0) then
       Gerar_IBSCBSTot_gMono(AINIRec, IBSCBSTot.gMono);
   end;
 end;
