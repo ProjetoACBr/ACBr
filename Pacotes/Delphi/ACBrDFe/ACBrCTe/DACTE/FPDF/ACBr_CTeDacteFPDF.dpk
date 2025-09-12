@@ -57,7 +57,7 @@ package ACBr_CTeDacteFPDF;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'ACBr - DACTe em FPDF Report - (http://www.projetoacbr.com.br/)'}
+{$DESCRIPTION 'ACBr - DANFe / DANFCe em FPDF Report - (http://www.projetoacbr.com.br/)'}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
 
