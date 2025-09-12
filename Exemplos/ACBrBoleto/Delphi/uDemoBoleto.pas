@@ -1138,9 +1138,9 @@ end;
 
 procedure TfrmDemoBoleto.OnPrecisaAutenticar(var AToken: String; var AValidadeToken: TDateTime);
 begin
-  FACBrBoleto.GerarTokenAutenticacao(AToken, AValidadeToken);
-  FToken             := AToken;
-  FDataValidadeToken := AValidadeToken;
+  FACBrBoleto.GerarTokenAutenticacao(FToken, FDataValidadeToken);
+  AToken             := FToken;
+  AValidadeToken     := FDataValidadeToken;
 end;
 
 procedure TfrmDemoBoleto.btnEnviarEmailClick(Sender: TObject);
@@ -1186,9 +1186,9 @@ begin
   Boleto     := FACBrBoleto;
   FiltrosAPI := Boleto.Configuracoes.WebService.Filtro;
   FiltrosAPI.Clear;
-  FiltrosAPI.indicadorSituacao  := isbBaixado;
-  FiltrosAPI.dataMovimento.DataInicio := strtodate('05/02/2025');
-  FiltrosAPI.dataMovimento.DataFinal  := strtodate('05/02/2025');
+  FiltrosAPI.indicadorSituacao  := isbAberto;
+  FiltrosAPI.dataMovimento.DataInicio := strtodate('05/01/2025');
+  FiltrosAPI.dataMovimento.DataFinal  := strtodate('03/09/2025');
   FiltrosAPI.indiceContinuidade       := 0;
 
   case cbbWSConsulta.ItemIndex of
