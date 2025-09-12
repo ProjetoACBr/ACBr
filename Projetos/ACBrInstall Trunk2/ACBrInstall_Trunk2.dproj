@@ -3,7 +3,7 @@
         <ProjectGuid>{4E45CEB7-B506-4298-BEFA-EA71B963010D}</ProjectGuid>
         <MainSource>ACBrInstall_Trunk2.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
