@@ -187,6 +187,12 @@ function StringEhArquivo(AString: String): Boolean;
 function ConverterStringEntradaParaNativa(AData: AnsiString; CodificacaoEntrada: TACBrLibCodificacao): AnsiString;
 function ConverterStringNativaParaSaida(AData: AnsiString; CodificacaoSaida: TACBrLibCodificacao): AnsiString;
 
+// funções para obter informacoes da lib independente de TACBrLIB
+// as informações retornadas por essas funções são baseadas nas diretivas de compilação!
+function ObterArquiteturaProcessador(): string;
+function ObterConvencaoDeChamada(): string;
+function ObterInformacoesSistemaOperacional(): string;
+function ObterInformacoesDeThreads(): string;
 {%endregion}
 
 {$IFNDEF MT}
@@ -286,19 +292,11 @@ end;
 
 function TACBrLib.GetInformacaoAdicional: String;
 begin
-  result:= '';
-  {$IFNDEF MT}
-  result:= 'ST';
-  {$ELSE}
-  result:= 'MT';
-  {$ENDIF}
-
-  {$IFDEF STDCALL}
-  result:= result + ' STDCALL';
-  {$ELSE}
-  result:= result + ' cdecl';
-  {$ENDIF}
-
+  result:=
+    ObterInformacoesSistemaOperacional()  + '/' +
+    ObterArquiteturaProcessador() +  ' - '+
+    ObterInformacoesDeThreads()  + ' '  +
+    ObterConvencaoDeChamada();
 end;
 
 function TACBrLib.GetNome: String;
@@ -1041,6 +1039,70 @@ begin
   else
     Result := ACBrAnsiToUTF8(AData)
 {$EndIf}
+end;
+
+function ObterArquiteturaProcessador(): string;
+begin
+  result:=
+ {$IFDEF CPUX86_64}
+   'x86_64'
+ {$ELSE}
+   {$IFDEF CPU386}
+     'x86'
+   {$ELSE}
+     {$IFDEF CPUARM}
+       'arm'
+     {$ELSE}
+       {$IFDEF CPUAARCH64}
+         'aarch64'
+       {$ELSE}
+         ''
+       {$ENDIF}
+     {$ENDIF}
+   {$ENDIF}
+ {$ENDIF}
+end;
+
+function ObterConvencaoDeChamada(): string;
+begin
+{$IFDEF STDCALL}
+  result:= 'STDCALL';
+  {$ELSE}
+  result:= 'cdecl';
+  {$ENDIF}
+end;
+
+function ObterInformacoesSistemaOperacional(): string;
+begin
+   result:=
+ {$IFDEF MSWINDOWS}
+  'Windows'
+{$ELSE}
+  {$IFDEF LINUX}
+    'Linux'
+  {$ELSE}
+    {$IFDEF ANDROID}
+      'Android'
+    {$ELSE}
+      {$IFDEF MACOS}
+        'Darwin (macOS/iOS)'
+      {$ELSE}
+        'Desconhecido'
+      {$ENDIF}
+    {$ENDIF}
+  {$ENDIF}
+{$ENDIF};
+
+end;
+
+function ObterInformacoesDeThreads(): string;
+begin
+  result:= '';
+  {$IFNDEF MT}
+  result:= 'ST';
+  {$ELSE}
+  result:= 'MT';
+  {$ENDIF}
 end;
 
 finalization
