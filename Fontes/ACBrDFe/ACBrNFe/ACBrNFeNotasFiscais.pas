@@ -1182,6 +1182,7 @@ begin
           end;
         end;
 
+        {
         GravaLog('Validar: 629-Produto do valor unitário e quantidade comercializada [nItem: ' + IntToStr(Prod.nItem) + ']');
         if (NFe.ide.finNFe = fnNormal) and (ComparaValor(Prod.vProd, Prod.vUnCom * Prod.qCom, 0.01) <> 0) then
           AdicionaErro('629-Rejeição: Valor do Produto difere do produto Valor Unitário de Comercialização e Quantidade Comercial [nItem: ' + IntToStr(Prod.nItem) + ']');
@@ -1189,7 +1190,7 @@ begin
         GravaLog('Validar: 630-Produto do valor unitário e quantidade tributável [nItem: ' + IntToStr(Prod.nItem) + ']');
         if (NFe.ide.finNFe = fnNormal) and (ComparaValor(Prod.vProd, Prod.vUnTrib * Prod.qTrib, 0.01) <> 0) then
           AdicionaErro('630-Rejeição: Valor do Produto difere do produto Valor Unitário de Tributação e Quantidade Tributável [nItem: ' + IntToStr(Prod.nItem) + ']');
-
+        }
         GravaLog('Validar: 528-ICMS BC e Aliq [nItem: '+IntToStr(Prod.nItem)+']');
         if (Imposto.ICMS.CST in [cst00,cst10,cst20,cst70]) and
            (NFe.Ide.finNFe = fnNormal) and

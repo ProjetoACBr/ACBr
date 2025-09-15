@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/09/2025
+-- ACBrNFeNotasFiscais --
+[-] Desabilita validação das regras de negócios 629 e 630 - #ACBR-8024
+    Por: doszapro
+
 12/09/2025
 -- ACBrNFe.IniWriter/ACBrNFe.XmlWriter --
 [*] Possível solução para gerar o grupo gCBSTot no arquivo INI
