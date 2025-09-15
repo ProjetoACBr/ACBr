@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 15/09/2025
+-- DeISS.GravarXml --
+[*] Possível solução para o ValorIss que é calculado pelo webservice.
+   Por: Daniel Afonso-NW Software
 -- RLZ.GravarXml/RLZ.LerXml/RLZ.Provider --
 [*] Ajuste para gerar a tag aliquota com 4 casas decimais.
    Por: Italo Giurizzato Junior
