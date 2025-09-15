@@ -37,6 +37,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/09/2025
+-- ACBrJSON --
+[+] Inclusão da função ItemAsJSONArray.
+    por: Elias César
+
 19/08/2025
 -- ACBrBase --
 [+] Adicionada classe TACBrURI

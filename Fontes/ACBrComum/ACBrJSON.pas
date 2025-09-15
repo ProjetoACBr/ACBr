@@ -142,7 +142,6 @@ type
     constructor Create; overload;
     constructor Create(AJSONObject: TJsonObject); overload;
     destructor Destroy; override;
-
   end;
 
   { TACBrJSONArray }
@@ -156,11 +155,13 @@ type
     class function CreateJsonArray(const AJsonString: string): TJsonArray;
     function GetItems(const AIndex: Integer): string;
     function GetItemAsJSONObject(const AIndex: Integer): TACBrJSONObject;
+    function GetItemAsJSONArray(const AIndex: Integer): TACBrJSONArray;
 
   public
     property OwnerJSON: Boolean read FOwnerJSON write FOwnerJSON;
     property Items[const AIndex: Integer]: string read GetItems;
     property ItemAsJSONObject[const AIndex: Integer]: TACBrJSONObject read GetItemAsJSONObject;
+    property ItemAsJSONArray[const AIndex: Integer]: TACBrJSONArray read GetItemAsJSONArray;
 
     function AddElement(const AValue: string): TACBrJSONArray; overload;
     function AddElement(const AValue: Integer): TACBrJSONArray; overload;
@@ -901,6 +902,32 @@ begin
   {$ENDIF}{$EndIf}
   try
     Result := TACBrJSONObject.Create(LJSON);
+    Result.OwnerJSON := True;
+    FContexts.Add(Result);
+  except
+    LJSON.Free;
+    raise;
+  end;
+end;
+
+function TACBrJSONArray.GetItemAsJSONArray(const AIndex: Integer): TACBrJSONArray;
+var
+  {$IfNDef USE_JSONDATAOBJECTS_UNIT}{$IfNDef FPC}
+  LJSONStr: string;
+  {$EndIf}{$EndIf}
+  LJSON: TJSONArray;
+begin
+  {$IfDef USE_JSONDATAOBJECTS_UNIT}
+  LJSON := FJSON.Items[AIndex].ArrayValue.Clone;
+  {$Else}{$IfDef FPC}
+  LJSON := GetJSON(FJSON.Items[AIndex].AsJSON) as TJSONArray;
+  {$ELSE}
+  LJSONStr := TJsonArray(FJSON.Items[AIndex]).Stringify;
+  LJSON := TJsonArray.Create;
+  LJSON.Parse(LJSONStr);
+  {$ENDIF}{$EndIf}
+  try
+    Result := TACBrJSONArray.Create(LJSON);
     Result.OwnerJSON := True;
     FContexts.Add(Result);
   except
