@@ -18,7 +18,8 @@ uses
   ACBrTEFAPIStoneAutoTEF, ACBrTEFAPIAditum, ACBrTEFDestaxaComum, 
   ACBrTEFAPIDestaxa, ACBrTEFScopeAPI, ACBrTEFAPIScope, ACBrTEFAPITPag, 
   ACBrTEFTPagAPI, ACBrTEFAPIPayKit, ACBrTEFPayKitAPI, ACBrTEFAPIDirectPin, 
-  ACBrTEFDirectPinAPI, LazarusPackageIntf;
+  ACBrTEFDirectPinAPI, ACBrTEFSmartTEFAPI, ACBrTEFSmartTEFInterface, 
+  ACBrTEFSmartTEFSchemas, LazarusPackageIntf;
 
 implementation
 

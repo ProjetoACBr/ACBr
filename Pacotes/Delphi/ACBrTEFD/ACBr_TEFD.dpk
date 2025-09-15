@@ -91,7 +91,9 @@ contains
   ACBrTEFAPIPayKit in '..\..\..\Fontes\ACBrTEFD\ACBrTEFAPIPayKit.pas',
   ACBrTEFPayKitAPI in '..\..\..\Fontes\ACBrTEFD\ACBrTEFPayKitAPI.pas',
   ACBrTEFAPIDirectPin in '..\..\..\Fontes\ACBrTEFD\ACBrTEFAPIDirectPin.pas',
-  ACBrTEFDirectPinAPI in '..\..\..\Fontes\ACBrTEFD\ACBrTEFDirectPinAPI.pas';
-
+  ACBrTEFDirectPinAPI in '..\..\..\Fontes\ACBrTEFD\ACBrTEFDirectPinAPI.pas',
+  ACBrTEFSmartTEFAPI in '..\..\..\Fontes\ACBrTEFD\ACBrTEFSmartTEFAPI.pas',
+  ACBrTEFSmartTEFInterface in '..\..\..\Fontes\ACBrTEFD\ACBrTEFSmartTEFInterface.pas',
+  ACBrTEFSmartTEFSchemas in '..\..\..\Fontes\ACBrTEFD\ACBrTEFSmartTEFSchemas.pas';
 
 end.

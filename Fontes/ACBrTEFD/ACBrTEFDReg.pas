@@ -41,14 +41,14 @@ implementation
 
 Uses
   Classes,
-  ACBrTEFD, ACBrPicPay, ACBrPOS, ACBrTEFAPI
+  ACBrTEFD, ACBrPicPay, ACBrPOS, ACBrTEFAPI, ACBrTEFSmartTEFAPI
   {$IfDef DELPHIX_BERLIN_UP},ACBrTEFAndroid{$EndIf}
   ;
 
 procedure Register;
 begin
-  RegisterComponents('ACBrTEFD', [TACBrTEFD, TACBrPicPay, TACBrPOS, TACBrTEFAPI
-                  {$IfDef DELPHIX_BERLIN_UP},TACBrTEFAndroid{$EndIf}]);
+  RegisterComponents('ACBrTEFD', [TACBrTEFD, TACBrPicPay, TACBrPOS, TACBrTEFAPI,
+    TACBrSmartTEF {$IfDef DELPHIX_BERLIN_UP},TACBrTEFAndroid{$EndIf}]);
 end;
 
 
