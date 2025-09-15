@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+15/09/2025
+-- ACBrBancoBradesco  --
+[*] ACBr-583 Ajustado para ler retorno 66 LIquidado Qrcode
+	https://www.projetoacbr.com.br/forum/topic/83779-modifica%C3%A7%C3%B5es-na-an%C3%A1lise-do-cnab400-de-retorno-do-bradesco/
+    Por:  Eduardo Rodrigues de Faria
+
 11/09/2025
 -- ACBrBoletoW_Itau_API --
 [*] ACBr-8040 Ajustado TpAltera tipo de ocorrencia add toRemessaAlterarValorTitulo
