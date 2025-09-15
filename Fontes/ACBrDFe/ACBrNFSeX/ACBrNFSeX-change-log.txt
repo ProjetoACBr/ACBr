@@ -42,6 +42,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/09/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8047 Incluído o Params Aliquota4Casas para a cidade Barretos/SP.
+   Por: Alexandre Faustinoni
+[*] #ACBr-8044 Alterado as URLs e a versão da cidade Itapetinga/BA, o provedor continua o mesmo.
+   Por: João Antônio
+[*] #ACBr-8043 A cidade Rio Paranaiba/MG trocou de provedor, agora é PadraoNacional.
+   Por: Flavio Realtec
+
 11/09/2025
 -- ACBrNFSeXServicos --
 [*] #ACBr-8037 A cidade São Pedro do Butia/RS trocou de provedor, agora é ABase versão 2.01
