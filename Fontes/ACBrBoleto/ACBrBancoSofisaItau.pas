@@ -111,8 +111,8 @@ end;
 procedure TACBrBancoSofisaItau.LerRetorno400(ARetorno: TStringList);
 var LCodBanco : Integer;
 begin
+  LCodBanco := fpNumero;
   try
-    LCodBanco := fpNumero;
     fpNumero  := fpNumeroCorrespondente;
     LCodBanco := StrToIntDef(copy(ARetorno.Strings[0],77,3),-1);
     if (LCodBanco <> Numero) and (LCodBanco <> fpNumeroCorrespondente) then

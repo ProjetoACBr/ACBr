@@ -975,7 +975,7 @@ var
   rCNPJCPF,rAgencia,rConta       : String;
   Titulo: TACBrTitulo;
 begin
-
+  Titulo := nil;
   if StrToIntDef(copy(ARetorno.Strings[0],77,3),-1) <> Numero then
     raise Exception.Create(ACBrStr(ACBrBanco.ACBrBoleto.NomeArqRetorno +
                                    'não é um arquivo de retorno do '+ Nome));
@@ -1026,11 +1026,10 @@ begin
     Linha := ARetorno[ContLinha] ;
 
     if Linha[1] = '1' then
+    begin
       Titulo := ACBrBanco.ACBrBoleto.CriarTituloNaLista;
 
-    with Titulo do
-    begin
-      if Linha[1] = '1' then
+      with Titulo do
       begin
         SeuNumero                   := copy(Linha,38,25);
         NumeroDocumento             := copy(Linha,117,10);
@@ -1109,9 +1108,9 @@ begin
                                           Copy(Linha,115,2),0,'DD/MM/YY');
 
       end;
-      if Linha[1] = '3' then
-        QrCode.emv := trim(copy(Linha,2,390));
-    end;
+    end
+    else if (Linha[1] = '3') and Assigned(Titulo) then
+      Titulo.QrCode.emv := trim(copy(Linha,2,390));
    end;
 end;
 

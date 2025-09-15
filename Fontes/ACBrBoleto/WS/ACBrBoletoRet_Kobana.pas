@@ -205,10 +205,10 @@ begin
               end;
             500:
               begin
-                if LErrorObject.ValueExists('error') then
+                if lJSONObject.ValueExists('error') then
                 begin
                   LRejeicao.Codigo := IntToStr(HTTPResultCode);
-                  LRejeicao.Mensagem := LErrorObject.AsString['error'];
+                  LRejeicao.Mensagem := lJSONObject.AsString['error'];
                 end;
               end;
           else

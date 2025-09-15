@@ -109,8 +109,9 @@ begin
   if RetWS <> '' then
   begin
     //Retorno := ACBrBoleto.CriarRetornoWebNaLista;
+    LJsonObject :=  TACBrJSONObject.Parse(RetWS);
+    try
       try
-        LJsonObject.Parse(RetWS);
         ARetornoWS.JSON := LJsonObject.ToJSON;
 
         case HttpResultCode of
@@ -141,7 +142,7 @@ begin
           end else
           if (LTipoOperacao in [tpConsultaDetalhe,tpConsulta]) then
           begin
-            LJsonBoletos.Parse( LJsonObject.ToJSON );
+            LJsonBoletos := TACBrJSONArray.Parse( LJsonObject.ToJSON );
             try
               if (LJsonBoletos.Count > 0) then
               begin
@@ -182,9 +183,12 @@ begin
             // não possui dados de retorno..
           end;
         end;
-    except
-      Result := False;
-    end;
+      except
+        Result := False;
+      end;
+    finally
+      LJsonObject.Free;
+    end
   end;
 end;
 
@@ -202,7 +206,7 @@ begin
   ListaRetorno.JSONEnvio      := EnvWs;
   if RetWS <> '' then
   begin
-    LJSonObject.Parse(RetWS);
+    LJSonObject := TACBrJSONObject.Parse(RetWS);
     try
       try
         ListaRetorno.JSON:= RetWS;
@@ -221,7 +225,7 @@ begin
         //retorna quando tiver sucesso
         if (ListaRetorno.ListaRejeicao.Count = 0) then
         begin
-          LJsonArrayBoletos.Parse( LJSonObject.ToJSON );
+          LJsonArrayBoletos := TACBrJSONArray.Parse( LJSonObject.ToJSON );
           try
             for I := 0 to Pred(LJsonArrayBoletos.Count) do
             begin

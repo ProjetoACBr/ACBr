@@ -246,12 +246,12 @@ begin
     if (LEmailPayer <> '') and (ValidarEmail(LEmailPayer) <> '') then
       raise Exception.Create('Campo Email do Pagador é inválido!');
 
-    try
+
       LJson := TACBrJSONObject.Create
         .AddPair('external_reference_id',ATitulo.SeuNumero)
         .AddPair('amount',ATitulo.ValorDocumento)
         .AddPair('due_date',DateTimeToDate(ATitulo.Vencimento));
-
+    try
 
       if (Trim(ATitulo.Mensagem.Text) <> '') then
       begin
@@ -310,6 +310,8 @@ begin
           cjValorMensal : LValorMoraJuros := ATitulo.ValorMoraJuros / 30;
           cjTaxaDiaria  : LValorMoraJuros := RoundABNT(ATitulo.ValorMoraJuros * 30,2);
           cjTaxaMensal  : LValorMoraJuros := ATitulo.ValorMoraJuros;
+          else
+            LValorMoraJuros := 0;
         end;
 
         LJson.AddPair('interest',
@@ -410,6 +412,8 @@ begin
             cjValorMensal : LValorMoraJuros := ATitulo.ValorMoraJuros / 30;
             cjTaxaDiaria  : LValorMoraJuros := RoundABNT(ATitulo.ValorMoraJuros * 30,2);
             cjTaxaMensal  : LValorMoraJuros := ATitulo.ValorMoraJuros;
+            else
+              LValorMoraJuros := 0;
           end;
 
           LJson.AddPair('interest',

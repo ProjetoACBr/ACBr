@@ -454,14 +454,15 @@ begin
     begin
       OAuth.AuthorizationType := atJWT;
       OAuth.GrantType   := 'urn:ietf:params:oauth:grant-type:jwt-bearer';
+
+      LJSonObject := TACBrJSONObject.Create
+                     .AddPair('aud',OAuth.URL.GetURL)
+                     .AddPair('sub',Trim(Boleto.Cedente.CedenteWS.ClientID))
+                     .AddPair('iat',FUnixTime - 3600 )
+                     .AddPair('exp',FUnixTime + 3600)
+                     .AddPair('jti',FUnixTime * 1000)
+                     .AddPair('ver',LVersao);
       try
-        LJSonObject := TACBrJSONObject.Create
-                       .AddPair('aud',OAuth.URL.GetURL)
-                       .AddPair('sub',Trim(Boleto.Cedente.CedenteWS.ClientID))
-                       .AddPair('iat',FUnixTime - 3600 )
-                       .AddPair('exp',FUnixTime + 3600)
-                       .AddPair('jti',FUnixTime * 1000)
-                       .AddPair('ver',LVersao);
         OAuth.ParamsOAuth := LJSonObject.ToJSON;
       finally
         LJSonObject.Free;
@@ -1183,6 +1184,8 @@ begin
       1: TipoDesconto := Integer(ATitulo.TipoDesconto);
       2: TipoDesconto := Integer(ATitulo.TipoDesconto2);
       3: TipoDesconto := Integer(ATitulo.TipoDesconto3);
+      else
+        TipoDesconto := 0;
     end;
 
     AdicionarDescontoJSON(IntToStr(i), TipoDesconto);

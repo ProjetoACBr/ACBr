@@ -652,7 +652,7 @@ begin
       raise Exception.Create('Não foi possível encontrar o ID do boleto');
 
   finally
-    LACBrJSONObject.Free;
+    LACBrJSONArray.Free;
   end;
 end;
 

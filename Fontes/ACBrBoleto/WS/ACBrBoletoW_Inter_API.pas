@@ -787,8 +787,8 @@ begin
   *)
   if (Boleto.Cedente.CedenteWS.IndicadorPix) and (Boleto.Configuracoes.WebService.Operacao = tpInclui) then
   begin
+    LJsonObject := TACBrJSONObject.Parse( FRetornoWS );
     try
-      LJsonObject := TACBrJSONObject.Parse( FRetornoWS );
       if NaoEstaVazio(LJsonObject.AsString['codigoSolicitacao']) then
       begin
         ATitulo.NossoNumeroCorrespondente := LJsonObject.AsString['codigoSolicitacao'];

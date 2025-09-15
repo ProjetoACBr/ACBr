@@ -103,11 +103,12 @@ begin
 
   if RetWS <> '' then
   begin
-    try
-      if Copy(Trim(RetWS),0,5) = 'ERRO:' then
-        RetWS := Copy(Trim(RetWS),6,Length(RetWS));
 
-      LJsonObject := TACBrJSONObject.Parse(RetWS);
+    if Copy(Trim(RetWS),0,5) = 'ERRO:' then
+      RetWS := Copy(Trim(RetWS),6,Length(RetWS));
+
+    LJsonObject := TACBrJSONObject.Parse(RetWS);
+    try
       ARetornoWS.MsgRetorno := RetWS;
       try
 
@@ -257,7 +258,7 @@ begin
         Result := False;
       end;
     finally
-      LJsonObject.free;
+      LJsonObject.Free;
     end;
   end;
 
@@ -282,11 +283,12 @@ begin
   if RetWS <> '' then
   begin
     LListaRetorno.JSON := RetWS;
-    try
-      if Copy(Trim(RetWS),0,5) = 'ERRO:' then
-        RetWS := Copy(Trim(RetWS),6,Length(RetWS));
 
-      LJsonObject := TACBrJSONObject.Parse(RetWS);
+    if Copy(Trim(RetWS),0,5) = 'ERRO:' then
+      RetWS := Copy(Trim(RetWS),6,Length(RetWS));
+
+    LJsonObject := TACBrJSONObject.Parse(RetWS);
+    try
       try
         if (HTTPResultCode >= 400) and (HTTPResultCode <> 404) then
         begin

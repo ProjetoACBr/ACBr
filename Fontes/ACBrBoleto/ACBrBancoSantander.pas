@@ -1259,6 +1259,7 @@ var
   Linha, rCedente, rAgencia, rConta, rDigitoConta, rCNPJCPF, LUrl, LTxId: String;
   wCodBanco: Integer;
 begin
+   Titulo := nil;
    wCodBanco := StrToIntDef(copy(ARetorno.Strings[0],77,3),-1);
    if (wCodBanco <> Numero) and (wCodBanco <> 353) then
       raise Exception.Create(ACBrStr(ACBrBanco.ACBrBoleto.NomeArqRetorno +
@@ -1313,11 +1314,10 @@ begin
       Linha := ARetorno[ContLinha] ;
 
       if Linha[1] = '1' then
+      begin
         Titulo := ACBrBanco.ACBrBoleto.CriarTituloNaLista;
 
-      with Titulo do
-      begin
-        if Linha[1] = '1' then
+        with Titulo do
         begin
           SeuNumero   := copy(Linha,38,25);
           if ACBrBanco.ACBrBoleto.LerNossoNumeroCompleto then
@@ -1396,13 +1396,13 @@ begin
 
           Sacado.NomeSacado:= Copy(Linha,302,36);
         end;
-        if Linha[1] = '2' then
-        begin
-          LUrl := Trim(Copy(Linha,03,77));
-          LTxId:= Trim(Copy(Linha,80,35));
-          if NaoEstaVazio(lURL) and NaoEstaVazio(LtxId) then
-            Titulo.QrCode.PIXQRCodeDinamico(LUrl,LTxId, Titulo);
-        end;
+      end else
+      if Linha[1] = '2' then
+      begin
+        LUrl := Trim(Copy(Linha,03,77));
+        LTxId:= Trim(Copy(Linha,80,35));
+        if NaoEstaVazio(lURL) and NaoEstaVazio(LtxId) and Assigned(Titulo) then
+          Titulo.QrCode.PIXQRCodeDinamico(LUrl,LTxId, Titulo);
       end;
    end;
 end;

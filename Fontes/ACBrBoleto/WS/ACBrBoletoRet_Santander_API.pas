@@ -377,7 +377,7 @@ begin
               LJsonArrayErros := LJsonObject.AsJSONArray['_errors'];
               for I := 0 to Pred(LJsonArrayErros.Count) do
               begin
-                LErrosObject                 := LJsonArray.ItemAsJSONObject[I];
+                LErrosObject                 := LJsonArrayErros.ItemAsJSONObject[I];
                 LMensagemRejeicao            := LListaRetorno.CriarRejeicaoLista;
                 LMensagemRejeicao.Codigo     := LErrosObject.AsString['_code'];
                 LMensagemRejeicao.Versao     := LErrosObject.AsString['_field'];
@@ -391,12 +391,12 @@ begin
           begin
             LMensagemRejeicao            := LListaRetorno.CriarRejeicaoLista;
             case HTTPResultCode of
-            401: LMensagemRejeicao.Mensagem   := LErrosObject.AsString['Unauthorized'];
-            403: LMensagemRejeicao.Mensagem   := LErrosObject.AsString['Forbidden'];
-            406: LMensagemRejeicao.Mensagem   := LErrosObject.AsString['Not Acceptable'];
-            500: LMensagemRejeicao.Mensagem   := LErrosObject.AsString['Internal Server Error'];
+            401: LMensagemRejeicao.Mensagem   := LJsonObject.AsString['Unauthorized'];
+            403: LMensagemRejeicao.Mensagem   := LJsonObject.AsString['Forbidden'];
+            406: LMensagemRejeicao.Mensagem   := LJsonObject.AsString['Not Acceptable'];
+            500: LMensagemRejeicao.Mensagem   := LJsonObject.AsString['Internal Server Error'];
             end;
-            LMensagemRejeicao.Codigo     := inttostr(HTTPResultCode);
+            LMensagemRejeicao.Codigo     := IntToStr(HTTPResultCode);
           end;
         end;
 

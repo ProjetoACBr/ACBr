@@ -600,7 +600,7 @@ begin
   Banco  := FBoleto.Banco.TipoCobranca;
   Result := False;
   FBoletoWSClass.FHTTPSend.Timeout := FBoleto.Configuracoes.WebService.TimeOut;
-
+  LUltimoEnvio := Now;
   try
     if FBoleto.ListadeBoletos.Count > 0 then
     begin

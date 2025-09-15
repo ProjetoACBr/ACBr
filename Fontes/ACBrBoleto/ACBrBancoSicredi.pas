@@ -734,6 +734,8 @@ var
   Linha, rCedente, rCNPJCPF, rCodCedente, rEspDoc :String;
   CodMotivo_19,CodMotivo: String;
 begin
+  Titulo := nil;
+
   fpTamanhoMaximoNossoNum := 20;
 
   if StrToIntDef(copy(ARetorno[0],77,3),-1) <> Numero then
@@ -907,7 +909,7 @@ begin
       end;
     end;
 
-    if (Copy(Linha,1,1) = '8') then
+    if (Copy(Linha,1,1) = '8') and Assigned(Titulo) then
     begin
       Titulo.QrCode.emv  := Copy(Linha,135,256);   //tem que ser lido por primeiro para aceitar a
       Titulo.QrCode.txId := Copy(Linha,21,35);     //leitura dos outros campos

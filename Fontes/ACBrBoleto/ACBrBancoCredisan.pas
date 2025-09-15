@@ -574,8 +574,8 @@ var
   LConvenioCedente                   : String;
   LBoleto : TACBrBoleto;
 begin
+  LTamanhoMaximoNossoNum := fpTamanhoMaximoNossoNum;
   try
-    LTamanhoMaximoNossoNum := fpTamanhoMaximoNossoNum;
     fpTamanhoMaximoNossoNum := 11;
     if StrToIntDef(copy(ARetorno.Strings[ 0 ], 77, 3), - 1) <> Numero then
       raise Exception.create(ACBrStr(ACBrBanco.ACBrBoleto.NomeArqRetorno + 'não é um arquivo de retorno do ' + Nome));

@@ -563,11 +563,8 @@ begin
             ValorDespesaCobranca := StrToFloatDef(Copy(Linha,199,15),0)/100;
 
             Carteira             := Copy(Linha,58,1);
-
+            LLayoutArquivo := fpLayoutVersaoArquivo;
             try
-
-              LLayoutArquivo := fpLayoutVersaoArquivo;
-
               if ACBrBoleto.LerNossoNumeroCompleto or (ACBrBoleto.Banco.LayoutVersaoArquivo = 810) then
               begin
                 fpLayoutVersaoArquivo   := 810;
@@ -581,7 +578,6 @@ begin
             finally
               fpLayoutVersaoArquivo := LLayoutArquivo;
             end;
-
 
             if (CodOcorrencia  = '06' ) or (CodOcorrencia  = '09' ) or
                (CodOcorrencia  = '17' ) then

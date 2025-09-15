@@ -135,6 +135,9 @@ var
   LNossoNumero, LContrato: string;
   LCodigoSolicitacao, LIdArquivo: integer;
 begin
+  LIdArquivo := -1;
+  LCodigoSolicitacao := -1;
+
   if( aTitulo <> nil ) then
     LNossoNumero := ACBrUtil.Strings.RemoveZerosEsquerda(OnlyNumber(aTitulo.NossoNumero)+aTitulo.ACBrBoleto.Banco.CalcularDigitoVerificador(aTitulo));
 

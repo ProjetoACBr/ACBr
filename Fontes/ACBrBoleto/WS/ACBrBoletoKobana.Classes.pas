@@ -616,9 +616,8 @@ var
   LBankBilletRetJSON: TBankBilletRetJSON;
 begin
   Result := TBankBilletRetJSONList.Create;
+  LACBrJSONArray := TACBrJSONArray.Parse(AJsonString);
   try
-    LACBrJSONArray := TACBrJSONArray.Parse(AJsonString);
-
     for Li := 0 to LACBrJSONArray.Count - 1 do
     begin
       LACBrJSONObject := LACBrJSONArray.ItemAsJSONObject[Li];

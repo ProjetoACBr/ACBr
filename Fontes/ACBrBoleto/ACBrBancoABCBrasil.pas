@@ -774,6 +774,8 @@ begin
   case StrToInt(LCodigoMulta) of
     1 : LValorMulta := Round(ACBrTitulo.ValorDocumento * ACBrTitulo.PercentualMulta);
     2 : LValorMulta := Round(ACBrTitulo.PercentualMulta * 10000);
+    else
+      LValorMulta := 0;
   end;
 
   case StrToIntDef(ACBrTitulo.Carteira,0) of

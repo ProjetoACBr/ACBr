@@ -537,6 +537,7 @@ var
   rConvenioCedente: String;
 
 begin
+  Titulo := Nil;
   // Verifica se o arquivo pertence ao banco
   if StrToIntDef(copy(ARetorno.Strings[0], 1, 3), -1) <> Numero then
     raise Exception.create(ACBrStr(ACBrBanco.ACBrBoleto.NomeArqRetorno + 'não é um arquivo de retorno do ' + Nome));
@@ -583,58 +584,61 @@ begin
     if Copy(Linha, 14, 1) = 'T' then // Verifica se for segmento T cria um novo titulo
       Titulo := ACBrBanco.ACBrBoleto.CriarTituloNaLista;
 
-    with Titulo do
+    if Assigned(Titulo) then
     begin
-      if Copy(Linha, 14, 1) = 'T' then
+      with Titulo do
       begin
-        SeuNumero := Copy(Linha, 106, 25);
-        NumeroDocumento := Copy(Linha, 59, 15);
-        Carteira := Copy(Linha, 58, 1);
-
-        TempData := Copy(Linha, 74, 2) + '/' + Copy(Linha, 76, 2) + '/' + Copy(Linha, 78, 4);
-        if TempData <> '00/00/0000' then
-          Vencimento := StringToDateTimeDef(TempData, 0, 'DDMMYYYY');
-
-        ValorDocumento := StrToFloatDef(Copy(Linha, 82, 15), 0) / 100;
-
-        NossoNumero := Copy(Linha, 42, 11);
-        ValorDespesaCobranca := StrToFloatDef(Copy(Linha, 199, 15), 0) / 100;
-
-        OcorrenciaOriginal.Tipo := CodOcorrenciaToTipo(StrToIntDef(Copy(Linha, 16, 2), 0));
-
-        IdxMotivo := 214;
-
-        while (IdxMotivo < 223) do
+        if Copy(Linha, 14, 1) = 'T' then
         begin
-          if (Trim(Copy(Linha, IdxMotivo, 2)) <> '') then
+          SeuNumero := Copy(Linha, 106, 25);
+          NumeroDocumento := Copy(Linha, 59, 15);
+          Carteira := Copy(Linha, 58, 1);
+
+          TempData := Copy(Linha, 74, 2) + '/' + Copy(Linha, 76, 2) + '/' + Copy(Linha, 78, 4);
+          if TempData <> '00/00/0000' then
+            Vencimento := StringToDateTimeDef(TempData, 0, 'DDMMYYYY');
+
+          ValorDocumento := StrToFloatDef(Copy(Linha, 82, 15), 0) / 100;
+
+          NossoNumero := Copy(Linha, 42, 11);
+          ValorDespesaCobranca := StrToFloatDef(Copy(Linha, 199, 15), 0) / 100;
+
+          OcorrenciaOriginal.Tipo := CodOcorrenciaToTipo(StrToIntDef(Copy(Linha, 16, 2), 0));
+
+          IdxMotivo := 214;
+
+          while (IdxMotivo < 223) do
           begin
-            MotivoRejeicaoComando.Add(Copy(Linha, IdxMotivo, 2));
-            DescricaoMotivoRejeicaoComando.Add(CodMotivoRejeicaoToDescricao(OcorrenciaOriginal.Tipo, StrToIntDef(Copy(Linha, IdxMotivo, 2), 0)));
+            if (Trim(Copy(Linha, IdxMotivo, 2)) <> '') then
+            begin
+              MotivoRejeicaoComando.Add(Copy(Linha, IdxMotivo, 2));
+              DescricaoMotivoRejeicaoComando.Add(CodMotivoRejeicaoToDescricao(OcorrenciaOriginal.Tipo, StrToIntDef(Copy(Linha, IdxMotivo, 2), 0)));
+            end;
+            Inc(IdxMotivo, 2);
           end;
-          Inc(IdxMotivo, 2);
+
+          // Quando o numero documento vier em branco
+          if Trim(NumeroDocumento) = '' then
+            NumeroDocumento := NossoNumero;
+        end
+        else // Segmento U
+        begin
+          ValorIOF            := StrToFloatDef(Copy(Linha, 63, 15), 0) / 100;
+          ValorAbatimento     := StrToFloatDef(Copy(Linha, 48, 15), 0) / 100;
+          ValorDesconto       := StrToFloatDef(Copy(Linha, 33, 15), 0) / 100;
+          ValorMoraJuros      := StrToFloatDef(Copy(Linha, 18, 15), 0) / 100;
+          ValorOutrosCreditos := StrToFloatDef(Copy(Linha, 123, 15), 0) / 100;
+          ValorOutrasDespesas := StrToFloatDef(Copy(Linha, 108, 15), 0) / 100;
+          ValorRecebido       := StrToFloatDef(Copy(Linha, 78, 15), 0) / 100;
+
+          TempData := Copy(Linha, 138, 2) + '/' + Copy(Linha, 140, 2) + '/' + Copy(Linha, 142, 4);
+          if TempData <> '00/00/0000' then
+            DataOcorrencia := StringToDateTimeDef(TempData, 0, 'DDMMYYYY');
+
+          TempData := Copy(Linha, 146, 2) + '/' + Copy(Linha, 148, 2) + '/' + Copy(Linha, 150, 4);
+          if TempData <> '00/00/0000' then
+            DataCredito := StringToDateTimeDef(TempData, 0, 'DDMMYYYY');
         end;
-
-        // Quando o numero documento vier em branco
-        if Trim(NumeroDocumento) = '' then
-          NumeroDocumento := NossoNumero;
-      end
-      else // Segmento U
-      begin
-        ValorIOF            := StrToFloatDef(Copy(Linha, 63, 15), 0) / 100;
-        ValorAbatimento     := StrToFloatDef(Copy(Linha, 48, 15), 0) / 100;
-        ValorDesconto       := StrToFloatDef(Copy(Linha, 33, 15), 0) / 100;
-        ValorMoraJuros      := StrToFloatDef(Copy(Linha, 18, 15), 0) / 100;
-        ValorOutrosCreditos := StrToFloatDef(Copy(Linha, 123, 15), 0) / 100;
-        ValorOutrasDespesas := StrToFloatDef(Copy(Linha, 108, 15), 0) / 100;
-        ValorRecebido       := StrToFloatDef(Copy(Linha, 78, 15), 0) / 100;
-
-        TempData := Copy(Linha, 138, 2) + '/' + Copy(Linha, 140, 2) + '/' + Copy(Linha, 142, 4);
-        if TempData <> '00/00/0000' then
-          DataOcorrencia := StringToDateTimeDef(TempData, 0, 'DDMMYYYY');
-
-        TempData := Copy(Linha, 146, 2) + '/' + Copy(Linha, 148, 2) + '/' + Copy(Linha, 150, 4);
-        if TempData <> '00/00/0000' then
-          DataCredito := StringToDateTimeDef(TempData, 0, 'DDMMYYYY');
       end;
     end;
   end;

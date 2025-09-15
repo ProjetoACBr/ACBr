@@ -106,8 +106,8 @@ begin
 
   if RetWS <> '' then
   begin
+    LJsonObject := TACBrJSONObject.Parse(RetWS);
     try
-      LJsonObject := TACBrJSONObject.Parse(RetWS);
       try
         ARetornoWS.JSON := LJsonObject.ToJSON;
 
@@ -372,8 +372,8 @@ begin
     LListaRetorno.DadosRet.IDBoleto.NossoNum := ACBrTitulo.NossoNumero;
   if RetWS <> '' then
   begin
+    LJsonObject := TACBrJSONObject.Parse(RetWS);
     try
-      LJsonObject := TACBrJSONObject.Parse(RetWS);
       try
         LListaRetorno.JSON           := LJsonObject.ToJSON;
 
@@ -452,7 +452,7 @@ begin
         Result := False;
       end;
     finally
-      LJsonObject.free;
+      LJsonObject.Free;
     end;
   end else
   begin

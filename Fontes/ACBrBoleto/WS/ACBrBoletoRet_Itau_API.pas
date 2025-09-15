@@ -439,9 +439,8 @@ begin
   if RetWS <> '' then
   begin
     try
+      LJsonObject := TACBrJSONObject.Parse(RetWS);
       try
-        LJsonObject := TACBrJSONObject.Parse(RetWS);
-
         case ACBrBoleto.Configuracoes.WebService.Filtro.indicadorSituacao of
         isbNenhum:
           begin
@@ -762,7 +761,7 @@ begin
 
 
       finally
-        LJsonObject.free;
+        LJsonObject.Free;
       end;
     except
       Result := False;

@@ -476,6 +476,7 @@ var
   LDescontoErro : Boolean;
   LJsonObject: TACBrJSONObject;
 begin
+  LDescontoErro := True;
   if Assigned(ATitulo) then
   begin
     LJsonObject := TACBrJSONObject.Create;
