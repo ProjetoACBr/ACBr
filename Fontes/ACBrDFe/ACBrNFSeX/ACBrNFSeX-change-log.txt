@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 15/09/2025
+-- RLZ.GravarXml/RLZ.LerXml/RLZ.Provider --
+[*] Ajuste para gerar a tag aliquota com 4 casas decimais.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] #ACBr-8047 Incluído o Params Aliquota4Casas para a cidade Barretos/SP.
    Por: Alexandre Faustinoni

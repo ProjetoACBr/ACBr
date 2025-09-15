@@ -67,6 +67,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Strings,
   ACBrNFSeXConsts,
   ACBrNFSeXConversao;
@@ -276,6 +277,9 @@ begin
   inherited Configuracao;
 
   FormatoAliq := tcDe2;
+
+  if FpAOwner.ConfigGeral.Params.TemParametro('Aliquota4Casas') then
+    FormatoAliq := tcDe4;
 end;
 
 end.

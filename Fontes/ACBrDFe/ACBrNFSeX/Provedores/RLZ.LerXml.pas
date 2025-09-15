@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrXmlBase, ACBrXmlDocument,
+  ACBrXmlBase,
+  ACBrXmlDocument,
   ACBrNFSeXLerXml_ABRASFv2, ACBrNFSeXConversao, ACBrNFSeXLerXml;
 
 type
@@ -66,6 +67,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Base;
 
 //==============================================================================
