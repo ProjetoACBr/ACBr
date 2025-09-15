@@ -37,8 +37,7 @@ unit fintelISS.GravarXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
-  IniFiles,
+  SysUtils, Classes, StrUtils, IniFiles,
   ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXGravarXml_ABRASFv2;

@@ -37,8 +37,7 @@ unit fintelISS.LerXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
-  IniFiles,
+  SysUtils, Classes, StrUtils, IniFiles,
   ACBrNFSeXLerXml_ABRASFv2;
 
 type

@@ -183,7 +183,7 @@ function TACBrNFSeProviderfintelISS200.GetSchemaPath: string;
 begin
   Result := inherited GetSchemaPath;
 
-  Result := Result + ConfigGeral.CodIBGE + '\';
+  Result := Result + ConfigGeral.CodIBGE;
 end;
 
 { TACBrNFSeXWebservicefintelISS200 }
