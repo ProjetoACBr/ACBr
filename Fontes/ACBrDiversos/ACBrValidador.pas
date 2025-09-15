@@ -481,7 +481,7 @@ begin
   IF UF = 'RJ' Then Mascara := '**.***.**-*';
   IF UF = 'RN' Then Mascara := IfThen((LenDoc>9),'**.*.***.***-*','**.***.***-*');
   IF UF = 'RS' Then Mascara := '***/*******';
-  IF UF = 'RO' Then Mascara := IfThen((LenDoc>13),'*************-*','***.*****-*');
+  IF UF = 'RO' Then Mascara := '*************-*';
   IF UF = 'RR' Then Mascara := '********-*';
   IF UF = 'SC' Then Mascara := '***.***.***';
   IF UF = 'SP' Then Mascara := ifthen((LenDoc>1) and (AValue[1]='P'),'*-********.*/***', '***.***.***.***');
