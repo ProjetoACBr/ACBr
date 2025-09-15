@@ -1508,6 +1508,12 @@ begin
       LerXMLdocFiscalOutro(ANodes[i].Childrens.FindAnyNs('docFiscalOutro'), gReeRepRes.documentos[i].docFiscalOutro);
       LerXMLdocOutro(ANodes[i].Childrens.FindAnyNs('docOutro'), gReeRepRes.documentos[i].docOutro);
       LerXMLfornec(ANodes[i].Childrens.FindAnyNs('fornec'), gReeRepRes.documentos[i].fornec);
+
+      dtEmiDoc := ObterConteudo(ANode.Childrens.FindAnyNs('dtEmiDoc'), tcDat);
+      dtCompDoc := ObterConteudo(ANode.Childrens.FindAnyNs('dtCompDoc'), tcDat);
+      tpReeRepRes := StrTotpReeRepRes(ObterConteudo(ANode.Childrens.FindAnyNs('tpReeRepRes'), tcStr));
+      xTpReeRepRes := ObterConteudo(ANode.Childrens.FindAnyNs('xTpReeRepRes'), tcStr);
+      vlrReeRepRes := ObterConteudo(ANode.Childrens.FindAnyNs('vlrReeRepRes'), tcDe2);
     end;
   end;
 end;
@@ -1553,11 +1559,6 @@ begin
   fornec.cNaoNIF := StrToNaoNIF(Ok, ObterConteudo(ANode.Childrens.FindAnyNs('cNaoNIF'), tcStr));
   fornec.NIF := ObterConteudo(ANode.Childrens.FindAnyNs('NIF'), tcStr);
   fornec.xNome := ObterConteudo(ANode.Childrens.FindAnyNs('xNome'), tcStr);
-  fornec.dtEmiDoc := ObterConteudo(ANode.Childrens.FindAnyNs('dtEmiDoc'), tcDat);
-  fornec.dtCompDoc := ObterConteudo(ANode.Childrens.FindAnyNs('dtCompDoc'), tcDat);
-  fornec.tpReeRepRes := StrTotpReeRepRes(ObterConteudo(ANode.Childrens.FindAnyNs('tpReeRepRes'), tcStr));
-  fornec.xTpReeRepRes := ObterConteudo(ANode.Childrens.FindAnyNs('xTpReeRepRes'), tcStr);
-  fornec.vlrReeRepRes := ObterConteudo(ANode.Childrens.FindAnyNs('vlrReeRepRes'), tcDe2);
 end;
 
 procedure TNFSeRClass.LerXMLTributos(const ANode: TACBrXmlNode;
@@ -1888,11 +1889,12 @@ begin
       fornec.NIF := AINIRec.ReadString(sSecao, 'NIF', '');
       fornec.cNaoNIF := StrToNaoNIF(Ok, AINIRec.ReadString(sSecao, 'cNaoNIF', ''));
       fornec.xNome := AINIRec.ReadString(sSecao, 'xNome', '');
-      fornec.dtEmiDoc := AINIRec.ReadDate(sSecao, 'dtEmiDoc', 0);
-      fornec.dtCompDoc := AINIRec.ReadDate(sSecao, 'dtCompDoc', 0);
-      fornec.tpReeRepRes := StrTotpReeRepRes(AINIRec.ReadString(sSecao, 'tpReeRepRes', ''));
-      fornec.xTpReeRepRes := AINIRec.ReadString(sSecao, 'xTpReeRepRes', '');
-      fornec.vlrReeRepRes := StringToFloatDef(AINIRec.ReadString(sSecao, 'vlrReeRepRes', ''), 0);
+
+      dtEmiDoc := AINIRec.ReadDate(sSecao, 'dtEmiDoc', 0);
+      dtCompDoc := AINIRec.ReadDate(sSecao, 'dtCompDoc', 0);
+      tpReeRepRes := StrTotpReeRepRes(AINIRec.ReadString(sSecao, 'tpReeRepRes', ''));
+      xTpReeRepRes := AINIRec.ReadString(sSecao, 'xTpReeRepRes', '');
+      vlrReeRepRes := StringToFloatDef(AINIRec.ReadString(sSecao, 'vlrReeRepRes', ''), 0);
     end;
   end;
 end;

@@ -1530,7 +1530,7 @@ function TNFSeWClass.GerarXMLEnderecoNacionalImovel(
 begin
   Result := nil;
 
-  if ender.CEP <> '' then
+  if (ender.CEP <> '') or (ender.endExt.cEndPost <> '') then
   begin
     Result := CreateElement('end');
 
@@ -1617,6 +1617,21 @@ begin
 
     if NFSe.IBSCBS.valores.gReeRepRes.documentos[i].fornec.xNome <> '' then
       Result[i].AppendChild(GerarXMLfornec(NFSe.IBSCBS.valores.gReeRepRes.documentos[i].fornec));
+
+    Result[i].AppendChild(AddNode(tcDat, '#1', 'dtEmiDoc', 10, 10, 1,
+                    NFSe.IBSCBS.valores.gReeRepRes.documentos[i].dtEmiDoc, ''));
+
+    Result[i].AppendChild(AddNode(tcDat, '#1', 'dtCompDoc', 10, 10, 1,
+                   NFSe.IBSCBS.valores.gReeRepRes.documentos[i].dtCompDoc, ''));
+
+    Result[i].AppendChild(AddNode(tcStr, '#1', 'tpReeRepRes', 2, 2, 1,
+      tpReeRepResToStr(NFSe.IBSCBS.valores.gReeRepRes.documentos[i].tpReeRepRes), ''));
+
+    Result[i].AppendChild(AddNode(tcStr, '#1', 'xTpReeRepRes', 0, 150, 0,
+                NFSe.IBSCBS.valores.gReeRepRes.documentos[i].xTpReeRepRes, ''));
+
+    Result[i].AppendChild(AddNode(tcDe2, '#1', 'vlrReeRepRes', 1, 15, 1,
+                NFSe.IBSCBS.valores.gReeRepRes.documentos[i].vlrReeRepRes, ''));
   end;
 
   if NFSe.Servico.Valores.DocDeducao.Count > 1000 then
@@ -1680,21 +1695,6 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'xNome', 1, 150, 1,
                                                              fornec.xNome, ''));
-
-  Result.AppendChild(AddNode(tcDat, '#1', 'dtEmiDoc', 10, 10, 1,
-                                                          fornec.dtEmiDoc, ''));
-
-  Result.AppendChild(AddNode(tcDat, '#1', 'dtCompDoc', 10, 10, 1,
-                                                         fornec.dtCompDoc, ''));
-
-  Result.AppendChild(AddNode(tcStr, '#1', 'tpReeRepRes', 2, 2, 1,
-                                     tpReeRepResToStr(fornec.tpReeRepRes), ''));
-
-  Result.AppendChild(AddNode(tcStr, '#1', 'xTpReeRepRes', 0, 150, 0,
-                                                      fornec.xTpReeRepRes, ''));
-
-  Result.AppendChild(AddNode(tcDe2, '#1', 'vlrReeRepRes', 1, 15, 1,
-                                                      fornec.vlrReeRepRes, ''));
 end;
 
 function TNFSeWClass.GerarXMLTributos(
@@ -1859,11 +1859,12 @@ begin
     AINIRec.WriteString(LSecao, 'NIF', Documentos[i].fornec.NIF);
     AINIRec.WriteString(LSecao, 'cNaoNIF', NaoNIFToStr(Documentos[i].fornec.cNaoNIF));
     AINIRec.WriteString(LSecao, 'xNome', Documentos[i].fornec.xNome);
-    AINIRec.WriteString(LSecao, 'dtEmiDoc', DateToStr(Documentos[i].fornec.dtEmiDoc));
-    AINIRec.WriteString(LSecao, 'dtCompDoc', DateToStr(Documentos[i].fornec.dtCompDoc));
-    AINIRec.WriteString(LSecao, 'tpReeRepRes', tpReeRepResToStr(Documentos[i].fornec.tpReeRepRes));
-    AINIRec.WriteString(LSecao, 'xTpReeRepRes', Documentos[i].fornec.xTpReeRepRes);
-    AINIRec.WriteFloat(LSecao, 'vlrReeRepRes', Documentos[i].fornec.vlrReeRepRes);
+
+    AINIRec.WriteString(LSecao, 'dtEmiDoc', DateToStr(Documentos[i].dtEmiDoc));
+    AINIRec.WriteString(LSecao, 'dtCompDoc', DateToStr(Documentos[i].dtCompDoc));
+    AINIRec.WriteString(LSecao, 'tpReeRepRes', tpReeRepResToStr(Documentos[i].tpReeRepRes));
+    AINIRec.WriteString(LSecao, 'xTpReeRepRes', Documentos[i].xTpReeRepRes);
+    AINIRec.WriteFloat(LSecao, 'vlrReeRepRes', Documentos[i].vlrReeRepRes);
   end;
 end;
 

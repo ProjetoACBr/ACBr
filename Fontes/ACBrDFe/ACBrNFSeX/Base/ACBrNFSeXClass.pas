@@ -1744,21 +1744,11 @@ type
     FNIF: string;
     FcNaoNIF: TNaoNIF;
     FxNome: string;
-    FdtEmiDoc: TDateTime;
-    FdtCompDoc: TDateTime;
-    FtpReeRepRes: TtpReeRepRes;
-    FxTpReeRepRes: string;
-    FvlrReeRepRes: Double;
   public
     property CNPJCPF: string read FCNPJCPF write FCNPJCPF;
     property NIF: string read FNIF write FNIF;
     property cNaoNIF: TNaoNIF read FcNaoNIF write FcNaoNIF;
     property xNome: string read FxNome write FxNome;
-    property dtEmiDoc: TDateTime read FdtEmiDoc write FdtEmiDoc;
-    property dtCompDoc: TDateTime read FdtCompDoc write FdtCompDoc;
-    property tpReeRepRes: TtpReeRepRes read FtpReeRepRes write FtpReeRepRes;
-    property xTpReeRepRes: string read FxTpReeRepRes write FxTpReeRepRes;
-    property vlrReeRepRes: Double read FvlrReeRepRes write FvlrReeRepRes;
   end;
 
   TdocumentosCollectionItem = class(TObject)
@@ -1767,6 +1757,11 @@ type
     FdocFiscalOutro: TdocFiscalOutro;
     FdocOutro: TdocOutro;
     Ffornec: Tfornec;
+    FdtEmiDoc: TDateTime;
+    FdtCompDoc: TDateTime;
+    FtpReeRepRes: TtpReeRepRes;
+    FxTpReeRepRes: string;
+    FvlrReeRepRes: Double;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1775,6 +1770,11 @@ type
     property docFiscalOutro: TdocFiscalOutro read FdocFiscalOutro write FdocFiscalOutro;
     property docOutro: TdocOutro read FdocOutro write FdocOutro;
     property fornec: Tfornec read Ffornec write Ffornec;
+    property dtEmiDoc: TDateTime read FdtEmiDoc write FdtEmiDoc;
+    property dtCompDoc: TDateTime read FdtCompDoc write FdtCompDoc;
+    property tpReeRepRes: TtpReeRepRes read FtpReeRepRes write FtpReeRepRes;
+    property xTpReeRepRes: string read FxTpReeRepRes write FxTpReeRepRes;
+    property vlrReeRepRes: Double read FvlrReeRepRes write FvlrReeRepRes;
   end;
 
   TdocumentosCollection = class(TACBrObjectList)
