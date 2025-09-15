@@ -83,6 +83,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrNFSeXConversao,
   ACBrNFSeXConsts,
   ACBrNFSeX,
@@ -151,6 +152,9 @@ begin
 
   Result.AppendChild(AddNode(tcInt, '#1', 'numeroRps', 1, 11, 1,
                                              NFSe.IdentificacaoRps.Numero, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'loteRps', 1, 11, 0,
+                                                          NFSe.NumeroLote, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'numeroNota', 1, 11, 0,
                                                               NFSe.Numero, ''));

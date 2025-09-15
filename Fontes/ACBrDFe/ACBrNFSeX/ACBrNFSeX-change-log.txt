@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 15/09/2025
+-- Giap.GravarXml/Giap.LerXml/Giap.Provider --
+[*] Incluído a geração da tag loteRPS.
+   Por: Dino Rodrigo S. Moreira
 -- DeISS.GravarXml --
 [*] Possível solução para o ValorIss que é calculado pelo webservice.
    Por: Daniel Afonso-NW Software
