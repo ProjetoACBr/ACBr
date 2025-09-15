@@ -625,7 +625,8 @@ begin
 
       Servico.ItemListaServico := '010601';
 
-      Servico.CodigoNBS := '';
+      Servico.CodigoNBS := '010601000';
+
       Servico.Discriminacao := 'discriminacao I' +
         ACBrNFSeX1.Configuracoes.WebServices.QuebradeLinha +
         'discriminacao II' +
@@ -751,13 +752,15 @@ begin
         IBSCBS.tpOper := togNenhum;
 
         // Grupo de NFS-e referenciadas.
+        {
         with IBSCBS.gRefNFSe.New do
         begin
           // Chave da NFS-e referenciada
-          refNFSe := '';
+          refNFSe := '12345678901234567890123456789012345678901234567890';
         end;
+        }
 
-        // tcgNenhum, tcgUniao, tcgEstados, tcgDistritoFederal, tcgMunicipios, tcgOutro
+        // tcgNenhum, tcgUniao, tcgEstados, tcgDistritoFederal, tcgMunicipios
         IBSCBS.tpEnteGov := tcgNenhum;
         // idTomadorAdquirenteDestinatarioIguais, idTomadorAdquirenteIguais,
         IBSCBS.indDest := idTomadorAdquirenteDestinatarioIguais;
@@ -778,9 +781,9 @@ begin
         IBSCBS.imovel.inscImobFisc := '12345678901';
         IBSCBS.imovel.cCIB := '12345678';
         IBSCBS.imovel.ender.cep := '14800000';
-        IBSCBS.imovel.ender.endExt.cEndPost := '';
-        IBSCBS.imovel.ender.endExt.xCidade := '';
-        IBSCBS.imovel.ender.endExt.xEstProvReg := '';
+        IBSCBS.imovel.ender.endExt.cEndPost := 'cod. postal';
+        IBSCBS.imovel.ender.endExt.xCidade := 'cidade do exterior';
+        IBSCBS.imovel.ender.endExt.xEstProvReg := 'estado no exterior';
         IBSCBS.imovel.ender.xLgr := 'RUA PRINCIPAL';
         IBSCBS.imovel.ender.nro := '100';
         IBSCBS.imovel.ender.xCpl := '';
@@ -793,18 +796,18 @@ begin
             encontram no repositório nacional.
           }
           // tcNFSe, tcNFe, tcCTe, tcOutro
-          dFeNacional.tipoChaveDFe := tcNFSe;
+          dFeNacional.tipoChaveDFe := tcOutro;
           // Informar a descrição se o tipo for tcOutro
-          dFeNacional.xtipoChaveDFe := '';
-          dFeNacional.ChaveDFe := '';
+          dFeNacional.xtipoChaveDFe := 'outro tipo de documento';
+          dFeNacional.ChaveDFe := ''; //'1234567890';
 
           {
             Grupo de informações de documento fiscais, eletrônicos ou não,
             que não se encontram no repositório nacional.
           }
           docFiscalOutro.cMunDocFiscal := 0;
-          docFiscalOutro.nDocFiscal := '';
-          docFiscalOutro.xDocFiscal := '';
+          docFiscalOutro.nDocFiscal := '12345';
+          docFiscalOutro.xDocFiscal := 'Carta Remessa de Mercadoria';
 
           {
             Grupo de informações de documento não fiscal.
@@ -818,18 +821,21 @@ begin
           {
             Grupo de informações do fornecedor do documento referenciado
           }
-          fornec.CNPJCPF := '';
+          {
+          fornec.CNPJCPF := '12345678000123';
           fornec.NIF := '';
           // tnnNaoInformado, tnnDispensado, tnnNaoExigencia
           fornec.cNaoNIF := tnnNaoInformado;
-          fornec.xNome := '';
-          fornec.dtEmiDoc := Date;
-          fornec.dtCompDoc := Date;
+          fornec.xNome := 'fornecedor xyz';
+          }
+
+          dtEmiDoc := Date;
+          dtCompDoc := Date;
           // trrr01, trrr02, trrr03, trrr04, trrr99
-          fornec.tpReeRepRes := trrr99;
+          tpReeRepRes := trrr99;
           // Informar a descrição se o tipo for trrr99.
-          fornec.xTpReeRepRes := '';
-          fornec.vlrReeRepRes := 0;
+          xTpReeRepRes := '';
+          vlrReeRepRes := 0;
         end;
 
         // cst000, cst010, cst011, cst200, cst210, cst221, cst400, cst410
@@ -839,7 +845,7 @@ begin
 
         // cpNenhum, cp01, cp02, cp03, cp04, cp05, cp06, cp07, cp08, cp09, cp10,
         // cp11, cp12, cp13
-        IBSCBS.valores.trib.gIBSCBS.cCredPres := cpNenhum;
+        IBSCBS.valores.trib.gIBSCBS.cCredPres := cp01;
 
         IBSCBS.valores.trib.gIBSCBS.gTribRegular.CSTReg := cst000;
         IBSCBS.valores.trib.gIBSCBS.gTribRegular.cClassTribReg := '000001';
@@ -1896,6 +1902,119 @@ begin
             Valor := (Servico.Valores.ValorLiquidoNfse / CondicaoPagamento.QtdParcela);
           end;
         end;
+      end;
+
+      // Reforma Tributária
+      if rgReformaTributaria.ItemIndex = 0 then
+      begin
+        IBSCBS.finNFSe := fnfsRegular;
+        IBSCBS.indFinal := ifSim;
+        IBSCBS.cIndOp := '123456';
+        // togNenhum, togFornecimento, togRecebimentoPag
+        IBSCBS.tpOper := togNenhum;
+
+        // Grupo de NFS-e referenciadas.
+        {
+        with IBSCBS.gRefNFSe.New do
+        begin
+          // Chave da NFS-e referenciada
+          refNFSe := '12345678901234567890123456789012345678901234567890';
+        end;
+        }
+
+        // tcgNenhum, tcgUniao, tcgEstados, tcgDistritoFederal, tcgMunicipios
+        IBSCBS.tpEnteGov := tcgNenhum;
+        // idTomadorAdquirenteDestinatarioIguais, idTomadorAdquirenteIguais,
+        IBSCBS.indDest := idTomadorAdquirenteDestinatarioIguais;
+
+        IBSCBS.dest.CNPJCPF := '12345678901';
+        IBSCBS.dest.Nif := '';
+        IBSCBS.dest.cNaoNIF := tnnNaoInformado;
+        IBSCBS.dest.xNome := 'Nome do Destinatario';
+        IBSCBS.dest.fone := '1622223333';
+        IBSCBS.dest.email := 'nome@provedor.com.br';
+        IBSCBS.dest.ender.endNac.cMun := StrToIntDef(edtCodCidade.Text, 0);
+        IBSCBS.dest.ender.endNac.CEP := '14800000';
+        IBSCBS.dest.ender.xLgr := 'RUA PRINCIPAL';
+        IBSCBS.dest.ender.nro := '100';
+        IBSCBS.dest.ender.xCpl := '';
+        IBSCBS.dest.ender.xBairro := 'CENTRO';
+
+        IBSCBS.imovel.inscImobFisc := '12345678901';
+        IBSCBS.imovel.cCIB := '12345678';
+        IBSCBS.imovel.ender.cep := '14800000';
+        IBSCBS.imovel.ender.endExt.cEndPost := 'cod. postal';
+        IBSCBS.imovel.ender.endExt.xCidade := 'cidade do exterior';
+        IBSCBS.imovel.ender.endExt.xEstProvReg := 'estado no exterior';
+        IBSCBS.imovel.ender.xLgr := 'RUA PRINCIPAL';
+        IBSCBS.imovel.ender.nro := '100';
+        IBSCBS.imovel.ender.xCpl := '';
+        IBSCBS.imovel.ender.xBairro := 'CENTRO';
+
+        with IBSCBS.valores.gReeRepRes.documentos.New do
+        begin
+          {
+            Grupo de informações de documentos fiscais eletrônicos que se
+            encontram no repositório nacional.
+          }
+          // tcNFSe, tcNFe, tcCTe, tcOutro
+          dFeNacional.tipoChaveDFe := tcOutro;
+          // Informar a descrição se o tipo for tcOutro
+          dFeNacional.xtipoChaveDFe := 'outro tipo de documento';
+          dFeNacional.ChaveDFe := ''; //'1234567890';
+
+          {
+            Grupo de informações de documento fiscais, eletrônicos ou não,
+            que não se encontram no repositório nacional.
+          }
+          docFiscalOutro.cMunDocFiscal := 0;
+          docFiscalOutro.nDocFiscal := '12345';
+          docFiscalOutro.xDocFiscal := 'Carta Remessa de Mercadoria';
+
+          {
+            Grupo de informações de documento não fiscal.
+          }
+          docOutro.nDoc := '12345';
+          docOutro.xDoc := 'Descricao do documento';
+
+          // Os grupos: dFeNacional, docFiscalOutro e docOutro são mutuamente
+          // excludentes, portanto somente um deles pode estar presente no XML
+
+          {
+            Grupo de informações do fornecedor do documento referenciado
+          }
+          {
+          fornec.CNPJCPF := '12345678000123';
+          fornec.NIF := '';
+          // tnnNaoInformado, tnnDispensado, tnnNaoExigencia
+          fornec.cNaoNIF := tnnNaoInformado;
+          fornec.xNome := 'fornecedor xyz';
+          }
+
+          dtEmiDoc := Date;
+          dtCompDoc := Date;
+          // trrr01, trrr02, trrr03, trrr04, trrr99
+          tpReeRepRes := trrr99;
+          // Informar a descrição se o tipo for trrr99.
+          xTpReeRepRes := '';
+          vlrReeRepRes := 0;
+        end;
+
+        // cst000, cst010, cst011, cst200, cst210, cst221, cst400, cst410
+        // cst510, cst550, cst800, cst820
+        IBSCBS.valores.trib.gIBSCBS.CST := cst000;
+        IBSCBS.valores.trib.gIBSCBS.cClassTrib := '000001';
+
+        // cpNenhum, cp01, cp02, cp03, cp04, cp05, cp06, cp07, cp08, cp09, cp10,
+        // cp11, cp12, cp13
+        IBSCBS.valores.trib.gIBSCBS.cCredPres := cp01;
+
+        IBSCBS.valores.trib.gIBSCBS.gTribRegular.CSTReg := cst000;
+        IBSCBS.valores.trib.gIBSCBS.gTribRegular.cClassTribReg := '000001';
+
+        IBSCBS.valores.trib.gIBSCBS.gDif.pDifUF := 5;
+        IBSCBS.valores.trib.gIBSCBS.gDif.pDifMun := 5;
+        IBSCBS.valores.trib.gIBSCBS.gDif.pDifCBS := 5;
       end;
     end;
   end;
