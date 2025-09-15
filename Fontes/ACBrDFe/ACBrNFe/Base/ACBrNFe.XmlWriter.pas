@@ -1866,26 +1866,30 @@ begin
   Result.AppendChild(AddNode(tcDe2, 'M02', 'vTotTrib', 01, 15, 0,
     NFe.Det[i].Imposto.vTotTrib, DSC_VTOTTRIB));
 
-  if ((NFe.Det[i].Imposto.ISSQN.cSitTrib <> ISSQNcSitTribVazio) or
-    ((NFe.infNFe.Versao > 3) and (NFe.Det[i].Imposto.ISSQN.cListServ <> ''))) then
+  if not (nfe.Ide.finNFe in [fnCredito, fnDebito]) then
   begin
-    if NFe.infNFe.Versao >= 3 then
-      Result.AppendChild(GerarDetImpostoIPI(i));
-    Result.AppendChild(GerarDetImpostoISSQN(i));
-  end
-  else
-  begin
-    Result.AppendChild(GerarDetImpostoICMS(i));
-    Result.AppendChild(GerarDetImpostoIPI(i));
-    Result.AppendChild(GerarDetImpostoII(i));
-  end;
-  Result.AppendChild(GerarDetImpostoPIS(i));
-  Result.AppendChild(GerarDetImpostoPISST(i));
-  Result.AppendChild(GerarDetImpostoCOFINS(i));
-  Result.AppendChild(GerarDetImpostoCOFINSST(i));
 
-  if NFe.Det[i].Imposto.ICMSUFDest.pICMSInterPart > 0 then
-    Result.AppendChild(GerarDetImpostoICMSUFDest(i));
+    if ((NFe.Det[i].Imposto.ISSQN.cSitTrib <> ISSQNcSitTribVazio) or
+      ((NFe.infNFe.Versao > 3) and (NFe.Det[i].Imposto.ISSQN.cListServ <> ''))) then
+    begin
+      if NFe.infNFe.Versao >= 3 then
+        Result.AppendChild(GerarDetImpostoIPI(i));
+      Result.AppendChild(GerarDetImpostoISSQN(i));
+    end
+    else
+    begin
+      Result.AppendChild(GerarDetImpostoICMS(i));
+      Result.AppendChild(GerarDetImpostoIPI(i));
+      Result.AppendChild(GerarDetImpostoII(i));
+    end;
+    Result.AppendChild(GerarDetImpostoPIS(i));
+    Result.AppendChild(GerarDetImpostoPISST(i));
+    Result.AppendChild(GerarDetImpostoCOFINS(i));
+    Result.AppendChild(GerarDetImpostoCOFINSST(i));
+
+    if NFe.Det[i].Imposto.ICMSUFDest.pICMSInterPart > 0 then
+      Result.AppendChild(GerarDetImpostoICMSUFDest(i));
+  end;
 
   // Reforma Tributária
   if NFe.Det[i].Imposto.ISel.vBCIS > 0 then

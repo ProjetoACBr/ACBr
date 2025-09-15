@@ -45,6 +45,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 15/09/2025
+-- ACBrNFe.XmlWriter --
+[*] #ACBr-8051 - Quando a nota for de Débito ou Crédito os grupos: ICMS, PIS COFINS não devem ser gerados.
+   Por: Uillian Chagas Prates
 -- ACBrNFeNotasFiscais --
 [-] Desabilita validação das regras de negócios 629 e 630 - #ACBR-8024
     Por: doszapro
