@@ -78,17 +78,21 @@ type
   private
     function GetAsJSON: String;
     procedure SetAsJSON(AValue: String);
+    function IsArray(const aValue: String): Boolean;
   protected
     fpArrayName: String;
     function NewSchema: TACBrAPISchema; virtual;
   public
-    constructor Create(const ArrayName: String);
+    constructor Create(const ArrayName: String = '');
     procedure Clear; override;
     function IsEmpty: Boolean; virtual;
     procedure Assign(Source: TACBrObjectList); virtual;
 
     procedure WriteToJSon(AJSon: TACBrJSONObject); virtual;
     procedure ReadFromJSon(AJSon: TACBrJSONObject); virtual;
+                                                           
+    procedure WriteToJSonArray(aJSonArray: TACBrJSONArray); virtual;
+    procedure ReadFromJSonArray(aJSonArray: TACBrJSONArray); virtual;
 
     property AsJSON: String read GetAsJSON write SetAsJSON;
   end;
@@ -96,6 +100,7 @@ type
 implementation
 
 uses
+  ACBrUtil.Base,
   ACBrUtil.Strings;
 
 { TACBrAPISchema }
@@ -253,30 +258,82 @@ begin
     NewSchema.ReadFromJSon(ja.ItemAsJSONObject[i]);
 end;
 
+procedure TACBrAPISchemaArray.WriteToJSonArray(aJSonArray: TACBrJSONArray);
+var
+  i: Integer;
+begin
+  for i := 0 to Count - 1 do
+    aJSonArray.AddElementJSONString(TACBrAPISchema(Items[i]).AsJSON);
+end;
+
+procedure TACBrAPISchemaArray.ReadFromJSonArray(aJSonArray: TACBrJSONArray);
+var
+  i: Integer;
+begin
+  Clear;
+  for i := 0 to aJSonArray.Count - 1 do
+    NewSchema.ReadFromJSon(aJSonArray.ItemAsJSONObject[i]);
+end;
+
 function TACBrAPISchemaArray.GetAsJSON: String;
 var
+  ja: TACBrJSONArray;
   js: TACBrJSONObject;
 begin
-  js := TACBrJSONObject.Create;
-  try
-    WriteToJSon(js);
-    Result := js.ToJSON;
-  finally
-    js.Free;
+  if EstaVazio(fpArrayName) then
+  begin
+    ja := TACBrJSONArray.Create;
+    try
+      WriteToJSonArray(ja);
+      Result := ja.ToJSON;
+    finally
+      ja.Free;
+    end;
+  end
+  else
+  begin
+    js := TACBrJSONObject.Create;
+    try
+      WriteToJSon(js);
+      Result := js.ToJSON;
+    finally
+      js.Free;
+    end;
   end;
 end;
 
 procedure TACBrAPISchemaArray.SetAsJSON(AValue: String);
 var
+  ja: TACBrJSONArray;
   js: TACBrJSONObject;
 begin
   Clear;
-  js := TACBrJSONObject.Parse(AValue) as TACBrJSONObject;
+  if IsArray(AValue) then
   try
+  ja := TACBrJSONArray.Parse(AValue);
+  ReadFromJSonArray(ja);
+  finally
+    if Assigned(ja) then
+      ja.Free;
+  end
+  else
+  try
+    js := TACBrJSONObject.Parse(AValue) as TACBrJSONObject;
     ReadFromJSon(js);
   finally
-    js.Free;
-  end;
+    if Assigned(js) then
+      js.Free;
+    end;
+end;
+
+function TACBrAPISchemaArray.IsArray(const aValue: String): Boolean;
+var
+  s, r, u: String;
+  t: Integer;
+begin
+  s := Trim(aValue);
+  t := Length(s);
+  Result := (s[1] = #91) and (s[t] = #93);
 end;
 
 end.

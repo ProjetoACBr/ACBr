@@ -36,8 +36,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/09/2025
+-- ACBrAPIBase --
+[*] Ajuste para tratamento de elementos do tipo array que não possuem ArrayName(chave).
+    por: Elias Cesar
+
 30/08/2025
---ACBrCEP--
+-- ACBrCEP --
 [+]TK-7399 Inclusão do WS "CEP AwesomeAPI" no ACBrCEP
   por : William F.L. | rev.: Alexandre de Paula
   
