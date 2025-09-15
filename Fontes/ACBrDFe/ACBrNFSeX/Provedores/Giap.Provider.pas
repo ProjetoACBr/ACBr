@@ -438,6 +438,7 @@ var
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
   ANode: TACBrXmlNode;
+  sData: string;
 begin
   Document := TACBrXmlDocument.Create;
 
@@ -461,7 +462,7 @@ begin
 
       if ANode <> nil then
       begin
-        Response.CodigoVerificacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('codigoVerificacao'), tcStr);
+        Response.CodigoVerificacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('codVerificacao'), tcStr);
 
         if ObterConteudoTag(ANode.Childrens.FindAnyNs('notaExiste'), tcStr) = 'Sim' then
           Response.DescSituacao := 'Nota Autorizada'
@@ -477,6 +478,9 @@ begin
 
         Response.NumeroNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('numeroNota'), tcStr);
         Response.Link := ObterConteudoTag(ANode.Childrens.FindAnyNs('wsLink'), tcStr);
+
+        sData := ObterConteudoTag(ANode.Childrens.FindAnyNs('dataEmissao'), tcStr);
+        Response.Data := StrToDate(sData);
       end;
     except
       on E:Exception do

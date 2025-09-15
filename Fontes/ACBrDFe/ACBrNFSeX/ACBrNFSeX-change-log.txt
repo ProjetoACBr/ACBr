@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 15/09/2025
+-- Giap.Provider --
+[*] #ACBr-8049 Corrigido a leitura do código de verificação e da data de emissão.
+   Por: Marcos Programador
 -- ACBrNFSeXClass/ACBrNFSeXGravarXml/ACBrNFSeXLerXml --
 [*] Ajustes para gerar e ler corretamente o XML do DPS visando a reforma Tributária.
    Por: Italo Giurizzato Junior
