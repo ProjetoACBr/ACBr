@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<envEvento xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00">
+  <idLote>123456789012345</idLote>
+  <evento versao="1.00">
+    <infEvento Id="ID1101803524011111111100011155001000000123100000123401">
+      <cOrgao>91</cOrgao>
+      <tpAmb>2</tpAmb>
+      <CNPJ>11111111000111</CNPJ>
+      <chNFe>35240111111111000111550010000001231000001234</chNFe>
+      <dhEvento>2024-07-29T10:40:00-03:00</dhEvento>
+      <tpEvento>110192</tpEvento>
+      <nSeqEvento>1</nSeqEvento>
+      <verEvento>1.00</verEvento>
+      <detEvento versao="1.00">
+        <descEvento>Insucesso na Entrega da NF-e</descEvento>
+        <cOrgaoAutor>35</cOrgaoAutor>
+        <verAplic>AppEntrega v2.2</verAplic>
+        <dhTentativaEntrega>2024-07-29T09:00:00-03:00</dhTentativaEntrega>
+        <nTentativa>1</nTentativa>
+        <tpMotivo>1</tpMotivo>
+        <xJustMotivo>Destinatario ausente.</xJustMotivo>
+        <latGPS>-22.906847</latGPS>
+        <longGPS>-43.172897</longGPS>
+        <hashTentativaEntrega>YXNkZmFzZGZhZHM9PQ==</hashTentativaEntrega>
+        <dhHashTentativaEntrega>2024-07-29T09:01:00-03:00</dhHashTentativaEntrega>
+      </detEvento>
+    </infEvento>
+  </evento>
+</envEvento>

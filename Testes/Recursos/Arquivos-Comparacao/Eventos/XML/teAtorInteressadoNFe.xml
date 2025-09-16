@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<envEvento xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00">
+  <idLote>123456789012345</idLote>
+  <evento versao="1.00">
+    <infEvento Id="ID1101703524011111111100011155001000000123100000123401">
+      <cOrgao>91</cOrgao>
+      <tpAmb>2</tpAmb>
+      <CNPJ>11111111000111</CNPJ>
+      <chNFe>35240111111111000111550010000001231000001234</chNFe>
+      <dhEvento>2024-07-29T11:10:00-03:00</dhEvento>
+      <tpEvento>110150</tpEvento>
+      <nSeqEvento>1</nSeqEvento>
+      <verEvento>1.00</verEvento>
+      <detEvento versao="1.00">
+		<versao>1.00</versao>
+        <descEvento>Ator Interessado na NF-e</descEvento>
+        <cOrgaoAutor>35</cOrgaoAutor>
+        <tpAutor>2</tpAutor>
+        <verAplic>AppInteressado-1.0</verAplic>
+        <tpAutorizacao>1</tpAutorizacao>
+        <autXML>
+          <CNPJ>66666666000166</CNPJ>
+        </autXML>
+        <xCondUso>O transportador esta autorizado a obter o XML da NFe para fins de transporte e conferencia.</xCondUso>
+      </detEvento>
+    </infEvento>
+  </evento>
+</envEvento>

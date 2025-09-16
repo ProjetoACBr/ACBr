@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<envEvento xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00">
+  <idLote>123456789012345</idLote>
+  <evento versao="1.00">
+    <infEvento Id="ID1101123524011111111100011155001000000123100000123401">
+      <cOrgao>35</cOrgao>
+      <tpAmb>2</tpAmb>
+      <CNPJ>11111111000111</CNPJ>
+      <chNFe>35240111111111000111550010000001231000001234</chNFe>
+      <dhEvento>2024-07-29T10:35:00-03:00</dhEvento>
+      <tpEvento>110112</tpEvento>
+      <nSeqEvento>1</nSeqEvento>
+      <verEvento>1.00</verEvento>
+      <detEvento versao="1.00">
+        <descEvento>Cancelamento por substituicao</descEvento>
+        <cOrgaoAutor>35</cOrgaoAutor>
+        <tpAutor>1</tpAutor>
+        <verAplic>AppSubst-1.1</verAplic>
+        <xJust>Cancelamento para emissao de NFe substituta devido a erro no valor.</xJust>
+        <chNFeRef>35240111111111000111550010000004561000004567</chNFeRef>
+      </detEvento>
+    </infEvento>
+  </evento>
+</envEvento>

@@ -1,0 +1,352 @@
+{
+  "envEvento": {
+    "idLote": "20240730150000",
+    "evento": [
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "35",
+          "tpAmb": "2",
+          "CNPJ": "11111111000111",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-29T10:00:00-03:00",
+          "tpEvento": "110111",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Cancelamento",
+            "nProt": "135240000000123",
+            "xJust": "A operacao foi cancelada por motivos comerciais."
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "35",
+          "tpAmb": "2",
+          "CNPJ": "11111111000111",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-29T11:00:00-03:00",
+          "tpEvento": "110110",
+          "nSeqEvento": "2",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Carta de Correcao",
+            "xCorrecao": "O CFOP correto do item 1 e 5102 e nao 5101 como informado anteriormente.",
+            "xCondUso": "A Carta de Correcao e disciplinada pelo paragrafo 1o-A do art. 7o do Convenio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularizacao de erro ocorrido na emissao de documento fiscal, desde que o erro nao esteja relacionado com: I - as variaveis que determinam o valor do imposto tais como: base de calculo, aliquota, diferenca de preco, quantidade, valor da operacao ou da prestacao; II - a correcao de dados cadastrais que implique mudanca do remetente ou do destinatario; III - a data de emissao ou de saida."
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "91",
+          "tpAmb": "2",
+          "CNPJ": "11111111000111",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-29T14:30:00-03:00",
+          "tpEvento": "110130",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Comprovante de Entrega da NF-e",
+            "cOrgaoAutor": "35",
+            "tpAutor": "1",
+            "verAplic": "AppEntrega v2.1",
+            "dhEntrega": "2024-07-29T14:25:10-03:00",
+            "nDoc": "987654321",
+            "xNome": "Jose da Silva",
+            "latGPS": -23.55052,
+            "longGPS": -46.633308,
+            "hashComprovante": "bXkgZGF0YQ==",
+            "dhHashComprovante": "2024-07-29T14:25:12-03:00"
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "91",
+          "tpAmb": "2",
+          "CNPJ": "11111111000111",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-29T15:00:00-03:00",
+          "tpEvento": "110131",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Cancelamento Comprovante de Entrega",
+            "cOrgaoAutor": "35",
+            "tpAutor": "1",
+            "verAplic": "AppEntrega v2.1",
+            "nProtEvento": "135240000000124"
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "91",
+          "tpAmb": "2",
+          "CNPJ": "11111111000111",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-29T16:00:00-03:00",
+          "tpEvento": "110140",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "EPEC",
+            "cOrgaoAutor": "35",
+            "tpAutor": "1",
+            "verAplic": "SistemaEmissor v3.2",
+            "dhEmi": "2024-07-29T15:58:00-03:00",
+            "tpNF": "1",
+            "IE": "111222333444",
+            "dest": {
+              "UF": "RJ",
+              "CNPJCPF": "22222222000122",
+              "IE": "99887766",
+              "vNF": 1500.5,
+              "vICMS": 270.09,
+              "vST": 50.1
+            }
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "91",
+          "tpAmb": "2",
+          "CNPJ": "22222222000122",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-29T17:00:00-03:00",
+          "tpEvento": "210220",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Desconhecimento da Operacao"
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "91",
+          "tpAmb": "2",
+          "CNPJ": "22222222000122",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-29T17:05:00-03:00",
+          "tpEvento": "210210",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Operacao nao Realizada",
+            "xJust": "A mercadoria foi recusada por estar em desacordo com o pedido."
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "35",
+          "tpAmb": "2",
+          "CNPJ": "11111111000111",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-29T18:00:00-03:00",
+          "tpEvento": "110112",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Cancelamento por substituicao",
+            "cOrgaoAutor": "35",
+            "tpAutor": "1",
+            "verAplic": "SistemaEmissor v3.2",
+            "xJust": "Cancelamento para emissao de NFe substituta.",
+            "chNFeRef": "35240111111111000111550010000004561000004567"
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "91",
+          "tpAmb": "2",
+          "CNPJ": "11111111000111",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-30T09:00:00-03:00",
+          "tpEvento": "610130",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Insucesso na Entrega da NF-e",
+            "cOrgaoAutor": "35",
+            "verAplic": "AppEntrega v2.2",
+            "dhTentativaEntrega": "2024-07-30T08:55:00-03:00",
+            "nTentativa": 1,
+            "tpMotivo": "1",
+            "xJustMotivo": "Destinatario Ausente",
+            "latGPS": -22.906847,
+            "longGPS": -43.172897,
+            "hashTentativaEntrega": "ZGF0YSBmb3IgaW5zdWNlc3M=",
+            "dhHashTentativaEntrega": "2024-07-30T08:55:02-03:00"
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "91",
+          "tpAmb": "2",
+          "CNPJ": "11111111000111",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-30T09:30:00-03:00",
+          "tpEvento": "610131",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Cancelamento Insucesso Entrega",
+            "cOrgaoAutor": "35",
+            "verAplic": "AppEntrega v2.2",
+            "nProtEvento": "135240000000125"
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "91",
+          "tpAmb": "2",
+          "CNPJ": "22222222000122",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-30T10:00:00-03:00",
+          "tpEvento": "610700",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Conciliacao Financeira",
+            "verAplic": "ERP conciliador v1.0",
+            "detPag": [
+              {
+                "indPag": "1",
+                "tPag": "01",
+                "vPag": 1500.5,
+                "dPag": "2024-07-30",
+                "CNPJPag": "33333333000133",
+                "UFPag": "SP",
+                "CNPJIF": "44444444000144",
+                "tBand": "01",
+                "cAut": "ABCDE12345",
+                "CNPJReceb": "55555555000155",
+                "UFReceb": "SP"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "91",
+          "tpAmb": "2",
+          "CNPJ": "22222222000122",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-30T10:30:00-03:00",
+          "tpEvento": "610701",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Cancelamento Conciliacao Financeira",
+            "verAplic": "ERP conciliador v1.0",
+            "nProtEvento": "135240000000126"
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "35",
+          "tpAmb": "2",
+          "CNPJ": "11111111000111",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-30T11:00:00-03:00",
+          "tpEvento": "411500",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Pedido de Prorrogacao 1o Prazo",
+            "nProt": "135240000000123",
+            "itemPedido": [
+              {
+                "numItem": 1,
+                "qtdeItem": 10.5
+              },
+              {
+                "numItem": 3,
+                "qtdeItem": 5
+              }
+            ]
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "35",
+          "tpAmb": "2",
+          "CNPJ": "11111111000111",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-30T11:30:00-03:00",
+          "tpEvento": "411502",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Cancelamento Pedido de Prorrogacao 1o Prazo",
+            "idPedidoCancelado": "ID-DO-PEDIDO-123",
+            "nProt": "135240000000127"
+          }
+        }
+      },
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "91",
+          "tpAmb": "2",
+          "CNPJ": "11111111000111",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-30T14:00:00-03:00",
+          "tpEvento": "110150",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Ator Interessado na NF-e",
+            "cOrgaoAutor": "35",
+            "tpAutor": "2",
+            "verAplic": "Sistema Transportadora v1.5",
+            "tpAutorizacao": "1",
+            "xCondUso": "O transportador esta autorizado a obter o XML da NFe para fins de transporte e conferencia.",
+            "autXML": {
+              "CNPJCPF": "66666666000166"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

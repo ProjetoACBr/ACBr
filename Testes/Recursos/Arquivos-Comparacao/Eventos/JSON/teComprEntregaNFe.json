@@ -1,0 +1,34 @@
+{
+  "envEvento": {
+    "idLote": "123456789012347",
+    "evento": [
+      {
+        "versao": "1.00",
+        "infEvento": {
+          "cOrgao": "91",
+          "tpAmb": "2",
+          "CNPJ": "11111111000111",
+          "chNFe": "35240111111111000111550010000001231000001234",
+          "dhEvento": "2024-07-29T10:10:00-03:00",
+          "tpEvento": "110130",
+          "nSeqEvento": "1",
+          "versaoEvento": "1.00",
+          "detEvento": {
+            "versao": "1.00",
+            "descEvento": "Comprovante de Entrega da NF-e",
+            "cOrgaoAutor": "35",
+            "tpAutor": "1",
+            "verAplic": "AppEntrega v2.1",
+            "dhEntrega": "2024-07-29T10:08:00-03:00",
+            "nDoc": "987654321",
+            "xNome": "Jose da Silva",
+            "latGPS": -23.550520,
+            "longGPS": -46.633308,
+            "hashComprovante": "bXkgZGF0YQ==",
+            "dhHashComprovante": "2024-07-29T10:09:00-03:00"
+          }
+        }
+      }
+    ]
+  }
+}
