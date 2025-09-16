@@ -1,4 +1,4 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
@@ -379,13 +379,13 @@ type
     property Usuarios: TACBrSmartTEFUsuarios read GetUsuarios;
     property Loja: TACBrSmartTEFLoja read GetLoja;
 
+    property RespostaErro: TACBrSmartTEFError read GetRespostaErro;
+  published
     property CNPJLoja: String read fCNPJLoja write fCNPJLoja;
     property GWTokenLoja: String read fGWTokenLoja write fGWTokenLoja;
     property CNPJIntegrador: String read fCNPJIntegrador write fCNPJIntegrador;
     property GWTokenIntegrador: String read fGWTokenIntegrador write fGWTokenIntegrador;
     property JWTTokenIntegrador: String read fJWTTokenIntegrador write fJWTTokenIntegrador;
-
-    property RespostaErro: TACBrSmartTEFError read GetRespostaErro;
   end;
 
 implementation

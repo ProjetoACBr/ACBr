@@ -1,4 +1,4 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
@@ -394,7 +394,7 @@ type
   TACBrSmartTEFPrintFile = class(TACBrAPISchema)
   private
     fname: String;
-    fdata: String;
+    fdata: AnsiString;
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
     procedure DoWriteToJson(aJson: TACBrJSONObject); override;
@@ -405,7 +405,7 @@ type
     procedure Assign(Source: TACBrSmartTEFPrintFile);
 
     property name: String read fname write fname;
-    property data: String read fdata write fdata;
+    property data: AnsiString read fdata write fdata;
   end;
 
   { TACBrSmartTEFPrintCreateRequest }
@@ -2409,13 +2409,18 @@ begin
 end;
 
 procedure TACBrSmartTEFPrintFile.DoReadFromJson(aJson: TACBrJSONObject);
+var
+  s: String;
 begin
   if not Assigned(aJson) then
     Exit;
 
   aJson
     .Value('name', fname)
-    .Value('data', fdata);
+    .Value('data', s);
+
+  if NaoEstaVazio(s) then
+    fdata := s;
 end;
 
 procedure TACBrSmartTEFPrintFile.DoWriteToJson(aJson: TACBrJSONObject);
