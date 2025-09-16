@@ -117,7 +117,7 @@ begin
   Supports(BorlandIDEServices,IOTAAboutBoxServices, AboutBoxServices);
   Assert(Assigned(AboutBoxServices), '');
 
-  if FindResource(HInstance, 'ACBR', RT_RCDATA) <> 0 then
+  if FindResource(HInstance, 'ACBR', RT_BITMAP) <> 0 then
   begin
     ProductImage := LoadBitmap(FindResourceHInstance(HInstance), 'ACBR');
     AboutBoxIndex := AboutBoxServices.AddPluginInfo(cACBrSobreTitulo , cACBrSobreDescricao,
@@ -141,7 +141,7 @@ var
 begin
   bmp := TBitmap.Create;
   try
-    if FindResource(HInstance, 'ACBR', RT_RCDATA) <> 0 then
+    if FindResource(HInstance, 'ACBR', RT_BITMAP) <> 0 then
     begin
       bmp.LoadFromResourceName(HInstance, 'ACBR');
       SplashScreenServices.AddPluginBitmap(cACBrSobreDialogoTitulo,bmp.Handle,false,cACBrSobreLicencaStatus,'');
