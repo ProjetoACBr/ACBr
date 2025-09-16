@@ -96,7 +96,8 @@ contains
   ACBrNFe.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.IniWriter.pas',
   ACBrNFe.JSONReader in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.JSONReader.pas',
   ACBrNFe.JSONWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.JSONWriter.pas',
-
+  ACBrNFe.ValidarRegrasdeNegocio in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.ValidarRegrasdeNegocio.pas',
+  
   {$IFDEF USE_ACBr_XMLDOCUMENT}
   ACBrNFe.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.XmlReader.pas',
   ACBrNFe.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.XmlWriter.pas',
