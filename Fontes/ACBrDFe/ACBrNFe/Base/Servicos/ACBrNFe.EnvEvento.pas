@@ -49,6 +49,7 @@ uses
   ACBrNFe.Consts,
   ACBrNFe.EventoClass,
   ACBrBase,
+  ACBrJSON,
   ACBrXmlBase,
   ACBrXmlWriter,
   ACBrXmlDocument;
@@ -130,6 +131,7 @@ type
     function LerXMLFromString(const AXML: string): Boolean;
     function ObterNomeArquivo(tpEvento: TpcnTpEvento): string; overload;
     function LerFromIni(const AIniString: string; CCe: Boolean = True): Boolean;
+    function LerFromJSON(const AJSONString: string): Boolean;
 
     property idLote: Int64 read FidLote write FidLote;
     property Evento: TInfEventoCollection read FEvento write SetEvento;
@@ -1338,6 +1340,233 @@ begin
     Result := True;
   finally
     INIRec.Free;
+  end;
+end;
+
+function TEventoNFe.LerFromJSON(const AJSONString: string): Boolean;
+var
+  lJSONLido, lIdLoteStr: String;
+  lRootJSONObj, lEnvEventoJSONObj, lEventoJSONObj,lInfEventoJSONObj,
+  lDetEventoJSONObj, lAuxJSONObj: TACBrJSONObject;
+  lEventoJSONArray, lAuxJSONArray: TACBrJSONArray;
+  i, j: Integer;
+  Ok: Boolean;
+begin
+{$IFNDEF COMPILER23_UP}
+  Result := False;
+{$ENDIF}
+  lJSONLido := LerJSONArquivoOuString(AJSONString);
+
+  if not StringIsJSON(lJSONLido) then
+    raise Exception.Create('String JSON informada não é válida');
+
+  lRootJSONObj := TACBrJSONObject.Parse(lJSONLido);
+  try
+    if not Assigned(lRootJSONObj) then
+      raise Exception.Create('Objeto JSON incorreto ou inválido');
+
+    lEnvEventoJSONObj := lRootJSONObj.AsJSONObject['envEvento'];
+    if not Assigned(lEnvEventoJSONObj) then
+      raise Exception.Create('Objeto JSON incorreto. Chave "envEvento" não encontrada');
+
+    lEventoJSONArray := lEnvEventoJSONObj.AsJSONArray['evento'];
+    if not Assigned(lEventoJSONArray) then
+      raise Exception.Create('Objeto JSON incorreto. Chave "evento" não encontrada');
+
+    lIdLoteStr := lEnvEventoJSONObj.AsString['idLote'];
+    idLote := StrToInt64Def(lIdLoteStr, 0);
+
+    Evento.Clear;
+    for i := 0 to lEventoJSONArray.Count - 1 do
+    begin
+      lEventoJSONObj := lEventoJSONArray.ItemAsJSONObject[i];
+      if not Assigned(lEventoJSONObj) then
+        continue;
+
+      Versao := lEventoJSONObj.AsString['versao'];
+
+      lInfEventoJSONObj := lEventoJSONObj.AsJSONObject['infEvento'];
+      if not Assigned(lInfEventoJSONObj) then
+        continue;
+
+      Evento.New;
+      Evento[i].InfEvento.cOrgao := lInfEventoJSONObj.AsInteger['cOrgao'];
+      Evento[i].InfEvento.CNPJ := lInfEventoJSONObj.AsString['CNPJ'];
+      Evento[i].InfEvento.chNFe := lInfEventoJSONObj.AsString['chNFe'];
+      Evento[i].InfEvento.dhEvento := lInfEventoJSONObj.AsISODateTime['dhEvento'];
+      Evento[i].InfEvento.tpEvento := StrToTpEventoNFe(Ok, lInfEventoJSONObj.AsString['tpEvento']);
+      Evento[i].InfEvento.nSeqEvento := StrToIntDef(lInfEventoJSONObj.AsString['nSeqEvento'], 1);
+      Evento[i].InfEvento.versaoEvento :=  lInfEventoJSONObj.AsString['versaoEvento'];
+      if Trim(Evento[i].InfEvento.versaoEvento) = '' then
+        Evento[i].InfEvento.versaoEvento := '1.00';
+
+      lDetEventoJSONObj := lInfEventoJSONObj.AsJSONObject['detEvento'];
+      if not Assigned(lDetEventoJSONObj) then
+        continue;
+
+      //Comum a todos os eventos...
+      Evento[i].InfEvento.detEvento.versao := lDetEventoJSONObj.AsString['versao'];
+      Evento[i].InfEvento.detEvento.descEvento := lDetEventoJSONObj.AsString['descEvento'];
+      case Evento[i].InfEvento.tpEvento of
+        teCancelamento:
+          begin
+            Evento[i].InfEvento.detEvento.nProt := lDetEventoJSONObj.AsString['nProt'];
+            Evento[i].InfEvento.detEvento.xJust := lDetEventoJSONObj.AsString['xJust'];
+          end;
+        teCCe:
+          begin
+            Evento[i].InfEvento.detEvento.xCorrecao := lDetEventoJSONObj.AsString['xCorrecao'];
+            Evento[i].InfEvento.detEvento.xCondUso := lDetEventoJSONObj.AsString['xCondUso'];
+          end;
+        teComprEntregaNFe:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+            Evento[i].InfEvento.detEvento.dhEntrega := lDetEventoJSONObj.AsISODateTime['dhEntrega'];
+            Evento[i].InfEvento.detEvento.nDoc := lDetEventoJSONObj.AsString['nDoc'];
+            Evento[i].InfEvento.detEvento.xNome := lDetEventoJSONObj.AsString['xNome'];
+            Evento[i].InfEvento.detEvento.latGPS := lDetEventoJSONObj.AsFloat['latGPS'];
+            Evento[i].InfEvento.detEvento.longGPS := lDetEventoJSONObj.AsFloat['longGPS'];
+            Evento[i].InfEvento.detEvento.hashComprovante := lDetEventoJSONObj.AsString['hashComprovante'];
+            Evento[i].InfEvento.detEvento.dhHashComprovante := lDetEventoJSONObj.AsISODateTime['dhHashComprovante'];
+          end;
+        teCancComprEntregaNFe:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok,lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+            Evento[i].InfEvento.detEvento.nProtEvento := lDetEventoJSONObj.AsString['nProtEvento'];
+          end;
+        teEPEC:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+            Evento[i].InfEvento.detEvento.dhEmi := lDetEventoJSONObj.AsISODateTime['dhEmi'];
+            Evento[i].InfEvento.detEvento.tpNF := StrToTpNF(Ok, lDetEventoJSONObj.AsString['tpNF']);
+            Evento[i].InfEvento.detEvento.IE := lDetEventoJSONObj.AsString['IE'];
+            Evento[i].InfEvento.detEvento.vNF := lDetEventoJSONObj.AsFloat['vNF'];
+            Evento[i].InfEvento.detEvento.vICMS := lDetEventoJSONObj.AsFloat['vICMS'];
+            lAuxJSONObj := lDetEventoJSONObj.AsJSONObject['dest'];
+            if not Assigned(lAuxJSONObj) then
+              continue;
+
+            Evento[i].InfEvento.detEvento.dest.UF := lAuxJSONObj.AsString['UF'];
+            Evento[i].InfEvento.detEvento.dest.CNPJCPF := lAuxJSONObj.AsString['CNPJCPF'];
+            Evento[i].InfEvento.detEvento.dest.idEstrangeiro := lAuxJSONObj.AsString['idEstrangeiro'];
+            Evento[i].InfEvento.detEvento.dest.IE := lAuxJSONObj.AsString['IE'];
+            if (Evento[i].InfEvento.detEvento.vNF = 0) and (Evento[i].InfEvento.detEvento.vICMS = 0) then
+            begin
+              //NFe
+              Evento[i].InfEvento.detEvento.vNF := lAuxJSONObj.AsFloat['vNF'];
+              Evento[i].InfEvento.detEvento.vICMS := lAuxJSONObj.AsFloat['vICMS'];
+              Evento[i].InfEvento.detEvento.vST := lAuxJSONObj.AsFloat['vST'];
+            end;
+          end;
+        teManifDestDesconhecimento, teManifDestOperNaoRealizada:
+          begin
+            Evento[i].InfEvento.detEvento.xJust := lDetEventoJSONObj.AsString['xJust'];
+          end;
+        teCancSubst:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+            Evento[i].InfEvento.detEvento.xJust := lDetEventoJSONObj.AsString['xJust'];
+            Evento[i].InfEvento.detEvento.chNFeRef := lDetEventoJSONObj.AsString['chNFeRef'];
+          end;
+        teInsucessoEntregaNFe:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+            Evento[i].InfEvento.detEvento.dhTentativaEntrega := lDetEventoJSONObj.AsISODateTime['dhTentativaEntrega'];
+            Evento[i].InfEvento.detEvento.nTentativa := lDetEventoJSONObj.AsInteger['nTentativa'];
+            Evento[i].InfEvento.detEvento.tpMotivo := StrTotpMotivo(Ok, lDetEventoJSONObj.AsString['tpMotivo']);
+            Evento[i].InfEvento.detEvento.xJustMotivo := lDetEventoJSONObj.AsString['xJustMotivo'];
+            Evento[i].InfEvento.detEvento.latGPS := lDetEventoJSONObj.AsFloat['latGPS'];
+            Evento[i].InfEvento.detEvento.longGPS := lDetEventoJSONObj.AsFloat['longGPS'];
+            Evento[i].InfEvento.detEvento.hashTentativaEntrega := lDetEventoJSONObj.AsString['hashTentativaEntrega'];
+            Evento[i].InfEvento.detEvento.dhHashTentativaEntrega := lDetEventoJSONObj.AsISODateTime['dhHashTentativaEntrega'];
+          end;
+        teCancInsucessoEntregaNFe:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+            Evento[i].InfEvento.detEvento.nProtEvento := lDetEventoJSONobj.AsString['nProtEvento'];
+          end;
+        teConcFinanceira:
+          begin
+            lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['detPag'];
+            if not Assigned(lAuxJSONArray) then
+              continue;
+            for j := 0 to lAuxJSONArray.Count - 1 do
+            begin
+              lAuxJSONObj := lAuxJSONArray.ItemAsJSONObject[j];
+              if not Assigned(lAuxJSONObj) then
+                continue;
+
+              Evento[i].InfEvento.detEvento.detPag.New;
+              Evento[i].InfEvento.detEvento.detPag[j].indPag := StrToIndpagEX(lAuxJSONObj.AsString['indPag']);
+              Evento[i].InfEvento.detEvento.detPag[j].tPag := StrToFormaPagamento(Ok, lAuxJSONObj.AsString['tPag']);
+              Evento[i].InfEvento.detEvento.detPag[j].xPag := lAuxJSONObj.AsString['xPag'];
+              Evento[i].InfEvento.detEvento.detPag[j].vPag := lAuxJSONObj.AsFloat['vPag'];
+              Evento[i].InfEvento.detEvento.detPag[j].dPag := lAuxJSONObj.AsISODate['dPag'];
+              Evento[i].InfEvento.detEvento.detPag[j].CNPJPag := lAuxJSONObj.AsString['CNPJPag'];
+              Evento[i].InfEvento.detEvento.detPag[j].UFPag := lAuxJSONObj.AsString['UFPag'];
+              Evento[i].InfEvento.detEvento.detPag[j].CNPJIF := lAuxJSONObj.AsString['CNPJIF'];
+              Evento[i].InfEvento.detEvento.detPag[j].tBand := StrToBandeiraCartao(Ok, lAuxJSONObj.AsString['tBand']);
+              Evento[i].InfEvento.detEvento.detPag[j].cAut := lAuxJSONObj.AsString['cAut'];
+              Evento[i].InfEvento.detEvento.detPag[j].CNPJReceb := lAuxJSONObj.AsString['CNPJReceb'];
+              Evento[i].InfEvento.detEvento.detPag[j].UFReceb := lAuxJSONObj.AsString['UFReceb'];
+            end;
+          end;
+         teCancConcFinanceira:
+          begin
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+            Evento[i].InfEvento.detEvento.nProtEvento := lDetEventoJSONobj.AsString['nProtEvento'];
+          end;
+        tePedProrrog1, tePedProrrog2:
+          begin
+            Evento[i].InfEvento.detEvento.nProt := lDetEventoJSONObj.AsString['nProt'];
+            lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['itemPedido'];
+            if not Assigned(lAuxJSONArray) then
+              continue;
+            for j := 0 to lAuxJSONArray.Count - 1 do
+            begin
+              lAuxJSONObj := lAuxJSONArray.ItemAsJSONObject[j];
+              if not Assigned(lAuxJSONObj) then
+                continue;
+              Evento[i].InfEvento.detEvento.itemPedido.New;
+              Evento[i].InfEvento.detEvento.itemPedido[j].numItem := lAuxJSONObj.AsInteger['numItem'];
+              Evento[i].InfEvento.detEvento.itemPedido[j].qtdeItem := lAuxJSONObj.AsFloat['qtdeItem'];
+            end;
+          end;
+        teCanPedProrrog1, teCanPedProrrog2:
+          begin
+            Evento[i].InfEvento.detEvento.idPedidoCancelado := lDetEventoJSONObj.AsString['idPedidoCancelado'];
+            Evento[i].InfEvento.detEvento.nProt := lDetEventoJSONObj.AsString['nProt'];
+          end;
+        teAtorInteressadoNFe:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+            Evento[i].InfEvento.detEvento.tpAutorizacao := StrToAutorizacao(Ok, lDetEventoJSONObj.AsString['tpAutorizacao']);
+            Evento[i].InfEvento.detEvento.xCondUso := lDetEventoJSONObj.AsString['xCondUso'];
+
+            lAuxJSONObj := lDetEventoJSONObj.AsJSONObject['autXML'];
+            if not Assigned(lAuxJSONObj) then
+              continue;
+            Evento[i].InfEvento.detEvento.autXML.New;
+            Evento[i].InfEvento.detEvento.autXML[0].CNPJCPF := lAuxJSONObj.AsString['CNPJCPF'];
+          end;
+      end;
+    end;
+
+    Result := True;
+  finally
+    lRootJSONObj.Free;
   end;
 end;
 

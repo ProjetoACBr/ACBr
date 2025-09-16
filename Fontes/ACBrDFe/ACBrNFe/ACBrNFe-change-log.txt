@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/09/2025
+-- ACBrNFeNotasFiscais, ACBrNFe.JSONReader, ACBrNFe.JSONWriter, ACBrNFe.EnvEvento --
+[+] Adiciona leitura e geração de arquivo JSON com os dados de uma NFe e de um evento
+   Por: Diego Folieni
+
 15/09/2025
 -- ACBrNFe.XmlWriter --
 [*] #ACBr-8051 - Quando a nota for de Débito ou Crédito os grupos: ICMS, PIS COFINS não devem ser gerados.

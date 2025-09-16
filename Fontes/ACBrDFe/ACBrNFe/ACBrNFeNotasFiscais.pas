@@ -47,6 +47,7 @@ uses
     pcnNFeR, pcnNFeW,
   {$EndIf}
   ACBrNFe.IniReader, ACBrNFe.IniWriter,
+  ACBrNFe.JSONReader, ACBrNFe.JSONWriter,
   pcnConversao, pcnLeitor;
 
 type
@@ -67,6 +68,9 @@ type
     // Ini
     FNFeIniR: TNFeIniReader;
     FNFeIniW: TNFeIniWriter;
+    // JSON
+    FNFeJSONR: TNFeJSONReader;
+    FNFeJSONW: TNFeJSONWriter;
 
     FConfiguracoes: TConfiguracoesNFe;
     FXMLAssinado: String;
@@ -105,6 +109,8 @@ type
     function LerXML(const AXML: String): Boolean;
     function LerArqIni(const AIniString: String): Boolean;
     function GerarNFeIni: String;
+    function LerJSON(const AJSONString: String): Boolean;
+    function GerarJSON: String;
 
     function GerarXML: String;
     function GravarXML(const NomeArquivo: String = ''; const PathArquivo: String = ''): Boolean;
@@ -182,8 +188,10 @@ type
     function LoadFromStream(AStream: TStringStream; AGerarNFe: Boolean = False): Boolean;
     function LoadFromString(const AXMLString: String; AGerarNFe: Boolean = False): Boolean;
     function LoadFromIni(const AIniString: String): Boolean;
+    function LoadFromJSON(const AJSONString: String): Boolean;
 
     function GerarIni: String;
+    function GerarJSON: String;
     function GravarXML(const APathNomeArquivo: String = ''): Boolean;
     function GravarTXT(const APathNomeArquivo: String = ''): Boolean;
 
@@ -218,6 +226,9 @@ begin
   // Ini
   FNFeIniR := TNFeIniReader.Create(FNFe);
   FNFeIniW := TNFeIniWriter.Create(FNFe);
+  //JSON
+  FNFeJSONR := TNFeJSONReader.Create(FNFe);
+  FNFeJSONW := TNFeJSONWriter.Create(FNFe);
 
   FConfiguracoes := TACBrNFe(TNotasFiscais(Collection).ACBrNFe).Configuracoes;
 
@@ -252,6 +263,9 @@ begin
   // Ini
   FNFeIniR.Free;
   FNFeIniW.Free;
+  //JSON
+  FNFeJSONR.Free;
+  FNFeJSONW.Free;
 
   FNFe.Free;
 
@@ -1628,6 +1642,18 @@ begin
   Result := FNFeIniW.GravarIni;
 end;
 
+function NotaFiscal.LerJSON(const AJSONString: String): Boolean;
+begin
+  FNFeJSONR.LerJSON(AJSONString);
+  GerarXML;
+  Result := True;
+end;
+
+function NotaFiscal.GerarJSON: String;
+begin
+  Result := FNFeJSONW.GerarJSON;
+end;
+
 function NotaFiscal.GravarXML(const NomeArquivo: String; const PathArquivo: String): Boolean;
 begin
   if EstaVazio(FXMLOriginal) then
@@ -2212,6 +2238,20 @@ begin
   if (Self.Count > 0) then
     Result := Self.Items[0].GerarNFeIni;
 
+end;
+
+function TNotasFiscais.GerarJSON: String;
+begin
+  Result := '';
+  if (Self.Count > 0) then
+    Result := Self.Items[0].GerarJSON;
+end;
+
+function TNotasFiscais.LoadFromJSON(const AJSONString: String): Boolean;
+begin
+  Result := False;
+  Self.Add.LerJSON(AJSONString);
+  Result := Self.Count > 0;
 end;
 
 function TNotasFiscais.GravarXML(const APathNomeArquivo: String): Boolean;
