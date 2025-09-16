@@ -243,7 +243,13 @@ type
                 schManifDestOperNaoRealizada, schCompEntrega, schCancCompEntrega,
                 schAtorInteressadoNFe, schInsucessoEntregaNFe,
                 schCancInsucessoEntregaNFe, schConcFinanceira,
-                schCancConcFinanceira);
+                schCancConcFinanceira, schCancGenerico, schPagIntegLibCredPresAdq,
+                schImporALCZFM, schPerecPerdaRouboFurtoTranspContratFornec,
+                schFornecNaoRealizPagAntec, schSolicApropCredPres,
+                schDestItemConsPessoal, schPerecPerdaRouboFurtoTranspContratAqu,
+                schAceiteDebitoApuracaoNotaCredito, schImobilizacaoItem,
+                schSolicApropCredCombustivel, schSolicApropCredBensServicos,
+                schManifPedTransfCredIBSSucessao, schManifPedTransfCredCBSSucessao);
 
 const
   TSchemaNFeArrayStrings: array[TSchemaNFe] of string = ('Erro', 'Nfe',
@@ -255,13 +261,21 @@ const
     'ManifDestCiencia', 'ManifDestDesconhecimento', 'ManifDestOperNaoRealizada',
     'CompEntrega', 'CancCompEntrega', 'AtorInteressadoNFe',
     'InsucessoEntrega', 'CancInsucessoEntrega', 'ConcFinanceira',
-    'CancConcFinanceira');
+    'CancConcFinanceira', 'CancGenerico', 'PagIntegLibCredPresAdq',
+    'ImporALCZFM', 'PerecPerdaRouboFurtoTranspContratFornec',
+    'FornecNaoRealizPagAntec', 'SolicApropCredPres', 'DestItemConsPessoal',
+    'PerecPerdaRouboFurtoTranspContratAqu',
+    'AceiteDebitoApuracaoNotaCredito', 'ImobilizacaoItem',
+    'SolicApropCredCombustivel', 'SolicApropCredBensServicos',
+    'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao');
 
   TEventoArrayStrings: array[TSchemaNFe] of string = ('', '', 'e110111', '',
     'e110110', '', '', 'e110140', '', '', '', '', '', '', '', '', '', '', '',
     'e110112', 'e111500', 'e111501', 'e111502', 'e111503', 'e210200', 'e210210',
     'e210220', 'e210240', 'e110130', 'e110131', 'e110150', 'e110192', 'e110193',
-    'e110750', 'e110751');
+    'e110750', 'e110751', 'e110001', 'e112110', 'e112120', 'e112130', 'e112140',
+    'e211110', 'e211120', 'e211124', 'e211128', 'e211130', 'e211140', 'e211150',
+    'e212110', 'e212120');
 
 type
   TLayOut = (LayNfeRecepcao, LayNfeRetRecepcao, LayNfeCancelamento,
@@ -409,10 +423,10 @@ const
     '04', '05', '06', '07');
 
 type
-  TtpNFCredito = (tcNenhum, tcMultaJuros, tcApropriacaoCreditoPresumido);
+  TtpNFCredito = (tcNenhum, tcMultaJuros, tcApropriacaoCreditoPresumido, tcRetorno);
 
 const
-  TtpNFCreditoArrayStrings: array[TtpNFCredito] of string = ('', '01', '02');
+  TtpNFCreditoArrayStrings: array[TtpNFCredito] of string = ('', '01', '02', '03');
 
 type
   TCSTIS = (cstisNenhum,

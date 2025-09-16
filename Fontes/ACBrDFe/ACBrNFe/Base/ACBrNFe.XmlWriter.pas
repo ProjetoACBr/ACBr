@@ -4231,19 +4231,18 @@ begin
   Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSUF(IBSCBS.gIBSUF));
   Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSMun(IBSCBS.gIBSMun));
 
-  // Tag definida como opcional até que todas as SEFAZ estejam adequadas a NT 2025/001 v1.20
-  Result.AppendChild(AddNode(tcDe2, 'UB35', 'vIBS', 1, 15, 0,
-                                                      IBSCBS.vIBS, DSC_VIBS));
+  Result.AppendChild(AddNode(tcDe2, 'UB35', 'vIBS', 1, 15, 1,
+                                                        IBSCBS.vIBS, DSC_VIBS));
 
   Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gCBS(IBSCBS.gCBS));
 
-  if IBSCBS.gTribRegular.pAliqEfetRegIBSUF > 0 then
+  if IBSCBS.gTribRegular.CSTReg <> cstNenhum then
     Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gTribRegular(IBSCBS.gTribRegular));
 
-  if IBSCBS.gIBSCredPres.pCredPres > 0 then
+  if IBSCBS.gIBSCredPres.cCredPres <> cpNenhum then
     Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(IBSCBS.gIBSCredPres, 'gIBSCredPres'));
 
-  if IBSCBS.gCBSCredPres.pCredPres > 0 then
+  if IBSCBS.gCBSCredPres.cCredPres <> cpNenhum then
     Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(IBSCBS.gCBSCredPres, 'gCBSCredPres'));
 
   if (IBSCBS.gTribCompraGov.pAliqIBSUF > 0) and (NFe.Ide.gCompraGov.tpEnteGov <> tcgNenhum) then

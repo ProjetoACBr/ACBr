@@ -40,7 +40,8 @@ interface
 uses
   SysUtils, 
   Classes,
-  ACBrBase, 
+  ACBrBase,
+  ACBrDFe.Conversao,
   ACBrDFeDANFeReport,
   ACBrNFe.Classes,
   pcnConversao, 

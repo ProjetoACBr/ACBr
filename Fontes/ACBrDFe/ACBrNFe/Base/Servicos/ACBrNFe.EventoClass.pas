@@ -43,8 +43,13 @@ uses
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IfEnd}
-  pcnConversao, pcnConversaoNFe,
-  ACBrBase, ACBrUtil.Strings;
+  ACBrDFe.Conversao,
+  pcnConversao,
+  pcnConversaoNFe,
+//  ACBrNFe.Conversao,
+  ACBrNFe.Classes,
+  ACBrBase,
+  ACBrUtil.Strings;
 
 type
   EventoException = class(EACBrException);
@@ -139,6 +144,80 @@ type
     property Items[Index: Integer]: TdetPagCollectionItem read GetItem write SetItem; default;
   end;
 
+  TgIBSgCBS = class
+  private
+    FcCredPres: TcCredPres;
+    FpCredPres: Double;
+    FvCredPres: Double;
+  public
+    property cCredPres: TcCredPres read FcCredPres write FcCredPres;
+    property pCredPres: Double read FpCredPres write FpCredPres;
+    property vCredPres: Double read FvCredPres write FvCredPres;
+  end;
+
+  TgCredPresCollectionItem = class
+  private
+    FnItem: Integer;
+    FvBC: Double;
+    FgIBS: TgIBSgCBS;
+    FgCBS: TgIBSgCBS;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    property nItem: Integer read FnItem write FnItem;
+    property vBC: Double read FvBC write FvBC;
+    property gIBS: TgIBSgCBS read FgIBS write FgIBS;
+    property gCBS: TgIBSgCBS read FgCBS write FgCBS;
+  end;
+
+  TgCredPresCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TgCredPresCollectionItem;
+    procedure SetItem(Index: Integer; Value: TgCredPresCollectionItem);
+  public
+    function Add: TgCredPresCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
+    function New: TgCredPresCollectionItem;
+    property Items[Index: Integer]: TgCredPresCollectionItem read GetItem write SetItem; default;
+  end;
+
+  TgControleEstoque = class
+  private
+    FqConsumo: Double;
+    FuConsumo: string;
+  public
+    property qConsumo: Double read FqConsumo write FqConsumo;
+    property uConsumo: string read FuConsumo write FuConsumo;
+  end;
+
+  TgConsumoCollectionItem = class
+  private
+    FnItem: Integer;
+    FvIBS: Double;
+    FvCBS: Double;
+    FgControleEstoque: TgControleEstoque;
+    FDFeReferenciado: TDFeReferenciado;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    property nItem: Integer read FnItem write FnItem;
+    property vIBS: Double read FvIBS write FvIBS;
+    property vCBS: Double read FvCBS write FvCBS;
+    property gControleEstoque: TgControleEstoque read FgControleEstoque write FgControleEstoque;
+    property DFeReferenciado: TDFeReferenciado read FDFeReferenciado write FDFeReferenciado;
+  end;
+
+  TgConsumoCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TgConsumoCollectionItem;
+    procedure SetItem(Index: Integer; Value: TgConsumoCollectionItem);
+  public
+    function Add: TgConsumoCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
+    function New: TgConsumoCollectionItem;
+    property Items[Index: Integer]: TgConsumoCollectionItem read GetItem write SetItem; default;
+  end;
+
   TDetEvento = class
   private
     FVersao: string;
@@ -179,11 +258,17 @@ type
     FdhHashTentativaEntrega: TDateTime;
     FUF: string;
     FdetPag: TdetPagCollection;
+    // Reforma Tributária
+    FtpEventoAut: string;
+    FgCredPres: TgCredPresCollection;
+    FgConsumo: TgConsumoCollection;
 
     procedure setxCondUso(const Value: string);
     procedure SetitemPedido(const Value: TitemPedidoCollection);
     procedure SetautXML(const Value: TautXMLCollection);
     procedure SetdetPag(const Value: TdetPagCollection);
+    procedure SetgCredPres(const Value: TgCredPresCollection);
+    procedure SetgConsumo(const Value: TgConsumoCollection);
   public
     constructor Create;
     destructor Destroy; override;
@@ -229,6 +314,10 @@ type
     property dhHashTentativaEntrega: TDateTime read FdhHashTentativaEntrega write FdhHashTentativaEntrega;
     property UF: string read FUF write FUF;
     property detPag: TdetPagCollection read FdetPag write SetdetPag;
+    // Reforma Tributária
+    property tpEventoAut: string read FtpEventoAut write FtpEventoAut;
+    property gCredPres: TgCredPresCollection read FgCredPres write SetgCredPres;
+    property gConsumo: TgConsumoCollection read FgConsumo write SetgConsumo;
   end;
 
   TInfEvento = class
@@ -403,6 +492,21 @@ begin
     teCancInsucessoEntregaNFe  : Result := 'Cancelamento Insucesso na Entrega da NF-e';
     teConcFinanceira           : Result := 'ECONF';
     teCancConcFinanceira       : Result := ACBrStr('Cancelamento Conciliação Financeira');
+    // Reforma Tributária
+    teCancGenerico             : Result := 'Evento de Cancelamento';
+    tePagIntegLibCredPresAdq   : Result := ACBrStr('Informação de efetivo pagamento integral para liberar crédito presumido do adquirente');
+    teImporALCZFM              : Result := '';
+    tePerecPerdaRouboFurtoTranspContratFornec : Result := '';
+    teFornecNaoRealizPagAntec  : Result := '';
+    teSolicApropCredPres       : Result := ACBrStr('Solicitação de Apropriação de crédito presumido');
+    teDestItemConsPessoal      : Result := ACBrStr('Destinação de item para consumo pessoal');
+    tePerecPerdaRouboFurtoTranspContratAqu : Result := '';
+    teAceiteDebitoApuracaoNotaCredito : Result := '';
+    teImobilizacaoItem       : Result := '';
+    teSolicApropCredCombustivel : Result := '';
+    teSolicApropCredBensServicos : Result := '';
+    teManifPedTransfCredIBSSucessao : Result := '';
+    teManifPedTransfCredCBSSucessao : Result := '';
   else
     Result := '';
   end;
@@ -462,6 +566,21 @@ begin
     teCancInsucessoEntregaNFe  : Result := 'Cancelamento Insucesso na Entrega da NF-e';
     teConcFinanceira           : Result := 'ECONF';
     teCancConcFinanceira       : Result := 'Cancelamento Conciliação Financeira';
+    // Reforma Tributária
+    teCancGenerico             : Result := 'Evento de Cancelamento';
+    tePagIntegLibCredPresAdq   : Result := 'Informação de efetivo pagamento integral para liberar crédito presumido do adquirente';
+    teImporALCZFM              : Result := '';
+    tePerecPerdaRouboFurtoTranspContratFornec : Result := '';
+    teFornecNaoRealizPagAntec  : Result := '';
+    teSolicApropCredPres       : Result := 'Solicitação de Apropriação de crédito presumido';
+    teDestItemConsPessoal      : Result := 'Destinação de item para consumo pessoal';
+    tePerecPerdaRouboFurtoTranspContratAqu : Result := '';
+    teAceiteDebitoApuracaoNotaCredito : Result := '';
+    teImobilizacaoItem       : Result := '';
+    teSolicApropCredCombustivel : Result := '';
+    teSolicApropCredBensServicos : Result := '';
+    teManifPedTransfCredIBSSucessao : Result := '';
+    teManifPedTransfCredCBSSucessao : Result := '';
   else
     Result := 'Não Definido';
   end;
@@ -477,6 +596,8 @@ begin
   FitemPedido := TitemPedidoCollection.Create;
   FautXML := TautXMLCollection.Create;
   FdetPag := TdetPagCollection.Create;
+  FgCredPres := TgCredPresCollection.Create;
+  FgConsumo := TgConsumoCollection.Create;
 end;
 
 destructor TDetEvento.Destroy;
@@ -485,6 +606,8 @@ begin
   FitemPedido.Free;
   FautXML.Free;
   FdetPag.Free;
+  FgCredPres.Free;
+  FgConsumo.Free;
 
   inherited;
 end;
@@ -514,6 +637,16 @@ end;
 procedure TDetEvento.SetdetPag(const Value: TdetPagCollection);
 begin
   FdetPag := Value;
+end;
+
+procedure TDetEvento.SetgConsumo(const Value: TgConsumoCollection);
+begin
+  FgConsumo := Value;
+end;
+
+procedure TDetEvento.SetgCredPres(const Value: TgCredPresCollection);
+begin
+  FgCredPres := Value;
 end;
 
 procedure TDetEvento.SetitemPedido(const Value: TitemPedidoCollection);
@@ -640,6 +773,90 @@ procedure TdetPagCollection.SetItem(Index: Integer;
   Value: TdetPagCollectionItem);
 begin
   inherited Items[Index] := Value;
+end;
+
+{ TgCredPresCollection }
+
+function TgCredPresCollection.Add: TgCredPresCollectionItem;
+begin
+  Result := Self.New;
+end;
+
+function TgCredPresCollection.GetItem(Index: Integer): TgCredPresCollectionItem;
+begin
+  Result := TgCredPresCollectionItem(inherited Items[Index]);
+end;
+
+function TgCredPresCollection.New: TgCredPresCollectionItem;
+begin
+  Result := TgCredPresCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TgCredPresCollection.SetItem(Index: Integer;
+  Value: TgCredPresCollectionItem);
+begin
+  inherited Items[Index] := Value;
+end;
+
+{ TgCredPresCollectionItem }
+
+constructor TgCredPresCollectionItem.Create;
+begin
+  inherited Create;
+
+  FgIBS := TgIBSgCBS.Create;
+  FgCBS := TgIBSgCBS.Create;
+end;
+
+destructor TgCredPresCollectionItem.Destroy;
+begin
+  FgIBS.Free;
+  FgCBS.Free;
+
+  inherited;
+end;
+
+{ TgConsumoCollection }
+
+function TgConsumoCollection.Add: TgConsumoCollectionItem;
+begin
+  Result := Self.New;
+end;
+
+function TgConsumoCollection.GetItem(Index: Integer): TgConsumoCollectionItem;
+begin
+  Result := TgConsumoCollectionItem(inherited Items[Index]);
+end;
+
+function TgConsumoCollection.New: TgConsumoCollectionItem;
+begin
+  Result := TgConsumoCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TgConsumoCollection.SetItem(Index: Integer;
+  Value: TgConsumoCollectionItem);
+begin
+  inherited Items[Index] := Value;
+end;
+
+{ TgConsumoCollectionItem }
+
+constructor TgConsumoCollectionItem.Create;
+begin
+  inherited Create;
+
+  FgControleEstoque := TgControleEstoque.Create;
+  FDFeReferenciado := TDFeReferenciado.Create;
+end;
+
+destructor TgConsumoCollectionItem.Destroy;
+begin
+  FgControleEstoque.Free;
+  FDFeReferenciado.Free;
+
+  inherited;
 end;
 
 end.

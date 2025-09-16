@@ -45,6 +45,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/09/2025
+-- Diversos --
+[+] Implementado a unit ACBrNFe.ValidarRegrasdeNegocio, Implementado os Eventos:
+    CancelamentoGenerico, PagIntegLibCredPresAdq, SolicApropCredPres e DestItemConsPessoal.
+   Por: Italo Giurizzato Junior
 -- ACBrNFeNotasFiscais, ACBrNFe.JSONReader, ACBrNFe.JSONWriter, ACBrNFe.EnvEvento --
 [+] Adiciona leitura e geração de arquivo JSON com os dados de uma NFe e de um evento
    Por: Diego Folieni

@@ -50,7 +50,9 @@ uses
   ACBrDFe.Conversao,
   pcnConversao,
   pcnConversaoNFe,
-  pcnSignature, pcnProcNFe, pcnGerador,
+  pcnSignature,
+//  ACBrDFeComum.SignatureClass,
+  pcnProcNFe,
   ACBrBase;
 
 type
@@ -1550,6 +1552,7 @@ type
     FvTribRegCBS: Double;
   public
     procedure Assign(Source: TgTribRegular);
+
     property CSTReg: TCSTIBSCBS read FCSTReg write FCSTReg;
     property cClassTribReg: string read FcClassTribReg write FcClassTribReg;
     property pAliqEfetRegIBSUF: Double read FpAliqEfetRegIBSUF write FpAliqEfetRegIBSUF;
@@ -1572,6 +1575,7 @@ type
     FvTribCBS: Double;
   public
     procedure Assign(Source: TgTribCompraGov);
+
     property pAliqIBSUF: Double read FpAliqIBSUF write FpAliqIBSUF;
     property vTribIBSUF: Double read FvTribIBSUF write FvTribIBSUF;
     property pAliqIBSMun: Double read FpAliqIBSMun write FpAliqIBSMun;
@@ -1752,6 +1756,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+
     procedure Assign(Source: TIBSCBS);
 
     property CST: TCSTIBSCBS read FCST write FCST;

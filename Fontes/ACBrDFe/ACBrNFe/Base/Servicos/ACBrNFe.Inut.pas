@@ -42,6 +42,8 @@ uses
   ACBrNFe.Consts,
   ACBrNFe.RetInut,
   pcnSignature,
+//  ACBrDFeComum.SignatureClass,
+  ACBrDFe.Conversao,
   ACBrXmlBase;
 
 type
@@ -181,6 +183,7 @@ begin
   begin
     signature.GerarXML;
     Result := Result + signature.Gerador.ArquivoFormatoXML;
+//    Result := Result + signature.GerarXML;
   end;
 end;
 

@@ -45,9 +45,11 @@ uses
   {$IfEnd}
   pcnConversao,
   pcnSignature,
+//  ACBrDFeComum.SignatureClass,
   ACBrNFe.EventoClass,
   ACBrBase,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrXmlDocument;
 
 type
@@ -213,20 +215,31 @@ procedure TRetEventoNFe.Ler_detPag(const ANode: TACBrXmlNode);
 var
   ok: Boolean;
   Item: TdetPagCollectionItem;
+  aValor: string;
 begin
   if not Assigned(ANode) then Exit;
 
   Item := InfEvento.detEvento.detPag.New;
 
   Item.indPag := StrToIndpagEX(ObterConteudoTag(ANode.Childrens.FindAnyNs('indPag'), tcStr));
-  Item.tPag := StrToFormaPagamento(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tPag'), tcStr));
+
+  aValor := ObterConteudoTag(ANode.Childrens.FindAnyNs('tPag'), tcStr);
+
+  if aValor <> '' then
+    Item.tPag := StrToFormaPagamento(ok, aValor);
+
   Item.xPag := ObterConteudoTag(ANode.Childrens.FindAnyNs('xPag'), tcStr);
   Item.vPag := ObterConteudoTag(ANode.Childrens.FindAnyNs('vPag'), tcDe2);
   Item.dPag := ObterConteudoTag(ANode.Childrens.FindAnyNs('dPag'), tcDat);
   Item.CNPJPag := ObterConteudoTag(ANode.Childrens.FindAnyNs('CNPJPag'), tcStr);
   Item.UFPag := ObterConteudoTag(ANode.Childrens.FindAnyNs('UFPag'), tcStr);
   Item.CNPJIF := ObterConteudoTag(ANode.Childrens.FindAnyNs('CNPJIF'), tcStr);
-  Item.tBand := StrToBandeiraCartao(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tBand'), tcStr));
+
+  aValor := ObterConteudoTag(ANode.Childrens.FindAnyNs('tBand'), tcStr);
+
+  if aValor <> '' then
+    Item.tBand := StrToBandeiraCartao(ok, aValor);
+
   Item.cAut := ObterConteudoTag(ANode.Childrens.FindAnyNs('cAut'), tcStr);
   Item.CNPJReceb := ObterConteudoTag(ANode.Childrens.FindAnyNs('CNPJReceb'), tcStr);
   Item.UFReceb := ObterConteudoTag(ANode.Childrens.FindAnyNs('UFReceb'), tcStr);
@@ -237,6 +250,7 @@ var
   ok: Boolean;
   i: Integer;
   ANodes: TACBrXmlNodeArray;
+  aValor: string;
 begin
   if not Assigned(ANode) then Exit;
 
@@ -247,10 +261,18 @@ begin
   infEvento.DetEvento.xJust := ObterConteudoTag(ANode.Childrens.FindAnyNs('xJust'), tcStr);
 
   InfEvento.detEvento.cOrgaoAutor := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgaoAutor'), tcInt);
-  infEvento.detEvento.tpAutor := StrToTipoAutor(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAutor'), tcStr));
+
+  aValor := ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAutor'), tcStr);
+  if aValor <> '' then
+    infEvento.detEvento.tpAutor := StrToTipoAutor(ok, aValor);
+
   infEvento.detEvento.verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
   infEvento.detEvento.dhEmi := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhEmi'), tcDatHor);
-  infEvento.detEvento.tpNF := StrToTpNF(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('IE'), tcStr));
+
+  aValor := ObterConteudoTag(ANode.Childrens.FindAnyNs('tpNF'), tcStr);
+  if aValor <> '' then
+    infEvento.detEvento.tpNF := StrToTpNF(ok, aValor);
+
   infEvento.detEvento.IE := ObterConteudoTag(ANode.Childrens.FindAnyNs('IE'), tcStr);
 
   // Comprovante de Entrega da NF-e e o Cancelamento do Comprovante
@@ -263,7 +285,10 @@ begin
   infEvento.detEvento.hashComprovante := ObterConteudoTag(ANode.Childrens.FindAnyNs('hashComprovante'), tcStr);
   infEvento.detEvento.dhHashComprovante := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhHashComprovante'), tcDatHor);
   infEvento.detEvento.nProtEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('nProtEvento'), tcStr);
-  infEvento.detEvento.tpAutorizacao := StrToAutorizacao(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAutorizacao'), tcStr));
+
+  aValor := ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAutorizacao'), tcStr);
+  if aValor <> '' then
+    infEvento.detEvento.tpAutorizacao := StrToAutorizacao(ok, aValor);
 
   infEvento.detEvento.dhTentativaEntrega := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhTentativaEntrega'), tcDatHor);
   infEvento.detEvento.nTentativa := ObterConteudoTag(ANode.Childrens.FindAnyNs('nTentativa'), tcInt);
@@ -355,12 +380,17 @@ var
   ok: Boolean;
   i: Integer;
   ANodes: TACBrXmlNodeArray;
+  aValor: string;
 begin
   if not Assigned(ANode) then Exit;
 
   versao := ObterConteudoTag(ANode.Attributes.Items['versao']);
   idLote := ObterConteudoTag(ANode.Childrens.FindAnyNs('idLote'), tcInt64);
-  tpAmb := StrToTpAmb(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+
+  aValor := ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr);
+  if aValor <> '' then
+    tpAmb := StrToTipoAmbiente(ok, aValor);
+
   verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
   cOrgao := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgao'), tcInt);
   cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);

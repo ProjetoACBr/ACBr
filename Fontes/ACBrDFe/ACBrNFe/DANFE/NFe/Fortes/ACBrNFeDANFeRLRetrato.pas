@@ -53,7 +53,9 @@ uses
     jpeg,
    {$IFEND}
   {$ENDIF}
-  ACBrNFeDANFeRL, pcnConversao, RLBarcode, RLFilters, RLPDFFilter;
+  ACBrNFeDANFeRL,
+  ACBrDFe.Conversao,
+  pcnConversao, RLBarcode, RLFilters, RLPDFFilter;
 
 type
 
