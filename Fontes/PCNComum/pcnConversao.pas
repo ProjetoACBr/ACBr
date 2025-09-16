@@ -128,7 +128,13 @@ type
                   teCancPrestDesacordo, teInsucessoEntregaCTe,
                   teCancInsucessoEntregaCTe, teInsucessoEntregaNFe,
                   teCancInsucessoEntregaNFe, teConcFinanceira, teCancConcFinanceira,
-                  teRegistroPassagemMDFe);
+                  teRegistroPassagemMDFe, teCancGenerico, tePagIntegLibCredPresAdq,
+                  teImporALCZFM, tePerecPerdaRouboFurtoTranspContratFornec,
+                  teFornecNaoRealizPagAntec, teSolicApropCredPres,
+                  teDestItemConsPessoal, tePerecPerdaRouboFurtoTranspContratAqu,
+                  teAceiteDebitoApuracaoNotaCredito, teImobilizacaoItem,
+                  teSolicApropCredCombustivel, teSolicApropCredBensServicos,
+                  teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao);
 
   TpcnTamanhoPapel = (tpA4, tpA4_2vias, tpA5);
 
@@ -175,33 +181,20 @@ type
   end;
 
 const
-  TpcnTpEventoString : array[0..78] of String =('-99999', '110110', '110111',
-                                                '210200', '210210', '210220',
-                                                '210240', '110112', '110113',
-                                                '110114', '110160', '310620',
-                                                '510620', '110140', '610600',
-                                                '610501', '610550', '610601',
-                                                '610611', '990900', '111500',
-                                                '111501', '111502', '111503',
-                                                '411500', '411501', '411502',
-                                                '411503', '610500', '990910',
-                                                '000000', '610610', '610110',
-                                                '110170', '310610', '110115',
-                                                '310611', '610614', '610510',
-                                                '610514', '610554', '610615',
-                                                '790700', '240130', '240131',
-                                                '240140', '240150', '240160',
-                                                '240170', '440130', '440140',
-                                                '440150', '440160', '110112',
-                                                '110116', '110180', '110181',
-                                                '110115', '240140', '240150',
-                                                '240170', '110116', '110117',
-                                                '310112', '110130', '110131',
-                                                '110150', '610130', '610131',
-                                                '110117', '110118', '610111',
-                                                '110190', '110191', '110192',
-                                                '110193', '110750', '110751',
-                                                '510630');
+  TpcnTpEventoString : array[0..92] of String =('-99999', '110110', '110111',
+    '210200', '210210', '210220', '210240', '110112', '110113', '110114',
+    '110160', '310620', '510620', '110140', '610600', '610501', '610550',
+    '610601', '610611', '990900', '111500', '111501', '111502', '111503',
+    '411500', '411501', '411502', '411503', '610500', '990910', '000000',
+    '610610', '610110', '110170', '310610', '110115', '310611', '610614',
+    '610510', '610514', '610554', '610615', '790700', '240130', '240131',
+    '240140', '240150', '240160', '240170', '440130', '440140', '440150',
+    '440160', '110112', '110116', '110180', '110181', '110115', '240140',
+    '240150', '240170', '110116', '110117', '310112', '110130', '110131',
+    '110150', '610130', '610131', '110117', '110118', '610111', '110190',
+    '110191', '110192', '110193', '110750', '110751', '510630', '110001',
+    '112110', '112120', '112130', '112140', '211110', '211120', '211124',
+    '211128', '211130', '211140', '211150', '212110', '212120');
 
   DFeUF: array[0..26] of String =
   ('AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA',
@@ -794,7 +787,14 @@ begin
               'ComprEntregaNFe', 'CancComprEntregaNFe',
               'AtorInteressadoNFe', 'ComprEntregaCTe', 'CancComprEntregaCTe',
               'CancPrestDesacordo', 'InsucessoEntregaCTe', 'CancInsucessoEntregaCTe',
-              'ConcFinanceira', 'CancConcFinanceira', 'RegistroPassagemMDFe'],
+              'ConcFinanceira', 'CancConcFinanceira', 'RegistroPassagemMDFe',
+              'CancGenerico', 'PagIntegLibCredPresAdq',
+              'ImporALCZFM', 'PerecPerdaRouboFurtoTranspContratFornec',
+              'FornecNaoRealizPagAntec', 'SolicApropCredPres', 'DestItemConsPessoal',
+              'PerecPerdaRouboFurtoTranspContratAqu',
+              'AceiteDebitoApuracaoNotaCredito', 'ImobilizacaoItem',
+              'SolicApropCredCombustivel', 'SolicApropCredBensServicos',
+              'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao'],
              [teNaoMapeado, teCCe, teCancelamento, teManifDestConfirmacao, teManifDestCiencia,
               teManifDestDesconhecimento, teManifDestOperNaoRealizada,
               teEncerramento, teEPEC, teInclusaoCondutor, teMultiModal,
@@ -817,7 +817,13 @@ begin
               teCancComprEntregaNFe, teAtorInteressadoNFe, teComprEntregaCTe,
               teCancComprEntregaCTe, teCancPrestDesacordo, teInsucessoEntregaCTe,
               teCancInsucessoEntregaCTe, teConcFinanceira, teCancConcFinanceira,
-              teRegistroPassagemMDFe]);
+              teRegistroPassagemMDFe, teCancGenerico, tePagIntegLibCredPresAdq,
+              teImporALCZFM, tePerecPerdaRouboFurtoTranspContratFornec,
+              teFornecNaoRealizPagAntec, teSolicApropCredPres,
+              teDestItemConsPessoal, tePerecPerdaRouboFurtoTranspContratAqu,
+              teAceiteDebitoApuracaoNotaCredito, teImobilizacaoItem,
+              teSolicApropCredCombustivel, teSolicApropCredBensServicos,
+              teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao]);
 end;
 
 
