@@ -44,12 +44,12 @@ uses
    System.Contnrs,
   {$IfEnd}
   pcnConversao,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcnSignature,
 //  ACBrDFeComum.SignatureClass,
   ACBrNFe.EventoClass,
   ACBrBase,
-  ACBrXmlBase,
-  ACBrDFe.Conversao,
   ACBrXmlDocument;
 
 type
@@ -389,7 +389,7 @@ begin
 
   aValor := ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr);
   if aValor <> '' then
-    tpAmb := StrToTipoAmbiente(ok, aValor);
+    tpAmb := StrToTpAmb(ok, aValor);
 
   verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
   cOrgao := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgao'), tcInt);
