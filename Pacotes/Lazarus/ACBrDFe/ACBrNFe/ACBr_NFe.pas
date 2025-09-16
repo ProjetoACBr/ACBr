@@ -15,7 +15,7 @@ uses
   ACBrNFe.Inut, ACBrNFe.RetAdmCSC, ACBrNFe.RetConsSit, ACBrNFe.RetEnvEvento, 
   ACBrNFe.RetInut, ACBrNFe.XmlReader, ACBrNFe.XmlWriter, ACBrNFe.Consts, 
   ACBrNFe.Conversao, ACBrNFe.IniReader, ACBrNFe.IniWriter, ACBrNFe.JSONReader, 
-  ACBrNFe.JSONWriter, LazarusPackageIntf;
+  ACBrNFe.JSONWriter, ACBrNFe.ValidarRegrasdeNegocio, LazarusPackageIntf;
 
 implementation
 
