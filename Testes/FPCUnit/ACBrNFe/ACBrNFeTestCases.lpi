@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <PathDelim Value="\"/>
     <General>
+      <Flags>
+        <CompatibilityMode Value="True"/>
+      </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="ACBrNFeTestCases"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
@@ -64,7 +66,7 @@
         <PackageName Value="FCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="4">
       <Unit0>
         <Filename Value="ACBrNFeTestCases.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -78,13 +80,9 @@
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="ACBrNFeProvedorABRASFv1Tests.pas"/>
+        <Filename Value="ACBrNFeJSONTests.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
-      <Unit4>
-        <Filename Value="ACBrNFeProvedorABRASFv2Tests.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -110,6 +108,7 @@
     </CodeGeneration>
     <Linking>
       <Debugging>
+        <DebugInfoType Value="dsDwarf3"/>
         <UseHeaptrc Value="True"/>
         <UseExternalDbgSyms Value="True"/>
       </Debugging>

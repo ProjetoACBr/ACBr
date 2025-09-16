@@ -3,20 +3,26 @@ program ACBrNFeTestCases;
 {$mode objfpc}{$H+}
 
 uses
-  Interfaces, Forms, ACBrNFeTests, ACBrTests.Util, GuiTestRunner,
-  ACBrNFeProvedorABRASFv1Tests, ACBrNFeProvedorABRASFv2Tests,
-  ACBrNFeProvedorAgiliTests,
-  ACBrNFeProvedorAssessorPublicoTests,
-  ACBrNFeProvedorBauhausTests,
-  ACBrNFeProvedorEquiplanoTests,
-  ACBrNFeProvedorIPMTests,
-  ACBrNFeProvedorISSBarueriTests,
-  ACBrNFeProvedorPadraoNacionalTests,
-  ACBrNFeProvedorSigISSTests,
-  ACBrNFeProvedorSigISSWebTests,
-  ACBrNFeProvedorSoftPlanTests,
-  ACBrNFeProvedorWebFiscoTests,
-  ACBrNFeRetornoSoapTests;
+  Interfaces,
+  Forms,
+  ACBrNFeTests,
+  ACBrTests.Util,
+  GuiTestRunner,
+  ACBrNFeAdmCSCTests,
+  ACBrNFeConsCadTests,
+  ACBrNFeConsSitTests,
+  ACBrNFeConstantesTests,
+  ACBrNFeEnvEventoTests,
+  ACBrNFeInutTests,
+  ACBrNFeRetAdmCSCTests,
+  ACBrNFeRetConsSitTests,
+  ACBrNFeRetEnvEventoTests,
+  ACBrNFeRetInutTests,
+  ACBrNFeJSONTests;
+
+
+
+
 
 {$R *.res}
 

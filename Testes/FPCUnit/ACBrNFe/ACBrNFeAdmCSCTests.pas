@@ -5,7 +5,7 @@
 interface
 
 uses
-  Classes, SysUtils, ACBrTests.Util,
+  Classes, SysUtils, ACBrTests.Util, pcnConversaoNFe,
   ACBrNFe.AdmCSC; // Unit nova
 
 type

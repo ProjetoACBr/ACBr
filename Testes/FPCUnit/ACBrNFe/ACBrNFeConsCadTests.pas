@@ -17,7 +17,6 @@ type
   private
     FConsCad_Old: pcnConsCad.TConsCad;
     FConsCad_New: TConsCad;
-
   public
     procedure SetUp; override;
     procedure TearDown; override;
@@ -34,8 +33,7 @@ uses
   ACBrUtil.XMLHTML,
   ACBrUtil.FilesIO,
   ACBrUtil.DateTime,
-  pcnConversao,
-  ACBrNFSeXConversao;
+  pcnConversao;
 
 const
   SArquivoRetornoSoap  = '..\..\..\..\Recursos\NFSe\RetornoSoap.xml';
@@ -65,47 +63,48 @@ begin
   sxml_old := '';
   sxml_new := '';
 
-  FConsCad_Old.Versao :=
+  //FConsCad_Old.Versao :=
+  Fail('Não implementado');
 
-  FRetConsSitNFe.XmlRetorno := ParseText(sxml);
-  FRetConsSitNFe.LerXML;
-
-  // Leitura do grupo <retConsSitNFe>
-  CheckEquals('4.00', FRetConsSitNFe.versao, 'Versao valor incorreto');
-  CheckEquals('2', tpAmbToStr(FRetConsSitNFe.tpAmb), 'tpAmb valor incorreto');
-  CheckEquals('SP_NFE_PL_006e', FRetConsSitNFe.verAplic, 'verAplic valor incorreto');
-  CheckEquals(100, FRetConsSitNFe.cStat, 'cStat valor incorreto');
-  CheckEquals('Autorizado o uso da NF-e', FRetConsSitNFe.xMotivo, 'xMotivo valor incorreto');
-  CheckEquals(35, FRetConsSitNFe.cUF, 'cUF valor incorreto');
-  CheckEquals('35100804550110000188550010000000101204117493', FRetConsSitNFe.chNFe, 'chNFe valor incorreto');
-
-  // Leitura do grupo <infProt> que esta dentro do grupo <protNFe>
-  CheckEquals('2', TipoAmbienteToStr(FRetConsSitNFe.protNFe.tpAmb), 'tpAmb valor incorreto');
-  CheckEquals('SP_NFE_PL_006e', FRetConsSitNFe.protNFe.verAplic, 'verAplic valor incorreto');
-  CheckEquals('35100804550110000188550010000000101204117493', FRetConsSitNFe.protNFe.chDFe, 'chNFe valor incorreto');
-  CheckEquals(EncodeDataHora('2010-08-31T19:20:22'), FRetConsSitNFe.protNFe.dhRecbto, 'dhRecbto valor incorreto');
-  CheckEquals('135100025493261', FRetConsSitNFe.protNFe.nProt, 'nProt valor incorreto');
-  CheckEquals('PNG7OJ2WYLQyhkL2kWBykEGSVQA=', FRetConsSitNFe.protNFe.digVal, 'digVal valor incorreto');
-  CheckEquals(100, FRetConsSitNFe.protNFe.cStat, 'cStat valor incorreto');
-  CheckEquals('Autorizado o uso da NF-e', FRetConsSitNFe.protNFe.xMotivo, 'xMotivo valor incorreto');
-  CheckEquals(1, FRetConsSitNFe.protNFe.cMsg, 'cMsg valor incorreto');
-  CheckEquals('Autorizado', FRetConsSitNFe.protNFe.xMsg, 'xMsg valor incorreto');
-
-  // Leitura do grupo <procEventoNFe>
-  CheckEquals('1.00', FRetConsSitNFe.procEventoNFe[0].RetEventoNFe.versao, 'Versao valor incorreto');
-
-  // Leitura do grupo <infEvento> que esta dentro do grupo <evento>
-  CheckEquals(35, FRetConsSitNFe.procEventoNFe[0].RetEventoNFe.cOrgao, 'cOrgao valor incorreto');
-  CheckEquals('1', tpAmbToStr(FRetConsSitNFe.procEventoNFe[0].RetEventoNFe.tpAmb), 'tpAmb valor incorreto');
-  {
-          idLote := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.idLote;
-          tpAmb := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.tpAmb;
-          verAplic := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.verAplic;
-          cOrgao := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.cOrgao;
-          cStat := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.cStat;
-          xMotivo := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.xMotivo;
-          XML := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.XML;
-          }
+  //FConsCad_Old.XmlRetorno := ParseText(sxml);
+  //FConsCad_Old.LerXML;
+  //
+  //// Leitura do grupo <retConsSitNFe>
+  //CheckEquals('4.00', FConsCad_Old.versao, 'Versao valor incorreto');
+  //CheckEquals('2', tpAmbToStr(FConsCad_Old.tpAmb), 'tpAmb valor incorreto');
+  //CheckEquals('SP_NFE_PL_006e', FConsCad_Old.verAplic, 'verAplic valor incorreto');
+  //CheckEquals(100, FConsCad_Old.cStat, 'cStat valor incorreto');
+  //CheckEquals('Autorizado o uso da NF-e', FConsCad_Old.xMotivo, 'xMotivo valor incorreto');
+  //CheckEquals(35, FConsCad_Old.cUF, 'cUF valor incorreto');
+  //CheckEquals('35100804550110000188550010000000101204117493', FConsCad_Old.chNFe, 'chNFe valor incorreto');
+  //
+  //// Leitura do grupo <infProt> que esta dentro do grupo <protNFe>
+  //CheckEquals('2', TipoAmbienteToStr(FConsCad_Old.protNFe.tpAmb), 'tpAmb valor incorreto');
+  //CheckEquals('SP_NFE_PL_006e', FConsCad_Old.protNFe.verAplic, 'verAplic valor incorreto');
+  //CheckEquals('35100804550110000188550010000000101204117493', FConsCad_Old.protNFe.chDFe, 'chNFe valor incorreto');
+  //CheckEquals(EncodeDataHora('2010-08-31T19:20:22'), FConsCad_Old.protNFe.dhRecbto, 'dhRecbto valor incorreto');
+  //CheckEquals('135100025493261', FConsCad_Old.protNFe.nProt, 'nProt valor incorreto');
+  //CheckEquals('PNG7OJ2WYLQyhkL2kWBykEGSVQA=', FConsCad_Old.protNFe.digVal, 'digVal valor incorreto');
+  //CheckEquals(100, FConsCad_Old.protNFe.cStat, 'cStat valor incorreto');
+  //CheckEquals('Autorizado o uso da NF-e', FConsCad_Old.protNFe.xMotivo, 'xMotivo valor incorreto');
+  //CheckEquals(1, FConsCad_Old.protNFe.cMsg, 'cMsg valor incorreto');
+  //CheckEquals('Autorizado', FConsCad_Old.protNFe.xMsg, 'xMsg valor incorreto');
+  //
+  //// Leitura do grupo <procEventoNFe>
+  //CheckEquals('1.00', FConsCad_Old.procEventoNFe[0].RetEventoNFe.versao, 'Versao valor incorreto');
+  //
+  //// Leitura do grupo <infEvento> que esta dentro do grupo <evento>
+  //CheckEquals(35, FConsCad_Old.procEventoNFe[0].RetEventoNFe.cOrgao, 'cOrgao valor incorreto');
+  //CheckEquals('1', tpAmbToStr(FConsCad_Old.procEventoNFe[0].RetEventoNFe.tpAmb), 'tpAmb valor incorreto');
+  //{
+  //        idLote := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.idLote;
+  //        tpAmb := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.tpAmb;
+  //        verAplic := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.verAplic;
+  //        cOrgao := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.cOrgao;
+  //        cStat := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.cStat;
+  //        xMotivo := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.xMotivo;
+  //        XML := NFeRetorno.procEventoNFe.Items[I].RetEventoNFe.XML;
+  //        }
 end;
 
 initialization

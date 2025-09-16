@@ -50,7 +50,7 @@ uses
   ACBrUtil.Strings,
   ACBrUtil.DateTime,
   ACBrNFeConstantesTests,
-  pcnEventoNFe,
+  //pcnEventoNFe,
   ACBrNFe.EventoClass,
   pcnConversaoNFe;
 

@@ -29,6 +29,7 @@ implementation
 
 uses
   pcnConversao,
+  pcnConversaoNFe,
   ACBrUtil.XMLHTML,
   ACBrNFeConstantesTests;
 
