@@ -806,9 +806,9 @@ end;
 
 procedure TNFeStatusServico.DefinirServicoEAction;
 var
-  Emissao: TACBrTipoEmissao;
+  Emissao: TpcnTipoEmissao;
 begin
-  Emissao := TACBrTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
+  Emissao := TpcnTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
 
   if (FPConfiguracoesNFe.Geral.VersaoDF >= ve400) then
   begin
@@ -1037,7 +1037,7 @@ var
   VerServ: Double;
   Modelo: TpcnModeloDF;
   ok: Boolean;
-  Emissao: TACBrTipoEmissao;
+  Emissao: TpcnTipoEmissao;
 begin
   if FNotasFiscais.Count > 0 then    // Tem NFe ? Se SIM, use as informações do XML
   begin
@@ -1064,7 +1064,7 @@ begin
     FPLayout := LayNfeRecepcao;
 
   // Configuração correta ao enviar para o SVC
-  Emissao := TACBrTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
+  Emissao := TpcnTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
 
   case Emissao of
     teSVCAN: xUF := 'SVC-AN';
@@ -1507,7 +1507,7 @@ var
   VerServ: Double;
   ok: Boolean;
   Modelo: TpcnModeloDF;
-  Emissao: TACBrTipoEmissao;
+  Emissao: TpcnTipoEmissao;
 begin
   if FNotasFiscais.Count > 0 then    // Tem NFe ? Se SIM, use as informações do XML
   begin
@@ -1534,7 +1534,7 @@ begin
     FPLayout := LayNfeRetRecepcao;
 
   // Configuração correta ao enviar para o SVC
-  Emissao := TACBrTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
+  Emissao := TpcnTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
 
   case Emissao of
     teSVCAN: xUF := 'SVC-AN';
@@ -1889,7 +1889,7 @@ var
   VerServ: Double;
   ok: Boolean;
   Modelo: TpcnModeloDF;
-  Emissao: TACBrTipoEmissao;
+  Emissao: TpcnTipoEmissao;
 begin
   if FNotasFiscais.Count > 0 then    // Tem NFe ? Se SIM, use as informações do XML
   begin
@@ -1916,7 +1916,7 @@ begin
     FPLayout := LayNfeRetRecepcao;
 
   // Configuração correta ao enviar para o SVC
-  Emissao := TACBrTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
+  Emissao := TpcnTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
 
   case Emissao of
     teSVCAN: xUF := 'SVC-AN';
@@ -2084,7 +2084,7 @@ procedure TNFeConsulta.DefinirURL;
 var
   VerServ: Double;
   Modelo, xUF: String;
-  Emissao: TACBrTipoEmissao;
+  Emissao: TpcnTipoEmissao;
 begin
   FPVersaoServico := '';
   FPURL  := '';
@@ -2099,7 +2099,7 @@ begin
 
   // Se a nota foi enviada para o SVC a consulta tem que ser realizada no SVC e
   // não na SEFAZ-Autorizadora
-  Emissao := TACBrTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
+  Emissao := TpcnTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
 
   case Emissao of
     teSVCAN: xUF := 'SVC-AN';
@@ -2123,9 +2123,9 @@ end;
 
 procedure TNFeConsulta.DefinirServicoEAction;
 var
-  Emissao: TACBrTipoEmissao;
+  Emissao: TpcnTipoEmissao;
 begin
-  Emissao := TACBrTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
+  Emissao := TpcnTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
 
   if (FPConfiguracoesNFe.Geral.VersaoDF >= ve400) then
   begin
@@ -2694,9 +2694,9 @@ end;
 procedure TNFeInutilizacao.DefinirServicoEAction;
 var
   ok: Boolean;
-  Emissao: TACBrTipoEmissao;
+  Emissao: TpcnTipoEmissao;
 begin
-  Emissao := TACBrTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
+  Emissao := TpcnTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
 
   if (FPConfiguracoesNFe.Geral.VersaoDF >= ve400) then
   begin
@@ -3087,7 +3087,7 @@ procedure TNFeEnvEvento.DefinirURL;
 var
   UF, Modelo : String;
   VerServ: Double;
-  Emissao: TACBrTipoEmissao;
+  Emissao: TpcnTipoEmissao;
 begin
   { Verificação necessária pois somente os eventos de Cancelamento e CCe serão tratados pela SEFAZ do estado
     os outros eventos como manifestacao de destinatários serão tratados diretamente pela RFB }
@@ -3100,7 +3100,7 @@ begin
   FIE      := FEvento.Evento.Items[0].InfEvento.detEvento.IE;
 
   // Configuração correta ao enviar para o SVC
-  Emissao := TACBrTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
+  Emissao := TpcnTipoEmissao(FPConfiguracoesNFe.Geral.FormaEmissao);
 
   case Emissao of
     teSVCAN: UF := 'SVC-AN';
