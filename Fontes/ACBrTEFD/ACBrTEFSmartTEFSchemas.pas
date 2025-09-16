@@ -394,7 +394,7 @@ type
   TACBrSmartTEFPrintFile = class(TACBrAPISchema)
   private
     fname: String;
-    fdata: AnsiString;
+    fdata: String;
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
     procedure DoWriteToJson(aJson: TACBrJSONObject); override;
@@ -405,7 +405,7 @@ type
     procedure Assign(Source: TACBrSmartTEFPrintFile);
 
     property name: String read fname write fname;
-    property data: AnsiString read fdata write fdata;
+    property data: String read fdata write fdata;
   end;
 
   { TACBrSmartTEFPrintCreateRequest }
