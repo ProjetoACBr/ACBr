@@ -48,7 +48,7 @@ interface
 
 Uses
   SysUtils, Math, Classes,
-  ACBrBase, ACBrConsts, ACBrUtil.Compatibilidade, IniFiles,
+  ACBrBase, ACBrConsts, ACBrUtil.Compatibilidade, IniFiles, ACBrJSON,
   {$IfDef COMPILER6_UP} StrUtils, DateUtils {$Else} ACBrD5, FileCtrl {$EndIf}
   {$IfDef FPC}
     ,dynlibs, LazUTF8, LConvEncoding, LCLType
@@ -147,9 +147,11 @@ function Zip(AStream: TStream): AnsiString; overload;
 function Zip(const ABinaryString: AnsiString): AnsiString; overload;
 
 procedure LerIniArquivoOuString(const IniArquivoOuString: String; AMemIni: TMemIniFile);
+function LerJSONArquivoOuString(const AJSONArquivoOuString: String): String;
 function StringIsINI(const AString: String): Boolean;
 function StringIsAFile(const AString: String): Boolean;
 function StringIsXML(const AString: String): Boolean;
+function StringIsJSON(const AString: String): Boolean;
 function StrIsIP(const AValue: String): Boolean;
 function StringIsPDF(const AString: String): Boolean;
 
@@ -1346,6 +1348,31 @@ begin
 end;
 
 {------------------------------------------------------------------------------
+   Se passou o caminho, faz o Load em uma StringList, do contrário só devolve a
+   string contendo o JSON.
+ ------------------------------------------------------------------------------}
+function LerJSONArquivoOuString(const AJSONArquivoOuString: String): String;
+var
+  SL: TStringList;
+begin
+  Result := '';
+  if StringIsAFile(AJSONArquivoOuString) then
+  begin
+    if FileExists(AJSONArquivoOuString) then
+    begin
+      SL := TStringList.Create;
+      try
+        SL.LoadFromFile(AJSONArquivoOuString);
+        Result := SL.Text;
+      finally
+        SL.Free;
+      end;
+    end;
+  end else
+    Result := AJSONArquivoOuString;
+end;
+
+{------------------------------------------------------------------------------
    Valida se é um arquivo contém caracteres existentes em um ini
  ------------------------------------------------------------------------------}
 function StringIsINI(const AString: String): Boolean;
@@ -1361,6 +1388,7 @@ begin
   Result := (AString <> '') and
             (not StringIsXML(AString)) and
             (not StringIsINI(AString)) and
+            (not StringIsJSON(AString)) and
             (Length(AString) < 255) ;
 end;
 
@@ -1370,6 +1398,14 @@ end;
 function StringIsXML(const AString: String): Boolean;
 begin
   Result :=(pos('<', AString) > 0) and (pos('>', AString) > 0);
+end;
+
+{------------------------------------------------------------------------------
+   Valida se é um arquivo contém caracteres existentes em um JSON
+ ------------------------------------------------------------------------------}
+function StringIsJSON(const AString: String): Boolean;
+begin
+  Result := (Pos('{', AString) > 0) and (Pos('}', AString) > 0);
 end;
 
 {-----------------------------------------------------------------------------
