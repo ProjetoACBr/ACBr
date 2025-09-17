@@ -2573,7 +2573,7 @@ var
 begin
   for I := 0 to (frxReport.PreviewPages.Count - 1) do
   begin
-    if frxReport.Pages[I] is TfrxReportPage then
+    if frxReport.PreviewPages.Page[I] is TfrxReportPage then
     begin
       Page := frxReport.PreviewPages.Page[I];
       if (DANFEClassOwner.MargemSuperior > 0) then
