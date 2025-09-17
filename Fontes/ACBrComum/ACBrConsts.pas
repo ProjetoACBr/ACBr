@@ -283,10 +283,10 @@ const
   cACBrDeviceEnviaStrFailCount       = 'Erro ao enviar dados para a porta: %s';
 
   { constantes para exibição na inicialização e no sobre do delphi a partir da versão 2009 }
-  cACBrSobreDialogoTitulo = 'Projeto ACBr';
-  cACBrSobreTitulo = 'Projeto ACBr VCL';
-  cACBrSobreDescricao = 'ACBr VCL http://www.projetoacbr.com.br/' + #13#10 +
-                        'Componentes para Automação Comercial' + #13#10 +                        
+  cACBrSobreDialogoTitulo = 'Projeto ACBr - Componentes para Automação Comercial';
+  cACBrSobreTitulo = 'Projeto ACBr';
+  cACBrSobreDescricao = 'Projeto ACBr http://www.projetoacbr.com.br/' + #13#10 +
+                        'Componentes para Automação Comercial' + #13#10 +
                         'Lesser General Public License version 2.0';					
   cACBrSobreLicencaStatus = 'LGPLv2';
   
