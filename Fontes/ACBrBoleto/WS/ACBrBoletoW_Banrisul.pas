@@ -470,7 +470,7 @@ begin
     GerarJuros(LJsonInstrucoesObject);
     GerarMulta(LJsonInstrucoesObject);
     GerarDesconto(LJsonInstrucoesObject);
-    //GerarProtesto(LJsonInstrucoesObject);
+    GerarProtesto(LJsonInstrucoesObject);
 
     AJson.AddPair('instrucoes', LJsonInstrucoesObject);
   end;
