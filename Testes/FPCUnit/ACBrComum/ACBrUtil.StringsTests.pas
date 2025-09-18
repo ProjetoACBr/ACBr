@@ -441,12 +441,17 @@ type
 
   { Split }
 
+  { SplitTeste }
+
   SplitTeste = class(TTestCase)
   published
     procedure Split_StringVazia;
     procedure Split_DoisItens;
     procedure Split_SemDelimitador;
     procedure Split_DelimitadorEspaco;
+    procedure Split_DelimitadorHifenSemHifen;
+    procedure Split_DelimitadorHifenTresItens;
+    procedure Split_DelimitadorHifenPalavraComposta;
   end;
 
   { RemoverQuebraLinhaFinal }
@@ -1752,6 +1757,38 @@ begin
   CheckEquals('PROJETO', SR[0]);
   CheckEquals('ACBR', SR[1]);
   CheckEquals('www.projetoacbr.com.br', SR[2]);
+end;
+
+procedure SplitTeste.Split_DelimitadorHifenSemHifen;
+var
+  SR: TSplitResult;
+begin
+  SR := Split('-', 'String sem o delimitador para testar o tamnho do result');
+  CheckEquals(1, Length(SR));
+  CheckEquals('String sem o delimitador para testar o tamnho do result', SR[0]);
+end;
+
+procedure SplitTeste.Split_DelimitadorHifenTresItens;
+var
+  SR: TSplitResult;
+  str: String;
+begin
+  SR := Split('-', 'EL17 - Segunda parte da String - Terceira parte da string');
+  CheckEquals(3, Length(SR));
+  CheckEquals('EL17 ', SR[0]);
+  CheckEquals(' Segunda parte da String ', SR[1]);
+  CheckEquals(' Terceira parte da string', SR[2]);
+end;
+
+procedure SplitTeste.Split_DelimitadorHifenPalavraComposta;
+var
+  SR: TSplitResult;
+begin
+  SR := Split('-', 'EL17 - Prepare-se para mostrar-lhes - Terceira parte da string');
+  CheckEquals(3, Length(SR));
+  CheckEquals('EL17 ', SR[0]);
+  CheckEquals(' Segunda parte da String ', SR[1]);
+  CheckEquals(' Terceira parte da string', SR[2]);
 end;
 
 procedure SplitTeste.Split_DoisItens;

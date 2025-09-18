@@ -4,7 +4,7 @@ program ACBrComumTestCases;
 
 uses
   Interfaces, Forms, ACBrUtilTest, ACBrUtil.StringsTests, ACBrUtil.DateTimeTests,
-  GuiTestRunner, ACBrTests.Util;
+  GuiTestRunner, ACBrTests.Util, ACBrUtil.FilesIOTests;
 
 {$R *.res}
 
