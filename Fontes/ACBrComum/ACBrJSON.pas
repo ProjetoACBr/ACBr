@@ -631,7 +631,6 @@ begin
     JsonSerializationConfig.NullConvertsToValueTypes := True;
     if NaoEstaVazio(AJsonString) then
     begin
-      lTemp := nil;
       lTemp := TJsonObject.Parse(AJsonString);
       if Assigned(lTemp) then
       begin
@@ -646,7 +645,6 @@ begin
     else
       Result := TJsonObject.Create;
   {$Else}{$IfDef FPC}
-    lTemp := nil;
     lTemp := GetJSON(AJsonString);
     if Assigned(lTemp) then
     begin
