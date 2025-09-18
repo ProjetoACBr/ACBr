@@ -124,7 +124,7 @@ func main() {
 
 	aplicarConfiguracoes(handle)
 
-	// exemplo de uso da funcao NFE_Nome
+	// exemplo de uso da funcao NFE_StatusServico
 	// para servir de exemplo de uso do buffer alocado e do size
 
 	status = C.NFE_StatusServico(handle, bufferResposta, &tamanhoBuffer)
