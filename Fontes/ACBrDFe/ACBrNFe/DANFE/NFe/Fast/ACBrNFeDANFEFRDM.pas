@@ -414,7 +414,7 @@ begin
         FieldDefs.Add('ValorAcrescimos' , ftString, 18);
         FieldDefs.Add('ValorDescontos'  , ftString, 18);
         FieldDefs.Add('xPed'            , ftString, 15);
-        FieldDefs.Add('nItemPed'        , ftInteger);
+        FieldDefs.Add('nItemPed'        , ftString, 6);
 
         CreateDataSet;
      end;
@@ -1108,7 +1108,7 @@ begin
         *)
         FieldByName('ValorAcrescimos').AsString   := FormatFloatBr( Prod.vOutro + Prod.vFrete + Prod.vSeg, ',0.00');
         FieldByName('xPed').AsString              := Prod.xPed;
-        FieldByName('nItemPed').AsInteger         := Prod.nItem;
+        FieldByName('nItemPed').AsString          := Prod.nItemPed;
         Post;
       end;
     end;
