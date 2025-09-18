@@ -37,6 +37,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+18/09/2025
+-- ACBrUtil, ACBrUtil.FilesIO --
+[*] Melhora StringISJSON e renomeia rotina para LerArquivoOuString
+  Por: Diego Folieni
+
 16/09/2025
 -- ACBrUtil, ACBrUtil.FilesIO --
 [+] Adiciona rotinas para ler arquivo JSON ou String

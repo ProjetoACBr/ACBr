@@ -418,7 +418,6 @@ function Zip(const ABinaryString: AnsiString): AnsiString; overload; deprecated 
 
 procedure LerIniArquivoOuString(const IniArquivoOuString: String; AMemIni: TMemIniFile); deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método da Unit ACBrUtil.FilesIO.pas' {$ENDIF};
 function StringIsINI(const AString: String): Boolean; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método da Unit ACBrUtil.FilesIO.pas' {$ENDIF};
-function StringIsJSON(const AString: String): Boolean; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método da Unit ACBrUtil.FilesIO.pas' {$ENDIF};
 function StringIsAFile(const AString: String): Boolean; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método da Unit ACBrUtil.FilesIO.pas' {$ENDIF};
 function StringIsXML(const AString: String): Boolean; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método da Unit ACBrUtil.FilesIO.pas' {$ENDIF};
 function StrIsIP(const AValue: String): Boolean; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o método StrIsIP da Unit ACBrUtil.FilesIO.pas' {$ENDIF};
@@ -1498,11 +1497,6 @@ end;
 function StringIsINI(const AString: String): Boolean;
 begin
   Result := ACBrUtil.FilesIO.StringIsINI(AString);
-end;
-
-function StringIsJSON(const AString: String): Boolean;
-begin
-  Result := ACBrUtil.FilesIO.StringIsJSON(AString);
 end;
 
 function StringIsAFile(const AString: String): Boolean;

@@ -147,7 +147,7 @@ function Zip(AStream: TStream): AnsiString; overload;
 function Zip(const ABinaryString: AnsiString): AnsiString; overload;
 
 procedure LerIniArquivoOuString(const IniArquivoOuString: String; AMemIni: TMemIniFile);
-function LerJSONArquivoOuString(const AJSONArquivoOuString: String): String;
+function LerArquivoOuString(const AJSONArquivoOuString: String): String;
 function StringIsINI(const AString: String): Boolean;
 function StringIsAFile(const AString: String): Boolean;
 function StringIsXML(const AString: String): Boolean;
@@ -1349,9 +1349,9 @@ end;
 
 {------------------------------------------------------------------------------
    Se passou o caminho, faz o Load em uma StringList, do contrário só devolve a
-   string contendo o JSON.
+   string.
  ------------------------------------------------------------------------------}
-function LerJSONArquivoOuString(const AJSONArquivoOuString: String): String;
+function LerArquivoOuString(const AJSONArquivoOuString: String): String;
 var
   SL: TStringList;
 begin
@@ -1404,8 +1404,36 @@ end;
    Valida se é um arquivo contém caracteres existentes em um JSON
  ------------------------------------------------------------------------------}
 function StringIsJSON(const AString: String): Boolean;
+var
+  lJSON: TACBrJSONObject;
+  lJSONArray: TACBrJSONArray;
 begin
-  Result := (Pos('{', AString) > 0) and (Pos('}', AString) > 0);
+  lJSON := nil;
+  try
+    try
+      lJSON := TACBrJSONObject.Parse(AString);
+      Result := True;
+    except
+      Result := False;
+    end;
+  finally
+    lJSON.Free;
+  end;
+
+  if not Result then
+  begin
+    lJSONArray := nil;
+    try
+      try
+        lJSONArray := TACBrJSONArray.Parse(AString);
+        Result := True;
+      except
+        Result := False;
+      end;
+    finally
+      lJSONArray.Free;
+    end;
+  end;
 end;
 
 {-----------------------------------------------------------------------------
