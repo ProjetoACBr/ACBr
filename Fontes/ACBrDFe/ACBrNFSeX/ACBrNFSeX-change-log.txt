@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/09/2025
+-- IPM.Provider/IPM.GravarXml --
+[*] Alterações visando a geração no XML do RPS (versão 2 layout ABRASF) com o grupo
+    IBSCBS.
+   Por: Italo Giurizzato Junior
 -- IPM.LerXml --
 [*] #ACBr-8060 Alterado a quantidade de digitos do ItemListaServico de 5 para 4.
    Por: Fabio Tellini

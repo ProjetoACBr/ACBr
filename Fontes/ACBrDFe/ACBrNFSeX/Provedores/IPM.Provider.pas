@@ -171,6 +171,7 @@ implementation
 
 uses
   synacode,
+  ACBrDFe.Conversao,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.FilesIO, ACBrUtil.DateTime,
   ACBrDFeException,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts, ACBrJSON,
@@ -1928,6 +1929,8 @@ begin
   ConfigWebServices.AtribVerLote := '';
 
   ConfigMsgDados.GerarPrestadorLoteRps := True;
+
+  SetNomeXSD('nfse_rt.xsd');
 end;
 
 function TACBrNFSeProviderIPM204.CriarGeradorXml(
