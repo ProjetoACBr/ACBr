@@ -327,7 +327,7 @@ begin
     end;
 
     //Montar namespaces:
-    if (InstalacaoAtual.VersionNumber >= 16) then
+    if (InstalacaoAtual.IDEPackageVersionNumber >= 16) then
     begin
   //    Namespaces := '';
 
