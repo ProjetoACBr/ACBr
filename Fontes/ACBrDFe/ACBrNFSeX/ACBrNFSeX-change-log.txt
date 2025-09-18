@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+18/09/2025
+-- Agili.GravarXml --
+[*] #ACBr-8059 Removido a linha que defini que a formatação do ItemListaServico,
+    não pode ter formatação, uma vez que cada cidade formata de uma forma diferente.
+   Por: Diego Reckziegel
+
 15/09/2025
 -- Giap.Provider --
 [*] #ACBr-8049 Corrigido a leitura do código de verificação e da data de emissão.

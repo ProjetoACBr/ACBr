@@ -122,8 +122,6 @@ procedure TNFSeW_Agili.Configuracao;
 begin
   inherited Configuracao;
 
-  FormatoItemListaServico := filsSemFormatacao;
-
   FpAtividadeEconomica := Trim(FpAOwner.ConfigGeral.Params.ValorParametro('NomeTagAtividadeEconomica'));
 
   if FpAtividadeEconomica = '' then
