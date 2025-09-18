@@ -1399,7 +1399,7 @@ begin
 {$IFNDEF COMPILER23_UP}
   Result := False;
 {$ENDIF}
-  lJSONLido := LerJSONArquivoOuString(AJSONString);
+  lJSONLido := LerArquivoOuString(AJSONString);
 
   if not StringIsJSON(lJSONLido) then
     raise Exception.Create('String JSON informada não é válida');

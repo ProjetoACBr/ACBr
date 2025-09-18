@@ -183,7 +183,7 @@ var
 begin
   Result := False;
 
-  lJSONLido := LerJSONArquivoOuString(AJSONString);
+  lJSONLido := LerArquivoOuString(AJSONString);
   if not StringIsJSON(lJSONLido) then
     raise Exception.Create('String JSON informada não é válida');
 
