@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/09/2025
+-- Pronim.GravarXml --
+[*] #ACBr-8063 Alterado o operador lógico de and para or na condição que defini se
+    o valor de NrOcorrAliquota vai ser 1.
+   Por: Italo Giurizzato Junior
 -- IPM.Provider/IPM.GravarXml --
 [*] Alterações visando a geração no XML do RPS (versão 2 layout ABRASF) com o grupo
     IBSCBS.
