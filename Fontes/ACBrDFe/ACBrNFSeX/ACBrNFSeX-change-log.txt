@@ -43,6 +43,14 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/09/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8064 A cidade Belém/PA trocou de provedor, agora é DSF versão 2.03
+   Por: VFADev
+[*] #ACBr-8062 A cidade Tunapolis/SC trocou de provedor, agora é IPM versão 1.00
+   Por: Wesley Lamb/Lux.sistemas
+[*] #ACBr-8059 Alterado o Params das cidades de Sorriso e Nobres.
+[*] #ACBr-8061 Acrescentado o Params para a cidade de Rio Verde/GO.
+   Por: Diego Reckziegel
 -- Agili.GravarXml --
 [*] #ACBr-8059 Removido a linha que defini que a formatação do ItemListaServico,
     não pode ter formatação, uma vez que cada cidade formata de uma forma diferente.
