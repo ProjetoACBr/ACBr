@@ -39,6 +39,7 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrXmlDocument,
   ACBrNFSeXConversao, ACBrNFSeXLerXml, ACBrNFSeXLerXml_ABRASFv2;
 
@@ -155,11 +156,9 @@ begin
         ItemServico[i].CodMunPrestacao := CodTOMToCodIBGE(ObterConteudo(ANodes[i].Childrens.FindAnyNs('codigo_local_prestacao_servico'), tcStr));
 
         aValor := ObterConteudo(ANodes[i].Childrens.FindAnyNs('codigo_item_lista_servico'), tcStr);
-        {
+
         ItemServico[i].ItemListaServico := PadLeft(aValor, 4, '0');
-        ItemServico[i].ItemListaServico := NormatizarItemListaServico(ItemServico[i].ItemListaServico);
-        }
-        ItemServico[i].ItemListaServico := PadLeft(aValor, 5, '0');
+//        ItemServico[i].ItemListaServico := NormatizarItemListaServico(ItemServico[i].ItemListaServico);
 
         ItemServico[i].xItemListaServico := ItemListaServicoDescricao(ItemServico[i].ItemListaServico);
 

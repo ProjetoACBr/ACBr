@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/09/2025
+-- IPM.LerXml --
+[*] #ACBr-8060 Alterado a quantidade de digitos do ItemListaServico de 5 para 4.
+   Por: Fabio Tellini
 -- ACBrNFSeXServicos --
 [*] #ACBr-8064 A cidade Belém/PA trocou de provedor, agora é DSF versão 2.03
    Por: VFADev
