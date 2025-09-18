@@ -38,6 +38,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/09/2025
+-- ACBrJSON --
+[-] Ajuste visando sanar vazamento de memória quando Parse de string inválida
+  Por: Diego Folieni
 -- ACBrUtil, ACBrUtil.FilesIO --
 [*] Melhora StringISJSON e renomeia rotina para LerArquivoOuString
   Por: Diego Folieni

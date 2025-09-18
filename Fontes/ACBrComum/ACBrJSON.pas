@@ -617,17 +617,44 @@ begin
 end;
 
 class function TACBrJSONObject.CreateJsonObject(const AJsonString: string): TJsonObject;
+var
+  {$IfDef USE_JSONDATAOBJECTS_UNIT}
+  lTemp: TJSONBaseObject;
+  {$Else}{$IfDef FPC}
+  lTemp: TJSONData;
+  {$EndIf}{$EndIf}
 begin
   Result := nil;
   try
   {$IfDef USE_JSONDATAOBJECTS_UNIT}
     JsonSerializationConfig.NullConvertsToValueTypes := True;
     if NaoEstaVazio(AJsonString) then
-      Result := TJsonObject.Parse(AJsonString) as TJsonObject
+    begin
+      lTemp := nil;
+      lTemp := TJsonObject.Parse(AJsonString);
+      if Assigned(lTemp) then
+      begin
+        try
+          Result := lTemp as TJSONObject;
+        except
+          lTemp.Free;
+          Result := TJsonObject.Create;
+        end;
+      end;
+    end
     else
       Result := TJsonObject.Create;
   {$Else}{$IfDef FPC}
-    Result := GetJSON(AJsonString) as TJSONObject;
+    lTemp := nil;
+    lTemp := GetJSON(AJsonString);
+    if Assigned(lTemp) then
+    begin
+      try
+        Result := lTemp as TJSONObject;
+      except
+        lTemp.Free;
+      end;
+    end;
     if (not Assigned(Result)) then
       Result := TJSONObject.Create;
   {$Else}
