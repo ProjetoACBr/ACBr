@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+18/09/2025
+-- ACBrPIXCD --
+[+] Inclusão dos eventos OnPrecisaAutenticar e OnQuandoAlterarPSP.
+    por: Elias Cesar
+
 19/08/2025
 -- ACBrSchemasAppLess --
 [-] Correção da propriedade customerSocialName.

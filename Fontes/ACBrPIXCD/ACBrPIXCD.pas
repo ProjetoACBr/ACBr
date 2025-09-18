@@ -498,6 +498,8 @@ type
 
   TACBrOnDepoisAutenticar = procedure(const aToken: String; const aValidadeToken: TDateTime) of object;
 
+  TACBrOnPrecisaAutenticar = procedure(var aToken: String; var aValidadeToken: TDateTime) of object;
+
   { TACBrQueryParams }
 
   TACBrQueryParams = class(TStringList)
@@ -557,10 +559,12 @@ type
     fpToken: String;
     fpRefreshToken: String;
     fpValidadeToken: TDateTime;
+    fpOnQuandoAlterarPSP: TNotifyEvent;
     fpQuandoAcessarEndPoint: TACBrQuandoAcessarEndPoint;
     fpQuandoReceberRespostaEndPoint: TACBrQuandoReceberRespostaEndPoint;
     fpOnAntesAutenticar: TACBrOnAntesAutenticar;
     fpOnDepoisAutenticar: TACBrOnDepoisAutenticar;
+    fpOnPrecisaAutenticar: TACBrOnPrecisaAutenticar;
 
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure VerificarPIXCDAtribuido;
@@ -619,9 +623,10 @@ type
     procedure VerificarValidadeToken; virtual;
     procedure RenovarToken; virtual;
     procedure VerificarAutenticacao; virtual;
+    function GerarToken(out aToken: String; aValidadeToken: TDateTime): Boolean; virtual;
+
     property Autenticado: Boolean read fpAutenticado;
     property ValidadeToken: TDateTime read fpValidadeToken;
-
     property epPix: TACBrPixEndPointPix read fepPix;
     property epRec: TACBrPixEndPointRec read fepRec;
     property epCob: TACBrPixEndPointCob read fepCob;
@@ -644,8 +649,10 @@ type
 
     property QuandoTransmitirHttp: TACBrQuandoTransmitirHttp read fQuandoTransmitirHttp write fQuandoTransmitirHttp;
     property QuandoReceberRespostaHttp: TACBrQuandoReceberRespostaHttp read fQuandoReceberRespostaHttp write fQuandoReceberRespostaHttp;
+    property OnQuandoAlterarPSP: TNotifyEvent read fpOnQuandoAlterarPSP write fpOnQuandoAlterarPSP;
     property OnAntesAutenticar: TACBrOnAntesAutenticar read fpOnAntesAutenticar write fpOnAntesAutenticar;
     property OnDepoisAutenticar: TACBrOnDepoisAutenticar read fpOnDepoisAutenticar write fpOnDepoisAutenticar;
+    property OnPrecisaAutenticar: TACBrOnPrecisaAutenticar read fpOnPrecisaAutenticar write fpOnPrecisaAutenticar;
   end;
 
   { TACBrPSPCertificate }
@@ -2856,8 +2863,10 @@ begin
   fpQuandoReceberRespostaEndPoint := Nil;
   fQuandoTransmitirHttp := Nil;
   fQuandoReceberRespostaHttp := Nil;
+  fpOnQuandoAlterarPSP := Nil;
   fpOnAntesAutenticar := Nil;
   fpOnDepoisAutenticar := Nil;
+  fpOnPrecisaAutenticar := Nil;
 end;
 
 destructor TACBrPSP.Destroy;
@@ -2917,7 +2926,10 @@ begin
   begin
     AValue.FreeNotification(Self);
     AValue.PSP := Self;
-  end ;
+  end;
+
+  if Assigned(fpOnQuandoAlterarPSP) then
+    fpOnQuandoAlterarPSP(Self);
 end;
 
 procedure TACBrPSP.Notification(AComponent: TComponent; Operation: TOperation);
@@ -3608,7 +3620,10 @@ end;
 
 procedure TACBrPSP.RenovarToken;
 begin
-  Autenticar;
+  if Assigned(fpOnPrecisaAutenticar) then
+    fpOnPrecisaAutenticar(fpToken, fpValidadeToken)
+  else
+    Autenticar;
 
   if Assigned(fpOnDepoisAutenticar) then
     fpOnDepoisAutenticar(fpToken, fpValidadeToken);
@@ -3621,13 +3636,29 @@ begin
     if (NivelLog > 2) then
       RegistrarLog('Autenticar');
 
-    Autenticar;
+    if Assigned(fpOnPrecisaAutenticar) then
+      fpOnPrecisaAutenticar(fpToken, fpValidadeToken)
+    else
+      Autenticar;
 
     if Assigned(fpOnDepoisAutenticar) then
       fpOnDepoisAutenticar(fpToken, fpValidadeToken);
   end;
 
   VerificarValidadeToken;
+end;
+
+function TACBrPSP.GerarToken(out aToken: String; aValidadeToken: TDateTime): Boolean;
+begin
+  Autenticar;
+  aToken := fpToken;
+  aValidadeToken := fpValidadeToken;
+  Result := NaoEstaVazio(aToken);
+
+  Clear;
+  fpToken := EmptyStr;
+  fpValidadeToken := 0;
+  fpAutenticado := False;
 end;
 
 { TACBrPixRecebedor }
