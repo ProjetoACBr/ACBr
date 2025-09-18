@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/09/2025
+-- ACBrNFSeXLerXml/IPM.Provider --
+[*] Incluida a leitura do campo xPais na seção Servico e acrescentado a tag opcinal
+    no provedor IPM versão 2.04 na montagem do Soap para informar se é envio de teste 
+    ou não.
+   Por: Italo Giurizzato Junior
 -- Pronim.GravarXml --
 [*] #ACBr-8063 Alterado o operador lógico de and para or na condição que defini se
     o valor de NrOcorrAliquota vai ser 1.

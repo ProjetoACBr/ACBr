@@ -986,6 +986,7 @@ begin
       Servico.Descricao := StringReplace(Servico.Descricao, FpAOwner.ConfigGeral.QuebradeLinha, sLineBreak, [rfReplaceAll]);
       Servico.CodigoMunicipio := AINIRec.ReadString(sSecao, 'CodigoMunicipio', '');
       Servico.CodigoPais := AINIRec.ReadInteger(sSecao, 'CodigoPais', 0);
+      Servico.xPais := AINIRec.ReadString(sSecao, 'xPais', '');
       Servico.ExigibilidadeISS := FpAOwner.StrToExigibilidadeISS(Ok, AINIRec.ReadString(sSecao, 'ExigibilidadeISS', '1'));
       Servico.IdentifNaoExigibilidade := AINIRec.ReadString(sSecao, 'IdentifNaoExigibilidade', '');
       Servico.MunicipioIncidencia := AINIRec.ReadInteger(sSecao, 'MunicipioIncidencia', 0);

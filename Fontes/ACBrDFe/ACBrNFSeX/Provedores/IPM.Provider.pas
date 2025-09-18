@@ -1709,6 +1709,9 @@ begin
 
   AMSGaux := SeparaDados(AMSG, 'EnviarLoteRpsEnvio');
 
+  if FPConfiguracoes.WebServices.AmbienteCodigo = 2 then
+    AMSGaux := '<EnvioTeste>1</EnvioTeste>' + AMSGaux;
+
   Request := '<net:EnviarLoteRpsEnvio>';
   Request := Request + AMSGaux;
   Request := Request + '</net:EnviarLoteRpsEnvio>';
@@ -1726,6 +1729,9 @@ begin
 
   AMSGaux := SeparaDados(AMSG, 'EnviarLoteRpsSincronoEnvio');
 
+  if FPConfiguracoes.WebServices.AmbienteCodigo = 2 then
+    AMSGaux := '<EnvioTeste>1</EnvioTeste>' + AMSGaux;
+
   Request := '<net:EnviarLoteRpsSincronoEnvio>';
   Request := Request + AMSGaux;
   Request := Request + '</net:EnviarLoteRpsSincronoEnvio>';
@@ -1741,6 +1747,9 @@ begin
   FPMsgOrig := AMSG;
 
   AMSGaux := SeparaDados(AMSG, 'GerarNfseEnvio');
+
+  if FPConfiguracoes.WebServices.AmbienteCodigo = 2 then
+    AMSGaux := '<EnvioTeste>1</EnvioTeste>' + AMSGaux;
 
   Request := '<net:GerarNfseEnvio>';
   Request := Request + AMSGaux;
@@ -1849,6 +1858,9 @@ begin
   FPMsgOrig := AMSG;
 
   AMSGaux := SeparaDados(AMSG, 'SubstituirNfseEnvio');
+
+  if FPConfiguracoes.WebServices.AmbienteCodigo = 2 then
+    AMSGaux := '<EnvioTeste>1</EnvioTeste>' + AMSGaux;
 
   Request := '<net:SubstituirNfseEnvio>';
   Request := Request + AMSGaux;
