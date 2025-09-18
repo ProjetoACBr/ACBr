@@ -45,6 +45,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/09/2025
+-- ACBrNFe.ValidarRegasdeNegocio --
+[*] Melhorias na comparação da unit Regras de Negócios.
+   Por: Waldir Paim
+
+18/09/2025
 -- ACBrNFe.JSONReader, ACBrNFe.EnvEvento --
 [*] Altera nome da função usada para LerArquivoOuString no JSON.
    Por: Diego Folieni
