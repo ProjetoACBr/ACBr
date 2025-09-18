@@ -617,11 +617,12 @@ begin
 end;
 
 class function TACBrJSONObject.CreateJsonObject(const AJsonString: string): TJsonObject;
-var
   {$IfDef USE_JSONDATAOBJECTS_UNIT}
-  lTemp: TJSONBaseObject;
+  var
+    lTemp: TJSONBaseObject;
   {$Else}{$IfDef FPC}
-  lTemp: TJSONData;
+  var
+    lTemp: TJSONData;
   {$EndIf}{$EndIf}
 begin
   Result := nil;

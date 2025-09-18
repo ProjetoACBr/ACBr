@@ -39,6 +39,11 @@ Símbolo : Significado
 
 18/09/2025
 -- ACBrJSON --
+[-] Correção para compilação em Delphi 7.
+    por: Elias Cesar
+
+18/09/2025
+-- ACBrJSON --
 [-] Ajuste visando sanar vazamento de memória quando Parse de string inválida
   Por: Diego Folieni
 -- ACBrUtil, ACBrUtil.FilesIO --
