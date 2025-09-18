@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+18/09/2025
+-- ACBrBoleto -- 
+[+] Inclusão do evento OnQuantoAlterarBanco.
+    por: Elias Cesar
+
 15/09/2025
 -- ACBrBancoBradesco  --
 [*] ACBr-583 Ajustado para ler retorno 66 LIquidado Qrcode

@@ -1516,12 +1516,14 @@ type
     fConfiguracoes: TConfiguracoes;
     fListaConsultaRetornoWeb: TListaACBrBoletoRetornoWS;
     fPrefixArqRemessa : string;
+    fOnQuantoAlterarBanco: TNotifyEvent;
     fOnAntesAutenticar:  TACBrWebServiceOnAntesAutenticar;
     fOnDepoisAutenticar: TACBrWebServiceOnDepoisAutenticar;
     fOnPrecisaAutenticar: TACBrWebServiceOnPrecisaAutenticar;
     FKeySoftwareHouse: String;
 
     procedure SetACBrBoletoFC(const Value: TACBrBoletoFCClass);
+    procedure SetBanco(AValue: TACBrBanco);
     procedure SetMAIL(AValue: TACBrMail);
 
   protected
@@ -1596,7 +1598,7 @@ type
     property MAIL  : TACBrMail read FMAIL write SetMAIL;
 
     property Homologacao    : Boolean            read fHomologacao            write fHomologacao default False;
-    property Banco          : TACBrBanco         read fBanco                  write fBanco;
+    property Banco          : TACBrBanco         read fBanco                  write SetBanco;
     property Cedente        : TACBrCedente       read fCedente                write fCedente ;
     property PrefixArqRemessa : String           read fPrefixArqRemessa       write fPrefixArqRemessa;
     property NomeArqRemessa : String             read fNomeArqRemessa         write fNomeArqRemessa;
@@ -1617,8 +1619,7 @@ type
     property OnAntesAutenticar   : TACBrWebServiceOnAntesAutenticar    read fOnAntesAutenticar    write fOnAntesAutenticar;
     property OnDepoisAutenticar  : TACBrWebServiceOnDepoisAutenticar   read fOnDepoisAutenticar   write fOnDepoisAutenticar;
     property OnPrecisaAutenticar : TACBrWebServiceOnPrecisaAutenticar  read fOnPrecisaAutenticar  write fOnPrecisaAutenticar;
-
-
+    property OnOnQuantoAlterarBanco: TNotifyEvent read fOnQuantoAlterarBanco write fOnQuantoAlterarBanco;
   end;
 
   {TACBrBoletoFCClass}
@@ -3103,6 +3104,8 @@ begin
    {$ENDIF}
    FOnAntesAutenticar  := nil;
    FOnDepoisAutenticar := nil;
+   fOnPrecisaAutenticar := nil;
+   fOnQuantoAlterarBanco := nil;
 end;
 
 destructor TACBrBoleto.Destroy;
@@ -3137,6 +3140,15 @@ begin
          Value.ACBrBoleto := self ;
       end ;
    end ;
+end;
+
+procedure TACBrBoleto.SetBanco(AValue: TACBrBanco);
+begin
+  if (fBanco = AValue) then Exit;
+  fBanco := AValue;
+
+  if Assigned(fOnQuantoAlterarBanco) then
+    fOnQuantoAlterarBanco(Self);
 end;
 
 procedure TACBrBoleto.SetMAIL(AValue: TACBrMail);
