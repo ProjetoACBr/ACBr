@@ -42,6 +42,17 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/09/2025
+-- ACBrNFSeXServicos --
+[+] #ACBr-8066 Incluida a cidade Porto dos Gauchos/MT, o provedor é Agili.
+   Por: Diego Reckziegel
+[*] #ACBr-8067 A cidade Xinguara/PA trocou de provedor, agora é Desenvolve versão 2.03
+   Por: Valter Digital
+[*] #ACBr-8068 A cidade Perdões/MG trocou de provedor, agora é GestaoISS versão 2.02
+   Por: Natanael Sanches
+[*] #ACBr-8072 Alterado as URLs da cidade Junqueiropolis/SP, o provedor continua o mesmo.
+   Por: Weber de Paula
+
 18/09/2025
 -- ACBrNFSeXLerXml/IPM.Provider --
 [*] Incluida a leitura do campo xPais na seção Servico e acrescentado a tag opcinal
