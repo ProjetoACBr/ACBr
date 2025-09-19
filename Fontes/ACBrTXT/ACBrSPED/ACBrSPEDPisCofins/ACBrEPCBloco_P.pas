@@ -33,6 +33,8 @@
 
 unit ACBrEPCBloco_P;
 
+{$I ACBr.inc}
+
 interface
 
 uses

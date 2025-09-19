@@ -32,6 +32,8 @@
 
 unit ACBrEFDBloco_E;
 
+{$I ACBr.inc}
+
 interface
 
 uses
