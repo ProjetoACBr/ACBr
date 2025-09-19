@@ -644,7 +644,7 @@ begin
          aRemessa.Add(UpperCase(wLinha));
 
 
-       if (Sacado.SacadoAvalista.NomeAvalista <> '') and (LayoutVersaoArquivo = 003) then
+       if (DataProtesto > Vencimento) and (LayoutVersaoArquivo = 003) then
        begin
          wLinha := '2';                                                         // 001 a 001 - Tipo do Registro
             for J := 0 to 3 do
