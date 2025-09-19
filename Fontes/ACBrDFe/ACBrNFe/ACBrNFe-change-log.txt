@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/09/2025
+-- ACBrNFe.ValidarRegasdeNegocio --
+[*] Alteração na validação da regra 321 por conta da Reforma Tributária.
+   Por: Italo Giurizzato Junior
+
 18/09/2025
 -- ACBrNFe.ValidarRegasdeNegocio --
 [*] Melhorias na comparação da unit Regras de Negócios.

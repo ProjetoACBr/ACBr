@@ -63,6 +63,7 @@ type
 
     procedure ValidarRegra226;
     procedure ValidarRegra228;
+    procedure ValidarRegra321;
     procedure ValidarRegra512;
     procedure ValidarRegra701;
     procedure ValidarRegra703;
@@ -135,6 +136,7 @@ var
   UltVencto: TDateTime;
   I: Integer;
 begin
+  ValidarRegra321;
 
     GravaLog('Validar: 504-Saida > 30');
     if ((NFe.Ide.dSaiEnt - FpAgora) > 30) then  //B10-20  - Facultativo
@@ -185,11 +187,6 @@ begin
       NFe.Emit.EnderEmit.UF))))
     then  //B25-60 - Facultativo
       AdicionaErro('678-Rejeição: NF referenciada com UF diferente da NF-e complementar');
-
-    GravaLog('Validar: 321-NFe devolução sem referenciada');
-    if (NFe.Ide.finNFe = fnDevolucao) and (NFe.Ide.NFref.Count = 0) then
-      //B25-70
-      AdicionaErro('321-Rejeição: NF-e devolução não possui NF referenciada');
 
     GravaLog('Validar: 794-NFe e domicício NFCe');
     if (NFe.Ide.indPres = pcEntregaDomicilio) then //B25b-10
@@ -1243,6 +1240,27 @@ begin
 
   //GB09.02 - Data de Emissão posterior à 31/03/2011
   //GB09.03 - Data de Recepção posterior à 31/03/2011 e tpAmb (B24) = 2
+end;
+
+procedure TNFeValidarRegras.ValidarRegra321;
+var
+  i: Integer;
+  DFeRef: Boolean;
+begin
+  DFeRef := False;
+  i := 0;
+  repeat
+    DFeRef := NaoEstaVazio(NFe.Det[i].DFeReferenciado.chaveAcesso);
+    Inc(i);
+  until (i = NFe.Det.Count) or DFeRef;
+
+  if not DFeRef then
+  begin
+    GravaLog('Validar: 321-NFe devolução sem referenciada');
+    if (NFe.Ide.finNFe = fnDevolucao) and (NFe.Ide.NFref.Count = 0) then
+      //B25-70
+      AdicionaErro('321-Rejeição: NF-e devolução não possui NF referenciada');
+  end;
 end;
 
 procedure TNFeValidarRegras.ValidarRegra512;
