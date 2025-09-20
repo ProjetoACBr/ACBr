@@ -475,19 +475,22 @@ begin
   Agora := DataHoraTimeZoneModoDeteccao(TACBrNFe(TNotasFiscais(Collection).ACBrNFe));
 
   FValidarRegras := TNFeValidarRegras.Create(FNFe);
+  try
+    with TACBrNFe(TNotasFiscais(Collection).ACBrNFe) do
+    begin
+      FValidarRegras.VersaoDF := Configuracoes.Geral.VersaoDF;
+      FValidarRegras.Ambiente := Configuracoes.WebServices.Ambiente;
+      FValidarRegras.tpEmis := Configuracoes.Geral.FormaEmissaoCodigo;
+      FValidarRegras.CodigoUF := Configuracoes.WebServices.UFCodigo;
+      FValidarRegras.UF := Configuracoes.WebServices.UF;
+    end;
 
-  with TACBrNFe(TNotasFiscais(Collection).ACBrNFe) do
-  begin
-    FValidarRegras.VersaoDF := Configuracoes.Geral.VersaoDF;
-    FValidarRegras.Ambiente := Configuracoes.WebServices.Ambiente;
-    FValidarRegras.tpEmis := Configuracoes.Geral.FormaEmissaoCodigo;
-    FValidarRegras.CodigoUF := Configuracoes.WebServices.UFCodigo;
-    FValidarRegras.UF := Configuracoes.WebServices.UF;
+    Result := FValidarRegras.Validar(Agora);
+
+    FErroRegrasdeNegocios := FValidarRegras.Erros;
+  finally
+    FValidarRegras.Free;
   end;
-
-  Result := FValidarRegras.Validar(Agora);
-
-  FErroRegrasdeNegocios := FValidarRegras.Erros;
 end;
 
 function NotaFiscal.LerXML(const AXML: String): Boolean;
