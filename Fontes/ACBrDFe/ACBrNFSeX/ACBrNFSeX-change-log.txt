@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/09/2025
+-- SigISSWeb.Provider --
+[*] Ajuste para não salvar o XML com 2 encoding.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] #ACBr-8074 A cidade Vinhedo/SP trocou de provedor, agora é Intertec.
    Por: jaidomini
