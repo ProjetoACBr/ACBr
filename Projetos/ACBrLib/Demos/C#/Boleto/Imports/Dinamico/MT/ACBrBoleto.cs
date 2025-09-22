@@ -241,6 +241,29 @@ namespace ACBrLib.Boleto
             CheckResult(ret);
         }
 
+        public string GerarToken()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = GetMethod<Boleto_GerarToken>();
+            var ret = ExecuteMethod<int>(() => method(libHandle, buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return ProcessResult(buffer, bufferLen);
+        }
+        public string InformarToken(string eToken, DateTime eData)
+        {
+
+            var method = GetMethod<Boleto_InformarToken>();
+            var ret = ExecuteMethod<int>(() => method(libHandle, eToken, eData));
+
+            CheckResult(ret);
+            return ret.ToString();
+
+        }
+
         public void GerarPDF(int indice, Stream aStream)
         {
             if (aStream == null) throw new ArgumentNullException(nameof(aStream));

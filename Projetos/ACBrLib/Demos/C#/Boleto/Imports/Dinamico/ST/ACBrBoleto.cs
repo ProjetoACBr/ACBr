@@ -493,6 +493,31 @@ namespace ACBrLib.Boleto
             return ProcessResult(buffer, bufferLen);
         }
 
+        public string GerarToken()
+        {
+            var bufferLen = BUFFER_LEN;
+            var buffer = new StringBuilder(bufferLen);
+
+            var method = GetMethod<Boleto_GerarToken>();
+            var ret = ExecuteMethod<int>(() => method(buffer, ref bufferLen));
+
+            CheckResult(ret);
+
+            return ProcessResult(buffer, bufferLen);
+        }
+        public string InformarToken(string eToken, DateTime eData)
+        {
+
+            var method = GetMethod<Boleto_InformarToken>();
+            var ret = ExecuteMethod<int>(() => method(eToken, eData)); 
+
+            CheckResult(ret);
+            return ret.ToString();
+
+        }
+
+
+
         #region Private Methods
 
         protected override void FinalizeLib()
