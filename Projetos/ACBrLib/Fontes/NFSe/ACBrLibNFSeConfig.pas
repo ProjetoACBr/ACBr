@@ -75,6 +75,7 @@ type
     FTamanhoFonte: Integer;
     FProducao: TnfseSimNao;
     FDetalharServico : Boolean;
+    FDataCompetenciaCompleta: Boolean;
 
     function SimNaoToStr(const t: TnfseSimNao): string;
     function StrToSimNao(out ok: boolean; const s: string): TnfseSimNao;
@@ -115,6 +116,7 @@ type
     property FormatarNumeroDocumentoNFSe: Boolean read FFormatarNumeroDocumentoNFSe write FFormatarNumeroDocumentoNFSe;
     property Producao: TnfseSimNao   read FProducao     write FProducao;
     property DetalharServico: Boolean read FDetalharServico write FDetalharServico default False;
+    property DataCompetenciaCompleta: Boolean read  FDataCompetenciaCompleta write FDataCompetenciaCompleta default False;
   end;
 
   { TLibNFSeConfig }
@@ -195,6 +197,7 @@ begin
   FNFSeCancelada := AIni.ReadBool(CSessaoDANFSE, CChaveNFSeCancelada, FNFSeCancelada);
   FDetalharServico := AIni.ReadBool(CSessaoDANFSE, CChaveDetalharServico, FDetalharServico);
   FProducao := StrToSimNao(ok, AIni.ReadString(CSessaoDANFSE, CChaveProducao, SimNaoToStr(FProducao)));
+  FDataCompetenciaCompleta:=AIni.ReadBool(CSessaoDANFSe, CChaveDataCompetenciaCompleta,FDataCompetenciaCompleta);
 end;
 
 procedure TDANFSeReportConfig.GravarIniChild(const AIni: TCustomIniFile);
@@ -225,6 +228,7 @@ begin
   AIni.WriteBool(CSessaoDANFSE, CChaveNFSeCancelada, FNFSeCancelada);
   AIni.WriteBool(CSessaoDANFSE, CChaveDetalharServico, FDetalharServico);
   AIni.WriteString(CSessaoDANFSE, CChaveProducao, SimNaoToStr(FProducao));
+  AIni.WriteBool(CSessaoDANFSE,CChaveDataCompetenciaCompleta,FDataCompetenciaCompleta);
 end;
 
 procedure TDANFSeReportConfig.ApplyChild(const DFeReport: TACBrDFeReport; const Lib: TACBrLib);
@@ -268,6 +272,7 @@ begin
     Cancelada := FNFSeCancelada;
     DetalharServico := FDetalharServico;
     Producao := FProducao;
+    DataCompetenciaCompleta:= FDataCompetenciaCompleta;
   end;
 end;
 
@@ -296,6 +301,7 @@ begin
   FFormatarNumeroDocumentoNFSe := True;
   FNFSeCancelada := False;
   FDetalharServico := False;
+  FDataCompetenciaCompleta:= False;
 end;
 
 { TLibNFSeConfig }

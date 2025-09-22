@@ -94,6 +94,7 @@ const
   CChaveNFSeCancelada = 'Cancelada';
   CChaveDetalharServico = 'DetalharServico';
   CChaveProducao = 'Producao';
+  CChaveDataCompetenciaCompleta = 'DataCompetenciaCompleta';
 
   ErrValidacaoNFSe = -11;
   ErrChaveNFSe = -12;
