@@ -612,8 +612,7 @@ const
   CMetodoSetMotorBoletoRelatorio =   'setmotorboletorelatorio';
   CMetodoSetMargem  =                'setmargem';
   CMetodoInformarToken =             'informartoken';
-  CMetodoRecuperarToken =            'recuperartoken';
-  CMetodoAutenticarToken =           'autenticartoken';
+  CMetodoGerarToken =                'gerartoken';
 
   CMetodoAtivar =               'ativar';
   CMetodoDesativar =            'desativar';
@@ -1463,8 +1462,7 @@ const
   CKeyNFSeEmailEmitente =                   'EmailEmitente';
   CKeyNFSeFoneEmitente =                    'FoneEmitente';
 
-
-
+  CSessaoRetorno =                          'Retorno';
 
 implementation
 

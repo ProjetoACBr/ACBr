@@ -288,21 +288,14 @@ public
   procedure Executar; override;
 end;
 
-{ TMetodoRecuperarToken}
-
-TMetodoRecuperarToken = class(TACBrMetodo)
-public
-  procedure Executar; override;
-end;
-
 { TMetodoInformarToken}
 TMetodoInformarToken = class(TACBrMetodo)
 public
   procedure Executar; override;
 end;
 
-{ TMetodoAutenticarToken}
-TMetodoAutenticarToken = class(TACBrMetodo)
+{ TMetodoGerarToken}
+TMetodoGerarToken = class(TACBrMetodo)
 public
   procedure Executar; override;
 end;
@@ -374,8 +367,7 @@ begin
   ListaDeMetodos.Add(CMetodoSetMotorBoletoRelatorio);
   ListaDeMetodos.Add(CMetodoSetMargem);
   ListaDeMetodos.Add(CMetodoInformarToken);
-  ListaDeMetodos.Add(CMetodoRecuperarToken);
-  ListaDeMetodos.Add(CMetodoAutenticarToken);
+  ListaDeMetodos.Add(CMetodoGerarToken);
   fBoletoPersonalizandoArquivo := True;
 end;
 
@@ -424,8 +416,7 @@ begin
     29 : AMetodoClass := TMetodoSetMotorBoletoRelatorio;
     30 : AMetodoClass := TMetodoSetMargem;
     31 : AMetodoClass := TMetodoInformarToken;
-    32 : AMetodoClass := TMetodoRecuperarToken;
-    33 : AMetodoClass := TMetodoAutenticarToken;
+    32 : AMetodoClass := TMetodoGerarToken;
     else
       begin
         AACBrUnit := TACBrObjetoACBr.Create(Nil); //Instancia DoACBrUnit para validar métodos padrão para todos os objetos
@@ -728,22 +719,6 @@ begin
 
 end;
 
-{ TMetodoRecuperarToken }
-
-procedure TMetodoRecuperarToken.Executar;
-var ACBrBoletoObj : TACBrObjetoBoleto;
-begin
-
-  ACBrBoletoObj := TACBrObjetoBoleto(fpObjetoDono);
-  fpCmd.Resposta := sLineBreak +
-                    'Token = ' +
-                    ACBrBoletoObj.Token +
-                    sLineBreak +
-                    'DataExpiracao = '+
-                    DateTimeToStr(ACBrBoletoObj.Expire);
-
-
-end;
 
 { TMetodoGerarInformarToken}
 
@@ -758,33 +733,38 @@ begin
   ACBrBoletoObj.Token  := fpCmd.Params(0);
   ACBrBoletoObj.Expire := StrToDateTimeDef(fpCmd.Params(1),0);
 
-  fpCmd.Resposta := sLineBreak +
-                    'Token = ' +
-                    ACBrBoletoObj.Token +
-                    sLineBreak +
-                    'DataExpiracao = ' +
-                    DateTimeToStr(ACBrBoletoObj.Expire);
+  fpCmd.Resposta := sLineBreak + 'OK';
 
 
 end;
 
-{ TMetodoAutenticarToken }
+{ TMetodoGerarToken }
 
-procedure TMetodoAutenticarToken.Executar;
+procedure TMetodoGerarToken.Executar;
 var ACBrBoletoObj : TACBrObjetoBoleto;
   LData : TDateTime;
   LToken: String;
+  LTokenResp: TRetornoGerarToken;
 begin
   ACBrBoletoObj := TACBrObjetoBoleto(fpObjetoDono);
   LData  := ACBrBoletoObj.Expire;
   LToken := ACBrBoletoObj.Token;
+
   ACBrBoletoObj.ACBrBoleto.GerarTokenAutenticacao(LToken, LData);
-  fpCmd.Resposta := sLineBreak +
-                    'Token = ' +
-                    ACBrBoletoObj.Token +
-                    sLineBreak +
-                    'DataExpiracao = '+
-                    DateTimeToStr(ACBrBoletoObj.Expire);
+
+  LTokenResp := TRetornoGerarToken.Create(CSessaoRetorno,
+                                          ACBrBoletoObj.TpResp,
+                                          codUTF8);
+  try
+    try
+      LTokenResp.Processar(LToken, LData);
+      fpCmd.Resposta := sLineBreak + LTokenResp.Gerar;
+    except on E : Exception do
+      raise Exception.Create(E.Message);
+    end;
+  finally
+    LTokenResp.Free;
+  end;
 end;
 
 
