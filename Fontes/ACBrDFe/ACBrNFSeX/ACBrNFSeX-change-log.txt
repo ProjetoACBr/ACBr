@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/09/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8074 A cidade Vinhedo/SP trocou de provedor, agora é Intertec.
+   Por: jaidomini
+
 19/09/2025
 -- ACBrNFSeXServicos --
 [+] #ACBr-8066 Incluida a cidade Porto dos Gauchos/MT, o provedor é Agili.
