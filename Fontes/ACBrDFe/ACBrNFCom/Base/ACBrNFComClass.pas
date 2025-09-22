@@ -46,9 +46,9 @@ uses
   ACBrBase,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnSignature,
 //  ACBrDFeComum.SignatureClass,
   ACBrDFeComum.Proc,
-  pcnSignature,
   ACBrNFComConversao;
 
 type

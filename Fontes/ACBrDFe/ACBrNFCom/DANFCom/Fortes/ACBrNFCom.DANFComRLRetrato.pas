@@ -242,6 +242,7 @@ uses
   ACBrImage,
   ACBrDelphiZXingQRCode,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrDFeUtil, 
   ACBrDFeReportFortes,
   ACBrUtil.Base, 

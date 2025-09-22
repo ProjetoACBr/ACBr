@@ -38,7 +38,10 @@ interface
 
 uses
   Classes, SysUtils,
-  ACBrXmlBase, ACBrXmlDocument, ACBrXmlWriter,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
+  ACBrXmlDocument,
+  ACBrXmlWriter,
   ACBrNFComClass,
   ACBrNFComConversao;
 
@@ -196,14 +199,13 @@ uses
   ACBrUtil.DateTime,
   ACBrDFeUtil,
   ACBrDFeConsts,
-  ACBrDFe.Conversao,
   ACBrNFComConsts;
 
 constructor TNFComXmlWriter.Create(AOwner: TNFCom);
 begin
   inherited Create;
 
-  TNFComXmlWriterOptions(Opcoes).AjustarTagNro := True;
+  TNFComXmlWriterOptions(Opcoes).AjustarTagNro := False;
   TNFComXmlWriterOptions(Opcoes).GerarTagIPIparaNaoTributado := True;
   TNFComXmlWriterOptions(Opcoes).NormatizarMunicipios := False;
   TNFComXmlWriterOptions(Opcoes).PathArquivoMunicipios := '';

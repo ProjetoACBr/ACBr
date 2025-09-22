@@ -38,7 +38,9 @@ interface
 
 uses
   Classes, SysUtils, StrUtils,
-  ACBrBase, ACBrXmlBase,
+  ACBrBase,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrNFComConfiguracoes, ACBrNFComClass,
   ACBrNFComIniReader, ACBrNFComIniWriter,
   ACBrNFComXmlReader, ACBrNFComXmlWriter;
@@ -83,7 +85,8 @@ type
     constructor Create(Collection2: TCollection); override;
     destructor Destroy; override;
     procedure Imprimir;
-    procedure ImprimirPDF;
+    procedure ImprimirPDF; overload;
+    function ImprimirPDF(AStream: TStream): Boolean; overload;
 
     procedure Assinar;
     procedure Validar;
@@ -153,7 +156,8 @@ type
     procedure Imprimir;
     procedure ImprimirCancelado;
     procedure ImprimirResumido;
-    procedure ImprimirPDF;
+    procedure ImprimirPDF; overload;
+    procedure ImprimirPDF(AStream: TStream); overload;
     procedure ImprimirResumidoPDF;
     function Add: TNotaFiscal;
     function Insert(Index: integer): TNotaFiscal;
@@ -245,6 +249,21 @@ begin
       raise EACBrNFComException.Create('Componente DANFCom não associado.')
     else
       DANFCom.ImprimirDANFComPDF(NFCom);
+  end;
+end;
+
+function TNotaFiscal.ImprimirPDF(AStream: TStream): Boolean;
+begin
+  with TACBrNFCom(TNotasFiscais(Collection).ACBrNFCom) do
+  begin
+    if not Assigned(DANFCom) then
+      raise EACBrNFComException.Create('Componente DANFCom não associado.')
+    else
+    begin
+      AStream.Size := 0;
+      DANFCom.ImprimirDANFComPDF(AStream, NFCom);
+      Result := True;
+    end;
   end;
 end;
 
@@ -793,6 +812,12 @@ procedure TNotasFiscais.ImprimirPDF;
 begin
   VerificarDANFCom;
   TACBrNFCom(FACBrNFCom).DANFCom.ImprimirDANFComPDF;
+end;
+
+procedure TNotasFiscais.ImprimirPDF(AStream: TStream);
+begin
+  VerificarDANFCom;
+  TACBrNFCom(FACBrNFCom).DANFCom.ImprimirDANFComPDF(AStream);
 end;
 
 procedure TNotasFiscais.ImprimirResumidoPDF;

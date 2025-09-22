@@ -38,6 +38,8 @@ interface
 
 uses
   Classes, SysUtils,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrXmlDocument, ACBrXmlReader,
   ACBrNFComClass;
 
@@ -118,8 +120,7 @@ type
 implementation
 
 uses
-  ACBrXmlBase, ACBrUtil.Base,
-  ACBrDFe.Conversao,
+  ACBrUtil.Base,
   ACBrNFComConversao;
 
 { TNFComXmlReader }

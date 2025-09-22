@@ -39,6 +39,8 @@ interface
 uses
   Classes, SysUtils,
   IniFiles,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrNFComClass,
   ACBrNFComConversao;
 
@@ -109,8 +111,6 @@ type
 implementation
 
 uses
-  ACBrXmlBase,
-  ACBrDFe.Conversao,
   ACBrNFCom,
   ACBrUtil.Base,
   ACBrUtil.Strings,
@@ -286,7 +286,7 @@ var
 begin
   sSecao := 'gSub';
   gSub.chNFCom := AINIRec.ReadString(sSecao, 'chNFCom', '');
-  gSub.motSub := StrToMotSub(AINIRec.ReadString(sSecao, 'motSub', '1'));
+  gSub.motSub := StrToMotSub(AINIRec.ReadString(sSecao, 'motSub', '01'));
   gSub.gNF.CNPJ := AINIRec.ReadString(sSecao, 'CNPJ', '');
   gSub.gNF.Modelo := AINIRec.ReadInteger(sSecao, 'Modelo', 0);
   gSub.gNF.Serie := AINIRec.ReadString(sSecao, 'Serie', '');

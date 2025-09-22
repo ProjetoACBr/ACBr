@@ -40,9 +40,9 @@ uses
   Classes, SysUtils, synautil,
   ACBrBase, ACBrDFe, ACBrDFeException, ACBrDFeConfiguracoes,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrNFComConfiguracoes, ACBrNFComWebServices, ACBrNFComNotasFiscais,
   ACBrNFComDANFComClass,
-//  ACBrDFeConversao,
   pcnConversao,
   ACBrNFComClass, ACBrNFComConversao, ACBrNFComEnvEvento;
 

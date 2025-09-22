@@ -197,6 +197,7 @@ uses
   ACBrUtil.DateTime,
   ACBrValidador,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrNFComConversao,
   pcnConversao;
 
