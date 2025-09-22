@@ -130,6 +130,12 @@ function Boleto_EnviarBoleto(const libHandle: PLibHandle; eCodigoOperacao: Integ
 function Boleto_ConsultarTitulosPorPeriodo(const libHandle: PLibHandle; eArquivoIni: PAnsiChar;
   const sResposta: PAnsiChar; var esTamanho: Integer): Integer; {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 
+function Boleto_InformarToken(const libHandle: PLibHandle; const aToken: PAnsiChar; const aValidadeToken: TDateTime): Integer;
+   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function Boleto_GerarToken(const libHandle: PLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
 {%endregion}
 
 implementation
@@ -672,6 +678,37 @@ begin
   try
     VerificarLibInicializada(libHandle);
     Result := TACBrLibBoleto(libHandle^.Lib).ConsultarTitulosPorPeriodo(eArquivoIni, sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function Boleto_InformarToken(const libHandle: PLibHandle;
+  const aToken: PAnsiChar; const aValidadeToken: TDateTime): Integer; cdecl;
+begin
+  try
+    VerificarLibInicializada(libHandle);
+    Result := TACBrLibBoleto(libHandle^.Lib).InformarToken(aToken, aValidadeToken);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function Boleto_GerarToken(const libHandle: PLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  cdecl;
+begin
+  try
+    VerificarLibInicializada(libHandle);
+    Result := TACBrLibBoleto(libHandle^.Lib).GerarToken(sResposta, esTamanho);
+
   except
     on E: EACBrLibException do
       Result := E.Erro;

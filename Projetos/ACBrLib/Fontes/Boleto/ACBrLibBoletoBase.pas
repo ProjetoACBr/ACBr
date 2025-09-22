@@ -96,6 +96,8 @@ type
     function RetornaCodigoBarras(eIndice: Integer; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
     function EnviarBoleto(eCodigoOperacao: Integer; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
     function ConsultarTitulosPorPeriodo(eArquivoIni: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+    function InformarToken(const AToken: PAnsiChar; const AValidadeToken: TDateTime): Integer;
+    function GerarToken(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
 
   end;
 
@@ -1303,8 +1305,63 @@ begin
     on E: Exception do
       Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
   end;
-
 end;
 
-end.
+function TACBrLibBoleto.InformarToken(const AToken: PAnsiChar; const AValidadeToken: TDateTime): Integer;
+var
+  wToken: String;
+begin
+  try
+    wToken := ConverterStringEntrada(AToken);
 
+    if Config.Log.Nivel > logNormal then
+      GravarLog('Boleto_InformarToken(' + wToken + ', '+DateTimeToStr(AValidadeToken)+ ')', logCompleto, True)
+    else
+      GravarLog('Boleto_InformarToken', logNormal);
+
+    BoletoDM.Travar;
+    try
+      BoletoDM.InformarToken(wToken, AValidadeToken);
+      Result := SetRetorno(ErrOK, 'Token Informado com Sucesso');
+    finally
+      BoletoDM.Destravar;
+    end;
+  except
+    on E: EACBrLibException do
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+    on E: Exception do
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+  end;
+end;
+
+function TACBrLibBoleto.GerarToken(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+var
+  LToken: String;
+  LValidade: TDateTime;
+  Resposta: AnsiString;
+  LTokenResp: TRetornoGerarToken;
+begin
+  try
+    GravarLog('Boleto_GerarToken', logNormal);
+    BoletoDM.Travar;
+    LTokenResp := TRetornoGerarToken.Create(CSessaoRetorno, Config.TipoResposta, Config.CodResposta);
+    try
+      BoletoDM.ACBrBoleto1.GerarTokenAutenticacao(LToken, LValidade);
+      LTokenResp.Processar(LToken, LValidade);
+      Resposta := LTokenResp.Gerar;
+      MoverStringParaPChar(Resposta, sResposta, esTamanho);
+      Result := SetRetorno(ErrOK, Resposta);
+    finally
+      BoletoDM.Destravar;
+      LTokenResp.Free;
+    end;
+  except
+    on E: EACBrLibException do
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+    on E: Exception do
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+  end;
+end;
+
+
+end.

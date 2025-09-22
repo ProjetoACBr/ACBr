@@ -177,6 +177,12 @@ function Boleto_EnviarBoleto(const libHandle: TLibHandle; eCodigoOperacao: Integ
 function Boleto_ConsultarTitulosPorPeriodo(const libHandle: TLibHandle; eArquivoIni: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrBoletoLIBName;
 
+function Boleto_InformarToken(const libHandle: PLibHandle; const aToken: PAnsiChar; const aValidadeToken: TDateTime): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrBoletoLIBName;
+
+function Boleto_GerarToken(const libHandle: PLibHandle;  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrBoletoLIBName;
+
 {%endregion}
 
 

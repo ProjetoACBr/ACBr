@@ -15,6 +15,7 @@ inherited LibBoletoDM: TLibBoletoDM
     Cedente.TipoInscricao = pJuridica
     Cedente.IdentDistribuicao = tbBancoDistribui
     Cedente.PIX.TipoChavePIX = tchNenhuma
+    Cedente.IntegradoraBoleto = tibNenhum
     DirArqRemessa = 'C:\Temp\'
     DirArqRetorno = 'C:\Temp\'
     NumeroArquivo = 0

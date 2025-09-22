@@ -63,17 +63,23 @@ type
     {$EndIf}
     FLayoutImpressao: Integer;
 
+    fToken: String;
+    fValidadeToken: TDateTime;
+
+    procedure DoPrecisaAutenticar(var aToken: String; var aValidadeToken: TDateTime);
+    procedure DoAntesAutenticar(var aToken: String; var aValidadeToken: TDateTime);
+    procedure DoQuandoAlterarBanco(Sender: TObject);
   protected
     procedure DoCreate; override;
 
   public
+    procedure InformarToken(const aToken: String; const aValidadeToken: TDateTime);
     procedure AplicarConfiguracoes; override;
     procedure ConfigurarImpressao(NomeImpressora: String = '');
     procedure FinalizarImpressao;
     procedure AplicarConfigMail;
 
     property LayoutImpressao: Integer read FLayoutImpressao write FLayoutImpressao;
-
   end;
 
 implementation
@@ -89,6 +95,40 @@ procedure TLibBoletoDM.DoCreate;
 begin
   inherited DoCreate;
   FLayoutImpressao := -1;
+
+  fToken := EmptyStr;
+  fValidadeToken := 0;
+  ACBrBoleto1.OnPrecisaAutenticar    := Nil;
+  ACBrBoleto1.OnAntesAutenticar      := DoAntesAutenticar;
+  ACBrBoleto1.OnQuandoAlterarBanco := DoQuandoAlterarBanco;
+end;
+
+procedure TLibBoletoDM.DoPrecisaAutenticar(var aToken: String; var aValidadeToken: TDateTime);
+begin
+  // Não implementado, para forçar erro de Autenticação
+end;
+
+procedure TLibBoletoDM.DoAntesAutenticar(var aToken: String; var aValidadeToken: TDateTime);
+begin
+  if NaoEstaVazio(fToken) then
+  begin
+    aToken := fToken;
+    aValidadeToken := fValidadeToken;
+  end;
+end;
+
+procedure TLibBoletoDM.DoQuandoAlterarBanco(Sender: TObject);
+begin
+  fToken := EmptyStr;
+  fValidadeToken := 0;
+  ACBrBoleto1.OnPrecisaAutenticar := nil;
+end;
+
+procedure TLibBoletoDM.InformarToken(const aToken: String; const aValidadeToken: TDateTime);
+begin
+  fToken := aToken;
+  fValidadeToken := aValidadeToken;
+  ACBrBoleto1.OnPrecisaAutenticar := DoPrecisaAutenticar;
 end;
 
 procedure TLibBoletoDM.AplicarConfiguracoes;
@@ -97,7 +137,6 @@ var
   wVersaoLote, wVersaoArquivo, wNumeroCorrespondente: Integer;
   LDensidadeGravacao, LKeySoftwareHouse :string;
 begin
-
   LibConfig := TLibBoletoConfig(Lib.Config);
 
   with ACBrBoleto1 do
