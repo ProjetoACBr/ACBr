@@ -1516,7 +1516,7 @@ type
     fConfiguracoes: TConfiguracoes;
     fListaConsultaRetornoWeb: TListaACBrBoletoRetornoWS;
     fPrefixArqRemessa : string;
-    fOnQuantoAlterarBanco: TNotifyEvent;
+    fOnQuandoAlterarBanco: TNotifyEvent;
     fOnAntesAutenticar:  TACBrWebServiceOnAntesAutenticar;
     fOnDepoisAutenticar: TACBrWebServiceOnDepoisAutenticar;
     fOnPrecisaAutenticar: TACBrWebServiceOnPrecisaAutenticar;
@@ -1619,7 +1619,7 @@ type
     property OnAntesAutenticar   : TACBrWebServiceOnAntesAutenticar    read fOnAntesAutenticar    write fOnAntesAutenticar;
     property OnDepoisAutenticar  : TACBrWebServiceOnDepoisAutenticar   read fOnDepoisAutenticar   write fOnDepoisAutenticar;
     property OnPrecisaAutenticar : TACBrWebServiceOnPrecisaAutenticar  read fOnPrecisaAutenticar  write fOnPrecisaAutenticar;
-    property OnOnQuantoAlterarBanco: TNotifyEvent read fOnQuantoAlterarBanco write fOnQuantoAlterarBanco;
+    property OnQuandoAlterarBanco: TNotifyEvent read fOnQuandoAlterarBanco write fOnQuandoAlterarBanco;
   end;
 
   {TACBrBoletoFCClass}
@@ -3105,7 +3105,7 @@ begin
    FOnAntesAutenticar  := nil;
    FOnDepoisAutenticar := nil;
    fOnPrecisaAutenticar := nil;
-   fOnQuantoAlterarBanco := nil;
+   fOnQuandoAlterarBanco := nil;
 end;
 
 destructor TACBrBoleto.Destroy;
@@ -3146,9 +3146,6 @@ procedure TACBrBoleto.SetBanco(AValue: TACBrBanco);
 begin
   if (fBanco = AValue) then Exit;
   fBanco := AValue;
-
-  if Assigned(fOnQuantoAlterarBanco) then
-    fOnQuantoAlterarBanco(Self);
 end;
 
 procedure TACBrBoleto.SetMAIL(AValue: TACBrMail);
@@ -4914,6 +4911,9 @@ begin
    end;
 
    fTipoCobranca := AValue;
+
+  if Assigned(fACBrBoleto.fOnQuandoAlterarBanco) then
+    fACBrBoleto.fOnQuandoAlterarBanco(Self);
 end;
 
 function TACBrBanco.TipoOcorrenciaToDescricao( const TipoOcorrencia: TACBrTipoOcorrencia) : String;
