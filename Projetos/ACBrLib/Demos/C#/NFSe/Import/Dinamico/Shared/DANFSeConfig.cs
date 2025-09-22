@@ -47,6 +47,12 @@ namespace ACBrLib.NFSe
             get => GetProperty<bool>();
             set => SetProperty(value);
         }
+
+        public bool DataCompetenciaCompleta
+        {
+            get => GetProperty<bool>();
+            set => SetProperty(value);
+        }
         #endregion Properties
     }
 }
