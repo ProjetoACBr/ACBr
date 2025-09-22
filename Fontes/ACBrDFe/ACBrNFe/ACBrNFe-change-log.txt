@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/09/2025
+-- ACBrNFe.XmlWriter --
+[*] Alterado o valor padrão da propriedade: AjustarTagNro para False visando não
+    ajustar o conteudo da tag nro (numero do endereço).
+   Por: Italo Giurizzato Junior
+
 20/09/2025
 -- ACBrNFeNotasFiscais --
 [*] Correção para evitar vazamento de memória.

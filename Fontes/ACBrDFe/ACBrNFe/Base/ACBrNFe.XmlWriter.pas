@@ -249,7 +249,7 @@ uses
 constructor TNFeXmlWriter.Create(AOwner: TNFe);
 begin
   inherited Create;
-  Opcoes.AjustarTagNro := True;
+  Opcoes.AjustarTagNro := False;
   Opcoes.GerarTagIPIparaNaoTributado := True;
   Opcoes.NormatizarMunicipios := False;
   Opcoes.PathArquivoMunicipios := '';
