@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 22/09/2025
+-- ACBrNFComEnvEvento.pas --
+[-] Correção para compilar e instalar.
+   Por: Italo Giurizzato Junior
 -- Diversos --
 [*] Ajustes diversos no componente visando a Reforma Tributária.
    Por: Italo Giurizzato Junior
