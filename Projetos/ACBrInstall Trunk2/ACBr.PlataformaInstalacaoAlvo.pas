@@ -270,11 +270,11 @@ begin
       begin
         InstalacaoAtual.DCC := (InstalacaoAtual as TJclBDSInstallation).DCCLinux64;
       end;
-
     else
       InstalacaoAtual.DCC := InstalacaoAtual.DCC32;
     end;
-  end;
+  end else
+    InstalacaoAtual.DCC := InstalacaoAtual.DCC32;
 end;
 
 constructor TACBrPlataformaInstalacaoAlvo.CreateNew(AInstalacao: TJclBorRADToolInstallation;
