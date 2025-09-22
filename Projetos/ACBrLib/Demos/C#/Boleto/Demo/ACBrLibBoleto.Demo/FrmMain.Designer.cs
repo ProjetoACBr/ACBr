@@ -193,6 +193,9 @@
             this.btnLerRetornoStream = new System.Windows.Forms.Button();
             this.btnLimparResposta = new System.Windows.Forms.Button();
             this.btnConsultaPorPeriodoClasse = new System.Windows.Forms.Button();
+            this.btnGerarPDFIndex = new System.Windows.Forms.Button();
+            this.btn_GerarToken = new System.Windows.Forms.Button();
+            this.Btn_InformarToken = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tbpCedente.SuspendLayout();
             this.tbpLayout.SuspendLayout();
@@ -1939,11 +1942,44 @@
             this.btnConsultaPorPeriodoClasse.UseVisualStyleBackColor = true;
             this.btnConsultaPorPeriodoClasse.Click += new System.EventHandler(this.btnConsultaPorPeriodoClasse_Click);
             // 
+            // btnGerarPDFIndex
+            // 
+            this.btnGerarPDFIndex.Location = new System.Drawing.Point(408, 709);
+            this.btnGerarPDFIndex.Name = "btnGerarPDFIndex";
+            this.btnGerarPDFIndex.Size = new System.Drawing.Size(173, 22);
+            this.btnGerarPDFIndex.TabIndex = 37;
+            this.btnGerarPDFIndex.Text = "GerarPDF Index";
+            this.btnGerarPDFIndex.UseVisualStyleBackColor = true;
+            this.btnGerarPDFIndex.Click += new System.EventHandler(this.btnGerarPDFIndex_Click);
+            // 
+            // btn_GerarToken
+            // 
+            this.btn_GerarToken.Location = new System.Drawing.Point(588, 680);
+            this.btn_GerarToken.Name = "btn_GerarToken";
+            this.btn_GerarToken.Size = new System.Drawing.Size(114, 23);
+            this.btn_GerarToken.TabIndex = 38;
+            this.btn_GerarToken.Text = "GerarToken";
+            this.btn_GerarToken.UseVisualStyleBackColor = true;
+            this.btn_GerarToken.Click += new System.EventHandler(this.btn_GerarToken_Click);
+            // 
+            // Btn_InformarToken
+            // 
+            this.Btn_InformarToken.Location = new System.Drawing.Point(589, 710);
+            this.Btn_InformarToken.Name = "Btn_InformarToken";
+            this.Btn_InformarToken.Size = new System.Drawing.Size(112, 21);
+            this.Btn_InformarToken.TabIndex = 39;
+            this.Btn_InformarToken.Text = "InformarToken";
+            this.Btn_InformarToken.UseVisualStyleBackColor = true;
+            this.Btn_InformarToken.Click += new System.EventHandler(this.Btn_InformarToken_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 747);
+            this.Controls.Add(this.Btn_InformarToken);
+            this.Controls.Add(this.btn_GerarToken);
+            this.Controls.Add(this.btnGerarPDFIndex);
             this.Controls.Add(this.btnConsultaPorPeriodoClasse);
             this.Controls.Add(this.btnLimparResposta);
             this.Controls.Add(this.btnLerRetornoStream);
@@ -2179,6 +2215,9 @@
         private System.Windows.Forms.Button btnLimparResposta;
         private System.Windows.Forms.RadioButton rdbSandBox;
         private System.Windows.Forms.Button btnConsultaPorPeriodoClasse;
+        private System.Windows.Forms.Button btnGerarPDFIndex;
+        private System.Windows.Forms.Button btn_GerarToken;
+        private System.Windows.Forms.Button Btn_InformarToken;
     }
 }
 

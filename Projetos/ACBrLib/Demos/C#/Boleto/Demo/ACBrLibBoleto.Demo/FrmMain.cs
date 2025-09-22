@@ -2,9 +2,11 @@
 using System.ComponentModel;
 using System.Drawing.Printing;
 using System.IO;
+//using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Windows.Forms;
+//using System.Xml.Linq;
 using ACBrLib;
 using ACBrLib.Boleto;
 using ACBrLib.Core;
@@ -884,6 +886,42 @@ namespace ACBrLibBoleto.Demo
 
             var ret = boleto.ConsultarTitulosPorPeriodo(consulta.ToString());
             rtbRespostas.AppendLine(ret);
+        }
+
+        private void btnGerarPDFIndex_Click(object sender, EventArgs e)
+        {
+            var LTotalTitulos = boleto.TotalTitulosLista();
+            for (int i = 0; i < LTotalTitulos; i++)
+            {
+                boleto.GerarPDF(i); // Gera o PDF do boleto com índice i
+            }
+
+            rtbRespostas.AppendLine("PDF Gerado");
+
+        }
+
+        private void btn_GerarToken_Click(object sender, EventArgs e)
+        {
+
+            var ret = boleto.GerarToken();
+
+            rtbRespostas.AppendLine(ret);
+
+        }
+
+        private void Btn_InformarToken_Click(object sender, EventArgs e)
+        {
+            var dataValidade = DateTime.Now;
+            string strDataValidade = dataValidade.ToString();
+            if (InputBox.Show("Gerar Token", "Informe a Data de validade", ref strDataValidade) != DialogResult.OK) return;
+            DateTime.TryParse(strDataValidade, out dataValidade);
+
+            var eToken = "";
+            InputBox.Show("Informar Token", "Digite o Token", ref eToken);
+
+            var ret = boleto.InformarToken(eToken, dataValidade);
+            rtbRespostas.AppendLine("Codigo Retorno Informar Token: " + ret);
+
         }
     }
 }
