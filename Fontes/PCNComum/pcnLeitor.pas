@@ -318,12 +318,13 @@ begin
           result := 0;
       end;
 
-    tcDe2, tcDe3, tcDe4, tcDe5, tcDe6, tcDe7, tcDe8, tcDe10:
+    tcDe1, tcDe2, tcDe3, tcDe4, tcDe5, tcDe6, tcDe7, tcDe8, tcDe10:
       begin
         if (FloatIsIntString) then
         begin
           iDecimais := 2;
           case Tipo of
+            tcDe1:  iDecimais := 1;
             tcDe2:  iDecimais := 2;
             tcDe3:  iDecimais := 3;
             tcDe4:  iDecimais := 4;

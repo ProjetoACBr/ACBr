@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/09/2025
+-- pcnConversao --
+[+] #ACBR-8083 - Adicionado tratamento para o tipo tcDe1 na função rCampo() - https://www.projetoacbr.com.br/forum/topic/85907-erro-s5002-tag-qtdmesesrra/
+   Por: Renato Rubinho
+
 16/09/2025
 -- pcnConversao --
 [+] Acrescentado os enumeradores dos novos eventos.
