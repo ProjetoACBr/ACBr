@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+23/09/2025
+-- ACBrNFComXmlWriter --
+[*] Possível solução para geração dos campos vCredPres e vCredPresCondSus.
+   Por: Italo Giurizzato Junior
+
 22/09/2025
 -- ACBrNFComEnvEvento.pas --
 [-] Correção para compilar e instalar.

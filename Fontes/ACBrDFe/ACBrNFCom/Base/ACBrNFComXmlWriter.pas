@@ -1637,16 +1637,16 @@ begin
 
   Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gCBS(gIBSCBS.gCBS));
 
-  if gIBSCBS.gTribRegular.pAliqEfetRegIBSUF > 0 then
+  if gIBSCBS.gTribRegular.CSTReg <> cstNenhum then
     Result.AppendChild(Gerar_IBSCBSSel_gIBSCBS_gTribRegular(gIBSCBS.gTribRegular));
 
-  if gIBSCBS.gIBSCredPres.pCredPres > 0 then
+  if gIBSCBS.gIBSCredPres.cCredPres <> cpNenhum then
     Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(gIBSCBS.gIBSCredPres, 'gIBSCredPres'));
 
-  if gIBSCBS.gCBSCredPres.pCredPres > 0 then
+  if gIBSCBS.gCBSCredPres.cCredPres <> cpNenhum then
     Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(gIBSCBS.gCBSCredPres, 'gCBSCredPres'));
 
-  if gIBSCBS.gTribCompraGov.pAliqIBSUF > 0 then
+  if (gIBSCBS.gTribCompraGov.pAliqIBSUF > 0) and (NFCom.Ide.gCompraGov.tpEnteGov <> tcgNenhum) then
     Result.AppendChild(Gerar_gTribCompraGov(gIBSCBS.gTribCompraGov));
 end;
 
@@ -1814,12 +1814,12 @@ begin
   Result.AppendChild(AddNode(tcDe4, '#64', 'pCredPres', 1, 7, 1,
                                         gIBSCredPres.pCredPres, DSC_PCREDPRES));
 
-  if gIBSCredPres.vCredPres > 0 then
-    Result.AppendChild(AddNode(tcDe2, '#65', 'vCredPres', 1, 15, 1,
-                                         gIBSCredPres.vCredPres, DSC_VCREDPRES))
-  else
+  if gIBSCredPres.vCredPresCondSus > 0 then
     Result.AppendChild(AddNode(tcDe2, '#66', 'vCredPresCondSus', 1, 15, 1,
-                          gIBSCredPres.vCredPresCondSus, DSC_VCREDPRESCONDSUS));
+                           gIBSCredPres.vCredPresCondSus, DSC_VCREDPRESCONDSUS))
+  else
+    Result.AppendChild(AddNode(tcDe2, '#65', 'vCredPres', 1, 15, 1,
+                                        gIBSCredPres.vCredPres, DSC_VCREDPRES));
 end;
 
 function TNFComXmlWriter.Gerar_gTribCompraGov(
