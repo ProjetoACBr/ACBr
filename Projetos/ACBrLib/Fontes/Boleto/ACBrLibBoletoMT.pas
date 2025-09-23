@@ -688,7 +688,7 @@ begin
 end;
 
 function Boleto_InformarToken(const libHandle: PLibHandle;
-  const aToken: PAnsiChar; const aValidadeToken: TDateTime): Integer; cdecl;
+  const aToken: PAnsiChar; const aValidadeToken: TDateTime): Integer; {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 begin
   try
     VerificarLibInicializada(libHandle);
@@ -702,8 +702,7 @@ begin
   end;
 end;
 
-function Boleto_GerarToken(const libHandle: PLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
-  cdecl;
+function Boleto_GerarToken(const libHandle: PLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer; {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 begin
   try
     VerificarLibInicializada(libHandle);
