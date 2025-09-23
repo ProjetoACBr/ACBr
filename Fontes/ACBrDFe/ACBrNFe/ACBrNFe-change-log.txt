@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/09/2025
+-- ACBrNFe.XmlWriter --
+[*] Possível solução para geração dos campos vCredPres e vCredPresCondSus.
+   Por: Italo Giurizzato Junior
+
 22/09/2025
 -- ACBrNFe.XmlWriter --
 [*] Alterado o valor padrão da propriedade: AjustarTagNro para False visando não
