@@ -40,6 +40,7 @@ uses
   Classes, SysUtils, synautil,
   ACBrBase, ACBrDFe, ACBrDFeException, ACBrDFeConfiguracoes,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrNF3eConfiguracoes, ACBrNF3eWebServices, ACBrNF3eNotasFiscais,
   ACBrNF3eDANF3eClass,
   pcnConversao,

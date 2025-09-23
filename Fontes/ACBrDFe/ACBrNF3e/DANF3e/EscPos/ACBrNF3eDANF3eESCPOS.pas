@@ -38,6 +38,8 @@ interface
 
 uses
   Classes, SysUtils, {$IFDEF FPC} LResources, {$ENDIF}
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrBase, ACBrPosPrinter,
   ACBrNF3eClass, ACBrNF3eDANF3eClass, ACBrNF3eEnvEvento;
 
@@ -96,7 +98,6 @@ uses
   strutils, Math,
   ACBrUtil.Strings, ACBrUtil.Base,
   ACBrDFeUtil,
-  ACBrXmlBase,
   ACBrValidador,
   ACBrNF3e, ACBrNF3eConversao;
 

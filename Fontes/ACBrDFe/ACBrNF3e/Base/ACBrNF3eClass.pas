@@ -45,12 +45,12 @@ uses
   {$IFEND}
   ACBrBase,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrNF3eConversao,
   ACBrNF3eConsts,
-  ACBrDFe.Conversao,
-  ACBrDFeComum.Proc,
-//  ACBrDFeComum.SignatureClass;
-  pcnSignature;
+  pcnSignature,
+//  ACBrDFeComum.SignatureClass,
+  ACBrDFeComum.Proc;
 
 type
   {======== Inicio das Classes da Reforma Tributária }

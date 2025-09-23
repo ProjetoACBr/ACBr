@@ -38,7 +38,9 @@ interface
 
 uses
   Classes, SysUtils, StrUtils,
-  ACBrBase, ACBrXmlBase,
+  ACBrBase,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrNF3eConfiguracoes, ACBrNF3eClass,
   ACBrNF3eIniReader, ACBrNF3eIniWriter,
   ACBrNF3eXmlReader, ACBrNF3eXmlWriter;
@@ -181,6 +183,7 @@ uses
   ACBrDFeUtil,
   ACBrNF3e, ACBrNF3eConversao,
   ACBrXmlDocument;
+
 { NotaFiscal }
 
 constructor TNotaFiscal.Create(Collection2: TCollection);

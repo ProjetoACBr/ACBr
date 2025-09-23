@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/09/2025
+-- Diversos --
+[*] Ajustes diversos no componente visando a Reforma Tributária.
+   Por: Italo Giurizzato Junior
+
 19/08/2025
 -- Diversos --
 [*] O campo cClassTrib deixa de ser enumerado e passa a ser string.

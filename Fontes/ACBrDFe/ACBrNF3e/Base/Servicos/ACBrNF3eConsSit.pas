@@ -38,7 +38,9 @@ interface
 
 uses
   SysUtils, Classes,
-  ACBrXmlBase, ACBrNF3eConsts;
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
+  ACBrNF3eConsts;
 
 type
 

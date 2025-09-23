@@ -39,6 +39,8 @@ interface
 uses
   Classes, SysUtils,
   IniFiles,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrNF3eClass,
   ACBrNF3eConversao,
   ACBrDFeComum.Proc;
@@ -123,9 +125,7 @@ type
 implementation
 
 uses
-  ACBrXmlBase,
   ACBrDFeUtil,
-  ACBrDFe.Conversao,
   ACBrNF3e,
   ACBrUtil.Base;
 
