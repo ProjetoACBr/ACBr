@@ -232,7 +232,7 @@ begin
             if Boleto.Cedente.CedenteWS.IndicadorPix then
             begin
               LConsultaList.Add('/'+Boleto.Cedente.Convenio + '.' + RemoveZerosEsquerda(LNossoNumero));
-              if Boleto.Configuracoes.WebService.Ambiente.tawsSandBox then
+              if Boleto.Configuracoes.WebService.Ambiente = tawsSandBox then
                 LConsultaList.Add('tipoConsulta=bankslips')  // 2 via
               else
                 LConsultaList.Add('tipoConsulta=bankslip');  // 2 via
