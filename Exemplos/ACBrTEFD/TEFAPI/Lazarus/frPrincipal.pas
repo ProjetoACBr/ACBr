@@ -297,7 +297,7 @@ uses
   //ACBrUtil,
   ACBrDelphiZXingQRCode,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime, ACBrUtil.FilesIO,
-  ACBrTEFPayGoComum, ACBrTEFAPIPayGoWeb, ACBrTEFAPIStoneAutoTEF;
+  ACBrTEFPayGoComum, ACBrTEFAPIPayGoWeb, ACBrTEFAPIStoneAutoTEF, ACBrTEFAPIScope;
 
 {$R *.lfm}
 
@@ -2012,6 +2012,18 @@ begin
     end;
   end;
 
+
+  if (ACBrTEFAPI1.TEF is TACBrTEFAPIClassScope) then
+  begin
+    with TACBrTEFAPIClassScope(ACBrTEFAPI1.TEF) do
+    begin
+      //TEFScopeAPI.ControleConexao := True;
+      // Mudar a propriedade UsarScopeClientConnector para True,
+      // caso for utilizar o ScopeConnector (Pix / Carteiras Digitais)
+      // Informar também a porta no Endereço Servidor Exemplo: "127.0.0.1:2050"
+      TEFScopeAPI.UsarScopeClientConnector := False;
+    end;
+  end;
 end;
 
 procedure TFormPrincipal.AtivarTEF;
