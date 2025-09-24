@@ -57,6 +57,7 @@ const
   cItauURLAuthProducao = 'https://sts.itau.com.br';
   cItauPathAuthToken = '/as/token.oauth2';
   cItauPathCertificado = '/seguranca/v1/certificado';
+  cItauPathCertificadoV2 = '/seguranca/v2/certificado';
   cItauPathCertificadoSolicitacao = '/solicitacao';
   cItauPathCertificadoRenovacao = '/renovacao';
 
@@ -212,11 +213,11 @@ begin
   VerificarPIXCDAtribuido;
 
   if (ACBrPixCD.Ambiente = ambProducao) then
-    AURL := cItauURLAuthProducao + cItauPathCertificado + cItauPathCertificadoRenovacao
+    AURL := cItauURLAuthProducao + cItauPathCertificadoV2 + cItauPathCertificadoRenovacao
   else
   begin
     VerificarAutenticacao;
-    AURL := cItauURLSandbox + cItauPathCertificado + cItauPathCertificadoRenovacao;
+    AURL := cItauURLSandbox + cItauPathCertificadoV2 + cItauPathCertificadoRenovacao;
   end;
 
   Body := GerarCertificadoCSR;
