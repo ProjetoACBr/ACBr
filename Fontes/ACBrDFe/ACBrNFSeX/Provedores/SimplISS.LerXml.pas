@@ -37,9 +37,9 @@ unit SimplISS.LerXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
-  IniFiles,
-  ACBrNFSeXLerXml_ABRASFv1, ACBrNFSeXLerXml_ABRASFv2, ACBrXmlDocument, ACBrXmlBase;
+  SysUtils, Classes, StrUtils, IniFiles,
+  ACBrXmlBase,
+  ACBrNFSeXLerXml_ABRASFv1, ACBrNFSeXLerXml_ABRASFv2, ACBrXmlDocument;
 
 type
   { TNFSeR_SimplISS }
@@ -64,6 +64,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Base,
   ACBrUtil.Strings;
 

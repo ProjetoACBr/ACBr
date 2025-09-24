@@ -112,6 +112,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
   ACBrDFeException, ACBrXmlWriter,
@@ -449,6 +450,7 @@ begin
   inherited Configuracao;
 
   ConfigGeral.ModoEnvio := meLoteAssincrono;
+  ConfigGeral.QuebradeLinha := '&#xD;&#xA;';
 
   ConfigGeral.ServicosDisponibilizados.EnviarLoteSincrono := False;
   ConfigGeral.Particularidades.PermiteTagOutrasInformacoes := True;

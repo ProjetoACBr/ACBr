@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/09/2025
+-- ACBrNFSeXGravarXml_ABRASFv2/SimplISS.GravarXml/SimplISS.LerXml/SimplISS.Provider --
+[*] #ACBr-8086 Alteração visando gerar o campo OutrasInformações no lugar esperado
+    pelo provedor (infelizmente não segue o padrão).
+   Por: Wesley Lamb/Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] #ACBr-8084 A cidade Paranatinga/MT trocou de provedor, agora é Agili.
    Por: rizzotec

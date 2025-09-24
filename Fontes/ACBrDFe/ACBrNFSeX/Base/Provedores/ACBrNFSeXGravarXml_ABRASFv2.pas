@@ -62,6 +62,7 @@ type
     FNrOcorrInscEstTomador_1: Integer;
     FNrOcorrInscEstTomador_2: Integer;
     FNrOcorrOutrasInformacoes: Integer;
+    FNrOcorrOutrasInformacoes_2: Integer;
     FNrOcorrNaturezaOperacao: Integer;
     FNrOcorrIdCidade: Integer;
     FNrOcorrRespRetencao: Integer;
@@ -258,6 +259,7 @@ type
     property NrOcorrInscEstTomador_1: Integer   read FNrOcorrInscEstTomador_1   write FNrOcorrInscEstTomador_1;
     property NrOcorrInscEstTomador_2: Integer   read FNrOcorrInscEstTomador_2   write FNrOcorrInscEstTomador_2;
     property NrOcorrOutrasInformacoes: Integer  read FNrOcorrOutrasInformacoes  write FNrOcorrOutrasInformacoes;
+    property NrOcorrOutrasInformacoes_2: Integer read FNrOcorrOutrasInformacoes_2 write FNrOcorrOutrasInformacoes_2;
     property NrOcorrNaturezaOperacao: Integer   read FNrOcorrNaturezaOperacao   write FNrOcorrNaturezaOperacao;
     property NrOcorrPercCargaTrib: Integer      read FNrOcorrPercCargaTrib      write FNrOcorrPercCargaTrib;
     property NrOcorrValorCargaTrib: Integer     read FNrOcorrValorCargaTrib     write FNrOcorrValorCargaTrib;
@@ -409,6 +411,7 @@ begin
   FNrOcorrInscEstTomador_1 := -1;
   FNrOcorrInscEstTomador_2 := -1;
   FNrOcorrOutrasInformacoes := -1;
+  FNrOcorrOutrasInformacoes_2 := -1;
   FNrOcorrTipoNota := -1;
   FNrOcorrSiglaUF := -1;
   FNrOcorrEspDoc := -1;
@@ -750,6 +753,10 @@ begin
     Result.AppendChild(AddNode(tcInt, '#36', 'ExigibilidadeISS',
                                NrMinExigISS, NrMaxExigISS, NrOcorrExigibilidadeISS,
     StrToInt(FpAOwner.ExigibilidadeISSToStr(NFSe.Servico.ExigibilidadeISS)), DSC_INDISS));
+
+    Result.AppendChild(AddNode(tcStr, '#9', 'OutrasInformacoes', 0, 255, NrOcorrOutrasInformacoes_2,
+      StringReplace(NFSe.OutrasInformacoes, Opcoes.QuebraLinha,
+           FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_OUTRASINF));
 
     Result.AppendChild(AddNode(tcInt, '#37', 'MunicipioIncidencia', 7, 7, NrOcorrMunIncid,
                                 NFSe.Servico.MunicipioIncidencia, DSC_MUNINCI));
