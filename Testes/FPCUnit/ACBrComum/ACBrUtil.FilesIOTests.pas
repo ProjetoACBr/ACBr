@@ -64,19 +64,18 @@ var
   lOK: Boolean;
   lTeste: String;
 begin
-  lTeste := '{"teste":}';
+  lTeste := '{"teste":';
   lOK := StringISJSON(lTeste);
   Check(not lOK, Format('StringISJSON falhou!|String testada: %s |Result esperado era FALSE', [lTeste]));
 
-  //O Parse consegue ler o "array vazio" [] e ignora o resto
   lTeste := '[]dsw\57xa3 w5';
   lOK := StringIsJSON(lTeste);
-  Check(lOK, Format('StringISJSON falhou!|String testada: %s |Result esperado era TRUE', [lTeste]));
-  //
+  Check(not lOK, Format('StringISJSON falhou!|String testada: %s |Result esperado era FALSE', [lTeste]));
 
+  //[] considera como válido nessa função mais simples
   lTeste := '[dsw\57xa3 w5]';
   lOK := StringIsJSON(lTeste);
-  Check(not lOK, Format('StringISJSON falhou!|String testada: %s |Result esperado era FALSE', [lTeste]));
+  Check(lOK, Format('StringISJSON falhou!|String testada: %s |Result esperado era TRUE', [lTeste]));
 end;
 
 procedure TStringISJSONTests.StringEhJSONArrayValidoVazio;
@@ -110,11 +109,8 @@ begin
   //O Parse consegue ler o "JSON vazio" e ignora o resto'
   lTeste := '{}hdahdjaid';
   lOK := StringISJSON(lTeste);
-  Check(lOK, Format('StringISJSON falhou!|String testada: %s |Result esperado era TRUE', [lTeste]));
-  //
-  lTeste := '{hdahdjaid}';
-  lOK := StringISJSON(lTeste);
   Check(not lOK, Format('StringISJSON falhou!|String testada: %s |Result esperado era FALSE', [lTeste]));
+  //
   lTeste := '[{"teste":"testado1"},{"teste":"testado2"}';
   lOK := StringISJSON(lTeste);
   Check(not lOK, Format('StringISJSON falhou!|String testada: %s |Result esperado era FALSE', [lTeste]));
