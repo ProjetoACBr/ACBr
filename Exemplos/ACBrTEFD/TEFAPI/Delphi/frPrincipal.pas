@@ -2085,13 +2085,15 @@ begin
     end;
   end;
 
-  //if (ACBrTEFAPI1.TEF is TACBrTEFAPIClassScope) then
-  //begin
-  //  with TACBrTEFAPIClassScope(ACBrTEFAPI1.TEF) do
-  //  begin
-  //    TEFScopeAPI.ControleConexao := True;
-  //  end;
-  //end;
+//  if (ACBrTEFAPI1.TEF is TACBrTEFAPIClassScope) then
+//  begin
+//    with TACBrTEFAPIClassScope(ACBrTEFAPI1.TEF) do
+//    begin
+//      TEFScopeAPI.ControleConexao := True;
+//      // Habilitar linha abaixo para usar o PIX no SCOPE
+//      TEFScopeAPI.UsarScopeClientConnector := True;
+//    end;
+//  end;
 end;
 
 procedure TFormPrincipal.AtivarTEF;
