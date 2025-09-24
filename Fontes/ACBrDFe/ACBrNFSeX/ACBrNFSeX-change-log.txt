@@ -42,6 +42,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/09/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8084 A cidade Paranatinga/MT trocou de provedor, agora é Agili.
+   Por: rizzotec
+[*] #ACBr-8087 Alterado as URLs da cidade Boa Esperança/MG, o provedor continua o mesmo.
+   Por: Vinício Rocha
+[*] #ACBr-8090 Alterado o Params da cidade Nobres.
+   Por: Diego Reckziegel
+
 22/09/2025
 -- SigISSWeb.Provider --
 [*] Ajuste para não salvar o XML com 2 encoding.
