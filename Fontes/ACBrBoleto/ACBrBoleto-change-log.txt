@@ -48,10 +48,16 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+24/09/2025
+--ACBrBoletoW_Santander_API, ACBrBoletoRet_Santander_API--
+[*] Ajustes do retorno quando consulta Detalhe sem IndicadorPix.
+	Ajuste no envio consulta detalhe sandbox. que difere de producao.
+	Por: Daniel de Morais InfoCotidiano, Victor H. Gonzales Pandaaa
+	
 22/09/2025
 --ACBrBoleto--
 [*] Ajustes dos nomes dos metodos
-	Por: Victor H. Gonzalles Pandaaa
+	Por: Victor H. Gonzales Pandaaa
 
 18/09/2025
 -- ACBrBoleto -- 
