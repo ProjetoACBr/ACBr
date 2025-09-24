@@ -37,6 +37,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/09/2025
+-- ACBrUtil.FilesIO --
+[*] Remove o Parser de StringIsJSON.
+  Por: Diego Folieni
+
 18/09/2025
 -- ACBrJSON --
 [*] Remove atribuição desnecessária

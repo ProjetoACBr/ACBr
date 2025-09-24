@@ -151,6 +151,8 @@ function LerArquivoOuString(const AJSONArquivoOuString: String): String;
 function StringIsINI(const AString: String): Boolean;
 function StringIsAFile(const AString: String): Boolean;
 function StringIsXML(const AString: String): Boolean;
+function StringIsJSONObject(const AString: String): Boolean;
+function StringIsJSONArray(const AString: String): Boolean;
 function StringIsJSON(const AString: String): Boolean;
 function StrIsIP(const AValue: String): Boolean;
 function StringIsPDF(const AString: String): Boolean;
@@ -1400,40 +1402,36 @@ begin
   Result :=(pos('<', AString) > 0) and (pos('>', AString) > 0);
 end;
 
+function StringIsJSONObject(const AString: String): Boolean;
+var
+  lTrimStr: String;
+begin
+  Result := False;
+  if Length(AString) = 0 then
+    exit;
+
+  lTrimStr := Trim(AString);
+  Result := (lTrimStr[1] = '{') and (lTrimStr[Length(lTrimStr)] = '}');
+end;
+
+function StringIsJSONArray(const AString: String): Boolean;
+var
+  lTrimStr: String;
+begin
+  Result := False;
+  if Length(AString) = 0 then
+    exit;
+
+  lTrimStr := Trim(AString);
+  Result := (lTrimStr[1] = '[') and (lTrimStr[Length(lTrimStr)] = ']');
+end;
+
 {------------------------------------------------------------------------------
-   Valida se é um arquivo contém caracteres existentes em um JSON
+   Valida se é um arquivo com caracteres existentes em um JSON
  ------------------------------------------------------------------------------}
 function StringIsJSON(const AString: String): Boolean;
-var
-  lJSON: TACBrJSONObject;
-  lJSONArray: TACBrJSONArray;
 begin
-  lJSON := nil;
-  try
-    try
-      lJSON := TACBrJSONObject.Parse(AString);
-      Result := True;
-    except
-      Result := False;
-    end;
-  finally
-    lJSON.Free;
-  end;
-
-  if not Result then
-  begin
-    lJSONArray := nil;
-    try
-      try
-        lJSONArray := TACBrJSONArray.Parse(AString);
-        Result := True;
-      except
-        Result := False;
-      end;
-    finally
-      lJSONArray.Free;
-    end;
-  end;
+  Result := StringIsJSONObject(AString) or  StringIsJSONArray(AString);
 end;
 
 {-----------------------------------------------------------------------------
