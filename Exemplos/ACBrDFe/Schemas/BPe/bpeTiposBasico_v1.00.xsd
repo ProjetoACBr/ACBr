@@ -135,7 +135,8 @@ Tabela do IBGE de código de unidades da federação.</xs:documentation>
 									<xs:element name="tpBPe">
 										<xs:annotation>
 											<xs:documentation>Tipo do BP-e</xs:documentation>
-											<xs:documentation>0 - BP-e normal 3 - BP-e substituição</xs:documentation>
+											<xs:documentation>0 - BP-e normal
+3 - BP-e substituição</xs:documentation>
 										</xs:annotation>
 										<xs:simpleType>
 											<xs:restriction base="TTipoBPe"/>
@@ -146,7 +147,7 @@ Tabela do IBGE de código de unidades da federação.</xs:documentation>
 											<xs:documentation>Tipo de compra do BPe Aereo</xs:documentation>
 											<xs:documentation>0 - Normal 
 1 - BPe múltiplo (fretamento)
-2- Vinculado a BPe multiplo
+2 - Vinculado a BPe multiplo
 </xs:documentation>
 										</xs:annotation>
 										<xs:simpleType>
@@ -212,11 +213,17 @@ para tpEmis diferente de 1</xs:documentation>
 											</xs:simpleType>
 										</xs:element>
 									</xs:sequence>
-									<xs:element name="nroBPIATA" type="TNF" minOccurs="0">
+									<xs:element name="nroBPIATA" minOccurs="0">
 										<xs:annotation>
 											<xs:documentation>Informação do número do bilhete de passagem conforme definido pela IATA</xs:documentation>
 											<xs:documentation>Número que identifica o bilhete 1 a 999999999.</xs:documentation>
 										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="TString">
+												<xs:minLength value="1"/>
+												<xs:maxLength value="20"/>
+											</xs:restriction>
+										</xs:simpleType>
 									</xs:element>
 									<xs:element name="gCompraGov" type="TCompraGovReduzido" minOccurs="0">
 										<xs:annotation>
@@ -235,12 +242,6 @@ para tpEmis diferente de 1</xs:documentation>
 									<xs:element name="CNPJ" type="TCnpj">
 										<xs:annotation>
 											<xs:documentation>CNPJ do emitente</xs:documentation>
-											<xs:documentation>Informar zeros não significativos</xs:documentation>
-										</xs:annotation>
-									</xs:element>
-									<xs:element name="CNPJCodeShare" type="TCnpj" minOccurs="0">
-										<xs:annotation>
-											<xs:documentation>CNPJ do code-share caso exista</xs:documentation>
 											<xs:documentation>Informar zeros não significativos</xs:documentation>
 										</xs:annotation>
 									</xs:element>
@@ -274,34 +275,6 @@ para tpEmis diferente de 1</xs:documentation>
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:element>
-									<xs:sequence minOccurs="0">
-										<xs:annotation>
-											<xs:documentation>Grupo de informações de interesse da Prefeitura</xs:documentation>
-											<xs:documentation>Este campo deve ser informado, quando ocorrer a emissão de BP-e conjugado, com prestação de serviços sujeitos ao ISSQN.</xs:documentation>
-										</xs:annotation>
-										<xs:element name="IM">
-											<xs:annotation>
-												<xs:documentation>Inscrição Municipal</xs:documentation>
-											</xs:annotation>
-											<xs:simpleType>
-												<xs:restriction base="TString">
-													<xs:minLength value="1"/>
-													<xs:maxLength value="15"/>
-												</xs:restriction>
-											</xs:simpleType>
-										</xs:element>
-										<xs:element name="CNAE">
-											<xs:annotation>
-												<xs:documentation>CNAE Fiscal</xs:documentation>
-											</xs:annotation>
-											<xs:simpleType>
-												<xs:restriction base="xs:string">
-													<xs:whiteSpace value="preserve"/>
-													<xs:pattern value="[0-9]{7}"/>
-												</xs:restriction>
-											</xs:simpleType>
-										</xs:element>
-									</xs:sequence>
 									<xs:element name="CRT">
 										<xs:annotation>
 											<xs:documentation>Código de Regime Tributário. </xs:documentation>
@@ -434,12 +407,18 @@ Informar quando diferente do passageiro</xs:documentation>
 											<xs:documentation>Informar os zeros não significativos.</xs:documentation>
 										</xs:annotation>
 									</xs:element>
-									<xs:element name="tpSub" type="TTipoSubstituicao">
+									<xs:element name="tpSub" type="TTipoSubstituicaoTA">
 										<xs:annotation>
 											<xs:documentation>Tipo de Substituição</xs:documentation>
 											<xs:documentation>1 - Remarcação
 2 - Transferência
-3 - Transferência e Remarcação</xs:documentation>
+3 - Transferência e Remarcação
+4 – Erro de Tarifa
+5 – Erro de Tributação
+6 – Decisão judicial
+7 – Erro Cadastral
+9 - Outros 
+</xs:documentation>
 										</xs:annotation>
 									</xs:element>
 								</xs:sequence>
@@ -564,6 +543,17 @@ Informar quando diferente do passageiro</xs:documentation>
 												<xs:whiteSpace value="preserve"/>
 												<xs:minLength value="1"/>
 												<xs:maxLength value="20"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="SiglaCiaOperVoo">
+										<xs:annotation>
+											<xs:documentation>Sigla IATA da Companhia que opera o voo</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="TString">
+												<xs:minLength value="1"/>
+												<xs:maxLength value="3"/>
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:element>
@@ -3816,6 +3806,22 @@ Observação: 28 caracteres são representados no schema como 20 bytes do tipo b
 			<xs:whiteSpace value="preserve"/>
 			<xs:enumeration value="0"/>
 			<xs:enumeration value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TTipoSubstituicaoTA">
+		<xs:annotation>
+			<xs:documentation>Tipo de Substituição</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+			<xs:enumeration value="9"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="TTipoSubstituicao">
