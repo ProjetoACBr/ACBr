@@ -40,8 +40,7 @@ uses
   Classes,
   SysUtils,
   ACBrJSON,
-  ACBrTests.Util,
-  testregistry;
+  ACBrTests.Util;
 
 type
   { TTestACBrJson }
@@ -70,6 +69,38 @@ type
     procedure TestReadAccentedWordFileUTF8;
     procedure TestReadAccentedWordFileANSI;
     procedure TestGenerateAccentedWord;
+  end;
+
+  { TTestACBrJsonParse }
+
+  TTestACBrJsonParse = class(TTestCase)
+  private
+    FTestStr: String;
+  published
+    procedure TestParseEmptyJSONObjectString;
+    procedure TestParseValidJSONObjectString;
+    procedure TestParseValidJSONObjectStringWithArray;
+    procedure TestParseInvalidString;
+    procedure TestParseInvalidJSONObjectStringMissingClosingBrace;
+    procedure TestParseInvalidJSONObjectStringContainingArraySyntaxAndGarbageInside;
+    procedure TestParseInvalidJSONObjectStringContainingArraySyntaxAndGarbageOutside;
+    procedure TestParseInvalidJSONObjectStringWithTrailingCharacters;
+  end;
+
+  { TTestACBrJsonArrayParse }
+
+  TTestACBrJsonArrayParse = class(TTestCase)
+  private
+    FTestStr: String;
+  published
+    procedure TestParseEmptyJSONArrayString;
+    procedure TestParseValidJSONArrayString;
+    procedure TestParseValidJSONArrayStringWithNestedObjects;
+    procedure TestParseInvalidString;
+    procedure TestParseInvalidJSONArrayStringMissingClosingBracket;
+    procedure TestParseInvalidJSONArrayStringContainingObjectSyntaxAndGarbageInside;
+    procedure TestParseInvalidJSONArrayStringContainingObjectSyntaxAndGarbageOutside;
+    procedure TestParseInvalidJSONArrayStringWithTrailingCharacters;
   end;
 
 const WORD_ACCENTED = 'teste¡¿¬√… Õ”‘’⁄‹«·‡‚„ÈÍÌÛÙı˙¸Á';
@@ -359,8 +390,311 @@ begin
   end;
 end;
 
+{ TTestACBrJsonParse }
+
+procedure TTestACBrJsonParse.TestParseEmptyJSONObjectString;
+var
+  LJSONObj: TACBrJSONObject;
+begin
+  try
+    FTestStr := '{}';
+    LJSONObj := TACBrJSONObject.Parse(FTestStr);
+    Check(Assigned(lJSONObj), Format('Parse N√O deveria ter falhado com a string %s', [FTestStr]));
+  finally
+    if Assigned(LJSONObj) then
+      LJSONObj.Free;
+  end;
+end;
+
+procedure TTestACBrJsonParse.TestParseValidJSONObjectString;
+var
+  LJSONObj: TACBrJSONObject;
+begin
+  try
+    FTestStr := '{"a":"b"}';
+    LJSONObj := TACBrJSONObject.Parse(FTestStr);
+    Check(Assigned(lJSONObj), Format('Parse N√O deveria ter falhado com a string %s', [FTestStr]));
+    Check(LJSONObj.Count = 1, Format('TACBrJSONObject deveria ter 1 elemento, mas tem %d', [LJSONObj.Count]));
+  finally
+    if Assigned(LJSONObj) then
+      LJSONObj.Free;
+  end;
+end;
+
+procedure TTestACBrJsonParse.TestParseValidJSONObjectStringWithArray;
+var
+  LJSONObj: TACBrJSONObject;
+begin
+  try
+    FTestStr := '{"a":[{"b":"c"},{"d":1}]}';
+    LJSONObj := TACBrJSONObject.Parse(FTestStr);
+    Check(Assigned(lJSONObj), Format('Parse N√O deveria ter falhado com a string %s', [FTestStr]));
+    Check(LJSONObj.Count = 1, Format('TACBrJSONObject deveria ter 1 elemento, mas tem %d', [LJSONObj.Count]));
+  finally
+    if Assigned(LJSONObj) then
+      LJSONObj.Free;
+  end;
+end;
+
+procedure TTestACBrJsonParse.TestParseInvalidString;
+var
+  LJSONObj: TACBrJSONObject;
+begin
+  try
+    LJSONObj := nil;
+    try
+      FTestStr := 'hfjdskfsja';
+      LJSONObj := TACBrJSONObject.Parse(FTestStr);
+      Fail(Format('Parse deveria ter falhado com a string %s', [FTestStr]));
+    except
+      on E:Exception do
+        Check(not Assigned(lJSONObj), 'Objeto JSON deveria ser nil');
+    end;
+  finally
+    if Assigned(LJSONObj) then
+      LJSONObj.Free;
+  end;
+end;
+
+procedure TTestACBrJsonParse.TestParseInvalidJSONObjectStringMissingClosingBrace;
+var
+  LJSONObj: TACBrJSONObject;
+begin
+  try
+    LJSONObj := nil;
+    try
+      FTestStr := '"a":"b"';
+      LJSONObj := TACBrJSONObject.Parse(FTestStr);
+      Fail(Format('Parse deveria ter falhado com a string %s', [FTestStr]));
+    except
+      on E:Exception do
+        Check(not Assigned(lJSONObj), 'Objeto JSON deveria ser nil');
+    end;
+  finally
+    if Assigned(LJSONObj) then
+      LJSONObj.Free;
+  end;
+end;
+
+procedure TTestACBrJsonParse.TestParseInvalidJSONObjectStringContainingArraySyntaxAndGarbageInside;
+var
+  LJSONObj: TACBrJSONObject;
+begin
+  try
+    LJSONObj := nil;
+    try
+      FTestStr := '[hasjdh]';
+      LJSONObj := TACBrJSONObject.Parse(FTestStr);
+      Fail(Format('Parse deveria ter falhado com a string %s', [FTestStr]));
+    except
+      on E:Exception do
+        Check(not Assigned(lJSONObj), 'Objeto JSON deveria ser nil');
+    end;
+  finally
+    if Assigned(LJSONObj) then
+      LJSONObj.Free;
+  end;
+end;
+
+procedure TTestACBrJsonParse.TestParseInvalidJSONObjectStringContainingArraySyntaxAndGarbageOutside;
+var
+  LJSONObj: TACBrJSONObject;
+begin
+  try
+    LJSONObj := nil;
+    try
+      FTestStr := '[]hasjdh';
+      LJSONObj := TACBrJSONObject.Parse(FTestStr);
+      Fail(Format('Parse deveria ter falhado com a string %s', [FTestStr]));
+    except
+      on E:Exception do
+        Check(not Assigned(lJSONObj), 'Objeto JSON deveria ser nil');
+    end;
+  finally
+    if Assigned(LJSONObj) then
+      LJSONObj.Free;
+  end;
+end;
+
+procedure TTestACBrJsonParse.TestParseInvalidJSONObjectStringWithTrailingCharacters;
+var
+  LJSONObj: TACBrJSONObject;
+begin
+  try
+    LJSONObj := nil;
+    try
+      FTestStr := '{}dhasjdhajd';
+      LJSONObj := TACBrJSONObject.Parse(FTestStr);
+      Check(Assigned(LJSONObj), 'TACBrJSONObject deveria ter sido inst‚nciado');
+      Check(LJSONObj.Count = 0, Format('TACBrJSONObject deveria ter sido criado vazio com a string %s', [FTestStr]));
+    except
+      on E:Exception do
+      begin
+        if not(E is EAssertionFailed) then
+          Fail(Format('Parse falhou com a exceÁ„o %s e a mensagem %s', [E.ClassName, E.Message]));
+      end;
+    end;
+  finally
+    if Assigned(LJSONObj) then
+      LJSONObj.Free;
+  end;
+end;
+
+{ TTestACBrJsonArrayParse }
+
+procedure TTestACBrJsonArrayParse.TestParseEmptyJSONArrayString;
+var
+  LJSONArray: TACBrJSONArray;
+begin
+  try
+    FTestStr := '[]';
+    LJSONArray := TACBrJSONArray.Parse(FTestStr);
+    Check(Assigned(lJSONArray), Format('Parse N√O deveria ter falhado com a string %s', [FTestStr]));
+  finally
+    if Assigned(LJSONArray) then
+      LJSONArray.Free;
+  end;
+end;
+
+procedure TTestACBrJsonArrayParse.TestParseValidJSONArrayString;
+var
+  LJSONArray: TACBrJSONArray;
+begin
+  try
+    FTestStr := '["a","b"]';
+    LJSONArray := TACBrJSONArray.Parse(FTestStr);
+    Check(Assigned(lJSONArray), Format('Parse N√O deveria ter falhado com a string %s', [FTestStr]));
+    Check(LJSONArray.Count = 2, Format('TACBrJSONArray deveria ter 2 elementos, mas tem %d', [LJSONArray.Count]));
+  finally
+    if Assigned(LJSONArray) then
+      LJSONArray.Free;
+  end;
+end;
+
+procedure TTestACBrJsonArrayParse.TestParseValidJSONArrayStringWithNestedObjects;
+var
+  LJSONArray: TACBrJSONArray;
+begin
+  try
+    FTestStr := '[{"a":"b"},{"c":"d"}]';
+    LJSONArray := TACBrJSONArray.Parse(FTestStr);
+    Check(Assigned(lJSONArray), Format('Parse N√O deveria ter falhado com a string %s', [FTestStr]));
+    Check(LJSONArray.Count = 2, Format('TACBrJSONArray deveria ter 1 elemento, mas tem %d', [LJSONArray.Count]));
+  finally
+    if Assigned(LJSONArray) then
+      LJSONArray.Free;
+  end;
+end;
+
+procedure TTestACBrJsonArrayParse.TestParseInvalidString;
+var
+  LJSONArray: TACBrJSONArray;
+begin
+  try
+    LJSONArray := nil;
+    try
+      FTestStr := 'hfjdskfsja';
+      LJSONArray := TACBrJSONArray.Parse(FTestStr);
+      Fail(Format('Parse deveria ter falhado com a string %s', [FTestStr]));
+    except
+      on E:Exception do
+        Check(not Assigned(lJSONArray), 'Objeto JSON deveria ser nil');
+    end;
+  finally
+    if Assigned(LJSONArray) then
+      LJSONArray.Free;
+  end;
+end;
+
+procedure TTestACBrJsonArrayParse.TestParseInvalidJSONArrayStringMissingClosingBracket;
+var
+  LJSONArray: TACBrJSONArray;
+begin
+  try
+    LJSONArray := nil;
+    try
+      FTestStr := '"a","b"';
+      LJSONArray := TACBrJSONArray.Parse(FTestStr);
+      Fail(Format('Parse deveria ter falhado com a string %s', [FTestStr]));
+    except
+      on E:Exception do
+        Check(not Assigned(lJSONArray), 'Objeto JSON deveria ser nil');
+    end;
+  finally
+    if Assigned(LJSONArray) then
+      LJSONArray.Free;
+  end;
+end;
+
+procedure TTestACBrJsonArrayParse.TestParseInvalidJSONArrayStringContainingObjectSyntaxAndGarbageInside;
+var
+  LJSONArray: TACBrJSONArray;
+begin
+  try
+    LJSONArray := nil;
+    try
+      FTestStr := '{hasjdh}';
+      LJSONArray := TACBrJSONArray.Parse(FTestStr);
+      Fail(Format('Parse deveria ter falhado com a string %s', [FTestStr]));
+    except
+      on E:Exception do
+        Check(not Assigned(lJSONArray), 'Objeto JSON deveria ser nil');
+    end;
+  finally
+    if Assigned(LJSONArray) then
+      LJSONArray.Free;
+  end;
+end;
+
+procedure TTestACBrJsonArrayParse.TestParseInvalidJSONArrayStringContainingObjectSyntaxAndGarbageOutside;
+var
+  LJSONArray: TACBrJSONArray;
+begin
+  try
+    LJSONArray := nil;
+    try
+      FTestStr := '{}hasjdh';
+      LJSONArray := TACBrJSONArray.Parse(FTestStr);
+      Fail(Format('Parse deveria ter falhado com a string %s', [FTestStr]));
+    except
+      on E:Exception do
+        Check(not Assigned(lJSONArray), 'Objeto JSON deveria ser nil');
+    end;
+  finally
+    if Assigned(LJSONArray) then
+      LJSONArray.Free;
+  end;
+end;
+
+procedure TTestACBrJsonArrayParse.TestParseInvalidJSONArrayStringWithTrailingCharacters;
+var
+  LJSONArray: TACBrJSONArray;
+begin
+  try
+    LJSONArray := nil;
+    try
+      FTestStr := '[]dhasjdhajd';
+      LJSONArray := TACBrJSONArray.Parse(FTestStr);
+      Check(Assigned(LJSONArray), 'TACBrJSONArray deveria ter sido inst‚nciado');
+      Check(LJSONArray.Count = 0, Format('TACBrJSONArray deveria ter sido criado vazio com a string %s', [FTestStr]));
+    except
+      on E:Exception do
+      begin
+        if not(E is EAssertionFailed) then
+          Fail(Format('Parse falhou com a exceÁ„o %s e a mensagem %s', [E.ClassName, E.Message]));
+      end;
+    end;
+  finally
+    if Assigned(LJSONArray) then
+      LJSONArray.Free;
+  end;
+end;
+
 initialization
-  RegisterTest(TTestACBrJson);
+  _RegisterTest('ACBrJSON.CreationAndManipulation', TTestACBrJson);
+  _RegisterTest('ACBrJSON.TACBrJSONObject.Parse', TTestACBrJsonParse);
+  _RegisterTest('ACBrJSON.TACBrJSONArray.Parse', TTestACBrJsonArrayParse);
+
 
 end.
 
