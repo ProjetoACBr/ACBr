@@ -637,24 +637,33 @@ begin
         try
           Result := lTemp as TJSONObject;
         except
-          lTemp.Free;
-          Result := TJsonObject.Create;
+          on E:EInvalidCast do
+          begin
+            lTemp.Free;
+            raise;
+          end;
         end;
       end;
     end
     else
       Result := TJsonObject.Create;
   {$Else}{$IfDef FPC}
-    lTemp := GetJSON(AJsonString);
-    if Assigned(lTemp) then
+    if NaoEstaVazio(AJsonString) then
     begin
-      try
-        Result := lTemp as TJSONObject;
-      except
-        lTemp.Free;
+      lTemp := GetJSON(AJsonString);
+      if Assigned(lTemp) then
+      begin
+        try
+          Result := lTemp as TJSONObject;
+        except
+          on E:EInvalidCast do
+          begin
+            lTemp.Free;
+            raise;
+          end;
+        end;
       end;
-    end;
-    if (not Assigned(Result)) then
+    end else
       Result := TJSONObject.Create;
   {$Else}
     Result := TJsonObject.Create;

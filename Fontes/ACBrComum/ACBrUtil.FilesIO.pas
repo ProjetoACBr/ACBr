@@ -48,7 +48,7 @@ interface
 
 Uses
   SysUtils, Math, Classes,
-  ACBrBase, ACBrConsts, ACBrUtil.Compatibilidade, IniFiles, ACBrJSON,
+  ACBrBase, ACBrConsts, ACBrUtil.Compatibilidade, IniFiles,
   {$IfDef COMPILER6_UP} StrUtils, DateUtils {$Else} ACBrD5, FileCtrl {$EndIf}
   {$IfDef FPC}
     ,dynlibs, LazUTF8, LConvEncoding, LCLType

@@ -38,6 +38,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/09/2025
+-- ACBrJSON --
+[*] Melhora CreateJsonObject visando padronização da resposta.
+  Por: Diego Folieni
 -- ACBrUtil.FilesIO --
 [*] Remove o Parser de StringIsJSON.
   Por: Diego Folieni
