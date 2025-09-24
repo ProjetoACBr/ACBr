@@ -42,6 +42,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/09/2025
+-- ACBrNFCom.DANFComRLRetrato --
+[+] Acrescentado o QR-Code do Pix.
+   Por: Joemil
 
 24/10/2024
 [+] Doação do componente para o Projeto ACBr.

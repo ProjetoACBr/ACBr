@@ -211,6 +211,8 @@ type
     rlbDivisao08: TRLBand;
     rlmAnatel: TRLMemo;
     RLDraw5: TRLDraw;
+    RLLabel20: TRLLabel;
+    imgQRCodePix: TRLImage;
 
     procedure rlbDivisao01BeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure rlbDivisao03DataRecord(Sender: TObject; RecNo, CopyNo: Integer;
@@ -243,7 +245,7 @@ uses
   ACBrDelphiZXingQRCode,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  ACBrDFeUtil, 
+  ACBrDFeUtil,
   ACBrDFeReportFortes,
   ACBrUtil.Base, 
   ACBrUtil.Strings, 
@@ -317,6 +319,7 @@ begin
   end;
 
   PintarQRCode(fpNFCom.infNFComSupl.qrCodNFCom, imgQRCode.Picture.Bitmap, qrUTF8NoBOM);
+  PintarQRCode(fpNFCom.gFat.gPIX.urlQRCodePIX, imgQRCodePix.Picture.Bitmap, qrUTF8NoBOM);
 
   rllNumNF1.Caption := ACBrStr('NOTA FISCAL FATURA No. ') +
                        FormatarNumeroDocumentoFiscal(IntToStr(fpNFCom.Ide.nNF));

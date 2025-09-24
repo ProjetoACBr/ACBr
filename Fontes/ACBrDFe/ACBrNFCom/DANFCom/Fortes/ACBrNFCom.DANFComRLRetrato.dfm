@@ -2,7 +2,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
   Left = 234
   Top = 0
   Caption = 'frlDANFComRLRetrato'
-  ClientHeight = 703
+  ClientHeight = 749
   Font.Height = -18
   Position = poDesigned
   TextHeight = 24
@@ -1596,7 +1596,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       Left = 26
       Top = 702
       Width = 742
-      Height = 143
+      Height = 123
       BandType = btFooter
       BeforePrint = rlbDivisao06BeforePrint
       object RLLabel18: TRLLabel
@@ -1629,16 +1629,16 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
         ParentFont = False
       end
       object RLDraw45: TRLDraw
-        Left = 0
-        Top = 6
+        Left = 1
+        Top = 5
         Width = 739
-        Height = 134
+        Height = 115
         Angle = 90.000000000000000000
         HoldStyle = hsVertically
       end
       object rlbCodBarLinhaDig: TRLBarcode
-        Left = 366
-        Top = 90
+        Left = 239
+        Top = 77
         Width = 346
         Height = 40
         Margins.LeftMargin = 1.000000000000000000
@@ -1815,8 +1815,8 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
       object rllLinhaDig: TRLLabel
         Tag = 703
-        Left = 366
-        Top = 70
+        Left = 252
+        Top = 53
         Width = 346
         Height = 14
         Alignment = taCenter
@@ -1870,10 +1870,34 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
         Font.Style = [fsBold]
         ParentFont = False
       end
+      object RLLabel20: TRLLabel
+        Tag = 10
+        Left = 609
+        Top = 7
+        Width = 122
+        Height = 14
+        Alignment = taCenter
+        Caption = 'PAGUE NO PIX'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = []
+        HoldStyle = hsRelatively
+        ParentFont = False
+      end
+      object imgQRCodePix: TRLImage
+        Left = 609
+        Top = 24
+        Width = 122
+        Height = 94
+        Center = True
+        Scaled = True
+      end
     end
     object rlbDivisao07: TRLBand
       Left = 26
-      Top = 935
+      Top = 917
       Width = 742
       Height = 15
       BandType = btFooter
@@ -1910,24 +1934,24 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
     end
     object rlbDivisao08: TRLBand
       Left = 26
-      Top = 845
+      Top = 825
       Width = 742
-      Height = 90
+      Height = 92
       AutoExpand = False
       BandType = btFooter
       BeforePrint = rlbDivisao08BeforePrint
       object RLDraw5: TRLDraw
-        Left = 0
-        Top = 0
-        Width = 740
-        Height = 87
+        Left = 3
+        Top = 3
+        Width = 736
+        Height = 86
       end
       object rlmAnatel: TRLMemo
         Tag = 20
         Left = 4
         Top = 5
-        Width = 731
-        Height = 77
+        Width = 725
+        Height = 76
         AutoSize = False
         Behavior = [beSiteExpander]
         Font.Charset = DEFAULT_CHARSET
@@ -1945,7 +1969,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
     Top = 122
   end
   inherited Datasource1: TDataSource
-    Left = 312
+    Left = 320
     Top = 56
   end
 end
