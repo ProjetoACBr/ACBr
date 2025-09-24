@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/09/2025
+-- Giap.GravarXml --
+[*] #ACBr-8089 Alteração visando respeitar a quebra de linha.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXGravarXml_ABRASFv2/SimplISS.GravarXml/SimplISS.LerXml/SimplISS.Provider --
 [*] #ACBr-8086 Alteração visando gerar o campo OutrasInformações no lugar esperado
     pelo provedor (infelizmente não segue o padrão).
