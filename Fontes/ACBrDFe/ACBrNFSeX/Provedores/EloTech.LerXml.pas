@@ -53,7 +53,7 @@ type
     procedure LerServicos(const ANode: TACBrXmlNode); override;
     procedure LerDadosDeducao(const ANode: TACBrXmlNode; Item: Integer);
 
-    procedure LerINISecaoServicos(const AINIRec: TMemIniFile); override;
+    procedure LerINISecaoItens(const AINIRec: TMemIniFile); override;
     procedure LerINISecaoDadosDeducao(const AINIRec: TMemIniFile;
         Item: TItemServicoCollectionItem; const AIndice: Integer); override;
   public
@@ -72,7 +72,7 @@ uses
 
 { TNFSeR_EloTech203 }
 
-procedure TNFSeR_EloTech203.LerINISecaoServicos(const AINIRec: TMemIniFile);
+procedure TNFSeR_EloTech203.LerINISecaoItens(const AINIRec: TMemIniFile);
 var
   i: Integer;
   sSecao, sFim: string;

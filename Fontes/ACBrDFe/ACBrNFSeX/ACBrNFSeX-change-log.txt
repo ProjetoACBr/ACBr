@@ -57,6 +57,9 @@ Símbolo : Significado
    Por: Vinício Rocha
 [*] #ACBr-8090 Alterado o Params da cidade Nobres.
    Por: Diego Reckziegel
+-- EloTech.LerXml --
+[*] #ACBR-8097 - Substituída procedure LerINISecaoServicos pela LerINISecaoItens, sobrescrevendo o método padrão e corrigindo a geração dos itens de serviços em duplicidade - https://www.projetoacbr.com.br/forum/topic/85962-acbrlibnfse-ponta-grossa/
+    Por: Renato Rubinho
 
 22/09/2025
 -- SigISSWeb.Provider --
