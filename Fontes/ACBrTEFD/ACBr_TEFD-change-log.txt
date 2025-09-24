@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/09/2025
+-- ACBrTEFAPIScope --
+[*] Correção na função EfetuarAdministrativa para operação Recarga de Celular
+    Por: Antonio Carlos Junior
+
 05/09/2025
 -- ACBrTEFAPIStoneAutoTEF --
 [*] Método 'EfetuarPix', renomeado para 'EnviarPix'

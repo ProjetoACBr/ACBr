@@ -873,7 +873,7 @@ begin
       end;
 
     tefopPrePago:
-      OpScope := scoPreAutCredito;     // Valor, Taxa Serviço
+      OpScope := scoRecargaCel;
 
     tefopConsultaSaldo:
       OpScope := scoConsCDC;           // Valor, Taxa Serviço
