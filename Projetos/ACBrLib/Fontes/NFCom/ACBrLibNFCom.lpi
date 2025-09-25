@@ -18,6 +18,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
+      <BuildNr Value="4"/>
       <Language Value="0416"/>
       <StringTable Comments="Projeto ACBr" CompanyName="ACBrNFCom -  Biblioteca para uso da NFCom" FileDescription="ACBrLibNFCom" InternalName="ACBrLibNFCom" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="NFCom" ProductVersion="0.0.0.0"/>
     </VersionInfo>
@@ -631,17 +632,4 @@
       <CustomOptions Value="-dNOGUI"/>
     </Other>
   </CompilerOptions>
-  <Debugging>
-    <Exceptions Count="3">
-      <Item1>
-        <Name Value="EAbort"/>
-      </Item1>
-      <Item2>
-        <Name Value="ECodetoolError"/>
-      </Item2>
-      <Item3>
-        <Name Value="EFOpenError"/>
-      </Item3>
-    </Exceptions>
-  </Debugging>
 </CONFIG>
