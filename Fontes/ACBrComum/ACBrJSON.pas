@@ -973,7 +973,8 @@ end;
 
 function TACBrJSONArray.GetItems(const AIndex: Integer): string;
 begin
-  if Assigned(FJSON.Items[AIndex]) then
+  if Assigned(FJSON.Items[AIndex]) and
+     (not FJSON.Items[AIndex].IsNull) then
   begin
     {$IfDef USE_JSONDATAOBJECTS_UNIT}
     Result := FJSON.Items[AIndex].Value;
