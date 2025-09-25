@@ -394,6 +394,7 @@ type
     ftransacao_valor_saque: Double;
     ftransacao_valor_taxa_embarque: String;
     ftransacao_valor_taxa_servico: String;
+    ftransacao_codigo_vespague: String;
     function Getestado: TACBrTEFDestaxaEstado;
   protected
     procedure PreencherCampos(const aStrList: TStringList); override;
@@ -411,6 +412,7 @@ type
     property transacao_comprovante_resumido: String read ftransacao_comprovante_resumido;
     property transacao_identificacao: String read ftransacao_identificacao write ftransacao_identificacao;  // Número Lógico
     property transacao_nsu_rede: String read ftransacao_nsu_rede write ftransacao_nsu_rede;
+    property transacao_codigo_vespague: String read ftransacao_codigo_vespague write ftransacao_codigo_vespague;
     property transacao_operadora: String read ftransacao_operadora write ftransacao_operadora;
     property transacao_payment_id: String read ftransacao_payment_id write ftransacao_payment_id;  // End2End Pix/Wallet
     property codigo_bandeira: String read fcodigo_bandeira write fcodigo_bandeira;
@@ -1070,6 +1072,7 @@ begin
   PreencherCampo(aStrList, 'transacao_comprovante_resumido', ftransacao_comprovante_resumido);
   PreencherCampo(aStrList, 'transacao_identificacao', ftransacao_identificacao);
   PreencherCampo(aStrList, 'transacao_nsu_rede', ftransacao_nsu_rede);
+  PreencherCampo(aStrList, 'transacao_codigo_vespague', ftransacao_codigo_vespague);
   PreencherCampo(aStrList, 'transacao_operadora', ftransacao_operadora);
   PreencherCampo(aStrList, 'transacao_payment_id', ftransacao_payment_id);
   PreencherCampo(aStrList, 'transacao_rede_cnpj', ftransacao_rede_cnpj);
@@ -1104,6 +1107,7 @@ begin
   ftransacao_comprovante_resumido := CarregarCampoString(aStrList.Values['transacao_comprovante_resumido']);
   ftransacao_identificacao := CarregarCampoString(aStrList.Values['transacao_identificacao']);
   ftransacao_nsu_rede := CarregarCampoString(aStrList.Values['transacao_nsu_rede']);
+  ftransacao_codigo_vespague := CarregarCampoString(aStrList.Values['transacao_codigo_vespague']);
   ftransacao_operadora := CarregarCampoString(aStrList.Values['transacao_operadora']);
   ftransacao_payment_id := CarregarCampoString(aStrList.Values['transacao_payment_id']);
   ftransacao_rede_cnpj := CarregarCampoString(aStrList.Values['transacao_rede_cnpj']);
@@ -1162,6 +1166,7 @@ begin
   ftransacao_comprovante_resumido := EmptyStr;
   ftransacao_identificacao := EmptyStr;
   ftransacao_nsu_rede := EmptyStr;
+  ftransacao_codigo_vespague := EmptyStr;
   ftransacao_operadora := EmptyStr;
   ftransacao_payment_id := EmptyStr;
   ftransacao_rede_cnpj := EmptyStr;

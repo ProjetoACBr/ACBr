@@ -46,12 +46,18 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/09/2025
+-- ACBrTEFAPIDestaxa, ACBrTEFAPIDestaxaComum --
+[*] Ajuste para mapear
+    DestaxaResposta.transacao_codigo_vespague -> TACBrTEFResp.Finalizacao
+    https://www.projetoacbr.com.br/forum/index.php?showtopic=85845
+
 -- ACBrTEFAPIAditum --
 [-] Atribuição da propriedade Sucesso corretamente
 [+] Adicionado transações com PIX
 [+] Adicionado exibição do QrCode na tela
 [+] Leitura dos campos para emissão de NFCe(NFCeSAT.CNPJCredenciadora, NFCeSAT.Bandeira, NFCeSAT.Autorizacao, EndToEndID)
 [+] Ao efetuar reimpressão, perguntar NSU caso não esteja carregado na UltimaRespostaTEF.NSU
+    https://www.projetoacbr.com.br/forum/index.php?showtopic=85787
     (por: André Moraes e Robert Marx e DSA)
 
 24/09/2025

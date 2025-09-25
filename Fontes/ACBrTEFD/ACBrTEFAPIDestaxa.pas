@@ -206,6 +206,7 @@ begin
   TextoEspecialOperador := DestaxaResposta.mensagem;
   ValorTotal := DestaxaResposta.transacao_valor;
   NSU_TEF := DestaxaResposta.transacao_nsu_rede;
+  Finalizacao := DestaxaResposta.transacao_codigo_vespague;
   DataHoraTransacaoLocal := DestaxaResposta.transacao_data;
   DataHoraTransacaoHost := DestaxaResposta.transacao_data;
   DataVencimento := DestaxaResposta.transacao_vencimento;
@@ -218,6 +219,13 @@ begin
   CodigoBandeiraPadrao := DestaxaResposta.codigo_bandeira;
   NomeAdministradora := DestaxaResposta.transacao_administradora;
   CodigoAutorizacaoTransacao := DestaxaResposta.transacao_autorizacao;
+
+  // Workaround, para situações onde a VERO / BANRICOMPRAS não retorna o CodigoAutorizacaoTransacao ou DestaxaResposta.transacao_autorizacao
+  if (CodigoAutorizacaoTransacao = '') then
+  begin
+    if (Pos('BANRI', UpperCase(NomeAdministradora)) > 0) and (UpperCase(Rede) = 'VERO') then
+       CodigoAutorizacaoTransacao := NSU;
+  end;
 
   Credito := (DestaxaResposta.transacao_tipo_cartao = dtcCredito);
   Debito := DestaxaResposta.transacao_tipo_cartao = dtcDebito;
