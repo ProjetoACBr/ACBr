@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/09/2025
+-- ACBrPIXCD --
+[*] Alteração do evento OnQuandoAlterarPSP para a classe ACBrPIXCD.
+    por: Elias Cesar
+
 24/09/2025
 -- ACBrPIXPSPItau --
 [*] Alteração para utilizar url v2 ao renovar o certificado.

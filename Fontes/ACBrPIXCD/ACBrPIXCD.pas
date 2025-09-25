@@ -559,7 +559,6 @@ type
     fpToken: String;
     fpRefreshToken: String;
     fpValidadeToken: TDateTime;
-    fpOnQuandoAlterarPSP: TNotifyEvent;
     fpQuandoAcessarEndPoint: TACBrQuandoAcessarEndPoint;
     fpQuandoReceberRespostaEndPoint: TACBrQuandoReceberRespostaEndPoint;
     fpOnAntesAutenticar: TACBrOnAntesAutenticar;
@@ -649,7 +648,6 @@ type
 
     property QuandoTransmitirHttp: TACBrQuandoTransmitirHttp read fQuandoTransmitirHttp write fQuandoTransmitirHttp;
     property QuandoReceberRespostaHttp: TACBrQuandoReceberRespostaHttp read fQuandoReceberRespostaHttp write fQuandoReceberRespostaHttp;
-    property OnQuandoAlterarPSP: TNotifyEvent read fpOnQuandoAlterarPSP write fpOnQuandoAlterarPSP;
     property OnAntesAutenticar: TACBrOnAntesAutenticar read fpOnAntesAutenticar write fpOnAntesAutenticar;
     property OnDepoisAutenticar: TACBrOnDepoisAutenticar read fpOnDepoisAutenticar write fpOnDepoisAutenticar;
     property OnPrecisaAutenticar: TACBrOnPrecisaAutenticar read fpOnPrecisaAutenticar write fpOnPrecisaAutenticar;
@@ -780,6 +778,7 @@ type
     fProxy: TACBrHttpProxy;
     fPSP: TACBrPSP;
     fQuandoGravarLog: TACBrGravarLog;
+    fpOnQuandoAlterarPSP: TNotifyEvent;
     fRecebedor: TACBrPixRecebedor;
     fTimeOut: Integer;
 
@@ -818,6 +817,7 @@ type
     property ArqLOG: String read fArqLOG write fArqLOG;
     property NivelLog: Byte read fNivelLog write fNivelLog default 1;
     property QuandoGravarLog: TACBrGravarLog read fQuandoGravarLog write fQuandoGravarLog;
+    property OnQuandoAlterarPSP: TNotifyEvent read fpOnQuandoAlterarPSP write fpOnQuandoAlterarPSP;
   end;
 
 function StreamToAnsiString(AStream: TStream): AnsiString;
@@ -2863,7 +2863,6 @@ begin
   fpQuandoReceberRespostaEndPoint := Nil;
   fQuandoTransmitirHttp := Nil;
   fQuandoReceberRespostaHttp := Nil;
-  fpOnQuandoAlterarPSP := Nil;
   fpOnAntesAutenticar := Nil;
   fpOnDepoisAutenticar := Nil;
   fpOnPrecisaAutenticar := Nil;
@@ -2927,9 +2926,6 @@ begin
     AValue.FreeNotification(Self);
     AValue.PSP := Self;
   end;
-
-  if Assigned(fpOnQuandoAlterarPSP) then
-    fpOnQuandoAlterarPSP(Self);
 end;
 
 procedure TACBrPSP.Notification(AComponent: TComponent; Operation: TOperation);
@@ -3801,6 +3797,7 @@ begin
   fNivelLog := 1;
   fAmbiente := ambTeste;
   fQuandoGravarLog := Nil;
+  fpOnQuandoAlterarPSP := Nil;
 end;
 
 destructor TACBrPixCD.Destroy;
@@ -3874,7 +3871,10 @@ begin
   begin
     AValue.FreeNotification(Self);
     AValue.ACBrPixCD := Self;
-  end ;
+  end;
+
+  if Assigned(fpOnQuandoAlterarPSP) then
+    fpOnQuandoAlterarPSP(Self);
 end;
 
 procedure TACBrPixCD.SetDadosAutomacao(AValue: TACBrPixDadosAutomacao);
