@@ -38,6 +38,8 @@ interface
 
 uses
   SysUtils, Classes,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcnConversao;
 
 type
@@ -99,7 +101,7 @@ begin
     xUF := '<cUF>' + IntToStr(cUF) + '</cUF>';
 
   Result := '<consStatServ' + FtagGrupoMsg + ' ' + FNameSpace + ' versao="' + Fversao + '">' +
-              '<tpAmb>' + tpAmbToStr(tpAmb) + '</tpAmb>' +
+              '<tpAmb>' + TpAmbToStr(tpAmb) + '</tpAmb>' +
               xUF +
               '<xServ>STATUS</xServ>' +
             '</consStatServ' + FtagGrupoMsg + '>';

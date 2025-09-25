@@ -38,6 +38,8 @@ interface
 
 uses
   SysUtils, Classes,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcnConversao;
 
 type
@@ -89,7 +91,7 @@ end;
 function TConsReciDFe.GerarXML: string;
 begin
   Result := '<consReci' + FtagGrupoMsg + ' ' + FNameSpace + ' versao="' + Fversao + '">' +
-              '<tpAmb>' + tpAmbToStr(tpAmb) + '</tpAmb>' +
+              '<tpAmb>' + TpAmbToStr(tpAmb) + '</tpAmb>' +
               '<nRec>' + FnRec + '</nRec>' +
             '</consReci' + FtagGrupoMsg + '>';
 end;

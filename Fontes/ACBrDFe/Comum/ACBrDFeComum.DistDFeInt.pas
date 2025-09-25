@@ -38,6 +38,8 @@ interface
 
 uses
   SysUtils, Classes,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcnConversao;
 
 type
@@ -154,7 +156,7 @@ begin
 
   Result := sTagGrupoMsgIni +
               '<distDFeInt ' + FpNameSpace + ' versao="' + FpVersao + '">' +
-                '<tpAmb>' + tpAmbToStr(tpAmb) + '</tpAmb>' +
+                '<tpAmb>' + TpAmbToStr(tpAmb) + '</tpAmb>' +
                 xUFAutor +
                 xDoc +
                 xConsulta +
