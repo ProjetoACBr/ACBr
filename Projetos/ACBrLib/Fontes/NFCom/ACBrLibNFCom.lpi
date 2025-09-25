@@ -8,6 +8,7 @@
         <MainUnitHasCreateFormStatements Value="False"/>
         <MainUnitHasTitleStatement Value="False"/>
         <MainUnitHasScaledStatement Value="False"/>
+        <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
       <Title Value="ACBrLibNFCom"/>
@@ -20,9 +21,9 @@
       <Language Value="0416"/>
       <StringTable Comments="Projeto ACBr" CompanyName="ACBrNFCom -  Biblioteca para uso da NFCom" FileDescription="ACBrLibNFCom" InternalName="ACBrLibNFCom" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="NFCom" ProductVersion="0.0.0.0"/>
     </VersionInfo>
-    <BuildModes>
-      <Item Name="Win32-i386-CDECL" Default="True"/>
-      <Item Name="Win64-x86_64-CDECL">
+    <BuildModes Count="13">
+      <Item1 Name="Win32-i386-CDECL" Default="True"/>
+      <Item2 Name="Win64-x86_64-CDECL">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -62,8 +63,8 @@
             <CustomOptions Value="-dNOGUI"/>
           </Other>
         </CompilerOptions>
-      </Item>
-      <Item Name="Win32-i386-STDCALL">
+      </Item2>
+      <Item3 Name="Win32-i386-STDCALL">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -103,8 +104,8 @@
             <CustomOptions Value="-dSTDCALL -dNOGUI"/>
           </Other>
         </CompilerOptions>
-      </Item>
-      <Item Name="Win64-x86_64-STDCALL">
+      </Item3>
+      <Item4 Name="Win64-x86_64-STDCALL">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -144,8 +145,8 @@
             <CustomOptions Value="-dSTDCALL -dNOGUI"/>
           </Other>
         </CompilerOptions>
-      </Item>
-      <Item Name="Linux-x86_64">
+      </Item4>
+      <Item5 Name="Linux-x86_64">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -185,8 +186,8 @@
             <CustomOptions Value="-dNOGUI"/>
           </Other>
         </CompilerOptions>
-      </Item>
-      <Item Name="Linux-i386">
+      </Item5>
+      <Item6 Name="Linux-i386">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -226,8 +227,8 @@
             <CustomOptions Value="-dNOGUI"/>
           </Other>
         </CompilerOptions>
-      </Item>
-      <Item Name="i386-CDECL-DEBUG">
+      </Item6>
+      <Item7 Name="i386-CDECL-DEBUG">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -261,8 +262,8 @@
             <CustomOptions Value="-dMT -dDEBUG -dNOGUI"/>
           </Other>
         </CompilerOptions>
-      </Item>
-      <Item Name="Win32-i386-CDECL-MT">
+      </Item7>
+      <Item8 Name="Win32-i386-CDECL-MT">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -302,8 +303,8 @@
             <CustomOptions Value="-dMT -dNOGUI"/>
           </Other>
         </CompilerOptions>
-      </Item>
-      <Item Name="Win32-i386-STDCALL-MT">
+      </Item8>
+      <Item9 Name="Win32-i386-STDCALL-MT">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -343,8 +344,8 @@
             <CustomOptions Value="-dMT -dSTDCALL -dNOGUI"/>
           </Other>
         </CompilerOptions>
-      </Item>
-      <Item Name="Win64-x86_64-CDECL-MT">
+      </Item9>
+      <Item10 Name="Win64-x86_64-CDECL-MT">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -384,8 +385,8 @@
             <CustomOptions Value="-dMT -dNOGUI"/>
           </Other>
         </CompilerOptions>
-      </Item>
-      <Item Name="Win64-x86_64-STDCALL-MT">
+      </Item10>
+      <Item11 Name="Win64-x86_64-STDCALL-MT">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -425,8 +426,8 @@
             <CustomOptions Value="-dMT -dSTDCALL -dNOGUI"/>
           </Other>
         </CompilerOptions>
-      </Item>
-      <Item Name="Linux-x86_64-MT">
+      </Item11>
+      <Item12 Name="Linux-x86_64-MT">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -466,8 +467,8 @@
             <CustomOptions Value="-dMT -dNOGUI"/>
           </Other>
         </CompilerOptions>
-      </Item>
-      <Item Name="Linux-i386-MT">
+      </Item12>
+      <Item13 Name="Linux-i386-MT">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -507,7 +508,7 @@
             <CustomOptions Value="-dMT -dNOGUI"/>
           </Other>
         </CompilerOptions>
-      </Item>
+      </Item13>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -516,79 +517,79 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages>
-      <Item>
+    <RequiredPackages Count="5">
+      <Item1>
         <PackageName Value="FCL"/>
-      </Item>
-      <Item>
+      </Item1>
+      <Item2>
         <PackageName Value="ACBr_NFCom_DANFComRL"/>
-      </Item>
-      <Item>
+      </Item2>
+      <Item3>
         <PackageName Value="ACBrTCP"/>
-      </Item>
-      <Item>
+      </Item3>
+      <Item4>
         <PackageName Value="LCL"/>
-      </Item>
-      <Item>
+      </Item4>
+      <Item5>
         <PackageName Value="ACBr_NFCom"/>
-      </Item>
+      </Item5>
     </RequiredPackages>
-    <Units>
-      <Unit>
+    <Units Count="13">
+      <Unit0>
         <Filename Value="ACBrLibNFCom.lpr"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
+      </Unit0>
+      <Unit1>
         <Filename Value="ACBrLibNFComDataModule.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="LibNFComDM"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
-      </Unit>
-      <Unit>
+      </Unit1>
+      <Unit2>
         <Filename Value="ACBrLibNFComMT.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
+      </Unit2>
+      <Unit3>
         <Filename Value="ACBrLibNFComST.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
+      </Unit3>
+      <Unit4>
         <Filename Value="ACBrLibNFComConfig.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
+      </Unit4>
+      <Unit5>
         <Filename Value="ACBrLibNFComBase.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
+      </Unit5>
+      <Unit6>
         <Filename Value="ACBrLibNFComConsts.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
+      </Unit6>
+      <Unit7>
         <Filename Value="ACBrLibNFComRespostas.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
+      </Unit7>
+      <Unit8>
         <Filename Value="ACBrLibNFComStaticImportST.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
+      </Unit8>
+      <Unit9>
         <Filename Value="ACBrLibNFComStaticImportMT.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
+      </Unit9>
+      <Unit10>
         <Filename Value="..\Comum\ACBrLibComum.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
+      </Unit10>
+      <Unit11>
         <Filename Value="..\Comum\ACBrLibConfig.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
+      </Unit11>
+      <Unit12>
         <Filename Value="..\Comum\ACBrLibConsts.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
+      </Unit12>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -631,16 +632,16 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <Exceptions>
-      <Item>
+    <Exceptions Count="3">
+      <Item1>
         <Name Value="EAbort"/>
-      </Item>
-      <Item>
+      </Item1>
+      <Item2>
         <Name Value="ECodetoolError"/>
-      </Item>
-      <Item>
+      </Item2>
+      <Item3>
         <Name Value="EFOpenError"/>
-      </Item>
+      </Item3>
     </Exceptions>
   </Debugging>
 </CONFIG>
