@@ -45,6 +45,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/09/2025
+-- ACBrTEFAPIAditum --
+[-] Atribuição da propriedade Sucesso corretamente
+[+] Adicionado transações com PIX
+[+] Adicionado exibição do QrCode na tela
+[+] Leitura dos campos para emissão de NFCe(NFCeSAT.CNPJCredenciadora, NFCeSAT.Bandeira, NFCeSAT.Autorizacao, EndToEndID)
+[+] Ao efetuar reimpressão, perguntar NSU caso não esteja carregado na UltimaRespostaTEF.NSU
+    (por: André Moraes e Robert Marx e DSA)
+
 24/09/2025
 -- ACBrTEFAPIScope --
 [*] Correção na função EfetuarAdministrativa para operação Recarga de Celular
