@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/09/2025
+-- ACBrDCe.RetEnvEvento --
+[-] Correção por conta de erro de compilação/instalação.
+   Por: Italo Giurizzato Junior
 -- ACBrDCe.XmlWriter --
 [*] #ACBr-8104: Ajuste visando eliminar o erro 502.
    Por: Fabiano Hoffmann
