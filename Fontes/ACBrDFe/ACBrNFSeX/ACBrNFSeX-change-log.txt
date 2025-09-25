@@ -42,6 +42,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/09/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8110 A cidade Cruzeiro do Sul/RS trocou de provedor, agora é Fiorilli.
+   Por: 3R Paulo
+[*] #ACBr-8107 A cidade Goiânia/GO trocou de provedor, agora é ISSNet versão 2.04.
+   Por: Sandro Andre Reghelin
+[*] #ACBr-8100 Alterado as URLs da cidade Belém/PA.
+   Por: VFADev
+
 24/09/2025
 -- Giap.GravarXml --
 [*] #ACBr-8089 Alteração visando respeitar a quebra de linha.
