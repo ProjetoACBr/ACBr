@@ -191,6 +191,7 @@ uses
   ACBrUtil.FilesIO,
   ACBrUtil.DateTime,
 	ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrXmlDocument,
   ACBrDCe,
 	ACBrDFeUtil,

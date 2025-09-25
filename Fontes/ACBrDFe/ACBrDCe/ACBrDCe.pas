@@ -39,7 +39,9 @@ interface
 uses
   Classes, SysUtils, synautil,
   ACBrDFe, ACBrDFeConfiguracoes, ACBrDFeException, ACBrBase,
-  ACBrXmlBase, ACBrDCeConfiguracoes, ACBrDCeWebServices, ACBrDCeDeclaracoes,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
+  ACBrDCeConfiguracoes, ACBrDCeWebServices, ACBrDCeDeclaracoes,
   ACBrDCe.DACEClass, ACBrDCe.Classes, pcnConversao, ACBrDCe.Conversao,
   ACBrDCe.EventoClass,
   ACBrDCe.EnvEvento;

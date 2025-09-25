@@ -78,6 +78,7 @@ implementation
 
 uses
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrDFeUtil,
   ACBrDCe,
   ACBrUtil.Base;

@@ -46,7 +46,9 @@ uses
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IFEND}
-  ACBrBase, ACBrXmlBase,
+  ACBrBase,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
 //  ACBrDFeComum.SignatureClass,
   ACBrDFeComum.Proc,
   pcnSignature,

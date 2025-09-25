@@ -38,7 +38,10 @@ interface
 
 uses
   SysUtils, Classes,
-  ACBrXmlBase, ACBrXmlDocument, ACBrXmlWriter,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
+  ACBrXmlDocument,
+  ACBrXmlWriter,
   ACBrDCe.Classes,
   ACBrDCe.Conversao;
 
@@ -147,7 +150,7 @@ constructor TDCeXmlWriter.Create(AOwner: TDCe);
 begin
   inherited Create;
 
-  Opcoes.AjustarTagNro := True;
+  Opcoes.AjustarTagNro := False;
   Opcoes.GerarTagIPIparaNaoTributado := True;
   Opcoes.NormatizarMunicipios := False;
   Opcoes.PathArquivoMunicipios := '';
@@ -856,7 +859,6 @@ begin
   DCe.Ide.tpAmb := tpAmb;
 //  DCe.ide.tpEmis := tpEmis;
 
-  {
   case DCe.Ide.tpEmit of
     teFisco:
       xCNPJCPF := DCe.Fisco.CNPJ;
@@ -865,13 +867,11 @@ begin
       xCNPJCPF := DCe.Marketplace.CNPJ;
 
     teEmissorProprio:
-      xCNPJCPF := DCe.EmpEmisProp.CNPJ;
+      xCNPJCPF := DCe.emit.CNPJCPF;
 
   else
     xCNPJCPF := DCe.Transportadora.CNPJ;
   end;
-  }
-  xCNPJCPF := DCe.emit.CNPJCPF;
 
   DCe.Ide.modelo := 99;
 

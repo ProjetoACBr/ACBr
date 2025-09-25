@@ -83,6 +83,7 @@ implementation
 
 uses
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrDCe,
   ACBrUtil.Base,
   ACBrUtil.Strings,

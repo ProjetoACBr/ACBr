@@ -39,6 +39,7 @@ interface
 uses
   Classes, SysUtils, synacode,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcnConversao,
   ACBrDFe,
   ACBrDFeWebService,

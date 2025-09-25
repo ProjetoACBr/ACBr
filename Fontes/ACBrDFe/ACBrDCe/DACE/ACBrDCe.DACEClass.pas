@@ -57,7 +57,7 @@ type
     FImprimirHoraSaida: Boolean;
     FImprimirHoraSaida_Hora: String;
     FTipoDACE: TpcnTipoImpressao;
-    FTamanhoPapel: TpcnTamanhoPapel;
+//    FTamanhoPapel: TpcnTamanhoPapel;
     FProtocoloDCe: String;
     FDCeCancelada: Boolean;
     FDCeEncerrado: Boolean;
@@ -80,7 +80,7 @@ type
     property ImprimeHoraSaida: Boolean      read FImprimirHoraSaida      write FImprimirHoraSaida;
     property ImprimeHoraSaida_Hora: String  read FImprimirHoraSaida_Hora write FImprimirHoraSaida_Hora;
     property TipoDACE: TpcnTipoImpressao    read FTipoDACE               write FTipoDACE;
-    property TamanhoPapel: TpcnTamanhoPapel read FTamanhoPapel           write FTamanhoPapel;
+//    property TamanhoPapel: TpcnTamanhoPapel read FTamanhoPapel           write FTamanhoPapel;
     property Protocolo: String              read FProtocoloDCe           write FProtocoloDCe;
     property Cancelada: Boolean             read FDCeCancelada           write FDCeCancelada;
     property Encerrado: Boolean             read FDCeEncerrado           write FDCeEncerrado;

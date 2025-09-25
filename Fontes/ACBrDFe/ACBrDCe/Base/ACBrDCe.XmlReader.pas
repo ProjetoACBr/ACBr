@@ -81,7 +81,9 @@ implementation
 
 uses
   ACBrUtil.Base,
-  ACBrXmlBase, ACBrDCe.Conversao;
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
+  ACBrDCe.Conversao;
 
 { TDCeXmlReader }
 
