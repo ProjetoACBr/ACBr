@@ -2,7 +2,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
   Left = 256
   Top = 88
   Caption = 'DACTe - Retrato'
-  ClientHeight = 1031
+  ClientHeight = 749
   ClientWidth = 802
   Font.Height = -8
   Font.Name = 'Arial'

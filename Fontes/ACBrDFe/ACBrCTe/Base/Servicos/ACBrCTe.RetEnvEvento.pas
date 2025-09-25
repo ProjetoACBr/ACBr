@@ -45,6 +45,7 @@ uses
   {$IfEnd}
   pcnConversao,
   pcnSignature,
+//  ACBrDFeComum.SignatureClass,
   ACBrCTe.EventoClass,
   ACBrBase,
   ACBrXmlBase,

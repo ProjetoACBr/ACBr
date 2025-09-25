@@ -38,6 +38,8 @@ interface
 
 uses
   Classes, SysUtils, synacode,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrDFe, ACBrDFeWebService,
   ACBrDFeConsts,
   ACBrDFeUtil,
@@ -50,7 +52,9 @@ uses
   ACBrCTe.EnvEvento,
   ACBrCTe.RetEnvEvento,
   ACBrCTe.RetConsSit,
-  pcnDistDFeInt, pcnRetDistDFeInt,
+  ACBrDFeComum.DistDFeInt,
+  ACBrDFeComum.RetDistDFeInt,
+//  pcnDistDFeInt, pcnRetDistDFeInt,
   ACBrCTeConhecimentos, ACBrCTeConfiguracoes,
   ACBrCTe.Consts;
 
@@ -480,6 +484,7 @@ type
 
   TDistribuicaoDFe = class(TCTeWebService)
   private
+    FOwner: TACBrDFe;
     FcUFAutor: Integer;
     FCNPJCPF: String;
     FultNSU: String;
@@ -587,7 +592,6 @@ implementation
 
 uses
   StrUtils, Math,
-  ACBrXmlBase,
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.DateTime,
@@ -3599,6 +3603,8 @@ end;
 constructor TDistribuicaoDFe.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
+
+  FOwner := AOwner;
 end;
 
 destructor TDistribuicaoDFe.Destroy;
@@ -3623,7 +3629,7 @@ begin
   if Assigned(FretDistDFeInt) then
     FretDistDFeInt.Free;
 
-  FretDistDFeInt := TRetDistDFeInt.Create('CTe');
+  FretDistDFeInt := TRetDistDFeInt.Create(FOwner, 'CTe');
 
   if Assigned(FlistaArqs) then
     FlistaArqs.Free;
@@ -3681,11 +3687,11 @@ begin
     DistDFeInt.NSU := FNSU;
     DistDFeInt.Chave := trim(FchCTe);
 
-    AjustarOpcoes( DistDFeInt.Gerador.Opcoes );
+//    AjustarOpcoes( DistDFeInt.Gerador.Opcoes );
 
-    DistDFeInt.GerarXML;
+    FPDadosMsg := DistDFeInt.GerarXML;
 
-    FPDadosMsg := DistDFeInt.Gerador.ArquivoFormatoXML;
+//    FPDadosMsg := DistDFeInt.Gerador.ArquivoFormatoXML;
   finally
     DistDFeInt.Free;
   end;
@@ -3700,7 +3706,8 @@ begin
 
   // Processando em UTF8, para poder gravar arquivo corretamente //
   //A função UTF8ToNativeString deve ser removida quando for refatorado para usar ACBrXmlDocument
-  FretDistDFeInt.Leitor.Arquivo := UTF8ToNativeString(ParseText(FPRetWS));
+  FretDistDFeInt.XmlRetorno := FPRetWS;
+//  FretDistDFeInt.Leitor.Arquivo := UTF8ToNativeString(ParseText(FPRetWS));
   FretDistDFeInt.LerXml;
 
   for I := 0 to FretDistDFeInt.docZip.Count - 1 do
@@ -3726,7 +3733,7 @@ begin
         schprocCTe,
         schprocCTeOS,
         schprocGTVe,
-		schprocCTeSimp:
+        schprocCTeSimp:
           FNomeArq := FretDistDFeInt.docZip.Items[I].resDFe.chDFe + '-cte.xml';
 
         schprocEventoCTe:

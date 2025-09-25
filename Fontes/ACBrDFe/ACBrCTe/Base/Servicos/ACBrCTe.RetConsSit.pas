@@ -45,7 +45,7 @@ uses
   {$IfEnd}
   pcnConversao,
   ACBrBase, ACBrXmlBase,
-//  pcnProcCTe,
+  ACBrDFe.Conversao,
   ACBrDFeComum.Proc,
   ACBrCTe.Consts,
   ACBrCTe.RetEnvEvento;

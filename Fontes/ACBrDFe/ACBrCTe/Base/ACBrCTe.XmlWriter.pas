@@ -39,7 +39,9 @@ interface
 uses
   SysUtils, Classes,
   pcnConversao,
-  ACBrXmlBase, ACBrXmlDocument, ACBrXmlWriter,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
+  ACBrXmlDocument, ACBrXmlWriter,
   ACBrCTe.Classes,
 //  ACBrCTe.Conversao,
   pcteConversaoCTe;
@@ -295,7 +297,6 @@ uses
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.DateTime,
-  ACBrDFe.Conversao,
   ACBrDFeUtil,
   ACBrDFeConsts,
   ACBrCTe,
@@ -307,7 +308,7 @@ constructor TCTeXmlWriter.Create(AOwner: TCTe);
 begin
   inherited Create;
 
-  Opcoes.AjustarTagNro := True;
+  Opcoes.AjustarTagNro := False;
   Opcoes.GerarTagIPIparaNaoTributado := True;
   Opcoes.NormatizarMunicipios := False;
   Opcoes.PathArquivoMunicipios := '';
@@ -4638,16 +4639,16 @@ begin
 
   Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gCBS(gIBSCBS.gCBS));
 
-  if gIBSCBS.gTribRegular.pAliqEfetRegIBSUF > 0 then
+  if gIBSCBS.gTribRegular.CSTReg <> cstNenhum then
     Result.AppendChild(Gerar_IBSCBSSel_gIBSCBS_gTribRegular(gIBSCBS.gTribRegular));
 
-  if gIBSCBS.gIBSCredPres.pCredPres > 0 then
+  if gIBSCBS.gIBSCredPres.cCredPres <> cpNenhum then
     Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(gIBSCBS.gIBSCredPres, 'gIBSCredPres'));
 
-  if gIBSCBS.gCBSCredPres.pCredPres > 0 then
+  if gIBSCBS.gCBSCredPres.cCredPres <> cpNenhum then
     Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(gIBSCBS.gCBSCredPres, 'gCBSCredPres'));
 
-  if gIBSCBS.gTribCompraGov.pAliqIBSUF > 0 then
+  if (gIBSCBS.gTribCompraGov.pAliqIBSUF > 0) and (CTe.Ide.gCompraGov.tpEnteGov <> tcgNenhum) then
     Result.AppendChild(Gerar_gTribCompraGov(gIBSCBS.gTribCompraGov));
 end;
 
@@ -4809,18 +4810,18 @@ function TCTeXmlWriter.Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(
 begin
   Result := FDocument.CreateElement(Grupo);
 
-  Result.AppendChild(AddNode(tcStr, 'UB56', 'cCredPres', 2, 2, 1,
+  Result.AppendChild(AddNode(tcStr, '#63', 'cCredPres', 2, 2, 1,
                         cCredPresToStr(gIBSCredPres.cCredPres), DSC_CCREDPRES));
 
-  Result.AppendChild(AddNode(tcDe4, 'UB57', 'pCredPres', 1, 7, 1,
+  Result.AppendChild(AddNode(tcDe4, '#64', 'pCredPres', 1, 7, 1,
                                         gIBSCredPres.pCredPres, DSC_PCREDPRES));
 
-  if gIBSCredPres.vCredPres > 0 then
-    Result.AppendChild(AddNode(tcDe2, 'UB58', 'vCredPres', 1, 15, 1,
-                                         gIBSCredPres.vCredPres, DSC_VCREDPRES))
+  if gIBSCredPres.vCredPresCondSus > 0 then
+    Result.AppendChild(AddNode(tcDe2, '#66', 'vCredPresCondSus', 1, 15, 1,
+                           gIBSCredPres.vCredPresCondSus, DSC_VCREDPRESCONDSUS))
   else
-    Result.AppendChild(AddNode(tcDe2, 'UB59', 'vCredPresCondSus', 1, 15, 1,
-                          gIBSCredPres.vCredPresCondSus, DSC_VCREDPRESCONDSUS));
+    Result.AppendChild(AddNode(tcDe2, '#65', 'vCredPres', 1, 15, 1,
+                                        gIBSCredPres.vCredPres, DSC_VCREDPRES));
 end;
 
 function TCTeXmlWriter.Gerar_gTribCompraGov(

@@ -48,7 +48,11 @@ uses
   {$IFEND}
   ACBrBase,
   ACBrDFe.Conversao,
-  pcnConversao, pcnSignature, pcteProcCTe, pcteConversaoCTe;
+  pcnConversao,
+  pcnSignature,
+//  ACBrDFeComum.SignatureClass,
+  pcteProcCTe,
+  pcteConversaoCTe;
 
 type
   {======== Inicio das Classes da Reforma Tributária }

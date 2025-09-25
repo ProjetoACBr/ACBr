@@ -1304,7 +1304,7 @@ end;
 procedure TfrmDACTeRLRetrato.rlb_03_DadosDACTeBeforePrint(Sender: TObject;
   var PrintIt: boolean);
 var
-  i, j: integer;
+  i, j, Altura: integer;
   infCarga: TInfCarga;
 begin
   rlb_03_DadosDACTe.Enabled := not (fpCTe.ide.modelo = 67) and not
@@ -1544,6 +1544,18 @@ begin
     end;
   end;
 
+  Altura := rlmQtdUnidMedida1.Height;
+  if Altura < rlmQtdUnidMedida2.Height then
+    Altura := rlmQtdUnidMedida2.Height;
+  if Altura < rlmQtdUnidMedida3.Height then
+    Altura := rlmQtdUnidMedida3.Height;
+  if Altura < rlmQtdUnidMedida4.Height then
+    Altura := rlmQtdUnidMedida4.Height;
+  if Altura < rlmQtdUnidMedida5.Height then
+    Altura := rlmQtdUnidMedida5.Height;
+
+  rlb_04_DadosNotaFiscal.Height := Altura + 40;
+
   if fpCTe.infCTeNorm.seg.Count > 0 then
   begin
     for i := 0 to fpCTe.infCTeNorm.seg.Count - 1 do
@@ -1755,7 +1767,7 @@ end;
 procedure TfrmDACTeRLRetrato.rlb_06_ValorPrestacaoBeforePrint(Sender: TObject;
   var PrintIt: boolean);
 begin
-  PrintIt := not rlb_06_ValorPrestacaoPrinted;
+  PrintIt := (not rlb_06_ValorPrestacaoPrinted) and (RLCTe.PageNumber = 1);
 
   if fpCTe.infCTe.versao >= 3 then
   begin
@@ -1941,10 +1953,10 @@ begin
   rllMsgTeste.Repaint;
 
   // Ajusta o tamanho do quadro conforme a OBS
-  rlb_09_Obs.Height  := rlmObs.Height + 20 + 4;
+  rlb_09_Obs.Height := rlmObs.Height + 20 + 4;
 
   if rllMsgTeste.Visible and (rlb_09_Obs.Height < 68) then
-    rlb_09_Obs.Height  := 68;
+    rlb_09_Obs.Height := 38;
 end;
 
 procedure TfrmDACTeRLRetrato.rlb_10_ModRodFracionadoBeforePrint(Sender: TObject;

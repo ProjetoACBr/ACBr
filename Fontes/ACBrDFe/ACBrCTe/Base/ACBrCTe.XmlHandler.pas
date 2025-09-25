@@ -37,7 +37,9 @@ interface
 uses
   Classes, SysUtils,
   ACBrXmlDocument, ACBrXmlReader,
-  ACBrCTe.Classes, pcnConversao, pcteProcCTe, pcnSignature;
+  pcnSignature,
+  //ACBrDFeComum.SignatureClass,
+  ACBrCTe.Classes, pcnConversao, pcteProcCTe;
 
 type
   TprotCTeHandler = class
