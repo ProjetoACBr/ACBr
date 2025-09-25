@@ -1378,6 +1378,8 @@ procedure TACBrTEFDClass.FinalizarRequisicao;
 Var
   TempoInicioEspera, TempoFimEspera : TDateTime ;
   Interromper : Boolean ;
+  hdr: String;
+  id: Integer;
 begin
   VerificarIniciouRequisicao;
 
@@ -1386,7 +1388,17 @@ begin
      EstadoReq := reqCriandoArquivo;
 
      if Assigned( OnAntesFinalizarRequisicao ) then
-        OnAntesFinalizarRequisicao( Self.Req );
+     begin
+       OnAntesFinalizarRequisicao( Self.Req );
+
+       hdr := Self.Req.Conteudo.LeInformacao(0,0).AsString;
+       if (Self.Req.Header <> hdr) then
+         Self.Req.Header := hdr;
+
+       id := Self.Req.Conteudo.LeInformacao(1,0).AsInteger;
+       if (Self.Req.ID <> id) then
+         Self.Req.ID := id;
+     end;
   end ;
 
   GravaLog( Name +' FinalizarRequisicao: '+Req.Header+', Fechando arquivo: '+ArqTemp);

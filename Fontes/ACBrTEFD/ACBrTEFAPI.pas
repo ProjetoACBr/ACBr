@@ -508,6 +508,7 @@ begin
   GravarLog('VersaoAPI');
   lVersaoAPI := TEF.VersaoAPI;
   GravarLog(lVersaoAPI);
+  Result := lVersaoAPI;
 end;
 
 procedure TACBrTEFAPI.ObterListaImagensPinPad(ALista: TStrings);

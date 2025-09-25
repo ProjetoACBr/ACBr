@@ -46,6 +46,14 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/09/2025
+-- ACBrTEFAPI --
+[*] Remoção de Warning em 'TACBrTEFAPI.VersaoAPI'
+
+-- ACBrTEFDClass --
+[*] Ajuste em 'TACBrTEFDClass.FinalizarRequisicao', para se necessário, ajustar
+    os valores de Req.Header e Req.ID, após a chamada de 'OnAntesFinalizarRequisicao'
+    (por: DSA)
+
 -- ACBrTEFAPIDestaxa, ACBrTEFAPIDestaxaComum --
 [*] Ajuste para mapear
     DestaxaResposta.transacao_codigo_vespague -> TACBrTEFResp.Finalizacao
