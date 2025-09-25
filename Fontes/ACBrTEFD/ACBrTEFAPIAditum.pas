@@ -462,6 +462,7 @@ begin
   TefAPI := TACBrTEFAPI(fpACBrTEFAPI);
   Fim := False;
   sMsg := '';
+  sQrCode := '';
   while not Fim do
   begin
     TransmitirHttp(AMethod, AEndpoint, ABody);
@@ -501,6 +502,9 @@ begin
   if (sMsg <> '') then
     if Assigned(TefAPI.QuandoExibirMensagem) then
       TefAPI.QuandoExibirMensagem( '', telaOperador, -1 );  // Remove Msg
+
+  if (sQrCode = '') then
+    ExibirQRCode('') // Remove QrCode
 end;
 
 procedure TACBrTEFAPIClassAditum.TratarRetornoComErro;
