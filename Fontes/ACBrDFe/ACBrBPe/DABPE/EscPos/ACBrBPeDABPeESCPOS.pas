@@ -101,12 +101,14 @@ implementation
 uses
   strutils, Math,
   ACBrXmlBase,
-  ACBrBPe, ACBrValidador,
+  ACBrDFe.Conversao,
+  ACBrBPeConversao,
+  ACBrBPe,
+  ACBrValidador,
   ACBrUtil.Base,
   ACBrUtil.Strings,
-  ACBrDFeUtil, ACBrConsts,
-//  pcnConversao,
-  ACBrBPeConversao;
+  ACBrDFeUtil,
+  ACBrConsts;
 
 { TACBrBPeDABPeESCPOS }
 
@@ -163,7 +165,7 @@ begin
     FPosPrinter.Buffer.Add(ACBrStr('</ce><c><n>EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO - SEM VALOR FISCAL</n>'));
 
   // se diferente de normal imprimir a emissão em contingência
-  if (FpBPe.ide.tpEmis <> ACBrXmlBase.teNormal) and EstaVazio(FpBPe.procBPe.nProt) then
+  if (FpBPe.ide.tpEmis <> teNormal) and EstaVazio(FpBPe.procBPe.nProt) then
   begin
     FPosPrinter.Buffer.Add(ACBrStr('</c></ce><e><n>EMITIDA EM CONTINGÊNCIA</n></e>'));
     FPosPrinter.Buffer.Add(ACBrStr('<c><n>' + PadCenter('Pendente de autorização',
@@ -433,7 +435,7 @@ begin
 
   FPosPrinter.Buffer.Add(' ');
   // protocolo de autorização
-  if (FpBPe.Ide.tpEmis <> ACBrXmlBase.teOffLine) or
+  if (FpBPe.Ide.tpEmis <> teOffLine) or
      NaoEstaVazio(FpBPe.procBPe.nProt) then
   begin
     FPosPrinter.Buffer.Add(ACBrStr('<c><n>Protocolo de Autorização:</n> ')+Trim(FpBPe.procBPe.nProt));

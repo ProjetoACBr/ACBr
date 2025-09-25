@@ -49,9 +49,9 @@ uses
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrBPeConversao,
-  ACBrDFeComum.Proc,
 //  ACBrDFeComum.SignatureClass,
-  pcnSignature;
+  pcnSignature,
+  ACBrDFeComum.Proc;
 
 type
 
@@ -596,7 +596,7 @@ type
     Fmodal: TModalBPe;
     FdhEmi: TDateTime;
     FdCompet: TDateTime;
-    FtpEmis: TACBrTipoEmissao;
+    FtpEmis: TTipoEmissao;
     FverProc: String;
     FtpBPe: TTipoBPe;
     FindPres: TPresencaComprador;
@@ -625,7 +625,7 @@ type
     property modal: TModalBPe read Fmodal write Fmodal;
     property dhEmi: TDateTime read FdhEmi write FdhEmi;
     property dCompet: TDateTime read FdCompet write FdCompet;
-    property tpEmis: TACBrTipoEmissao read FtpEmis write FtpEmis;
+    property tpEmis: TTipoEmissao read FtpEmis write FtpEmis;
     property verProc: String read FverProc write FverProc;
     property tpBPe: TTipoBPe read FtpBPe write FtpBPe default tbNormal;
     property indPres: TPresencaComprador read FindPres write FindPres;

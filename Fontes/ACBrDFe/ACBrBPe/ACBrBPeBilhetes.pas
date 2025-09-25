@@ -39,11 +39,13 @@ interface
 uses
   Classes, SysUtils, StrUtils,
   ACBrBase,
+  pcnConversao,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrBPeConfiguracoes,
   ACBrBPeClass,
   ACBrBPeXmlReader, ACBrBPeXmlWriter,
   ACBrBPeIniReader, ACBrBPeIniWriter,
-//  pcnConversao,
   ACBrBPeConversao;
 
 type
@@ -181,7 +183,6 @@ implementation
 uses
   dateutils, IniFiles,
   synautil,
-  ACBrXmlBase,
   ACBrBPe,
   ACBrUtil.Base,
   ACBrUtil.Strings,
@@ -190,6 +191,7 @@ uses
   ACBrUtil.DateTime,
   ACBrDFeUtil,
   ACBrXmlDocument;
+
 { Bilhete }
 
 constructor TBilhete.Create(Collection2: TCollection);
@@ -214,7 +216,7 @@ begin
     FBPe.Ide.modelo := StrToInt(ModeloBPeToStr(Configuracoes.Geral.ModeloDF));
     FBPe.infBPe.Versao := VersaoBPeToDbl(Configuracoes.Geral.VersaoDF);
     FBPe.Ide.tpAmb := TACBrTipoAmbiente(Configuracoes.WebServices.Ambiente);
-    FBPe.Ide.tpEmis := TACBrTipoEmissao(Configuracoes.Geral.FormaEmissao);
+    FBPe.Ide.tpEmis := TTipoEmissao(Configuracoes.Geral.FormaEmissao);
   end;
 end;
 

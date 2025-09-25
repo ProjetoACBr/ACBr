@@ -44,6 +44,7 @@ uses
    System.Contnrs,
   {$IFEND}
   ACBrBase, ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrDFeComum.Proc,
   ACBrBPeRetEnvEvento;
 

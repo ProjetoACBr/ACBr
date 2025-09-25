@@ -42,6 +42,7 @@ uses
 const
   NAME_SPACE_BPE = 'xmlns="http://www.portalfiscal.inf.br/bpe"';
 
+resourcestring
   DSC_CHBPE = 'Chave do Bilhete de Passagem Eletrônico';
   DSC_INFQRCODEBPE = 'QR-Code do BP-e';
   DSC_BOARDPASSBPE = 'Boarding Pass do BP-e';

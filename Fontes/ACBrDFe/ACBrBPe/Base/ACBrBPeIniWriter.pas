@@ -37,8 +37,9 @@ unit ACBrBPeIniWriter;
 interface
 
 uses
-  Classes, SysUtils,
-  IniFiles,
+  Classes, SysUtils, IniFiles,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrBPeClass,
   ACBrBPeConversao;
 
@@ -104,13 +105,10 @@ type
     property BPe: TBPe read FBPe write FBPe;
   end;
 
-
 implementation
 
 uses
-  ACBrXmlBase,
   ACBrDFeUtil,
-  ACBrDFe.Conversao,
   ACBrBPe,
   ACBrUtil.Base;
 
@@ -187,7 +185,7 @@ begin
   AINIRec.WriteInteger('ide', 'cBP', Ide.cBP);
   AINIRec.WriteString('ide', 'modal', ModalBPeToStr(Ide.modal));
   AINIRec.WriteString('ide', 'dhEmi', DateTimeToStr(Ide.dhEmi));
-  AINIRec.WriteString('ide', 'tpEmis', TipoEmissaoToStr(Ide.tpEmis));
+  AINIRec.WriteString('ide', 'tpEmis', TpEmisBPeToStr(Ide.tpEmis));
   AINIRec.WriteString('ide', 'verProc', Ide.verProc);
   AINIRec.WriteString('ide', 'tpBPe', tpBPeToStr(Ide.tpBPe));
 

@@ -38,7 +38,9 @@ interface
 
 uses
   Classes, SysUtils,
-  ACBrXmlBase, ACBrXmlDocument, ACBrXmlWriter,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
+  ACBrXmlDocument, ACBrXmlWriter,
   ACBrBPeClass,
   ACBrBPeConversao;
 
@@ -186,7 +188,6 @@ uses
   Math,
   ACBrDFeConsts,
   ACBrBPeConsts,
-  ACBrDFe.Conversao,
   ACBrValidador,
   ACBrDFeUtil,
   ACBrUtil.Base,
@@ -197,7 +198,7 @@ constructor TBPeXmlWriter.Create(AOwner: TBPe);
 begin
   inherited Create;
 
-  TBPeXmlWriterOptions(Opcoes).AjustarTagNro := True;
+  TBPeXmlWriterOptions(Opcoes).AjustarTagNro := False;
   TBPeXmlWriterOptions(Opcoes).GerarTagIPIparaNaoTributado := True;
   TBPeXmlWriterOptions(Opcoes).NormatizarMunicipios := False;
   TBPeXmlWriterOptions(Opcoes).PathArquivoMunicipios := '';
@@ -272,7 +273,7 @@ begin
   BPe.ide.tpEmis := tpEmis;
 }
   FChaveBPe := GerarChaveAcesso(BPe.ide.cUF, BPe.ide.dhEmi, BPe.emit.CNPJ,
-      BPe.ide.serie, BPe.ide.nBP, StrToInt(TipoEmissaoToStr(BPe.ide.tpEmis)),
+      BPe.ide.serie, BPe.ide.nBP, StrToInt(TpEmisBPeToStr(BPe.ide.tpEmis)),
       BPe.ide.cBP, BPe.ide.modelo);
 
   BPe.infBPe.ID := 'BPe' + FChaveBPe;
@@ -431,7 +432,7 @@ begin
                     FormatDateTime('YYYY-MM-DD',BPe.Ide.dCompet), DSC_DCOMPET));
 
   Result.AppendChild(AddNode(tcStr, '#14', 'tpEmis', 1, 1, 1,
-                                 TipoEmissaoToStr(BPe.Ide.tpEmis), DSC_TPEMIS));
+                                   TpEmisBPeToStr(BPe.Ide.tpEmis), DSC_TPEMIS));
 
   Result.AppendChild(AddNode(tcStr, '#15', 'verProc', 1, 20, 1,
                                                  BPe.Ide.verProc, DSC_VERPROC));
@@ -1576,16 +1577,16 @@ begin
 
   Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gCBS(gIBSCBS.gCBS));
 
-  if gIBSCBS.gTribRegular.pAliqEfetRegIBSUF > 0 then
+  if gIBSCBS.gTribRegular.CSTReg <> cstNenhum then
     Result.AppendChild(Gerar_IBSCBSSel_gIBSCBS_gTribRegular(gIBSCBS.gTribRegular));
 
-  if gIBSCBS.gIBSCredPres.pCredPres > 0 then
+  if gIBSCBS.gIBSCredPres.cCredPres <> cpNenhum then
     Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(gIBSCBS.gIBSCredPres, 'gIBSCredPres'));
 
-  if gIBSCBS.gCBSCredPres.pCredPres > 0 then
+  if gIBSCBS.gCBSCredPres.cCredPres <> cpNenhum then
     Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(gIBSCBS.gCBSCredPres, 'gCBSCredPres'));
 
-  if gIBSCBS.gTribCompraGov.pAliqIBSUF > 0 then
+  if (gIBSCBS.gTribCompraGov.pAliqIBSUF > 0) and (BPe.Ide.gCompraGov.tpEnteGov <> tcgNenhum) then
     Result.AppendChild(Gerar_gTribCompraGov(gIBSCBS.gTribCompraGov));
 end;
 
@@ -1753,12 +1754,12 @@ begin
   Result.AppendChild(AddNode(tcDe4, '#64', 'pCredPres', 1, 7, 1,
                                         gIBSCredPres.pCredPres, DSC_PCREDPRES));
 
-  if gIBSCredPres.vCredPres > 0 then
-    Result.AppendChild(AddNode(tcDe2, '#65', 'vCredPres', 1, 15, 1,
-                                         gIBSCredPres.vCredPres, DSC_VCREDPRES))
-  else
+  if gIBSCredPres.vCredPresCondSus > 0 then
     Result.AppendChild(AddNode(tcDe2, '#66', 'vCredPresCondSus', 1, 15, 1,
-                          gIBSCredPres.vCredPresCondSus, DSC_VCREDPRESCONDSUS));
+                           gIBSCredPres.vCredPresCondSus, DSC_VCREDPRESCONDSUS))
+  else
+    Result.AppendChild(AddNode(tcDe2, '#65', 'vCredPres', 1, 15, 1,
+                                        gIBSCredPres.vCredPres, DSC_VCREDPRES));
 end;
 
 function TBPeXmlWriter.Gerar_gTribCompraGov(

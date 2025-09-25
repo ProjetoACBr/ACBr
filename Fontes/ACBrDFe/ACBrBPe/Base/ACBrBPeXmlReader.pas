@@ -288,7 +288,7 @@ begin
 
   BPe.ide.dhEmi := ObterConteudo(ANode.Childrens.Find('dhEmi'), tcDatHor);
   BPe.ide.dCompet := ObterConteudo(ANode.Childrens.Find('dCompet'), tcDat);
-  BPe.Ide.tpEmis := StrToTipoEmissao(ok, ObterConteudo(ANode.Childrens.Find('tpEmis'), tcStr));
+  BPe.Ide.tpEmis := StrToTpEmisBPe(ok, ObterConteudo(ANode.Childrens.Find('tpEmis'), tcStr));
 
   BPe.Ide.verProc := ObterConteudo(ANode.Childrens.Find('verProc'), tcStr);
   BPe.Ide.tpBPe := StrToTpBPe(Ok, ObterConteudo(ANode.Childrens.Find('tpBPe'), tcStr));

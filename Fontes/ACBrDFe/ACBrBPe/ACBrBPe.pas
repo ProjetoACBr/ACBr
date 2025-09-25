@@ -39,6 +39,7 @@ interface
 uses
   Classes, SysUtils, synautil,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrBase,
   ACBrDFe, ACBrDFeException, ACBrDFeConfiguracoes,
   ACBrBPeConfiguracoes, ACBrBPeWebServices, ACBrBPeBilhetes, ACBrBPeDABPEClass,

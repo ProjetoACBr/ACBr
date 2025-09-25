@@ -37,8 +37,9 @@ unit ACBrBPeIniReader;
 interface
 
 uses
-  Classes, SysUtils,
-  IniFiles,
+  Classes, SysUtils, IniFiles,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrBPeClass,
   ACBrBPeConversao;
 
@@ -110,8 +111,6 @@ type
 implementation
 
 uses
-  ACBrXmlBase,
-  ACBrDFe.Conversao,
   ACBrBPe,
   ACBrUtil.Base,
   ACBrUtil.Strings,
@@ -184,7 +183,7 @@ begin
   Ide.cBP     := AINIRec.ReadInteger('ide', 'cBP', 0);
   Ide.modal   := StrToModalBPe(OK, AINIRec.ReadString('ide', 'modal', '1'));
   Ide.dhEmi   := StringToDateTime(AINIRec.ReadString('ide', 'dhEmi', '0'));
-  Ide.tpEmis  := StrToTipoEmissao(OK, AINIRec.ReadString('ide', 'tpEmis', IntToStr(tpEmis)));
+  Ide.tpEmis  := StrToTpEmisBPe(OK, AINIRec.ReadString('ide', 'tpEmis', IntToStr(tpEmis)));
   Ide.verProc := AINIRec.ReadString('ide', 'verProc', 'ACBrBPe');
   Ide.tpBPe   := StrTotpBPe(OK, AINIRec.ReadString('ide', 'tpBPe', '0'));
   Ide.CFOP  := AINIRec.ReadInteger('ide', 'CFOP', 0);

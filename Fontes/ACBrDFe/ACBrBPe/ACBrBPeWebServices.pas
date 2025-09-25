@@ -40,6 +40,7 @@ uses
   Classes, SysUtils, dateutils, blcksock, synacode,
   ACBrDFe, ACBrDFeUtil, ACBrDFeWebService,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcnConversao,
   ACBrBPeClass, ACBrBPeConversao,
   ACBrDFeComum.Proc,
