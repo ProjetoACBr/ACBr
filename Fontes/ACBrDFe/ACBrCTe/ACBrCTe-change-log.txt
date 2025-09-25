@@ -45,6 +45,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/09/2025
+-- ACBrCTeDACTEClass --
+[-] Ajustes para poder compilar e instalar.
+   Por: Italo Giurizzato Junior
 -- ACBrCTeWebServices --
 [-] Ajustes para poder compilar e instalar.
    Por: Italo Giurizzato Junior
