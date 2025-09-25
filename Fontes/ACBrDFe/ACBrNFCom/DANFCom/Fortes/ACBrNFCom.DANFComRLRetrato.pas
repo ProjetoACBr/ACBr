@@ -307,12 +307,12 @@ begin
     if idOutros = '' then
     begin
       rlmDestinatario.Lines.Add('CNPJ/CPF: ' + FormatarCNPJouCPF(CNPJCPF));
-      rlmDestinatario.Lines.Add('INSCRIÇÃO ESTADUAL: ' + IE);
+      rlmDestinatario.Lines.Add(ACBrStr('INSCRIÇÃO ESTADUAL: ') + IE);
     end
     else
       rlmDestinatario.Lines.Add('idOutros: ' + idOutros);
 
-    rlmDestinatario.Lines.Add('CÓDIGO CLIENTE: ' + fpNFCom.assinante.iCodAssinante);
+    rlmDestinatario.Lines.Add(ACBrStr('CÓDIGO CLIENTE: ') + fpNFCom.assinante.iCodAssinante);
     rlmDestinatario.Lines.Add('N. TELEFONE: ' + FormatarFone(EnderDest.Fone));
 
     rlmDestinatario.Lines.Add('PERÍODO: ' + '');
@@ -440,12 +440,12 @@ begin
   rllVencimento2.Caption := FormatDateBr(fpNFCom.gFat.dVencFat);
   rllTotPagar.Caption := 'R$ ' + FormatFloatBr(fpNFCom.Total.vNF);
 
-  rllNumFat.Caption := 'Número da Fatura: ' +
+  rllNumFat.Caption := ACBrStr('Número da Fatura: ') +
                        FormatarNumeroDocumentoFiscal(IntToStr(fpNFCom.Ide.nNF));
 
   if fpNFCom.gFat.codAgencia <> '' then
   begin
-    rllCodAgencia.Caption := 'Agência: ' + fpNFCom.gFat.codAgencia;
+    rllCodAgencia.Caption := ACBrStr('Agência: ') + fpNFCom.gFat.codAgencia;
     rllCodBanco.Caption := 'Banco: ' + fpNFCom.gFat.codBanco;
   end;
 
@@ -464,7 +464,7 @@ begin
 
   rllUsuario.Visible := NaoEstaVazio(fpDANFCom.Usuario);
   rllUsuario.Caption := ACBrStr('DATA / HORA DA IMPRESSÃO: ') + FormatDateTimeBr(Now) +
-    ' - ' + fpDANFCom.Usuario;
+    ' - ' + ACBrStr(fpDANFCom.Usuario);
 end;
 
 procedure TfrlDANFComRLRetrato.rlbDivisao08BeforePrint(Sender: TObject;

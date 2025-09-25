@@ -70,9 +70,9 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
         Tag = 10
         Left = 6
         Top = 29
-        Width = 119
+        Width = 124
         Height = 12
-        Caption = 'VALOR BASE DE C'#193'CULO'
+        Caption = 'VALOR BASE DE C'#193'LCULO'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Height = -9
@@ -1659,7 +1659,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
       object RLLabel49: TRLLabel
         Tag = 10
-        Left = 5
+        Left = 2
         Top = 12
         Width = 204
         Height = 14

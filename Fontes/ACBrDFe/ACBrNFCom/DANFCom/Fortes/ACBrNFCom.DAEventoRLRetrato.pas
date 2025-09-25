@@ -284,10 +284,10 @@ begin
 
     rllEmissaoEvento.Caption := FormatDateTimeBr(InfEvento.dhEvento);
     rllTipoEvento.Caption := InfEvento.TipoEvento;
-    rllDescricaoEvento.Caption := InfEvento.DescEvento;
+    rllDescricaoEvento.Caption := ACBrStr(InfEvento.DescEvento);
     rllSeqEvento.Caption := IntToStr(InfEvento.nSeqEvento);
     rllStatus.Caption := IntToStr(RetInfEvento.cStat) + ' - ' +
-      RetInfEvento.xMotivo;
+      ACBrStr(RetInfEvento.xMotivo);
     rllProtocolo.Caption := RetInfEvento.nProt + ' ' +
       FormatDateTimeBr(RetInfEvento.dhRegEvento);
   end;
