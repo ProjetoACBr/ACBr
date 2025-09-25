@@ -38,6 +38,7 @@ interface
 
 uses
   Classes, SysUtils, synacode,
+  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrDFe, ACBrDFeWebService,
@@ -47,7 +48,6 @@ uses
   pcnRetConsReciDFe,
   ACBrDFeComum.RetConsCad,
   ACBrDFeComum.RetEnvio,
-  pcnConversao,
   pcteConversaoCTe, pcteProcCte,
   ACBrCTe.EnvEvento,
   ACBrCTe.RetEnvEvento,
