@@ -37,6 +37,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/09/2025
+-- ACBrJSON --
+[-] Ajuste para que 'TACBrJSONArray.Items[const AIndex: Integer]: String' não
+    dispare A.V. se elemento do Vetor for Nulo
+    (por: DSA)
+
 24/09/2025
 -- ACBrJSON --
 [*] Melhora CreateJsonObject visando padronização da resposta.

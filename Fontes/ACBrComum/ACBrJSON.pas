@@ -973,11 +973,16 @@ end;
 
 function TACBrJSONArray.GetItems(const AIndex: Integer): string;
 begin
-  {$IfDef USE_JSONDATAOBJECTS_UNIT}
-  Result := FJSON.Items[AIndex].Value;
-  {$Else}
-  Result := FJSON.Items[AIndex].AsString;
-  {$EndIf}
+  if Assigned(FJSON.Items[AIndex]) then
+  begin
+    {$IfDef USE_JSONDATAOBJECTS_UNIT}
+    Result := FJSON.Items[AIndex].Value;
+    {$Else}
+    Result := FJSON.Items[AIndex].AsString;
+    {$EndIf}
+  end
+  else
+    Result := '';
 end;
 
 class function TACBrJSONArray.Parse(const AJSONString: string): TACBrJSONArray;
