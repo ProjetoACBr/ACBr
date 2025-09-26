@@ -48,8 +48,6 @@ type
 
   TACBrBancoBrasil = class(TACBrBancoClass)
    protected
-     procedure EhObrigatorioContaDV; override;
-     procedure EhObrigatorioAgenciaDV; override;
      function FormataNossoNumero(const ACBrTitulo :TACBrTitulo): String;
    private
     fQtMsg: Integer;
@@ -101,18 +99,6 @@ begin
    fpTamanhoCarteira       := 2;
    fpCodigosMoraAceitos    := '123';
    fQtMsg                  := 0;
-end;
-
-procedure TACBrBancoBrasil.EhObrigatorioAgenciaDV;
-begin
-  if ACBrBanco.TipoCobranca <> cobBancoDoBrasilAPI then
-    inherited;
-end;
-
-procedure TACBrBancoBrasil.EhObrigatorioContaDV;
-begin
-  if ACBrBanco.TipoCobranca <> cobBancoDoBrasilAPI then
-    inherited;
 end;
 
 function TACBrBancoBrasil.CalcularDigitoVerificador(const ACBrTitulo: TACBrTitulo ): String;
@@ -264,17 +250,10 @@ end;
 function TACBrBancoBrasil.MontarCampoCodigoCedente (
    const ACBrTitulo: TACBrTitulo ) : String;
 begin
-  if(ACBrTitulo.ACBrBoleto.Banco.TipoCobranca = cobBancoDoBrasilAPI) then
-  begin
-    Result := ACBrTitulo.ACBrBoleto.Cedente.Agencia+'/'+
-             IntToStr(StrToIntDef(ACBrTitulo.ACBrBoleto.Cedente.Conta,0));
-  end else
-  begin
-    Result := ACBrTitulo.ACBrBoleto.Cedente.Agencia+'-'+
-             ACBrTitulo.ACBrBoleto.Cedente.AgenciaDigito+'/'+
-             IntToStr(StrToIntDef(ACBrTitulo.ACBrBoleto.Cedente.Conta,0)) +'-'+
-             ACBrTitulo.ACBrBoleto.Cedente.ContaDigito;
-   end;
+  Result := ACBrTitulo.ACBrBoleto.Cedente.Agencia+'-'+
+           ACBrTitulo.ACBrBoleto.Cedente.AgenciaDigito+'/'+
+           IntToStr(StrToIntDef(ACBrTitulo.ACBrBoleto.Cedente.Conta,0)) +'-'+
+           ACBrTitulo.ACBrBoleto.Cedente.ContaDigito;
 end;
 
 function TACBrBancoBrasil.MontarCampoCarteira(const ACBrTitulo: TACBrTitulo
