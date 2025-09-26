@@ -39,24 +39,25 @@ unit ACBrBPeDABPEFR;
 interface
 
 uses
-  ACBrBPeDABPEClass, 
-  ACBrBPeClass, 
-  frxClass, 
-  Classes, 
-  frxExportPDF, 
+  ACBrXmlBase,
+  ACBrDFe,
+  ACBrBPe,
+  ACBrBPeDABPEClass,
+  ACBrBPeClass,
+  frxClass,
+  Classes,
+  frxExportPDF,
   frxBarcode,
-  DBClient, 
-  DB, 
-  frxDBSet, 
-  SysUtils, 
+  DBClient,
+  DB,
+  frxDBSet,
+  SysUtils,
   ACBrValidador,
-  ACBrUtil.Strings, 
-  ACBrBPe, 
-  pcnConversao, 
-  StrUtils, 
-  ACBrBPeConversao,
-  Graphics, 
-  ACBrDFe;
+  ACBrUtil.Strings,
+  StrUtils,
+  Graphics,
+  ACBrDFe.Conversao,
+  ACBrBPeConversao;
 
 type
   EACBrBPeDABPEFR = class(Exception);
@@ -140,7 +141,10 @@ type
 implementation
 
 uses
-  ACBrDFeUtil, ACBrDelphiZXingQRCode, ACBrImage, ACBrXmlBase, ACBrUtil.Base;
+  ACBrDFeUtil,
+  ACBrDelphiZXingQRCode,
+  ACBrImage,
+  ACBrUtil.Base;
 
 { TACBrBPeDABPEFR }
 
