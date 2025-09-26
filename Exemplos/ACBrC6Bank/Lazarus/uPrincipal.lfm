@@ -458,9 +458,9 @@ object frmPrincipal: TfrmPrincipal
       Height = 607
       Top = 0
       Width = 957
-      ActivePage = TestePIX
+      ActivePage = TabConfigPix
       Align = alClient
-      TabIndex = 5
+      TabIndex = 3
       TabOrder = 0
       object tabnenhum: TTabSheet
         Caption = 'Nenhum'

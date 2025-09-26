@@ -803,6 +803,7 @@ type
     procedure tmConsultarDevolucaoTimer(Sender: TObject);
     procedure tmConsultarPagtoTimer(Sender: TObject);
     procedure EnviaBoleto(ATipoEnvio: TOperacao);
+    procedure CarregarEAplicarComponente;
   private
     { Private declarations }
 {$IFDEF GERADOR_FORTES_REPORT}
@@ -997,12 +998,14 @@ procedure TfrmPrincipal.btnCfgSalvaBoletoClick(Sender: TObject);
 begin
   AplicarConfiguracoesAoComponente;
   GravarIniComponente;
+  CarregarEAplicarComponente;
   MostraTela(itBoleto)
 end;
 
 procedure TfrmPrincipal.btnCfgSalvaPixClick(Sender: TObject);
 begin
   GravarConfiguracaoPix;
+  CarregarEAplicarComponente;
   MostraTela(itPix)
 end;
 
@@ -1215,11 +1218,11 @@ begin
   CarregarTipoDesconto;
   CarregarTipoOcorrenciaBoleto;
   { carregando informações Salvas }
+  {
   LerIniComponente;
   AplicarConfiguracoesComponenteATela;
   InicializarComponentesPixDefault;
   Application.OnException := TratarException;
-
   InicializarBitmaps;
   Application.OnException := TratarException;
   LerConfiguracaoPix; // LerConfiguracao;
@@ -1227,6 +1230,7 @@ begin
   VerificarConfiguracao;
   ReiniciarFluxo;
   AdicionarLinhaLog(GetInfoOpenSSL);
+  }
   EncerraVenda(False);
 end;
 
@@ -2283,6 +2287,21 @@ begin
   end;
 end;
 
+procedure TfrmPrincipal.CarregarEAplicarComponente;
+begin
+  LerIniComponente;
+  AplicarConfiguracoesComponenteATela;
+  InicializarComponentesPixDefault;
+  Application.OnException := TratarException;
+  InicializarBitmaps;
+  Application.OnException := TratarException;
+  LerConfiguracaoPix; // LerConfiguracao;
+  VerificarConfiguracaoPIXCD;
+  VerificarConfiguracao;
+  ReiniciarFluxo;
+  AdicionarLinhaLog(GetInfoOpenSSL);
+end;
+
 procedure TfrmPrincipal.zoomin(LFlag: Boolean);
 begin
 
@@ -2404,8 +2423,7 @@ begin
   edCobVVencimento.DateTime := IncDay(now, 7);
 end;
 
-Function TfrmPrincipal.FormatarMascaraDinamica(const AValue: String;
-  const Mascara: String): String;
+function TfrmPrincipal.FormatarMascaraDinamica(const AValue: String; const Mascara: String): String;
 var
   LenMas, LenDoc: Integer;
   I, j: Integer;
