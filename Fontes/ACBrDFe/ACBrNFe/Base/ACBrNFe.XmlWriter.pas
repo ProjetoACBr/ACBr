@@ -1611,7 +1611,7 @@ begin
     if NFe.infNFe.Versao >= 4 then
     begin
       Result[j].AppendChild(AddNode(tcStr, 'K01a', 'cProdANVISA',
-        13, 013, 1, NFe.Det[i].Prod.med[j].cProdANVISA, DSC_CPRODANVISA));
+        06, 013, 1, NFe.Det[i].Prod.med[j].cProdANVISA, DSC_CPRODANVISA));
       Result[j].AppendChild(AddNode(tcStr, 'K01b', 'xMotivoIsencao',
         01, 255, 0, NFe.Det[i].Prod.med[j].xMotivoIsencao, DSC_CPRODANVISA));
     end;

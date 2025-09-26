@@ -48,6 +48,9 @@ Símbolo : Significado
 -- ACBrNFeWebServices --
 [*] Possível solução para salvar os XMLs retornados pela consulta com a versão correta.
    Por: Italo Giurizzato Junior
+-- ACBrNFe.XmlWriter --
+[*] Correção no tamanho mínimo do cProdANVISA
+   Por: Renato Rubinho
 
 23/09/2025
 -- ACBrNFe.XmlWriter --
