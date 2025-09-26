@@ -2182,7 +2182,7 @@ end;
 
 function TNFeConsulta.TratarResposta: Boolean;
 
-procedure SalvarEventos(Retorno: string);
+procedure SalvarEventos(Retorno, Versao: string);
 var
   aEvento, aProcEvento, aIDEvento, sPathEvento, sCNPJCPF: string;
   DhEvt: TDateTime;
@@ -2199,7 +2199,7 @@ begin
 
     Retorno := Copy(Retorno, Fim + 1, Length(Retorno));
 
-    aProcEvento := '<procEventoNFe versao="' + FVersao + '" xmlns="' + ACBRNFE_NAMESPACE + '">' +
+    aProcEvento := '<procEventoNFe versao="' + Versao + '" xmlns="' + ACBRNFE_NAMESPACE + '">' +
                       SeparaDados(aEvento, 'procEventoNFe') +
                    '</procEventoNFe>';
 
@@ -2228,7 +2228,7 @@ end;
 var
   NFeRetorno: TRetConsSitNFe;
   SalvarXML, NFCancelada, Atualiza: Boolean;
-  aEventos, sPathNFe, NomeXMLSalvo: String;
+  aEventos, sPathNFe, NomeXMLSalvo, VersaoEventos: string;
   AProcNFe: TProcNFe;
   I, J, Inicio, Fim: integer;
   dhEmissao: TDateTime;
@@ -2507,13 +2507,14 @@ begin
                 Fim    := Pos('</retConsSitNFe', FPRetWS) -1;
 
                 aEventos := Copy(FPRetWS, Inicio, Fim - Inicio + 1);
+                VersaoEventos := RetornarConteudoEntre(aEventos, 'versao="', '"');
 
                 FRetNFeDFe := '<' + ENCODING_UTF8 + '>' +
                               '<NFeDFe>' +
                                '<procNFe versao="' + FVersao + '">' +
                                  SeparaDados(XMLOriginal, 'nfeProc') +
                                '</procNFe>' +
-                               '<procEventoNFe versao="' + FVersao + '">' +
+                               '<procEventoNFe versao="' + VersaoEventos + '">' +
                                  aEventos +
                                '</procEventoNFe>' +
                               '</NFeDFe>';
@@ -2550,7 +2551,7 @@ begin
 
                   // Salva o XML de eventos retornados ao consultar um NF-e
                   if ExtrairEventos then
-                    SalvarEventos(aEventos);
+                    SalvarEventos(aEventos, VersaoEventos);
                 end;
               end;
 
@@ -2568,9 +2569,10 @@ begin
           Fim    := Pos('</retConsSitNFe', FPRetWS) -1;
 
           aEventos := Copy(FPRetWS, Inicio, Fim - Inicio + 1);
+          VersaoEventos := RetornarConteudoEntre(aEventos, 'versao="', '"');
 
           // Salva o XML de eventos retornados ao consultar um NF-e
-          SalvarEventos(aEventos);
+          SalvarEventos(aEventos, VersaoEventos);
         end;
       end;
     end;

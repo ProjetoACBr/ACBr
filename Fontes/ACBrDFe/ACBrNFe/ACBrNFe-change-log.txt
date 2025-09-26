@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/09/2025
+-- ACBrNFeWebServices --
+[*] Possível solução para salvar os XMLs retornados pela consulta com a versão correta.
+   Por: Italo Giurizzato Junior
+
 23/09/2025
 -- ACBrNFe.XmlWriter --
 [*] Possível solução para geração dos campos vCredPres e vCredPresCondSus.
