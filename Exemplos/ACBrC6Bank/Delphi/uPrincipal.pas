@@ -65,7 +65,6 @@ uses
   Forms,
   TypInfo,
   IniFiles,
-  Mask,
   Spin,
   StrUtils,
   synacode,
@@ -86,7 +85,11 @@ uses
   ACBrPIXSchemasPix,
   ACBrPIXSchemasDevolucao,
   ACBrPIXSchemasCob,
-  ImageList;
+  ImageList, Mask
+  {$IfDef FPC}
+  , DateTimePicker
+  {$EndIf} ;
+
 
 type
 
@@ -220,19 +223,15 @@ type
     Label12: TLabel;
     edtMoraJuros: TEdit;
     Label13: TLabel;
-    edtDataMora: TMaskEdit;
     Label14: TLabel;
     edtValorDesconto: TEdit;
     Label15: TLabel;
-    edtDataDesconto: TMaskEdit;
     Label16: TLabel;
     edtValorAbatimento: TEdit;
     Label17: TLabel;
-    edtDataAbatimento: TMaskEdit;
     Label18: TLabel;
     edtMulta: TEdit;
     Label19: TLabel;
-    edtDataMulta: TMaskEdit;
     Label20: TLabel;
     pnpMensagem: TPanel;
     Label21: TLabel;
@@ -252,13 +251,11 @@ type
     edtSeuNumero: TEdit;
     Label28: TLabel;
     Label29: TLabel;
-    edtDataProtesto: TMaskEdit;
     Label30: TLabel;
     cbxCodMoraJuros: TComboBox;
     Label31: TLabel;
     cbxTipoMulta: TComboBox;
     Label32: TLabel;
-    edtDataBaixa: TMaskEdit;
     Label34: TLabel;
     pnpCedente: TPanel;
     Label35: TLabel;
@@ -669,7 +666,6 @@ type
     Label1: TLabel;
     btnConfigBoleto: TSpeedButton;
     npFundoprincipalWhite: TPanel;
-    Image1: TImage;
     Label3: TLabel;
     pnFluxoBackground: TPanel;
     pnFluxoPagto: TPanel;
@@ -719,15 +715,21 @@ type
     pnFluxoDiv3: TPanel;
     SpeedButton1: TSpeedButton;
     Label2: TLabel;
-    edtDataDesconto2: TMaskEdit;
     Label100: TLabel;
     edtValorDesconto2: TEdit;
     edtValorDesconto3: TEdit;
     Label102: TLabel;
-    edtDataDesconto3: TMaskEdit;
     Label103: TLabel;
     cbbAmbiente: TComboBox;
     Label104: TLabel;
+    edtDataMora: TDateTimePicker;
+    edtDataDesconto: TDateTimePicker;
+    edtDataDesconto2: TDateTimePicker;
+    edtDataDesconto3: TDateTimePicker;
+    edtDataAbatimento: TDateTimePicker;
+    edtDataMulta: TDateTimePicker;
+    edtDataProtesto: TDateTimePicker;
+    edtDataBaixa: TDateTimePicker;
     procedure ACBrPSPBancoDoBrasil1QuandoReceberRespostaHttp(const AURL,
       AMethod: string; RespHeaders: TStrings; var AResultCode: Integer;
       var RespostaHttp: AnsiString);
@@ -762,6 +764,7 @@ type
     procedure btnGerarRemessaClick(Sender: TObject);
     procedure btnImprimeBoletoClick(Sender: TObject);
     procedure btnIncluiBoletoClick(Sender: TObject);
+    procedure btnLerParametrosPIXClick(Sender: TObject);
     procedure btnLerRetornoClick(Sender: TObject);
     procedure btnLimparListaTituloClick(Sender: TObject);
     procedure btnPesArqLogWSClick(Sender: TObject);
@@ -795,6 +798,7 @@ type
     procedure tmConsultarDevolucaoTimer(Sender: TObject);
     procedure tmConsultarPagtoTimer(Sender: TObject);
     procedure EnviaBoleto(ATipoEnvio: TOperacao);
+    procedure CarregarEAplicarComponenente;
   private
     { Private declarations }
 {$IFDEF GERADOR_FORTES_REPORT}
@@ -909,6 +913,11 @@ CONST
 implementation
 
 uses
+  {$IfDef FPC}
+   fpjson, jsonparser, jsonscanner,
+  {$Else}
+    {$IFDEF DELPHIXE2_UP}JSON,{$ENDIF}
+  {$EndIf}
   pcnConversao,
   uresposta,
   OpenSSLExt,
@@ -984,12 +993,14 @@ procedure TfrmPrincipal.btnCfgSalvaBoletoClick(Sender: TObject);
 begin
   AplicarConfiguracoesAoComponente;
   GravarIniComponente;
+  CarregarEAplicarComponenente;
   MostraTela(itBoleto)
 end;
 
 procedure TfrmPrincipal.btnCfgSalvaPixClick(Sender: TObject);
 begin
   GravarConfiguracaoPix;
+  CarregarEAplicarComponenente;
   MostraTela(itPix)
 end;
 
@@ -1060,6 +1071,20 @@ begin
     cbxCodMoraJuros.Items.Add(GetEnumName(TypeInfo(TACBrCodigoJuros),
       Integer(LMoraJuros)));
   cbxCodMoraJuros.ItemIndex := 4;
+end;
+
+procedure TfrmPrincipal.CarregarEAplicarComponenente;
+begin
+  LerIniComponente;
+  AplicarConfiguracoesComponenteATela;
+  InicializarComponentesPixDefault;
+  Application.OnException := TratarException;
+  InicializarBitmaps;
+  LerConfiguracaoPix; // LerConfiguracao;
+  VerificarConfiguracaoPIXCD;
+  VerificarConfiguracao;
+  ReiniciarFluxo;
+  AdicionarLinhaLog(GetInfoOpenSSL);
 end;
 
 procedure TfrmPrincipal.CarregarLayOutImpressao;
@@ -1202,19 +1227,21 @@ begin
   CarregarTipoDesconto;
   CarregarTipoOcorrenciaBoleto;
   { carregando informações Salvas }
+  {
   LerIniComponente;
   AplicarConfiguracoesComponenteATela;
   InicializarComponentesPixDefault;
   Application.OnException := TratarException;
-
   InicializarBitmaps;
-  Application.OnException := TratarException;
   LerConfiguracaoPix; // LerConfiguracao;
   VerificarConfiguracaoPIXCD;
   VerificarConfiguracao;
   ReiniciarFluxo;
   AdicionarLinhaLog(GetInfoOpenSSL);
+  }
+  CarregarEAplicarComponenente;
   EncerraVenda(False);
+
 end;
 
 procedure TfrmPrincipal.MostrarCobrancaEmLinhas(const NomeCobranca: String;
@@ -1530,20 +1557,20 @@ var
 begin
   LVencimento := IncMonth(now, 1);
   { desconto acrescimos }
-  edtDataMora.Text := datetostr(LVencimento + 5);
+  edtDataMora.Date := LVencimento + 5;
   edtMoraJuros.Text := '3';
   cbxCodMoraJuros.ItemIndex := 1;
 
-  edtDataDesconto.Text := datetostr(LVencimento - 10);
+  edtDataDesconto.Date := LVencimento - 10;
   edtValorDesconto.Text := '10,00';
   cbxTipoDesconto.ItemIndex := 1;
 
-  edtDataAbatimento.Text := datetostr(LVencimento + 2);
+  edtDataAbatimento.Date := (LVencimento + 2);
   edtValorAbatimento.Text := '1,00';
-  edtDataMulta.Text := datetostr(LVencimento + 5);
+  edtDataMulta.Date := LVencimento + 5;
   edtMulta.Text := '5';
-  edtDataProtesto.Text := datetostr(LVencimento + 10);
-  edtDataBaixa.Text := datetostr(LVencimento + 50);
+  edtDataProtesto.Date := (LVencimento + 10);
+  edtDataBaixa.Date := (LVencimento + 50);
   memMensagem.Lines.Text := 'Teste MSG!';
 
   { informacoes duplicata }
@@ -1552,7 +1579,7 @@ begin
   edtDataDoc.Text := datetostr(now);
   edtVencimento.Text := datetostr(IncMonth(now, 1));
   edtSeuNumero.Text := 'MN00001';
-  edtNossoNro.Text := '0001';
+  edtNossoNro.Text := '0';
   { informacoes sacado }
   edtNome.Text := 'Teste de Nome Sacado';
   edtCPFCNPJ.Text := '50146335015';
@@ -1839,33 +1866,33 @@ begin
   Titulo.SeuNumero := trim(edtSeuNumero.Text);
   Titulo.NossoNumero := trim(edtNossoNro.Text);
   { Acrescimos e descontos }
-  Titulo.DataMoraJuros := StrToDateDef(edtDataMora.Text, 0);
+  Titulo.DataMoraJuros := edtDataMora.date;
   Titulo.ValorMoraJuros := StrToCurrDef(edtMoraJuros.Text, 0);
   Titulo.CodigoMoraJuros := TACBrCodigoJuros(cbxCodMoraJuros.ItemIndex);
   Titulo.NossoNumeroCorrespondente := edtNossoNumeroCorrespondente.Text;
 
-  Titulo.DataDesconto := StrToDateDef(edtDataDesconto.Text, 0);
+  Titulo.DataDesconto := edtDataDesconto.date;
   Titulo.ValorDesconto := StrToCurrDef(edtValorDesconto.Text, 0);
   Titulo.TipoDesconto := TACBrTipoDesconto(cbxTipoDesconto.ItemIndex);
 
   if (StrToCurrDef(edtValorDesconto2.Text, 0) > 0) then
   begin
-    Titulo.DataDesconto2 := StrToDateDef(edtDataDesconto2.Text, 0);
+    Titulo.DataDesconto2 := edtDataDesconto2.date;
     Titulo.ValorDesconto2 := StrToCurrDef(edtValorDesconto2.Text, 0);
   end;
   if (StrToCurrDef(edtValorDesconto3.Text, 0) > 0) then
   begin
-    Titulo.DataDesconto3 := StrToDateDef(edtDataDesconto3.Text, 0);
+    Titulo.DataDesconto3 := edtDataDesconto3.date;
     Titulo.ValorDesconto3 := StrToCurrDef(edtValorDesconto3.Text, 0);
   end;
 
 
 
 
-  Titulo.DataAbatimento := StrToDateDef(edtDataAbatimento.Text, 0);
+  Titulo.DataAbatimento  := edtDataAbatimento.date;
   Titulo.ValorAbatimento := StrToCurrDef(edtValorAbatimento.Text, 0);
 
-  Titulo.DataMulta := StrToDateDef(edtDataMulta.Text, 0);
+  Titulo.DataMulta := edtDataMulta.date;
   Titulo.PercentualMulta := StrToCurrDef(edtMulta.Text, 0);
 
   case cbxTipoMulta.ItemIndex of
@@ -1874,8 +1901,8 @@ begin
     1:
       Titulo.MultaValorFixo := True;
   end;
-  Titulo.DataProtesto := StrToDateDef(edtDataProtesto.Text, 0);
-  Titulo.DataBaixa := StrToDateDef(edtDataBaixa.Text, 0);
+  Titulo.DataProtesto := edtDataProtesto.date;
+  Titulo.DataBaixa := edtDataBaixa.date;
   Titulo.CodigoNegativacao := cnProtestarUteis;
   Titulo.Mensagem.Text := memMensagem.Text;
 
@@ -3072,31 +3099,52 @@ begin
 end;
 
 function TfrmPrincipal.FormatarJSON(const AJSON: String): String;
-{$IFDEF FPC}
+{$IfDef FPC}
 var
   jpar: TJSONParser;
-  j: TJsonObject;
+  jdata: TJSONData;
+  ms: TMemoryStream;
+{$ELSE}
+  {$IFDEF DELPHIXE2_UP}
+  var
+    wJsonValue: TJSONValue;
+  {$ENDIF}
 {$ENDIF}
 begin
   Result := AJSON;
-{$IFDEF FPC}
   try
-    j := TJsonObject.Create();
+    {$IFDEF FPC}
+    ms := TMemoryStream.Create;
     try
-      Result := j.Decode(Result);
+      ms.Write(Pointer(AJSON)^, Length(AJSON));
+      ms.Position := 0;
+      jpar := TJSONParser.Create(ms, [joUTF8]);
+      jdata := jpar.Parse;
+      if Assigned(jdata) then
+        Result := jdata.FormatJSON;
     finally
-      j.Free;
+      ms.Free;
+      if Assigned(jpar) then
+        jpar.Free;
+      if Assigned(jdata) then
+        jdata.Free;
     end;
-    jpar := TJSONParser.Create(Result, [joUTF8]);
-    try
-      Result := jpar.Parse.FormatJSON([], 2);
-    finally
-      jpar.Free;
-    end;
+    {$ELSE}
+      {$IFDEF DELPHIXE2_UP}
+      wJsonValue := TJSONObject.ParseJSONValue(AJSON);
+      try
+        if Assigned(wJsonValue) then
+        begin
+          Result := wJsonValue.Format(2);
+        end;
+      finally
+        wJsonValue.Free;
+      end;
+      {$ENDIF}
+    {$ENDIF}
   except
     Result := AJSON;
   end;
-{$ENDIF}
 end;
 
 procedure TfrmPrincipal.AnalisarBRCode(aBRCode: TACBrBRCode);
@@ -3541,6 +3589,11 @@ end;
 procedure TfrmPrincipal.btnFecharTelaPagamentoClick(Sender: TObject);
 begin
   EncerraVenda(False);
+end;
+
+procedure TfrmPrincipal.btnLerParametrosPIXClick(Sender: TObject);
+begin
+  LerConfiguracaoPix;
 end;
 
 procedure TfrmPrincipal.Button1Click(Sender: TObject);
