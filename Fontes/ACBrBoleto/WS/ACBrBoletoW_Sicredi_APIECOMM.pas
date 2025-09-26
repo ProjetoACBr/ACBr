@@ -221,13 +221,12 @@ var
   LJson  : TACBrJSONObject;
   LStream: TMemoryStream;
 begin
-  LJson := TACBrJsonObject.Create;
   LStream:= TMemoryStream.Create;
   try
       if( not Assigned( FDFeSSL ) ) then
         FDFeSSL := TDFeSSL( Boleto.Configuracoes.WebService);
 
-      FDFeSSL.SSLHttpClass.MimeType := FPContentType;   
+      FDFeSSL.SSLHttpClass.MimeType := FPContentType;
 
       with FDFeSSL.SSLHttpClass.HeaderReq do
         begin
@@ -237,7 +236,7 @@ begin
       FDFeSSL.SSLHttpClass.DataReq.LoadFromStream(LStream);
       FDFeSSL.HTTPMethod(MetodoHTTPToStr(htPOST), C_URL_OAUTH_PROD );
 
-      LJson.Parse( UTF8Decode(ReadStrFromStream(FDFeSSL.SSLHttpClass.DataResp, FDFeSSL.SSLHttpClass.DataResp.Size )) );
+      LJson := TACBrJSONObject.Parse( UTF8Decode(ReadStrFromStream(FDFeSSL.SSLHttpClass.DataResp, FDFeSSL.SSLHttpClass.DataResp.Size )) );
 
       if( LJson.AsString['codigo' ] = '' ) then // se não veio código de erro
         begin
