@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+26/09/2025
+--ACBrBoleto--
+[*] Ajustes na leitura do cedente.ini ler UseCertificateHttp
+	ACBr-8077 - https://www.projetoacbr.com.br/forum/topic/85885-autentica%C3%A7%C3%A3o-api-boleto-banco-inter-parou-de-funcionar-ao-atualizar-acbrlibboleto/
+	Por: Daniel de Morais InfoCotidiano
+
 24/09/2025
 --ACBrBoletoW_Santander_API, ACBrBoletoRet_Santander_API--
 [*] Ajustes do retorno quando consulta Detalhe sem IndicadorPix.

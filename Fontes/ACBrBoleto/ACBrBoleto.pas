@@ -4178,6 +4178,7 @@ begin
         CedenteWS.IndicadorPix              := IniBoletos.ReadBool(CWebService,'IndicadorPix', CedenteWS.IndicadorPix);
         CedenteWS.Scope                     := IniBoletos.ReadString(CWebService,'Scope', CedenteWS.Scope);
 
+        Configuracoes.WebService.UseCertificateHTTP := IniBoletos.ReadBool(CWebService,'UseCertificateHTTP', Configuracoes.WebService.UseCertificateHTTP);
         Configuracoes.WebService.Ambiente   := TTipoAmbienteWS(IniBoletos.ReadInteger(CWebService,'Ambiente', Integer(Configuracoes.WebService.Ambiente)));
         Configuracoes.WebService.SSLHttpLib := TSSLHttpLib(IniBoletos.ReadInteger(CWebService,'SSLHttpLib', Integer(Configuracoes.WebService.SSLHttpLib)));
         Configuracoes.WebService.SSLCryptLib := TSSLCryptLib( IniBoletos.ReadInteger(CWebService,'SSLCryptLib',Integer(Configuracoes.WebService.SSLCryptLib)));
