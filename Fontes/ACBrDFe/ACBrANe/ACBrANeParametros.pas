@@ -38,7 +38,9 @@ interface
 
 uses
   Classes, SysUtils, IniFiles,
-  ACBrXmlBase, ACBrANe.Conversao;
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
+  ACBrANe.Conversao;
 
 type
 

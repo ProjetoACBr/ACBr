@@ -42,7 +42,8 @@ uses
     Variants,
   {$ENDIF}
   Classes, typinfo, StrUtils,
-  ACBrBase;
+  ACBrBase,
+  ACBrDFe.Conversao;
 
 type
   TVersaoANe = (ve200);

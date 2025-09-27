@@ -49,6 +49,8 @@ uses
      {$ENDIF}
    {$ENDIF}
   {$ENDIF}
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrBase, ACBrDFe, ACBrDFeConfiguracoes, ACBrDFeSSL,
   ACBrXmlDocument, ACBrANe.Conversao;
 
@@ -228,7 +230,7 @@ uses
   IniFiles, StrUtils, synautil,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.DateTime,
   ACBrUtil.FilesIO,
-  ACBrConsts, ACBrDFeException, ACBrXmlBase,
+  ACBrConsts, ACBrDFeException,
   ACBrANe, ACBrANeConfiguracoes;
 
 { TACBrANeWebservice }

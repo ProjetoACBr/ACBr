@@ -39,7 +39,9 @@ interface
 uses
   SysUtils, Classes, Variants,
   ACBrDFeSSL,
-  ACBrXmlBase, ACBrXmlDocument,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
+  ACBrXmlDocument,
   ACBrANeDocumentos,
   ACBrANe.Classes, ACBrANe.Conversao,
   ACBrANe.ProviderProprio,

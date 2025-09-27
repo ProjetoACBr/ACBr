@@ -46,6 +46,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/09/2025
+-- Diversos --
+[*] Inclusão da unit ACBrDFe.Conversao em diversas units.
+  Por: Italo Giurizzato Junior
+
 25/10/2024
 -- ACBrANeServicos --
 [*] Alterado a URL de homologação da AT&M.

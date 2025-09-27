@@ -38,6 +38,8 @@ interface
 
 uses
   SysUtils, Classes,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrDFe,
   ACBrANeParametros, ACBrANeInterface, ACBrANe.Classes, ACBrANe.Conversao,
   ACBrANeDocumentos,
@@ -125,7 +127,7 @@ uses
   IniFiles,
   ACBrConsts,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.FilesIO, ACBrUtil.XMLHTML,
-  ACBrXmlBase, ACBrDFeException,
+  ACBrDFeException,
   ACBrANe, ACBrANeConfiguracoes, ACBrANe.Consts;
 
 { TACBrANeProvider }
