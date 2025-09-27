@@ -78,8 +78,8 @@ function VersaoGTINToStr(const t: TVersaoGTIN): string;
 function DblToVersaoGTIN(out ok: Boolean; const d: Double): TVersaoGTIN;
 function VersaoGTINToDbl(const t: TVersaoGTIN): Double;
 
-function TipoAmbToStr(const t: TACBrTipoAmbiente): string;
-function StrToTipoAmb(out ok: boolean; const s: string): TACBrTipoAmbiente;
+//function TipoAmbToStr(const t: TACBrTipoAmbiente): string;
+//function StrToTipoAmb(out ok: boolean; const s: string): TACBrTipoAmbiente;
 
 implementation
 
@@ -193,7 +193,7 @@ function VersaoGTINToDbl(const t: TVersaoGTIN): Double;
 begin
  result := TVersaoGTINArrayDouble[t];
  end;
-
+{
 function TipoAmbToStr(const t: TACBrTipoAmbiente): string;
 begin
   result := TACBrTipoAmbienteArrayStrings[t];
@@ -216,6 +216,6 @@ begin
 
   raise EACBrException.CreateFmt('Valor string inválido para TACBrTipoAmbiente: %s', [s]);
 end;
-
+}
 end.
 

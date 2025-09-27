@@ -81,7 +81,9 @@ type
 implementation
 
 uses
-  ACBrXmlDocument, ACBrXmlBase;
+  ACBrXmlDocument,
+  ACBrXmlBase,
+  ACBrDFe.Conversao;
 
 { TRetConsultarGTIN }
 

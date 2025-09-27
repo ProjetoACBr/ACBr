@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/09/2025
+-- ACBrGTINConversao --
+[*] Comentado as funções referente ao Tipo de Ambiente.
+-- ACBrGTINRetConsultar --
+[*] Incluida a unit ACBrDFe.Conversao.
+  Por: Italo Giurizzato Junior
+
 23/02/2024
 -- ACBrGTINConversao --
 [*] Ajustes na função: DblToVersaoGTIN
