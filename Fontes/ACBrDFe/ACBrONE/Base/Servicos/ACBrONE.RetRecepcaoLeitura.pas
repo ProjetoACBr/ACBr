@@ -44,7 +44,8 @@ uses
    System.Contnrs,
   {$IFEND}
   ACBrBase,
-  ACBrXmlBase;
+  ACBrXmlBase,
+  ACBrDFe.Conversao;
 
 type
   { TRetRecepcaoLeitura }

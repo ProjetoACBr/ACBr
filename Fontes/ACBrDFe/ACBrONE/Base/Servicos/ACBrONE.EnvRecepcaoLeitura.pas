@@ -47,6 +47,7 @@ uses
   ACBrDFeConsts,
   pcnConversao,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrONE.Conversao;
 
 type

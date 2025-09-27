@@ -44,7 +44,8 @@ uses
    System.Contnrs,
   {$IfEnd}
   ACBrBase,
-  ACBrXmlBase;
+  ACBrXmlBase,
+  ACBrDFe.Conversao;
 
 type
 

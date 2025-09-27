@@ -42,6 +42,7 @@ uses
   ACBrBase, ACBrDFe, ACBrDFeUtil, ACBrDFeWebService,
   pcnConversao,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrONE.Conversao,
   ACBrONE.EnvManutencaoEQP,
   ACBrONE.RetManutencaoEQP,

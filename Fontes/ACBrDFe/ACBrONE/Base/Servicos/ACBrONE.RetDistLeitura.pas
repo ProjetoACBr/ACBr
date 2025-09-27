@@ -48,6 +48,7 @@ uses
   ACBrONE.Conversao,
   ACBrONE.EnvRecepcaoLeitura,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrXmlDocument;
 
 type

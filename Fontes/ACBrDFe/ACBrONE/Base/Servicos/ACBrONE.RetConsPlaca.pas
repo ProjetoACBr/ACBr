@@ -45,6 +45,7 @@ uses
   {$IfEnd}
   ACBrBase,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrXmlDocument;
 
 type
