@@ -46,6 +46,7 @@ uses
   ACBrNFSeNotasFiscais,
   ACBrNFSeWebServices,
   pnfsNFSe,
+  ACBrDFe.Conversao,
   pcnConversao,
   pnfsConversao,
   ACBrUtil.Base,

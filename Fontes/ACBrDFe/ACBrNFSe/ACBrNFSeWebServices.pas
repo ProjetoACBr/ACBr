@@ -36,10 +36,11 @@ unit ACBrNFSeWebServices;
 interface
 
 uses
-  Classes, SysUtils, pcnAuxiliar, pcnConversao,
+  Classes, SysUtils, pcnAuxiliar,
   ACBrDFe, ACBrDFeWebService, ACBrDFeSSL,
   ACBrNFSeNotasFiscais, ACBrNFSeConfiguracoes,
-  pnfsNFSe, pnfsNFSeG, pnfsConversao, pnfsLerListaNFSe, pnfsEnvLoteRpsResposta,
+  pnfsNFSe, pnfsNFSeG, ACBrDFe.Conversao, pcnConversao,
+  pnfsConversao, pnfsLerListaNFSe, pnfsEnvLoteRpsResposta,
   pnfsConsSitLoteRpsResposta, pnfsCancNfseResposta, pnfsSubsNfseResposta,
   pnfsAbrirSessaoResposta, synacode, pnfsConsURLResposta;
 

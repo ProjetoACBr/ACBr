@@ -47,6 +47,7 @@ uses
   Classes,
   pcnGerador, 
   pnfsNFSe, 
+  ACBrDFe.Conversao,
   pcnConversao, 
   pnfsConversao;
 

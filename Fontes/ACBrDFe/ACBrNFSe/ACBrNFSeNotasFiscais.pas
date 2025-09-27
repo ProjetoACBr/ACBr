@@ -39,7 +39,8 @@ interface
 uses
   Classes,
   ACBrNFSeConfiguracoes, ACBrDFeUtil, ACBrDFeSSL,
-  pnfsNFSe, pnfsNFSeR, pnfsNFSeW, pcnConversao, pcnAuxiliar, pcnLeitor;
+  pnfsNFSe, pnfsNFSeR, pnfsNFSeW,
+  ACBrDFe.Conversao, pcnConversao, pcnAuxiliar, pcnLeitor;
 
 type
 
