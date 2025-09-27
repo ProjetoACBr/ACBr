@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/09/2025
+-- ACBrGNREGuiaClass --
+[*] Comentado a propriedade TamanhoPapel, pois não é utilizada pelo componente.
+  Por: Italo Giurizzato Junior
+
 08/07/2025
 -- ACBrGNREWebServices --
 [*] #TK-7245: Incluído a condição para só consultar após o envio se o numero do recibo

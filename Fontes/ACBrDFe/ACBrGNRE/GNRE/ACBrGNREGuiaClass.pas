@@ -59,7 +59,7 @@ type
     FImpressora : String;
     FMostrarPreview : Boolean;
     FMostrarStatus: Boolean;
-    FTamanhoPapel: TpcnTamanhoPapel;
+//    FTamanhoPapel: TpcnTamanhoPapel;
     FNumCopias : Integer;
     FFax  : String;
     FSite : String;
@@ -83,7 +83,7 @@ type
     property Impressora: String read FImpressora write FImpressora;
     property MostrarPreview: Boolean read FMostrarPreview write FMostrarPreview;
     property MostrarStatus: Boolean read FMostrarStatus write FMostrarStatus;
-    property TamanhoPapel: TpcnTamanhoPapel read FTamanhoPapel write FTamanhoPapel;
+//    property TamanhoPapel: TpcnTamanhoPapel read FTamanhoPapel write FTamanhoPapel;
     property NumCopias: Integer read FNumCopias write FNumCopias;
     property Fax  : String read FFax   write FFax;
     property Site : String read FSite  write FSite;
