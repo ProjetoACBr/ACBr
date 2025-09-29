@@ -994,6 +994,9 @@ begin
   frxReport.ShowProgress             := MostraStatus;
   frxReport.PreviewOptions.AllowEdit := False;
 
+  if NaoEstaVazio(Trim(DAMDFEClassOwner.NomeDocumento)) then
+    frxReport.FileName := Trim(DAMDFEClassOwner.NomeDocumento);
+
   // Define a impressora
   if NaoEstaVazio(frxReport.PrintOptions.Printer) then
     frxReport.PrintOptions.Printer := Impressora;
