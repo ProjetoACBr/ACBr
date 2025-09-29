@@ -38,8 +38,12 @@ interface
 
 uses
   SysUtils, Classes, StrUtils, IniFiles,
-  ACBrXmlBase, ACBrXmlDocument,
-  ACBrNFSeXParametros, ACBrNFSeXConversao, ACBrNFSeXLerXml;
+  ACBrXmlBase,
+  ACBrXmlDocument,
+  ACBrDFe.Conversao,
+  ACBrNFSeXParametros,
+  ACBrNFSeXConversao,
+  ACBrNFSeXLerXml;
 
 type
   { TNFSeR_Conam }

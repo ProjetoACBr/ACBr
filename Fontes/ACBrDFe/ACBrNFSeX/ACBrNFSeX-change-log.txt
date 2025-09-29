@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+29/09/2025
+-- Conam.GravarXml/Conam.LerXml/Conam.Provider --
+[*] #ACBr-8105 Ajustes para leitura de um lote de notas no retorno do ConsultarLote.
+   Por: Italo Giurizzato Junior
+
 25/09/2025
 -- ACBrNFSeXServicos --
 [*] #ACBr-8110 A cidade Cruzeiro do Sul/RS trocou de provedor, agora é Fiorilli.

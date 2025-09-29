@@ -100,6 +100,7 @@ implementation
 
 uses
   DateUtils,
+  ACBrDFe.Conversao,
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
@@ -787,7 +788,7 @@ var
   ANode, AuxNode: TACBrXmlNode;
   ANodeArray: TACBrXmlNodeArray;
   i: Integer;
-  NumRps: String;
+  NumRps, XmlNFSe: string;
   ANota: TNotaFiscal;
   AResumo: TNFSeResumoCollectionItem;
 begin
@@ -815,9 +816,9 @@ begin
 
       if AuxNode <> nil then
       begin
-        ANodeArray := AuxNode.Childrens.FindAllAnyNs('Reg20');
+        AuxNode := AuxNode.Childrens.FindAnyNs('Reg20');
 
-        if not Assigned(ANodeArray) then
+        if not Assigned(AuxNode) then
         begin
           AErro := Response.Erros.New;
           AErro.Codigo := Cod203;
@@ -825,29 +826,32 @@ begin
           Exit;
         end;
 
-        for i := Low(ANodeArray) to High(ANodeArray) do
+        if AuxNode <> nil then
         begin
-          ANode := ANodeArray[i];
-          AuxNode := ANode.Childrens.FindAnyNs('Reg20Item');
+          ANodeArray := AuxNode.Childrens.FindAllAnyNs('Reg20Item');
 
-          if AuxNode <> nil then
+          for i := Low(ANodeArray) to High(ANodeArray) do
           begin
-            AuxNode := AuxNode.Childrens.FindAnyNs('NumRps');
+            ANode := ANodeArray[i];
 
-            if AuxNode <> nil then
+            if ANode <> nil then
             begin
-              NumRps := AuxNode.AsString;
+              NumRps := ObterConteudoTag(ANode.Childrens.FindAnyNs('NumRps'), tcStr);
 
               ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumRps);
 
-              ANota := CarregarXmlNfse(ANota, ANode.OuterXml);
+              XmlNFSe := '<Reg20>' + ANode.OuterXml + '</Reg20>';
+              ANota := CarregarXmlNfse(ANota, XmlNFSe);
 
               AResumo := Response.Resumos.New;
               AResumo.NumeroNota := ANota.NFSe.Numero;
+              AResumo.SerieNota := ANota.NFSe.SeriePrestacao;
+              AResumo.NumeroRps := ANota.NFSe.IdentificacaoRps.Numero;
+              AResumo.SerieRps := ANota.NFSe.IdentificacaoRps.Serie;
               AResumo.Data := ANota.NFSe.DataEmissao;
               AResumo.Link := ANota.NFSe.Link;
               AResumo.CodigoVerificacao := ANota.NFSe.CodigoVerificacao;
-              AResumo.Situacao := IntToStr(ANota.NFSe.Situacao);
+              AResumo.Situacao := StatusNFSeToStr(ANota.NFSe.SituacaoNfse);
 
               SalvarXmlNfse(ANota);
             end;
