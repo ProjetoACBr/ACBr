@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 767
+  Left = 410
   Height = 652
-  Top = 209
+  Top = 218
   Width = 1008
   Caption = 'ACBrPIXCD Teste'
   ClientHeight = 652
@@ -167,9 +167,9 @@ object Form1: TForm1
                 ParentColor = False
               end
               object edFluxoClienteNome: TEdit
-                Left = 360
+                Left = 312
                 Height = 31
-                Top = 64
+                Top = 15
                 Width = 600
                 Font.Height = -20
                 Font.Name = 'Arial'
@@ -800,7 +800,7 @@ object Form1: TForm1
                       Left = 8
                       Height = 15
                       Top = 56
-                      Width = 170
+                      Width = 171
                       Caption = 'Identificador da Transação (TxId)'
                       ParentColor = False
                     end
@@ -1225,9 +1225,9 @@ object Form1: TForm1
                 Height = 522
                 Top = 0
                 Width = 616
-                ActivePage = tsCriarCobrancaImediata
+                ActivePage = tsConsultarCobrancas
                 Align = alClient
-                TabIndex = 0
+                TabIndex = 2
                 TabOrder = 0
                 object tsCriarCobrancaImediata: TTabSheet
                   Caption = 'CriarCobrancaImediata'
@@ -1328,7 +1328,7 @@ object Form1: TForm1
                       Left = 16
                       Height = 15
                       Top = 106
-                      Width = 222
+                      Width = 223
                       Caption = 'Identificador da Transação (TxId, opcional)'
                       ParentColor = False
                     end
@@ -1795,9 +1795,9 @@ object Form1: TForm1
                 Height = 522
                 Top = 0
                 Width = 616
-                ActivePage = tsCobVCriarCobranca
+                ActivePage = tsCobVCancelarCobranca
                 Align = alClient
-                TabIndex = 0
+                TabIndex = 3
                 TabOrder = 0
                 object tsCobVCriarCobranca: TTabSheet
                   Caption = 'Criar Cobrança Vencimento'
@@ -3332,9 +3332,9 @@ object Form1: TForm1
                 Height = 522
                 Top = 0
                 Width = 616
-                ActivePage = tsCriarRecorrencia
+                ActivePage = tsConsultarRecorrencia
                 Align = alClient
-                TabIndex = 0
+                TabIndex = 1
                 TabOrder = 0
                 object tsCriarRecorrencia: TTabSheet
                   Caption = 'Criar Recorrencia'
@@ -3645,7 +3645,7 @@ object Form1: TForm1
                     object lbConsultarRecorrenciaIdRec: TLabel
                       Left = 16
                       Height = 15
-                      Top = 16
+                      Top = 15
                       Width = 29
                       Caption = 'idRec'
                       ParentColor = False
@@ -3653,8 +3653,8 @@ object Form1: TForm1
                     object edConsultarRecorrenciaIdRec: TEdit
                       Left = 16
                       Height = 23
-                      Top = 36
-                      Width = 576
+                      Top = 30
+                      Width = 296
                       Anchors = [akTop, akLeft, akRight]
                       TabOrder = 0
                     end
@@ -4949,7 +4949,7 @@ object Form1: TForm1
                       Left = 16
                       Height = 15
                       Top = 16
-                      Width = 198
+                      Width = 197
                       Caption = 'Pix Copia E Cola  (QRCode Dinâmico)'
                       ParentColor = False
                     end
@@ -5024,7 +5024,7 @@ object Form1: TForm1
                       Left = 16
                       Height = 15
                       Top = 24
-                      Width = 21
+                      Width = 20
                       Caption = 'txID'
                       ParentColor = False
                     end
@@ -5060,7 +5060,7 @@ object Form1: TForm1
                       Left = 16
                       Height = 15
                       Top = 72
-                      Width = 213
+                      Width = 214
                       Caption = 'Token Pay (Gerado no Portal PagSeguro)'
                       ParentColor = False
                     end
@@ -5232,7 +5232,7 @@ object Form1: TForm1
                   Left = 16
                   Height = 15
                   Top = 72
-                  Width = 170
+                  Width = 171
                   Caption = 'Identificador da Transação (TxId)'
                   ParentColor = False
                 end
@@ -5565,11 +5565,11 @@ object Form1: TForm1
         Height = 546
         Top = 0
         Width = 1000
-        ActivePage = tsPSP
+        ActivePage = tsPIX
         Align = alClient
         Images = ImageList1
         TabHeight = 25
-        TabIndex = 1
+        TabIndex = 0
         TabOrder = 0
         TabWidth = 200
         object tsPIX: TTabSheet
@@ -5947,7 +5947,7 @@ object Form1: TForm1
                   Left = 416
                   Height = 15
                   Top = 3
-                  Width = 44
+                  Width = 45
                   Caption = 'Timeout'
                   ParentColor = False
                 end
@@ -5993,7 +5993,7 @@ object Form1: TForm1
                   Left = 8
                   Height = 15
                   Top = 3
-                  Width = 51
+                  Width = 50
                   Caption = 'Expiração'
                   ParentColor = False
                 end
@@ -6122,386 +6122,504 @@ object Form1: TForm1
               Caption = 'Banco do Brasil'
               ClientHeight = 485
               ClientWidth = 984
-              object pConfPSPBB: TPanel
-                Left = 26
-                Height = 400
-                Top = 64
-                Width = 932
-                Anchors = [akLeft, akRight]
-                BevelOuter = bvNone
-                ClientHeight = 400
-                ClientWidth = 932
+              object pgBBConfig: TPageControl
+                Left = 8
+                Height = 426
+                Top = 32
+                Width = 960
+                ActivePage = tsBBConfigGeral
+                TabIndex = 0
                 TabOrder = 0
-                object Label20: TLabel
-                  Left = 24
-                  Height = 15
-                  Top = 21
-                  Width = 53
-                  Caption = 'Chave PIX'
-                  ParentColor = False
-                end
-                object edtBBChavePIX: TEdit
-                  Left = 24
-                  Height = 23
-                  Top = 40
-                  Width = 708
-                  Anchors = [akTop, akLeft, akRight]
-                  TabOrder = 2
-                  OnChange = edtBBChavePIXChange
-                end
-                object Label21: TLabel
-                  Left = 746
-                  Height = 15
-                  Top = 21
-                  Width = 59
-                  Caption = 'Tipo Chave'
-                  ParentColor = False
-                end
-                object cbxBBTipoChave: TComboBox
-                  Left = 746
-                  Height = 23
-                  Top = 40
-                  Width = 158
-                  ItemHeight = 15
-                  ReadOnly = True
-                  Style = csDropDownList
-                  TabOrder = 1
-                  TabStop = False
-                end
-                object Label22: TLabel
-                  Left = 24
-                  Height = 15
-                  Top = 72
-                  Width = 45
-                  Caption = 'Client ID'
-                  ParentColor = False
-                end
-                object edtBBClientID: TEdit
-                  Left = 24
-                  Height = 23
-                  Top = 91
-                  Width = 708
-                  Anchors = [akTop, akLeft, akRight]
-                  TabOrder = 3
-                end
-                object Label23: TLabel
-                  Left = 24
-                  Height = 15
-                  Top = 128
-                  Width = 66
-                  Caption = 'Client Secret'
-                  ParentColor = False
-                end
-                object edtBBClientSecret: TEdit
-                  Left = 24
-                  Height = 23
-                  Top = 147
-                  Width = 708
-                  Anchors = [akTop, akLeft, akRight]
-                  TabOrder = 4
-                end
-                object Label24: TLabel
-                  Left = 24
-                  Height = 15
-                  Top = 184
-                  Width = 139
-                  Caption = 'Developer Application Key'
-                  ParentColor = False
-                end
-                object edtBBDevAppKey: TEdit
-                  Left = 24
-                  Height = 23
-                  Top = 203
-                  Width = 708
-                  TabOrder = 5
-                end
-                object imgBBErroChavePIX: TImage
-                  Left = 906
-                  Height = 16
-                  Top = 44
-                  Width = 16
-                  Visible = False
-                end
-                object cbBBVersaoAPI: TComboBox
-                  Left = 746
-                  Height = 23
-                  Top = 91
-                  Width = 158
-                  ItemHeight = 15
-                  ReadOnly = True
-                  Style = csDropDownList
-                  TabOrder = 0
-                  TabStop = False
-                  OnChange = cbBBVersaoAPIChange
-                end
-                object lbBBVersaoAPI: TLabel
-                  Left = 746
-                  Height = 15
-                  Top = 72
-                  Width = 55
-                  Caption = 'Versão API'
-                  ParentColor = False
-                end
-                object rgBBTipoCertificado: TRadioGroup
-                  Left = 746
-                  Height = 58
-                  Top = 128
-                  Width = 184
-                  AutoFill = True
-                  Caption = 'Tipo Certificado'
-                  ChildSizing.LeftRightSpacing = 6
-                  ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-                  ChildSizing.EnlargeVertical = crsHomogenousChildResize
-                  ChildSizing.ShrinkHorizontal = crsScaleChilds
-                  ChildSizing.ShrinkVertical = crsScaleChilds
-                  ChildSizing.Layout = cclLeftToRightThenTopToBottom
-                  ChildSizing.ControlsPerLine = 2
-                  ClientHeight = 38
-                  ClientWidth = 180
-                  Columns = 2
-                  ItemIndex = 0
-                  Items.Strings = (
-                    'PFX'
-                    'Chave/Certificado'
-                  )
-                  OnClick = rgBBTipoCertificadoClick
-                  TabOrder = 6
-                end
-                object pnBBCertificados: TPanel
-                  Left = 0
-                  Height = 174
-                  Top = 226
-                  Width = 932
-                  Align = alBottom
-                  ClientHeight = 174
-                  ClientWidth = 932
-                  TabOrder = 7
-                  object pcBBCertificados: TPageControl
-                    Left = 1
-                    Height = 172
-                    Top = 1
-                    Width = 930
-                    ActivePage = tsBBPFX
+                object tsBBConfigGeral: TTabSheet
+                  Caption = 'Geral'
+                  ClientHeight = 398
+                  ClientWidth = 952
+                  object pnBBConfig: TPanel
+                    Left = 0
+                    Height = 398
+                    Top = 0
+                    Width = 952
                     Align = alClient
-                    TabIndex = 0
+                    Anchors = [akLeft, akRight]
+                    BevelOuter = bvNone
+                    ClientHeight = 398
+                    ClientWidth = 952
                     TabOrder = 0
-                    Visible = False
-                    object tsBBPFX: TTabSheet
-                      Caption = 'PFX'
-                      ClientHeight = 144
-                      ClientWidth = 922
-                      object pnBBPFX: TPanel
-                        Left = 0
-                        Height = 144
-                        Top = 0
-                        Width = 922
+                    object lbBBChavePIX: TLabel
+                      Left = 25
+                      Height = 15
+                      Top = 20
+                      Width = 53
+                      Caption = 'Chave PIX'
+                      ParentColor = False
+                    end
+                    object edtBBChavePIX: TEdit
+                      Left = 25
+                      Height = 23
+                      Top = 35
+                      Width = 692
+                      Anchors = [akTop, akLeft, akRight]
+                      TabOrder = 2
+                      OnChange = edtBBChavePIXChange
+                    end
+                    object lbBBTipoChave: TLabel
+                      Left = 734
+                      Height = 15
+                      Top = 20
+                      Width = 60
+                      Caption = 'Tipo Chave'
+                      ParentColor = False
+                    end
+                    object cbxBBTipoChave: TComboBox
+                      Left = 734
+                      Height = 23
+                      Top = 35
+                      Width = 184
+                      ItemHeight = 15
+                      ReadOnly = True
+                      Style = csDropDownList
+                      TabOrder = 1
+                      TabStop = False
+                    end
+                    object lbBBClientID: TLabel
+                      Left = 25
+                      Height = 15
+                      Top = 70
+                      Width = 45
+                      Caption = 'Client ID'
+                      ParentColor = False
+                    end
+                    object edtBBClientID: TEdit
+                      Left = 25
+                      Height = 23
+                      Top = 85
+                      Width = 692
+                      Anchors = [akTop, akLeft, akRight]
+                      TabOrder = 3
+                    end
+                    object lbBBClientSecret: TLabel
+                      Left = 25
+                      Height = 15
+                      Top = 120
+                      Width = 66
+                      Caption = 'Client Secret'
+                      ParentColor = False
+                    end
+                    object edtBBClientSecret: TEdit
+                      Left = 25
+                      Height = 23
+                      Top = 135
+                      Width = 692
+                      Anchors = [akTop, akLeft, akRight]
+                      TabOrder = 4
+                    end
+                    object lbBBDevAppKey: TLabel
+                      Left = 25
+                      Height = 15
+                      Top = 170
+                      Width = 139
+                      Caption = 'Developer Application Key'
+                      ParentColor = False
+                    end
+                    object edtBBDevAppKey: TEdit
+                      Left = 25
+                      Height = 23
+                      Top = 185
+                      Width = 692
+                      TabOrder = 5
+                    end
+                    object imgBBErroChavePIX: TImage
+                      Left = 920
+                      Height = 16
+                      Top = 39
+                      Width = 16
+                      Visible = False
+                    end
+                    object cbBBVersaoAPI: TComboBox
+                      Left = 734
+                      Height = 23
+                      Top = 85
+                      Width = 184
+                      ItemHeight = 15
+                      ReadOnly = True
+                      Style = csDropDownList
+                      TabOrder = 0
+                      TabStop = False
+                      OnChange = cbBBVersaoAPIChange
+                    end
+                    object lbBBVersaoAPI: TLabel
+                      Left = 734
+                      Height = 15
+                      Top = 70
+                      Width = 55
+                      Caption = 'Versão API'
+                      ParentColor = False
+                    end
+                    object rgBBTipoCertificado: TRadioGroup
+                      Left = 734
+                      Height = 58
+                      Top = 120
+                      Width = 184
+                      AutoFill = True
+                      Caption = 'Tipo Certificado'
+                      ChildSizing.LeftRightSpacing = 6
+                      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+                      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+                      ChildSizing.ShrinkHorizontal = crsScaleChilds
+                      ChildSizing.ShrinkVertical = crsScaleChilds
+                      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+                      ChildSizing.ControlsPerLine = 2
+                      ClientHeight = 38
+                      ClientWidth = 180
+                      Columns = 2
+                      ItemIndex = 0
+                      Items.Strings = (
+                        'PFX'
+                        'Chave/Certificado'
+                      )
+                      OnClick = rgBBTipoCertificadoClick
+                      TabOrder = 6
+                    end
+                    object pnBBCertificados: TPanel
+                      Left = 0
+                      Height = 174
+                      Top = 224
+                      Width = 952
+                      Align = alBottom
+                      ClientHeight = 174
+                      ClientWidth = 952
+                      TabOrder = 7
+                      object pcBBCertificados: TPageControl
+                        Left = 1
+                        Height = 172
+                        Top = 1
+                        Width = 950
+                        ActivePage = tsBBPFX
                         Align = alClient
-                        BevelOuter = bvNone
-                        ClientHeight = 144
-                        ClientWidth = 922
+                        TabIndex = 0
                         TabOrder = 0
-                        object imBBErroPFX: TImage
-                          Left = 8
-                          Height = 16
-                          Top = 35
-                          Width = 16
-                          Visible = False
+                        Visible = False
+                        object tsBBPFX: TTabSheet
+                          Caption = 'PFX'
+                          ClientHeight = 144
+                          ClientWidth = 942
+                          object pnBBPFX: TPanel
+                            Left = 0
+                            Height = 144
+                            Top = 0
+                            Width = 942
+                            Align = alClient
+                            BevelOuter = bvNone
+                            ClientHeight = 144
+                            ClientWidth = 942
+                            TabOrder = 0
+                            object imBBErroPFX: TImage
+                              Left = 8
+                              Height = 16
+                              Top = 35
+                              Width = 16
+                              Visible = False
+                            end
+                            object lbBBArqPFX: TLabel
+                              Left = 24
+                              Height = 15
+                              Top = 15
+                              Width = 65
+                              Caption = 'Arquivo PFX'
+                              ParentColor = False
+                            end
+                            object edBBArqPFX: TEdit
+                              Left = 24
+                              Height = 23
+                              Top = 32
+                              Width = 658
+                              Anchors = [akTop, akLeft, akRight]
+                              AutoSize = False
+                              TabOrder = 0
+                              OnChange = edBBArqPFXChange
+                              OnExit = edBBArqPFXExit
+                            end
+                            object lbBBErroPFX: TLabel
+                              Left = 24
+                              Height = 15
+                              Top = 56
+                              Width = 117
+                              Caption = 'lbBBErroChavePrivada'
+                              ParentColor = False
+                            end
+                            object sbBBAcharPFX: TSpeedButton
+                              Left = 684
+                              Height = 23
+                              Top = 32
+                              Width = 24
+                              Anchors = [akTop, akRight]
+                              Flat = True
+                              Font.Color = clWindowText
+                              Font.Height = -11
+                              Font.Name = 'MS Sans Serif'
+                              Images = ImageList1
+                              ImageIndex = 9
+                              OnClick = sbBBAcharPFXClick
+                              ShowHint = True
+                              ParentFont = False
+                              ParentShowHint = False
+                            end
+                            object edBBSenhaPFX: TEdit
+                              Left = 728
+                              Height = 23
+                              Top = 32
+                              Width = 172
+                              Anchors = [akTop, akLeft, akRight]
+                              EchoMode = emPassword
+                              PasswordChar = '*'
+                              TabOrder = 1
+                              OnExit = edBBSenhaPFXExit
+                            end
+                            object lbBBSenhaPFX: TLabel
+                              Left = 728
+                              Height = 15
+                              Top = 16
+                              Width = 93
+                              Caption = 'Senha Certificado'
+                              ParentColor = False
+                            end
+                            object btBBVerSenhaPFX: TSpeedButton
+                              Left = 904
+                              Height = 23
+                              Top = 32
+                              Width = 23
+                              AllowAllUp = True
+                              Anchors = [akTop, akRight]
+                              Flat = True
+                              GroupIndex = 1
+                              Images = ImageList1
+                              ImageIndex = 7
+                              OnClick = btBBVerSenhaPFXClick
+                            end
+                          end
                         end
-                        object lbBBArqPFX: TLabel
-                          Left = 24
-                          Height = 15
-                          Top = 15
-                          Width = 65
-                          Caption = 'Arquivo PFX'
-                          ParentColor = False
-                        end
-                        object edBBArqPFX: TEdit
-                          Left = 24
-                          Height = 23
-                          Top = 32
-                          Width = 665
-                          Anchors = [akTop, akLeft, akRight]
-                          AutoSize = False
-                          TabOrder = 0
-                          OnChange = edBBArqPFXChange
-                          OnExit = edBBArqPFXExit
-                        end
-                        object lbBBErroPFX: TLabel
-                          Left = 24
-                          Height = 15
-                          Top = 56
-                          Width = 117
-                          Caption = 'lbBBErroChavePrivada'
-                          ParentColor = False
-                        end
-                        object sbBBAcharPFX: TSpeedButton
-                          Left = 691
-                          Height = 23
-                          Top = 32
-                          Width = 24
-                          Anchors = [akTop, akRight]
-                          Flat = True
-                          Font.Color = clWindowText
-                          Font.Height = -11
-                          Font.Name = 'MS Sans Serif'
-                          Images = ImageList1
-                          ImageIndex = 9
-                          OnClick = sbBBAcharPFXClick
-                          ShowHint = True
-                          ParentFont = False
-                          ParentShowHint = False
-                        end
-                        object edBBSenhaPFX: TEdit
-                          Left = 733
-                          Height = 23
-                          Top = 32
-                          Width = 161
-                          Anchors = [akTop, akLeft, akRight]
-                          EchoMode = emPassword
-                          PasswordChar = '*'
-                          TabOrder = 1
-                          OnExit = edBBSenhaPFXExit
-                        end
-                        object lbBBSenhaPFX: TLabel
-                          Left = 733
-                          Height = 15
-                          Top = 16
-                          Width = 93
-                          Caption = 'Senha Certificado'
-                          ParentColor = False
-                        end
-                        object btBBVerSenhaPFX: TSpeedButton
-                          Left = 897
-                          Height = 23
-                          Top = 32
-                          Width = 23
-                          AllowAllUp = True
-                          Anchors = [akTop, akRight]
-                          Flat = True
-                          GroupIndex = 1
-                          Images = ImageList1
-                          ImageIndex = 7
-                          OnClick = btBBVerSenhaPFXClick
+                        object tsBBChaveECertificado: TTabSheet
+                          Caption = 'Chave Privada/Certificado'
+                          ClientHeight = 144
+                          ClientWidth = 942
+                          object pnBBChaveECert: TPanel
+                            Left = 0
+                            Height = 144
+                            Top = 0
+                            Width = 942
+                            Align = alClient
+                            BevelOuter = bvNone
+                            ClientHeight = 144
+                            ClientWidth = 942
+                            TabOrder = 0
+                            Visible = False
+                            object imBBErroChavePrivada: TImage
+                              Left = 8
+                              Height = 16
+                              Top = 35
+                              Width = 16
+                              Visible = False
+                            end
+                            object lbBBArqChavePrivada: TLabel
+                              Left = 24
+                              Height = 15
+                              Top = 15
+                              Width = 120
+                              Caption = 'Arquivo Chave Privada'
+                              ParentColor = False
+                            end
+                            object edBBArqChavePrivada: TEdit
+                              Left = 24
+                              Height = 23
+                              Top = 32
+                              Width = 885
+                              Anchors = [akTop, akLeft, akRight]
+                              AutoSize = False
+                              TabOrder = 0
+                              OnChange = edBBArqsChange
+                              OnExit = edBBArqChavePrivadaExit
+                            end
+                            object lbBBErroChavePrivada: TLabel
+                              Left = 24
+                              Height = 15
+                              Top = 56
+                              Width = 117
+                              Caption = 'lbBBErroChavePrivada'
+                              ParentColor = False
+                            end
+                            object sbBBAcharChavePrivada: TSpeedButton
+                              Left = 910
+                              Height = 23
+                              Top = 32
+                              Width = 24
+                              Anchors = [akTop, akRight]
+                              Flat = True
+                              Font.Color = clWindowText
+                              Font.Height = -11
+                              Font.Name = 'MS Sans Serif'
+                              Images = ImageList1
+                              ImageIndex = 9
+                              OnClick = sbBBAcharChavePrivadaClick
+                              ShowHint = True
+                              ParentFont = False
+                              ParentShowHint = False
+                            end
+                            object sbBBAcharArqCertificado: TSpeedButton
+                              Left = 910
+                              Height = 23
+                              Top = 96
+                              Width = 24
+                              Anchors = [akTop, akRight]
+                              Flat = True
+                              Font.Color = clWindowText
+                              Font.Height = -11
+                              Font.Name = 'MS Sans Serif'
+                              Images = ImageList1
+                              ImageIndex = 9
+                              OnClick = sbBBAcharArqCertificadoClick
+                              ShowHint = True
+                              ParentFont = False
+                              ParentShowHint = False
+                            end
+                            object edBBArqCertificado: TEdit
+                              Left = 24
+                              Height = 23
+                              Top = 96
+                              Width = 885
+                              Anchors = [akTop, akLeft, akRight]
+                              AutoSize = False
+                              TabOrder = 1
+                              OnChange = edBBArqsChange
+                              OnExit = edBBArqCertificadoExit
+                            end
+                            object lbBBArqCertificado: TLabel
+                              Left = 24
+                              Height = 15
+                              Top = 80
+                              Width = 103
+                              Caption = 'Arquivo Certificado'
+                              ParentColor = False
+                            end
+                            object imBBErroCertificado: TImage
+                              Left = 8
+                              Height = 16
+                              Top = 98
+                              Width = 16
+                              Visible = False
+                            end
+                            object lbBBErroCertificado: TLabel
+                              Left = 24
+                              Height = 15
+                              Top = 118
+                              Width = 103
+                              Caption = 'lbBBErroCertificado'
+                              ParentColor = False
+                            end
+                          end
                         end
                       end
                     end
-                    object tsBBChaveECertificado: TTabSheet
-                      Caption = 'Chave Privada/Certificado'
-                      ClientHeight = 144
-                      ClientWidth = 922
-                      object pnBBChaveECert: TPanel
+                  end
+                end
+                object tsBBConfigTokenManual: TTabSheet
+                  Caption = 'Token Manual'
+                  ClientHeight = 398
+                  ClientWidth = 952
+                  object pnBBConfigTokenManual: TPanel
+                    Left = 0
+                    Height = 398
+                    Top = 0
+                    Width = 952
+                    Align = alClient
+                    BevelOuter = bvNone
+                    ClientHeight = 398
+                    ClientWidth = 952
+                    TabOrder = 0
+                    object gbBBConfigTokenManual: TGroupBox
+                      Left = 25
+                      Height = 144
+                      Top = 25
+                      Width = 899
+                      ClientHeight = 124
+                      ClientWidth = 895
+                      TabOrder = 0
+                      object pnBBConfigTokenManualGerar: TPanel
                         Left = 0
-                        Height = 144
+                        Height = 124
                         Top = 0
-                        Width = 922
+                        Width = 895
                         Align = alClient
                         BevelOuter = bvNone
-                        ClientHeight = 144
-                        ClientWidth = 922
+                        ClientHeight = 124
+                        ClientWidth = 895
+                        Enabled = False
                         TabOrder = 0
-                        Visible = False
-                        object imBBErroChavePrivada: TImage
-                          Left = 8
-                          Height = 16
-                          Top = 35
-                          Width = 16
-                          Visible = False
-                        end
-                        object lbBBArqChavePrivada: TLabel
-                          Left = 24
-                          Height = 15
-                          Top = 15
-                          Width = 120
-                          Caption = 'Arquivo Chave Privada'
-                          ParentColor = False
-                        end
-                        object edBBArqChavePrivada: TEdit
-                          Left = 24
-                          Height = 23
-                          Top = 32
-                          Width = 872
-                          Anchors = [akTop, akLeft, akRight]
-                          AutoSize = False
+                        object mmBBConfigTokenManual: TMemo
+                          Left = 200
+                          Height = 79
+                          Top = 23
+                          Width = 665
+                          Lines.Strings = (
+                            ''
+                            ''
+                          )
                           TabOrder = 0
-                          OnChange = edBBArqsChange
-                          OnExit = edBBArqChavePrivadaExit
                         end
-                        object lbBBErroChavePrivada: TLabel
-                          Left = 24
-                          Height = 15
-                          Top = 56
-                          Width = 117
-                          Caption = 'lbBBErroChavePrivada'
-                          ParentColor = False
-                        end
-                        object sbBBAcharChavePrivada: TSpeedButton
-                          Left = 897
+                        object edBBConfigTokenValidade: TDateTimePicker
+                          Left = 32
                           Height = 23
-                          Top = 32
-                          Width = 24
-                          Anchors = [akTop, akRight]
-                          Flat = True
-                          Font.Color = clWindowText
-                          Font.Height = -11
-                          Font.Name = 'MS Sans Serif'
-                          Images = ImageList1
-                          ImageIndex = 9
-                          OnClick = sbBBAcharChavePrivadaClick
-                          ShowHint = True
-                          ParentFont = False
-                          ParentShowHint = False
-                        end
-                        object sbBBAcharArqCertificado: TSpeedButton
-                          Left = 897
-                          Height = 23
-                          Top = 96
-                          Width = 24
-                          Anchors = [akTop, akRight]
-                          Flat = True
-                          Font.Color = clWindowText
-                          Font.Height = -11
-                          Font.Name = 'MS Sans Serif'
-                          Images = ImageList1
-                          ImageIndex = 9
-                          OnClick = sbBBAcharArqCertificadoClick
-                          ShowHint = True
-                          ParentFont = False
-                          ParentShowHint = False
-                        end
-                        object edBBArqCertificado: TEdit
-                          Left = 24
-                          Height = 23
-                          Top = 96
-                          Width = 872
-                          Anchors = [akTop, akLeft, akRight]
+                          Top = 79
+                          Width = 145
+                          CenturyFrom = 1941
+                          MaxDate = 2958465
+                          MinDate = -53780
                           AutoSize = False
                           TabOrder = 1
-                          OnChange = edBBArqsChange
-                          OnExit = edBBArqCertificadoExit
+                          TrailingSeparator = False
+                          TextForNullDate = ' '
+                          LeadingZeros = True
+                          Kind = dtkDate
+                          TimeFormat = tf24
+                          TimeDisplay = tdHMS
+                          DateMode = dmComboBox
+                          Date = 1.7E308
+                          Time = 1.7E308
+                          UseDefaultSeparators = True
+                          HideDateTimeParts = []
+                          MonthNames = 'Long'
                         end
-                        object lbBBArqCertificado: TLabel
-                          Left = 24
+                        object btBBConfigTokenManualGerar: TButton
+                          Left = 32
+                          Height = 25
+                          Top = 23
+                          Width = 145
+                          Caption = 'Gerar Novo Token'
+                          TabOrder = 2
+                          OnClick = btBBConfigTokenManualGerarClick
+                        end
+                        object lbBBConfigTokenValidade: TLabel
+                          Left = 32
                           Height = 15
-                          Top = 80
-                          Width = 103
-                          Caption = 'Arquivo Certificado'
-                          ParentColor = False
+                          Top = 64
+                          Width = 44
+                          Caption = 'Validade'
                         end
-                        object imBBErroCertificado: TImage
-                          Left = 8
-                          Height = 16
-                          Top = 98
-                          Width = 16
-                          Visible = False
-                        end
-                        object lbBBErroCertificado: TLabel
-                          Left = 24
+                        object lbBBConfigTokenManual: TLabel
+                          Left = 200
                           Height = 15
-                          Top = 118
-                          Width = 103
-                          Caption = 'lbBBErroCertificado'
-                          ParentColor = False
+                          Top = 8
+                          Width = 32
+                          Caption = 'Token'
                         end
+                      end
+                      object cbBBConfigTokenManual: TCheckBox
+                        Left = 8
+                        Height = 19
+                        Top = -20
+                        Width = 133
+                        Caption = 'Utilizar Token Manual'
+                        TabOrder = 1
+                        OnClick = cbBBConfigTokenManualClick
                       end
                     end
                   end
@@ -6517,10 +6635,10 @@ object Form1: TForm1
                 Height = 443
                 Top = 24
                 Width = 946
-                ActivePage = tsItauChave
+                ActivePage = tsItauCertificado
                 Anchors = [akTop, akLeft, akRight, akBottom]
                 Images = ImageList1
-                TabIndex = 0
+                TabIndex = 1
                 TabOrder = 0
                 object tsItauChave: TTabSheet
                   Caption = 'Chave e Client ID'
@@ -6554,10 +6672,10 @@ object Form1: TForm1
                       OnChange = edtItauChavePIXChange
                     end
                     object Label26: TLabel
-                      Left = 746
+                      Left = 745
                       Height = 15
                       Top = 21
-                      Width = 59
+                      Width = 60
                       Anchors = [akTop, akRight]
                       Caption = 'Tipo Chave'
                       ParentColor = False
@@ -6640,9 +6758,9 @@ object Form1: TForm1
                     Height = 382
                     Top = 24
                     Width = 900
-                    ActivePage = tsItauChaveCertificadoArquivos
+                    ActivePage = tsItauRenovarChaveCertificado
                     Anchors = [akTop, akLeft, akRight, akBottom]
-                    TabIndex = 0
+                    TabIndex = 2
                     TabOrder = 0
                     OnChange = pgPSPItauChaveCertificadoChange
                     object tsItauChaveCertificadoArquivos: TTabSheet
@@ -7093,10 +7211,10 @@ object Form1: TForm1
                       OnChange = edSantanderChavePIXChange
                     end
                     object lbSantanderTipoChave: TLabel
-                      Left = 688
+                      Left = 687
                       Height = 15
                       Top = 24
-                      Width = 59
+                      Width = 60
                       Anchors = [akTop, akRight]
                       Caption = 'Tipo Chave'
                       ParentColor = False
@@ -7388,7 +7506,7 @@ object Form1: TForm1
                     ClientWidth = 880
                     TabOrder = 0
                     object sbSicrediAcharChavePrivada: TSpeedButton
-                      Left = 836
+                      Left = 630
                       Height = 23
                       Top = 197
                       Width = 24
@@ -7422,10 +7540,10 @@ object Form1: TForm1
                       ParentShowHint = False
                     end
                     object lbSicrediTipoChave: TLabel
-                      Left = 675
+                      Left = 674
                       Height = 15
                       Top = 24
-                      Width = 59
+                      Width = 60
                       Anchors = [akTop, akRight]
                       Caption = 'Tipo Chave'
                       ParentColor = False
@@ -7537,7 +7655,7 @@ object Form1: TForm1
                       Left = 24
                       Height = 23
                       Top = 197
-                      Width = 808
+                      Width = 602
                       Anchors = [akTop, akLeft, akRight]
                       AutoSize = False
                       TabOrder = 4
@@ -7558,15 +7676,47 @@ object Form1: TForm1
                       OnExit = edSicrediArqCertificadoExit
                     end
                     object cbSicrediTipoChave: TComboBox
-                      Left = 675
+                      Left = 674
                       Height = 23
                       Top = 40
-                      Width = 157
+                      Width = 158
                       Anchors = [akTop, akRight]
                       ItemHeight = 15
                       Style = csDropDownList
                       TabOrder = 1
                       TabStop = False
+                    end
+                    object edSicrediSenhaChavePrivada: TEdit
+                      Left = 674
+                      Height = 23
+                      Top = 197
+                      Width = 158
+                      Anchors = [akTop, akRight]
+                      EchoMode = emPassword
+                      PasswordChar = '*'
+                      TabOrder = 6
+                    end
+                    object btSicrediSenhaChavePrivada: TSpeedButton
+                      Left = 836
+                      Height = 23
+                      Top = 197
+                      Width = 24
+                      AllowAllUp = True
+                      Anchors = [akTop, akRight]
+                      Flat = True
+                      GroupIndex = 1
+                      Images = ImageList1
+                      ImageIndex = 7
+                      OnClick = btSicrediSenhaChavePrivadaClick
+                    end
+                    object lbSicrediSenhaChavePrivada: TLabel
+                      Left = 674
+                      Height = 15
+                      Top = 181
+                      Width = 129
+                      Anchors = [akTop, akRight]
+                      Caption = 'Senha (Se criptografada)'
+                      ParentColor = False
                     end
                   end
                 end
@@ -7783,10 +7933,10 @@ object Form1: TForm1
                         ParentColor = False
                       end
                       object lbSicoobTipoChave: TLabel
-                        Left = 671
+                        Left = 670
                         Height = 15
                         Top = 24
-                        Width = 59
+                        Width = 60
                         Anchors = [akTop, akRight]
                         Caption = 'Tipo Chave'
                         ParentColor = False
@@ -7953,7 +8103,7 @@ object Form1: TForm1
                         Left = 24
                         Height = 15
                         Top = 280
-                        Width = 182
+                        Width = 183
                         Caption = 'Access Token (APENAS SANDBOX)'
                         ParentColor = False
                       end
@@ -8157,10 +8307,10 @@ object Form1: TForm1
                   ParentShowHint = False
                 end
                 object lbPagSeguroTipoChave: TLabel
-                  Left = 683
+                  Left = 682
                   Height = 15
                   Top = 24
-                  Width = 59
+                  Width = 60
                   Anchors = [akTop, akRight]
                   Caption = 'Tipo Chave'
                   ParentColor = False
@@ -8338,10 +8488,10 @@ object Form1: TForm1
                   ParentShowHint = False
                 end
                 object lbGerenciaNetTipoChave: TLabel
-                  Left = 687
+                  Left = 686
                   Height = 15
                   Top = 19
-                  Width = 59
+                  Width = 60
                   Anchors = [akTop, akRight]
                   Caption = 'Tipo Chave'
                   ParentColor = False
@@ -8839,7 +8989,7 @@ object Form1: TForm1
                   Left = 24
                   Height = 15
                   Top = 101
-                  Width = 31
+                  Width = 32
                   Caption = 'Token'
                   ParentColor = False
                 end
@@ -8911,10 +9061,10 @@ object Form1: TForm1
                 ClientWidth = 880
                 TabOrder = 0
                 object lbInterTipoChave: TLabel
-                  Left = 681
+                  Left = 680
                   Height = 15
                   Top = 24
-                  Width = 59
+                  Width = 60
                   Anchors = [akTop, akRight]
                   Caption = 'Tipo Chave'
                   ParentColor = False
@@ -9108,10 +9258,10 @@ object Form1: TForm1
                 ClientWidth = 888
                 TabOrder = 0
                 object lbAilosTipoChave: TLabel
-                  Left = 683
+                  Left = 682
                   Height = 15
                   Top = 24
-                  Width = 59
+                  Width = 60
                   Anchors = [akTop, akRight]
                   Caption = 'Tipo Chave'
                   ParentColor = False
@@ -9588,10 +9738,10 @@ object Form1: TForm1
                 ClientWidth = 880
                 TabOrder = 0
                 object lbCieloTipoChave: TLabel
-                  Left = 681
+                  Left = 680
                   Height = 15
                   Top = 24
-                  Width = 59
+                  Width = 60
                   Anchors = [akTop, akRight]
                   Caption = 'Tipo Chave'
                   ParentColor = False
@@ -9785,10 +9935,10 @@ object Form1: TForm1
                 ClientWidth = 880
                 TabOrder = 0
                 object lbMercadoPagoTipoChave: TLabel
-                  Left = 681
+                  Left = 680
                   Height = 15
                   Top = 24
-                  Width = 59
+                  Width = 60
                   Anchors = [akTop, akRight]
                   Caption = 'Tipo Chave'
                   ParentColor = False
@@ -9797,7 +9947,7 @@ object Form1: TForm1
                   Left = 24
                   Height = 15
                   Top = 75
-                  Width = 70
+                  Width = 71
                   Caption = 'Access Token'
                   ParentColor = False
                 end
@@ -9911,10 +10061,10 @@ object Form1: TForm1
                 ClientWidth = 910
                 TabOrder = 0
                 object lbBanrisulTipoChave: TLabel
-                  Left = 711
+                  Left = 710
                   Height = 15
                   Top = 24
-                  Width = 59
+                  Width = 60
                   Anchors = [akTop, akRight]
                   Caption = 'Tipo Chave'
                   ParentColor = False
@@ -10087,10 +10237,10 @@ object Form1: TForm1
                 ClientWidth = 880
                 TabOrder = 0
                 object lbC6BankTipoChave: TLabel
-                  Left = 681
+                  Left = 680
                   Height = 15
                   Top = 24
-                  Width = 59
+                  Width = 60
                   Anchors = [akTop, akRight]
                   Caption = 'Tipo Chave'
                   ParentColor = False
@@ -10559,8 +10709,9 @@ object Form1: TForm1
     DadosAutomacao.VersaoAplicacao = '1.0'
     PSP = ACBrPSPBancoDoBrasil1
     QuandoGravarLog = ACBrPixCD1QuandoGravarLog
-    Left = 112
-    Top = 416
+    OnQuandoAlterarPSP = ACBrPixCD1QuandoAlterarPSP
+    Left = 328
+    Top = 120
   end
   object ACBrPSPItau1: TACBrPSPItau
     Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
@@ -10569,8 +10720,9 @@ object Form1: TForm1
   end
   object ACBrPSPBancoDoBrasil1: TACBrPSPBancoDoBrasil
     ACBrPixCD = ACBrPixCD1
-    Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead, scRecWrite, scRecRead, scSolicRecWrite, scSolicRecRead]
+    Scopes = [scCobWrite, scCobRead, scCobVWrite, scCobVRead, scPixWrite, scPixRead, scRecWrite, scRecRead, scSolicRecWrite, scSolicRecRead, scCobRWrite, scCobRRead, scPayloadLocationRecWrite, scPayloadLocationRecRead]
     QuandoReceberRespostaHttp = ACBrPSPBancoDoBrasil1QuandoReceberRespostaHttp
+    OnAntesAutenticar = ACBrPSPBancoDoBrasil1AntesAutenticar
     BBAPIVersao = apiVersao2
     Left = 168
     Top = 416
@@ -10692,7 +10844,7 @@ object Form1: TForm1
   end
   object ACBrPSPAppLess1: TACBrPSPAppLess
     Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
-    Left = 696
-    Top = 416
+    Left = 440
+    Top = 112
   end
 end
