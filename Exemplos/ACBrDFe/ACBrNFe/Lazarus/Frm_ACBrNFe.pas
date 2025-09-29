@@ -2637,7 +2637,7 @@ begin
   // Lê o arquivo selecionado
   if OpenDialog1.Execute then
   begin
-    ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.Leitor.CarregarArquivo(OpenDialog1.FileName);
+    ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.CarregarArquivo(OpenDialog1.FileName);
     ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.LerXml;
 
     AultNSU := ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.ultNSU;
