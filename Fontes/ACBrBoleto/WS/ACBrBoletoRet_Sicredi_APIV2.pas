@@ -214,7 +214,7 @@ begin
                 begin
                   if I = 0 then
                   begin
-                    ARetornoWS.DadosRet.TituloRet.ValorDesconto:= LJsonArray.ItemAsJSONObject[i].AsFloat['ValorDesconto'];
+                    ARetornoWS.DadosRet.TituloRet.ValorDesconto:= LJsonArray.ItemAsJSONObject[i].AsFloat['valorDesconto'];
                     ARetornoWS.DadosRet.TituloRet.DataDesconto := DateSicreditoDateTime(LJsonArray.ItemAsJSONObject[i].AsString['dataLimite']);
                   end;
                   if I = 1 then
