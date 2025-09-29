@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+29/09/2025
+--ACBrBoletoWS.Rest.pas, ACBrBoletoWS.pas--
+[-] Correção na classe base dos novos metodos de controle da oauth
+	ACBr-8121 - https://www.projetoacbr.com.br/forum/topic/85885-autentica%C3%A7%C3%A3o-api-boleto-banco-inter-parou-de-funcionar-ao-atualizar-acbrlibboleto/
+	Por: Victor H. Gonzales Pandaaa	
+
 26/09/2025
 --ACBrBoleto--
 [*] Ajustes na leitura do cedente.ini ler UseCertificateHttp

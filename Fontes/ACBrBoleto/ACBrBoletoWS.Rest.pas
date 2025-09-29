@@ -403,8 +403,7 @@ end;
 function TBoletoWSREST.Enviar: Boolean;
 begin
   try
-    BoletoWS.RetornoBanco.CodRetorno := 0;
-    BoletoWS.RetornoBanco.Msg        := '';
+    BoletoWS.RetornoBanco.Clear;
 
     DefinirProxy;
 

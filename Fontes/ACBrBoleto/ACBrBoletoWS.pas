@@ -118,11 +118,11 @@ type
     procedure SetBanco(ABanco: TACBrTipoCobranca);
     procedure GravaLog(const AString: AnsiString);
     procedure InstanciarIntegradora;
-    procedure Clear;
+
 
   protected
     property Banco: TACBrTipoCobranca read FBanco write SetBanco;
-
+    procedure Clear;
   public
     constructor Create(AOwner: TComponent); Override;
     destructor Destroy; override;
@@ -166,7 +166,7 @@ type
     property Msg: String read FMsg write FMsg;
     property CodRetorno: Integer read FCodRetorno write FCodRetorno;
     property HTTPResultCode: Integer read FHTTPResultCode write FHTTPResultCode;
-
+    procedure Clear;
   end;
 
 Const
@@ -255,6 +255,13 @@ uses
   ACBrBoletoRet_BTGPactual;
 
   { TRetornoEnvioClass }
+
+procedure TRetornoEnvioClass.Clear;
+begin
+  FRetWS := '';
+  FEnvWs := '';
+  CodRetorno := 0;
+end;
 
 constructor TRetornoEnvioClass.Create(ABoletoWS: TACBrBoleto);
 begin
