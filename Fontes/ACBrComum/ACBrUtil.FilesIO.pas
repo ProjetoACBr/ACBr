@@ -165,6 +165,8 @@ function DefinirNomeArquivo(const APath, ANomePadraoComponente: string;
 function FileToBytes(const AName: string; out Bytes: TBytes): Boolean;
 function SetGlobalEnvironment(const AName, AValue: string; const UserEnvironment: Boolean = True): Boolean;
 
+function CarregarArquivo(const APathNome: string): string;
+
 {$IFDEF MSWINDOWS}
 var xInp32 : function (wAddr: word): byte; stdcall;
 var xOut32 : function (wAddr: word; bOut: byte): byte; stdcall;
@@ -1659,6 +1661,32 @@ begin
   Result := True;
 end;
 {$EndIf}
+
+function CarregarArquivo(const APathNome: string): string;
+var
+  SL: TStringList;
+  sArq: string;
+begin
+  SL := TStringList.Create;
+  try
+    if FileExists(APathNome) then
+      SL.LoadFromFile(APathNome)
+    else
+      raise Exception.CreateFmt(ACBrStr('Arquivo: %s não encontrado.'), [APathNome] );
+
+    sArq := SL.Text;
+  finally
+    SL.Free;
+  end;
+
+  //remove o linebreak que fica no final da string por ter vindo do "TStringList.Text"
+  if Length(sArq) >= Length(sLineBreak) then
+  begin
+    sArq := Copy(sArq, 0, Length(sArq) - Length(sLineBreak));
+  end;
+
+  Result := sArq;
+end;
 
 initialization
 {$IfDef MSWINDOWS}

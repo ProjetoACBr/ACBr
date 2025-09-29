@@ -37,6 +37,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+29/09/2025
+-- ACBrUtil.FilesIO --
+[*] Implementado a função CarregarArquivo, retorna o conteudo do arquivo como sendo
+    uma string.
+  Por: Italo Giurizzato Junior
+
 25/09/2025
 -- ACBrJSON --
 [-] Ajuste para que 'TACBrJSONArray.Items[const AIndex: Integer]: String' não
