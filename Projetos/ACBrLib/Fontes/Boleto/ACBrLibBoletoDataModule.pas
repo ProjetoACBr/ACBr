@@ -65,10 +65,12 @@ type
 
     fToken: String;
     fValidadeToken: TDateTime;
+    fAutenticaManual: Boolean;
 
     procedure DoPrecisaAutenticar(var aToken: String; var aValidadeToken: TDateTime);
     procedure DoAntesAutenticar(var aToken: String; var aValidadeToken: TDateTime);
     procedure DoQuandoAlterarBanco(Sender: TObject);
+    procedure DoDepoisAutenticar(const aToken: String; const aValidadeToken: TDateTime);
   protected
     procedure DoCreate; override;
 
@@ -98,14 +100,17 @@ begin
 
   fToken := EmptyStr;
   fValidadeToken := 0;
+  fAutenticaManual := false;
   ACBrBoleto1.OnPrecisaAutenticar    := Nil;
-  ACBrBoleto1.OnAntesAutenticar      := DoAntesAutenticar;
-  ACBrBoleto1.OnQuandoAlterarBanco := DoQuandoAlterarBanco;
+  ACBrBoleto1.OnAntesAutenticar      := Nil;
+  ACBrBoleto1.OnDepoisAutenticar     := DoDepoisAutenticar;
+  ACBrBoleto1.OnQuandoAlterarBanco   := DoQuandoAlterarBanco;
 end;
 
 procedure TLibBoletoDM.DoPrecisaAutenticar(var aToken: String; var aValidadeToken: TDateTime);
 begin
-  // Não implementado, para forçar erro de Autenticação
+  if fAutenticaManual = false then
+     ACBrBoleto1.GerarTokenAutenticacao(fToken, fValidadeToken);
 end;
 
 procedure TLibBoletoDM.DoAntesAutenticar(var aToken: String; var aValidadeToken: TDateTime);
@@ -120,15 +125,26 @@ end;
 procedure TLibBoletoDM.DoQuandoAlterarBanco(Sender: TObject);
 begin
   fToken := EmptyStr;
+  fAutenticaManual := false;
   fValidadeToken := 0;
+  ACBrBoleto1.OnAntesAutenticar   := nil;
   ACBrBoleto1.OnPrecisaAutenticar := nil;
+end;
+
+procedure TLibBoletoDM.DoDepoisAutenticar(const aToken: String; const aValidadeToken: TDateTime);
+begin
+  fToken := aToken;
+  fValidadeToken := aValidadeToken;
 end;
 
 procedure TLibBoletoDM.InformarToken(const aToken: String; const aValidadeToken: TDateTime);
 begin
   fToken := aToken;
   fValidadeToken := aValidadeToken;
+  fAutenticaManual := true;
+  ACBrBoleto1.OnAntesAutenticar := DoAntesAutenticar;
   ACBrBoleto1.OnPrecisaAutenticar := DoPrecisaAutenticar;
+
 end;
 
 procedure TLibBoletoDM.AplicarConfiguracoes;
