@@ -45,6 +45,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 29/09/2025
+-- ACBrNFe.XMLReader --
+[-] Ajuste visando corrigir AV ao carregar XML somente com o xCampo.
+  Por: Diego Folieni
 -- ACBrNFeWebServices --
 [*] A unit passou as novas units ACBrDFeComum.DistDFeInt e ACBrDFeComum.RetDistDFeInt.
   Por: Italo Giurizzato Junior

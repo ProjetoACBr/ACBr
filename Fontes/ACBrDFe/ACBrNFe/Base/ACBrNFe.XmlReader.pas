@@ -1572,7 +1572,8 @@ begin
   for i := 0 to Length(ANodes) - 1 do
   begin
     NFe.InfAdic.obsCont.New;
-    NFe.InfAdic.obsCont[i].xCampo := ANodes[i].Attributes.Items['xCampo'].Content;
+    if ANodes[i].Attributes.Count > 0 then
+      NFe.InfAdic.obsCont[i].xCampo := ANodes[i].Attributes.Items['xCampo'].Content;
     NFe.InfAdic.obsCont[i].xTexto := ObterConteudo(ANodes[i].Childrens.Find('xTexto'), tcStr);
   end;
 
@@ -1581,7 +1582,8 @@ begin
   for i := 0 to Length(ANodes) - 1 do
   begin
     NFe.InfAdic.obsFisco.New;
-    NFe.InfAdic.obsFisco[i].xCampo := ANodes[i].Attributes.Items['xCampo'].Content;
+    if ANodes[i].Attributes.Count > 0 then
+      NFe.InfAdic.obsFisco[i].xCampo := ANodes[i].Attributes.Items['xCampo'].Content;
     NFe.InfAdic.obsFisco[i].xTexto := ObterConteudo(ANodes[i].Childrens.Find('xTexto'), tcStr);
   end;
 
