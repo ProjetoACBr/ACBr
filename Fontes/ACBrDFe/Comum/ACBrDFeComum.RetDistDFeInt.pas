@@ -44,9 +44,9 @@ uses
    System.Contnrs,
   {$IfEnd}
   ACBrBase,
-  pcnConversao,
   ACBrDFe,
   ACBrDFe.Conversao,
+  pcnConversao,
   ACBrXmlBase,
   ACBrXmlDocument;
 
@@ -347,6 +347,7 @@ type
       const AtpDFe: string = 'NFe'): Boolean;
     function GerarPathDistribuicao(AItem :TdocZipCollectionItem): string;
     function GerarNomeArquivo(AItem :TdocZipCollectionItem): string;
+    procedure CarregarArquivo(Const CaminhoArquivo: string);
 
     property versao: string            read Fversao   write Fversao;
     property tpAmb: TpcnTipoAmbiente   read FtpAmb    write FtpAmb;
@@ -471,6 +472,11 @@ begin
 end;
 
 { TRetDistDFeInt }
+
+procedure TRetDistDFeInt.CarregarArquivo(const CaminhoArquivo: string);
+begin
+  XmlRetorno := ACBrUtil.FilesIO.CarregarArquivo(CaminhoArquivo);
+end;
 
 constructor TRetDistDFeInt.Create(AOwner: TACBrDFe; const AtpDFe: string);
 begin
