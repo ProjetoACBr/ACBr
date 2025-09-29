@@ -38,6 +38,8 @@ interface
 
 uses
   Classes, SysUtils, synacode,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrDFe, ACBrDFeWebService,
   ACBrMDFe.Classes,
   pcnConversao, pmdfeConversaoMDFe,
@@ -49,9 +51,8 @@ uses
   ACBrMDFe.RetConsNaoEnc,
   ACBrDFeComum.Proc,
   ACBrDFeComum.RetEnvio,
-  pcnDistDFeInt,
-  pcnRetDistDFeInt,
-  ACBrXmlBase,
+  ACBrDFeComum.DistDFeInt,
+  ACBrDFeComum.RetDistDFeInt,
   ACBrMDFeManifestos, ACBrMDFeConfiguracoes;
 
 type
@@ -406,6 +407,7 @@ type
 
   TDistribuicaoDFe = class(TMDFeWebService)
   private
+    FOwner: TACBrDFe;
     FCNPJCPF: String;
     FultNSU: String;
     FNSU: String;
@@ -2678,6 +2680,8 @@ end;
 constructor TDistribuicaoDFe.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
+
+  FOwner := AOwner;
 end;
 
 destructor TDistribuicaoDFe.Destroy;
@@ -2702,7 +2706,7 @@ begin
   if Assigned(FretDistDFeInt) then
     FretDistDFeInt.Free;
 
-  FretDistDFeInt := TRetDistDFeInt.Create('MDFe');
+  FretDistDFeInt := TRetDistDFeInt.Create(FOwner, 'MDFe');
 
   if Assigned(FlistaArqs) then
     FlistaArqs.Free;
@@ -2729,11 +2733,11 @@ begin
     DistDFeInt.NSU := FNSU;
     DistDFeInt.Chave := trim(FchMDFe);
 
-    AjustarOpcoes( DistDFeInt.Gerador.Opcoes );
-    DistDFeInt.GerarXML;
+//    AjustarOpcoes( DistDFeInt.Gerador.Opcoes );
+//    DistDFeInt.GerarXML;
 
-    FPDadosMsg := DistDFeInt.Gerador.ArquivoFormatoXML;
-//    FPDadosMsg := DistDFeInt.GerarXML;
+//    FPDadosMsg := DistDFeInt.Gerador.ArquivoFormatoXML;
+    FPDadosMsg := DistDFeInt.GerarXML;
   finally
     DistDFeInt.Free;
   end;
@@ -2748,10 +2752,9 @@ begin
 
   // Processando em UTF8, para poder gravar arquivo corretamente //
   //A função UTF8ToNativeString deve ser removida quando for refatorado para usar ACBrXMLDocument
-  FretDistDFeInt.Leitor.Arquivo := UTF8ToNativeString(ParseText(FPRetWS));
+//  FretDistDFeInt.Leitor.Arquivo := UTF8ToNativeString(ParseText(FPRetWS));
+  FretDistDFeInt.XmlRetorno := FPRetWS;
   FretDistDFeInt.LerXml;
-//  FretDistDFeInt.XmlRetorno := ParseText(FPRetWS);
-//  FretDistDFeInt.LerXml;
 
   for I := 0 to FretDistDFeInt.docZip.Count - 1 do
   begin
