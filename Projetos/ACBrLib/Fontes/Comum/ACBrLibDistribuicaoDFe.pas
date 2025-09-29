@@ -38,8 +38,11 @@ interface
 
 uses
   Classes, SysUtils, contnrs,
-  ACBrLibResposta, ACBrLibConfig,
-  pcnConversao, pcnRetDistDFeInt;
+  ACBrLibResposta,
+  ACBrLibConfig,
+  pcnConversao,
+  ACBrDFe.Conversao,
+  ACBrDFeComum.RetDistDFeInt;
 
 type
   { TDistribuicaoDFeItemResposta }
