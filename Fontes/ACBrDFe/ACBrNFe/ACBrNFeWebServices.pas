@@ -55,7 +55,9 @@ uses
   ACBrNFe.Consts,
   ACBrNFe.EnvEvento,
   ACBrNFe.RetEnvEvento,
-  pcnDistDFeInt, pcnRetDistDFeInt,
+//  pcnDistDFeInt, pcnRetDistDFeInt,
+  ACBrDFeComum.DistDFeInt,
+  ACBrDFeComum.RetDistDFeInt,
   ACBrDFeComum.RetEnvio,
   ACBrNFeNotasFiscais, ACBrNFeConfiguracoes;
 
@@ -522,6 +524,7 @@ type
 
   TDistribuicaoDFe = class(TNFeWebService)
   private
+    FOwner: TACBrDFe;
     FcUFAutor: integer;
     FCNPJCPF: String;
     FultNSU: String;
@@ -3838,6 +3841,8 @@ end;
 constructor TDistribuicaoDFe.Create(AOwner: TACBrDFe);
 begin
   inherited Create(AOwner);
+
+  FOwner := AOwner;
 end;
 
 destructor TDistribuicaoDFe.Destroy;
@@ -3862,7 +3867,7 @@ begin
   if Assigned(FretDistDFeInt) then
     FretDistDFeInt.Free;
 
-  FretDistDFeInt := TRetDistDFeInt.Create('NFe');
+  FretDistDFeInt := TRetDistDFeInt.Create(FOwner, 'NFe');
 
   if Assigned(FlistaArqs) then
     FlistaArqs.Free;
@@ -3916,10 +3921,11 @@ begin
     DistDFeInt.NSU := trim(FNSU);
     DistDFeInt.Chave := trim(FchNFe);
 
-    AjustarOpcoes( DistDFeInt.Gerador.Opcoes );
-    DistDFeInt.GerarXML;
+    FPDadosMsg := DistDFeInt.GerarXML;
+//    AjustarOpcoes( DistDFeInt.Gerador.Opcoes );
+//    DistDFeInt.GerarXML;
 
-    FPDadosMsg := DistDFeInt.Gerador.ArquivoFormatoXML;
+//    FPDadosMsg := DistDFeInt.Gerador.ArquivoFormatoXML;
   finally
     DistDFeInt.Free;
   end;
@@ -3937,7 +3943,8 @@ begin
 
   // Processando em UTF8, para poder gravar arquivo corretamente //
   //A função UTF8ToNativeString deve ser removida quando for refatorado para usar ACBrXMLDocument
-  FretDistDFeInt.Leitor.Arquivo := UTF8ToNativeString(ParseText(FPRetWS));
+//  FretDistDFeInt.Leitor.Arquivo := UTF8ToNativeString(ParseText(FPRetWS));
+  FretDistDFeInt.XmlRetorno := FPRetWS;
   FretDistDFeInt.LerXml;
 
   for I := 0 to FretDistDFeInt.docZip.Count - 1 do
