@@ -3482,7 +3482,7 @@ begin
       ACBrNFe.WebServices.DistribuicaoDFe.Clear;
       ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Clear;
 
-      ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.Leitor.CarregarArquivo(AArquivoOuXml);
+      ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.CarregarArquivo(AArquivoOuXml);
       ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.LerXml;
 
       // Preenche a lista de arquivos extraídos da distribuição, pois a leitura não gera os arquivos individuais
