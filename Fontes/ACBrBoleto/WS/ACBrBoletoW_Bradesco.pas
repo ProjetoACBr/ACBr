@@ -103,6 +103,8 @@ type
     procedure AtribuirAbatimento(AJsonObject: TACBrJSONObject);
     procedure AtribuirDesconto(AJsonObject: TACBrJSONObject);
     function DateTimeToDateBradesco( const AValue:TDateTime ):String;
+    procedure GerarNegativacao(AJsonObject: TACBrJSONObject);
+    procedure GerarProtesto(AJsonObject: TACBrJSONObject);
   protected
     procedure DefinirURL; override;
     procedure DefinirContentType; override;
@@ -125,6 +127,13 @@ type
     procedure GerarJuros(AJsonObject: TACBrJSONObject);
     procedure GerarMulta(AJsonObject: TACBrJSONObject);
     procedure GerarDesconto(AJsonObject: TACBrJSONObject);
+
+    procedure GerarNegativacaoHibrido(AJsonObject: TACBrJSONObject);
+    procedure GerarProtestoHibrido(AJsonObject: TACBrJSONObject);
+
+    procedure GerarProtestoOuNegativacao(AJsonObject: TACBrJSONObject);
+
+
     procedure RegistraHibrido;
     procedure RegistraComum;
     procedure DefinirURLAmbiente(const AUseCert: Boolean);
@@ -610,6 +619,12 @@ begin
     GerarJuros(LJsonObject);
     GerarMulta(LJsonObject);
 
+    if Boleto.Configuracoes.WebService.UseCertificateHTTP then  // Portal Developers
+    begin
+      GerarProtestoOuNegativacao(LJsonObject)
+    end;
+
+
     GerarDesconto(LJsonObject);
 
 
@@ -717,6 +732,13 @@ begin
     LJsonObject.AddPair('cindcdPgtoParcial', 'N');//FIXO.
     LJsonObject.AddPair('qtdePgtoParcial', 000);//FIXO.
     LJsonObject.AddPair('filler1', '');//FIXO.
+
+    if Boleto.Configuracoes.WebService.UseCertificateHTTP then  // Portal Developers
+    begin
+     GerarNegativacaoHibrido(LJsonObject);
+     GerarProtestoHibrido(LJsonObject)
+    end;
+
 
     GerarJuros(LJsonObject);
     GerarMulta(LJsonObject);
@@ -1089,6 +1111,139 @@ begin
         AJsonObject.AddPair(LDiasTitulo, 0);
       end;
   end;
+end;
+
+procedure TBoletoW_Bradesco.GerarNegativacao(AJsonObject: TACBrJSONObject);
+begin
+
+end;
+
+procedure TBoletoW_Bradesco.GerarNegativacaoHibrido(AJsonObject: TACBrJSONObject);
+var
+  LTipoNegativacao: Integer;
+  LDiasNegativacao: Integer;
+begin
+  if not Assigned(ATitulo) or not Assigned(AJsonObject) then
+    Exit;
+
+  if ATitulo.DataNegativacao > 0  then
+  begin
+    //Código "3" para dias úteis ou "4" para dias corridos
+    if ATitulo.TipoDiasNegativacao = diUteis then
+    begin
+     LTipoNegativacao := 3;
+     LDiasNegativacao := WorkingDaysBetween(ATitulo.Vencimento, ATitulo.DataNegativacao);
+    end
+    else
+    begin
+     LTipoNegativacao := 4;
+     LDiasNegativacao := DaysBetween(ATitulo.Vencimento, ATitulo.DataNegativacao);
+    end;
+
+    if LDiasNegativacao < 5 then
+      raise Exception.Create('Erro quantidade de dias para negativação. (mínimo de 5 dias).');
+  end
+  else
+  begin
+    // qdo nao informado data de negativacao retornar zeros
+    LTipoNegativacao := 0;
+    LDiasNegativacao := 0;
+  end;
+  AJsonObject.AddPair('codNegativacao', LTipoNegativacao);
+  AJsonObject.AddPair('diasNegativacao', LDiasNegativacao);
+end;
+
+procedure TBoletoW_Bradesco.GerarProtesto(AJsonObject: TACBrJSONObject);
+begin
+
+end;
+
+procedure TBoletoW_Bradesco.GerarProtestoHibrido(AJsonObject: TACBrJSONObject);
+var
+  LTipoProtesto: Integer;
+  LDiasProtesto: Integer;
+begin
+  if not Assigned(ATitulo) or not Assigned(AJsonObject) then
+    Exit;
+
+  if ATitulo.DataProtesto > 0 then
+  begin
+    //Código "2" para dias úteis ou "1" para dias corridos
+    if ATitulo.TipoDiasProtesto = diUteis then
+      LTipoProtesto := 2
+    else
+      LTipoProtesto := 1;
+
+    // Data base para cálculo dos dias
+    if ATitulo.DataProtesto > 0 then
+      LDiasProtesto := DaysBetween(ATitulo.Vencimento, ATitulo.DataProtesto);
+    if LDiasProtesto < 5 then
+      raise Exception.Create('Erro quantidade de dias para protesto. (mínimo de 5 dias).');
+  end
+  else
+  begin
+    // qdo nao informado data de protesto retornar zeros.
+    LTipoProtesto := 0;
+    LDiasProtesto := 0;
+  end;
+  AJsonObject.AddPair('ctpoProteTitlo', LTipoProtesto);
+  AJsonObject.AddPair('ctpoPrzProte', LDiasProtesto);
+end;
+
+procedure TBoletoW_Bradesco.GerarProtestoOuNegativacao(
+  AJsonObject: TACBrJSONObject);
+var
+ LProtestoAutomaticoNegativacao : string;
+ LDias : string;
+begin
+  // Utilizando quando não for hibrido
+
+  if not Assigned(ATitulo) or not Assigned(AJsonObject) then
+    Exit;
+
+//  01 - Dias Corridos para Protesto
+//  02 - Dias Úteis para Protesto
+//  03 - Dias Corridos para Negativação
+
+  case ATitulo.CodigoNegativacao of
+    cnProtestarCorrido:
+      begin
+        if ATitulo.DataProtesto = 0 then
+          raise Exception.Create('Data de protesto não foi informada');
+        LDias := inttostr(DaysBetween(ATitulo.Vencimento, ATitulo.DataProtesto));
+        LProtestoAutomaticoNegativacao := '01'; //01 - Dias Corridos para Protesto
+      end;
+    cnProtestarUteis:
+      begin
+        if ATitulo.DataProtesto = 0 then
+          raise Exception.Create('Data de protesto não foi informada');
+        LDias := inttostr(WorkingDaysBetween(ATitulo.Vencimento, ATitulo.DataProtesto));
+        LProtestoAutomaticoNegativacao := '02'; //  02 - Dias Úteis para Protesto
+      end;
+    cnNegativarUteis:
+      begin
+         LProtestoAutomaticoNegativacao := '00';
+         raise Exception.Create('Negativar não permite dias uteis');
+      end;
+    cnNegativar:
+      begin
+        if ATitulo.DataNegativacao = 0 then
+          raise Exception.Create('Data de negativação não foi informada');
+        LDias := inttostr(DaysBetween(ATitulo.Vencimento, ATitulo.DataNegativacao));
+        LProtestoAutomaticoNegativacao := '03'; //  03 - Dias Corridos para Negativação
+      end
+  else
+    // caso precise enviar zero como no hibrido. até a data atual nao precisa
+    LProtestoAutomaticoNegativacao := '00';
+    LDias := '00';
+  end;
+
+  if (LProtestoAutomaticoNegativacao <> '00') then
+  begin
+    AJsonObject.AddPair('tpProtestoAutomaticoNegativacao', LProtestoAutomaticoNegativacao);
+    AJsonObject.AddPair('prazoProtestoAutomaticoNegativacao', LDias);
+  end;
+
 end;
 
 constructor TBoletoW_Bradesco.Create(ABoletoWS: TBoletoWS; AACBrBoleto : TACBrBoleto);

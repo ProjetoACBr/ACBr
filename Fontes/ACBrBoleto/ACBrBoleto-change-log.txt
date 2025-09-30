@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+30/09/2025
+-- ACBrBoletoW_Bradesco --
+[+] ACBr-8117 - Juros e Multa quando hibrido / juros ou multa convencional. ambos do portal.
+	Por: Daniel de Morais
+
 29/09/2025
 --ACBrBoletoWS.Rest.pas, ACBrBoletoWS.pas--
 [-] Correção na classe base dos novos metodos de controle da oauth
