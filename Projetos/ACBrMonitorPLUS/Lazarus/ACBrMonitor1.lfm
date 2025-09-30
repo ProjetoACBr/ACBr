@@ -36155,7 +36155,6 @@ object FrmACBrMonitor: TFrmACBrMonitor
     ACBrGNRE = ACBrGNRE1
     MostrarPreview = False
     MostrarStatus = False
-    TamanhoPapel = tpA4
     NumCopias = 1
     MargemInferior = 0.8
     MargemSuperior = 0.8
