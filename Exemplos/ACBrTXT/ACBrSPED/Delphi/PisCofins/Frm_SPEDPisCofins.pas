@@ -42,7 +42,7 @@ uses
 {$ENDIF}
   SysUtils, Variants, Classes, Graphics, Controls, Forms, ACBrEPCBlocos,
   Dialogs, StdCtrls, ACBrSpedPisCofins, ExtCtrls, ComCtrls, ACBrUtil,
-  ACBrTXTClass;
+  ACBrTXTClass, ACBrBase;
 
 type
   
@@ -261,6 +261,12 @@ begin
               COD_TIPO_CONT := codIndTipoConExclAliqBasica;
               //Campo IND_REG_CUM apenas para Lucro Presumido e (COD_INC_TRIB = 2)
               //IND_REG_CUM := 1;
+           end;
+
+           with Registro0120New do
+           begin
+             MES_DISPENSA   := ''; //Mês de referência do ano-calendário da escrituração, dispensada da entrega. Formato MMAAAA
+             INF_COMP       := ''; //Informação complementar do registro.
            end;
 
 
