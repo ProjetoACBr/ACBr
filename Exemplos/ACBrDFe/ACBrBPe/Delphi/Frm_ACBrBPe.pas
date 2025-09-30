@@ -339,12 +339,11 @@ uses
   ACBrUtil.FilesIO,
   ACBrUtil.DateTime,
   ACBrUtil.XMLHTML,
-  pcnConversao,
-  ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrDFeConfiguracoes, ACBrDFeSSL, ACBrDFeOpenSSL, ACBrDFeUtil,
   ACBrBPeClass,
-  ACBrBPeConversao, ACBrDFeComum.ConsReciDFe,
+  ACBrBPeConversao,
+  ACBrDFeComum.ConsReciDFe,
   ACBrBPeBilhetes, ACBrBPeConfiguracoes,
   Frm_Status, Frm_SelecionarCertificado, Frm_ConfiguraSerial;
 
@@ -452,13 +451,13 @@ begin
     //
     // Dados de Identificação do BP-e
     //
-    Ide.cUF := UFtoCUF(edtEmitUF.Text);
+    Ide.cUF := UFparaCodigoUF(edtEmitUF.Text);
 
     {
-    // TpcnTipoAmbiente = (taProducao, taHomologacao);
+    // TACBrTipoAmbiente = (taProducao, taHomologacao);
     case rgTipoAmb.ItemIndex of
-      0: Ide.tpAmb := TACBrTipoAmbiente(taProducao);
-      1: Ide.tpAmb := TACBrTipoAmbiente(taHomologacao);
+      0: Ide.tpAmb := taProducao;
+      1: Ide.tpAmb := taHomologacao;
     end;
 
     Ide.modelo  := 63;
@@ -470,8 +469,8 @@ begin
     // ( moRodoviario, moAquaviario, moFerroviario );
     Ide.modal   := moRodoviario;
     Ide.dhEmi   := Now;
-    // TpcnTipoEmissao = (teNormal, teOffLine);
-    Ide.tpEmis  := TACBrTipoEmissao(teNormal);
+    // TACBrTipoEmissao = (teNormal, teOffLine);
+    Ide.tpEmis  := teNormal;
     Ide.verProc := '1.0.0.0'; //Versão do seu sistema
     Ide.indPres := pcPresencial;
     Ide.UFIni   := 'SP';
@@ -648,7 +647,7 @@ begin
     begin
       Imp.vTotDFe := 100;
       Imp.IBSCBS.CST := cst000;
-      Imp.IBSCBS.cClassTrib := ct000001;
+      Imp.IBSCBS.cClassTrib := '000001';
 
       Imp.IBSCBS.gIBSCBS.vBC := 100;
 
@@ -668,6 +667,9 @@ begin
       Imp.IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet := 5;
       Imp.IBSCBS.gIBSCBS.gIBSMun.vIBS := 50;
 
+      // vIBS = vIBS do IBSUF + vIBS do IBSMun
+      Imp.IBSCBS.gIBSCBS.vIBS := 100;
+
       Imp.IBSCBS.gIBSCBS.gCBS.pCBS := 5;
       Imp.IBSCBS.gIBSCBS.gCBS.gDif.pDif := 5;
       Imp.IBSCBS.gIBSCBS.gCBS.gDif.vDif := 50;
@@ -677,7 +679,7 @@ begin
       Imp.IBSCBS.gIBSCBS.gCBS.vCBS := 50;
 
       Imp.IBSCBS.gIBSCBS.gTribRegular.CSTReg := cst000;
-      Imp.IBSCBS.gIBSCBS.gTribRegular.cClassTribReg := ct000001;
+      Imp.IBSCBS.gIBSCBS.gTribRegular.cClassTribReg := '000001';
       Imp.IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSUF := 5;
       Imp.IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSUF := 50;
       Imp.IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSMun := 5;
@@ -749,10 +751,10 @@ begin
     //
     // Dados de Identificação do BP-e TM
     //
-    Ide.cUF := UFtoCUF(edtEmitUF.Text);
+    Ide.cUF := UFparaCodigoUF(edtEmitUF.Text);
 
     {
-    // TpcnTipoAmbiente = (taProducao, taHomologacao);
+    // TACBrTipoAmbiente = (taProducao, taHomologacao);
     case rgTipoAmb.ItemIndex of
       0: Ide.tpAmb := taProducao;
       1: Ide.tpAmb := taHomologacao;
@@ -767,8 +769,8 @@ begin
     Ide.modal   := moRodoviario;
     Ide.dhEmi   := Now;
     Ide.dCompet := Date;
-    // TpcnTipoEmissao = (teNormal, teOffLine);
-    Ide.tpEmis  := TACBrTipoEmissao(teNormal);
+    // TACBrTipoEmissao = (teNormal, teOffLine);
+    Ide.tpEmis  := teNormal;
     Ide.verProc := '1.0.0.0'; //Versão do seu sistema
     Ide.indPres := pcPresencial;
     Ide.UFIni   := 'SP';
@@ -851,7 +853,7 @@ begin
         begin
           Imp.vTotDFe := 0; // No BPeTM essa informação se encontra em total.
           Imp.IBSCBS.CST := cst000;
-          Imp.IBSCBS.cClassTrib := ct000001;
+          Imp.IBSCBS.cClassTrib := '000001';
 
           Imp.IBSCBS.gIBSCBS.vBC := 100;
 
@@ -871,6 +873,9 @@ begin
           Imp.IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet := 5;
           Imp.IBSCBS.gIBSCBS.gIBSMun.vIBS := 50;
 
+          // vIBS = vIBS do IBSUF + vIBS do IBSMun
+          Imp.IBSCBS.gIBSCBS.vIBS := 100;
+
           Imp.IBSCBS.gIBSCBS.gCBS.pCBS := 5;
           Imp.IBSCBS.gIBSCBS.gCBS.gDif.pDif := 5;
           Imp.IBSCBS.gIBSCBS.gCBS.gDif.vDif := 50;
@@ -880,7 +885,7 @@ begin
           Imp.IBSCBS.gIBSCBS.gCBS.vCBS := 50;
 
           Imp.IBSCBS.gIBSCBS.gTribRegular.CSTReg := cst000;
-          Imp.IBSCBS.gIBSCBS.gTribRegular.cClassTribReg := ct000001;
+          Imp.IBSCBS.gIBSCBS.gTribRegular.cClassTribReg := '000001';
           Imp.IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSUF := 5;
           Imp.IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSUF := 50;
           Imp.IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSMun := 5;
@@ -1973,7 +1978,7 @@ end;
 procedure TfrmACBrBPe.FormCreate(Sender: TObject);
 var
   T: TSSLLib;
-  I: TpcnTipoEmissao;
+  I: TACBrTipoEmissao;
   K: TVersaoBPe;
   U: TSSLCryptLib;
   V: TSSLHttpLib;
@@ -2010,8 +2015,8 @@ begin
   cbSSLType.ItemIndex := 0;
 
   cbFormaEmissao.Items.Clear;
-  for I := Low(TpcnTipoEmissao) to High(TpcnTipoEmissao) do
-     cbFormaEmissao.Items.Add( GetEnumName(TypeInfo(TpcnTipoEmissao), integer(I) ) );
+  for I := Low(TACBrTipoEmissao) to High(TACBrTipoEmissao) do
+     cbFormaEmissao.Items.Add( GetEnumName(TypeInfo(TACBrTipoEmissao), integer(I) ) );
   cbFormaEmissao.ItemIndex := 0;
 
   cbVersaoDF.Items.Clear;
@@ -2319,7 +2324,7 @@ begin
     ExibirErroSchema := cbxExibirErroSchema.Checked;
     RetirarAcentos   := cbxRetirarAcentos.Checked;
     FormatoAlerta    := edtFormatoAlerta.Text;
-    FormaEmissao     := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
+    FormaEmissao     := TACBrTipoEmissao(cbFormaEmissao.ItemIndex);
     VersaoDF         := TVersaoBPe(cbVersaoDF.ItemIndex);
     ModeloDF         := TModeloBPe(cbModeloDF.ItemIndex);
   end;
@@ -2327,7 +2332,7 @@ begin
   with ACBrBPe1.Configuracoes.WebServices do
   begin
     UF         := cbUF.Text;
-    Ambiente   := StrToTpAmb(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
+    Ambiente   := StrToTipoAmbiente(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
     Visualizar := cbxVisualizar.Checked;
     Salvar     := cbxSalvarSOAP.Checked;
 
