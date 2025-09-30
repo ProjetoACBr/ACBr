@@ -2718,7 +2718,7 @@ begin
     AddBand(TBlocoCalculoISSQN.Create(FNFeUtils));
     AddBand(TBlocoDadosAdicionais.Create(FNFeUtils));
     AddBand(TBlocoRodape.Create(FMensagemRodape));
-    AddBand(TBlocoMarcaDagua.Create(FNFeUtils, Cancelada));
+    AddBand(TBlocoMarcaDagua.Create(FNFeUtils, FDANFEClassOwner.Cancelada));
 
     FInitialized := True;
   end;
