@@ -147,6 +147,13 @@ const
  function PIXCD_CancelarCobranca(const libHandle: TLibHandle; ATxId: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
    {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrPIXCDLIBName;
 
+// Autenticacao
+ function PIXCD_GerarToken(const libHandle: PLibHandle;  const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrPIXCDLIBName;
+
+ function PIXCD_InformarToken(const libHandle: PLibHandle; const aToken: PAnsiChar; const aValidadeToken: TDateTime): Integer;
+   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrPIXCDLIBName;
+
  //Matera
  function PIXCD_Matera_IncluirConta(const libHandle: TLibHandle; aInfIncluirConta: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
    {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrPIXCDLIBName;

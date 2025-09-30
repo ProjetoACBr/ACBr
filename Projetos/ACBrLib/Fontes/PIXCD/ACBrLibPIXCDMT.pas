@@ -124,6 +124,13 @@ function PIXCD_RevisarCobranca(const libHandle: PLibHandle; AInfCobVRevisada: PA
 function PIXCD_CancelarCobranca(const libHandle: PLibHandle; ATxId: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 
+// Autenticacao
+function PIXCD_GerarToken(const libHandle: PLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+ 
+function PIXCD_InformarToken(const libHandle: PLibHandle; const aToken: PAnsiChar; const aValidadeToken: TDateTime): Integer;
+ {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
 //Matera
 function PIXCD_Matera_IncluirConta(const libHandle: PLibHandle; aInfIncluirConta: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
@@ -481,6 +488,36 @@ begin
   except
     on E: EACBrLibException do
      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function PIXCD_GerarToken(const libHandle: PLibHandle; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(libHandle);
+    Result := TACBrLibPIXCD(libHandle^.Lib).GerarToken(sResposta, esTamanho);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
+
+    on E: Exception do
+      Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function PIXCD_InformarToken(const libHandle: PLibHandle; const aToken: PAnsiChar; const aValidadeToken: TDateTime): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+begin
+  try
+    VerificarLibInicializada(libHandle);
+    Result := TACBrLibPIXCD(libHandle^.Lib).InformarToken(aToken, aValidadeToken);
+  except
+    on E: EACBrLibException do
+      Result := E.Erro;
 
     on E: Exception do
       Result := ErrExecutandoMetodo;

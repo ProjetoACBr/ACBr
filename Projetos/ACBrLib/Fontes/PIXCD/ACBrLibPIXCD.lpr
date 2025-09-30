@@ -93,6 +93,10 @@ exports
   PIXCD_RevisarCobranca,
   PIXCD_CancelarCobranca,
 
+  // Autenticacao
+  PIXCD_GerarToken,
+  PIXCD_InformarToken,
+
   //PSP Matera
   PIXCD_Matera_IncluirConta,
   PIXCD_Matera_ConsultarConta,

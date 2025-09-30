@@ -5,6 +5,7 @@ inherited LibPIXCDDM: TLibPIXCDDM
   Width = 563
   object ACBrPixCD1: TACBrPixCD[0]
     Recebedor.CodCategoriaComerciante = 0
+    OnQuandoAlterarPSP = ACBrPixCD1QuandoAlterarPSP
     Left = 57
     Top = 40
   end

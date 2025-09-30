@@ -569,6 +569,20 @@ type
       property Detail: String read fDetail write fDetail;
   end;
 
+  { TLibPIXCDRetornoGerarToken }
+  TLibPIXCDRetornoGerarToken = class(TACBrLibRespostaBase)
+    private
+      fToken: String;
+      fValidadeToken: TDateTime;
+
+    public
+      procedure Processar(const aToken: String; const aValidadeToken: TDateTime);
+
+    published
+      property Token: String read fToken write fToken;
+      property ValidadeToken: TDateTime read fValidadeToken write fValidadeToken;
+  end;
+
 implementation
 
 { TLibPIXCDProblemaRespostaViolacao }
@@ -1103,6 +1117,13 @@ begin
   fStatus := PIXCD.status;
   fTitle := PIXCD.title;
   fDetail := PIXCD.detail;
+end;
+
+{ TLibPIXCDRetornoGerarToken }
+procedure TLibPIXCDRetornoGerarToken.Processar(const aToken: String; const aValidadeToken: TDateTime);
+begin
+  fToken := aToken;
+  fValidadeToken := aValidadeToken;
 end;
 
 { TLibPIXCDCobsConsultadas }

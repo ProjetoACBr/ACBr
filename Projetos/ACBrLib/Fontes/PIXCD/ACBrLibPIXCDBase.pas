@@ -72,7 +72,11 @@ type
       function RevisarCobranca(AInfCobVRevisada: PAnsiChar; const ATxId: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
       function CancelarCobranca(ATxId: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
 
-      //Matera
+      // Autenticacao
+      function GerarToken(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+      function InformarToken(const aToken: PAnsiChar; const aValidadeToken: TDateTime): Integer;
+
+      // Matera
       function MateraIncluirConta(aInfIncluirConta: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
       function MateraConsultarConta(aAccountId: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
       function MateraInativarConta(aAccountId: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: integer): integer;
@@ -977,6 +981,76 @@ begin
     on E: EACBrLibException do
       Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
 
+    on E: Exception do
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+  end;
+end;
+
+function TACBrLibPIXCD.GerarToken(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+var
+  LToken: String;
+  LValidade: TDateTime;
+  Resposta: AnsiString;
+  LTokenResp: TLibPIXCDRetornoGerarToken;
+begin
+  GravarLog('PIXCD_GerarToken', logNormal);
+
+  if (not Assigned(PIXCDDM.ACBrPixCD1.PSP)) then
+  begin
+    Result := SetRetorno(HTTP_METHOD_NOT_ALLOWED, ConverterStringSaida('PSP não atribuído!'));
+    Exit;
+  end;
+
+  try
+    PIXCDDM.Travar;
+    LTokenResp := TLibPIXCDRetornoGerarToken.Create(CSessaoRespPIXCD, Config.TipoResposta, Config.CodResposta);
+    try
+      PIXCDDM.ACBrPixCD1.PSP.GerarToken(LToken, LValidade);
+      LTokenResp.Processar(LToken, LValidade);
+
+      Resposta := LTokenResp.Gerar;
+
+      MoverStringParaPChar(Resposta, sResposta, esTamanho);
+      Result := SetRetorno(ErrOK, Resposta);
+    finally
+      PIXCDDM.Destravar;
+      LTokenResp.Free;
+    end;
+  except
+    on E: EACBrLibException do
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+    on E: Exception do
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+  end;
+end;
+
+function TACBrLibPIXCD.InformarToken(const aToken: PAnsiChar; const aValidadeToken: TDateTime): Integer;
+var
+  LToken: String;
+begin
+  LToken := ConverterStringEntrada(aToken);
+  if (Config.Log.Nivel > logNormal) then
+    GravarLog('PIXCD_InformarToken(' + LToken + ',' + DateTimeToStr(aValidadeToken) + ' )', logCompleto, True)
+  else
+    GravarLog('PIXCD_InformarToken', logNormal);
+
+  if (not Assigned(PIXCDDM.ACBrPixCD1.PSP)) then
+  begin
+    Result := SetRetorno(HTTP_METHOD_NOT_ALLOWED, ConverterStringSaida('PSP não atribuído!'));
+    Exit;
+  end;
+
+  try
+    PIXCDDM.Travar;
+    try
+      PIXCDDM.InformarToken(LToken, aValidadeToken);
+      Result := SetRetorno(ErrOK);
+    finally
+      PIXCDDM.Destravar;
+    end;
+  except
+    on E: EACBrLibException do
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
     on E: Exception do
       Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
   end;
