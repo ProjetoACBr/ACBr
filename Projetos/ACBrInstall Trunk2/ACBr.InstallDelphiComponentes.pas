@@ -166,6 +166,81 @@ uses
   ACBrUtil.FilesIO, ACBrUtil.Strings, ACBr.InstallUtils, IniFiles,
   JvVersionInfo;
 
+function GetSVNRevision(const APath: string): string;
+var
+  SA: TSecurityAttributes;
+  SI: TStartupInfo;
+  PI: TProcessInformation;
+  StdOutRead, StdOutWrite: THandle;
+  Buffer: array[0..1023] of AnsiChar;
+  BytesRead: DWORD;
+  Output: TStringList;
+  Command, LastDate, Rev: string;
+begin
+  Result := '';
+  Output := TStringList.Create;
+  try
+    SA.nLength := SizeOf(SA);
+    SA.bInheritHandle := True;
+    SA.lpSecurityDescriptor := nil;
+
+    if not CreatePipe(StdOutRead, StdOutWrite, @SA, 0) then
+      RaiseLastOSError;
+
+    try
+      FillChar(SI, SizeOf(SI), 0);
+      SI.cb := SizeOf(SI);
+      SI.dwFlags := STARTF_USESTDHANDLES or STARTF_USESHOWWINDOW;
+      SI.wShowWindow := SW_HIDE;
+      SI.hStdOutput := StdOutWrite;
+      SI.hStdError := StdOutWrite;
+
+      Command := 'svn info "\\?\' + APath + '"';
+
+      if not CreateProcess(nil, PChar(Command), nil, nil, True,
+        CREATE_NO_WINDOW, nil, nil, SI, PI) then
+        RaiseLastOSError;
+
+      CloseHandle(StdOutWrite);
+
+      repeat
+        BytesRead := 0;
+        if not ReadFile(StdOutRead, Buffer, SizeOf(Buffer)-1, BytesRead, nil) then
+          Break;
+        if BytesRead > 0 then
+        begin
+          Buffer[BytesRead] := #0;
+          Output.Text := Output.Text + string(Buffer);
+        end;
+      until BytesRead = 0;
+
+      WaitForSingleObject(PI.hProcess, INFINITE);
+      CloseHandle(PI.hProcess);
+      CloseHandle(PI.hThread);
+
+    finally
+      CloseHandle(StdOutRead);
+    end;
+
+    // Extrai o campo "Revision" e "LastDate"
+    for var S in Output do
+    begin
+      if Pos('Revision:', S) = 1 then
+        Rev := 'Revision SVN: '+Trim(Copy(S, 10, MaxInt));
+
+      if Pos('Last Changed Date:', S) = 1 then
+        LastDate := 'Last Changed Date: ' + Trim(Copy(S, 20, MaxInt));
+
+      if (Rev <> '') and (LastDate <> '') then
+      begin
+        Result := Rev + sLineBreak + LastDate;
+        Break;
+      end;
+    end;
+  finally
+    Output.Free;
+  end;
+end;
 
 function sVersaoInstalador: string;
 var
@@ -393,7 +468,8 @@ begin
                  'Executado em: ' + DateTimeToStr(Now) + sLineBreak +
                  'Versão do delphi: ' + NomeVersao + ' ' + sPlatform + sLineBreak +
                  'Dir. Instalação : ' + OpcoesInstall.DiretorioRaizACBr + sLineBreak +
-                 'Dir. Bibliotecas: ' + sDirLibrary;
+                 'Dir. Bibliotecas: ' + sDirLibrary + sLineBreak +
+                 GetSVNRevision( ExtractFilePath(ParamStr(0)) );
 
     FazLog(Cabecalho + sLineBreak, nlMinimo, True);
 

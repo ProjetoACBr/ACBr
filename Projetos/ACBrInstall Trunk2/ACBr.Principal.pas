@@ -183,6 +183,7 @@ uses
 
 {$R *.dfm}
 
+
 // retornar o caminho completo para o arquivo .ini de configurações
 function TfrmPrincipal.PathArquivoIni: String;
 begin
@@ -306,6 +307,7 @@ end;
 
 procedure TfrmPrincipal.IniciaNovaInstalacao(const MaximoPassosProgresso: Integer; const
     NomeCaminhoArquivoLog: string; const Cabecalho: string);
+var LPath : String;
 begin
   // setar barra de progresso
   pgbInstalacao.Position := 0;
@@ -580,7 +582,6 @@ var
 begin
   // limpar o log
   lstMsgInstalacao.Clear;
-
   Instalou := False;
   btnInstalarACBr.Enabled := False;
   btnVisualizarLogCompilacao.Enabled := False;
