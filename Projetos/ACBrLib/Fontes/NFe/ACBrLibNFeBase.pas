@@ -1432,9 +1432,9 @@ begin
             ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Clear;
 
             if EhArquivo then
-              ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.Leitor.CarregarArquivo(ArquivoOuXml)
+              ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.CarregarArquivo(ArquivoOuXml)
             else
-              ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.Leitor.Arquivo := ArquivoOuXml;
+              ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.XmlRetorno := ArquivoOuXml;
 
             ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.LerXml;
 

@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+01/10/2025
+-- ACBrLibNFeBase.pas --
+[-] Atualização de pcn para ACBrXMLDocuments da distribuição DFe gerou modificação no codigo. Realizada correção.
+  Por: Alexandre de Paula / Elton Barbosa / Italo Jurisato
+
 23/07/2025
 -- ACBrLibNFe --
 [-] Fix #TK-7406 - Corrige ordem no método EnviarEmail. O load do xml ocorria depois do ConfigurarImpressao, por esse motivo o primeiro envio de e-mail nunca ia no padrão DANFECe (mesmo sendo configurado). 
