@@ -1166,6 +1166,9 @@ begin
   if not Assigned(ATitulo) or not Assigned(AJsonObject) then
     Exit;
 
+  LTipoProtesto := 0;
+  LDiasProtesto := 0;
+
   if ATitulo.DataProtesto > 0 then
   begin
     //Código "2" para dias úteis ou "1" para dias corridos
@@ -1175,17 +1178,11 @@ begin
       LTipoProtesto := 1;
 
     // Data base para cálculo dos dias
-    if ATitulo.DataProtesto > 0 then
-      LDiasProtesto := DaysBetween(ATitulo.Vencimento, ATitulo.DataProtesto);
-    if LDiasProtesto < 5 then
+    LDiasProtesto := DaysBetween(ATitulo.Vencimento, ATitulo.DataProtesto);
+    if (LDiasProtesto < 5) or (LDiasProtesto <> 0) then
       raise Exception.Create('Erro quantidade de dias para protesto. (mínimo de 5 dias).');
-  end
-  else
-  begin
-    // qdo nao informado data de protesto retornar zeros.
-    LTipoProtesto := 0;
-    LDiasProtesto := 0;
   end;
+
   AJsonObject.AddPair('ctpoProteTitlo', LTipoProtesto);
   AJsonObject.AddPair('ctpoPrzProte', LDiasProtesto);
 end;
