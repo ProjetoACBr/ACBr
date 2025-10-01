@@ -36,6 +36,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+01/10/2025
+-- ACBrIMendes --
+[+] Adicionada implementação dos métodos que não existiam.
+    por: Elias Cesar
+
 15/09/2025
 -- ACBrAPIBase --
 [*] Ajuste para tratamento de elementos do tipo array que não possuem ArrayName(chave).

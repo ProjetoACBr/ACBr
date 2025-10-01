@@ -46,14 +46,19 @@ const
   cIMendesURLProducao = '';
   cIMendesURLHomologacao = 'http://consultatributos.com.br:8080';
   cIMendesAPIV1 = 'api/v1/public';
+  cIMendesAPIV3 = 'api/v3/public';
   cIMendesAPIRegimeEspecial = 'regime_especial';
   cIMendesEndPointLogin = 'api/auth';
   cIMendesEndpointCadCliente = 'CadCliente';
   cIMendesEndpointEnviaRecebeDados = 'EnviaRecebeDados';
+  cIMendesEndpointSaneamentoGrades = 'SaneamentoGrades';
   cIMendesEndpointEnviaRegimeEspecial = 'SearchSpecialRegime';
+  cIMendesDadosUF = 'uf';
   cIMendesDadosServico = 'dados';
   cIMendesNomeServico = 'nomeServico';
+  cIMendesServicoAlterados = 'ALTERADOS';
   cIMendesServicoDescricaoProdutos = 'DESCRPRODUTOS';
+  cIMendesServicoHistoricoAcesso = 'HISTORICOACESSO';
 
 type    
 
@@ -424,6 +429,64 @@ type
     property TipoAtiv: String read fTipoAtiv write fTipoAtiv;
     property Observacao: String read fObservacao write fObservacao;
     property Revenda: TACBrIMendesRevenda read GetRevenda;
+  end; 
+
+  { TACBrIMendesSaneamentoCabecalho }
+  TACBrIMendesSaneamentoCabecalho = class(TACBrAPISchema)
+  private
+    fsugestao: String;
+    famb: Integer;
+    fcnpj: String;
+    fdthr: TDateTime;
+    ftransacao: String;
+    fmensagem: String;
+    fprodEnv: Integer;
+    fprodRet: Integer;
+    fprodNaoRet: Integer;
+    fcomportamentosParceiro: String;
+    fcomportamentosCliente: String;
+    fversao: String;
+    fduracao: String;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+  public
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrIMendesSaneamentoCabecalho);
+
+    property sugestao: String read fsugestao write fsugestao;
+    property amb: Integer read famb write famb;
+    property cnpj: String read fcnpj write fcnpj;
+    property dthr: TDateTime read fdthr write fdthr;
+    property transacao: String read ftransacao write ftransacao;
+    property mensagem: String read fmensagem write fmensagem;
+    property prodEnv: Integer read fprodEnv write fprodEnv;
+    property prodRet: Integer read fprodRet write fprodRet;
+    property prodNaoRet: Integer read fprodNaoRet write fprodNaoRet;
+    property comportamentosParceiro: String read fcomportamentosParceiro write fcomportamentosParceiro;
+    property comportamentosCliente: String read fcomportamentosCliente write fcomportamentosCliente;
+    property versao: String read fversao write fversao;
+    property duracao: String read fduracao write fduracao;
+  end;
+
+  { TACBrIMendesSaneamentoResponse }
+  TACBrIMendesSaneamentoResponse = class(TACBrAPISchema)
+  private
+    fCabecalho: TACBrIMendesSaneamentoCabecalho;
+    function GetCabecalho: TACBrIMendesSaneamentoCabecalho;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrIMendesSaneamentoResponse);
+
+    property Cabecalho: TACBrIMendesSaneamentoCabecalho read GetCabecalho;
   end;
 
   { TACBrIMendesErro }
@@ -495,8 +558,18 @@ type
     fSenha: AnsiString;
     fAmbiente: TACBrIMendesAmbiente;
     fRespostaErro: TACBrIMendesErro;
+    fSaneamentoGradesRequest: TACBrIMendesGradesRequest;
+    fSaneamentoGradesResponse: TACBrIMendesSaneamentoResponse;
+    fHistoricoAcessoResponse: TACBrIMendesHistoricoResponse;
+    fConsultarAlteradosResponse: TACBrIMendesConsultarResponse;
     fConsultarDescricaoResponse: TACBrIMendesConsultarResponse;
+    fConsultarRegimeEspecialResponse: TACBrIMendesRegimeEspecialList;
+    function GetConsultarAlteradosResponse: TACBrIMendesConsultarResponse;
+    function GetConsultarRegimeEspecialResponse: TACBrIMendesRegimeEspecialList;
+    function GetHistoricoAcessoResponse: TACBrIMendesHistoricoResponse;
+    function GetSaneamentoGradesRequest: TACBrIMendesGradesRequest;
     function GetConsultarDescricaoResponse: TACBrIMendesConsultarResponse;
+    function GetSaneamentoGradesResponse: TACBrIMendesSaneamentoResponse;
     function GetRespostaErro: TACBrIMendesErro;
     function GetSenha: AnsiString;
     function CalcularURL: String;
@@ -509,12 +582,20 @@ type
     procedure Clear;
     procedure Autenticar;
 
+    function SaneamentoGrades: Boolean;
     function ConsultarDescricao(const aDescricao: String; const aCNPJ: String = ''): Boolean;
     function ConsultarAlterados(const aUF: String; const aCNPJ: String = ''): Boolean;
     function ConsultarRegimesEspeciais(const aUF: String): Boolean;
-    function HistoricoAcesso: Boolean;
+    function HistoricoAcesso(const aCNPJ: String = ''): Boolean;
 
+    property SaneamentoGradesRequest: TACBrIMendesGradesRequest read GetSaneamentoGradesRequest;
+    property SaneamentoGradesResponse: TACBrIMendesSaneamentoResponse read GetSaneamentoGradesResponse;
+
+    property ConsultarAlteradosResponse: TACBrIMendesConsultarResponse read GetConsultarAlteradosResponse;
     property ConsultarDescricaoResponse: TACBrIMendesConsultarResponse read GetConsultarDescricaoResponse;
+    property ConsultarRegimeEspecialResponse: TACBrIMendesRegimeEspecialList read GetConsultarRegimeEspecialResponse;
+    property HistoricoAcessoResponse: TACBrIMendesHistoricoResponse read GetHistoricoAcessoResponse;
+
     property RespostaErro: TACBrIMendesErro read GetRespostaErro;
   published
     property Ambiente: TACBrIMendesAmbiente read fAmbiente write fAmbiente;
@@ -1597,6 +1678,171 @@ begin
     Revenda.Assign(Source.Revenda);
 end;
 
+{ TACBrIMendesSaneamentoCabecalho }
+
+procedure TACBrIMendesSaneamentoCabecalho.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrIMendesSaneamentoCabecalho) then
+    Assign(TACBrIMendesSaneamentoCabecalho(aSource));
+end;
+
+procedure TACBrIMendesSaneamentoCabecalho.DoWriteToJSon(aJSon: TACBrJSONObject);
+var
+  jCab: TACBrJSONObject;
+begin
+  if not Assigned(aJSon) then
+    Exit;
+
+  aJSon
+    .AddPair('sugestao', fsugestao, False)
+    .AddPair('amb', famb)
+    .AddPair('cnpj', fcnpj, False)
+    .AddPairISODateTime('dthr', fdthr, False)
+    .AddPair('transacao', ftransacao, False)
+    .AddPair('mensagem', fmensagem, False)
+    .AddPair('prodEnv', fprodEnv)
+    .AddPair('prodRet', fprodRet)
+    .AddPair('prodNaoRet', fprodNaoRet)
+    .AddPair('comportamentosParceiro', fcomportamentosParceiro, False)
+    .AddPair('comportamentosCliente', fcomportamentosCliente, False)
+    .AddPair('versao', fversao, False)
+    .AddPair('duracao', fduracao, False);
+end;
+
+procedure TACBrIMendesSaneamentoCabecalho.DoReadFromJSon(aJSon: TACBrJSONObject);
+var
+  s: String;
+begin
+  if not Assigned(aJSon) then
+    Exit;
+
+  aJSon
+    .Value('sugestao', fsugestao)
+    .Value('amb', famb)
+    .Value('cnpj', fcnpj)
+    .Value('dthr', s)
+    .Value('transacao', ftransacao)
+    .Value('mensagem', fmensagem)
+    .Value('prodEnv', fprodEnv)
+    .Value('prodRet', fprodRet)
+    .Value('prodNaoRet', fprodNaoRet)
+    .Value('comportamentosParceiro', fcomportamentosParceiro)
+    .Value('comportamentosCliente', fcomportamentosCliente)
+    .Value('versao', fversao)
+    .Value('duracao', fduracao);
+
+  if NaoEstaVazio(s) then
+    fdthr := Iso8601ToDateTime(s);
+end;
+
+procedure TACBrIMendesSaneamentoCabecalho.Clear;
+begin
+  fsugestao := EmptyStr;
+  famb := 0;
+  fcnpj := EmptyStr;
+  fdthr := 0;
+  ftransacao := EmptyStr;
+  fmensagem := EmptyStr;
+  fprodEnv := 0;
+  fprodRet := 0;
+  fprodNaoRet := 0;
+  fcomportamentosParceiro := EmptyStr;
+  fcomportamentosCliente := EmptyStr;
+  fversao := EmptyStr;
+  fduracao := EmptyStr;
+end;
+
+function TACBrIMendesSaneamentoCabecalho.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaVazio(fsugestao) and
+    EstaZerado(famb) and
+    EstaVazio(fcnpj) and
+    EstaZerado(fdthr) and
+    EstaVazio(ftransacao) and
+    EstaVazio(fmensagem) and
+    EstaZerado(fprodEnv) and
+    EstaZerado(fprodRet) and
+    EstaZerado(fprodNaoRet) and
+    EstaVazio(fcomportamentosParceiro) and
+    EstaVazio(fcomportamentosCliente) and
+    EstaVazio(fversao) and
+    EstaVazio(fduracao);
+end;
+
+procedure TACBrIMendesSaneamentoCabecalho.Assign(Source: TACBrIMendesSaneamentoCabecalho);
+begin
+  if not Assigned(Source) then
+    Exit;
+
+  fsugestao := Source.sugestao;
+  famb := Source.amb;
+  fcnpj := Source.cnpj;
+  fdthr := Source.dthr;
+  ftransacao := Source.transacao;
+  fmensagem := Source.mensagem;
+  fprodEnv := Source.prodEnv;
+  fprodRet := Source.prodRet;
+  fprodNaoRet := Source.prodNaoRet;
+  fcomportamentosParceiro := Source.comportamentosParceiro;
+  fcomportamentosCliente := Source.comportamentosCliente;
+  fversao := Source.versao;
+  fduracao := Source.duracao;
+end;
+
+{ TACBrIMendesSaneamentoResponse }
+
+function TACBrIMendesSaneamentoResponse.GetCabecalho: TACBrIMendesSaneamentoCabecalho;
+begin
+  if (not Assigned(fCabecalho)) then
+    fCabecalho := TACBrIMendesSaneamentoCabecalho.Create('Cabecalho');
+  Result := fCabecalho;
+end;
+
+procedure TACBrIMendesSaneamentoResponse.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrIMendesSaneamentoResponse) then
+    Assign(TACBrIMendesSaneamentoResponse(aSource));
+end;
+
+procedure TACBrIMendesSaneamentoResponse.DoWriteToJSon(aJSon: TACBrJSONObject);
+begin
+  if (not Assigned(aJSon)) then
+    Exit;
+
+  if Assigned(fCabecalho) then
+    fCabecalho.WriteToJSon(aJSon);
+end;
+
+procedure TACBrIMendesSaneamentoResponse.DoReadFromJSon(aJSon: TACBrJSONObject);
+begin
+  if (not Assigned(aJSon)) then
+    Exit;
+
+  Cabecalho.ReadFromJSon(aJSon);
+end;
+
+constructor TACBrIMendesSaneamentoResponse.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  Clear;
+end;
+
+procedure TACBrIMendesSaneamentoResponse.Clear;
+begin
+  Cabecalho.Clear;
+end;
+
+function TACBrIMendesSaneamentoResponse.IsEmpty: Boolean;
+begin
+  Result := Cabecalho.IsEmpty;
+end;
+
+procedure TACBrIMendesSaneamentoResponse.Assign(Source: TACBrIMendesSaneamentoResponse);
+begin
+  Cabecalho.Assign(Source.Cabecalho);
+end;
+
 { TACBrIMendesErro }
 
 constructor TACBrIMendesErro.Create(const ObjectName: String);
@@ -1748,6 +1994,34 @@ begin
   inherited Items[AIndex] := AValue;
 end;
 
+function TACBrIMendes.GetSaneamentoGradesRequest: TACBrIMendesGradesRequest;
+begin
+  if (not Assigned(fSaneamentoGradesRequest)) then
+    fSaneamentoGradesRequest := TACBrIMendesGradesRequest.Create;
+  Result := fSaneamentoGradesRequest;
+end;
+
+function TACBrIMendes.GetHistoricoAcessoResponse: TACBrIMendesHistoricoResponse;
+begin
+  if (not Assigned(fHistoricoAcessoResponse)) then
+    fHistoricoAcessoResponse := TACBrIMendesHistoricoResponse.Create;
+  Result := fHistoricoAcessoResponse;
+end;
+
+function TACBrIMendes.GetConsultarRegimeEspecialResponse: TACBrIMendesRegimeEspecialList;
+begin
+  if (not Assigned(fConsultarRegimeEspecialResponse)) then
+    fConsultarRegimeEspecialResponse := TACBrIMendesRegimeEspecialList.Create;
+  Result := fConsultarRegimeEspecialResponse;
+end;
+
+function TACBrIMendes.GetConsultarAlteradosResponse: TACBrIMendesConsultarResponse;
+begin
+  if (not Assigned(fConsultarAlteradosResponse)) then
+    fConsultarAlteradosResponse := TACBrIMendesConsultarResponse.Create;
+  Result := fConsultarAlteradosResponse;
+end;
+
 function TACBrIMendes.GetConsultarDescricaoResponse: TACBrIMendesConsultarResponse;
 begin
   if (not Assigned(fConsultarDescricaoResponse)) then
@@ -1760,6 +2034,13 @@ begin
   if (not Assigned(fRespostaErro)) then
     fRespostaErro := TACBrIMendesErro.Create;
   Result := fRespostaErro;
+end;
+
+function TACBrIMendes.GetSaneamentoGradesResponse: TACBrIMendesSaneamentoResponse;
+begin
+  if (not Assigned(fSaneamentoGradesResponse)) then
+    fSaneamentoGradesResponse := TACBrIMendesSaneamentoResponse.Create;
+  Result := fSaneamentoGradesResponse;
 end;
 
 function TACBrIMendes.GetSenha: AnsiString;
@@ -1812,22 +2093,48 @@ begin
   fSenha := EmptyStr;
   fAmbiente := imaNenhum;
   fRespostaErro := Nil;
+  fSaneamentoGradesRequest := Nil;
+  fSaneamentoGradesResponse := Nil;
+  fConsultarAlteradosResponse := Nil;
   fConsultarDescricaoResponse := Nil;
+  fConsultarRegimeEspecialResponse := Nil;
+  fHistoricoAcessoResponse := Nil;
 end;
 
 destructor TACBrIMendes.Destroy;
 begin
   if Assigned(fRespostaErro) then
     fRespostaErro.Free;
+  if Assigned(fSaneamentoGradesRequest) then
+    fSaneamentoGradesRequest.Free;
+  if Assigned(fSaneamentoGradesResponse) then
+    fSaneamentoGradesResponse.Free;
+  if Assigned(fConsultarAlteradosResponse) then
+    fConsultarAlteradosResponse.Free;
   if Assigned(fConsultarDescricaoResponse) then
     fConsultarDescricaoResponse.Free;
+  if Assigned(fConsultarRegimeEspecialResponse) then
+    fConsultarRegimeEspecialResponse.Free;
+  if Assigned(fHistoricoAcessoResponse) then
+    fHistoricoAcessoResponse.Free;
   inherited Destroy;
 end;
 
 procedure TACBrIMendes.Clear;
 begin
   RespostaErro.Clear;
-  ConsultarDescricaoResponse.Clear;
+  if Assigned(fSaneamentoGradesRequest) then
+    fSaneamentoGradesRequest.Clear;
+  if Assigned(fSaneamentoGradesResponse) then
+    fSaneamentoGradesResponse.Clear;
+  if Assigned(fConsultarAlteradosResponse) then
+    fConsultarAlteradosResponse.Clear;
+  if Assigned(fConsultarDescricaoResponse) then
+    fConsultarDescricaoResponse.Clear;
+  if Assigned(fConsultarRegimeEspecialResponse) then
+    fConsultarRegimeEspecialResponse.Clear;
+  if Assigned(fHistoricoAcessoResponse) then
+    fHistoricoAcessoResponse.Clear;
 end;
 
 procedure TACBrIMendes.Autenticar;
@@ -1876,8 +2183,48 @@ begin
   end;
 end;
 
-function TACBrIMendes.ConsultarDescricao(const aDescricao: String;
-  const aCNPJ: String): Boolean;
+function TACBrIMendes.SaneamentoGrades: Boolean;
+var
+  jBody: TACBrJSONObject;
+  sBody: String;
+begin
+  Result := False;
+  ValidarConfiguracao;
+
+  if SaneamentoGradesRequest.IsEmpty then
+    raise EACBrAPIException.CreateFmt('sErroObjetoNaoPrenchido', ['SaneamentoGradesRequest']);
+
+  LimparHTTP;
+  HttpSend.Protocol := '1.1';
+  HTTPSend.Headers.Add('login: ' + fCNPJ);
+  HTTPSend.Headers.Add('senha: ' + Senha);
+  HttpSend.MimeType := cContentTypeApplicationJSon;
+
+  jBody := TACBrJSONObject.Create;
+  try
+    sBody := SaneamentoGradesRequest.AsJSON;
+    RegistrarLog('Req.Body: ' + sBody);
+    WriteStrToStream(HTTPSend.Document, sBody);
+  finally
+    jBody.Free;
+  end;
+
+  try
+    URLPathParams.Add(cIMendesAPIV3);
+    URLPathParams.Add(cIMendesEndpointSaneamentoGrades);
+    HTTPMethod(cHTTPMethodPOST, CalcularURL);
+    Result := (HTTPResultCode = HTTP_OK);
+    if Result or (HTTPResultCode = HTTP_BAD_REQUEST) then
+      SaneamentoGradesResponse.AsJSON := HTTPResponse
+    else
+      RespostaErro.AsJSON := HTTPResponse;
+  except
+    on E: Exception do
+      raise EACBrIMendesDataSend.Create('Erro:' + sLineBreak + E.Message);
+  end;
+end;
+
+function TACBrIMendes.ConsultarDescricao(const aDescricao: String; const aCNPJ: String): Boolean;
 var
   jBody: TACBrJSONObject;
   wCNPJ, sBody: String;
@@ -1900,7 +2247,7 @@ begin
     jBody.AddPair(cIMendesNomeServico, cIMendesServicoDescricaoProdutos);
     jBody.AddPair(cIMendesDadosServico, wCNPJ + '|' + aDescricao);
     sBody := jBody.ToJSON;
-    RegistrarLog('Req.wBody: ' + sBody);
+    RegistrarLog('Req.Body: ' + sBody);
     WriteStrToStream(HTTPSend.Document, sBody);
   finally
     jBody.Free;
@@ -1917,23 +2264,135 @@ begin
       RespostaErro.AsJSON := HTTPResponse;
   except
     on E: Exception do
-      raise EACBrIMendesDataSend.Create('Erro ao Enviar Dados:' + sLineBreak + E.Message);
+      raise EACBrIMendesDataSend.Create('Erro ao Consultar:' + sLineBreak + E.Message);
   end;
 end;
 
 function TACBrIMendes.ConsultarAlterados(const aUF: String; const aCNPJ: String): Boolean;
+var
+  jBody: TACBrJSONObject;
+  wCNPJ, sBody: String;
 begin
+  Result := False;
+  ValidarConfiguracao;
 
+  LimparHTTP;
+  HttpSend.Protocol := '1.1';
+  HttpSend.MimeType := cContentTypeApplicationJSon;
+  HTTPSend.Headers.Add('login: ' + fCNPJ);
+  HTTPSend.Headers.Add('senha: ' + Senha);
+
+  wCNPJ := fCNPJ;
+  if NaoEstaVazio(aCNPJ) then
+    wCNPJ := aCNPJ;
+
+  jBody := TACBrJSONObject.Create;
+  try
+    jBody.AddPair(cIMendesNomeServico, cIMendesServicoAlterados);
+    jBody.AddPair(cIMendesDadosServico, wCNPJ + '|' + aUF);
+    sBody := jBody.ToJSON;
+    RegistrarLog('Req.Body: ' + sBody);
+    WriteStrToStream(HTTPSend.Document, sBody);
+  finally
+    jBody.Free;
+  end;
+
+  try
+    URLPathParams.Add(cIMendesAPIV1);
+    URLPathParams.Add(cIMendesEndpointEnviaRecebeDados);
+    HTTPMethod(cHTTPMethodPOST, CalcularURL);
+    Result := (HTTPResultCode = HTTP_OK);
+    if Result then
+      ConsultarAlteradosResponse.AsJSON := HTTPResponse
+    else
+      RespostaErro.AsJSON := HTTPResponse;
+  except
+    on E: Exception do
+      raise EACBrIMendesDataSend.Create('Erro ao Consultar:' + sLineBreak + E.Message);
+  end;
 end;
 
 function TACBrIMendes.ConsultarRegimesEspeciais(const aUF: String): Boolean;
+var
+  jBody: TACBrJSONObject;
+  sBody: String;
 begin
+  Result := False;
+  ValidarConfiguracao;
 
+  LimparHTTP;
+  HttpSend.Protocol := '1.1';
+  HTTPSend.Headers.Add('login: ' + fCNPJ);
+  HTTPSend.Headers.Add('senha: ' + Senha);
+  HttpSend.MimeType := cContentTypeApplicationJSon;
+
+  jBody := TACBrJSONObject.Create;
+  try
+    jBody.AddPair(cIMendesDadosUF, aUF);
+    sBody := jBody.ToJSON;
+    RegistrarLog('Req.Body: ' + sBody);
+    WriteStrToStream(HTTPSend.Document, sBody);
+  finally
+    jBody.Free;
+  end;
+
+  try
+    URLPathParams.Add(cIMendesAPIRegimeEspecial);
+    URLPathParams.Add(cIMendesEndpointEnviaRegimeEspecial);
+    HTTPMethod(cHTTPMethodPOST, CalcularURL);
+    Result := (HTTPResultCode = HTTP_OK);
+    if Result then
+      ConsultarRegimeEspecialResponse.AsJSON := HTTPResponse
+    else
+      RespostaErro.AsJSON := HTTPResponse;
+  except
+    on E: Exception do
+      raise EACBrIMendesDataSend.Create('Erro ao Consultar:' + sLineBreak + E.Message);
+  end;
 end;
 
-function TACBrIMendes.HistoricoAcesso: Boolean;
+function TACBrIMendes.HistoricoAcesso(const aCNPJ: String): Boolean;
+var
+  wCNPJ, sBody: String;
+  jBody: TACBrJSONObject;
 begin
+  Result := False;
+  ValidarConfiguracao;
 
+  LimparHTTP;
+  HttpSend.Protocol := '1.1';
+  HTTPSend.Headers.Add('login: ' + fCNPJ);
+  HTTPSend.Headers.Add('senha: ' + Senha);
+  HttpSend.MimeType := cContentTypeApplicationJSon;
+
+  wCNPJ := fCNPJ;
+  if NaoEstaVazio(aCNPJ) then
+    wCNPJ := aCNPJ;
+
+  jBody := TACBrJSONObject.Create;
+  try
+    jBody.AddPair(cIMendesNomeServico, cIMendesServicoHistoricoAcesso);
+    jBody.AddPair(cIMendesDadosServico, wCNPJ);
+    sBody := jBody.ToJSON;
+    RegistrarLog('Req.Body: ' + sBody);
+    WriteStrToStream(HTTPSend.Document, sBody);
+  finally
+    jBody.Free;
+  end;
+
+  try
+    URLPathParams.Add(cIMendesAPIV1);
+    URLPathParams.Add(cIMendesEndpointEnviaRecebeDados);
+    HTTPMethod(cHTTPMethodPOST, CalcularURL);
+    Result := (HTTPResultCode = HTTP_OK);
+    if Result then
+      HistoricoAcessoResponse.AsJSON := HTTPResponse
+    else
+      RespostaErro.AsJSON := HTTPResponse;
+  except
+    on E: Exception do
+      raise EACBrIMendesDataSend.Create('Erro ao Consultar:' + sLineBreak + E.Message);
+  end;
 end;
 
 end. 
