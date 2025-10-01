@@ -38,8 +38,10 @@ interface
 
 uses
   Classes, SysUtils, IniFiles,
+  pcnConversao,
+  pcteConversaoCTe,
   ACBrCTeConfiguracoes, ACBrCTeDACTeRLClass,
-  pcnConversao, ACBrLibComum,
+  ACBrLibComum,
   ACBrLibConfig, DFeReportConfig;
 
 type
@@ -107,7 +109,7 @@ type
 implementation
 
 uses
-  blcksock, pcnAuxiliar, pcteConversaoCTe,
+  blcksock, pcnAuxiliar,
   ACBrLibConsts, ACBrLibCTeConsts,
   ACBrLibCTeBase, ACBrUtil.FilesIO, ACBrUtil.Strings;
 

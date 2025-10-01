@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+01/10/2025
+-- ACBrLibCTeBase.pas, ACBrLibCTeConfig.pas --
+[-] : Alteração da distribuição DFe de pcn para ACBrXMLDocuments.
+  Por: Alexandre de Paula / Italo Jurisato
+  
 24/04/2025
 -- ACBrCTeBase.php, ACBrCTeServicosMT.php, ACBrCTeServicosST.php --
 [+] #TK-6870: Adicionado checkbox no programa de exemplo de CTe em PHP para alimentar a propriedade SalvarEvento
