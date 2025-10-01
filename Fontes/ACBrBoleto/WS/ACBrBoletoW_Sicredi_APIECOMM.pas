@@ -237,27 +237,29 @@ begin
       FDFeSSL.HTTPMethod(MetodoHTTPToStr(htPOST), C_URL_OAUTH_PROD );
 
       LJson := TACBrJSONObject.Parse( UTF8Decode(ReadStrFromStream(FDFeSSL.SSLHttpClass.DataResp, FDFeSSL.SSLHttpClass.DataResp.Size )) );
-
-      if( LJson.AsString['codigo' ] = '' ) then // se não veio código de erro
-        begin
-          result := LJson.AsString['chaveTransacao'];
-        end
-      else
-        begin
-          raise EACBrBoletoWSException.Create(ClassName
-                                                  + Format( S_ERRO_GERAR_TOKEN_AUTENTICACAO,
-                                                            [ 'Código: '
-                                                              + '-'
-                                                              +LJson.AsString['codigo']
-                                                              +#13
-                                                              +LJson.AsString['mensagem']
-                                                              +#13
-                                                              +'Parametro: '
-                                                              +LJson.AsString['parametro'] ] ));
-        end;
+      try
+        if( LJson.AsString['codigo' ] = '' ) then // se não veio código de erro
+          begin
+            result := LJson.AsString['chaveTransacao'];
+          end
+        else
+          begin
+            raise EACBrBoletoWSException.Create(ClassName
+                                                    + Format( S_ERRO_GERAR_TOKEN_AUTENTICACAO,
+                                                              [ 'Código: '
+                                                                + '-'
+                                                                +LJson.AsString['codigo']
+                                                                +#13
+                                                                +LJson.AsString['mensagem']
+                                                                +#13
+                                                                +'Parametro: '
+                                                                +LJson.AsString['parametro'] ] ));
+          end;
+      finally
+    	  LJson.Free;
+      end;
   finally
     LStream.Free;
-	  LJson.Free;
     FDFeSSL.SSLHttpClass.HeaderReq.Clear;
     FDFeSSL.SSLHttpClass.HeaderResp.Clear;
     FDFeSSL.SSLHttpClass.Clear;
