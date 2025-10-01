@@ -13,7 +13,6 @@ namespace ACBrLib.NFe
 
         public decimal? vCredPresumido { get; set; }
 
-        public string cBenefRBC { get; set; }
         #endregion
     }
 }

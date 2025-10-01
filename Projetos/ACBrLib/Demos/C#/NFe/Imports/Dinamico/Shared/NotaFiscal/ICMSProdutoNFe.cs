@@ -159,6 +159,8 @@ namespace ACBrLib.NFe
         /// </summary>
         public decimal? vICMSDeson { get; set; }
 
+        public string cBenefRBC { get; set; }
+
         public int? indDeduzDeson { get; set; }
 
         /// <summary>

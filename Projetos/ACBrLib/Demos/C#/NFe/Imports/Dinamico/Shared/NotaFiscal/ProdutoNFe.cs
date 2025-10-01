@@ -31,7 +31,7 @@ namespace ACBrLib.NFe
             COFINS = new COFINSProdutoNFe();
             COFINSST = new COFINSSTProdutoNFe();
             ISSQN = new ISSQNNFe();
-            gCred = new CreditoPresumidoNFe();
+            gCred = new List<CreditoPresumidoNFe>();
             IS = new ISProdutoNFe();
             IBSCBS = new IBSCBSProdutoNFe();
             DFeReferenciado = new DFeReferenciado();
@@ -243,7 +243,7 @@ namespace ACBrLib.NFe
 
         public string cBenef { get; set; }
 
-        public CreditoPresumidoNFe gCred { get; set; }
+        public List<CreditoPresumidoNFe> gCred { get; set; }
 
         public List<NVENFe> NVE { get; }
 

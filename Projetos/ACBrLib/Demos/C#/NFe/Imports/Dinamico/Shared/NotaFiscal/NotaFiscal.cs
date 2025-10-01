@@ -41,6 +41,7 @@ namespace ACBrLib.NFe
             Cana = new CanaNFe();
             InfNFeSupl = new InfNFeSupl();
             InfRespTec = new InfRespTec();
+            Agropecuario = new Agropecuario();
 
             InfNFe.Versao = "4.00";
         }
@@ -103,6 +104,8 @@ namespace ACBrLib.NFe
         public InfNFeSupl InfNFeSupl { get; }
 
         public InfRespTec InfRespTec { get; }
+
+        public Agropecuario Agropecuario { get; }
 
         #endregion Properties
 
@@ -178,6 +181,9 @@ namespace ACBrLib.NFe
 
                 if (!string.IsNullOrEmpty(produto.Veiculo.chassi))
                     iniData.WriteToIni(produto.Veiculo, $"Veiculo{i + 1:000}");
+
+                for (var k = 0; k < produto.gCred.Count; k++)
+                    iniData.WriteToIni(produto.gCred[k], $"gCred{i + 1:000}{k + 1:0}");
 
                 if (produto.Combustivel.cProdANP > 0)
                 {
@@ -293,6 +299,17 @@ namespace ACBrLib.NFe
                 }
             }
 
+            if (Agropecuario.GuiaTransito.tpGuia != tpGuiaTransito.tpgNenhum || Agropecuario.Defensivo?.Count > 0)
+            {
+                iniData.WriteToIni(Agropecuario, "agropecuario");
+
+                for (var i = 0; i < Agropecuario.Defensivo.Count; i++)
+                    iniData.WriteToIni(Agropecuario.Defensivo[i], $"defensivo{i + 1:00}");
+
+                iniData.WriteToIni(Agropecuario.GuiaTransito, "guiaTransito");
+            }
+
+
             iniData.WriteToIni(Total, "Total");
             if (ISSQNtot.vBC.HasValue)
                 iniData.WriteToIni(ISSQNtot, "ISSQNtot");
@@ -363,7 +380,7 @@ namespace ACBrLib.NFe
 
             if (!string.IsNullOrEmpty(InfRespTec.CNPJ))
                 iniData.WriteToIni(InfRespTec, "infRespTec");
-
+            
             return iniData;
         }
 
@@ -493,6 +510,17 @@ namespace ACBrLib.NFe
 
                     produto.Arma.Add(armaItem);
                 } while (armaItem != null);
+
+                k = 0;
+                CreditoPresumidoNFe creditoPresumidoNFe;
+                do
+                {
+                    k++;
+                    creditoPresumidoNFe = iniData.ReadFromIni<CreditoPresumidoNFe>($"gCred{i:000}{k:0}");
+                    if (creditoPresumidoNFe == null) continue;
+
+                    produto.gCred.Add(creditoPresumidoNFe);
+                } while (creditoPresumidoNFe != null);
 
                 iniData.ReadFromIni(produto.ImpostoDevol, $"impostoDevol{i:000}");
                 iniData.ReadFromIni(produto.Veiculo, $"Veiculo{i:000}");
@@ -669,6 +697,21 @@ namespace ACBrLib.NFe
             iniData.ReadFromIni(InfNFeSupl, "infNFeSupl");
 
             iniData.ReadFromIni(InfRespTec, "infRespTec");
+
+            iniData.ReadFromIni(Agropecuario, "agropecuario"); // validar  (remover)
+
+            i = 0;
+            Defensivo defensivo;
+            do
+            {
+                i++;
+                defensivo = iniData.ReadFromIni<Defensivo>($"defensivo{i:00}");
+                if (defensivo == null) continue;
+
+                Agropecuario.Defensivo.Add(defensivo);
+            } while (defensivo != null);
+
+            iniData.ReadFromIni(Agropecuario.GuiaTransito, "guiaTransito");
         }
 
         public static NotaFiscal Load(string conteudo) => ACBrIniFile.Parse(conteudo);
