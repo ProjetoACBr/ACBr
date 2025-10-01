@@ -120,7 +120,6 @@ begin
     NumCopias := LibConfig.GuiaConfig.NumCopias;
     PathPDF := LibConfig.GuiaConfig.PathPDF;
     PrintDialog := LibConfig.GuiaConfig.PrintDialog;
-    TamanhoPapel := LibConfig.GuiaConfig.TamanhoPapel;
 {$IFDEF Demo}
     Sistema := Lib.Nome + ' v' + Lib.Versao;
     Site := 'www.projetoacbr.com.br';
