@@ -45,10 +45,14 @@ const
 
   cBradescoURLSandbox = 'https://qrpix-h.bradesco.com.br';
   cBradescoURLProducao = 'https://qrpix.bradesco.com.br';
+  cBradescoURLSandboxV2 = 'https://openapisandbox.prebanco.com.br';
   cBradescoPathAuthToken = '/oauth/token';
+  cBradescoPathAuthTokenV2 = '/auth/server/oauth/token';
   cBradescoPathAPIPix = '/v2';
 
 type
+
+  TACBrBradescoAPIVersao = (braVersao1, braVersao2);
 
   { TACBrPSPBradesco }
                     
@@ -57,13 +61,16 @@ type
   {$ENDIF RTL230_UP}
   TACBrPSPBradesco = class(TACBrPSPCertificate)
   protected
+    function ObterURLAuth: String;
     function ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String; override;
   private
-    procedure QuandoReceberRespostaEndPoint(const aEndPoint, AURL, aMethod: String;
-      var aResultCode: Integer; var aRespostaHttp: AnsiString);
+    fAPIVersao: TACBrBradescoAPIVersao;
+    procedure QuandoReceberRespostaEndPoint(const aEndPoint, AURL, aMethod: String; var aResultCode: Integer; var aRespostaHttp: AnsiString);
   public
     constructor Create(aOwner: TComponent); override;
     procedure Autenticar; override;
+  published
+    property APIVersao: TACBrBradescoAPIVersao read fAPIVersao write fAPIVersao default braVersao1;
   end;
 
 implementation
@@ -72,12 +79,33 @@ uses synautil, synacode, DateUtils, ACBrJSON, ACBrUtil.Strings;
 
 { TACBrPSPBradesco }
 
+function TACBrPSPBradesco.ObterURLAuth: String;
+begin
+  Result := EmptyStr;
+  if (ACBrPixCD.Ambiente = ambProducao) then
+  begin
+    if (fAPIVersao = braVersao2) then
+      Result := cBradescoURLProducao + cBradescoPathAuthTokenV2
+    else
+      Result := cBradescoURLProducao + cBradescoPathAuthToken;
+  end
+  else
+  begin
+    if (fAPIVersao = braVersao2) then
+      Result := cBradescoURLSandboxV2 + cBradescoPathAuthTokenV2
+    else
+      Result := cBradescoURLSandbox + cBradescoPathAuthToken;
+  end;
+end;
+
 function TACBrPSPBradesco.ObterURLAmbiente(const aAmbiente: TACBrPixCDAmbiente): String;
 begin
   if (aAmbiente = ambProducao) then
     Result := cBradescoURLProducao + cBradescoPathAPIPix
+  else if (fAPIVersao = braVersao2) then
+    Result := cBradescoURLSandboxV2 + cBradescoPathAPIPix
   else
-    Result := cBradescoURLSandbox + cBradescoPathAPIPix;
+    Result := cBradescoURLSandbox + cBradescoPathAPIPix
 end;
 
 procedure TACBrPSPBradesco.QuandoReceberRespostaEndPoint(const aEndPoint, AURL,
@@ -105,11 +133,7 @@ var
 begin
   LimparHTTP;
 
-  if (ACBrPixCD.Ambiente = ambProducao) then
-    wURL := cBradescoURLProducao + cBradescoPathAuthToken
-  else
-    wURL := cBradescoURLSandbox + cBradescoPathAuthToken;
-
+  wURL := ObterURLAuth;
   qp := TACBrQueryParams.Create;
   try
     qp.Values['grant_type'] := 'client_credentials';
