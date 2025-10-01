@@ -291,7 +291,7 @@ namespace ACBrLib.NFe.Demo
             produto.IBSCBS.gIBSCBS.gCBS.pAliqEfet = 5;
 
             produto.IBSCBS.gIBSCBS.gTribRegular.CSTReg = CSTIBSCBS.cst000;
-            produto.IBSCBS.gIBSCBS.gTribRegular.cClassTribReg = ""; cClassTribIBSCBS.cct000001;
+            produto.IBSCBS.gIBSCBS.gTribRegular.cClassTribReg = "000000"; 
             produto.IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSUF = 5;
             produto.IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSUF = 100;
             produto.IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSMun = 5;
@@ -359,6 +359,17 @@ namespace ACBrLib.NFe.Demo
             
 
             notaFiscal.Produtos.Add(produto);
+
+            notaFiscal.Agropecuario.Defensivo.Add(new Defensivo
+            {
+                nReceituario = "12345678901234567890123456789012345678901234",
+                CPFRespTec = "12345678901"
+            });
+
+            notaFiscal.Agropecuario.GuiaTransito.serieGuia = "1";
+            notaFiscal.Agropecuario.GuiaTransito.nGuia = "123456789";
+            notaFiscal.Agropecuario.GuiaTransito.UFGuia = "SP";
+            notaFiscal.Agropecuario.GuiaTransito.tpGuia = tpGuiaTransito.tpgGTA;
 
             notaFiscal.Total.vBC = produto.vProd;
             notaFiscal.Total.vICMS = (decimal)produto.ICMS.vICMS;
