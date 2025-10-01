@@ -752,7 +752,7 @@ Obrigatoriamente > 1.
 										</xs:annotation>
 										<xs:complexType>
 											<xs:sequence>
-												<xs:element name="IBSCBS" type="TTribNFag">
+												<xs:element name="IBSCBS" type="TTribNFAg">
 													<xs:annotation>
 														<xs:documentation>Grupo de informações do IBS e CBS</xs:documentation>
 													</xs:annotation>
@@ -923,7 +923,7 @@ Obrigatoriamente > 1.
 																	<xs:documentation>Alíquota do TFU</xs:documentation>
 																</xs:annotation>
 															</xs:element>
-															<xs:element name="vBCTFU" type="TDec_1302">
+															<xs:element name="vTFU" type="TDec_1302">
 																<xs:annotation>
 																	<xs:documentation>Valor TFU</xs:documentation>
 																</xs:annotation>
