@@ -105,7 +105,7 @@ type
     private
       FFPDFReport: TMDFeDAMDFeFPDF;
       FDAMDFEClassOwner: TACBrMDFeDAMDFEClass;
-
+      FStream : TStream;
     public
       constructor Create(AOwner: TComponent); override;
       destructor Destroy; override;
@@ -574,15 +574,21 @@ begin
       Engine := TFPDFEngine.Create(Report, False);
       try
         Engine.Compressed := True;
+        if Assigned(FStream) then
+        begin
+          FPArquivoPDF := OnlyNumber(LMDFe.infMDFe.Id) + '-mdfe.pdf';
+          Engine.SaveToStream(FStream);
+        end else
+        begin
+          LPath := DefinirNomeArquivo(TACBrMDFe(ACBrMDFe).DAMDFE.PathPDF,
+                 OnlyNumber(LMDFe.infMDFe.Id) + '-mdfe.pdf',
+                 TACBrMDFe(ACBrMDFe).DAMDFE.NomeDocumento);
 
-        LPath := DefinirNomeArquivo(TACBrMDFe(ACBrMDFe).DAMDFE.PathPDF,
-               OnlyNumber(LMDFe.infMDFe.Id) + '-mdfe.pdf',
-               TACBrMDFe(ACBrMDFe).DAMDFE.NomeDocumento);
+          ForceDirectories(ExtractFilePath(LPath));
 
-        ForceDirectories(ExtractFilePath(LPath));
-
-        Engine.SaveToFile(LPath);
-        FPArquivoPDF := LPath;
+          Engine.SaveToFile(LPath);
+          FPArquivoPDF := LPath;
+        end;
       finally
         Engine.Free;
       end;
@@ -594,7 +600,12 @@ end;
 
 procedure TACBrMDFeDAMDFeFPDF.ImprimirDAMDFePDF(AStream: TStream; MDFE: TMDFe);
 begin
-  inherited ImprimirDAMDFEPDF(AStream, MDFE);
+  FStream := AStream;
+
+  if not Assigned(FStream) then
+    raise Exception.Create('Stream not initialized');
+
+  ImprimirDAMDFEPDF(MDFE);
 end;
 
 { TBlocoDadosMDFe }

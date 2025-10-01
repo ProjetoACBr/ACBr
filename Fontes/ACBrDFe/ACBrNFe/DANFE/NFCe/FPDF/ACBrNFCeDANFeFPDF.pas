@@ -95,6 +95,7 @@ type
     FMensagemRodape: string;
     FImageUtils: TImageUtils;
     FCanhoto: TPosRecibo;
+
     property NFe: TNFe read FNFe;
     function GetTextoBlocoCabecalho: string;
     function GetTextoBlocoConsumidor: string;
@@ -167,6 +168,7 @@ type
   TACBrNFCeDANFeFPDF = class(TACBrNFeDANFCEClass)
   private
     FFPDFReport: TNFCeDANFeFPDF;
+    FStream : TStream;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -2486,18 +2488,21 @@ end;
 procedure TACBrNFCeDANFeFPDF.ImprimirDANFE(NFE: TNFe);
 begin
   inherited;
-
 end;
 
 procedure TACBrNFCeDANFeFPDF.ImprimirDANFEPDF(AStream: TStream; ANFe: TNFe);
 begin
+  FStream := AStream;
 
+  if not Assigned(FStream) then
+    raise Exception.Create('Stream not initialized');
+
+  ImprimirDANFEPDF(ANFe);
 end;
 
 procedure TACBrNFCeDANFeFPDF.ImprimirDANFEResumido(NFE: TNFe);
 begin
   inherited;
-
 end;
 
 procedure TACBrNFCeDANFeFPDF.ImprimirDANFEPDF(NFE: TNFe);
@@ -2522,17 +2527,19 @@ begin
       try
         Engine.Compressed := True;
 
-        //LPAth := IncludeTrailingPathDelimiter(TACBrNFe(ACBrNFe).DANFE.PathPDF) +
-        //                                      ExtractFilePath(TACBrNFe(ACBrNFe).DANFE.NomeDocumento);
+        if Assigned(FStream) then
+        begin
+          FPArquivoPDF := OnlyNumber(LNFe.infNFe.ID) + '-nfe.pdf';
+          Engine.SaveToStream(FStream);
+        end else
+        begin
+          LPath := DefinirNomeArquivo(TACBrNFe(ACBrNFe).DANFE.PathPDF,
+                 OnlyNumber(LNFe.infNFe.ID) + '-nfe.pdf',
+                 TACBrNFe(ACBrNFe).DANFE.NomeDocumento);
 
-        //Engine.SaveToFile(LPath + LNFe.infNFe.ID+'.pdf');
-
-        LPath := DefinirNomeArquivo(TACBrNFe(ACBrNFe).DANFE.PathPDF,
-               OnlyNumber(LNFe.infNFe.ID) + '-nfe.pdf',
-               TACBrNFe(ACBrNFe).DANFE.NomeDocumento);
-
-        Engine.SaveToFile(LPath);
-        FPArquivoPDF := LPath;
+          Engine.SaveToFile(LPath);
+          FPArquivoPDF := LPath;
+        end;
       finally
         Engine.Free;
       end;
@@ -2550,7 +2557,12 @@ end;
 
 procedure TACBrNFCeDANFeFPDF.ImprimirEVENTOPDF(AStream: TStream; ANFe: TNFe);
 begin
-  inherited;
+  FStream := AStream;
+
+  if not Assigned(FStream) then
+    raise Exception.Create('Stream not initialized');
+
+  ImprimirEVENTOPDF(ANFe);
 end;
 
 procedure TACBrNFCeDANFeFPDF.ImprimirEVENTOPDF(NFE: TNFe);
@@ -2574,18 +2586,24 @@ begin
       LEngine := TFPDFEngine.Create(LReport, False);
       try
         LEngine.Compressed := True;
+        if Assigned(FStream) then
+        begin
+          FPArquivoPDF := OnlyNumber(LNFe.infNFe.ID) + '-nfe.pdf';
+          LEngine.SaveToStream(FStream);
+        end else
+        begin
+          LPAth := IncludeTrailingPathDelimiter(TACBrNFe(ACBrNFe).DANFE.PathPDF) +
+            ExtractFilePath(TACBrNFe(ACBrNFe).DANFE.NomeDocumento);
 
-        LPAth := IncludeTrailingPathDelimiter(TACBrNFe(ACBrNFe).DANFE.PathPDF) +
-          ExtractFilePath(TACBrNFe(ACBrNFe).DANFE.NomeDocumento);
+          LPath := DefinirNomeArquivo(TACBrNFe(ACBrNFe).DANFE.PathPDF,
+                      TpEventoToStr(TACBrNFe(ACBrNFe).EventoNFe.Evento[I].InfEvento.tpEvento)
+                        + OnlyNumber(LNFe.infNFe.ID)
+                        + '-nfe.pdf',
+                    TACBrNFe(ACBrNFe).DANFE.NomeDocumento);
 
-        LPath := DefinirNomeArquivo(TACBrNFe(ACBrNFe).DANFE.PathPDF,
-                    TpEventoToStr(TACBrNFe(ACBrNFe).EventoNFe.Evento[I].InfEvento.tpEvento)
-                      + OnlyNumber(LNFe.infNFe.ID)
-                      + '-nfe.pdf',
-                  TACBrNFe(ACBrNFe).DANFE.NomeDocumento);
-
-        ForceDirectories(ExtractFilePath(LPath));
-        LEngine.SaveToFile(LPath);
+          ForceDirectories(ExtractFilePath(LPath));
+          LEngine.SaveToFile(LPath);
+        end;
       finally
         LEngine.Free;
       end;
@@ -2601,10 +2619,14 @@ begin
 
 end;
 
-procedure TACBrNFCeDANFeFPDF.ImprimirINUTILIZACAOPDF(AStream: TStream;
-  ANFe: TNFe);
+procedure TACBrNFCeDANFeFPDF.ImprimirINUTILIZACAOPDF(AStream: TStream; ANFe: TNFe);
 begin
-  inherited;
+  FStream := AStream;
+
+  if not Assigned(FStream) then
+    raise Exception.Create('Stream not initialized');
+
+  ImprimirINUTILIZACAOPDF(ANFe);
 end;
 
 procedure TACBrNFCeDANFeFPDF.ImprimirINUTILIZACAOPDF(NFE: TNFe);
