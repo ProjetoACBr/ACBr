@@ -180,6 +180,10 @@
 	<Compile Include="..\Shared\NotaFiscal\MotRedAdRem.cs" Link="NotaFiscal\MotRedAdRem.cs" />
 	<Compile Include="..\Shared\NotaFiscal\CreditoPresumidoNFe.cs" Link="NotaFiscal\CreditoPresumidoNFe.cs" />
 	<Compile Include="..\Shared\NotaFiscal\DFeReferenciado.cs" Link="NotaFiscal\DFeReferenciado.cs" />
+	<Compile Include="..\Shared\NotaFiscal\Agropecuario.cs" Link="NotaFiscal\Agropecuario.cs" />
+	<Compile Include="..\Shared\NotaFiscal\Defensivo.cs" Link="NotaFiscal\Defensivo.cs" />
+	<Compile Include="..\Shared\NotaFiscal\GuiaTransito.cs" Link="NotaFiscal\GuiaTransito.cs" />
+	<Compile Include="..\Shared\NotaFiscal\tpGuiaTransito.cs" Link="NotaFiscal\tpGuiaTransito.cs" />	  
 	<Compile Include="..\Shared\Respostas\CancelamentoResposta.cs" Link="Respostas\CancelamentoResposta.cs" />
     <Compile Include="..\Shared\Respostas\ConsultaNFeDetEventoResposta.cs" Link="Respostas\ConsultaNFeDetEventoResposta.cs" />
     <Compile Include="..\Shared\Respostas\ConsultaNFeInfCanResposta.cs" Link="Respostas\ConsultaNFeInfCanResposta.cs" />
