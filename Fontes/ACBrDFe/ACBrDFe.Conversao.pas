@@ -56,13 +56,13 @@ const
 
 type
   TCSTIBSCBS = (cstNenhum,
-    cst000, cst010, cst011, cst200, cst210, cst220, cst221, cst222, cst400,
-    cst410, cst510, cst550, cst620, cst800, cst810, cst820, cst830);
+    cst000, cst010, cst011, cst200, cst220, cst221, cst222, cst400, cst410,
+    cst510, cst515, cst550, cst620, cst800, cst810, cst811, cst820, cst830);
 
 const
   TCSTIBSCBSArrayStrings: array[TCSTIBSCBS] of string = ('',
-    '000', '010', '011', '200', '210', '220', '221', '222', '400', '410', '510',
-    '550', '620', '800', '810', '820', '830');
+    '000', '010', '011', '200', '220', '221', '222', '400', '410', '510', '515',
+    '550', '620', '800', '810', '811', '820', '830');
 
 type
   TcCredPres = (cpNenhum,

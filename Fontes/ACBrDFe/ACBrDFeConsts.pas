@@ -171,6 +171,9 @@ resourcestring
   DSC_PCREDPRES = 'Percentual do Crédito Presumido';
   DSC_VCREDPRES = 'Valor do Crédito Presumido';
   DSC_VCREDPRESCONDSUS = 'Valor do Crédito Presumido em condição suspensiva.';
+  DSC_INDDOACAO = 'Informar quando doação';
+  DSC_VIBSESTCRED = 'Valor do IBS a ser estornado';
+  DSC_VCBSESTCRED = 'Valor do CBS a ser estornado';
 
   DSC_VTOTDFE = 'Valor total do documento fiscal';
 

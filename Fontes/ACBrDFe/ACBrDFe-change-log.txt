@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/10/2025
+-- ACBrDFe.Conversao --
+[*] Atualização dos CST do IBSCBS.
+   Por: Italo Giurizzato Junior
+
 11/09/2025
 -- ACBrXmlWriter --
 [*] Trocado a função OnlyNumber por OnlyAlphaNum ao gerar a tag CNPJ para contemplar
