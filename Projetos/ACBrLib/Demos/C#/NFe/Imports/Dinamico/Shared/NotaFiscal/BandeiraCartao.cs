@@ -4,6 +4,9 @@ namespace ACBrLib.NFe
 {
     public enum BandeiraCartao
     {
+        [EnumValue("")]
+        bcNenhum,
+
         [EnumValue("01")]
         bcVisa,
 
