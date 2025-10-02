@@ -201,6 +201,7 @@ type
     cbAilosTipoChave: TComboBox;
     cbBanrisulTipoChave: TComboBox;
     cbBBVersaoAPI: TComboBox;
+    cbBradescoAPIVersao: TComboBox;
     cbPIXPDVVersaoAPI: TComboBox;
     cbC6BankTipoChave: TComboBox;
     cbConsultarCobsRStatus: TComboBox;
@@ -550,6 +551,7 @@ type
     lbBBErroPFX: TLabel;
     lbBBSenhaPFX: TLabel;
     lbBBVersaoAPI: TLabel;
+    lbBradescoAPIVersao: TLabel;
     lbSicrediSenhaChavePrivada: TLabel;
     lbConsultarRecorrenciatxId: TLabel;
     lbPIXPDVVersaoAPI: TLabel;
@@ -864,7 +866,7 @@ type
     mConsultarDevolucaoPix: TMemo;
     mCriarCobrancaImediata: TMemo;
     OpenDialog1: TOpenDialog;
-    BBConfigTokenManual: TPanel;
+    pnBBConfigTokenManual: TPanel;
     pcBBCertificados: TPageControl;
     pnBBConfig: TPanel;
     pnBBCertificados: TPanel;
@@ -5128,6 +5130,7 @@ begin
     edBradescoChavePIX.Text := Ini.ReadString('Bradesco', 'ChavePIX', '');
     edBradescoClientID.Text := Ini.ReadString('Bradesco', 'ClientID', '');
     edBradescoClientSecret.Text := Ini.ReadString('Bradesco', 'ClientSecret', '');
+    cbBradescoAPIVersao.ItemIndex := Ini.ReadInteger('Bradesco', 'APIVersao', 0);
     rgBradescoTipoCertificado.ItemIndex := Ini.ReadInteger('Bradesco', 'TipoCertificado', 1);
     if EstaZerado(rgBradescoTipoCertificado.ItemIndex) then
     begin
@@ -5290,6 +5293,7 @@ begin
     Ini.WriteString('Bradesco', 'ChavePIX', edBradescoChavePIX.Text);
     Ini.WriteString('Bradesco', 'ClientID', edBradescoClientID.Text);
     Ini.WriteString('Bradesco', 'ClientSecret', edBradescoClientSecret.Text);
+    Ini.WriteInteger('Bradesco', 'APIVersao', cbBradescoAPIVersao.ItemIndex);
     Ini.WriteInteger('Bradesco', 'TipoCertificado', rgBradescoTipoCertificado.ItemIndex);
     Ini.WriteString('Bradesco', 'ArqPFX', edBradescoArqPFX.Text);
     Ini.WriteString('Bradesco', 'SenhaPFX', edBradescoSenhaPFX.Text);
@@ -5566,6 +5570,7 @@ var
   u: TACBrPIXTipoConta;
   v: TACBrPIXStatusRegistroCobranca;
   w: TACBrPIXPDVAPIVersao;
+  x: TACBrBradescoAPIVersao;
 begin
   cbxPSPAtual.Items.Clear;
   for i := 0 to pgPSPs.PageCount-1 do
@@ -5667,6 +5672,11 @@ begin
   for w := Low(TACBrPIXPDVAPIVersao) to High(TACBrPIXPDVAPIVersao) do
     cbPIXPDVVersaoAPI.Items.Add(GetEnumName(TypeInfo(TACBrPIXPDVAPIVersao), Integer(w)));
   cbPIXPDVVersaoAPI.ItemIndex := 0;
+
+  cbBradescoAPIVersao.Items.Clear;
+  for x := Low(TACBrBradescoAPIVersao) to High(TACBrBradescoAPIVersao) do
+    cbBradescoAPIVersao.Items.Add(GetEnumName(TypeInfo(TACBrBradescoAPIVersao), Integer(x)));
+  cbBradescoAPIVersao.ItemIndex := 0;
 
   edCobVVencimento.DateTime := IncDay(Now, 7);
   edCriarRecorrenciaDataInicial.DateTime := IncMonth(Now, 1);
@@ -5820,6 +5830,7 @@ begin
   ACBrPSPBradesco1.ChavePIX := edBradescoChavePIX.Text;
   ACBrPSPBradesco1.ClientID := edBradescoClientID.Text;
   ACBrPSPBradesco1.ClientSecret := edBradescoClientSecret.Text;
+  ACBrPSPBradesco1.APIVersao := TACBrBradescoAPIVersao(cbBradescoAPIVersao.ItemIndex);
   if (rgBradescoTipoCertificado.ItemIndex = 0) then  // Se usa PFX
   begin
     ACBrPSPBradesco1.ArquivoPFX := edBradescoArqPFX.Text;

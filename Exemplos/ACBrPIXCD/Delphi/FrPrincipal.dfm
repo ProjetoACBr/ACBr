@@ -703,7 +703,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 464
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -1014,7 +1014,7 @@ object Form1: TForm1
                       Width = 160
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 2
                     end
                     object edtSolicitarDevolucaoPix_Descricao: TEdit
@@ -1264,7 +1264,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 25
                       Width = 266
-                      Height = 23
+                      Height = 21
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edtCriarCobrancaImediata_NomeDevedorChange
@@ -1273,7 +1273,7 @@ object Form1: TForm1
                       Left = 298
                       Top = 25
                       Width = 145
-                      Height = 23
+                      Height = 21
                       Anchors = [akTop, akRight]
                       Enabled = False
                       TabOrder = 1
@@ -1292,21 +1292,21 @@ object Form1: TForm1
                       Left = 16
                       Top = 73
                       Width = 266
-                      Height = 23
+                      Height = 21
                       TabOrder = 2
                     end
                     object edtCriarCobrancaImediata_TxId: TEdit
                       Left = 16
                       Top = 123
                       Width = 266
-                      Height = 23
+                      Height = 21
                       TabOrder = 4
                     end
                     object feCriarCobrancaImediatax_Valor: TEdit
                       Left = 298
                       Top = 73
                       Width = 145
-                      Height = 23
+                      Height = 21
                       TabOrder = 6
                       Text = '1,00'
                     end
@@ -1583,7 +1583,7 @@ object Form1: TForm1
                       Width = 160
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 3
                     end
                   end
@@ -1766,7 +1766,7 @@ object Form1: TForm1
                     Left = 204
                     Top = 449
                     Width = 332
-                    Height = 23
+                    Height = 21
                     TabOrder = 0
                     Visible = False
                   end
@@ -1783,7 +1783,7 @@ object Form1: TForm1
                     Left = 398
                     Top = 320
                     Width = 170
-                    Height = 23
+                    Height = 21
                     TabOrder = 2
                     Text = '0,50'
                   end
@@ -1791,7 +1791,7 @@ object Form1: TForm1
                     Left = 204
                     Top = 320
                     Width = 170
-                    Height = 23
+                    Height = 22
                     MaxValue = 0
                     MinValue = 0
                     TabOrder = 3
@@ -1848,7 +1848,7 @@ object Form1: TForm1
                         Left = 398
                         Top = 15
                         Width = 170
-                        Height = 23
+                        Height = 21
                         TabOrder = 1
                         Text = '0,00'
                       end
@@ -1858,7 +1858,7 @@ object Form1: TForm1
                         Width = 356
                         Height = 21
                         Style = csDropDownList
-                        ItemHeight = 13
+                        ItemHeight = 0
                         TabOrder = 0
                       end
                     end
@@ -1901,7 +1901,7 @@ object Form1: TForm1
                         Left = 398
                         Top = 15
                         Width = 170
-                        Height = 23
+                        Height = 21
                         TabOrder = 1
                         Text = '0,00'
                       end
@@ -1911,7 +1911,7 @@ object Form1: TForm1
                         Width = 356
                         Height = 21
                         Style = csDropDownList
-                        ItemHeight = 13
+                        ItemHeight = 0
                         TabOrder = 0
                       end
                     end
@@ -1954,7 +1954,7 @@ object Form1: TForm1
                         Left = 398
                         Top = 15
                         Width = 170
-                        Height = 23
+                        Height = 21
                         TabOrder = 1
                         Text = '0,00'
                       end
@@ -1964,7 +1964,7 @@ object Form1: TForm1
                         Width = 356
                         Height = 21
                         Style = csDropDownList
-                        ItemHeight = 13
+                        ItemHeight = 0
                         TabOrder = 0
                       end
                     end
@@ -1978,10 +1978,10 @@ object Form1: TForm1
                     Caption = 'Comprador'
                     TabOrder = 8
                     object pnCobVComprador: TPanel
-                      Left = 0
-                      Top = 0
+                      Left = 2
+                      Top = 15
                       Width = 604
-                      Height = 52
+                      Height = 55
                       Align = alClient
                       BevelOuter = bvNone
                       TabOrder = 0
@@ -2007,7 +2007,7 @@ object Form1: TForm1
                         Left = 15
                         Top = 15
                         Width = 356
-                        Height = 23
+                        Height = 21
                         TabOrder = 0
                         Text = 'Elias Cesar Vieira'
                       end
@@ -2015,7 +2015,7 @@ object Form1: TForm1
                         Left = 398
                         Top = 15
                         Width = 170
-                        Height = 23
+                        Height = 21
                         TabOrder = 1
                         Text = '67751079002'
                       end
@@ -2293,7 +2293,7 @@ object Form1: TForm1
                       Width = 137
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 3
                     end
                   end
@@ -2580,7 +2580,7 @@ object Form1: TForm1
                       Width = 105
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 2
                     end
                     object btCriarCobRPreencher: TBitBtn
@@ -2907,7 +2907,7 @@ object Form1: TForm1
                       Width = 106
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 7
                     end
                     object edConsultarCobsRConvenio: TEdit
@@ -3343,7 +3343,7 @@ object Form1: TForm1
                       Width = 102
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 8
                     end
                     object cbCriarRecorrenciaPoliticaRetentativa: TComboBox
@@ -3352,7 +3352,7 @@ object Form1: TForm1
                       Width = 102
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 3
                     end
                     object edCriarRecorrenciaTxID: TEdit
@@ -3649,7 +3649,7 @@ object Form1: TForm1
                       Width = 170
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 3
                     end
                     object edConsultarRecorrenciasConvenio: TEdit
@@ -5857,7 +5857,7 @@ object Form1: TForm1
                       Width = 184
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 1
                       TabStop = False
                     end
@@ -5890,7 +5890,7 @@ object Form1: TForm1
                       Width = 184
                       Height = 21
                       Style = csDropDownList
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 0
                       TabStop = False
                       OnChange = cbBBVersaoAPIChange
@@ -6151,7 +6151,7 @@ object Form1: TForm1
                 end
                 object tsBBConfigTokenManual: TTabSheet
                   Caption = 'Token Manual'
-                  object BBConfigTokenManual: TPanel
+                  object pnBBConfigTokenManual: TPanel
                     Left = 0
                     Top = 0
                     Width = 952
@@ -6337,7 +6337,7 @@ object Form1: TForm1
                       Height = 21
                       Style = csDropDownList
                       Anchors = [akTop, akRight]
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 0
                       TabStop = False
                     end
@@ -6370,7 +6370,7 @@ object Form1: TForm1
                     Left = 19
                     Top = 24
                     Width = 900
-                    Height = 379
+                    Height = 377
                     ActivePage = tsItauChaveCertificadoArquivos
                     Anchors = [akLeft, akTop, akRight, akBottom]
                     TabOrder = 0
@@ -6379,7 +6379,7 @@ object Form1: TForm1
                       Caption = 'Arquivos'
                       DesignSize = (
                         892
-                        351)
+                        349)
                       object lItauAvisoChaveCertificadoDesabilitado: TLabel
                         Left = 35
                         Top = 16
@@ -6530,12 +6530,12 @@ object Form1: TForm1
                       Caption = 'Gerar Chave e Certificado'
                       DesignSize = (
                         892
-                        351)
+                        349)
                       object pgPSPItauGerarChaveCertificado: TPageControl
                         Left = 16
                         Top = 16
                         Width = 842
-                        Height = 331
+                        Height = 329
                         ActivePage = tsItauCertPasso1
                         Anchors = [akLeft, akTop, akRight, akBottom]
                         TabOrder = 0
@@ -6543,7 +6543,7 @@ object Form1: TForm1
                           Caption = 'Passo 1 - Definir Chave Privada'
                           DesignSize = (
                             834
-                            303)
+                            301)
                           object Label39: TLabel
                             Left = 16
                             Top = 24
@@ -6578,7 +6578,7 @@ object Form1: TForm1
                             Left = 16
                             Top = 72
                             Width = 794
-                            Height = 214
+                            Height = 212
                             Anchors = [akLeft, akTop, akRight, akBottom]
                             Font.Charset = DEFAULT_CHARSET
                             Font.Color = clWindowText
@@ -6677,7 +6677,7 @@ object Form1: TForm1
                             Left = 0
                             Top = 136
                             Width = 834
-                            Height = 167
+                            Height = 165
                             Align = alClient
                             BevelOuter = bvNone
                             TabOrder = 2
@@ -6944,7 +6944,7 @@ object Form1: TForm1
                       Height = 21
                       Style = csDropDownList
                       Anchors = [akTop, akRight]
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 0
                       TabStop = False
                     end
@@ -7333,7 +7333,7 @@ object Form1: TForm1
                       Height = 21
                       Style = csDropDownList
                       Anchors = [akTop, akRight]
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 1
                       TabStop = False
                     end
@@ -7703,7 +7703,7 @@ object Form1: TForm1
                         Height = 21
                         Style = csDropDownList
                         Anchors = [akTop, akRight]
-                        ItemHeight = 13
+                        ItemHeight = 0
                         TabOrder = 1
                         TabStop = False
                       end
@@ -8094,7 +8094,7 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 1
                   TabStop = False
                 end
@@ -8248,7 +8248,7 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 4
                   TabStop = False
                 end
@@ -8315,19 +8315,29 @@ object Form1: TForm1
                   Anchors = [akTop, akRight]
                   Visible = False
                 end
+                object lbBradescoAPIVersao: TLabel
+                  Left = 678
+                  Top = 68
+                  Width = 53
+                  Height = 13
+                  Anchors = [akTop, akRight]
+                  Caption = 'Versao API'
+                  Color = clBtnFace
+                  ParentColor = False
+                end
                 object edBradescoClientSecret: TEdit
                   Left = 32
                   Top = 143
                   Width = 616
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                 end
                 object edBradescoClientID: TEdit
                   Left = 32
                   Top = 83
-                  Width = 816
-                  Height = 23
+                  Width = 616
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 1
                 end
@@ -8335,7 +8345,7 @@ object Form1: TForm1
                   Left = 32
                   Top = 35
                   Width = 616
-                  Height = 23
+                  Height = 21
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
                   OnChange = edBradescoChavePIXChange
@@ -8347,7 +8357,18 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
+                  TabOrder = 6
+                  TabStop = False
+                end
+                object cbBradescoAPIVersao: TComboBox
+                  Left = 678
+                  Top = 83
+                  Width = 170
+                  Height = 21
+                  Style = csDropDownList
+                  Anchors = [akTop, akRight]
+                  ItemHeight = 0
                   TabOrder = 3
                   TabStop = False
                 end
@@ -8474,7 +8495,7 @@ object Form1: TForm1
                           Left = 678
                           Top = 39
                           Width = 161
-                          Height = 23
+                          Height = 21
                           Anchors = [akLeft, akTop, akRight]
                           PasswordChar = '*'
                           TabOrder = 1
@@ -8692,7 +8713,7 @@ object Form1: TForm1
                   Width = 158
                   Height = 21
                   Style = csDropDownList
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 0
                   TabStop = False
                 end
@@ -8875,7 +8896,7 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 1
                   TabStop = False
                 end
@@ -9144,7 +9165,7 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 1
                   TabStop = False
                 end
@@ -9551,7 +9572,7 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 1
                   TabStop = False
                 end
@@ -9657,7 +9678,7 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 1
                   TabStop = False
                 end
@@ -9871,7 +9892,7 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 1
                   TabStop = False
                 end
@@ -10075,7 +10096,7 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 1
                   TabStop = False
                 end

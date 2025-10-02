@@ -800,7 +800,7 @@ object Form1: TForm1
                       Left = 8
                       Height = 15
                       Top = 56
-                      Width = 171
+                      Width = 170
                       Caption = 'Identificador da Transação (TxId)'
                       ParentColor = False
                     end
@@ -1225,9 +1225,9 @@ object Form1: TForm1
                 Height = 522
                 Top = 0
                 Width = 616
-                ActivePage = tsConsultarCobrancas
+                ActivePage = tsCriarCobrancaImediata
                 Align = alClient
-                TabIndex = 2
+                TabIndex = 0
                 TabOrder = 0
                 object tsCriarCobrancaImediata: TTabSheet
                   Caption = 'CriarCobrancaImediata'
@@ -1795,9 +1795,9 @@ object Form1: TForm1
                 Height = 522
                 Top = 0
                 Width = 616
-                ActivePage = tsCobVCancelarCobranca
+                ActivePage = tsCobVCriarCobranca
                 Align = alClient
-                TabIndex = 3
+                TabIndex = 0
                 TabOrder = 0
                 object tsCobVCriarCobranca: TTabSheet
                   Caption = 'Criar Cobrança Vencimento'
@@ -2647,7 +2647,7 @@ object Form1: TForm1
                       Left = 254
                       Height = 15
                       Top = 58
-                      Width = 59
+                      Width = 58
                       Caption = 'Tipo Conta'
                       ParentColor = False
                     end
@@ -3332,9 +3332,9 @@ object Form1: TForm1
                 Height = 522
                 Top = 0
                 Width = 616
-                ActivePage = tsConsultarRecorrencia
+                ActivePage = tsCriarRecorrencia
                 Align = alClient
-                TabIndex = 1
+                TabIndex = 0
                 TabOrder = 0
                 object tsCriarRecorrencia: TTabSheet
                   Caption = 'Criar Recorrencia'
@@ -3675,7 +3675,7 @@ object Form1: TForm1
                       Left = 333
                       Height = 15
                       Top = 15
-                      Width = 19
+                      Width = 20
                       Caption = 'txId'
                       ParentColor = False
                     end
@@ -4042,7 +4042,7 @@ object Form1: TForm1
                       Left = 16
                       Height = 15
                       Top = 56
-                      Width = 123
+                      Width = 124
                       Caption = 'txID (Apenas Jornada 3)'
                       ParentColor = False
                     end
@@ -4238,7 +4238,7 @@ object Form1: TForm1
                       Left = 439
                       Height = 15
                       Top = 10
-                      Width = 137
+                      Width = 138
                       Caption = 'Data Expiracao Solicitacao'
                       ParentColor = False
                     end
@@ -4480,9 +4480,9 @@ object Form1: TForm1
                 Height = 522
                 Top = 0
                 Width = 616
-                ActivePage = tsConsultarLocationsRec
+                ActivePage = tsCriarLocationRec
                 Align = alClient
-                TabIndex = 2
+                TabIndex = 0
                 TabOrder = 0
                 object tsCriarLocationRec: TTabSheet
                   Caption = 'Criar Location'
@@ -4949,7 +4949,7 @@ object Form1: TForm1
                       Left = 16
                       Height = 15
                       Top = 16
-                      Width = 197
+                      Width = 198
                       Caption = 'Pix Copia E Cola  (QRCode Dinâmico)'
                       ParentColor = False
                     end
@@ -5232,7 +5232,7 @@ object Form1: TForm1
                   Left = 16
                   Height = 15
                   Top = 72
-                  Width = 171
+                  Width = 170
                   Caption = 'Identificador da Transação (TxId)'
                   ParentColor = False
                 end
@@ -5947,7 +5947,7 @@ object Form1: TForm1
                   Left = 416
                   Height = 15
                   Top = 3
-                  Width = 45
+                  Width = 44
                   Caption = 'Timeout'
                   ParentColor = False
                 end
@@ -6616,7 +6616,7 @@ object Form1: TForm1
                         Left = 8
                         Height = 19
                         Top = -20
-                        Width = 133
+                        Width = 132
                         Caption = 'Utilizar Token Manual'
                         TabOrder = 1
                         OnClick = cbBBConfigTokenManualClick
@@ -6672,7 +6672,7 @@ object Form1: TForm1
                       OnChange = edtItauChavePIXChange
                     end
                     object Label26: TLabel
-                      Left = 745
+                      Left = 746
                       Height = 15
                       Top = 21
                       Width = 60
@@ -7211,7 +7211,7 @@ object Form1: TForm1
                       OnChange = edSantanderChavePIXChange
                     end
                     object lbSantanderTipoChave: TLabel
-                      Left = 687
+                      Left = 688
                       Height = 15
                       Top = 24
                       Width = 60
@@ -7540,7 +7540,7 @@ object Form1: TForm1
                       ParentShowHint = False
                     end
                     object lbSicrediTipoChave: TLabel
-                      Left = 674
+                      Left = 675
                       Height = 15
                       Top = 24
                       Width = 60
@@ -8103,7 +8103,7 @@ object Form1: TForm1
                         Left = 24
                         Height = 15
                         Top = 280
-                        Width = 183
+                        Width = 182
                         Caption = 'Access Token (APENAS SANDBOX)'
                         ParentColor = False
                       end
@@ -8618,8 +8618,8 @@ object Form1: TForm1
                 object lbBradescoTipoChave: TLabel
                   Left = 678
                   Height = 15
-                  Top = 19
-                  Width = 60
+                  Top = 20
+                  Width = 59
                   Anchors = [akTop, akRight]
                   Caption = 'Tipo Chave'
                   ParentColor = False
@@ -8643,7 +8643,7 @@ object Form1: TForm1
                 object lbBradescoChave: TLabel
                   Left = 32
                   Height = 15
-                  Top = 19
+                  Top = 20
                   Width = 53
                   Caption = 'Chave PIX'
                   ParentColor = False
@@ -8668,7 +8668,7 @@ object Form1: TForm1
                   Left = 32
                   Height = 23
                   Top = 83
-                  Width = 816
+                  Width = 616
                   Anchors = [akTop, akLeft, akRight]
                   TabOrder = 1
                 end
@@ -8689,7 +8689,7 @@ object Form1: TForm1
                   Anchors = [akTop, akRight]
                   ItemHeight = 15
                   Style = csDropDownList
-                  TabOrder = 3
+                  TabOrder = 4
                   TabStop = False
                 end
                 object rgBradescoTipoCertificado: TRadioGroup
@@ -8697,6 +8697,7 @@ object Form1: TForm1
                   Height = 58
                   Top = 116
                   Width = 190
+                  Anchors = [akTop, akRight]
                   AutoFill = True
                   Caption = 'Tipo Certificado'
                   ChildSizing.LeftRightSpacing = 6
@@ -8715,7 +8716,7 @@ object Form1: TForm1
                     'Chave/Certificado'
                   )
                   OnClick = rgBradescoTipoCertificadoClick
-                  TabOrder = 4
+                  TabOrder = 5
                 end
                 object pnBradescoCertificados: TPanel
                   Left = 0
@@ -8726,7 +8727,7 @@ object Form1: TForm1
                   BevelOuter = bvNone
                   ClientHeight = 170
                   ClientWidth = 880
-                  TabOrder = 5
+                  TabOrder = 6
                   object pcBradescoCertificados: TPageControl
                     Left = 0
                     Height = 170
@@ -8960,6 +8961,26 @@ object Form1: TForm1
                       end
                     end
                   end
+                end
+                object cbBradescoAPIVersao: TComboBox
+                  Left = 678
+                  Height = 23
+                  Top = 83
+                  Width = 170
+                  Anchors = [akTop, akRight]
+                  ItemHeight = 15
+                  Style = csDropDownList
+                  TabOrder = 3
+                  TabStop = False
+                end
+                object lbBradescoAPIVersao: TLabel
+                  Left = 678
+                  Height = 15
+                  Top = 68
+                  Width = 55
+                  Anchors = [akTop, akRight]
+                  Caption = 'Versão API'
+                  ParentColor = False
                 end
               end
             end
@@ -9947,7 +9968,7 @@ object Form1: TForm1
                   Left = 24
                   Height = 15
                   Top = 75
-                  Width = 71
+                  Width = 70
                   Caption = 'Access Token'
                   ParentColor = False
                 end
