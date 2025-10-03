@@ -3175,7 +3175,8 @@ begin
 
       // Verifica se o operador cancelou a operacao via teclado //
       if (iStatus = TC_COLETA_CARTAO_EM_ANDAMENTO) or   // Efetuando Leitura do Cartão. //
-         (iStatus = TC_COLETA_EM_ANDAMENTO) then        // Outra operação no PinPad //
+         (iStatus = TC_COLETA_EM_ANDAMENTO) or          // Outra operação no PinPad //
+         (iStatus = TC_INFO_RET_FLUXO) then
       begin
         // Chama evento, permitindo ao usuário cancelar
         Cancelar := False;

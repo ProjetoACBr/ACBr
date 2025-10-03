@@ -46,6 +46,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 03/10/2025
+-- ACBrTEFScopeAPI --
+[*] Ajuste para chamar evento TransacaoEmAndamento, quando está no Fluxo do QRCode
+    https://www.projetoacbr.com.br/forum/index.php?showtopic=85617
+    (por: DSA)
+
 -- ACBrTEFDestaxaComum --
 [*] Alteração ao chamar evento OnExibirMensagem no método ProcessarResposta.
     por: Elias Cesar
