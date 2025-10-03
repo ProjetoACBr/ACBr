@@ -1179,7 +1179,7 @@ begin
 
     // Data base para cálculo dos dias
     LDiasProtesto := DaysBetween(ATitulo.Vencimento, ATitulo.DataProtesto);
-    if (LDiasProtesto < 5) or (LDiasProtesto <> 0) then
+    if (LDiasProtesto < 5) and (LDiasProtesto <> 0) then
       raise Exception.Create('Erro quantidade de dias para protesto. (mínimo de 5 dias).');
   end;
 
