@@ -1750,10 +1750,10 @@ begin
     Result[i].AppendChild(AddNode(tcStr, '#90', 'nONU', 1, 15, 1,
        MDFe.infDoc.infMunDescarga[Idx1].infCTe[Idx2].peri[i].nONU, DSC_NONU));
 
-    Result[i].AppendChild(AddNode(tcStr, '#91', 'xNomeAE', 1, 150, 1,
+    Result[i].AppendChild(AddNode(tcStr, '#91', 'xNomeAE', 1, 150, 0,
       MDFe.infDoc.infMunDescarga[Idx1].infCTe[Idx2].peri[i].xNomeAE, DSC_XNOMEAE));
 
-    Result[i].AppendChild(AddNode(tcStr, '#92', 'xClaRisco', 1, 40, 1,
+    Result[i].AppendChild(AddNode(tcStr, '#92', 'xClaRisco', 1, 40, 0,
       MDFe.infDoc.infMunDescarga[Idx1].infCTe[Idx2].peri[i].xClaRisco, DSC_XCLARISCO));
 
     Result[i].AppendChild(AddNode(tcStr, '#93', 'grEmb', 1, 6, 0,
@@ -1762,7 +1762,7 @@ begin
     Result[i].AppendChild(AddNode(tcStr, '#94', 'qTotProd', 1, 20, 1,
      MDFe.infDoc.infMunDescarga[Idx1].infCTe[Idx2].peri[i].qTotProd, DSC_QTOTPROD));
 
-    Result[i].AppendChild(AddNode(tcStr, '#95', 'qVolTipo', 1, 60, 1,
+    Result[i].AppendChild(AddNode(tcStr, '#95', 'qVolTipo', 1, 60, 0,
      MDFe.infDoc.infMunDescarga[Idx1].infCTe[Idx2].peri[i].qVolTipo, DSC_QVOLTIPO));
   end;
 
@@ -2127,10 +2127,10 @@ begin
     Result[i].AppendChild(AddNode(tcStr, '#90', 'nONU', 1, 15, 1,
        MDFe.infDoc.infMunDescarga[Idx1].infNFe[Idx2].peri[i].nONU, DSC_NONU));
 
-    Result[i].AppendChild(AddNode(tcStr, '#91', 'xNomeAE', 1, 150, 1,
+    Result[i].AppendChild(AddNode(tcStr, '#91', 'xNomeAE', 1, 150, 0,
       MDFe.infDoc.infMunDescarga[Idx1].infNFe[Idx2].peri[i].xNomeAE, DSC_XNOMEAE));
 
-    Result[i].AppendChild(AddNode(tcStr, '#92', 'xClaRisco', 1, 40, 1,
+    Result[i].AppendChild(AddNode(tcStr, '#92', 'xClaRisco', 1, 40, 0,
       MDFe.infDoc.infMunDescarga[Idx1].infNFe[Idx2].peri[i].xClaRisco, DSC_XCLARISCO));
 
     Result[i].AppendChild(AddNode(tcStr, '#93', 'grEmb', 1, 6, 0,
@@ -2139,7 +2139,7 @@ begin
     Result[i].AppendChild(AddNode(tcStr, '#94', 'qTotProd', 1, 20, 1,
      MDFe.infDoc.infMunDescarga[Idx1].infNFe[Idx2].peri[i].qTotProd, DSC_QTOTPROD));
 
-    Result[i].AppendChild(AddNode(tcStr, '#95', 'qVolTipo', 1, 60, 1,
+    Result[i].AppendChild(AddNode(tcStr, '#95', 'qVolTipo', 1, 60, 0,
      MDFe.infDoc.infMunDescarga[Idx1].infNFe[Idx2].peri[i].qVolTipo, DSC_QVOLTIPO));
   end;
 
@@ -2475,10 +2475,10 @@ begin
     Result[i].AppendChild(AddNode(tcStr, '#90', 'nONU', 1, 15, 1,
        MDFe.infDoc.infMunDescarga[Idx1].infMDFeTransp[Idx2].peri[i].nONU, DSC_NONU));
 
-    Result[i].AppendChild(AddNode(tcStr, '#91', 'xNomeAE', 1, 150, 1,
+    Result[i].AppendChild(AddNode(tcStr, '#91', 'xNomeAE', 1, 150, 0,
       MDFe.infDoc.infMunDescarga[Idx1].infMDFeTransp[Idx2].peri[i].xNomeAE, DSC_XNOMEAE));
 
-    Result[i].AppendChild(AddNode(tcStr, '#92', 'xClaRisco', 1, 40, 1,
+    Result[i].AppendChild(AddNode(tcStr, '#92', 'xClaRisco', 1, 40, 0,
       MDFe.infDoc.infMunDescarga[Idx1].infMDFeTransp[Idx2].peri[i].xClaRisco, DSC_XCLARISCO));
 
     Result[i].AppendChild(AddNode(tcStr, '#93', 'grEmb', 1, 6, 0,
@@ -2487,7 +2487,7 @@ begin
     Result[i].AppendChild(AddNode(tcStr, '#94', 'qTotProd', 1, 20, 1,
      MDFe.infDoc.infMunDescarga[Idx1].infMDFeTransp[Idx2].peri[i].qTotProd, DSC_QTOTPROD));
 
-    Result[i].AppendChild(AddNode(tcStr, '#95', 'qVolTipo', 1, 60, 1,
+    Result[i].AppendChild(AddNode(tcStr, '#95', 'qVolTipo', 1, 60, 0,
      MDFe.infDoc.infMunDescarga[Idx1].infMDFeTransp[Idx2].peri[i].qVolTipo, DSC_QVOLTIPO));
   end;
 
