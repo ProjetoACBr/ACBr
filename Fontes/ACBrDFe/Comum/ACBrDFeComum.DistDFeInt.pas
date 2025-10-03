@@ -129,10 +129,10 @@ begin
   if FpGerarcUFAutor then
     xUFAutor := '<cUFAutor>' + IntToStr(cUFAutor) + '</cUFAutor>';
 
-  if Length(CNPJCPF) = 14 then
-    xDoc := '<CNPJ>' + CNPJCPF + '</CNPJ>'
+  if Length(OnlyAlphaNum(CNPJCPF)) = 14 then
+    xDoc := '<CNPJ>' + OnlyAlphaNum(CNPJCPF) + '</CNPJ>'
   else
-    xDoc := '<CPF>' + CNPJCPF + '</CPF>';
+    xDoc := '<CPF>' + OnlyNumber(CNPJCPF) + '</CPF>';
 
   if NSU = '' then
   begin
