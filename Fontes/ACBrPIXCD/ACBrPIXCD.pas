@@ -622,7 +622,7 @@ type
     procedure VerificarValidadeToken; virtual;
     procedure RenovarToken; virtual;
     procedure VerificarAutenticacao; virtual;
-    function GerarToken(out aToken: String; aValidadeToken: TDateTime): Boolean; virtual;
+    function GerarToken(out aToken: String; out aValidadeToken: TDateTime): Boolean; virtual;
 
     property Autenticado: Boolean read fpAutenticado;
     property ValidadeToken: TDateTime read fpValidadeToken;
@@ -3644,8 +3644,9 @@ begin
   VerificarValidadeToken;
 end;
 
-function TACBrPSP.GerarToken(out aToken: String; aValidadeToken: TDateTime): Boolean;
+function TACBrPSP.GerarToken(out aToken: String; out aValidadeToken: TDateTime): Boolean;
 begin
+  RegistrarLog('GerarToken');
   Autenticar;
   aToken := fpToken;
   aValidadeToken := fpValidadeToken;
@@ -3655,6 +3656,10 @@ begin
   fpToken := EmptyStr;
   fpValidadeToken := 0;
   fpAutenticado := False;
+
+  RegistrarLog(sLineBreak +
+    'Token: ' + aToken + sLineBreak +
+    'Validade: ' + FormatDateBr(aValidadeToken), 3);
 end;
 
 { TACBrPixRecebedor }

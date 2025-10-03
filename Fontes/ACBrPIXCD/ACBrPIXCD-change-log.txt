@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/10/2025
+-- ACBrPIXCD --
+[-] Ajuste do parametro Validade para 'out' no momento de gerar o Token.
+    por: Julio Cavalcanti
+
 01/10/2025
 -- ACBrPixPSPBradesco --
 [+] Criada propriedade para definir as versões de URL do Bradesco.
