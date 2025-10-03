@@ -420,7 +420,7 @@ begin
           if Filtro = fiNenhum then
           begin
             if (MostrarPreview) and (not FModoThread) then
-              FfrxReport.ShowReport(false)
+              FfrxReport.ShowReport(True)
             else
               FfrxReport.Print;
           end else
