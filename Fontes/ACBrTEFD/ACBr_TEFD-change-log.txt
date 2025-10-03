@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/10/2025
+-- ACBrTEFDestaxaComum --
+[*] Alteração ao chamar evento OnExibirMensagem no método ProcessarResposta.
+    por: Elias Cesar
+
 25/09/2025
 -- ACBrTEFAPI --
 [*] Remoção de Warning em 'TACBrTEFAPI.VersaoAPI'

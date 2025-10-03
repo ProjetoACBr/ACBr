@@ -1777,7 +1777,6 @@ end;
 
 procedure TACBrTEFDestaxaClient.ProcessarResposta;
 var
-  wSeg: Integer;
   Cancelar: Boolean;
 begin
   if (Resposta.sequencial > 0) then
@@ -1792,15 +1791,10 @@ begin
     Exit;
   end;
 
-  wSeg := 0;
   Cancelar := False;
   if Assigned(fOnExibirMensagem) and fExibirMensagem and NaoEstaVazio(Resposta.mensagem) and
      (not (Resposta.retorno in [drsNenhum, drsErroDesconhecido])) then
-  begin
-    if (Resposta.retorno = drsSucessoSemConfirmacao) then
-      wSeg := -1;
-    fOnExibirMensagem(Resposta.mensagem, wSeg, Cancelar);
-  end;
+    fOnExibirMensagem(Resposta.mensagem, -1, Cancelar);
 
   if Cancelar or (Resposta.retorno = drsErroDesconhecido) then
   begin
