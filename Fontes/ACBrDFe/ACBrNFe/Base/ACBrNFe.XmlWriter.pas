@@ -872,12 +872,9 @@ begin
   else
     Result.AppendChild(AddNodeCNPJCPF('E02', 'E03', NFe.Dest.CNPJCPF, IsNFe));
 
-  if NFe.Ide.tpAmb = pcnConversao.taProducao then
-    Result.AppendChild(AddNode(tcStr, 'E04', 'xNome', 02, 60,
-      IfThen(IsNFe, 1, 0), NFe.Dest.xNome, DSC_XNOME))
-  else
-    Result.AppendChild(AddNode(tcStr, 'E04', 'xNome', 02, 60,
-      IfThen(IsNFe, 1, 0), HOM_NOME_DEST, DSC_XNOME));
+  if (NFe.Ide.tpAmb = pcnConversao.taHomologacao) and IsNFe then
+    NFe.Dest.xNome := HOM_NOME_DEST;
+  Result.AppendChild(AddNode(tcStr, 'E04', 'xNome', 02, 60, IfThen(IsNFe, 1, 0), NFe.Dest.xNome, DSC_XNOME));
 
   if IsNFe then
     (**)Result.AppendChild(GerarDestEnderDest(UF))
@@ -1197,13 +1194,9 @@ begin
   Result.AppendChild(AddNode(tcStr, 'I03a', 'cBarra', 3, 30, 0,
     NFe.Det[i].Prod.cBarra, DSC_CBARRA));
 
-  if (NFe.Det[i].Prod.nItem = 1) and (NFe.Ide.tpAmb = pcnConversao.taHomologacao) and
-     (NFe.ide.modelo = 65) then
-    Result.AppendChild(AddNode(tcStr, 'I04', 'xProd', 1, 120, 1,
-      HOM_XPROD, DSC_XPROD))
-  else
-    Result.AppendChild(AddNode(tcStr, 'I04', 'xProd', 1, 120, 1,
-      NFe.Det[i].Prod.xProd, DSC_XPROD));
+  if (NFe.Det[i].Prod.nItem = 1) and (NFe.Ide.tpAmb = pcnConversao.taHomologacao) and (NFe.ide.modelo = 65) then
+    NFe.Det[i].Prod.xProd := HOM_XPROD;
+  Result.AppendChild(AddNode(tcStr, 'I04', 'xProd', 1, 120, 1,NFe.Det[i].Prod.xProd, DSC_XPROD));
 
   Result.AppendChild(AddNode(tcStr, 'I05', 'NCM', 02, 08,
     IfThen(NFe.infNFe.Versao >= 2, 1, 0), NFe.Det[i].Prod.NCM, DSC_NCM));

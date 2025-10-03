@@ -686,11 +686,9 @@ begin
   else
      Gerador.wCampoCNPJCPF('E02', 'E03', NFe.Dest.CNPJCPF, IsNFe);
 
-  if NFe.Ide.tpAmb = taProducao then
-    Gerador.wCampo(tcStr, 'E04', 'xNome  ', 02, 60, IfThen(IsNFe,1,0), NFe.Dest.xNome, DSC_XNOME)
-  else
-    Gerador.wCampo(tcStr, 'E04', 'xNome  ', 02, 60, IfThen(IsNFe,1,0), HOM_NOME_DEST, DSC_XNOME);
-
+  if (NFe.Ide.tpAmb = taHomologacao) and IsNFe then
+    NFe.Dest.xNome := HOM_NOME_DEST;
+  Gerador.wCampo(tcStr, 'E04', 'xNome  ', 02, 60, IfThen(IsNFe,1,0), NFe.Dest.xNome, DSC_XNOME);
   if IsNFe then
     (**)GerarDestEnderDest(UF)
   else
@@ -948,9 +946,9 @@ begin
   Gerador.wCampo(tcStr, 'I03a ', 'cBarra', 3, 30, 0, NFe.Det[i].Prod.cBarra, DSC_CBARRA);
 
   if (NFe.Det[i].Prod.nItem = 1) and (NFe.Ide.tpAmb = taHomologacao) and (NFe.ide.modelo = 65) then
-    Gerador.wCampo(tcStr, 'I04 ', 'xProd   ', 1, 120, 1, HOM_XPROD, DSC_XPROD)
-  else
-    Gerador.wCampo(tcStr, 'I04 ', 'xProd   ', 1, 120, 1, NFe.Det[i].Prod.xProd, DSC_XPROD);
+    NFe.Det[i].Prod.xProd := HOM_XPROD;
+  Gerador.wCampo(tcStr, 'I04 ', 'xProd   ', 1, 120, 1, NFe.Det[i].Prod.xProd, DSC_XPROD);
+
   Gerador.wCampo(tcStr, 'I05 ', 'NCM     ', 02, 08,   IfThen(NFe.infNFe.Versao >= 2,1,0), NFe.Det[i].Prod.NCM, DSC_NCM);
   if not (Length(OnlyNumber(NFe.Det[i].Prod.NCM)) in [2, 8]) then
     Gerador.wAlerta('I05', 'NCM', DSC_NCM, ERR_MSG_INVALIDO);
