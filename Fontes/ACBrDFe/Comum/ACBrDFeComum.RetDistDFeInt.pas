@@ -367,6 +367,7 @@ implementation
 
 uses 
   synacode,
+  StrUtils,
   ACBrDFeException,
   ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.FilesIO;
 
@@ -635,7 +636,7 @@ begin
 
     if Assigned(AuxNode) then
     begin
-      docZip[Indice].resDFe.chDFe := ObterConteudoTag(AuxNode.Attributes.Items['Id']);
+      docZip[Indice].resDFe.chDFe := RightStr(ObterConteudoTag(AuxNode.Attributes.Items['Id']), 44);
 
       LerGrupo_ide(AuxNode.Childrens.FindAnyNs('ide'), Indice);
       LerGrupo_emit(AuxNode.Childrens.FindAnyNs('emit'), Indice);
