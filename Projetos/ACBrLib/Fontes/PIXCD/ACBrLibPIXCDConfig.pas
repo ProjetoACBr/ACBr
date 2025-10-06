@@ -38,7 +38,7 @@ interface
 
 uses
   Classes, SysUtils, IniFiles, synachar,
-  ACBrBase, ACBrLibConfig, ACBrPIXCD, ACBrPIXPSPBancoDoBrasil, ACBrPIXPSPPixPDV, ACBrPIXBase, ACBrLibPIXCDDataModule;
+  ACBrBase, ACBrLibConfig, ACBrPIXCD, ACBrPIXPSPBancoDoBrasil, ACBrPIXPSPPixPDV, ACBrPIXBase, ACBrLibPIXCDDataModule, ACBrPIXPSPBradesco;
 
 type
 
@@ -447,6 +447,7 @@ type
     FSenhaPFX: AnsiString;
     FArqChavePrivada: String;
     FArqCertificado: String;
+    FAPIVersao: TACBrBradescoAPIVersao;
 
     public
     constructor Create;
@@ -461,6 +462,7 @@ type
     property SenhaPFX: AnsiString read FSenhaPFX write FSenhaPFX;
     property ArqChavePrivada: String read FArqChavePrivada write FArqChavePrivada;
     property ArqCertificado: String read FArqCertificado write FArqCertificado;
+    property APIVersao: TACBrBradescoAPIVersao read FAPIVersao write FAPIVersao;
   end;
 
   { TPIXCDConfig }
@@ -809,6 +811,7 @@ begin
   FSenhaPFX := EmptyStr;
   FArqChavePrivada := EmptyStr;
   FArqCertificado := EmptyStr;
+  FAPIVersao:= TACBrBradescoAPIVersao.braVersao1;
   FSessaoPSP := CSessaoPIXCDBradescoConfig;
 end;
 
@@ -822,6 +825,7 @@ begin
   SenhaPFX := AIni.ReadString(CSessaoPIXCDBradescoConfig, CChaveSenhaPFXBradesco, SenhaPFX);
   ArqChavePrivada := AIni.ReadString(CSessaoPIXCDBradescoConfig, CChaveArqChavePrivadaBradesco, ArqChavePrivada);
   ArqCertificado := AIni.ReadString(CSessaoPIXCDBradescoConfig, CChaveArqCertificadoBradesco, ArqCertificado);
+  APIVersao := TACBrBradescoAPIVersao(AIni.ReadInteger(CSessaoPIXCDBradescoConfig, CChaveBradescoAPIVersao, Integer(APIVersao)));
 end;
 
 procedure TPIXCDBradescoConfig.GravarIni(const AIni: TCustomIniFile);
@@ -834,6 +838,7 @@ begin
   AIni.WriteString(CSessaoPIXCDBradescoConfig, CChaveSenhaPFXBradesco, SenhaPFX);
   AIni.WriteString(CSessaoPIXCDBradescoConfig, CChaveArqChavePrivadaBradesco, ArqChavePrivada);
   AIni.WriteString(CSessaoPIXCDBradescoConfig, CChaveArqCertificadoBradesco, ArqCertificado);
+  AIni.WriteInteger(CSessaoPIXCDBradescoConfig, CChaveBradescoAPIVersao, Integer(APIVersao));
 end;
 
 { TPIXCDSicrediConfig }

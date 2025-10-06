@@ -324,6 +324,7 @@ begin
       SenhaPFX            := pLibPIXCDConfig.PIXCDBradesco.SenhaPFX;
       ArquivoChavePrivada := pLibPIXCDConfig.PIXCDBradesco.ArqChavePrivada;
       ArquivoCertificado  := pLibPIXCDConfig.PIXCDBradesco.ArqCertificado;
+      APIVersao           := pLibPIXCDConfig.PIXCDBradesco.APIVersao;
       Scopes              := pLibPIXCDConfig.PIXCDBradesco.Scopes;
     end;
 

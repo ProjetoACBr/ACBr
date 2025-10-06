@@ -215,6 +215,7 @@ const
   CChaveSenhaPFXBradesco = 'SenhaPFX';
   CChaveArqChavePrivadaBradesco = 'ArqChavePrivada';
   CChaveArqCertificadoBradesco = 'ArqCertificado';
+  CChaveBradescoAPIVersao = 'APIVersao';
 
   CSessaoPIXCDSicrediConfig = 'Sicredi';
   CChavePIXSicredi = 'ChavePIX';
