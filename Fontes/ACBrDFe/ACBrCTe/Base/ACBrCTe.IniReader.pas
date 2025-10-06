@@ -131,9 +131,8 @@ type
     procedure Ler_gIBSMun(AINIRec: TMemIniFile; gIBSMun: TgIBSMunValores);
     procedure Ler_gCBS(AINIRec: TMemIniFile; gCBS: TgCBSValores);
     procedure Ler_gTribReg(AINIRec: TMemIniFile; gTribRegular: TgTribRegular);
-    procedure Ler_gIBSCredPres(AINIRec: TMemIniFile; gIBSCredPres: TgIBSCBSCredPres);
-    procedure Ler_gCBSCredPres(AINIRec: TMemIniFile; gCBSCredPres: TgIBSCBSCredPres);
     procedure Ler_gTribCompraGov(AINIRec: TMemIniFile; gTribCompraGov: TgTribCompraGov);
+    procedure Ler_gEstornoCred(AINIRec: TMemIniFile; gEstornoCred: TgEstornoCred);
   public
     constructor Create(AOwner: TCTe); reintroduce;
 
@@ -2330,12 +2329,14 @@ end;
 procedure TCTeIniReader.Ler_IBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBS);
 var
   sSecao: string;
+  ok: Boolean;
 begin
   sSecao := 'IBSCBS';
   if AINIRec.SectionExists(sSecao) then
   begin
     IBSCBS.CST := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CST', '000'));
     IBSCBS.cClassTrib := AINIRec.ReadString(sSecao, 'cClassTrib', '000001');
+    IBSCBS.indDoacao := StrToTIndicadorEx(ok, AINIRec.ReadString(sSecao, 'indDoacao', ''));
 
     Ler_IBSCBS_gIBSCBS(AINIRec, IBSCBS.gIBSCBS);
   end;
@@ -2355,9 +2356,8 @@ begin
     Ler_gIBSMun(AINIRec, gIBSCBS.gIBSMun);
     Ler_gCBS(AINIRec, gIBSCBS.gCBS);
     Ler_gTribReg(AINIRec, gIBSCBS.gTribRegular);
-    Ler_gIBSCredPres(AINIRec, gIBSCBS.gIBSCredPres);
-    Ler_gCBSCredPres(AINIRec, gIBSCBS.gCBSCredPres);
     Ler_gTribCompraGov(AINIRec, gIBSCBS.gTribCompraGov);
+    Ler_gEstornoCred(AINIRec, gIBSCBS.gEstornoCred);
   end;
 end;
 
@@ -2438,34 +2438,6 @@ begin
   gTribRegular.vTribRegCBS := StringToFloatDef(AINIRec.ReadString(sSecao,'vTribRegCBS','') ,0);
 end;
 
-procedure TCTeIniReader.Ler_gIBSCredPres(AINIRec: TMemIniFile; gIBSCredPres: TgIBSCBSCredPres);
-var
-  sSecao: string;
-begin
-  sSecao := 'gIBSCredPres';
-  if AINIRec.SectionExists(sSecao) then
-  begin
-    gIBSCredPres.cCredPres := StrTocCredPres(AINIRec.ReadString(sSecao, 'cCredPres', ''));
-    gIBSCredPres.pCredPres := StringToFloatDef(AINIRec.ReadString(sSecao,'pCredPres','') ,0);
-    gIBSCredPres.vCredPres := StringToFloatDef(AINIRec.ReadString(sSecao,'vCredPres','') ,0);
-    gIBSCredPres.vCredPresCondSus := StringToFloatDef(AINIRec.ReadString(sSecao,'vCredPresCondSus','') ,0);
-  end;
-end;
-
-procedure TCTeIniReader.Ler_gCBSCredPres(AINIRec: TMemIniFile; gCBSCredPres: TgIBSCBSCredPres);
-var
-  sSecao: string;
-begin
-  sSecao := 'gCBSCredPres';
-  if AINIRec.SectionExists(sSecao) then
-  begin
-    gCBSCredPres.cCredPres := StrTocCredPres(AINIRec.ReadString(sSecao, 'cCredPres', ''));
-    gCBSCredPres.pCredPres := StringToFloatDef(AINIRec.ReadString(sSecao,'pCredPres','') ,0);
-    gCBSCredPres.vCredPres := StringToFloatDef(AINIRec.ReadString(sSecao,'vCredPres','') ,0);
-    gCBSCredPres.vCredPresCondSus := StringToFloatDef(AINIRec.ReadString(sSecao,'vCredPresCondSus','') ,0);
-  end;
-end;
-
 procedure TCTeIniReader.Ler_gTribCompraGov(AINIRec: TMemIniFile;
   gTribCompraGov: TgTribCompraGov);
 var
@@ -2481,6 +2453,20 @@ begin
     gTribCompraGov.vTribIBSMun := StringToFloatDef(AINIRec.ReadString(sSecao,'vTribIBSMun','') ,0);
     gTribCompraGov.pAliqCBS := StringToFloatDef(AINIRec.ReadString(sSecao,'pAliqCBS','') ,0);
     gTribCompraGov.vTribCBS := StringToFloatDef(AINIRec.ReadString(sSecao,'vTribCBS','') ,0);
+  end;
+end;
+
+procedure TCTeIniReader.Ler_gEstornoCred(AINIRec: TMemIniFile;
+  gEstornoCred: TgEstornoCred);
+var
+  sSecao: string;
+begin
+  sSecao := 'gEstornoCred';
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gEstornoCred.vIBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vIBSEstCred','') ,0);
+    gEstornoCred.vCBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vCBSEstCred','') ,0);
   end;
 end;
 
