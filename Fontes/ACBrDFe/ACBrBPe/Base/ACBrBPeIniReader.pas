@@ -88,15 +88,15 @@ type
     procedure Ler_gCBS(AINIRec: TMemIniFile; gCBS: TgCBSValores; Idx1, Idx2: Integer);
 
     procedure Ler_gTribReg(AINIRec: TMemIniFile; gTribRegular: TgTribRegular; Idx1, Idx2: Integer);
-    procedure Ler_gIBSCredPres(AINIRec: TMemIniFile; gIBSCredPres: TgIBSCBSCredPres; Idx1, Idx2: Integer);
-    procedure Ler_gCBSCredPres(AINIRec: TMemIniFile; gCBSCredPres: TgIBSCBSCredPres; Idx1, Idx2: Integer);
     procedure Ler_gTribCompraGov(AINIRec: TMemIniFile; gTribCompraGov: TgTribCompraGov; Idx1, Idx2: Integer);
+    procedure Ler_gEstornoCred(AINIRec: TMemIniFile; gEstornoCred: TgEstornoCred; Idx1, Idx2: Integer);
 
     procedure Ler_IBSCBSTot(AINIRec: TMemIniFile; IBSCBSTot: TIBSCBSTot);
     procedure Ler_IBSCBSTot_gIBS(AINIRec: TMemIniFile; gIBS: TgIBS);
     procedure Ler_IBSCBSTot_gIBS_gIBSUFTot(AINIRec: TMemIniFile; gIBSUFTot: TgIBSUFTot);
     procedure Ler_IBSCBSTot_gIBS_gIBSMunTot(AINIRec: TMemIniFile; gIBSMunTot: TgIBSMunTot);
     procedure Ler_IBSCBSTot_gCBS(AINIRec: TMemIniFile; gCBS: TgCBS);
+    procedure Ler_gEstornoCredTot(AINIRec: TMemIniFile; gEstornoCred: TgEstornoCred);
   public
     constructor Create(AOwner: TBPe); reintroduce;
 
@@ -704,6 +704,7 @@ end;
 procedure TBPeIniReader.Ler_IBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBS; Idx1, Idx2: Integer);
 var
   sSecao: string;
+  ok: Boolean;
 begin
   if Idx1 = -1 then
     sSecao := 'IBSCBS'
@@ -714,6 +715,7 @@ begin
   begin
     IBSCBS.CST := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CST', '000'));
     IBSCBS.cClassTrib := AINIRec.ReadString(sSecao, 'cClassTrib', '000001');
+    IBSCBS.indDoacao := StrToTIndicadorEx(ok, AINIRec.ReadString(sSecao, 'indDoacao', ''));
 
     Ler_IBSCBS_gIBSCBS(AINIRec, IBSCBS.gIBSCBS, Idx1, Idx2);
   end;
@@ -737,9 +739,8 @@ begin
     Ler_gIBSMun(AINIRec, gIBSCBS.gIBSMun, Idx1, Idx2);
     Ler_gCBS(AINIRec, gIBSCBS.gCBS, Idx1, Idx2);
     Ler_gTribReg(AINIRec, gIBSCBS.gTribRegular, Idx1, Idx2);
-    Ler_gIBSCredPres(AINIRec, gIBSCBS.gIBSCredPres, Idx1, Idx2);
-    Ler_gCBSCredPres(AINIRec, gIBSCBS.gCBSCredPres, Idx1, Idx2);
     Ler_gTribCompraGov(AINIRec, gIBSCBS.gTribCompraGov, Idx1, Idx2);
+    Ler_gEstornoCred(AINIRec, gIBSCBS.gEstornoCred, Idx1, Idx2);
   end;
 end;
 
@@ -832,42 +833,6 @@ begin
   gTribRegular.vTribRegCBS := StringToFloatDef(AINIRec.ReadString(sSecao,'vTribRegCBS','') ,0);
 end;
 
-procedure TBPeIniReader.Ler_gIBSCredPres(AINIRec: TMemIniFile; gIBSCredPres: TgIBSCBSCredPres; Idx1, Idx2: Integer);
-var
-  sSecao: string;
-begin
-  if Idx1 = -1 then
-    sSecao := 'gIBSCredPres'
-  else
-    sSecao := 'gIBSCredPres' + IntToStrZero(Idx1, 2) + IntToStrZero(Idx2, 3);
-
-  if AINIRec.SectionExists(sSecao) then
-  begin
-    gIBSCredPres.cCredPres := StrTocCredPres(AINIRec.ReadString(sSecao, 'cCredPres', ''));
-    gIBSCredPres.pCredPres := StringToFloatDef(AINIRec.ReadString(sSecao,'pCredPres','') ,0);
-    gIBSCredPres.vCredPres := StringToFloatDef(AINIRec.ReadString(sSecao,'vCredPres','') ,0);
-    gIBSCredPres.vCredPresCondSus := StringToFloatDef(AINIRec.ReadString(sSecao,'vCredPresCondSus','') ,0);
-  end;
-end;
-
-procedure TBPeIniReader.Ler_gCBSCredPres(AINIRec: TMemIniFile; gCBSCredPres: TgIBSCBSCredPres; Idx1, Idx2: Integer);
-var
-  sSecao: string;
-begin
-  if Idx1 = -1 then
-    sSecao := 'gCBSCredPres'
-  else
-    sSecao := 'gCBSCredPres' + IntToStrZero(Idx1, 2) + IntToStrZero(Idx2, 3);
-
-  if AINIRec.SectionExists(sSecao) then
-  begin
-    gCBSCredPres.cCredPres := StrTocCredPres(AINIRec.ReadString(sSecao, 'cCredPres', ''));
-    gCBSCredPres.pCredPres := StringToFloatDef(AINIRec.ReadString(sSecao,'pCredPres','') ,0);
-    gCBSCredPres.vCredPres := StringToFloatDef(AINIRec.ReadString(sSecao,'vCredPres','') ,0);
-    gCBSCredPres.vCredPresCondSus := StringToFloatDef(AINIRec.ReadString(sSecao,'vCredPresCondSus','') ,0);
-  end;
-end;
-
 procedure TBPeIniReader.Ler_gTribCompraGov(AINIRec: TMemIniFile;
   gTribCompraGov: TgTribCompraGov; Idx1, Idx2: Integer);
 var
@@ -889,6 +854,23 @@ begin
   end;
 end;
 
+procedure TBPeIniReader.Ler_gEstornoCred(AINIRec: TMemIniFile;
+  gEstornoCred: TgEstornoCred; Idx1, Idx2: Integer);
+var
+  sSecao: string;
+begin
+  if Idx1 = -1 then
+    sSecao := 'gEstornoCred'
+  else
+    sSecao := 'gEstornoCred' + IntToStrZero(Idx1, 2) + IntToStrZero(Idx2, 3);
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gEstornoCred.vIBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vIBSEstCred','') ,0);
+    gEstornoCred.vCBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vCBSEstCred','') ,0);
+  end;
+end;
+
 procedure TBPeIniReader.Ler_IBSCBSTot(AINIRec: TMemIniFile;
   IBSCBSTot: TIBSCBSTot);
 var
@@ -901,6 +883,7 @@ begin
 
     Ler_IBSCBSTot_gIBS(AINIRec, IBSCBSTot.gIBS);
     Ler_IBSCBSTot_gCBS(AINIRec, IBSCBSTot.gCBS);
+    Ler_gEstornoCredTot(AINIRec, IBSCBSTot.gEstornoCred);
   end;
 end;
 
@@ -912,8 +895,6 @@ begin
   sSecao := 'gIBS';
   if AINIRec.SectionExists(sSecao) then
   begin
-    gIBS.vCredPres := StringToFloatDef(AINIRec.ReadString(sSecao,'vCredPres','') ,0);
-    gIBS.vCredPresCondSus := StringToFloatDef(AINIRec.ReadString(sSecao,'vCredPresCondSus','') ,0);
     gIBS.vIBS := StringToFloatDef(AINIRec.ReadString(sSecao,'vIBS','') ,0);
 
     Ler_IBSCBSTot_gIBS_gIBSUFTot(AINIRec, gIBS.gIBSUFTot);
@@ -960,8 +941,20 @@ begin
     gCBS.vDif := StringToFloatDef(AINIRec.ReadString(sSecao,'vDif','') ,0);
     gCBS.vDevTrib := StringToFloatDef(AINIRec.ReadString(sSecao,'vDevTrib','') ,0);
     gCBS.vCBS := StringToFloatDef(AINIRec.ReadString(sSecao,'vCBS','') ,0);
-    gCBS.vCredPres := StringToFloatDef(AINIRec.ReadString(sSecao,'vCredPres','') ,0);
-    gCBS.vCredPresCondSus := StringToFloatDef(AINIRec.ReadString(sSecao,'vCredPresCondSus','') ,0);
+  end;
+end;
+
+procedure TBPeIniReader.Ler_gEstornoCredTot(AINIRec: TMemIniFile;
+  gEstornoCred: TgEstornoCred);
+var
+  sSecao: string;
+begin
+  sSecao := 'gEstornoCredTot';
+
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gEstornoCred.vIBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vIBSEstCred','') ,0);
+    gEstornoCred.vCBSEstCred := StringToFloatDef(AINIRec.ReadString(sSecao,'vCBSEstCred','') ,0);
   end;
 end;
 

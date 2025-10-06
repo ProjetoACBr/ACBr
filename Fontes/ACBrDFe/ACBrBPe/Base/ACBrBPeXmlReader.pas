@@ -106,15 +106,16 @@ type
     procedure Ler_gCBS_gRed(const ANode: TACBrXmlNode; gRed: TgRed);
 
     procedure Ler_gIBSCBS_gTribRegular(const ANode: TACBrXmlNode; gTribRegular: TgTribRegular);
-    procedure Ler_gIBSCredPres(const ANode: TACBrXmlNode; gIBSCredPres: TgIBSCBSCredPres);
-    procedure Ler_gCBSCredPres(const ANode: TACBrXmlNode; gCBSCredPres: TgIBSCBSCredPres);
     procedure Ler_gTribCompraGov(const ANode: TACBrXmlNode; gTribCompraGov: TgTribCompraGov);
+    procedure Ler_gEstornoCred(const ANode: TACBrXmlNode; gEstornoCred: TgEstornoCred);
 
     procedure Ler_IBSCBSTot(const ANode: TACBrXmlNode; IBSCBSTot: TIBSCBSTot);
     procedure Ler_IBSCBSTot_gIBS(const ANode: TACBrXmlNode; gIBS: TgIBS);
     procedure Ler_IBSCBSTot_gIBS_gIBSUFTot(const ANode: TACBrXmlNode; gIBSUFTot: TgIBSUFTot);
     procedure Ler_IBSCBSTot_gIBS_gIBSMunTot(const ANode: TACBrXmlNode; gIBSMunTot: TgIBSMunTot);
     procedure Ler_IBSCBSTot_gCBS(const ANode: TACBrXmlNode; gCBS: TgCBS);
+    procedure Ler_IBSCBSTot_gEstornoCred(const ANode: TACBrXmlNode; gEstornoCred: TgEstornoCred);
+
   public
     constructor Create(AOwner: TBPe); reintroduce;
 
@@ -779,11 +780,14 @@ begin
 end;
 
 procedure TBPeXmlReader.Ler_IBSCBS(const ANode: TACBrXmlNode; IBSCBS: TIBSCBS);
+var
+  ok: Boolean;
 begin
   if not Assigned(ANode) then Exit;
 
   IBSCBS.CST := StrToCSTIBSCBS(ObterConteudo(ANode.Childrens.Find('CST'), tcStr));
   IBSCBS.cClassTrib := ObterConteudo(ANode.Childrens.Find('cClassTrib'), tcStr);
+  IBSCBS.indDoacao := StrToTIndicadorEx(ok, ObterConteudo(ANode.Childrens.Find('indDoacao'), tcStr));
 
   Ler_IBSCBS_gIBSCBS(ANode.Childrens.Find('gIBSCBS'), IBSCBS.gIBSCBS);
 end;
@@ -799,9 +803,8 @@ begin
   Ler_gIBSMun(ANode.Childrens.Find('gIBSMun'), gIBSCBS.gIBSMun);
   Ler_gCBS(ANode.Childrens.Find('gCBS'), gIBSCBS.gCBS);
   Ler_gIBSCBS_gTribRegular(ANode.Childrens.Find('gTribRegular'), gIBSCBS.gTribRegular);
-  Ler_gIBSCredPres(ANode.Childrens.Find('gIBSCredPres'), gIBSCBS.gIBSCredPres);
-  Ler_gCBSCredPres(ANode.Childrens.Find('gCBSCredPres'), gIBSCBS.gCBSCredPres);
   Ler_gTribCompraGov(ANode.Childrens.Find('gTribCompraGov'), gIBSCBS.gTribCompraGov);
+  Ler_gEstornoCred(ANode.Childrens.Find('gEstornoCred'), gIBSCBS.gEstornoCred);
 end;
 
 procedure TBPeXmlReader.Ler_gIBSUF(const ANode: TACBrXmlNode; gIBSUF: TgIBSUFValores);
@@ -927,26 +930,6 @@ begin
   gTribRegular.vTribRegCBS := ObterConteudo(ANode.Childrens.Find('vTribRegCBS'), tcDe2);
 end;
 
-procedure TBPeXmlReader.Ler_gIBSCredPres(const ANode: TACBrXmlNode; gIBSCredPres: TgIBSCBSCredPres);
-begin
-  if not Assigned(ANode) then Exit;
-
-  gIBSCredPres.cCredPres := StrTocCredPres(ObterConteudo(ANode.Childrens.Find('cCredPres'), tcStr));
-  gIBSCredPres.pCredPres := ObterConteudo(ANode.Childrens.Find('pCredPres'), tcDe4);
-  gIBSCredPres.vCredPres := ObterConteudo(ANode.Childrens.Find('vCredPres'), tcDe2);
-  gIBSCredPres.vCredPresCondSus := ObterConteudo(ANode.Childrens.Find('vCredPresCondSus'), tcDe2);
-end;
-
-procedure TBPeXmlReader.Ler_gCBSCredPres(const ANode: TACBrXmlNode; gCBSCredPres: TgIBSCBSCredPres);
-begin
-  if not Assigned(ANode) then Exit;
-
-  gCBSCredPres.cCredPres := StrTocCredPres(ObterConteudo(ANode.Childrens.Find('cCredPres'), tcStr));
-  gCBSCredPres.pCredPres := ObterConteudo(ANode.Childrens.Find('pCredPres'), tcDe4);
-  gCBSCredPres.vCredPres := ObterConteudo(ANode.Childrens.Find('vCredPres'), tcDe2);
-  gCBSCredPres.vCredPresCondSus := ObterConteudo(ANode.Childrens.Find('vCredPresCondSus'), tcDe2);
-end;
-
 procedure TBPeXmlReader.Ler_gTribCompraGov(const ANode: TACBrXmlNode;
   gTribCompraGov: TgTribCompraGov);
 begin
@@ -960,6 +943,15 @@ begin
   gTribCompraGov.vTribCBS := ObterConteudo(ANode.Childrens.Find('vTribCBS'), tcDe2);
 end;
 
+procedure TBPeXmlReader.Ler_gEstornoCred(const ANode: TACBrXmlNode;
+  gEstornoCred: TgEstornoCred);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gEstornoCred.vIBSEstCred := ObterConteudo(ANode.Childrens.Find('vIBSEstCred'), tcDe2);
+  gEstornoCred.vCBSEstCred := ObterConteudo(ANode.Childrens.Find('vCBSEstCred'), tcDe2);
+end;
+
 procedure TBPeXmlReader.Ler_IBSCBSTot(const ANode: TACBrXmlNode;
   IBSCBSTot: TIBSCBSTot);
 begin
@@ -969,6 +961,7 @@ begin
 
   Ler_IBSCBSTot_gIBS(ANode.Childrens.Find('gIBS'), IBSCBSTot.gIBS);
   Ler_IBSCBSTot_gCBS(ANode.Childrens.Find('gCBS'), IBSCBSTot.gCBS);
+  Ler_IBSCBSTot_gEstornoCred(ANode.Childrens.Find('gEstornoCred'), IBSCBSTot.gEstornoCred);
 end;
 
 procedure TBPeXmlReader.Ler_IBSCBSTot_gIBS(const ANode: TACBrXmlNode;
@@ -980,8 +973,6 @@ begin
   Ler_IBSCBSTot_gIBS_gIBSMunTot(ANode.Childrens.Find('gIBSMun'), gIBS.gIBSMunTot);
 
   gIBS.vIBS := ObterConteudo(ANode.Childrens.Find('vIBS'), tcDe2);
-  gIBS.vCredPres := ObterConteudo(ANode.Childrens.Find('vCredPres'), tcDe2);
-  gIBS.vCredPresCondSus := ObterConteudo(ANode.Childrens.Find('vCredPresCondSus'), tcDe2);
 end;
 
 procedure TBPeXmlReader.Ler_IBSCBSTot_gIBS_gIBSUFTot(const ANode: TACBrXmlNode;
@@ -1012,8 +1003,15 @@ begin
   gCBS.vDif := ObterConteudo(ANode.Childrens.Find('vDif'), tcDe2);
   gCBS.vDevTrib := ObterConteudo(ANode.Childrens.Find('vDevTrib'), tcDe2);
   gCBS.vCBS := ObterConteudo(ANode.Childrens.Find('vCBS'), tcDe2);
-  gCBS.vCredPres := ObterConteudo(ANode.Childrens.Find('vCredPres'), tcDe2);
-  gCBS.vCredPresCondSus := ObterConteudo(ANode.Childrens.Find('vCredPresCondSus'), tcDe2);
+end;
+
+procedure TBPeXmlReader.Ler_IBSCBSTot_gEstornoCred(const ANode: TACBrXmlNode;
+  gEstornoCred: TgEstornoCred);
+begin
+  if not Assigned(ANode) then Exit;
+
+  gEstornoCred.vIBSEstCred := ObterConteudo(ANode.Childrens.Find('vIBSEstCred'), tcDe2);
+  gEstornoCred.vCBSEstCred := ObterConteudo(ANode.Childrens.Find('vCBSEstCred'), tcDe2);
 end;
 
 end.
