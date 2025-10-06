@@ -46,6 +46,7 @@ namespace ACBrLibPIXCD.Demo
                 cmbPSP.EnumDataSource(PSP.pspBradesco);
                 cmbAmbiente.EnumDataSource(Ambiente.ambTeste);
                 cmbBBAPIVersao.EnumDataSource(BBAPIVersao.apiVersao1);
+                cmbBradescoAPIVersao.EnumDataSource(BradescoAPIVersao.braVersao1);
                 cmbPixPDVAPIVersao.EnumDataSource(PixPDVAPIVersao.apiVersao1);
                 cmbNivelLogPSP.EnumDataSource(NivelLogPSP.logPSPNenhum);
                 cmbTipoChave.EnumDataSource(TipoChave.tchNenhuma);
@@ -123,6 +124,7 @@ namespace ACBrLibPIXCD.Demo
                 ACBrPIXCD.Config.Bradesco.Scopes = txtScopesBradesco.Text;
                 ACBrPIXCD.Config.Bradesco.ArqChavePrivada = txtArquivoChavePrivadaBradesco.Text;
                 ACBrPIXCD.Config.Bradesco.ArqCertificado = txtArquivoCertificadoBradesco.Text;
+                ACBrPIXCD.Config.Bradesco.APIVersao = cmbBradescoAPIVersao.GetSelectedValue<BradescoAPIVersao>();
 
                 //Sicredi
                 ACBrPIXCD.Config.Sicredi.ChavePIX = txtChavePIXSicredi.Text;
@@ -290,6 +292,7 @@ namespace ACBrLibPIXCD.Demo
             txtScopesBradesco.Text = ACBrPIXCD.Config.Bradesco.Scopes;
             txtArquivoChavePrivadaBradesco.Text = ACBrPIXCD.Config.Bradesco.ArqChavePrivada;
             txtArquivoCertificadoBradesco.Text = ACBrPIXCD.Config.Bradesco.ArqCertificado;
+            cmbBradescoAPIVersao.SetSelectedValue(ACBrPIXCD.Config.Bradesco.APIVersao);
 
             //Sicredi
             txtChavePIXSicredi.Text = ACBrPIXCD.Config.Sicredi.ChavePIX;

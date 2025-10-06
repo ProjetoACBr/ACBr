@@ -57,6 +57,13 @@ namespace ACBrLib.PIXCD
             get => GetProperty<string>();
             set => SetProperty(value);
         }
+
+        public BradescoAPIVersao APIVersao
+        {
+            get => GetProperty<BradescoAPIVersao>();
+            set => SetProperty(value);
+        }
+
         public string Scopes
         {
             get => GetProperty<string>();
