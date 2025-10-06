@@ -872,7 +872,7 @@ begin
   else
     Result.AppendChild(AddNodeCNPJCPF('E02', 'E03', NFe.Dest.CNPJCPF, IsNFe));
 
-  if (NFe.Ide.tpAmb = pcnConversao.taHomologacao) and IsNFe then
+  if (NFe.Ide.tpAmb = pcnConversao.taHomologacao) then
     NFe.Dest.xNome := HOM_NOME_DEST;
   Result.AppendChild(AddNode(tcStr, 'E04', 'xNome', 02, 60, IfThen(IsNFe, 1, 0), NFe.Dest.xNome, DSC_XNOME));
 
