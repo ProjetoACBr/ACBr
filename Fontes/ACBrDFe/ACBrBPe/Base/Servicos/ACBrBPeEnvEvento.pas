@@ -47,11 +47,12 @@ uses
   ACBrBase,
   pcnConversao,
   pcnSignature,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
 //  ACBrDFeComum.SignatureClass,
   ACBrBPeClass,
   ACBrBPeEventoClass,
   ACBrBPeConsts,
-  ACBrXmlBase,
   ACBrXmlWriter,
   ACBrXmlDocument;
 
@@ -151,7 +152,6 @@ uses
   ACBrUtil.FilesIO,
   ACBrUtil.DateTime,
   ACBrBPeRetEnvEvento,
-  ACBrDFe.Conversao,
   ACBrBPeConversao;
 
 { TEventoBPe }
@@ -536,7 +536,7 @@ begin
                                             IBSCBS.cClassTrib, DSC_CCLASSTRIB));
 
     Result.AppendChild(AddNode(tcStr, '#3', 'indDoacao', 1, 1, 0,
-                           TIndicadorExToStr(IBSCBS.indDoacao), DSC_INDDOACAO));
+              pcnConversao.TIndicadorExToStr(IBSCBS.indDoacao), DSC_INDDOACAO));
 
     if IBSCBS.gIBSCBS.vBC > 0 then
       Result.AppendChild(Gerar_IBSCBS_gIBSCBS(IBSCBS.gIBSCBS));

@@ -48,6 +48,7 @@ uses
   ACBrBase,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   ACBrBPeConversao,
 //  ACBrDFeComum.SignatureClass,
   pcnSignature,
@@ -606,7 +607,7 @@ type
     procedure Assign(Source: TIde);
 
     property cUF: Integer read FcUF write FcUF;
-    property tpAmb: TACBrTipoAmbiente read FtpAmb write FtpAmb default taHomologacao;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb write FtpAmb;
     property modelo: Integer read Fmodelo write Fmodelo;
     property serie: Integer read Fserie write Fserie;
     property nBP: Integer read FnBP write FnBP;
