@@ -17,14 +17,14 @@ import java.nio.ByteBuffer;
  * @see <a href="https://acbr.sourceforge.io/ACBrLib/ACBrLibNFCom.html">Documentação ACBrLibNFCom</a>
  *
  */
-public interface ACBrLibNFComBridge extends Library {
+public interface ACBrLibNFComBridgeMT extends Library {
 
-    static final ACBrLibNFComBridge INSTANCE = LibraryLoader.getInstance();
+    static final ACBrLibNFComBridgeMT INSTANCE = LibraryLoader.getInstance();
 
     class LibraryLoader {
 
         private static String library = "";
-        private static ACBrLibNFComBridge instance = null;
+        private static ACBrLibNFComBridgeMT instance = null;
 
         private static String getLibraryName() {
             if (library.isEmpty()) {
@@ -37,10 +37,9 @@ public interface ACBrLibNFComBridge extends Library {
             return library;
         }
 
-        public static ACBrLibNFComBridge getInstance() {
+        public static ACBrLibNFComBridgeMT getInstance() {
             if (instance == null) {
-                instance = (ACBrLibNFComBridge) Native.synchronizedLibrary(
-                        (Library) Native.load(getLibraryName(), ACBrLibNFComBridge.class));
+                instance = (ACBrLibNFComBridgeMT) Native.synchronizedLibrary((Library) Native.load(getLibraryName(), ACBrLibNFComBridgeMT.class));
             }
 
             return instance;

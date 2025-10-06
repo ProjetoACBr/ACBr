@@ -10,12 +10,12 @@ package com.acbr.nfcom;
 
 import com.acbr.ACBrLibBase;
 import com.acbr.ACBrSessao;
-import com.acbr.nfcom.bridge.ACBrLibNFComBridge;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.file.Paths;
+import com.acbr.nfcom.bridge.ACBrLibNFComBridgeMT;
 
 
 /**
@@ -26,7 +26,7 @@ import java.nio.file.Paths;
 
 public class ACBrLibNFComMT extends ACBrLibBase {
 
-    private ACBrLibNFComBridge acbrLibNFComBridge;
+    private ACBrLibNFComBridgeMT acbrLibNFComBridge;
 
     /**
      * Inicializa a biblioteca ACBrNFCom Multi-thread.
@@ -39,7 +39,7 @@ public class ACBrLibNFComMT extends ACBrLibBase {
             iniFile.createNewFile();
         }
 
-        acbrLibNFComBridge = ACBrLibNFComBridge.INSTANCE;
+        acbrLibNFComBridge = ACBrLibNFComBridgeMT.INSTANCE;
         int ret = acbrLibNFComBridge.NFCom_Inicializar(handle, toUTF8(iniFile.getAbsolutePath()), toUTF8(""));
         setHandle(handle.getValue());
         checkResult(ret);
@@ -53,7 +53,7 @@ public class ACBrLibNFComMT extends ACBrLibBase {
     */
     public ACBrLibNFComMT(String eArqConfig, String eChaveCrypt) throws Exception {
         PointerByReference handle = new PointerByReference();
-        acbrLibNFComBridge = ACBrLibNFComBridge.INSTANCE;
+        acbrLibNFComBridge = ACBrLibNFComBridgeMT.INSTANCE;
         int ret = acbrLibNFComBridge.NFCom_Inicializar(handle, toUTF8(eArqConfig), toUTF8(eChaveCrypt));
         setHandle(handle.getValue());
         checkResult(ret);
