@@ -126,6 +126,11 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="cClassTrib" type="TcClassTrib"/>
+			<xs:element name="indDoacao" type="TIndDoacao" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indica se a operação é de doação</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="gIBSCBS" type="TCIBS" minOccurs="0"/>
 			<xs:element name="gEstornoCred" type="TEstornoCred" minOccurs="0">
 				<xs:annotation>
@@ -145,6 +150,11 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="cClassTrib" type="TcClassTrib"/>
+			<xs:element name="indDoacao" type="TIndDoacao" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indica se a operação é de doação</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="gIBSCBS" type="TCIBS" minOccurs="0"/>
 			<xs:element name="gEstornoCred" type="TEstornoCred" minOccurs="0">
 				<xs:annotation>
@@ -163,8 +173,8 @@
 					<xs:documentation>Código Situação Tributária do IBS/CBS</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="indDoacao" type="TIndDoacao" minOccurs="0"/>
 			<xs:element name="cClassTrib" type="TcClassTrib"/>
+			<xs:element name="indDoacao" type="TIndDoacao" minOccurs="0"/>
 			<xs:element name="gIBSCBS" type="TCIBS" minOccurs="0"/>
 			<xs:element name="gEstornoCred" type="TEstornoCred" minOccurs="0">
 				<xs:annotation>
@@ -203,8 +213,8 @@
 					<xs:documentation>Código Situação Tributária do IBS/CBS</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="indDoacao" type="TIndDoacao" minOccurs="0"/>
 			<xs:element name="cClassTrib" type="TcClassTrib"/>
+			<xs:element name="indDoacao" type="TIndDoacao" minOccurs="0"/>
 			<xs:element name="gIBSCBS" type="TCIBS" minOccurs="0"/>
 			<xs:element name="gEstornoCred" type="TEstornoCred" minOccurs="0">
 				<xs:annotation>
@@ -224,6 +234,11 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="cClassTrib" type="TcClassTrib"/>
+			<xs:element name="indDoacao" type="TIndDoacao" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indica se a operação é de doação</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:choice minOccurs="0">
 				<xs:element name="gIBSCBS" type="TCIBS"/>
 				<xs:element name="gIBSCBSMono" type="TMonofasia"/>
@@ -293,8 +308,8 @@
 					<xs:documentation>Código Situação Tributária do IBS/CBS</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="indDoacao" type="TIndDoacao" minOccurs="0"/>
 			<xs:element name="cClassTrib" type="TcClassTrib"/>
+			<xs:element name="indDoacao" type="TIndDoacao" minOccurs="0"/>
 			<xs:choice minOccurs="0">
 				<xs:element name="gIBSCBS" type="TCIBS"/>
 				<xs:element name="gIBSCBSMono" type="TMonofasia">
