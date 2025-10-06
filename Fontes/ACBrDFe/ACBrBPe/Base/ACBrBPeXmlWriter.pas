@@ -38,9 +38,11 @@ interface
 
 uses
   Classes, SysUtils,
+  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  ACBrXmlDocument, ACBrXmlWriter,
+  ACBrXmlDocument,
+  ACBrXmlWriter,
   ACBrBPeClass,
   ACBrBPeConversao;
 
@@ -1557,7 +1559,7 @@ begin
                                             IBSCBS.cClassTrib, DSC_CCLASSTRIB));
 
     Result.AppendChild(AddNode(tcStr, '#3', 'indDoacao', 1, 1, 0,
-                           TIndicadorExToStr(IBSCBS.indDoacao), DSC_INDDOACAO));
+              pcnConversao.TIndicadorExToStr(IBSCBS.indDoacao), DSC_INDDOACAO));
 
     if IBSCBS.gIBSCBS.vBC > 0 then
       Result.AppendChild(Gerar_IBSCBS_gIBSCBS(IBSCBS.gIBSCBS));

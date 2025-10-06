@@ -38,7 +38,11 @@ interface
 
 uses
   Classes, SysUtils,
-  ACBrXmlDocument, ACBrXmlReader,
+  pcnConversao,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
+  ACBrXmlDocument,
+  ACBrXmlReader,
   ACBrBPeClass;
 
 type
@@ -127,8 +131,7 @@ type
 implementation
 
 uses
-  ACBrXmlBase, ACBrUtil.Base,
-  ACBrDFe.Conversao,
+  ACBrUtil.Base,
   ACBrBPeConversao;
 
 { TBPeXmlReader }
@@ -787,7 +790,7 @@ begin
 
   IBSCBS.CST := StrToCSTIBSCBS(ObterConteudo(ANode.Childrens.Find('CST'), tcStr));
   IBSCBS.cClassTrib := ObterConteudo(ANode.Childrens.Find('cClassTrib'), tcStr);
-  IBSCBS.indDoacao := StrToTIndicadorEx(ok, ObterConteudo(ANode.Childrens.Find('indDoacao'), tcStr));
+  IBSCBS.indDoacao := pcnConversao.StrToTIndicadorEx(ok, ObterConteudo(ANode.Childrens.Find('indDoacao'), tcStr));
 
   Ler_IBSCBS_gIBSCBS(ANode.Childrens.Find('gIBSCBS'), IBSCBS.gIBSCBS);
 end;
