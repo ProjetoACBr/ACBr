@@ -3631,7 +3631,6 @@ Observação: 28 caracteres são representados no schema como 20 bytes do tipo b
 			<xs:enumeration value="6"/>
 			<xs:enumeration value="7"/>
 			<xs:enumeration value="8"/>
-			<xs:enumeration value=""/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="TClasse">
