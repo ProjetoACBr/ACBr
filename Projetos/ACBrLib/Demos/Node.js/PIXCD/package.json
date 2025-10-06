@@ -1,0 +1,14 @@
+{
+  "nome":"Demo ACBrLibPixCD Node",
+  "version": "1.0.0",
+  "description": "Demo de uso da acbrlib-pixcd-node",
+  "license": "LGPL-2.1-only",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {    
+    "@projetoacbr/acbrlib-pixcd-node": "latest",
+    "dotenv": "^17.2.3"
+  }
+}
