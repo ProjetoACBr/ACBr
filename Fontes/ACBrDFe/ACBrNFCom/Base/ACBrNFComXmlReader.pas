@@ -40,7 +40,9 @@ uses
   Classes, SysUtils,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  ACBrXmlDocument, ACBrXmlReader,
+  pcnConversao,
+  ACBrXmlDocument,
+  ACBrXmlReader,
   ACBrNFComClass;
 
 type
