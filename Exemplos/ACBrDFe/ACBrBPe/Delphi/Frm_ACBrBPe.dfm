@@ -1843,7 +1843,9 @@ object frmACBrBPe: TfrmACBrBPe
       Width = 567
       Height = 40
       Align = alTop
-      Caption = 'Gera os campos da ReformaTributaria'
+      Caption = 
+        'Gera os campos da ReformaTributaria (em conformidade com a NT 20' +
+        '25/001 vers'#227'o 1.10)'
       Columns = 2
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
