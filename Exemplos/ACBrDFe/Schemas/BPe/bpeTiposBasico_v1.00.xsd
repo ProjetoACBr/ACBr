@@ -582,7 +582,8 @@ Informar quando diferente do passageiro</xs:documentation>
 										</xs:annotation>
 										<xs:simpleType>
 											<xs:restriction base="TString">
-												<xs:length value="4"/>
+												<xs:minLength value="3"/>
+												<xs:maxLength value="4"/>
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:element>
@@ -592,7 +593,8 @@ Informar quando diferente do passageiro</xs:documentation>
 										</xs:annotation>
 										<xs:simpleType>
 											<xs:restriction base="TString">
-												<xs:length value="4"/>
+												<xs:minLength value="3"/>
+												<xs:maxLength value="4"/>
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:element>
@@ -807,7 +809,7 @@ Informar 0.00 em caso de passagem comercializada sem nenhum desconto</xs:documen
 											<xs:element name="vTotDFe" type="TDec_1302" minOccurs="0">
 												<xs:annotation>
 													<xs:documentation>Valor total do documento fiscal 
-(vBP + total do IBS + total da CBS) - vINSSRet</xs:documentation>
+(vBP - vDesconto + total do IBS + total da CBS) - vINSSRet </xs:documentation>
 												</xs:annotation>
 											</xs:element>
 										</xs:sequence>
