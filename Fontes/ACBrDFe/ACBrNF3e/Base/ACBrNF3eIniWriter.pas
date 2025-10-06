@@ -41,6 +41,7 @@ uses
   IniFiles,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   ACBrNF3eClass,
   ACBrNF3eConversao,
   ACBrDFeComum.Proc;
