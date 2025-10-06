@@ -34,6 +34,8 @@ public enum  ACBrSessao {
     DACTe,
     MDFe,
     DAMDFe,
+    NFCom,
+    DANFCom,
     CEP,
     BoletoConfig,
     BoletoCedenteConfig,
