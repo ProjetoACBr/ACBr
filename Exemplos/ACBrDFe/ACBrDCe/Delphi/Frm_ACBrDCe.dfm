@@ -1653,7 +1653,6 @@ object frmACBrDCe: TfrmACBrDCe
     ACBrDCe = ACBrDCe1
     ImprimeHoraSaida = False
     TipoDACE = tiSemGeracao
-    TamanhoPapel = tpA4
     Cancelada = False
     Encerrado = False
     ImprimeDadosExtras = [deValorTotal, deRelacaoDFe]

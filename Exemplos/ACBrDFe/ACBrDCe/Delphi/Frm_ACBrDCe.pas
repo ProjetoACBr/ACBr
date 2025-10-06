@@ -303,9 +303,10 @@ implementation
 uses
   strutils, math, TypInfo, DateUtils, synacode, blcksock, FileCtrl, Grids,
   IniFiles, Printers,
-  pcnAuxiliar,
-  ACBrDCe.Classes, pcnConversao, ACBrDCe.Conversao,
-  pcnRetConsReciDFe,
+  ACBrDCe.Classes,
+  pcnConversao,
+  ACBrDFe.Conversao,
+  ACBrDCe.Conversao,
   ACBrDFeConfiguracoes, ACBrDFeSSL, ACBrDFeOpenSSL, ACBrDFeUtil,
   ACBrDCeDeclaracoes, ACBrDCeConfiguracoes,
   Frm_Status, Frm_SelecionarCertificado, ACBrXmlBase;
@@ -763,7 +764,7 @@ begin
 
     MemoDados.Lines.Add('');
     MemoDados.Lines.Add('Envio DCe');
-    MemoDados.Lines.Add('tpAmb: '+ TpAmbToStr(ACBrDCe1.WebServices.Enviar.TpAmb));
+    MemoDados.Lines.Add('tpAmb: '+ TipoAmbienteToStr(ACBrDCe1.WebServices.Enviar.TpAmb));
     MemoDados.Lines.Add('verAplic: '+ ACBrDCe1.WebServices.Enviar.verAplic);
     MemoDados.Lines.Add('cStat: '+ IntToStr(ACBrDCe1.WebServices.Enviar.cStat));
     MemoDados.Lines.Add('cUF: '+ IntToStr(ACBrDCe1.WebServices.Enviar.cUF));
@@ -861,7 +862,7 @@ begin
   begin
     Lines.Add('');
     Lines.Add('Envio DCe');
-    Lines.Add('tpAmb: '     + TpAmbToStr(ACBrDCe1.WebServices.Enviar.tpAmb));
+    Lines.Add('tpAmb: '     + TipoAmbienteToStr(ACBrDCe1.WebServices.Enviar.tpAmb));
     Lines.Add('verAplic: '  + ACBrDCe1.WebServices.Enviar.verAplic);
     Lines.Add('cStat: '     + IntToStr(ACBrDCe1.WebServices.Enviar.cStat));
     Lines.Add('xMotivo: '   + ACBrDCe1.WebServices.Enviar.xMotivo);
@@ -1332,7 +1333,7 @@ end;
 procedure TfrmACBrDCe.FormCreate(Sender: TObject);
 var
   T: TSSLLib;
-  I: TpcnTipoEmissao;
+  I: TACBrTipoEmissao;
   K: TVersaoDCe;
   U: TSSLCryptLib;
   V: TSSLHttpLib;
@@ -1365,8 +1366,8 @@ begin
   cbSSLType.ItemIndex := 0;
 
   cbFormaEmissao.Items.Clear;
-  for I := Low(TpcnTipoEmissao) to High(TpcnTipoEmissao) do
-     cbFormaEmissao.Items.Add( GetEnumName(TypeInfo(TpcnTipoEmissao), integer(I) ) );
+  for I := Low(TACBrTipoEmissao) to High(TACBrTipoEmissao) do
+     cbFormaEmissao.Items.Add( GetEnumName(TypeInfo(TACBrTipoEmissao), integer(I) ) );
   cbFormaEmissao.ItemIndex := 0;
 
   cbVersaoDF.Items.Clear;
@@ -1617,14 +1618,14 @@ begin
     ExibirErroSchema := cbxExibirErroSchema.Checked;
     RetirarAcentos   := cbxRetirarAcentos.Checked;
     FormatoAlerta    := edtFormatoAlerta.Text;
-    FormaEmissao     := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
+    FormaEmissao     := TACBrTipoEmissao(cbFormaEmissao.ItemIndex);
     VersaoDF         := TVersaoDCe(cbVersaoDF.ItemIndex);
   end;
 
   with ACBrDCe1.Configuracoes.WebServices do
   begin
     UF         := cbUF.Text;
-    Ambiente   := StrToTpAmb(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
+    Ambiente   := StrToTipoAmbiente(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
     Visualizar := cbxVisualizar.Checked;
     Salvar     := cbxSalvarSOAP.Checked;
 
@@ -1675,7 +1676,6 @@ begin
     ACBrDCe1.DACE.Logo := edtLogoMarca.Text;
 
     ACBrDCe1.DACE.PathPDF := PathMensal;
-    ACBrDCe1.DACE.TamanhoPapel := tpA4;
     ACBrDCe1.DACE.Usuario := 'ACBr';
 
     ACBrDCe1.DACE.MargemDireita  := 4;
