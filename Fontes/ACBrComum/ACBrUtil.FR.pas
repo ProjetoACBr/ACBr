@@ -63,6 +63,11 @@ type
 
 implementation
 
+uses
+  SysUtils,
+  frxClass,
+  frxDsgnIntf;
+
 {$IFDEF FPC}
 { THBufDataset }
 
