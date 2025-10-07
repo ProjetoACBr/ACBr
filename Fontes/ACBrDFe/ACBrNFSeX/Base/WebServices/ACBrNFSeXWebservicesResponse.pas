@@ -542,6 +542,22 @@ type
     property NroUltimoRps: Integer read FNroUltimoRps write FNroUltimoRps;
   end;
 
+  TNFSeObterDANFSEResponse = class(TNFSeWebServiceResponse)
+  private
+    FMetodo: TMetodo;
+    FChaveNFSe: string;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure Clear; override;
+
+    property Metodo: TMetodo read FMetodo write FMetodo;
+    property ChaveNFSe: string read FChaveNFSe write FChaveNFSe;
+  end;
+
+
+
 implementation
 
 uses
@@ -1112,6 +1128,7 @@ end;
 procedure TNFSeConsultaLinkNFSeResponse.Clear;
 begin
   inherited Clear;
+
   FMetodo := tmConsultarLinkNFSe;
 
   if Assigned(FInfConsultaLinkNFSe) then
@@ -1131,6 +1148,29 @@ destructor TNFSeConsultaLinkNFSeResponse.Destroy;
 begin
   if Assigned(FInfConsultaLinkNFSe) then
     FreeAndNil(FInfConsultaLinkNFSe);
+
+  inherited;
+end;
+
+{ TNFSeObterDANFSEResponse }
+
+procedure TNFSeObterDANFSEResponse.Clear;
+begin
+  inherited Clear;
+
+  FMetodo := tmObterDANFSE;
+  FChaveNFSe := '';
+end;
+
+constructor TNFSeObterDANFSEResponse.Create;
+begin
+  inherited Create;
+
+  Clear;
+end;
+
+destructor TNFSeObterDANFSEResponse.Destroy;
+begin
 
   inherited;
 end;

@@ -150,6 +150,10 @@ type
     procedure GerarMsgDadosConsultarSeqRps(Response: TNFSeConsultarSeqRpsResponse); override;
     procedure TratarRetornoConsultarSeqRps(Response: TNFSeConsultarSeqRpsResponse); override;
 
+    procedure PrepararObterDANFSE(Response: TNFSeObterDANFSEResponse); override;
+    procedure GerarMsgDadosObterDANFSE(Response: TNFSeObterDANFSEResponse); override;
+    procedure TratarRetornoObterDANFSE(Response: TNFSeObterDANFSEResponse); override;
+
     function VerificarAlerta(const ACodigo, AMensagem, ACorrecao: string): Boolean; virtual;
     function VerificarErro(const ACodigo, AMensagem, ACorrecao: string): Boolean; virtual;
 
@@ -2882,6 +2886,25 @@ end;
 
 procedure TACBrNFSeProviderABRASFv2.TratarRetornoConsultaLinkNFSe(
   Response: TNFSeConsultaLinkNFSeResponse);
+begin
+  // Deve ser implementado para cada provedor que tem o seu próprio layout
+end;
+
+procedure TACBrNFSeProviderABRASFv2.PrepararObterDANFSE(Response: TNFSeObterDANFSEResponse);
+begin
+  // Deve ser implementado para cada provedor que tem o seu próprio layout
+  TACBrNFSeX(FAOwner).SetStatus(stNFSeIdle);
+  raise EACBrDFeException.Create(ERR_NAO_IMP);
+end;
+
+procedure TACBrNFSeProviderABRASFv2.GerarMsgDadosObterDANFSE(Response: TNFSeObterDANFSEResponse);
+begin
+  // Deve ser implementado para cada provedor que tem o seu próprio layout
+  TACBrNFSeX(FAOwner).SetStatus(stNFSeIdle);
+  raise EACBrDFeException.Create(ERR_NAO_IMP);
+end;
+
+procedure TACBrNFSeProviderABRASFv2.TratarRetornoObterDANFSE(Response: TNFSeObterDANFSEResponse);
 begin
   // Deve ser implementado para cada provedor que tem o seu próprio layout
 end;

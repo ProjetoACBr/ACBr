@@ -55,7 +55,7 @@ type
                      stNFSeEnvioWebService, stNFSeGerarToken,
                      stNFSeConsultarEvento, stNFSeConsultarDFe,
                      stNFSeConsultarParam, stNFSeConsultarSeqRps,
-                     stNFSeConsultarLinkNFSe);
+                     stNFSeConsultarLinkNFSe, stNFSEObterDANFSE);
 
   TLayout =(loABRASF, loProprio);
 
@@ -181,7 +181,7 @@ type
              tmAbrirSessao, tmFecharSessao, tmTeste, tmTodos,
              tmGerarToken, tmEnviarEvento, tmConsultarEvento, tmConsultarDFe,
              tmConsultarParam, tmConsultarSeqRps, tmConsultarLinkNFSe,
-             tmConsultarNFSePorChave);
+             tmConsultarNFSePorChave, tmObterDANFSE);
 
 const
   TMetodoArrayStrings: array[TMetodo] of string = ('Recepcionar Lote Assíncrono',
@@ -193,7 +193,7 @@ const
     'Fechar Sessão', 'Teste', 'Todos', 'Gerar Token', 'Enviar Evento',
     'Consultar Evento', 'Consultar DFe', 'Consultar Parâmetros',
     'Consultar Sequencia de Rps', 'Consultar Link da NFSe',
-    'Consultar NFSe Por Chave');
+    'Consultar NFSe Por Chave', 'Obter DANFSE');
 
 type
   TmodoEnvio = (meAutomatico, meLoteAssincrono, meLoteSincrono, meUnitario,
@@ -12489,7 +12489,7 @@ begin
                         'Gerar Token', 'Enviar Evento', 'Consultar Evento',
                         'Consultar DFe', 'Consultar Parâmetros',
                         'Consultar Sequencia de Rps', 'Consultar Link da NFSe',
-                        'Consultar NFSe Por Chave'],
+                        'Consultar NFSe Por Chave', 'Obter DANFSE'],
                        [tmRecepcionar, tmConsultarSituacao, tmConsultarLote,
                         tmConsultarNFSePorRps, tmConsultarNFSe,
                         tmConsultarNFSePorFaixa, tmConsultarNFSeServicoPrestado,
@@ -12498,7 +12498,8 @@ begin
                         tmAbrirSessao, tmFecharSessao, tmTeste, tmTodos,
                         tmGerarToken, tmEnviarEvento, tmConsultarEvento,
                         tmConsultarDFe, tmConsultarParam, tmConsultarSeqRps,
-                        tmConsultarLinkNFSe, tmConsultarNFSePorChave]);
+                        tmConsultarLinkNFSe, tmConsultarNFSePorChave,
+                        tmObterDANFSE]);
 end;
 
 function ModoEnvioToStr(const t: TmodoEnvio): string;

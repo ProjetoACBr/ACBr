@@ -59,6 +59,7 @@ type
     function ConsultarEvento(const ACabecalho, AMSG: string): string; override;
     function ConsultarDFe(const ACabecalho, AMSG: string): string; override;
     function ConsultarParam(const ACabecalho, AMSG: string): string; override;
+    function ObterDANFSE(const ACabecalho, AMSG: string): string; override;
 
     function TratarXmlRetornado(const aXML: string): string; override;
   end;
@@ -96,6 +97,9 @@ type
 
     procedure PrepararConsultarParam(Response: TNFSeConsultarParamResponse); override;
     procedure TratarRetornoConsultarParam(Response: TNFSeConsultarParamResponse); override;
+
+    procedure PrepararObterDANFSE(Response: TNFSeObterDANFSEResponse); override;
+    procedure TratarRetornoObterDANFSE(Response: TNFSeObterDANFSEResponse); override;
 
     procedure ProcessarMensagemDeErros(LJson: TACBrJSONObject;
                                      Response: TNFSeWebserviceResponse;
@@ -140,6 +144,7 @@ begin
     ServicosDisponibilizados.ConsultarEvento := True;
     ServicosDisponibilizados.ConsultarDFe := True;
     ServicosDisponibilizados.ConsultarParam := True;
+    ServicosDisponibilizados.ObterDANFSE := True;
 
     Particularidades.AtendeReformaTributaria := True;
   end;
@@ -521,13 +526,20 @@ begin
     AErro.Descricao := ACBrStr(Desc118);
     Exit;
   end;
-
-  Response.Metodo := tmConsultarNFSePorChave;
-
+{
   if Response.InfConsultaNFSe.tpRetorno = trXml then
-    FpPath := '/nfse/' + Response.InfConsultaNFSe.ChaveNFSe
+  begin
+    FpPath := '/nfse/' + Response.InfConsultaNFSe.ChaveNFSe;
+    Response.Metodo := tmConsultarNFSePorChave;
+  end
   else
+  begin
     FpPath := '/danfse/' + Response.InfConsultaNFSe.ChaveNFSe;
+    Response.Metodo := tmConsultarParam;
+  end;
+}
+  FpPath := '/nfse/' + Response.InfConsultaNFSe.ChaveNFSe;
+  Response.Metodo := tmConsultarNFSePorChave;
 
   Response.ArquivoEnvio := FpPath;
   FpMethod := 'GET';
@@ -1148,14 +1160,15 @@ end;
 procedure TACBrNFSeProviderPadraoNacional.PrepararConsultarParam(
   Response: TNFSeConsultarParamResponse);
 var
-  CodSer, Compet, NumBenef: string;
+  CodSer, Compet, Compet2, NumBenef: string;
 begin
-  FpPath := '/parametros_municipais/' + IntToStr(Response.CodigoMunicipio);
+  FpPath := '/parametrizacao/' + IntToStr(Response.CodigoMunicipio);
 
   CodSer := OnlyNumber(Response.CodigoServico);
   CodSer := Copy(CodSer, 1, 2) + '.' + Copy(CodSer, 3, 2) + '.' +
             Copy(CodSer, 5, 2) + '.' + Copy(CodSer, 7, 3);
   Compet := FormatDateTime('MM-DD-YYYY', Response.Competencia);
+  Compet2 := FormatDateTime('YYYY-MM-DD', Response.Competencia);
   NumBenef := Response.NumeroBeneficio;
 
   case Response.tpParamMunic of
@@ -1186,24 +1199,24 @@ var
   Document, JSon, JsonE, JsonI: TACBrJSONObject;
   JSonItem, JSonRetMun: TACBrJSONArray;
   i, j: Integer;
-  xCodServ: string;
+  xCodServ, aValor: string;
 
   procedure LerHistorico(Json: TACBrJSONObject);
   var
     JSonItem: TACBrJSONArray;
     i: Integer;
   begin
-    JSonItem := Json.AsJSONArray['hist'];
+    JSonItem := Json.AsJSONArray['historico'];
 
     for i := 0 to JSonItem.Count-1 do
     begin
       JsonI := JSonItem.ItemAsJSONObject[i];
 
       Response.Parametros.Add('Data Inicial: ' +
-        DateTimeToStr(JsonI.AsISODate['dtIni']));
+        DateTimeToStr(JsonI.AsISODate['dataInicioVigencia']));
 
       Response.Parametros.Add('Data Final: ' +
-        DateTimeToStr(JsonI.AsISODate['dtFim']));
+        DateTimeToStr(JsonI.AsISODate['dataFimVigencia']));
     end;
   end;
 begin
@@ -1243,11 +1256,17 @@ begin
         begin
           JsonI := JSonItem.ItemAsJSONObject[i];
 
+          Response.Parametros.Add(ACBrStr('Insidencia: ' +
+            JsonI.AsString['Incidencia']));
+
           Response.Parametros.Add(ACBrStr('Alíquota: ' +
-            JsonI.AsString['aliq']));
+            JsonI.AsString['Aliq']));
 
           Response.Parametros.Add('Data Inicial: ' +
-            DateTimeToStr(JsonI.AsISODate['dtIni']));
+            DateTimeToStr(JsonI.AsISODate['DtIni']));
+
+          Response.Parametros.Add('Data Final: ' +
+            DateTimeToStr(JsonI.AsISODate['DtFim']));
         end;
       end;
 
@@ -1256,14 +1275,26 @@ begin
 
       if Json <> nil then
       begin
-        Response.Parametros.Add('Aderente ao Ambiente Nacional: ' +
-          JSon.AsString['aderenteAmbienteNacional']);
+        aValor := JSon.AsString['aderenteAmbienteNacional'];
+        if aValor = '1' then
+          aValor := aValor + ' - Sim'
+        else
+          aValor := aValor + ' - Não';
+        Response.Parametros.Add('Aderente ao Ambiente Nacional: ' + aValor);
 
-        Response.Parametros.Add('Aderente ao Emissor Nacional: ' +
-          JSon.AsString['aderenteEmissorNacional']);
+        aValor := JSon.AsString['aderenteEmissorNacional'];
+        if aValor = '1' then
+          aValor := aValor + ' - Sim'
+        else
+          aValor := aValor + ' - Não';
+        Response.Parametros.Add('Aderente ao Emissor Nacional: ' + aValor);
 
-        Response.Parametros.Add('Aderente ao MAN: ' +
-          JSon.AsString['aderenteMAN']);
+        aValor := JSon.AsString['aderenteMAN'];
+        if aValor = '1' then
+          aValor := aValor + ' - Sim'
+        else
+          aValor := aValor + ' - Não';
+        Response.Parametros.Add('Aderente ao MAN: ' + aValor);
 
         Response.Parametros.Add('orig Cad: ' +
           JSon.AsString['origCad']);
@@ -1272,43 +1303,48 @@ begin
           JSon.AsString['permiteAproveitametoDeCreditos']));
       end;
 
+      // Retorno da Consulta Parâmetros Municipais - Regimes Especiais
+
       // Retorno da Consulta Parâmetros Municipais - Retenções
       JSon := Document.AsJSONObject['retencoes'];
 
       if Json <> nil then
       begin
-        JsonE := JSon.AsJSONObject['art6'];
+        JsonE := JSon.AsJSONObject['artigoSexto'];
 
-        Response.Parametros.Add('Habilitado: ' +
-          JsonE.AsString['habilitado']);
+        if JsonE <> nil then
+        begin
+          Response.Parametros.Add('Habilitado: ' +
+            JsonE.AsString['habilitado']);
 
-        LerHistorico(JsonE);
+          LerHistorico(JsonE);
+        end;
 
-        JSonRetMun := JSon.AsJSONArray['retMun'];
+        JSonRetMun := JSon.AsJSONArray['retencoesMunicipais'];
 
         for i := 0 to JSonRetMun.Count-1 do
         begin
           JsonI := JSonRetMun.ItemAsJSONObject[i];
 
           Response.Parametros.Add(ACBrStr('Descrição: ' +
-            JsonI.AsString['desc']));
+            JsonI.AsString['descricao']));
 
           Response.Parametros.Add('Data Inicial: ' +
-            DateTimeToStr(JsonI.AsISODate['dtIni']));
+            DateTimeToStr(JsonI.AsISODate['dataInicioVigencia']));
 
           Response.Parametros.Add('Data Final: ' +
-            DateTimeToStr(JsonI.AsISODate['dtFim']));
+            DateTimeToStr(JsonI.AsISODate['dataFimVigencia']));
 
           // Falta ler o tpRet
 
-          JSonItem := JsonI.AsJSONArray['serv'];
+          JSonItem := JsonI.AsJSONArray['servicos'];
 
           for j := 0 to JSonItem.Count-1 do
           begin
             JsonI := JSonItem.ItemAsJSONObject[j];
 
             Response.Parametros.Add(ACBrStr('Código: ' +
-              JsonI.AsString['codigo']));
+              JsonI.AsString['codigoCompleto']));
 
             LerHistorico(JsonI);
           end;
@@ -1329,6 +1365,9 @@ begin
           LerHistorico(JsonI);
         end;
       end;
+
+      // Retorno da Consulta Parâmetros Municipais - Beneficios
+
     except
       on E:Exception do
       begin
@@ -1340,6 +1379,42 @@ begin
   finally
     FreeAndNil(Document);
   end;
+end;
+
+procedure TACBrNFSeProviderPadraoNacional.PrepararObterDANFSE(
+  Response: TNFSeObterDANFSEResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+begin
+  if EstaVazio(Response.ChaveNFSe) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod118;
+    AErro.Descricao := ACBrStr(Desc118);
+    Exit;
+  end;
+
+  FpPath := '/danfse/' + Response.ChaveNFSe;
+  Response.Metodo := tmObterDANFSE;
+
+  Response.ArquivoEnvio := FpPath;
+  FpMethod := 'GET';
+end;
+
+procedure TACBrNFSeProviderPadraoNacional.TratarRetornoObterDANFSE(
+  Response: TNFSeObterDANFSEResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+begin
+  if Response.ArquivoRetorno = '' then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod201;
+    AErro.Descricao := ACBrStr(Desc201);
+    Exit
+  end;
+
+  SalvarPDFNfse(Response.ChaveNFSe, Response.ArquivoRetorno);
 end;
 
 procedure TACBrNFSeProviderPadraoNacional.ValidarSchema(
@@ -1486,6 +1561,18 @@ begin
 end;
 
 function TACBrNFSeXWebservicePadraoNacional.ConsultarParam(const ACabecalho,
+  AMSG: string): string;
+var
+  Request: string;
+begin
+  FPMsgOrig := AMSG;
+
+  Request := AMSG;
+
+  Result := Executar('', Request, [], []);
+end;
+
+function TACBrNFSeXWebservicePadraoNacional.ObterDANFSE(const ACabecalho,
   AMSG: string): string;
 var
   Request: string;

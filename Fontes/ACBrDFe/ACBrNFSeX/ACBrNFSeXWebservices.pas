@@ -60,6 +60,7 @@ type
     FConsultarDFe: TNFSeConsultarDFeResponse;
     FConsultarParam: TNFSeConsultarParamResponse;
     FConsultarSeqRps: TNFSeConsultarSeqRpsResponse;
+    FObterDANFSE: TNFSeObterDANFSEResponse;
 
   public
     constructor Create;
@@ -80,6 +81,7 @@ type
     property ConsultarDFe: TNFSeConsultarDFeResponse read FConsultarDFe;
     property ConsultarParam: TNFSeConsultarParamResponse read FConsultarParam;
     property ConsultarSeqRps: TNFSeConsultarSeqRpsResponse read FConsultarSeqRps;
+    property ObterDANFSE: TNFSeObterDANFSEResponse read FObterDANFSE;
 
   end;
 
@@ -103,6 +105,7 @@ begin
   FConsultarDFe := TNFSeConsultarDFeResponse.Create;
   FConsultarParam := TNFSeConsultarParamResponse.Create;
   FConsultarSeqRps := TNFSeConsultarSeqRpsResponse.Create;
+  FObterDANFSE := TNFSeObterDANFSEResponse.Create;
 end;
 
 destructor TWebServices.Destroy;
@@ -122,6 +125,7 @@ begin
   FConsultarDFe.Free;
   FConsultarParam.Free;
   FConsultarSeqRps.Free;
+  FObterDANFSE.Free;
 
   inherited Destroy;
 end;

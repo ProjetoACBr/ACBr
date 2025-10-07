@@ -63,6 +63,7 @@ type
     procedure ConsultarDFe;
     procedure ConsultarParam;
     procedure ConsultarSeqRps;
+    procedure ObterDANFSE;
 
     function GetConfigGeral: TConfigGeral;
     function GetConfigWebServices: TConfigWebServices;

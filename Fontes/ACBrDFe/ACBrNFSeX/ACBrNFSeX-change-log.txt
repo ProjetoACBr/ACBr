@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 07/10/2025
+-- Diversos --
+[*] #ACBr-8142 Ajustes para usar a nova URL do serviço ObterDANFSE do Padrão Nacional.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] #ACBr-8153 A cidade Rio das Ostras/RJ trocou a versão e as URLs, o provedor continua 
     o mesmo.

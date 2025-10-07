@@ -1192,17 +1192,10 @@ begin
   if not Assigned(FProvider) then
     raise EACBrNFSeException.Create(ERR_SEM_PROVEDOR);
 
-  FWebService.ConsultaNFSe.Clear;
+  FWebService.ObterDANFSE.Clear;
+  FWebService.ObterDANFSE.ChaveNFSe := aChave;
 
-  with FWebService.ConsultaNFSe.InfConsultaNFSe do
-  begin
-    tpConsulta := tcPorChave;
-    tpRetorno := trPDF;
-
-    ChaveNFSe := aChave;
-  end;
-
-  ConsultarNFSe;
+  FProvider.ObterDANFSE;
 end;
 
 procedure TACBrNFSeX.EnviarEvento(aInfEvento: TInfEvento);
