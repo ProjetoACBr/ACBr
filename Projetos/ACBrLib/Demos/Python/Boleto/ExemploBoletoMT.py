@@ -2,6 +2,8 @@ import ctypes
 import json
 import sys
 import os
+from datetime import datetime
+
 from ctypes import CDLL, POINTER, byref, c_bool, c_char_p, c_int, create_string_buffer, c_ulong, c_char
 
 #Constantes de Configuração Emitente, SoftHouse e NFe
@@ -70,7 +72,7 @@ else:
 existeArquivo(PATH_ACBRLIB_INI) 
 
 #Inicializando
-LRetorno = acbr_lib.Boleto_Inicializar(byref(ponteiro), PATH_ACBRLIB_INI.encode("utf-8"))
+LRetorno = acbr_lib.Boleto_Inicializar(byref(ponteiro), PATH_ACBRLIB_INI.encode("utf-8"),"".encode("utf-8"))
 exibeReposta('Boleto_Inicializar',LRetorno)
 
 #configurando tipo de repsosta retorno 
