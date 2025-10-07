@@ -591,10 +591,9 @@ begin
       LCodigoProtesto := 3;
 
     if (ATitulo.DataProtesto > 0) and (LCodigoProtesto = 1) then
-    begin
-      LJsonProtestoObject.AddPair('codigo', LCodigoProtesto);
       LJsonProtestoObject.AddPair('prazo', ATitulo.DiasDeProtesto);
-    end;
+
+    LJsonProtestoObject.AddPair('codigo', LCodigoProtesto);
     AJson.AddPair('protesto', LJsonProtestoObject);
   end;
 end;
