@@ -202,6 +202,7 @@ var
   Resp: TLibPIXCDConsultarPixResposta;
   RespProb: TLibPIXCDProblemaResposta;
   Ok: boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     e2id:= ConverterStringEntrada(Ae2eid);
@@ -221,6 +222,7 @@ begin
         try
           Resp.Processar(PIXCDDM.ACBrPixCD1.PSP.epPix.Pix);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -230,12 +232,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epPix.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result := SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -255,6 +258,7 @@ var
   Resp: TLibPIXCDConsultarPixRecebidosResposta;
   RespProb: TLibPIXCDProblemaResposta;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     TxId:= ConverterStringEntrada(ATxId);
@@ -275,6 +279,7 @@ begin
         try
           Resp.Processar(PIXCDDM.ACBrPixCD1.PSP.epPix.PixConsultados);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -284,12 +289,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epPix.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result := SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -309,6 +315,7 @@ var
   Resp: TLibPIXCDDevolucaoPixResposta;
   RespProb: TLibPIXCDProblemaResposta;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     e2eid:= ConverterStringEntrada(Ae2eid);
@@ -333,6 +340,7 @@ begin
         try
            Resp.Processar(PIXCDDM.ACBrPixCD1.PSP.epPix.Devolucao);
            Resposta := Resp.Gerar;
+           wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -342,12 +350,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epPix.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result:= SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -367,6 +376,7 @@ var
   Resp: TLibPIXCDDevolucaoPixResposta;
   RespProb: TLibPIXCDProblemaResposta;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     e2eid:= ConverterStringEntrada(Ae2eid);
@@ -387,6 +397,7 @@ begin
         try
           Resp.Processar(PIXCDDM.ACBrPixCD1.PSP.epPix.Devolucao);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -396,12 +407,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epPix.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result:= SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -421,6 +433,7 @@ var
   RespProb: TLibPIXCDProblemaResposta;
   TxId: String;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     TxId:= ConverterStringEntrada(ATxId);
@@ -447,6 +460,7 @@ begin
         try
           Resp.ProcessarCobGerada(PIXCDDM.ACBrPixCD1.PSP.epCob.CobGerada);
           Resposta := Resp.Gerar;
+          wCodigoRetorno:= ErrOK;
         finally
           Resp.Free;
         end;
@@ -456,12 +470,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epCob.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno:= ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      Result := SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -481,6 +496,7 @@ var
   Resp: TLibPIXCDCobResposta;
   RespProb: TLibPIXCDProblemaResposta;
   ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     TxId:= ConverterStringEntrada(ATxId);
@@ -500,6 +516,7 @@ begin
         try
           Resp.ProcessarCobCompleta(PIXCDDM.ACBrPixCD1.PSP.epCob.CobCompleta);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -509,12 +526,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epCob.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result:= SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -535,6 +553,7 @@ var
   Resp: TLibPIXCDCobsConsultadas;
   RespProb: TLibPIXCDProblemaResposta;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     CpfCnpj := ConverterStringEntrada(ACpfCnpj);
@@ -557,6 +576,7 @@ begin
         try
           Resp.Processar(PIXCDDM.ACBrPixCD1.PSP.epCob.CobsConsultadas);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -566,12 +586,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epCob.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      Result := SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -591,6 +612,7 @@ var
   Resp: TLibPIXCDCobResposta;
   RespProb: TLibPIXCDProblemaResposta;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     TxId:= ConverterStringEntrada(ATxId);
@@ -614,6 +636,7 @@ begin
         try
           Resp.ProcessarCobGerada(PIXCDDM.ACBrPixCD1.PSP.epCob.CobGerada);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -623,12 +646,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epCob.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result:= SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -648,6 +672,7 @@ var
   Resp: TLibPIXCDCobResposta;
   RespProb: TLibPIXCDProblemaResposta;
   Ok: boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     TxId := ConverterStringEntrada(ATxId);
@@ -673,6 +698,7 @@ begin
         try
           Resp.ProcessarCobGerada(PIXCDDM.ACBrPixCD1.PSP.epCob.CobGerada);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -682,12 +708,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epCob.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      Result := SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -707,6 +734,7 @@ var
   RespProb: TLibPIXCDProblemaResposta;
   TxId: String;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     TxId:= ConverterStringEntrada(ATxId);
@@ -733,6 +761,7 @@ begin
         try
           Resp.ProcessarCobVGerada(PIXCDDM.ACBrPixCD1.PSP.epCobV.CobVGerada);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -742,12 +771,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epCobV.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      Result := SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -767,6 +797,7 @@ var
   Resp: TLibPIXCDCobVResposta;
   RespProb: TLibPIXCDProblemaResposta;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     TxId:= ConverterStringEntrada(ATxId);
@@ -786,6 +817,7 @@ begin
         try
           Resp.ProcessarCobVCompleta(PIXCDDM.ACBrPixCD1.PSP.epCobV.CobVCompleta);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -795,12 +827,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epCobV.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result:= SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -821,6 +854,7 @@ var
   Resp: TLibPIXCDCobsVConsultadas;
   RespProb: TLibPIXCDProblemaResposta;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     CpfCnpj := ConverterStringEntrada(ACpfCnpj);
@@ -843,6 +877,7 @@ begin
         try
           Resp.Processar(PIXCDDM.ACBrPixCD1.PSP.epCobV.CobsVConsultadas);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -852,12 +887,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epCobV.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      Result := SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -877,6 +913,7 @@ var
   Resp: TLibPIXCDCobVResposta;
   RespProb: TLibPIXCDProblemaResposta;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     TxId:= ConverterStringEntrada(ATxId);
@@ -900,6 +937,7 @@ begin
         try
           Resp.ProcessarCobVGerada(PIXCDDM.ACBrPixCD1.PSP.epCobV.CobVGerada);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -909,12 +947,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epCobV.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result:= SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -934,6 +973,7 @@ var
   Resp: TLibPIXCDCobVResposta;
   RespProb: TLibPIXCDProblemaResposta;
   Ok: boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     TxId := ConverterStringEntrada(ATxId);
@@ -959,6 +999,7 @@ begin
         try
           Resp.ProcessarCobVGerada(PIXCDDM.ACBrPixCD1.PSP.epCobV.CobVGerada);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -968,12 +1009,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPixCD1.PSP.epCobV.Problema);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      Result := SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -1156,6 +1198,7 @@ var
   Resp: TLibPIXCDInativarContaReposta;
   RespProb: TLibPIXCDProblemaRespostaMatera;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     accountid := ConverterStringEntrada(aAccountId);
@@ -1175,6 +1218,7 @@ begin
         try
           Resp.Processar(PIXCDDM.ACBrPSPMatera1);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -1184,12 +1228,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPSPMatera1.ErroResposta);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result:= SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -1210,6 +1255,7 @@ var
   Resp: TLibPIXCDChavePIXResposta;
   RespProb: TLibPIXCDProblemaRespostaMatera;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     accountid := ConverterStringEntrada(aAccountId);
@@ -1237,6 +1283,7 @@ begin
         try
           Resp.Processar(PIXCDDM.ACBrPSPMatera1.ChavePIXResposta);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -1246,12 +1293,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPSPMatera1.ErroResposta);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result:= SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -1312,6 +1360,7 @@ var
   Resp: TLibPIXCDExcluirChavePIXResposta;
   RespProb: TLibPIXCDProblemaRespostaMatera;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     accountid := ConverterStringEntrada(aAccountId);
@@ -1332,6 +1381,7 @@ begin
         try
           Resp.Processar(PIXCDDM.ACBrPSPMatera1);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -1341,12 +1391,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPSPMatera1.ErroResposta);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result:= SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -1365,6 +1416,7 @@ var
   Resp: TLibPIXCDQRCodeResposta;
   RespProb: TLibPIXCDProblemaRespostaMatera;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     if Config.Log.Nivel > logNormal then
@@ -1386,6 +1438,7 @@ begin
         try
           Resp.Processar(PIXCDDM.ACBrPSPMatera1.QRCodeResposta);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -1395,12 +1448,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPSPMatera1.ErroResposta);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result:= SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -1573,6 +1627,7 @@ var
   Resp: TLibPIXCDSolicitarDevolucaoResposta;
   RespProb: TLibPIXCDProblemaRespostaMatera;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     accountid := ConverterStringEntrada(aAccountId);
@@ -1597,6 +1652,7 @@ begin
         try
           Resp.Processar(PIXCDDM.ACBrPSPMatera1.DevolucaoResposta);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -1606,12 +1662,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPSPMatera1.ErroResposta);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result:= SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;
@@ -1676,6 +1733,7 @@ var
   Resp: TLibPIXCDSolicitarRetiradaResposta;
   RespProb: TLibPIXCDProblemaRespostaMatera;
   Ok: Boolean;
+  wCodigoRetorno: Integer;
 begin
   try
     accountid := ConverterStringEntrada(aAccountId);
@@ -1699,6 +1757,7 @@ begin
         try
           Resp.Processar(PIXCDDM.ACBrPSPMatera1.RetiradaResposta);
           Resposta := Resp.Gerar;
+          wCodigoRetorno := ErrOK;
         finally
           Resp.Free;
         end;
@@ -1708,12 +1767,13 @@ begin
         try
           RespProb.Processar(PIXCDDM.ACBrPSPMatera1.ErroResposta);
           Resposta := RespProb.Gerar;
+          wCodigoRetorno := ErrHttp;
         finally
           RespProb.Free;
         end;
       end;
       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result:= SetRetorno(ErrOK, Resposta);
+      Result:= SetRetorno(wCodigoRetorno, Resposta);
     finally
       PIXCDDM.Destravar;
     end;

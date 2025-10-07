@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 07/10/2025
+-- ACBrLibPIXCDBase --
+[*] Implementa código de retorno -7 (ErrHttp)
+    por: Júlio Cavalcanti
+
+07/10/2025
 -- ACBrLibPIXCDConfig, ACBrLibPIXCDDataModule, ACBrLibPIXCDConsts  --
 [*] Remoção da propriedade APIVersion de todos os PSPs da lib.
     por: Julio Cavalcanti
