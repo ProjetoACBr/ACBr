@@ -42,6 +42,28 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+07/10/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8153 A cidade Rio das Ostras/RJ trocou a versão e as URLs, o provedor continua 
+    o mesmo.
+   Por: João Antônio
+[*] #ACBr-8152 A cidade Manhuaçu/MG trocou a versão e as URLs, o provedor continua 
+    o mesmo.
+   Por: Wesley Lamb
+[*] #ACBr-8149 A cidade Ubirata/PR trocou de provedor, agora é EloTech.
+   Por: Arthur Haupt Pacheco
+[*] #ACBr-8145 Incluido o Link da URL do QR-Code da cidade Xinguara/PR.
+   Por: Valter Digital
+[*] #ACBr-8144 A cidade Presidente Nereu/SC trocou a URL, o provedor continua o mesmo.
+   Por: Alysson Rengel
+[*] #ACBr-8140 A cidade Jandaia do Sul/PR trocou de provedor, agora é EloTech.
+   Por: Caviuna
+[*] #ACBr-8137 A cidade Goiania/GO alterou as URLs, o provedor continua o mesmo.
+   Por: Neto233/Igor Cibiac/PrimeSoftware/WellingtonMiguel
+[*] #ACBr-8125 A cidade Jaragua do Sul/SC trocou a versão e as URLs, o provedor continua 
+    o mesmo.
+   Por: BluData/TiagoFZ
+
 29/09/2025
 -- Conam.GravarXml/Conam.LerXml/Conam.Provider --
 [*] #ACBr-8105 Ajustes para leitura de um lote de notas no retorno do ConsultarLote.
