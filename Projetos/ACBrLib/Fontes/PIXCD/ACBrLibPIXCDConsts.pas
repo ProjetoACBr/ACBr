@@ -223,7 +223,6 @@ const
   CChaveClientSecretSicredi = 'ClientSecret';
   CChaveArqChavePrivadaSicredi = 'ArqChavePrivada';
   CChaveArqCertificadoSicredi = 'ArqCertificado';
-  CChaveAPIVersionSicredi = 'APIVersion';
 
   CSessaoPIXCDSicoobConfig = 'Sicoob';
   CChavePIXSicoob = 'ChavePIX';
@@ -231,7 +230,6 @@ const
   CChaveTokenSandboxSicoob = 'TokenSandbox';
   CChaveArqChavePrivadaSicoob = 'ArqChavePrivada';
   CChaveArqCertificadoSicoob = 'ArqCertificado';
-  CChaveAPIVersionSicoob = 'APIVersion';
 
   CSessaoPIXCDShipayConfig = 'Shipay';
   CChaveClientIDShipay = 'ClientID';
@@ -244,7 +242,6 @@ const
   CChaveConsumerSecretSantander = 'ConsumerSecret';
   CChaveArqCertificadoPFXSantander = 'ArqCertificadoPFX';
   CChaveSenhaCertificadoPFXSantander = 'SenhaCertificadoPFX';
-  CChaveAPIVersionSantander = 'APIVersion';
 
   CSessaoPIXCDPixPDVConfig = 'PixPDV';
   CChaveCNPJPixPDV = 'CNPJ';
@@ -265,7 +262,6 @@ const
   CChaveClientSecretItau = 'ClientSecret';
   CChaveArqChavePrivadaItau = 'ArqChavePrivada';
   CChaveArqCertificadoItau = 'ArqCertificado';
-  CChaveAPIVersionItau = 'APIVersion';
 
   CSessaoPIXCDInterConfig = 'Inter';
   CChavePIXInter = 'ChavePIX';
@@ -290,7 +286,6 @@ const
   CChaveArqPFXBancoBrasil = 'ArqPFX';
   CChaveSenhaPFXBancoBrasil = 'SenhaPFX';
   CChaveBBAPIVersaoBancoBrasil = 'BBAPIVersao';
-  CChaveAPIVersionBancoBrasil = 'APIVersion';
 
   CSessaoPIXCDAilosConfig = 'Ailos';
   CChavePIXAilos = 'ChavePIX';
