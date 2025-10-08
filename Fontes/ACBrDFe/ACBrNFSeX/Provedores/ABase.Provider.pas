@@ -70,6 +70,7 @@ implementation
 
 uses
   ACBrUtil.XMLHTML, ACBrUtil.Strings, ACBrDFeException,
+  ACBrDFe.Conversao,
   ACBrNFSeXConsts, ACBrNFSeX, ACBrNFSeXNotasFiscais,
   ABase.GravarXml, ABase.LerXml;
 

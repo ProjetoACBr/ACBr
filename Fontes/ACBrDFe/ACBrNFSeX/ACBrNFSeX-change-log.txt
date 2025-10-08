@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/10/2025
+-- Diversos --
+[*] Acrescentado a unit ACBrDFe.Conversao visando a Reforma Tributária.
+   Por: Italo Giurizzato Junior
+
 07/10/2025
 -- Diversos --
 [*] #ACBr-8142 Ajustes para usar a nova URL do serviço ObterDANFSE do Padrão Nacional.

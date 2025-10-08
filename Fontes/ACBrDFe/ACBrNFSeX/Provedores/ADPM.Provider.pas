@@ -72,6 +72,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.XMLHTML,
   ACBrDFeException,
   ADPM.GravarXml, ADPM.LerXml;

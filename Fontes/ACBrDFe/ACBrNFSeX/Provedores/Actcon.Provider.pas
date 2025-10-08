@@ -91,6 +91,7 @@ implementation
 
 uses
   ACBrUtil.XMLHTML,
+  ACBrDFe.Conversao,
   ACBrDFeException, ACBrNFSeX,
   Actcon.GravarXml, Actcon.LerXml;
 

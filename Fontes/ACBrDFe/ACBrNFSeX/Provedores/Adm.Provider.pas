@@ -78,6 +78,7 @@ implementation
 
 uses
   ACBrDFeException, ACBrUtil.Base, ACBrUtil.Strings,
+  ACBrDFe.Conversao,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXNotasFiscais, ACBrNFSeXConsts,
   Adm.GravarXml, Adm.LerXml;
 

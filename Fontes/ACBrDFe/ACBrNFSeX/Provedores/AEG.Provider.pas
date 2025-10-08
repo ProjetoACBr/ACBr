@@ -81,6 +81,7 @@ implementation
 uses
   ACBrUtil.XMLHTML, ACBrUtil.Strings,
   ACBrDFeException,
+  ACBrDFe.Conversao,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXNotasFiscais,
   AEG.GravarXml, AEG.LerXml;
 

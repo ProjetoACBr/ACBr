@@ -130,6 +130,7 @@ begin
 
   with ConfigGeral do
   begin
+    QuebradeLinha := '|';
     ModoEnvio := meUnitario;
     ConsultaLote := False;
     FormatoArqEnvio := tfaJson;

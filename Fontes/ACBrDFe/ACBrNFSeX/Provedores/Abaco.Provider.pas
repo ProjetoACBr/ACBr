@@ -101,6 +101,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.XMLHTML,
   ACBrDFeException, Abaco.GravarXml, Abaco.LerXml;
 

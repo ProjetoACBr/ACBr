@@ -91,6 +91,7 @@ implementation
 uses
   ACBrUtil.XMLHTML,
   ACBrDFeException,
+  ACBrDFe.Conversao,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXNotasFiscais,
   Asten.GravarXml, Asten.LerXml;
 

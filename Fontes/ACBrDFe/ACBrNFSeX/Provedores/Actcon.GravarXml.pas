@@ -65,6 +65,9 @@ type
 
 implementation
 
+uses
+  ACBrDFe.Conversao;
+
 //==============================================================================
 // Essa unit tem por finalidade exclusiva gerar o XML do RPS do provedor:
 //     Actcon

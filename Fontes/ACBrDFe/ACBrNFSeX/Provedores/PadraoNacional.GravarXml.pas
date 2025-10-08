@@ -603,7 +603,8 @@ begin
                                    NFSe.Servico.CodigoTributacaoMunicipio, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'xDescServ', 1, 2000, 1,
-                                               NFSe.Servico.Discriminacao, ''));
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                          FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll])));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'cNBS', 9, 9, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
