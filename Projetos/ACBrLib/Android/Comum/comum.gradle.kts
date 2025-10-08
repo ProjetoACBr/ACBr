@@ -25,7 +25,7 @@ tasks.register<Copy>("copyLibs_arm64") {
     from(ProjectFromFolder) {
         include("**/*.so")
     }
-    from(Paths.get(ACBrDependenciesFolder, "OpenSSL", "openssl-1.1.1d", "aarch64-linux-android", "Dynamic").toString()) {
+    from(Paths.get(ACBrDependenciesFolder, "OpenSSL", "openssl-1.1.1w", "aarch64-linux-android", "Dynamic").toString()) {
         include("**/*.so")
     }
     println("copiando para" +jniLibsFolder_arm64)
@@ -49,7 +49,7 @@ tasks.register<Copy>("copyLibs_armeabi") {
     from(ProjectFromFolder) {
         include("**/*.so")
     }
-    from(Paths.get(ACBrDependenciesFolder, "OpenSSL", "openssl-1.1.1d", "arm-linux-androideabi", "Dynamic").toString()) {
+    from(Paths.get(ACBrDependenciesFolder, "OpenSSL", "openssl-1.1.1w", "arm-linux-androideabi", "Dynamic").toString()) {
         include("**/*.so")
     }
     into(jniLibsFolder_armeabi)
