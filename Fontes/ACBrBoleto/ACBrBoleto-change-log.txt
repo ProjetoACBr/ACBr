@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+08/10/2025
+-- ACBrBancoSicoob --
+[-] Quando carteira 9, CNAB 240 segmento P posicao 58, informar "1!
+    ACBr-8174 - https://www.projetoacbr.com.br/forum/topic/85963-sicoob-cnab-240-como-configurar-carteira-e-id-neg%C3%B3cio-na-homologa%C3%A7%C3%A3o/
+	Por: Daniel de Morais InfoCotidano
+	
 07/10/2025
 -- ACBrBoletoW_Banrisul --
 [-] Correção do codigo de protesto. (DiasDeProtesto enviado apenas qdo codigo = 1)
