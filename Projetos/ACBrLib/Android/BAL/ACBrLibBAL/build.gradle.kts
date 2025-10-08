@@ -9,7 +9,7 @@ android {
 
 
     namespace = "br.com.acbr.acbrlibbal"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
@@ -39,7 +39,7 @@ android {
 val ACBrComumJar = rootProject.extra["ACBrLibComumJar"] as String
 dependencies {
     implementation(files(ACBrComumJar) )
-    implementation("net.java.dev.jna:jna:5.14.0@aar")
+    implementation("net.java.dev.jna:jna:5.17.0@aar")
     implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)

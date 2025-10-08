@@ -15,7 +15,7 @@ def Demo = project.hasProperty('Demo')
 
 android {
     namespace 'br.com.acbr.lib.nfe'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         minSdk 24
@@ -67,7 +67,7 @@ tasks.register('copyLibs_arm64', Copy) {
     from(ProjectFromFolder){
         include('**/*.so')
     }
-    from(ACBrDependenciesFolder+'/OpenSSL/openssl-1.1.1d/aarch64-linux-android/Dynamic') {
+    from(ACBrDependenciesFolder+'/OpenSSL/openssl-1.1.1w/aarch64-linux-android/Dynamic') {
         include('**/*.so')
     }
     from(ACBrDependenciesFolder+'/LibXML2/libxml2-2.9.10/aarch64-linux-android/Dynamic') {
@@ -89,7 +89,7 @@ tasks.register('copyLibs_armeabi', Copy) {
     from(ProjectFromFolder){
         include('**/*.so')
     }
-    from(ACBrDependenciesFolder+'/OpenSSL/openssl-1.1.1d/arm-linux-androideabi/Dynamic') {
+    from(ACBrDependenciesFolder+'/OpenSSL/openssl-1.1.1w/arm-linux-androideabi/Dynamic') {
         include('**/*.so')
     }
     from(ACBrDependenciesFolder+'/LibXML2/libxml2-2.9.10/arm-linux-androideabi/Dynamic') {

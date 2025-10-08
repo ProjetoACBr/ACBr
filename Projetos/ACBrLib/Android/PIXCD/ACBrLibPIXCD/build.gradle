@@ -15,7 +15,7 @@ def Demo = project.hasProperty('Demo')
 
 android {
     namespace 'br.com.acbr.lib.pixcd'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         minSdk 24
@@ -69,7 +69,7 @@ tasks.register('copyLibs_arm64', Copy) {
     from(ProjectFromFolder){
         include('**/*.so')
     }
-    from(ACBrDependenciesFolder+'/OpenSSL/openssl-1.1.1d/aarch64-linux-android/Dynamic') {
+    from(ACBrDependenciesFolder+'/OpenSSL/openssl-1.1.1w/aarch64-linux-android/Dynamic') {
         include('**/*.so')
     }
     into(jniLibsDestFolder_arm64)
@@ -88,7 +88,7 @@ tasks.register('copyLibs_armeabi', Copy) {
     from(ProjectFromFolder){
         include('**/*.so')
     }
-    from(ACBrDependenciesFolder+'/OpenSSL/openssl-1.1.1d/arm-linux-androideabi/Dynamic') {
+    from(ACBrDependenciesFolder+'/OpenSSL/openssl-1.1.1w/arm-linux-androideabi/Dynamic') {
         include('**/*.so')
     }
     into(jniLibsDestFolder_armeabi)
