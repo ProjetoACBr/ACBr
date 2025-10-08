@@ -43,6 +43,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+08/10/2025
+-- ACBrNFeDANFeRLSimplificado --
+[*] Ajustado o texto "Série" e "informações adicionais" que estavam sem ACbrStr, causando erro acentuacao na lib e lazarus
+   ACBr-8116 - https://www.projetoacbr.com.br/forum/topic/86025-erro-na-impress%C3%A3o-da-danfe-simplificada/
+   Por: Daniel de Morais InfoCotidiano  
 
 29/09/2025
 -- ACBrNFe.XMLReader --
