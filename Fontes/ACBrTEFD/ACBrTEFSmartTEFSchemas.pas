@@ -2628,22 +2628,36 @@ end;
 
 procedure TACBrSmartTEFErrorData.DoReadFromJson(aJson: TACBrJSONObject);
 var
-  sTimestamp: String;
+  wTimestamp, wMsg: String;
+  ja: TACBrJSONArray;
+  i: Integer;
 begin
   if not Assigned(aJson) then
     Exit;
 
   {$IfDef FPC}
-    sTimestamp := EmptyStr;
+    wMsg := EmptyStr;
+    wTimestamp := EmptyStr;
   {$EndIf}
 
   aJson
-    .Value('message', fmessage)
-    .Value('timestamp', sTimestamp)
+    .Value('timestamp', wTimestamp)
     .Value('path', fpath);
 
-  if NaoEstaVazio(sTimestamp) then
-    ftimestamp := Iso8601ToDateTime(sTimestamp);
+  if (not aJSon.IsJSONArray('message')) then
+    aJson.Value('message', fmessage)
+  else
+  begin
+    ja := aJSon.AsJSONArray['message'];
+    for i := 0 to ja.Count - 1 do
+    begin
+      ja.ItemAsJSONObject[i].Value('message', wMsg);
+      fmessage := fmessage + wMsg + sLineBreak;
+    end;
+  end;
+
+  if NaoEstaVazio(wTimestamp) then
+    ftimestamp := Iso8601ToDateTime(wTimestamp);
 end;
 
 procedure TACBrSmartTEFErrorData.DoWriteToJson(aJson: TACBrJSONObject);

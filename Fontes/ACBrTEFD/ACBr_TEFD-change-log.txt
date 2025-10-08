@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/10/2025
+-- ACBrTEFSmartTEFSchemas --
+[*] Ajuste para ler corretamente as mensagens de erro quando forem enviadas em lista.
+    por: Elias Cesar
+
 03/10/2025
 -- ACBrTEFScopeAPI --
 [*] Ajuste para chamar evento TransacaoEmAndamento, quando está no Fluxo do QRCode
