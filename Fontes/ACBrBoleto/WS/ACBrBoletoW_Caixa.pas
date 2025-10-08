@@ -50,9 +50,9 @@ type
   { TBoletoW_Caixa }
   TBoletoW_Caixa  = class(TBoletoWSSOAP)
   private
-    function DefinirSOAPAtributtes: string; override;
-  protected
 
+  protected
+    function DefinirSOAPAtributtes: string; override;
     procedure DefinirEnvelopeSoap; override;
     procedure DefinirURL; override;
     procedure DefinirServicoEAction; override;
