@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = "com.acbr.consultacnpj.acbrlibconsultacnpj.demo"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.acbr.consultacnpj.acbrlibconsultacnpj.demo"
-        minSdk = 25
-        targetSdk = 34
+        minSdk = 24
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -45,7 +45,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(files("./libs/ACBrLibConsultaCNPJ-release.aar"))
-    implementation("net.java.dev.jna:jna:5.14.0@aar")
+    implementation("net.java.dev.jna:jna:5.17.0@aar")
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     implementation("androidx.navigation:navigation-ui:2.7.7")
 }
