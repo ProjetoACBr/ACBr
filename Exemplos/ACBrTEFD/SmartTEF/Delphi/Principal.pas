@@ -1,3 +1,38 @@
+{******************************************************************************}
+{ Projeto: Componentes ACBr                                                    }
+{  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
+{ mentos de Automação Comercial utilizados no Brasil                           }
+{                                                                              }
+{ Direitos Autorais Reservados (c) 2025 Daniel Simoes de Almeida               }
+{                                                                              }
+{ Colaboradores nesse arquivo:                                                 }
+{ - Elias César Vieira                                                         }
+{                                                                              }
+{  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
+{ Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
+{                                                                              }
+{  Esta biblioteca é software livre; você pode redistribuí-la e/ou modificá-la }
+{ sob os termos da Licença Pública Geral Menor do GNU conforme publicada pela  }
+{ Free Software Foundation; tanto a versão 2.1 da Licença, ou (a seu critério) }
+{ qualquer versão posterior.                                                   }
+{                                                                              }
+{  Esta biblioteca é distribuída na expectativa de que seja útil, porém, SEM   }
+{ NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU      }
+{ ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral Menor}
+{ do GNU para mais detalhes. (Arquivo LICENÇA.TXT ou LICENSE.TXT)              }
+{                                                                              }
+{  Você deve ter recebido uma cópia da Licença Pública Geral Menor do GNU junto}
+{ com esta biblioteca; se não, escreva para a Free Software Foundation, Inc.,  }
+{ no endereço 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
+{ Você também pode obter uma copia da licença em:                              }
+{ http://www.opensource.org/licenses/lgpl-license.php                          }
+{                                                                              }
+{ Daniel Simões de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
+{       Rua Coronel Aureliano de Camargo, 963 - Tatuí - SP - 18270-170         }
+{******************************************************************************}
+
+{$I ACBr.inc}
+
 unit Principal;
 
 interface
@@ -7,9 +42,9 @@ uses
   StdCtrls, Buttons, Spin, ExtDlgs,
   ACBrTEFSmartTEFInterface,
   ACBrTEFSmartTEFSchemas,
-  ACBrTEFSmartTEFAPI
+  ACBrTEFSmartTEFAPI, ImgList
   {$IfDef FPC}
-  , DateTimePicker, ImgList
+  , DateTimePicker
   {$EndIf};
 
 const
@@ -17,197 +52,198 @@ const
 
 type
 
-  { TConfigProxy }
+  { TfrPrincipal }
 
   TfrPrincipal = class(TForm)
-    ImageList1: TImageList;
-    lURLTEF: TLabel;
-    OpenPictureDialog1: TOpenPictureDialog;
-    pcPrincipal: TPageControl;
-    tsEndpoints: TTabSheet;
-    Splitter1: TSplitter;
-    pnEndpointsLog: TPanel;
-    lbEndpointsLog: TLabel;
-    mmEndpointsLog: TMemo;
-    pnEndpointsLogRodape: TPanel;
+    ACBrSmartTEF: TACBrSmartTEF;
+    btIntegradorCriarLoja: TBitBtn;
+    btConfigLerParametros: TBitBtn;
+    btConfigSalvar: TBitBtn;
     btEndpointsLogLimpar: TBitBtn;
-    pcEndpoints: TPageControl;
-    tsIntegrador: TTabSheet;
-    pcIntegrador: TPageControl;
-    tsIntegradorCriarLoja: TTabSheet;
-    pnIntegradorCriarLoja: TPanel;
+    btIntegradorCriarLojaSenha: TSpeedButton;
+    btPoolingConsultar: TBitBtn;
+    btOrdemImpressaoCancelar: TBitBtn;
+    btOrdemImpressaoConsultar: TBitBtn;
+    btTerminaisListar: TBitBtn;
+    btUsuariosListar: TBitBtn;
+    btTerminaisNickname: TBitBtn;
+    btTerminaisDesbloquear: TBitBtn;
+    btTerminaisBloquear: TBitBtn;
+    btOrdemImpressaoCriar: TBitBtn;
+    btOrdemPagamentoEstornar: TBitBtn;
+    btOrdemPagamentoCriar: TBitBtn;
+    btOrdemPagamentoConsultar: TBitBtn;
+    btOrdemPagamentoCancelar: TBitBtn;
+    btUsuariosCriar: TBitBtn;
+    btLojaConsultar: TBitBtn;
+    btLojaConfigConsultar: TBitBtn;
+    cbConfigLogNivel: TComboBox;
+    cbUsuariosCriarTipo: TComboBox;
+    cbOrdemPagamentoCriarDetalhes: TCheckBox;
+    cbOrdemPagamentoCriarTipoJuros: TComboBox;
+    cbOrdemPagamentoCriarTipoOrdem: TComboBox;
+    cbOrdemImpressaoCriarTipoOrdem: TComboBox;
+    cbOrdemPagamentoCriarTipoPagamento: TComboBox;
+    edPoolingConsultarData: TDateTimePicker;
+    edConfigSmartTEFJWTToken: TEdit;
+    edConfigProxyHost: TEdit;
+    edConfigProxySenha: TEdit;
+    edConfigProxyUsuario: TEdit;
+    edConfigSmartTEFCNPJIntegrador: TEdit;
+    edConfigSmartTEFCNPJLoja: TEdit;
+    edConfigSmartTEFTokenLoja: TEdit;
+    edConfigSmartTEFTokenIntegrador: TEdit;
+    edConfigLogArquivo: TEdit;
+    edIntegradorCriarLojaSenha: TEdit;
+    edIntegradorCriarLojaCNPJIntegrador: TEdit;
+    edIntegradorCriarLojaCNPJ: TEdit;
+    edIntegradorCriarLojaEmail: TEdit;
+    edIntegradorCriarLojaNome: TEdit;
+    edIntegradorCriarLojaNomeLoja: TEdit;
+    edUsuariosCriarNome: TEdit;
+    edTerminaisNicknameSerialPos: TEdit;
+    edTerminaisNickname: TEdit;
+    edTerminaisBloqueioSerialPos: TEdit;
+    edOrdemImpressaoCriarArquivo: TEdit;
+    edOrdemImpressaoCancelarPrintIdentifier: TEdit;
+    edOrdemImpressaoConsultarPrintIdentifier: TEdit;
+    edOrdemImpressaoCriarIdUsuario: TEdit;
+    edOrdemImpressaoCriarPrintId: TEdit;
+    edOrdemImpressaoCriarSerialPOS: TEdit;
+    edOrdemPagamentoEstornarPaymentIdentifier: TEdit;
+    edOrdemPagamentoCriarCNPJ: TEdit;
+    edOrdemPagamentoCriarCPF: TEdit;
+    edOrdemPagamentoCriarChargeId: TEdit;
+    edOrdemPagamentoConsultarChargeId: TEdit;
+    edOrdemPagamentoCancelarPaymentIdentifier: TEdit;
+    edOrdemPagamentoConsultarPaymentIdentifier: TEdit;
+    edOrdemPagamentoCriarIdUsuario: TEdit;
+    edOrdemPagamentoCriarNome: TEdit;
+    edOrdemPagamentoCriarParcelas: TSpinEdit;
+    edOrdemPagamentoCriarSerialPOS: TEdit;
+    edOrdemPagamentoCriarValor: TEdit;
+    edUsuariosCriarEmail: TEdit;
+    gbPooling: TGroupBox;
+    gbOrdemPagamentoCriarDetalhes: TGroupBox;
+    gbTerminaisListar: TGroupBox;
+    gbLojaConfigConsultar: TGroupBox;
+    gbUsuariosListar: TGroupBox;
+    gbTerminaisNickname: TGroupBox;
+    gbTerminaisBloqueio: TGroupBox;
+    gbUsuariosCriar: TGroupBox;
+    gbLojaConsultar: TGroupBox;
+    lbConfigSmartTEFJWTToken: TLabel;
+    gbConfigProxy: TGroupBox;
+    gbConfigSmartTEF: TGroupBox;
+    gbConfigLog: TGroupBox;
+    ImageList1: TImageList;
     lbIntegradorCriarLojaCNPJIntegrador: TLabel;
     lbIntegradorCriarLojaCNPJ: TLabel;
     lbIntegradorCriarLojaEmail: TLabel;
     lbIntegradorCriarLojaSenha: TLabel;
     lbIntegradorCriarLojaNome: TLabel;
     lbIntegradorCriarLojaNomeLoja: TLabel;
-    btIntegradorCriarLojaSenha: TSpeedButton;
-    edIntegradorCriarLojaCNPJIntegrador: TEdit;
-    edIntegradorCriarLojaCNPJ: TEdit;
-    edIntegradorCriarLojaEmail: TEdit;
-    edIntegradorCriarLojaSenha: TEdit;
-    edIntegradorCriarLojaNome: TEdit;
-    edIntegradorCriarLojaNomeLoja: TEdit;
-    btIntegradorCriarLoja: TBitBtn;
-    tsERP: TTabSheet;
-    pcERP: TPageControl;
-    tsOrdemPagamento: TTabSheet;
-    pcOrdemPagamento: TPageControl;
-    tsOrdemPagamentoCriar: TTabSheet;
-    pnOrdemPagamentoCriar: TPanel;
-    lbOrdemPagamentoCriarParcelas: TLabel;
-    lbOrdemPagamentoCriarSerialPOS: TLabel;
-    lbOrdemPagamentoCriarIdUsuario: TLabel;
-    lbOrdemPagamentoCriarValor: TLabel;
-    lbOrdemPagamentoCriarTipoPagamento: TLabel;
-    lbOrdemPagamentoCriarChargeId: TLabel;
-    lbOrdemPagamentoCriarTipoJuros: TLabel;
-    lbOrdemPagamentoCriarTipoOrdem: TLabel;
-    edOrdemPagamentoCriarSerialPOS: TEdit;
-    edOrdemPagamentoCriarIdUsuario: TEdit;
-    btOrdemPagamentoCriar: TBitBtn;
-    edOrdemPagamentoCriarValor: TEdit;
-    cbOrdemPagamentoCriarTipoPagamento: TComboBox;
-    edOrdemPagamentoCriarChargeId: TEdit;
-    edOrdemPagamentoCriarParcelas: TSpinEdit;
-    cbOrdemPagamentoCriarTipoJuros: TComboBox;
-    cbOrdemPagamentoCriarTipoOrdem: TComboBox;
-    gbOrdemPagamentoCriarDetalhes: TGroupBox;
-    pnOrdemPagamentoCriarDetalhes: TPanel;
-    lbOrdemPagamentoCriarCPF: TLabel;
-    lbOrdemPagamentoCriarCNPJ: TLabel;
-    lbOrdemPagamentoCriarNome: TLabel;
-    edOrdemPagamentoCriarCPF: TEdit;
-    edOrdemPagamentoCriarCNPJ: TEdit;
-    edOrdemPagamentoCriarNome: TEdit;
-    cbOrdemPagamentoCriarDetalhes: TCheckBox;
-    tsOrdemPagamentoConsultar: TTabSheet;
-    pnOrdemPagamentoConsultar: TPanel;
-    lbOrdemPagamentoConsultarChargeId: TLabel;
-    lbOrdemPagamentoConsultarPaymentIdentifier: TLabel;
-    edOrdemPagamentoConsultarChargeId: TEdit;
-    edOrdemPagamentoConsultarPaymentIdentifier: TEdit;
-    btOrdemPagamentoConsultar: TBitBtn;
-    tsOrdemPagamentoCancelar: TTabSheet;
-    pnOrdemPagamentoCancelar: TPanel;
-    lbOrdemPagamentoCancelarPaymentIdentifier: TLabel;
-    edOrdemPagamentoCancelarPaymentIdentifier: TEdit;
-    btOrdemPagamentoCancelar: TBitBtn;
-    tsOrdemPagamentoEstornar: TTabSheet;
-    pnOrdemPagamentoEstornar: TPanel;
-    lbOrdemPagamentoEstornarPaymentIdentifier: TLabel;
-    edOrdemPagamentoEstornarPaymentIdentifier: TEdit;
-    btOrdemPagamentoEstornar: TBitBtn;
-    tsOrdemImpressao: TTabSheet;
-    pcOrdemImpressao: TPageControl;
-    tsOrdemImpressaoCriar: TTabSheet;
-    pnOrdemImpressaoCriar: TPanel;
-    lbOrdemImpressaoCriarSerialPOS: TLabel;
-    lbOrdemImpressaoCriarIdUsuario: TLabel;
-    lbOrdemImpressaoCriarTipoOrdem: TLabel;
-    lbOrdemImpressaoCriarArquivo: TLabel;
-    btOrdemImpressaoCriarArquivo: TSpeedButton;
-    lbOrdemImpressaoCriarPrintId: TLabel;
-    edOrdemImpressaoCriarSerialPOS: TEdit;
-    edOrdemImpressaoCriarIdUsuario: TEdit;
-    btOrdemImpressaoCriar: TBitBtn;
-    cbOrdemImpressaoCriarTipoOrdem: TComboBox;
-    edOrdemImpressaoCriarArquivo: TEdit;
-    edOrdemImpressaoCriarPrintId: TEdit;
-    tsOrdemImpressaoConsultar: TTabSheet;
-    pnOrdemImpressaoConsultar: TPanel;
-    lbOrdemImpressaoConsultarPrintIdentifier: TLabel;
-    edOrdemImpressaoConsultarPrintIdentifier: TEdit;
-    btOrdemImpressaoConsultar: TBitBtn;
-    tsOrdemImpressaoCancelar: TTabSheet;
-    pnOrdemImpressaoCancelar: TPanel;
-    lbOrdemImpressaoCancelarPrintIdentifier: TLabel;
-    edOrdemImpressaoCancelarPrintIdentifier: TEdit;
-    btOrdemImpressaoCancelar: TBitBtn;
-    tsTerminais: TTabSheet;
-    pnTerminais: TPanel;
-    gbTerminaisListar: TGroupBox;
-    pnTerminaisListar: TPanel;
-    btTerminaisListar: TBitBtn;
-    gbTerminaisNickname: TGroupBox;
-    pnTerminaisNickname: TPanel;
-    lbTerminaisNicknameSerialPos: TLabel;
-    lbTerminaisNickname: TLabel;
-    btTerminaisNickname: TBitBtn;
-    edTerminaisNicknameSerialPos: TEdit;
-    edTerminaisNickname: TEdit;
-    gbTerminaisBloqueio: TGroupBox;
-    pnTerminaisBloqueio: TPanel;
-    lbTerminaisBloqueioSerialPos: TLabel;
-    btTerminaisDesbloquear: TBitBtn;
-    edTerminaisBloqueioSerialPos: TEdit;
-    btTerminaisBloquear: TBitBtn;
-    tsUsuarios: TTabSheet;
-    pnUsuarios: TPanel;
-    gbUsuariosListar: TGroupBox;
-    pnUsuariosListar: TPanel;
-    btUsuariosListar: TBitBtn;
-    gbUsuariosCriar: TGroupBox;
-    pnUsuariosCriar: TPanel;
-    lbUsuariosCriarEmail: TLabel;
-    lbUsuariosCriarNome: TLabel;
-    lbUsuariosCriarTipo: TLabel;
-    btUsuariosCriar: TBitBtn;
-    edUsuariosCriarEmail: TEdit;
-    edUsuariosCriarNome: TEdit;
-    cbUsuariosCriarTipo: TComboBox;
-    tsLoja: TTabSheet;
-    pnLoja: TPanel;
-    gbLojaConsultar: TGroupBox;
-    pnLojaConsultar: TPanel;
-    btLojaConsultar: TBitBtn;
-    gbLojaConfigConsultar: TGroupBox;
-    pnLojaConfigConsultar: TPanel;
-    btLojaConfigConsultar: TBitBtn;
-    tsPooling: TTabSheet;
-    pnPooling: TPanel;
-    gbPooling: TGroupBox;
-    pnPoolingConsultar: TPanel;
-    lbPoolingConsultarData: TLabel;
-    btPoolingConsultar: TBitBtn;
-    edPoolingConsultarData: TDateTimePicker;
-    tsConfig: TTabSheet;
-    pnConfig: TPanel;
-    pnConfigPainel: TPanel;
-    gbConfigSmartTEF: TGroupBox;
-    pnConfigSmartTEF: TPanel;
+    lbConfigLogArquivo: TLabel;
+    lbConfigLogNivel: TLabel;
+    lbConfigProxyUsuario: TLabel;
     lbConfigSmartTEFTokenIntegrador: TLabel;
     lbConfigSmartTEFTokenLoja: TLabel;
     lbConfigSmartTEFCNPJIntegrador: TLabel;
+    lbConfigProxySenha: TLabel;
     lbConfigSmartTEFCNPJLoja: TLabel;
-    lbConfigSmartTEFJWTToken: TLabel;
-    edConfigSmartTEFTokenIntegrador: TEdit;
-    edConfigSmartTEFTokenLoja: TEdit;
-    edConfigSmartTEFCNPJIntegrador: TEdit;
-    edConfigSmartTEFCNPJLoja: TEdit;
-    edConfigSmartTEFJWTToken: TEdit;
-    gbConfigProxy: TGroupBox;
-    pnConfigProxy: TPanel;
     lbConfigProxyHost: TLabel;
     lbConfigProxyPorta: TLabel;
-    lbConfigProxyUsuario: TLabel;
-    lbConfigProxySenha: TLabel;
-    btConfigProxySenha: TSpeedButton;
-    edConfigProxyHost: TEdit;
-    edConfigProxyUsuario: TEdit;
-    edConfigProxySenha: TEdit;
-    edConfigProxyPorta: TSpinEdit;
-    gbConfigLog: TGroupBox;
-    pnConfigLog: TPanel;
-    lbConfigLogArquivo: TLabel;
-    lbConfigLogNivel: TLabel;
-    btConfigLogArquivo: TSpeedButton;
-    edConfigLogArquivo: TEdit;
-    cbConfigLogNivel: TComboBox;
+    lbEndpointsLog: TLabel;
+    lbOrdemImpressaoCancelarPrintIdentifier: TLabel;
+    lbOrdemImpressaoConsultarPrintIdentifier: TLabel;
+    lbUsuariosCriarTipo: TLabel;
+    lbUsuariosCriarNome: TLabel;
+    lbTerminaisNicknameSerialPos: TLabel;
+    lbTerminaisNickname: TLabel;
+    lbTerminaisBloqueioSerialPos: TLabel;
+    lbOrdemImpressaoCriarIdUsuario: TLabel;
+    lbOrdemImpressaoCriarPrintId: TLabel;
+    lbOrdemImpressaoCriarSerialPOS: TLabel;
+    lbOrdemImpressaoCriarTipoOrdem: TLabel;
+    lbOrdemImpressaoCriarArquivo: TLabel;
+    lbOrdemPagamentoEstornarPaymentIdentifier: TLabel;
+    lbOrdemPagamentoCriarCNPJ: TLabel;
+    lbOrdemPagamentoCriarCPF: TLabel;
+    lbOrdemPagamentoCriarChargeId: TLabel;
+    lbOrdemPagamentoConsultarChargeId: TLabel;
+    lbOrdemPagamentoCancelarPaymentIdentifier: TLabel;
+    lbOrdemPagamentoConsultarPaymentIdentifier: TLabel;
+    lbOrdemPagamentoCriarIdUsuario: TLabel;
+    lbOrdemPagamentoCriarNome: TLabel;
+    lbOrdemPagamentoCriarParcelas: TLabel;
+    lbOrdemPagamentoCriarSerialPOS: TLabel;
+    lbOrdemPagamentoCriarTipoJuros: TLabel;
+    lbOrdemPagamentoCriarTipoOrdem: TLabel;
+    lbOrdemPagamentoCriarTipoPagamento: TLabel;
+    lbOrdemPagamentoCriarValor: TLabel;
+    lbUsuariosCriarEmail: TLabel;
+    lbPoolingConsultarData: TLabel;
+    lURLTEF: TLabel;
+    mmEndpointsLog: TMemo;
+    OpenPictureDialog1: TOpenPictureDialog;
+    pnPoolingConsultar: TPanel;
+    pnPooling: TPanel;
+    pnUsuarios: TPanel;
+    pnTerminaisListar: TPanel;
+    pnLoja: TPanel;
+    pnUsuariosListar: TPanel;
+    pnTerminaisNickname: TPanel;
+    pnTerminaisBloqueio: TPanel;
+    pcOrdemImpressao: TPageControl;
+    pnOrdemImpressaoCancelar: TPanel;
+    pnOrdemImpressaoConsultar: TPanel;
+    pnTerminais: TPanel;
+    pnOrdemImpressaoCriar: TPanel;
+    pnOrdemPagamentoEstornar: TPanel;
+    pnOrdemPagamentoConsultar: TPanel;
+    pnOrdemPagamentoCancelar: TPanel;
+    pnOrdemPagamentoCriar: TPanel;
+    pnIntegradorCriarLoja: TPanel;
+    pcERP: TPageControl;
+    pcIntegrador: TPageControl;
+    pcEndpoints: TPageControl;
+    pcOrdemPagamento: TPageControl;
     pnConfigRodape: TPanel;
-    btConfigSalvar: TBitBtn;
-    btConfigLerParametros: TBitBtn;
+    pnConfigPainel: TPanel;
+    pcPrincipal: TPageControl;
+    pnConfig: TPanel;
+    pnConfigProxy: TPanel;
+    pnConfigSmartTEF: TPanel;
+    btConfigProxySenha: TSpeedButton;
+    edConfigProxyPorta: TSpinEdit;
+    pnConfigLog: TPanel;
+    btConfigLogArquivo: TSpeedButton;
+    pnEndpointsLog: TPanel;
+    pnEndpointsLogRodape: TPanel;
+    pnOrdemPagamentoCriarDetalhes: TPanel;
+    btOrdemImpressaoCriarArquivo: TSpeedButton;
+    pnUsuariosCriar: TPanel;
+    pnLojaConsultar: TPanel;
+    pnLojaConfigConsultar: TPanel;
+    Splitter1: TSplitter;
+    tsPooling: TTabSheet;
+    tsLoja: TTabSheet;
+    tsUsuarios: TTabSheet;
+    tsOrdemImpressaoCancelar: TTabSheet;
+    tsOrdemImpressaoConsultar: TTabSheet;
+    tsOrdemImpressaoCriar: TTabSheet;
+    tsOrdemPagamentoEstornar: TTabSheet;
+    tsOrdemPagamentoCancelar: TTabSheet;
+    tsOrdemPagamentoConsultar: TTabSheet;
+    tsOrdemPagamento: TTabSheet;
+    tsOrdemImpressao: TTabSheet;
+    tsTerminais: TTabSheet;
+    tsIntegradorCriarLoja: TTabSheet;
+    tsIntegrador: TTabSheet;
+    tsERP: TTabSheet;
+    tsEndpoints: TTabSheet;
+    tsConfig: TTabSheet;
+    tsOrdemPagamentoCriar: TTabSheet;
     procedure btConfigLerParametrosClick(Sender: TObject);
     procedure btConfigProxySenhaClick(Sender: TObject);
     procedure btConfigSalvarClick(Sender: TObject);
@@ -235,11 +271,7 @@ type
     procedure lURLTEFClick(Sender: TObject);
 
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
   private
-    fACBrSmartTEF: TACBrSmartTEF;
-
-    function GetACBrSmartTEF: TACBrSmartTEF;
     function FormatarJSON(const AJSON: String): String;
 
     procedure LerConfiguracao;
@@ -250,8 +282,6 @@ type
     procedure AdicionarLog(aMsg: String);
   public
     function NomeArquivoConfig: String;
-
-    property ACBrSmartTEF: TACBrSmartTEF read GetACBrSmartTEF;
   end;
 
 var
@@ -272,7 +302,7 @@ uses
 
 {$R *.dfm}
 
-{ TConfigProxy }
+{ TfrPrincipal }
 
 procedure TfrPrincipal.btConfigProxySenhaClick(Sender: TObject);
 begin
@@ -666,22 +696,9 @@ begin
   LerConfiguracao;
 end;
 
-procedure TfrPrincipal.FormDestroy(Sender: TObject);
-begin
-  if Assigned(fACBrSmartTEF) then
-    fACBrSmartTEF.Free;
-end;
-
 procedure TfrPrincipal.lURLTEFClick(Sender: TObject);
 begin
   OpenURL(CURL_ACBR);
-end;
-
-function TfrPrincipal.GetACBrSmartTEF: TACBrSmartTEF;
-begin
-  if (not Assigned(fACBrSmartTEF)) then
-    fACBrSmartTEF := TACBrSmartTEF.Create(Nil);
-  Result := fACBrSmartTEF;
 end;
 
 function TfrPrincipal.FormatarJSON(const AJSON: String): String;

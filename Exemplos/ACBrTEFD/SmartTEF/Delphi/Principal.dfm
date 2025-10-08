@@ -13,7 +13,6 @@ object frPrincipal: TfrPrincipal
   Font.Style = []
   OldCreateOrder = True
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object lURLTEF: TLabel
@@ -139,7 +138,7 @@ object frPrincipal: TfrPrincipal
                 Left = 0
                 Top = 0
                 Width = 575
-                Height = 424
+                Height = 419
                 Align = alClient
                 BevelOuter = bvNone
                 ParentBackground = False
@@ -204,28 +203,28 @@ object frPrincipal: TfrPrincipal
                   Left = 20
                   Top = 35
                   Width = 260
-                  Height = 21
+                  Height = 23
                   TabOrder = 0
                 end
                 object edIntegradorCriarLojaCNPJ: TEdit
                   Left = 295
                   Top = 35
                   Width = 260
-                  Height = 21
+                  Height = 23
                   TabOrder = 1
                 end
                 object edIntegradorCriarLojaEmail: TEdit
                   Left = 20
                   Top = 87
                   Width = 260
-                  Height = 21
+                  Height = 23
                   TabOrder = 2
                 end
                 object edIntegradorCriarLojaSenha: TEdit
                   Left = 295
                   Top = 87
                   Width = 237
-                  Height = 21
+                  Height = 23
                   PasswordChar = '*'
                   TabOrder = 3
                 end
@@ -233,14 +232,14 @@ object frPrincipal: TfrPrincipal
                   Left = 20
                   Top = 143
                   Width = 535
-                  Height = 21
+                  Height = 23
                   TabOrder = 4
                 end
                 object edIntegradorCriarLojaNomeLoja: TEdit
                   Left = 20
                   Top = 199
                   Width = 535
-                  Height = 21
+                  Height = 23
                   TabOrder = 5
                 end
                 object btIntegradorCriarLoja: TBitBtn
@@ -531,7 +530,7 @@ object frPrincipal: TfrPrincipal
                     object cbOrdemPagamentoCriarDetalhes: TCheckBox
                       Left = 25
                       Top = 128
-                      Width = 94
+                      Width = 95
                       Height = 19
                       Hint = 'Caso a op'#231#227'o seja false, n'#227'o ser'#225' exibido tela'
                       Caption = 'Exibir Detalhes'
@@ -690,7 +689,7 @@ object frPrincipal: TfrPrincipal
                     Left = 0
                     Top = 0
                     Width = 567
-                    Height = 384
+                    Height = 381
                     Align = alClient
                     BevelOuter = bvNone
                     ParentBackground = False
@@ -797,9 +796,9 @@ object frPrincipal: TfrPrincipal
                       Left = 20
                       Top = 35
                       Width = 123
-                      Height = 21
+                      Height = 23
                       Style = csDropDownList
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 0
                     end
                     object edOrdemImpressaoCriarArquivo: TEdit
@@ -1052,7 +1051,7 @@ object frPrincipal: TfrPrincipal
                 Left = 0
                 Top = 0
                 Width = 575
-                Height = 424
+                Height = 419
                 Align = alClient
                 BevelOuter = bvNone
                 ParentBackground = False
@@ -1093,10 +1092,10 @@ object frPrincipal: TfrPrincipal
                   ParentBackground = False
                   TabOrder = 1
                   object pnUsuariosCriar: TPanel
-                    Left = 2
-                    Top = 15
+                    Left = 0
+                    Top = 0
                     Width = 531
-                    Height = 103
+                    Height = 100
                     Align = alClient
                     BevelOuter = bvNone
                     TabOrder = 0
@@ -1150,9 +1149,9 @@ object frPrincipal: TfrPrincipal
                       Left = 391
                       Top = 25
                       Width = 120
-                      Height = 21
+                      Height = 23
                       Style = csDropDownList
-                      ItemHeight = 13
+                      ItemHeight = 0
                       TabOrder = 2
                     end
                   end
@@ -1319,10 +1318,10 @@ object frPrincipal: TfrPrincipal
             ParentBackground = False
             TabOrder = 0
             object pnConfigSmartTEF: TPanel
-              Left = 2
-              Top = 15
+              Left = 0
+              Top = 0
               Width = 496
-              Height = 161
+              Height = 158
               Align = alClient
               BevelOuter = bvNone
               ParentBackground = False
@@ -1376,35 +1375,35 @@ object frPrincipal: TfrPrincipal
                 Left = 20
                 Top = 20
                 Width = 316
-                Height = 21
+                Height = 23
                 TabOrder = 0
               end
               object edConfigSmartTEFTokenLoja: TEdit
                 Left = 20
                 Top = 70
                 Width = 316
-                Height = 21
+                Height = 23
                 TabOrder = 2
               end
               object edConfigSmartTEFCNPJIntegrador: TEdit
                 Left = 356
                 Top = 20
                 Width = 120
-                Height = 21
+                Height = 23
                 TabOrder = 1
               end
               object edConfigSmartTEFCNPJLoja: TEdit
                 Left = 356
                 Top = 70
                 Width = 120
-                Height = 21
+                Height = 23
                 TabOrder = 3
               end
               object edConfigSmartTEFJWTToken: TEdit
                 Left = 20
                 Top = 120
                 Width = 456
-                Height = 21
+                Height = 23
                 TabOrder = 4
               end
             end
@@ -1419,10 +1418,10 @@ object frPrincipal: TfrPrincipal
             ParentBackground = False
             TabOrder = 1
             object pnConfigProxy: TPanel
-              Left = 2
-              Top = 15
+              Left = 0
+              Top = 0
               Width = 496
-              Height = 113
+              Height = 110
               Align = alClient
               BevelOuter = bvNone
               ParentBackground = False
@@ -1481,21 +1480,21 @@ object frPrincipal: TfrPrincipal
                 Left = 20
                 Top = 20
                 Width = 316
-                Height = 21
+                Height = 23
                 TabOrder = 0
               end
               object edConfigProxyUsuario: TEdit
                 Left = 20
                 Top = 70
                 Width = 316
-                Height = 21
+                Height = 23
                 TabOrder = 1
               end
               object edConfigProxySenha: TEdit
                 Left = 356
                 Top = 70
                 Width = 96
-                Height = 21
+                Height = 23
                 PasswordChar = '*'
                 TabOrder = 2
               end
@@ -1503,7 +1502,7 @@ object frPrincipal: TfrPrincipal
                 Left = 356
                 Top = 21
                 Width = 120
-                Height = 22
+                Height = 23
                 MaxValue = 999999
                 MinValue = 0
                 TabOrder = 3
@@ -1569,7 +1568,7 @@ object frPrincipal: TfrPrincipal
                 Left = 16
                 Top = 20
                 Width = 297
-                Height = 21
+                Height = 23
                 Anchors = [akLeft, akTop, akRight]
                 TabOrder = 0
               end
@@ -1628,7 +1627,7 @@ object frPrincipal: TfrPrincipal
     Left = 904
     Top = 8
     Bitmap = {
-      494C010122002700040010001000FFFFFFFFFF00FFFFFFFFFFFFFFFF424D3600
+      494C010122002700040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000040000000A0000000010020000000000000A0
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2952,10 +2951,18 @@ object frPrincipal: TfrPrincipal
       F81FC001FFC08001F00FC001FF808001E007C003FF01E467C003C071FE03E467
       8001C001E007E4678001C001800FE4678001C063001FE4678001C001003FE467
       C003C001003F8001F00FC001003F8001F00FC001103F8001F81FC101E07FE007
-      FC3FFFFFE07FF81FFFFFFFFFE1FFFC7F}
+      FC3FFFFFE07FF81FFFFFFFFFE1FFFC7F00000000000000000000000000000000
+      000000000000}
   end
   object OpenPictureDialog1: TOpenPictureDialog
     Left = 816
     Top = 8
+  end
+  object ACBrSmartTEF: TACBrSmartTEF
+    ProxyPort = '8080'
+    ContentsEncodingCompress = []
+    NivelLog = 0
+    Left = 816
+    Top = 80
   end
 end

@@ -7,7 +7,6 @@ object frPrincipal: TfrPrincipal
   ClientHeight = 564
   ClientWidth = 967
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   LCLVersion = '3.6.0.0'
   object pcPrincipal: TPageControl
     Left = 0
@@ -1900,5 +1899,12 @@ object frPrincipal: TfrPrincipal
   object OpenPictureDialog1: TOpenPictureDialog
     Left = 816
     Top = 8
+  end
+  object ACBrSmartTEF: TACBrSmartTEF
+    ProxyPort = '8080'
+    ContentsEncodingCompress = []
+    NivelLog = 0
+    Left = 816
+    Top = 80
   end
 end
