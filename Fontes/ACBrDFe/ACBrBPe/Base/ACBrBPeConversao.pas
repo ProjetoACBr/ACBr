@@ -74,10 +74,10 @@ const
     'URL-ConsultaBPe');
 
 type
-  TModeloBPe = (moBPe, moBPeTM);
+  TModeloBPe = (moBPe, moBPeTM, moBPeTA);
 
 const
-  TModeloBPeArrayStrings: array[TModeloBPe] of string = ('63', '63');
+  TModeloBPeArrayStrings: array[TModeloBPe] of string = ('63', '63', '63');
 
 type
   TTipoBPe = (tbNormal, tbSubstituicao, tbBPeTM);
@@ -86,10 +86,10 @@ const
   TTipoBPeArrayStrings: array[TTipoBPe] of string = ('0', '3', '4');
 
 type
-  TModalBPe = (moRodoviario, moAquaviario, moFerroviario);
+  TModalBPe = (moRodoviario, moAereo, moAquaviario, moFerroviario);
 
 const
-  TModalBPeArrayStrings: array[TModalBPe] of string = ('1', '3', '4');
+  TModalBPeArrayStrings: array[TModalBPe] of string = ('1', '2', '3', '4');
 
 type
   TTipoSubstituicao = (tsRemarcacao, tsTransferencia, tsTransfRemarcacao);
