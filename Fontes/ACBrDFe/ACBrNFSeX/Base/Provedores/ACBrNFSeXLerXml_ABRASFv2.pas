@@ -1414,7 +1414,7 @@ begin
       NFSe.InfNFSe.Id := AINIRec.ReadString(LSecao, 'ID', NFSe.InfNFSe.ID);
       NFSe.NfseSubstituida := AINIRec.ReadString(LSecao, 'NfseSubstituida', '');
       NFSe.NfseSubstituidora := AINIRec.ReadString(LSecao, 'NfseSubstituidora', '');
-      NFSe.ValorCredito := AINIRec.ReadFloat(LSecao, 'ValorCredito', 0);
+      NFSe.ValorCredito := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorCredito', ''), 0);
       NFSe.Link := AINIRec.ReadString(LSecao, 'Link', NFSe.Link);
     end
     else
@@ -1626,7 +1626,7 @@ begin
     NFSe.Servico.InfAdicional := AINIRec.ReadString(LSecao, 'InfAdicional', '');
 
     NFSe.Servico.MunicipioPrestacaoServico := AINIRec.ReadString(LSecao, 'MunicipioPrestacaoServico', '');
-    NFSe.Servico.ValorTotalRecebido := AINIRec.ReadFloat(LSecao, 'ValorTotalRecebido', 0.0);
+    NFSe.Servico.ValorTotalRecebido := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorTotalRecebido', ''), 0);
   end;
 end;
 
@@ -1678,12 +1678,12 @@ begin
     Item.Descricao := ChangeLineBreak(AINIRec.ReadString(LSecao, 'Descricao', ''), FpAOwner.ConfigGeral.QuebradeLinha);
     Item.ItemListaServico := AINIRec.ReadString(LSecao, 'ItemListaServico', '');
     Item.xItemListaServico := AINIRec.ReadString(LSecao, 'xItemListaServico', '');
-    Item.Quantidade := AINIRec.ReadFloat(LSecao, 'Quantidade', 0);
-    Item.ValorUnitario := AINIRec.ReadFloat(LSecao, 'ValorUnitario', 0);
-    Item.ValorISS := AINIRec.ReadFloat(LSecao, 'ValorIss', 0);
-    Item.Aliquota := AINIRec.ReadFloat(LSecao, 'Aliquota', 0);
-    Item.BaseCalculo := AINIRec.ReadFloat(LSecao, 'BaseCalculo', 0);
-    Item.ValorTotal := AINIRec.ReadFloat(LSecao, 'ValorTotal', 0);
+    Item.Quantidade := StringToFloatDef(AINIRec.ReadString(LSecao, 'Quantidade', ''), 0);
+    Item.ValorUnitario := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorUnitario', ''), 0);
+    Item.ValorISS := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorIss', ''), 0);
+    Item.Aliquota := StringToFloatDef(AINIRec.ReadString(LSecao, 'Aliquota', ''), 0);
+    Item.BaseCalculo := StringToFloatDef(AINIRec.ReadString(LSecao, 'BaseCalculo', ''), 0);
+    Item.ValorTotal := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorTotal', ''), 0);
 
     LerINISecaoDadosDeducao(AIniRec, Item, I);
     LerINISecaoDadosProssionalParceiro(AIniRec, I);
@@ -1744,42 +1744,42 @@ begin
 
   if AINIRec.SectionExists(LSecao) then
   begin
-    NFSe.Servico.Valores.BaseCalculo := AINIRec.ReadFloat(LSecao, 'BaseCalculo', 0.0);
+    NFSe.Servico.Valores.BaseCalculo := StringToFloatDef(AINIRec.ReadString(LSecao, 'BaseCalculo', ''), 0);
     NFSe.Servico.Valores.IrrfIndenizacao := StringtoFloatDef(AINIRec.ReadString(LSecao, 'IrrfIndenizacao', ''), 0);
-    NFSe.Servico.Valores.ValorServicos := AINIRec.ReadFloat(LSecao, 'ValorServicos', 0.0);
-    NFSe.Servico.Valores.ValorDeducoes := AINIRec.ReadFloat(LSecao, 'ValorDeducoes', 0.0);
+    NFSe.Servico.Valores.ValorServicos := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorServicos', ''), 0);
+    NFSe.Servico.Valores.ValorDeducoes := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorDeducoes', ''), 0);
     NFSe.Servico.Valores.AliquotaPis := StringToFloatDef(AINIRec.ReadString(LSecao, 'AliquotaPis', ''), 0);
     NFSe.Servico.Valores.RetidoPis := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(LSecao, 'RetidoPis', ''));
-    NFSe.Servico.Valores.ValorPis := AINIRec.ReadFloat(LSecao, 'ValorPis', 0.0);
+    NFSe.Servico.Valores.ValorPis := StringtoFloatDef(AINIRec.ReadString(LSecao, 'ValorPis', ''), 0);
     NFSe.Servico.Valores.AliquotaCofins := StringToFloatDef(AINIRec.ReadString(LSecao, 'AliquotaCofins', ''), 0);
     NFSe.Servico.Valores.RetidoCofins := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(LSecao, 'RetidoCofins', ''));
-    NFSe.Servico.Valores.ValorCofins := AINIRec.ReadFloat(LSecao, 'ValorCofins', 0.0);
+    NFSe.Servico.Valores.ValorCofins := StringtoFloatDef(AINIRec.ReadString(LSecao, 'ValorCofins', ''), 0);
     NFSe.Servico.Valores.AliquotaInss := StringToFloatDef(AINIRec.ReadString(LSecao, 'AliquotaInss', ''), 0);
     NFSe.Servico.Valores.RetidoInss := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(LSecao, 'RetidoInss', ''));
-    NFSe.Servico.Valores.ValorInss := AINIRec.ReadFloat(LSecao, 'ValorInss', 0.0);
+    NFSe.Servico.Valores.ValorInss := StringtoFloatDef(AINIRec.ReadString(LSecao, 'ValorInss', ''), 0);
     NFSe.Servico.Valores.AliquotaIr := StringToFloatDef(AINIRec.ReadString(LSecao, 'AliquotaIr', ''), 0);
     NFSe.Servico.Valores.RetidoIr := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(LSecao, 'RetidoIr', ''));
-    NFSe.Servico.Valores.ValorIr := AINIRec.ReadFloat(LSecao, 'ValorIr', 0.0);
+    NFSe.Servico.Valores.ValorIr := StringtoFloatDef(AINIRec.ReadString(LSecao, 'ValorIr', ''), 0);
     NFSe.Servico.Valores.AliquotaCsll := StringToFloatDef(AINIRec.ReadString(LSecao, 'AliquotaCsll', ''), 0);
     NFSe.Servico.Valores.RetidoCsll := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(LSecao, 'RetidoCsll', ''));
-    NFSe.Servico.Valores.ValorCsll := AINIRec.ReadFloat(LSecao, 'ValorCsll', 0.0);
+    NFSe.Servico.Valores.ValorCsll := StringtoFloatDef(AINIRec.ReadString(LSecao, 'ValorCsll', ''), 0);
     NFSe.Servico.Valores.AliquotaCpp := StringToFloatDef(AINIRec.ReadString(LSecao, 'AliquotaCpp', ''), 0);
     NFSe.Servico.Valores.RetidoCpp := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(LSecao, 'RetidoCpp', ''));
     NFSe.Servico.Valores.ValorCpp := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorCpp', ''), 0);
-    NFSe.Servico.Valores.OutrasRetencoes := AINIRec.ReadFloat(LSecao, 'OutrasRetencoes', 0.0);
-    NFSe.Servico.Valores.ValorTotalTributos := AINIRec.ReadFloat(LSecao, 'ValorTotalTributos', 0.0);
-    NFSe.Servico.Valores.ValorIss := AINIRec.ReadFloat(LSecao, 'ValorIss', 0.0);
-    NFSe.Servico.Valores.ValorTaxaTurismo := AINIRec.ReadFloat(LSecao, 'ValorTaxaTurismo', 0.0);
+    NFSe.Servico.Valores.OutrasRetencoes := StringtoFloatDef(AINIRec.ReadString(LSecao, 'OutrasRetencoes', ''), 0);
+    NFSe.Servico.Valores.ValorTotalTributos := StringtoFloatDef(AINIRec.ReadString(LSecao, 'ValorTotalTributos', ''), 0);
+    NFSe.Servico.Valores.ValorIss := StringtoFloatDef(AINIRec.ReadString(LSecao, 'ValorIss', ''), 0);
+    NFSe.Servico.Valores.ValorTaxaTurismo := StringtoFloatDef(AINIRec.ReadString(LSecao, 'ValorTaxaTurismo', ''), 0);
     NFSe.Servico.Valores.QtdeDiaria := StringToFloatDef(AINIRec.ReadString(LSecao, 'QtdeDiaria', ''), 0);
-    NFSe.Servico.Valores.Aliquota := AINIRec.ReadFloat(LSecao, 'Aliquota', 0.0);
+    NFSe.Servico.Valores.Aliquota := StringtoFloatDef(AINIRec.ReadString(LSecao, 'Aliquota', ''), 0);
     NFSe.Servico.Valores.DescontoIncondicionado := StringToFloatDef(AINIRec.ReadString(LSecao, 'DescontoIncondicionado', ''), 0);
     NFSe.Servico.Valores.DescontoCondicionado := StringToFloatDef(AINIRec.ReadString(LSecao, 'DescontoCondicionado', ''), 0);
     NFSe.Servico.Valores.IssRetido := FpAOwner.StrToSituacaoTributaria(Ok, AINIRec.ReadString(LSecao, 'ISSRetido', ''));
     {
-    NFSe.Servico.Valores.ValorIssRetido := AINIRec.ReadFloat(LSecao, 'ValorIssRetido', 0.0);
-    NFSe.Servico.Valores.ValorLiquidoNfse := AINIRec.ReadFloat(LSecao, 'ValorLiquidoNfse', 0.0);
-    NFSe.Servico.Valores.ValorTotalNotaFiscal := AINIRec.ReadFloat(LSecao, 'ValorTotalNotaFiscal', 0.0);
-    NFSe.Servico.Valores.RetencoesFederais := AINIRec.ReadFloat(LSecao, 'RetencoesFederais', 0.0);
+    NFSe.Servico.Valores.ValorIssRetido := StringtoFloatDef(AINIRec.ReadString(LSecao, 'ValorIssRetido', ''), 0);
+    NFSe.Servico.Valores.ValorLiquidoNfse := StringtoFloatDef(AINIRec.ReadString(LSecao, 'ValorLiquidoNfse', ''), 0);
+    NFSe.Servico.Valores.ValorTotalNotaFiscal := StringtoFloatDef(AINIRec.ReadString(LSecao, 'ValorTotalNotaFiscal', ''), 0);
+    NFSe.Servico.Valores.RetencoesFederais := StringtoFloatDef(AINIRec.ReadString(LSecao, 'RetencoesFederais', ''), 0);
     }
   end;
 end;

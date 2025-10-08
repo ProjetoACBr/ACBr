@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 08/10/2025
+-- ACBrNFSeXLerXml_ABRASFv1/ACBrNFSeXLerXml_ABRASFv2 --
+[*] Ajustes na leitura de campos numericos do arquivo INI.
+   Por: Italo Giurizzato Junior
 -- Diversos --
 [*] Acrescentado a unit ACBrDFe.Conversao visando a Reforma Tributária.
    Por: Italo Giurizzato Junior
