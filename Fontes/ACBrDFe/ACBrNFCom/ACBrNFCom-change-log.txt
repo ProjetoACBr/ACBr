@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 08/10/2025
+-- ACBrNFComXmlWriter --
+[*] Ajustes para gerar o grupo gIBSCBS em função dos CST permitidos.
+   Por: Italo Giurizzato Junior
 -- ACBrNFComIniReader --
 [*] Ajustes para não gerar o grupo gTribRegular de forma indevida.
    Por: Italo Giurizzato Junior
