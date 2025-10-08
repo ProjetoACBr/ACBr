@@ -194,18 +194,6 @@ begin
               ARetornoWS.DadosRet.TituloRet.TxId                   := LJsonObject.AsString['txId'];
               ARetornoWS.DadosRet.TituloRet.EMV                    := LJsonObject.AsString['codigoQrCode'];
               ARetornoWS.DadosRet.TituloRet.PercentualMulta        := LJsonObject.AsFloat['valorMulta'];
-              if ARetornoWS.DadosRet.TituloRet.CodigoEstadoTituloCobranca = '6' then
-              begin
-                 ARetornoWS.DadosRet.TituloRet.ValorPago              := LJsonObject.AsJSONObject['dadosLiquidacao'].AsFloat['valor'];
-                 ARetornoWS.DadosRet.TituloRet.ValorMoraJuros         := LJsonObject.AsJSONObject['dadosLiquidacao'].AsFloat['juros'];
-                 ARetornoWS.DadosRet.TituloRet.ValorAbatimento        := LJsonObject.AsJSONObject['dadosLiquidacao'].AsFloat['abatimento'];
-                 ARetornoWS.DadosRet.TituloRet.DataBaixa              := DateSicreditoDateTime(LJsonObject.AsJSONObject['dadosLiquidacao'].AsString['data']);
-                 ARetornoWS.DadosRet.TituloRet.HoraBaixa              := TimeSicreditoDateTime(LJsonObject.AsJSONObject['dadosLiquidacao'].AsString['data']);
-                 ARetornoWS.DadosRet.TituloRet.ValorDesconto          := LJsonObject.AsJSONObject['dadosLiquidacao'].AsFloat['desconto'];
-                 ARetornoWS.DadosRet.TituloRet.ValorMulta             := LJsonObject.AsJSONObject['dadosLiquidacao'].AsFloat['multa'];
-              end;
-              if LJsonObject.AsString['dataPrevisaoPagamento'] <> '' then
-                ARetornoWS.DadosRet.TituloRet.DataCredito := DateSicreditoDateTime(LJsonObject.AsString['dataPrevisaoPagamento']);
 
               if LJsonObject.IsJSONArray('descontos') then
               begin
@@ -229,6 +217,19 @@ begin
                   end;
                 end;
               end;
+              if ARetornoWS.DadosRet.TituloRet.CodigoEstadoTituloCobranca = '6' then
+              begin
+                 ARetornoWS.DadosRet.TituloRet.ValorPago              := LJsonObject.AsJSONObject['dadosLiquidacao'].AsFloat['valor'];
+                 ARetornoWS.DadosRet.TituloRet.ValorMoraJuros         := LJsonObject.AsJSONObject['dadosLiquidacao'].AsFloat['juros'];
+                 ARetornoWS.DadosRet.TituloRet.ValorAbatimento        := LJsonObject.AsJSONObject['dadosLiquidacao'].AsFloat['abatimento'];
+                 ARetornoWS.DadosRet.TituloRet.DataBaixa              := DateSicreditoDateTime(LJsonObject.AsJSONObject['dadosLiquidacao'].AsString['data']);
+                 ARetornoWS.DadosRet.TituloRet.HoraBaixa              := TimeSicreditoDateTime(LJsonObject.AsJSONObject['dadosLiquidacao'].AsString['data']);
+                 ARetornoWS.DadosRet.TituloRet.ValorDesconto          := LJsonObject.AsJSONObject['dadosLiquidacao'].AsFloat['desconto'];
+                 ARetornoWS.DadosRet.TituloRet.ValorMulta             := LJsonObject.AsJSONObject['dadosLiquidacao'].AsFloat['multa'];
+              end;
+              if LJsonObject.AsString['dataPrevisaoPagamento'] <> '' then
+                ARetornoWS.DadosRet.TituloRet.DataCredito := DateSicreditoDateTime(LJsonObject.AsString['dataPrevisaoPagamento']);
+
             end;
         end;
 
