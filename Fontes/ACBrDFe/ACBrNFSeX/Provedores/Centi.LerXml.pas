@@ -37,7 +37,6 @@ unit Centi.LerXml;
 interface
 
 uses
-//  ACBrNFSeXLerXml_ABRASFv2;
   SysUtils, Classes, StrUtils,
   ACBrXmlBase, ACBrXmlDocument,
   ACBrNFSeXLerXml;
@@ -115,6 +114,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Base, ACBrUtil.Strings,
   ACBrConsts,
   ACBrNFSeXConversao;

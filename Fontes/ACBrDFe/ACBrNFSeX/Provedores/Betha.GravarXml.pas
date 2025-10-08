@@ -37,8 +37,7 @@ unit Betha.GravarXml;
 interface
 
 uses
-  SysUtils, Classes,
-  INIFiles,
+  SysUtils, Classes, IniFiles,
   ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXGravarXml_ABRASFv1,
@@ -78,6 +77,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Base,
   ACBrUtil.Strings;
 

@@ -77,6 +77,7 @@ implementation
 
 uses
   ACBrDFeException,
+  ACBrDFe.Conversao,
   Citta.GravarXml, Citta.LerXml;
 
 { TACBrNFSeProviderCitta203 }

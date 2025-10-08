@@ -99,6 +99,7 @@ implementation
 
 uses
   synacode,
+  ACBrDFe.Conversao,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrUtil.FilesIO,
   ACBrDFeException,
   ACBrCompress,

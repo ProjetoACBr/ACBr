@@ -37,9 +37,9 @@ unit Betha.LerXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
-  INIFiles,
-  ACBrXmlBase, ACBrXmlDocument,
+  SysUtils, Classes, StrUtils, IniFiles,
+  ACBrXmlBase,
+  ACBrXmlDocument,
   ACBrNFSeXLerXml_ABRASFv1, ACBrNFSeXLerXml_ABRASFv2;
 
 type
@@ -70,6 +70,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Base,
   ACBrNFSeXClass;
 

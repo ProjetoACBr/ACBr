@@ -39,6 +39,7 @@ interface
 uses
   SysUtils, Classes,
   ACBrBase,
+  ACBrXmlBase,
   ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml, ACBrNFSeXWebservicesResponse,
   ACBrNFSeXProviderABRASFv1, ACBrNFSeXWebserviceBase;
@@ -72,8 +73,8 @@ type
 implementation
 
 uses
-  ACBrXmlBase,
   ACBrUtil.Base, ACBrUtil.XMLHTML, ACBrUtil.Strings,
+  ACBrDFe.Conversao,
   ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes,
   ACBrNFSeXNotasFiscais, ACBrNFSeXConsts, CIGA.GravarXml, CIGA.LerXml;
 

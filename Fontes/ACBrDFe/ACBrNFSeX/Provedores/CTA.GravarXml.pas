@@ -65,6 +65,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Strings,
   ACBrNFSeXConsts,
   ACBrNFSeXConversao;

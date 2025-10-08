@@ -78,6 +78,7 @@ implementation
 
 uses
   ACBrUtil.XMLHTML,
+  ACBrDFe.Conversao,
   ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes,
   ACBrNFSeXNotasFiscais, Coplan.GravarXml, Coplan.LerXml;
 

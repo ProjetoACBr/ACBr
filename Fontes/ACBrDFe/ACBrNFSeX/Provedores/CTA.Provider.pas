@@ -105,6 +105,7 @@ implementation
 
 uses
   DateUtils, synacode,
+  ACBrDFe.Conversao,
   ACBrUtil.Base, ACBrUtil.XMLHTML, ACBrUtil.Strings,
   ACBrDFeException, ACBrDFeSSL,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXNotasFiscais, ACBrNFSeXConsts,

@@ -78,6 +78,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Strings,
   ACBrNFSeXConsts;
 
@@ -361,7 +362,8 @@ begin
                                 OnlyNumber(NFSe.Servico.ItemListaServico), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'descricaoServico', 1, 100, 1,
-                                               NFSe.Servico.Discriminacao, ''));
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                      FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'codigoAtividade', 1, 20, 1,
                                                   NFSe.Servico.CodigoCnae, ''));
@@ -415,7 +417,8 @@ begin
   Result := CreateElement('detalhamentoNota');
 
   Result.AppendChild(AddNode(tcStr, '#1', 'descricaoNota', 1, 256, 1,
-                                               NFSe.Servico.Discriminacao, ''));
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                          FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll])));
 
   xmlNode := GerarItensServico;
   Result.AppendChild(xmlNode);

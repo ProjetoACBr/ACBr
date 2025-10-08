@@ -64,6 +64,7 @@ implementation
 
 uses
   ACBrDFeException,
+  ACBrDFe.Conversao,
   Contass.GravarXml, Contass.LerXml;
 
 { TACBrNFSeProviderContass }

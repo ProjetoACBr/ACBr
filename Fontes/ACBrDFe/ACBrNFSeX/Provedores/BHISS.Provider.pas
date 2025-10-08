@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes,
-  ACBrXmlBase, ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
+  ACBrXmlBase,
+  ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml, ACBrNFSeXWebservicesResponse,
   ACBrNFSeXProviderABRASFv1, ACBrNFSeXWebserviceBase;
 
@@ -76,6 +77,7 @@ implementation
 uses
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML,
   ACBrDFeException,
+  ACBrDFe.Conversao,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXNotasFiscais, ACBrNFSeXConsts,
   BHISS.GravarXml, BHISS.LerXml;
 

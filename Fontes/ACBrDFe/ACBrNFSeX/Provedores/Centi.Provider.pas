@@ -81,6 +81,7 @@ implementation
 
 uses
   ACBrDFeException, ACBrUtil.Strings,
+  ACBrDFe.Conversao,
   ACBrXmlDocument,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXNotasFiscais, ACBrNFSeXConsts,
   Centi.GravarXml, Centi.LerXml;

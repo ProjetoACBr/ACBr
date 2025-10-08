@@ -38,7 +38,7 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrXmlBase, ACBrXmlDocument,
+  ACBrXmlDocument,
   ACBrNFSeXConversao, ACBrNFSeXLerXml;
 
 type
