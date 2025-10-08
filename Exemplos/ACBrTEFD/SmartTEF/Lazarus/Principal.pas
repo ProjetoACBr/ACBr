@@ -489,6 +489,7 @@ begin
     user_id := StrToIntDef(edOrdemPagamentoCriarIdUsuario.Text, 0);
     serial_pos := edOrdemPagamentoCriarSerialPOS.Text;
     order_type := TACBrSmartTEFOrderType(cbOrdemPagamentoCriarTipoOrdem.ItemIndex);
+    payment_type := TACBrSmartTEFPaymentType(cbOrdemPagamentoCriarTipoPagamento.ItemIndex);
     fee_type := TACBrSmartTEFFeeType(cbOrdemPagamentoCriarTipoJuros.ItemIndex);
     has_details := cbOrdemPagamentoCriarDetalhes.Checked;
     extras.CPF := edOrdemPagamentoCriarCPF.Text;
