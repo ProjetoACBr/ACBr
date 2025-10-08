@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/10/2025
+-- ACBrNF3eIniReader --
+[*] Ajustes para não gerar o grupo gTribRegular de forma indevida.
+   Por: Italo Giurizzato Junior
+
 06/10/2025
 -- Diversos --
 [*] Ajustes diversos no componente visando a NT 2025/001 versão 1.10
