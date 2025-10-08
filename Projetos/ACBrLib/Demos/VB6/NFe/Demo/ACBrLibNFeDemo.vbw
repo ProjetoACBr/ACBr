@@ -1,5 +1,5 @@
-FrmMain = 104, 104, 1244, 632, Z, 26, 25, 1136, 547, C
-ACBrComum = 104, 104, 1244, 590, 
-FolderBrowser = 78, 78, 662, 720, 
-ACBrNFeUtils = 52, 52, 1192, 538, 
-ACBrNFe = 78, 78, 1214, 583, 
+FrmMain = 235, 10, 1752, 664, C, 910, 48, 2020, 779, C
+ACBrComum = 104, 104, 1244, 590, C
+FolderBrowser = 78, 78, 662, 720, C
+ACBrNFeUtils = 52, 52, 1192, 538, C
+ACBrNFe = 78, 78, 1214, 583, C
