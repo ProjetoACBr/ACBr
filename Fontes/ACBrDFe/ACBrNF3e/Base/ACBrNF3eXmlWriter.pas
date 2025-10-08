@@ -2288,7 +2288,7 @@ begin
     Result.AppendChild(AddNode(tcStr, '#3', 'indDoacao', 1, 1, 0,
               pcnConversao.TIndicadorExToStr(IBSCBS.indDoacao), DSC_INDDOACAO));
 
-    if IBSCBS.gIBSCBS.vBC > 0 then
+    if IBSCBS.CST in [cst000, cst510, cst830] then
       Result.AppendChild(Gerar_IBSCBS_gIBSCBS(IBSCBS.gIBSCBS));
   end;
 end;

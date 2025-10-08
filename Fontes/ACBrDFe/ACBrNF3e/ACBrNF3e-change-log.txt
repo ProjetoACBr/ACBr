@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 08/10/2025
+-- ACBrNF3eXmlWriter --
+[*] Ajustes para gerar o grupo gIBSCBS em função dos CST permitidos.
+   Por: Italo Giurizzato Junior
 -- ACBrNF3eIniReader --
 [*] Ajustes para não gerar o grupo gTribRegular de forma indevida.
    Por: Italo Giurizzato Junior
