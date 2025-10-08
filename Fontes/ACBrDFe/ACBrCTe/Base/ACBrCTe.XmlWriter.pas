@@ -4629,8 +4629,11 @@ begin
     Result.AppendChild(AddNode(tcStr, '#3', 'indDoacao', 1, 1, 0,
                            TIndicadorExToStr(IBSCBS.indDoacao), DSC_INDDOACAO));
 
-    if IBSCBS.gIBSCBS.vBC > 0 then
-      Result.AppendChild(Gerar_IBSCBS_gIBSCBS(IBSCBS.gIBSCBS));
+    if (ModeloDF = moCTe) and (IBSCBS.CST in [cst000, cst200]) then
+        Result.AppendChild(Gerar_IBSCBS_gIBSCBS(IBSCBS.gIBSCBS));
+
+    if (ModeloDF = moCTeOS) and (IBSCBS.CST = cst000) then
+        Result.AppendChild(Gerar_IBSCBS_gIBSCBS(IBSCBS.gIBSCBS));
   end;
 end;
 

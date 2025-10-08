@@ -2332,10 +2332,11 @@ var
   ok: Boolean;
 begin
   sSecao := 'IBSCBS';
+
   if AINIRec.SectionExists(sSecao) then
   begin
-    IBSCBS.CST := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CST', '000'));
-    IBSCBS.cClassTrib := AINIRec.ReadString(sSecao, 'cClassTrib', '000001');
+    IBSCBS.CST := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CST', ''));
+    IBSCBS.cClassTrib := AINIRec.ReadString(sSecao, 'cClassTrib', '');
     IBSCBS.indDoacao := StrToTIndicadorEx(ok, AINIRec.ReadString(sSecao, 'indDoacao', ''));
 
     Ler_IBSCBS_gIBSCBS(AINIRec, IBSCBS.gIBSCBS);
@@ -2347,6 +2348,7 @@ var
   sSecao: string;
 begin
   sSecao := 'gIBSCBS';
+
   if AINIRec.SectionExists(sSecao) then
   begin
     gIBSCBS.vBC := StringToFloatDef(AINIRec.ReadString(sSecao,'vBC','') ,0);
@@ -2366,6 +2368,7 @@ var
   sSecao: string;
 begin
   sSecao := 'gIBSUF';
+
   if AINIRec.SectionExists(sSecao) then
   begin
     gIBSUF.pIBS := StringToFloatDef(AINIRec.ReadString(sSecao,'pIBSUF','') ,0);
@@ -2386,6 +2389,7 @@ var
   sSecao: string;
 begin
   sSecao := 'gIBSMun';
+
   if AINIRec.SectionExists(sSecao) then
   begin
     gIBSMun.pIBS := StringToFloatDef(AINIRec.ReadString(sSecao,'pIBSMun','') ,0);
@@ -2406,6 +2410,7 @@ var
   sSecao: string;
 begin
   sSecao := 'gCBS';
+
   if AINIRec.SectionExists(sSecao) then
   begin
     gCBS.pCBS := StringToFloatDef(AINIRec.ReadString(sSecao,'pCBS','') ,0);
@@ -2428,14 +2433,17 @@ var
 begin
   sSecao := 'gTribRegular';
 
-  gTribRegular.CSTReg := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CSTReg', '000'));
-  gTribRegular.cClassTribReg := AINIRec.ReadString(sSecao, 'cClassTribReg', '000001');
-  gTribRegular.pAliqEfetRegIBSUF := StringToFloatDef(AINIRec.ReadString(sSecao,'pAliqEfetRegIBSUF','') ,0);
-  gTribRegular.vTribRegIBSUF := StringToFloatDef(AINIRec.ReadString(sSecao,'vTribRegIBSUF','') ,0);
-  gTribRegular.pAliqEfetRegIBSMun := StringToFloatDef(AINIRec.ReadString(sSecao,'pAliqEfetRegIBSMun','') ,0);
-  gTribRegular.vTribRegIBSMun := StringToFloatDef(AINIRec.ReadString(sSecao,'vTribRegIBSMun','') ,0);
-  gTribRegular.pAliqEfetRegCBS := StringToFloatDef(AINIRec.ReadString(sSecao,'pAliqEfetRegCBS','') ,0);
-  gTribRegular.vTribRegCBS := StringToFloatDef(AINIRec.ReadString(sSecao,'vTribRegCBS','') ,0);
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    gTribRegular.CSTReg := StrToCSTIBSCBS(AINIRec.ReadString(sSecao, 'CSTReg', ''));
+    gTribRegular.cClassTribReg := AINIRec.ReadString(sSecao, 'cClassTribReg', '');
+    gTribRegular.pAliqEfetRegIBSUF := StringToFloatDef(AINIRec.ReadString(sSecao,'pAliqEfetRegIBSUF','') ,0);
+    gTribRegular.vTribRegIBSUF := StringToFloatDef(AINIRec.ReadString(sSecao,'vTribRegIBSUF','') ,0);
+    gTribRegular.pAliqEfetRegIBSMun := StringToFloatDef(AINIRec.ReadString(sSecao,'pAliqEfetRegIBSMun','') ,0);
+    gTribRegular.vTribRegIBSMun := StringToFloatDef(AINIRec.ReadString(sSecao,'vTribRegIBSMun','') ,0);
+    gTribRegular.pAliqEfetRegCBS := StringToFloatDef(AINIRec.ReadString(sSecao,'pAliqEfetRegCBS','') ,0);
+    gTribRegular.vTribRegCBS := StringToFloatDef(AINIRec.ReadString(sSecao,'vTribRegCBS','') ,0);
+  end;
 end;
 
 procedure TCTeIniReader.Ler_gTribCompraGov(AINIRec: TMemIniFile;
