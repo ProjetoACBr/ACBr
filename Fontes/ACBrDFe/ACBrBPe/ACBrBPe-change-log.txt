@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/10/2025
+-- ACBrBPeXmlWriter --
+[*] Ajustes para não gerar o grupo gEstornoCred de forma indevida.
+   Por: Italo Giurizzato Junior
+
 08/10/2025
 -- ACBrBPeConversao/ACBrBPeXmlWriter --
 [*] Ajustes para gerar o grupo gIBSCBS em função dos CST permitidos.
