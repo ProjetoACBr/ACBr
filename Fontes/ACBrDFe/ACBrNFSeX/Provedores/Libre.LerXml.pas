@@ -64,16 +64,13 @@ implementation
 
 procedure TNFSeR_Libre204.LerPrestadorServico(const ANode: TACBrXmlNode);
 var
-  AuxNode: TACBrXmlNode;
+  AuxNode, AuxNodePrestador, AuxNodeCpfCnpj: TACBrXmlNode;
 begin
   if not Assigned(ANode) then Exit;
 
-  AuxNode := ANode.Childrens.FindAnyNs('Prestador');
-
+  AuxNode := ANode.Childrens.FindAnyNs('PrestadorServico');
   if AuxNode <> nil then
   begin
-    LerIdentificacaoPrestador(AuxNode);
-
     with NFSe.Prestador do
     begin
       RazaoSocial := ObterConteudo(AuxNode.Childrens.FindAnyNs('RazaoSocial'), tcStr);
@@ -83,6 +80,23 @@ begin
 
     LerEnderecoPrestadorServico(AuxNode, 'Endereco');
     LerContatoPrestador(AuxNode);
+  end;
+
+  AuxNodePrestador := ANode.Childrens.FindAnyNs('Prestador');
+  if AuxNodePrestador <> nil then
+  begin
+    with NFSe.Prestador.IdentificacaoPrestador do
+    begin
+      AuxNodeCpfCnpj := AuxNodePrestador.Childrens.FindAnyNs('CpfCnpj');
+      if AuxNodeCpfCnpj <> nil then
+      begin
+        CpfCnpj := ObterConteudo(AuxNodeCpfCnpj.Childrens.FindAnyNs('Cnpj'), tcStr);
+        if CpfCnpj = '' then
+          CpfCnpj := ObterConteudo(AuxNodeCpfCnpj.Childrens.FindAnyNs('Cpf'), tcStr);
+      end;
+
+      InscricaoMunicipal := ObterConteudo(AuxNodePrestador.Childrens.FindAnyNs('InscricaoMunicipal'), tcStr);
+    end;
   end;
 end;
 

@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 09/10/2025
+-- Libre.LerXml --
+[*] #ACBr-8143 Alterações visando a leitura de todos os dados do prestador.
+   Por: Bruno Italo
 -- Bauhaus.GravarXml --
 [*] #ACBr-8150 Incluido a geração do elemento: CodigoLC116.
    Por: Juliana G Viana
