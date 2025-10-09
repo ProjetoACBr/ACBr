@@ -284,7 +284,7 @@ begin
     rlmEmitente.Lines.Add(sTemp);
 
     rlmEmitente.Lines.Add('CNPJ: ' + FormatarCNPJouCPF(CNPJ));
-    rlmEmitente.Lines.Add('INSCRIÇÃO ESTADUAL: ' + IE);
+    rlmEmitente.Lines.Add(ACBrStr('INSCRIÇÃO ESTADUAL: ') + IE);
     {
     sTemp := sTemp + ' - CEP:' + FormatarCEP(EnderEmit.CEP) + ' - ' +
       EnderEmit.XMun + ' - ' + EnderEmit.UF;
@@ -315,7 +315,7 @@ begin
     rlmDestinatario.Lines.Add(ACBrStr('CÓDIGO CLIENTE: ') + fpNFCom.assinante.iCodAssinante);
     rlmDestinatario.Lines.Add('N. TELEFONE: ' + FormatarFone(EnderDest.Fone));
 
-    rlmDestinatario.Lines.Add('PERÍODO: ' + '');
+    rlmDestinatario.Lines.Add(ACBrStr('PERÍODO: ') + '');
   end;
 
   PintarQRCode(fpNFCom.infNFComSupl.qrCodNFCom, imgQRCode.Picture.Bitmap, qrUTF8NoBOM);
@@ -387,10 +387,19 @@ begin
     end;
   end;
 
-  sTemp := FormatDateBr(fpNFCom.gFat.CompetFat);
-  sTemp := RightStr(sTemp, 4) + '/' + Copy(sTemp, 4, 2);
-  rllReferencia.Caption := sTemp;
-  rllVencimento.Caption := FormatDateBr(fpNFCom.gFat.dVencFat);
+  if (fpNFCom.gFat.CompetFat > 0) then
+  begin
+    sTemp := FormatDateBr(fpNFCom.gFat.CompetFat);
+    sTemp := RightStr(sTemp, 4) + '/' + Copy(sTemp, 4, 2);
+    rllReferencia.Caption := sTemp;
+  end
+  else
+    rllReferencia.Caption := '';
+
+  if (fpNFCom.gFat.dVencFat > 0) then
+    rllVencimento.Caption := FormatDateBr(fpNFCom.gFat.dVencFat)
+  else
+    rllVencimento.Caption := '';
   rllTotalPagar.Caption := 'R$ ' + FormatFloatBr(fpNFCom.Total.vNF);
 end;
 
@@ -425,7 +434,7 @@ end;
 procedure TfrlDANFComRLRetrato.rlbDivisao05BeforePrint(Sender: TObject;
   var PrintIt: Boolean);
 begin
-  rlmDadosAdicionais.Lines.Text := fpNFCom.infAdic.infCpl;
+  rlmDadosAdicionais.Lines.Text := StringReplace(fpNFCom.infAdic.infCpl, fpDANFCom.CaractereQuebraDeLinha, #13, [rfReplaceAll]);
 end;
 
 procedure TfrlDANFComRLRetrato.rlbDivisao06BeforePrint(Sender: TObject;
@@ -434,12 +443,21 @@ var
   sTemp: string;
 begin
   rllIdentDebAut.Caption := fpNFCom.gFat.codDebAuto;
-  sTemp := FormatDateBr(fpNFCom.gFat.CompetFat);
-  sTemp := RightStr(sTemp, 4) + '/' + Copy(sTemp, 4, 2);
-  rllMesRef.Caption := sTemp;
-  rllVencimento2.Caption := FormatDateBr(fpNFCom.gFat.dVencFat);
-  rllTotPagar.Caption := 'R$ ' + FormatFloatBr(fpNFCom.Total.vNF);
+  if (fpNFCom.gFat.CompetFat > 0) then
+  begin
+    sTemp := FormatDateBr(fpNFCom.gFat.CompetFat);
+    sTemp := RightStr(sTemp, 4) + '/' + Copy(sTemp, 4, 2);
+    rllMesRef.Caption := sTemp;
+  end
+  else
+    rllMesRef.Caption := '';
 
+  if (fpNFCom.gFat.dVencFat > 0) then
+    rllVencimento2.Caption := FormatDateBr(fpNFCom.gFat.dVencFat)
+  else
+    rllVencimento2.Caption := '';  
+
+  rllTotPagar.Caption := 'R$ ' + FormatFloatBr(fpNFCom.Total.vNF);
   rllNumFat.Caption := ACBrStr('Número da Fatura: ') +
                        FormatarNumeroDocumentoFiscal(IntToStr(fpNFCom.Ide.nNF));
 

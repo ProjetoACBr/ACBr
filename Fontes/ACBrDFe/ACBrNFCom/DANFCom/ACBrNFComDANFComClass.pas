@@ -80,6 +80,7 @@ type
     procedure ImprimirEVENTOPDF(NFCom: TNFCom = nil); overload; virtual;
     procedure ImprimirEVENTOPDF(AStream: TStream; NFCom: TNFCom = nil); overload; virtual;
 
+    function CaractereQuebraDeLinha: String;
   published
     property ACBrNFCom: TComponent read FACBrNFCom write SetNFCom;
     property TipoDANFCom: TpcnTipoImpressao read FTipoDANFCom write FTipoDANFCom;
@@ -232,6 +233,13 @@ begin
                            DescricaoModelo);
     end;
   end;
+end;
+
+function TACBrNFComDANFComClass.CaractereQuebraDeLinha: String;
+begin
+  Result := '|';
+  if Assigned(FACBrNFCom) and (FACBrNFCom is TACBrNFCom) then
+    Result := TACBrNFCom(FACBrNFCom).Configuracoes.WebServices.QuebradeLinha;
 end;
 
 end.
