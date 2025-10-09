@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/10/2025
+-- ACBrDFeComum.DistDFeInt --
+[*] Alteração visando gerar a tag cUFAutor se o código da UF for diferente de zero.
+   Por: Italo Giurizzato Junior
+
 29/09/2025
 -- ACBrDFeComum.RetDistDFeInt --
 [*] Implementado a procedure CarregarArquivo e atribui o seu conteudo na propriedade

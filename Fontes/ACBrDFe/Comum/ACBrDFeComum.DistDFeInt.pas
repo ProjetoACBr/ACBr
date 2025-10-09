@@ -126,7 +126,7 @@ begin
     sTagGrupoMsgFim := '</' + FptagGrupoMsg + '>';
   end;
 
-  if FpGerarcUFAutor then
+  if FpGerarcUFAutor and (cUFAutor > 0) then
     xUFAutor := '<cUFAutor>' + IntToStr(cUFAutor) + '</cUFAutor>';
 
   if Length(OnlyAlphaNum(CNPJCPF)) = 14 then
