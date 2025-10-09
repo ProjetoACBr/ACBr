@@ -238,6 +238,8 @@ begin
   Dest.EnderDest.UF := AINIRec.ReadString(sSecao, 'UF', '');
   Dest.EnderDest.fone := AINIRec.ReadString(sSecao, 'fone', '');
   Dest.EnderDest.email := AINIRec.ReadString(sSecao, 'email', '');
+  Dest.EnderDest.cPais := AINIRec.ReadInteger(sSecao, 'cPais', 0);
+  Dest.EnderDest.xPais := AINIRec.ReadString(sSecao, 'xPais', '');
 end;
 
 procedure TNFComIniReader.Ler_Assinante(AINIRec: TMemIniFile;

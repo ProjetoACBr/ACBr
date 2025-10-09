@@ -352,6 +352,8 @@ begin
   NFCom.Dest.enderDest.UF := ObterConteudo(ANode.Childrens.FindAnyNs('UF'), tcStr);
   NFCom.Dest.enderDest.fone := ObterConteudo(ANode.Childrens.FindAnyNs('fone'), tcStr);
   NFCom.Dest.enderDest.email := ObterConteudo(ANode.Childrens.FindAnyNs('email'), tcStr);
+  NFCom.Dest.enderDest.cPais := ObterConteudo(ANode.Childrens.FindAnyNs('cPais'), tcInt);
+  NFCom.Dest.enderDest.xPais := ObterConteudo(ANode.Childrens.FindAnyNs('xPais'), tcStr);
 end;
 
 procedure TNFComXmlReader.Ler_Assinante(const ANode: TACBrXmlNode);

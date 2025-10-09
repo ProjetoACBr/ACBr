@@ -631,10 +631,16 @@ begin
   if not ValidarUF(xUF) then
     wAlerta('#57', 'UF', DSC_UF, ERR_MSG_INVALIDO);
 
-  Result.AppendChild(AddNode(tcStr, '#58', 'fone', 7, 12, 0,
+  Result.AppendChild(AddNode(tcInt, '#58', 'cPais', 4, 4, 0,
+                                        NFCom.Dest.enderDest.cPais, DSC_CPAIS));
+
+  Result.AppendChild(AddNode(tcStr, '#59', 'xPais', 2, 60, 0,
+                                        NFCom.Dest.enderDest.xPais, DSC_XPAIS));
+
+  Result.AppendChild(AddNode(tcStr, '#60', 'fone', 7, 12, 0,
                               OnlyNumber(NFCom.Dest.enderDest.fone), DSC_FONE));
 
-  Result.AppendChild(AddNode(tcStr, '#59', 'email', 01, 60, 0,
+  Result.AppendChild(AddNode(tcStr, '#61', 'email', 01, 60, 0,
                                         NFCom.Dest.EnderDest.Email, DSC_EMAIL));
 end;
 
@@ -1850,7 +1856,9 @@ begin
 
     Result.AppendChild(Gerar_IBSCBSTot_gIBS(IBSCBSTot.gIBS));
     Result.AppendChild(Gerar_IBSCBSTot_gCBS(IBSCBSTot.gCBS));
-    Result.AppendChild(Gerar_IBSCBSTot_gEstornoCred(IBSCBSTot.gEstornoCred));
+
+    if (IBSCBSTot.gEstornoCred.vIBSEstCred > 0) or (IBSCBSTot.gEstornoCred.vCBSEstCred > 0) then
+      Result.AppendChild(Gerar_IBSCBSTot_gEstornoCred(IBSCBSTot.gEstornoCred));
   end;
 end;
 

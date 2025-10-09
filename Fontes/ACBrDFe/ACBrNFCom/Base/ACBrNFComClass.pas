@@ -410,6 +410,8 @@ type
     FUF: string;
     Ffone: string;
     Femail: string;
+    FcPais: Integer;
+    FxPais: string;
   public
     procedure Assign(Source: TEndereco);
 
@@ -423,6 +425,8 @@ type
     property UF: string read FUF write FUF;
     property fone: string read Ffone write Ffone;
     property email: string read Femail write Femail;
+    property cPais: Integer read FcPais write FcPais;
+    property xPais: string read FxPais write FxPais;
   end;
 
   { TEmit }
@@ -1449,6 +1453,8 @@ begin
   CEP := Source.CEP;
   fone := Source.fone;
   email := Source.email;
+  cPais := Source.cPais;
+  xPais := Source.xPais;
 end;
 
 { TDest }

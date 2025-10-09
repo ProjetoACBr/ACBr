@@ -248,6 +248,8 @@ begin
   AINIRec.WriteString(sSecao, 'UF', Dest.EnderDest.UF);
   AINIRec.WriteString(sSecao, 'fone', Dest.EnderDest.fone);
   AINIRec.WriteString(sSecao, 'email', Dest.EnderDest.email);
+  AINIRec.WriteInteger(sSecao, 'cPais', Dest.EnderDest.cPais);
+  AINIRec.WriteString(sSecao, 'xPais', Dest.EnderDest.xPais);
 end;
 
 procedure TNFComIniWriter.Gerar_Assinante(AINIRec: TMemIniFile;

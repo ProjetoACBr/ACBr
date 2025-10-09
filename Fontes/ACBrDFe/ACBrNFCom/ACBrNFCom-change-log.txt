@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+09/10/2025
+-- ACBrNFComClass/ACBrNFComIniReader/ACBrNFComIniWriter/ACBrNFComXmlReader/ACBrNFComXmlWriter --
+[*] Incluido os campos cPais e xPais no endereço do destinatário.
+   Por: Italo Giurizzato Junior
+
 08/10/2025
 -- ACBrNFComXmlWriter --
 [*] Ajustes para gerar o grupo gIBSCBS em função dos CST permitidos.
