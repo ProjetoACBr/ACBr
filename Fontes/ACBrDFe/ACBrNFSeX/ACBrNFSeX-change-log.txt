@@ -44,6 +44,8 @@ Símbolo : Significado
 
 09/10/2025
 -- ACBrNFSeXServicos --
+[*] Correção da URL para obter o DANFSE em PDF PadraoNacional.
+   Por: dna.automacao
 [*] Correção no Params da cidade Rondonopolis/MT.
    Por: Italo Giurizzato Junior
 
