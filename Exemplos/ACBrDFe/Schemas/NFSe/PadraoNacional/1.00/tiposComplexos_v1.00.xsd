@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-           targetNamespace="http://www.sped.fazenda.gov.br/nfse"
-           xmlns="http://www.sped.fazenda.gov.br/nfse"
-           attributeFormDefault="unqualified"
-           elementFormDefault="qualified">
-  <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema_v1.00.xsd"/>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.sped.fazenda.gov.br/nfse" xmlns="http://www.sped.fazenda.gov.br/nfse" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
   <xs:include schemaLocation="tiposSimples_v1.00.xsd"/>
   <!--TIPO COMPLEXO NFS-e-->
   <xs:complexType name="TCNFSe">
@@ -15,28 +10,24 @@
     </xs:sequence>
     <xs:attribute name="versao" type="TVerNFSe" use="required"/>
   </xs:complexType>
-
   <!--GRUPO DE INFORMAÇÕES DA NFS-e-->
   <xs:complexType name="TCInfNFSe">
     <xs:sequence>
       <xs:element name="xLocEmi" type="TSDesc150">
         <xs:annotation>
-          <xs:documentation>
-            Descrição do código do IBGE do município emissor da NFS-e.
+          <xs:documentation>Descrição do código do IBGE do município emissor da NFS-e.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="xLocPrestacao" type="TSDesc150">
         <xs:annotation>
-          <xs:documentation>
-            Descrição do local da prestação do serviço.
+          <xs:documentation>Descrição do local da prestação do serviço.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="nNFSe" type="TSNNFSe">
         <xs:annotation>
-          <xs:documentation>
-            Número sequencial por tipo de emitente da NFS-e.
+          <xs:documentation>Número sequencial por tipo de emitente da NFS-e.
             A Sefin Nacional NFS-e irá gerar o número da NFS-e de forma sequencial por emitente. Por se tratar de um ambiente altamente transacional, a Sefin Nacional NFS-e não irá reutilizar números inutilizados durante a geração da NFS-e.
           </xs:documentation>
         </xs:annotation>
@@ -98,7 +89,7 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="procEmi" type="TSProcEmissao">
+      <xs:element name="procEmi" type="TSProcEmissao" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             Processo de Emissão da DPS:
@@ -149,7 +140,6 @@
     </xs:sequence>
     <xs:attribute name="Id" type="TSIdNFSe" use="required"/>
   </xs:complexType>
-
   <!--TIPO COMPLEXO DO EMITENTE DA NFS-e-->
   <xs:complexType name="TCEmitente">
     <xs:sequence>
@@ -209,7 +199,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO DOS VALORES DA NFS-e-->
   <xs:complexType name="TCValoresNFSe">
     <xs:sequence>
@@ -220,10 +209,15 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="tpBM" type="TSDesc40" minOccurs="0">
+      <xs:element name="tpBM" type="TBMISSQN" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
-            Tipo de Benefício Municipal (BM)
+            Tipo Benefício Municipal (BM):
+
+			1) Isenção;
+            2) Redução da BC em 'ppBM' %;
+            3) Redução da BC em R$ 'vInfoBM';
+            4) Alíquota Diferenciada de 'aliqDifBM' %;
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -280,7 +274,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO DPS-->
   <xs:complexType name="TCDPS">
     <xs:sequence>
@@ -289,7 +282,6 @@
     </xs:sequence>
     <xs:attribute name="versao" type="TVerNFSe" use="required"/>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DA DPS-->
   <xs:complexType name="TCInfDPS">
     <xs:sequence>
@@ -328,11 +320,27 @@
           <xs:documentation>Emitente da DPS: 1 - Prestador; 2 - Tomador; 3 - Intermediário</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="cLocEmi" type="TSCodMunIBGE">
+      <xs:element minOccurs="0" name="cMotivoEmisTI" type="TSMotivoEmisTI">
+        <xs:annotation>
+          <xs:documentation>Motivo da Emissão da DPS pelo Tomador/Intermediário:
+            1 - Importação de Serviço;
+            2 - Tomador/Intermediário obrigado a emitir NFS-e por legislação municipal;
+            3 - Tomador/Intermediário emitindo NFS-e por recusa de emissão pelo prestador;
+            4 - Tomador/Intermediário emitindo por rejeitar a NFS-e emitida pelo prestador;
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="chNFSeRej" type="TSChaveNFSe">
         <xs:annotation>
           <xs:documentation>
-            O código de município utilizado pelo Sistema Nacional NFS-e é o código definido para cada município pertencente ao ""Anexo V – Tabela de Código de Municípios do IBGE"", que consta ao final do Manual de Orientação ao Contribuinte do ISSQN para a Sefin Nacional NFS-e.
-            O município emissor da NFS-e é aquele município em que o emitente da DPS está cadastrado e autorizado a "emitir uma NFS-e", ou seja, emitir uma DPS para que o sistema nacional valide as informações nela prestadas e gere a NFS-e correspondente para o emitente.
+            Chave de Acesso da NFS-e rejeitada pelo Tomador/Intermediário.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="cLocEmi" type="TSCodMunIBGE">
+        <xs:annotation>
+          <xs:documentation>O código de município utilizado pelo Sistema Nacional NFS-e é o código definido para cada município pertencente ao &quot;&quot;Anexo V – Tabela de Código de Municípios do IBGE&quot;&quot;, que consta ao final do Manual de Orientação ao Contribuinte do ISSQN para a Sefin Nacional NFS-e.
+            O município emissor da NFS-e é aquele município em que o emitente da DPS está cadastrado e autorizado a &quot;emitir uma NFS-e&quot;, ou seja, emitir uma DPS para que o sistema nacional valide as informações nela prestadas e gere a NFS-e correspondente para o emitente.
             Para que o sistema nacional emita a NFS-e o município emissor deve ser conveniado e estar ativo no sistema nacional. Além disso o convênio do município deve permitir que os contribuintes do município utilize os emissores públicos do Sistema Nacional NFS-e
           </xs:documentation>
         </xs:annotation>
@@ -372,7 +380,6 @@
     </xs:sequence>
     <xs:attribute name="Id" type="TSIdDPS" use="required"/>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE SUBSTITUIÇÃO DE NFS-E-->
   <xs:complexType name="TCSubstituicao">
     <xs:sequence>
@@ -401,7 +408,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE UMA PESSOA ENVOLVIDA NA NFS-E (TOMADOR, INTERMEDIÁRIO E FORNECEDOR PARA DEDUÇÃO)-->
   <xs:complexType name="TCInfoPrestador">
     <xs:annotation>
@@ -428,6 +434,7 @@
           <xs:annotation>
             <xs:documentation>
               Motivo para não informação do NIF:
+              0 - Não informado na nota de origem;
               1 - Dispensado do NIF;
               2 - Não exigência do NIF;
             </xs:documentation>
@@ -477,7 +484,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE REGIMES DE TRIBUTAÇÃO ESPECÍFICOS DO CONTRIBUINTE-->
   <xs:complexType name="TCRegTrib">
     <xs:sequence>
@@ -517,7 +523,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE UMA PESSOA ENVOLVIDA NA NFS-E (TOMADOR, INTERMEDIÁRIO E FORNECEDOR PARA DEDUÇÃO)-->
   <xs:complexType name="TCInfoPessoa">
     <xs:annotation>
@@ -587,7 +592,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA ENDEREÇO -->
   <xs:complexType name="TCEndereco">
     <xs:sequence>
@@ -625,7 +629,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DO ENDERECO DO EMITENTE DA NFSE -->
   <xs:complexType name="TCEnderecoEmitente">
     <xs:sequence>
@@ -666,7 +669,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO ENDEREÇO SIMPLES -->
   <xs:complexType name="TCEnderecoSimples">
     <xs:sequence>
@@ -704,7 +706,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA OS CAMPOS ESPECÍFICOS DE ENDEREÇO NACIONAL-->
   <xs:complexType name="TCEnderNac">
     <xs:sequence>
@@ -720,7 +721,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA OS CAMPOS ESPECÍFICOS DE ENDEREÇO NO EXTERIOR-->
   <xs:complexType name="TCEnderExt">
     <xs:sequence>
@@ -746,7 +746,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO ENDEREÇO EXTERIOR SIMPLES -->
   <xs:complexType name="TCEnderExtSimples">
     <xs:sequence>
@@ -767,15 +766,21 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA ENDEREÇO DE OBRA-->
   <xs:complexType name="TCEnderObraEvento">
     <xs:sequence>
-      <xs:element name="cEndPost" type="TSCodigoEndPostal">
-        <xs:annotation>
-          <xs:documentation>Código de endereçamento postal</xs:documentation>
-        </xs:annotation>
-      </xs:element>
+      <xs:choice>
+        <xs:element minOccurs="1" name="CEP" type="TSCEP">
+          <xs:annotation>
+            <xs:documentation>Número do CEP</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element minOccurs="1" name="endExt" type="TCEnderExtSimples">
+          <xs:annotation>
+            <xs:documentation>Grupo de informações específicas de endereço no exterior</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
       <xs:element name="xLgr" type="TSLogradouro">
         <xs:annotation>
           <xs:documentation>Tipo e nome do logradouro da localização do imóvel</xs:documentation>
@@ -796,19 +801,8 @@
           <xs:documentation>Bairro</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="xCidade" type="TSCidade">
-        <xs:annotation>
-          <xs:documentation>Cidade</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="xEstProvReg" type="TSEstadoProvRegiao">
-        <xs:annotation>
-          <xs:documentation>Estado, província ou região</xs:documentation>
-        </xs:annotation>
-      </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DO SERVIÇO PRESTADO-->
   <xs:complexType name="TCServ">
     <xs:sequence>
@@ -860,23 +854,21 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DO LOCAL DA PRESTAÇÃO DO SERVIÇO-->
   <xs:complexType name="TCLocPrest">
-    <xs:sequence>
-      <xs:element name="cLocPrestacao" type="TSCodMunIBGE" minOccurs="0">
+    <xs:choice minOccurs="1">
+      <xs:element name="cLocPrestacao" type="TSCodMunIBGE">
         <xs:annotation>
           <xs:documentation>Código do município onde o serviço foi prestado (tabela do IBGE)</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="cPaisPrestacao" type="TSCodPaisISO" minOccurs="0">
+      <xs:element name="cPaisPrestacao" type="TSCodPaisISO">
         <xs:annotation>
           <xs:documentation>Código do país onde o serviço foi prestado (Tabela de Países ISO)</xs:documentation>
         </xs:annotation>
       </xs:element>
-    </xs:sequence>
+    </xs:choice>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES RELATIVAS AO CÓDIGO DO SERVIÇO PRESTADO-->
   <xs:complexType name="TCCServ">
     <xs:sequence>
@@ -912,7 +904,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE COMÉRCIO EXTERIOR-->
   <xs:complexType name="TCComExterior">
     <xs:sequence>
@@ -923,16 +914,15 @@
             0 - Desconhecido (tipo não informado na nota de origem);
             1 - Transfronteiriço;
             2 - Consumo no Brasil;
-            3 - Presença Comercial no Exterior;
-            4 - Movimento Temporário de Pessoas Físicas;
+            3 - Movimento Temporário de Pessoas Físicas;
+            4 - Consumo no Exterior;
           </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="vincPrest" type="TSVincPrest">
         <xs:annotation>
-          <xs:documentation>
-            Vínculo entre as partes no negócio:
-            0 - Sem vínculo com o tomador/ Prestador
+          <xs:documentation>Vínculo entre as partes no negócio:
+            0 - Sem vínculo com o Tomador/Prestador
             1 - Controlada;
             2 - Controladora;
             3 - Coligada;
@@ -994,7 +984,7 @@
             19 - REIDI;
             20 - REPENEC;
             21 - REPES;
-            22 - RETAERO;
+            22 - RETAERO; 
             23 - RETID;
             24 - Royalties, Assistência Técnica, Científica e Assemelhados;
             25 - Serviços de avaliação da conformidade vinculados aos Acordos da OMC;
@@ -1005,11 +995,11 @@
       <xs:element name="movTempBens" type="TSMovTempBens">
         <xs:annotation>
           <xs:documentation>
-            Operação está vinculada à Movimentação Temporária de Bens:
+            Vínculo da Operação à Movimentação Temporária de Bens:
             0 - Desconhecido (tipo não informado na nota de origem);
-            1 - Não
-            2 - Vinculada - Declaração de Importação
-            3 - Vinculada - Declaração de Exportação
+            1 - Não;
+            2 - Vinculada - Declaração de Importação;
+            3 - Vinculada - Declaração de Exportação;
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -1034,7 +1024,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE PEDÁGIO-->
   <xs:complexType name="TCExploracaoRodoviaria">
     <xs:sequence>
@@ -1088,7 +1077,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE LOCAÇÃO, SUBLOCAÇÃO, ARRENDAMENTO, DIRETO DE PASSAGEM OU PERMISSÃO DE USO-->
   <xs:complexType name="TCLocacaoSublocacao">
     <xs:sequence>
@@ -1114,21 +1102,20 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE ATIVIDADE DE EVENTO-->
   <xs:complexType name="TCAtvEvento">
     <xs:sequence>
       <xs:element name="xNome" type="TSDesc255">
         <xs:annotation>
-          <xs:documentation>Nome do evento Artístico, Cultural, Esportivo, etc</xs:documentation>
+          <xs:documentation>Descrição do evento Artístico, Cultural, Esportivo, etc</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="dtIni" type="xs:date">
+      <xs:element name="dtIni" type="TSData">
         <xs:annotation>
           <xs:documentation>Data de início da atividade de evento. Ano, Mês e Dia (AAAA-MM-DD)</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="dtFim" type="xs:date">
+      <xs:element name="dtFim" type="TSData">
         <xs:annotation>
           <xs:documentation>Data de fim da atividade de evento. Ano, Mês e Dia (AAAA-MM-DD)</xs:documentation>
         </xs:annotation>
@@ -1147,33 +1134,31 @@
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE OBRA-->
   <xs:complexType name="TCInfoObra">
-    <xs:choice minOccurs="1">
-      <xs:element name="cObra" type="TSCodObra" minOccurs="1">
-        <xs:annotation>
-          <xs:documentation>
-            Número de identificação da obra.
-            Cadastro Nacional de Obras (CNO) ou Cadastro Específico do INSS (CEI).
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="inscImobFisc" type="TSInscImobFisc" minOccurs="1">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="inscImobFisc" type="TSInscImobFisc">
         <xs:annotation>
           <xs:documentation>Inscrição imobiliária fiscal (código fornecido pela Prefeitura Municipal para a identificação da obra ou para fins de recolhimento do IPTU)</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="end" type="TCEnderecoSimples" minOccurs="1">
-        <xs:annotation>
-          <xs:documentation>
-            Grupo de informações do endereço da obra do serviço prestado
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-    </xs:choice>
+      <xs:choice minOccurs="1">
+        <xs:element name="cObra" type="TSCodObra">
+          <xs:annotation>
+            <xs:documentation>Número de identificação da obra.
+              Cadastro Nacional de Obras (CNO) ou Cadastro Específico do INSS (CEI).
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="end" type="TCEnderObraEvento">
+          <xs:annotation>
+            <xs:documentation>Grupo de informações do endereço da obra do serviço prestado
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
+    </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES COMPLEMENTARES DO SERVIÇO PRESTADO-->
   <xs:complexType name="TCInfoCompl">
     <xs:sequence>
@@ -1200,7 +1185,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE TRIBUTAÇÃO DA NFS-E-->
   <xs:complexType name="TCInfoValores">
     <xs:sequence>
@@ -1234,7 +1218,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE TRIBUTAÇÃO DA NFS-E-->
   <xs:complexType name="TCInfoTributacao">
     <xs:sequence>
@@ -1261,7 +1244,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES RELATIVAS AOS VALORES DO SERVIÇO PRESTADO-->
   <xs:complexType name="TCVServPrest">
     <xs:sequence>
@@ -1277,7 +1259,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES RELATIVAS AOS DESCONTOS-->
   <xs:complexType name="TCVDescCondIncond">
     <xs:sequence>
@@ -1293,7 +1274,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE DEDUÇÃO/REDUÇÃO-->
   <xs:complexType name="TCInfoDedRed">
     <xs:sequence>
@@ -1322,7 +1302,6 @@
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA COMPORTAR A LISTA DE DOCUMENTOS DE DEDUÇÃO/REDUÇÃO-->
   <xs:complexType name="TCListaDocDedRed">
     <xs:sequence>
@@ -1335,7 +1314,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE DOCUMENTO INFORMADO PARA DEDUÇÃO/REDUÇÃO-->
   <xs:complexType name="TCDocDedRed">
     <xs:sequence>
@@ -1420,7 +1398,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE DOCUMENTO INFORMADO PARA DEDUÇÃO/REDUÇÃO DO TIPO OUTRAS NFS-E-->
   <xs:complexType name="TCDocOutNFSe">
     <xs:sequence>
@@ -1441,7 +1418,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE DOCUMENTO INFORMADO PARA DEDUÇÃO/REDUÇÃO DO TIPO NF ou NFS-->
   <xs:complexType name="TCDocNFNFS">
     <xs:sequence>
@@ -1462,7 +1438,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE TRIBUTAÇÃO ESPECÍFICA DO ISSQN-->
   <xs:complexType name="TCTribMunicipal">
     <xs:sequence>
@@ -1471,9 +1446,9 @@
           <xs:documentation>
             Tributação do ISSQN sobre o serviço prestado:
             1 - Operação tributável;
-            2 - Exportação de serviço;
-            3 - Não Incidência;
-            4 - Imunidade;
+            2 - Imunidade;
+            3 - Exportação de serviço;
+            4 - Não Incidência;
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -1481,6 +1456,27 @@
         <xs:annotation>
           <xs:documentation>
             Código do país onde se verficou o resultado da prestação do serviço para o caso de Exportação de Serviço.(Tabela de Países ISO)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="tpImunidade" type="TSTipoImunidadeISSQN" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Identificação da Imunidade do ISSQN – somente para o caso de Imunidade.
+            Tipos de Imunidades:            
+            0 - Imunidade (tipo não informado na nota de origem);
+            1 - Patrimônio, renda ou serviços, uns dos outros (CF88, Art 150, VI, a);
+            2 - Templos de qualquer culto (CF88, Art 150, VI, b);
+            3 - Patrimônio, renda ou serviços dos partidos políticos, inclusive suas fundações, das entidades sindicais dos trabalhadores, das instituições de educação e de assistência social, sem fins lucrativos, atendidos os requisitos da lei (CF88, Art 150, VI, c);
+            4 - Livros, jornais, periódicos e o papel destinado a sua impressão (CF88, Art 150, VI, d);
+            5 - Fonogramas e videofonogramas musicais produzidos no Brasil contendo obras musicais ou literomusicais de autores brasileiros e/ou obras em geral interpretadas por artistas brasileiros bem como os suportes materiais ou arquivos digitais que os contenham, salvo na etapa de replicação industrial de mídias ópticas de leitura a laser.   (CF88, Art 150, VI, e);
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="exigSusp" type="TCExigSuspensa" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Informações para a suspensão da Exigibilidade do ISSQN
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -1495,22 +1491,13 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="exigSusp" type="TCExigSuspensa" minOccurs="0">
+      <xs:element name="tpRetISSQN" type="TSTipoRetISSQN">
         <xs:annotation>
           <xs:documentation>
-            Informações para a suspensão da Exigibilidade do ISSQN
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="tpImunidade" type="TSTipoImunidadeISSQN" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation>
-            Identificação da Imunidade do ISSQN – somente para o caso de Imunidade:
-            0 - Imunidade (tipo não informado na nota de origem);
-            1 - Patrimônio, renda ou serviços, uns dos outros (CF88, Art 150, VI, a);
-            2 - Templos de qualquer culto (CF88, Art 150, VI, b);
-            3 - Patrimônio, renda ou serviços dos partidos políticos, inclusive suas fundações, das entidades sindicais dos trabalhadores, das instituições de educação e de assistência social, sem fins lucrativos, atendidos os requisitos da lei (CF88, Art 150, VI, c);
-            4 - Livros, jornais, periódicos e o papel destinado a sua impressão (CF88, Art 150, VI, d);
+            Tipo de retencao do ISSQN:
+            1 - Não Retido;
+            2 - Retido pelo Tomador;
+            3 - Retido pelo Intermediario;
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -1523,36 +1510,22 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="tpRetISSQN" type="TSTipoRetISSQN">
-        <xs:annotation>
-          <xs:documentation>
-            Tipo de retencao do ISSQN:
-            1 - Não Retido;
-            2 - Retido pelo Tomador;
-            3 - Retido pelo Intermediario;
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE BENEFÍCIO MUNICIPAL-->
   <xs:complexType name="TCBeneficioMunicipal">
     <xs:sequence>
-      <xs:element name="tpBM" type="TSOpTipoBM">
-        <xs:annotation>
-          <xs:documentation>
-            Identificação da Lei parametrizada pelo município que define o benefício.
-            Trata-se de um identificador único que foi gerado pelo Sistema Nacional no momento em que o município de incidência do ISSQN incluiu o benefício no sistema.
-            Tem a seguinte regra de formação: 7 dígitos com o código IBGE do município + 4 dígitos com número sequencial.
-            Deve ser obtido da parametrização do município de incidência do ISSQN.
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
       <xs:element name="nBM" type="TSNumBeneficioMunicipal">
         <xs:annotation>
           <xs:documentation>
-            Identificador do benefício municipal parametrizado pelo município.
+            Identificador do benefício parametrizado pelo município.
+
+            Trata-se de um identificador único que foi gerado pelo Sistema Nacional no momento em que o município de incidência do ISSQN incluiu o benefício no sistema.
+            
+            Critério de formação do número de identificação de parâmetros municipais:
+            7 dígitos - posição 1 a 7: número identificador do Município, conforme código IBGE;
+            2 dígitos - posições 8 e 9 : número identificador do tipo de parametrização (01-legislação, 02-regimes especiais, 03-retenções, 04-outros benefícios);
+            5 dígitos - posição 10 a 14 : número sequencial definido pelo sistema quando do registro específico do parâmetro dentro do tipo de parametrização no sistema;
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -1574,7 +1547,6 @@
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE EXIGIBILIDADE SUSPENSA -->
   <xs:complexType name="TCExigSuspensa">
     <xs:sequence>
@@ -1596,7 +1568,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE TRIBUTAÇÃO ESPECÍFICA PARA OUTROS TRIBUTOS-->
   <xs:complexType name="TCTribFederal">
     <xs:sequence>
@@ -1630,7 +1601,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE TRIBUTAÇÃO ESPECÍFICA PARA OUTROS TRIBUTOS DO TIPO PIS/COFINS-->
   <xs:complexType name="TCTribOutrosPisCofins">
     <xs:sequence>
@@ -1638,7 +1608,7 @@
         <xs:annotation>
           <xs:documentation>
             Código de Situação Tributária do PIS/COFINS (CST):
-            00 - Nenhum;
+            00 - Nenhum;      
             01 - Operação Tributável com Alíquota Básica;
             02 - Operação Tributável com Alíquota Diferenciada;
             03 - Operação Tributável com Alíquota por Unidade de Medida de Produto;
@@ -1697,7 +1667,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE TRIBUTAÇÃO ESPECÍFICA PARA TOTAL DOS TRIBUTOS-->
   <xs:complexType name="TCTribTotal">
     <xs:sequence>
@@ -1735,7 +1704,6 @@
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE TRIBUTAÇÃO ESPECÍFICA PARA TOTAL DOS TRIBUTOS-->
   <xs:complexType name="TCTribTotalMonet">
     <xs:sequence>
@@ -1762,7 +1730,6 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-
   <!--TIPO COMPLEXO PARA INFORMAÇÕES DE TRIBUTAÇÃO ESPECÍFICA PARA TOTAL DOS TRIBUTOS-->
   <xs:complexType name="TCTribTotalPercent">
     <xs:sequence>
@@ -1790,5 +1757,3 @@
     </xs:sequence>
   </xs:complexType>
 </xs:schema>
-
-
