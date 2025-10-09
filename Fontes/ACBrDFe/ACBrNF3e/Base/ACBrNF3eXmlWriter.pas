@@ -2519,7 +2519,9 @@ begin
 
     Result.AppendChild(Gerar_IBSCBSTot_gIBS(IBSCBSTot.gIBS));
     Result.AppendChild(Gerar_IBSCBSTot_gCBS(IBSCBSTot.gCBS));
-    Result.AppendChild(Gerar_IBSCBSTot_gEstornoCred(IBSCBSTot.gEstornoCred));
+
+    if (IBSCBSTot.gEstornoCred.vIBSEstCred > 0) or (IBSCBSTot.gEstornoCred.vCBSEstCred > 0) then
+      Result.AppendChild(Gerar_IBSCBSTot_gEstornoCred(IBSCBSTot.gEstornoCred));
   end;
 end;
 
