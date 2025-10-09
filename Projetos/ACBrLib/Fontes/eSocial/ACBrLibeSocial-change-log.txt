@@ -1,62 +1,70 @@
 {******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
-{  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
-{ mentos de Automação Comercial utilizados no Brasil                           }
+{  Biblioteca multiplataforma de componentes Delphi para interaï¿½ï¿½o com equipa- }
+{ mentos de Automaï¿½ï¿½o Comercial utilizados no Brasil                           }
 {                                                                              }
-{  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
+{  Vocï¿½ pode obter a ï¿½ltima versï¿½o desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
 {                                                                              }
-{  Esta biblioteca é software livre; você pode redistribuí-la e/ou modificá-la }
-{ sob os termos da Licença Pública Geral Menor do GNU conforme publicada pela  }
-{ Free Software Foundation; tanto a versão 2.1 da Licença, ou (a seu critério) }
-{ qualquer versão posterior.                                                   }
+{  Esta biblioteca ï¿½ software livre; vocï¿½ pode redistribuï¿½-la e/ou modificï¿½-la }
+{ sob os termos da Licenï¿½a Pï¿½blica Geral Menor do GNU conforme publicada pela  }
+{ Free Software Foundation; tanto a versï¿½o 2.1 da Licenï¿½a, ou (a seu critï¿½rio) }
+{ qualquer versï¿½o posterior.                                                   }
 {                                                                              }
-{  Esta biblioteca é distribuída na expectativa de que seja útil, porém, SEM   }
-{ NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU      }
-{ ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral Menor}
-{ do GNU para mais detalhes. (Arquivo LICENÇA.TXT ou LICENSE.TXT)              }
+{  Esta biblioteca ï¿½ distribuï¿½da na expectativa de que seja ï¿½til, porï¿½m, SEM   }
+{ NENHUMA GARANTIA; nem mesmo a garantia implï¿½cita de COMERCIABILIDADE OU      }
+{ ADEQUAï¿½ï¿½O A UMA FINALIDADE ESPECï¿½FICA. Consulte a Licenï¿½a Pï¿½blica Geral Menor}
+{ do GNU para mais detalhes. (Arquivo LICENï¿½A.TXT ou LICENSE.TXT)              }
 {                                                                              }
-{  Você deve ter recebido uma cópia da Licença Pública Geral Menor do GNU junto}
-{ com esta biblioteca; se não, escreva para a Free Software Foundation, Inc.,  }
-{ no endereço 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
-{ Você também pode obter uma copia da licença em:                              }
+{  Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral Menor do GNU junto}
+{ com esta biblioteca; se nï¿½o, escreva para a Free Software Foundation, Inc.,  }
+{ no endereï¿½o 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
+{ Vocï¿½ tambï¿½m pode obter uma copia da licenï¿½a em:                              }
 { http://www.opensource.org/licenses/lgpl-license.php                          }
 {                                                                              }
-{ Daniel Simões de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
-{       Rua Coronel Aureliano de Camargo, 963 - Tatuí - SP - 18270-170         }
+{ Daniel Simï¿½es de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
+{       Rua Coronel Aureliano de Camargo, 963 - Tatuï¿½ - SP - 18270-170         }
 {******************************************************************************}
 Agradecimentos:
 
 * Administradores:
-- Daniel Simões de Almeida
+- Daniel Simï¿½es de Almeida
 
 {******************************************************************************
 |* ACBrLibeSocial
 |*
-|* PROPÓSITO: Registro de Alterações
+|* PROPï¿½SITO: Registro de Alteraï¿½ï¿½es
 ******************************************************************************}
 
-Símbolo : Significado
+Sï¿½mbolo : Significado
 
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
-[-]     : Correção de Bug (assim esperamos)
+[-]     : Correï¿½ï¿½o de Bug (assim esperamos)
+
+09/10/2025
+-- ACBrLibeSocialConsoleMT.lpi, ACBrLibeSocialConsoleMTDemo.lpi --
+[+] TK-7487 - Habilita 16KB de alinhamento nos LPI console da ACBrLibeSocial, obs: para ndk <=r22b
+   Adiciona flags de linker -k-z" common-page-size=16384" e -k-z" max-page-size=16384" 
+   no perfil de compilaÃ§Ã£o android-arm64-v8a para resolver problemas de alinhamento de pÃ¡gina e compatibilizar com Android 15+.
+   
+   Por: doszapro
 
 03/09/2025
 -- ACBrLib.hnd --
-[*] ACBR-7988 - Atualizada documentação da Lib, adicionando a versão S01_03_00 e marcando as que foram depreciadas.
+[*] ACBR-7988 - Atualizada documentaï¿½ï¿½o da Lib, adicionando a versï¿½o S01_03_00 e marcando as que foram depreciadas.
 -- FrmMain.cs, FrmMain.Designer.cs --
-[*] ACBR-7988 - Adicionada versão S01_03_00 no programa de exemplo em c#, corrigida leitura da VersaoDF e preenchimento na combo.
+[*] ACBR-7988 - Adicionada versï¿½o S01_03_00 no programa de exemplo em c#, corrigida leitura da VersaoDF e preenchimento na combo.
     Por: Renato Rubinho
 
 01/09/2025
 -- ACBrLibeSocialDataModule.lfm --
-[-] Preenchida versão atual do leiaute no componente, corrigindo erro de inicialização devido às versões antigas descontinuadas. - https://www.projetoacbr.com.br/forum/topic/85280-n%C3%A3o-consigo-atualizar-a-dll-do-esocial
+[-] Preenchida versï¿½o atual do leiaute no componente, corrigindo erro de inicializaï¿½ï¿½o devido ï¿½s versï¿½es antigas descontinuadas. - https://www.projetoacbr.com.br/forum/topic/85280-n%C3%A3o-consigo-atualizar-a-dll-do-esocial
     Por: Renato Rubinho
 
 06/03/2025
 -- ACBrLibeSocial.lpi, ACBrLibeSocialDemo.lpi, ACBrLibeSocialConsoleMT.lpi e ACBrLibeSocialConsoleMTDemo.lpi--
-[*] Realizado ajustes nos paths para compilação com os novos scripts do Jenkins.
+[*] Realizado ajustes nos paths para compilaï¿½ï¿½o com os novos scripts do Jenkins.
     Por: Antonio Carlos Junior
 
 27/02/2025
@@ -66,8 +74,8 @@ Símbolo : Significado
 
 07/02/2025
 -- ACBrLibeSocialConsoleMT.lpi, ACBrLibeSocialConsoleMTDemo.lpi --
-[+] Adicionado novo Projeto, 100% CONSOLE e MT versão Pro e Demonstração.
-[+] Compatível com compilação em Linux 64 e Android 32 e 64
+[+] Adicionado novo Projeto, 100% CONSOLE e MT versï¿½o Pro e Demonstraï¿½ï¿½o.
+[+] Compatï¿½vel com compilaï¿½ï¿½o em Linux 64 e Android 32 e 64
     Por: Antonio Carlos Junior
 
 13/08/2024
@@ -79,31 +87,31 @@ Símbolo : Significado
 
 23/07/2024
 --- ACBrLibeSocialRespostas ---
-[-] Removido um end a mais que estava impedindo a compilação ACBrMonitorPlus
+[-] Removido um end a mais que estava impedindo a compilaï¿½ï¿½o ACBrMonitorPlus
     Por: Daniel Morais InfoCotidiano
 
 19/07/2024
 --- ACBrLibeSocialRespostas ---
 [*]TK-5360-1 - Configurada lib e monitor para retornar na chave PathNome o nome do xml gerado
 --- FrmMain ---
-[*] Corrigidos métodos de Consulta Identificadores, no programa de exemplo em C# - https://www.projetoacbr.com.br/forum/topic/77459-esocial-dll-pathnome/
+[*] Corrigidos mï¿½todos de Consulta Identificadores, no programa de exemplo em C# - https://www.projetoacbr.com.br/forum/topic/77459-esocial-dll-pathnome/
     Por: Renato Rubinho
 
 24/06/2024
 --- ACBrLibeSocialBase ---
-[*] Configurada lib para retornar os dados de envio no método CriarEnviareSocial
+[*] Configurada lib para retornar os dados de envio no mï¿½todo CriarEnviareSocial
 --- Diversos C# ---
-[*] Adicionados novos leiautes na combo de versões, tratado retorno do método CriarEnviareSocial
+[*] Adicionados novos leiautes na combo de versï¿½es, tratado retorno do mï¿½todo CriarEnviareSocial
     Por: Renato Rubinho
 
 11/01/2023
 --- ACBrLibeSocialBase ---
-[-] Correção para conversão das respostas com Erros, em ANSI, se assim estiver configurado
+[-] Correï¿½ï¿½o para conversï¿½o das respostas com Erros, em ANSI, se assim estiver configurado
 	Por: Antonio Carlos Junior
 
 27/12/2022
 --- ACBrLibeSocialBase ---
-[*] Ajuste método CarregarXMLEventoeSocial
+[*] Ajuste mï¿½todo CarregarXMLEventoeSocial
     Por Antonio Carlos Junior/Elton Barbosa
 
 14/12/2022
@@ -113,51 +121,51 @@ Símbolo : Significado
 
 23/11/2022
 --- ACBrLibeSocial ---
-[+] Novo método eSocial_Validar
+[+] Novo mï¿½todo eSocial_Validar
     Por: Antonio Carlos Junior
 
 18/11/2022
 --- ACBrLibeSocial ---
-[+] Novo método eSocial_ObterCertificados
+[+] Novo mï¿½todo eSocial_ObterCertificados
 	Por: Antonio Carlos Junior
 
 13/10/2022
 --- ACBrLibeSocial / ACBrLibeSocialConsts ---
-[*] Ajustes Versão ACBrLibeSocialConsts e Criação Versão x86 STDCALL MT
+[*] Ajustes Versï¿½o ACBrLibeSocialConsts e Criaï¿½ï¿½o Versï¿½o x86 STDCALL MT
     Por: Antonio Carlos
 
 28/09/2022
 --- ACBrLibeSocial ---
-[+] Criação ACBrLibeSocialDemo
+[+] Criaï¿½ï¿½o ACBrLibeSocialDemo
     Por: Antonio Carlos.
 
 22/08/2022
 --- ACBrLibeSocial ---
-[*] Correção unit ACBrLibeSocialMT
+[*] Correï¿½ï¿½o unit ACBrLibeSocialMT
     Por: Antonio Carlos
 
 22/08/2022
 --- ACBrLibeSocial ---
-[*] Correção Access Violation de alguns métodos da ACBrLibeSocial
+[*] Correï¿½ï¿½o Access Violation de alguns mï¿½todos da ACBrLibeSocial
     Por: Antonio Carlos / Juliomar Marchetti  
 
 17/08/2022
 --- ACBrLibeSocial ---
-[*] Refatoração da ACBrLibeSocial e classe de Respostas
+[*] Refatoraï¿½ï¿½o da ACBrLibeSocial e classe de Respostas
 
 20/07/2022
 --- ACBrLibeSocial ---
-[*] Remoção de Warning @deprecated ref. ACBrUtils
+[*] Remoï¿½ï¿½o de Warning @deprecated ref. ACBrUtils
 
 22/06/2022
 --- ACBrLibeSocial ---
-[+] Atualizado os fontes adicionando novos métodos e adicionando a estrutura padrão MultThread
+[+] Atualizado os fontes adicionando novos mï¿½todos e adicionando a estrutura padrï¿½o MultThread
    Por: Antonio Carlos
 
 12/03/2018
 --- ACBrLibeSocialRespostas, ACBrLibeSocialConsts ---
-[+] Adicionado metodos de Respostas para Métodos de Consulta Eventos e Downloads
-   Por: José M S Junior
+[+] Adicionado metodos de Respostas para Mï¿½todos de Consulta Eventos e Downloads
+   Por: Josï¿½ M S Junior
 
 05/09/2018
 --- ACBrLibeSocial ---
@@ -167,6 +175,6 @@ Símbolo : Significado
 14/05/2018
 --- ACBrLibeSocial ---
 
-[+] Adicionado métodos para retorno de envio do XML do componente eSocial
- (Utilizado também pelo ACBrMonitorPlus).
+[+] Adicionado mï¿½todos para retorno de envio do XML do componente eSocial
+ (Utilizado tambï¿½m pelo ACBrMonitorPlus).
 

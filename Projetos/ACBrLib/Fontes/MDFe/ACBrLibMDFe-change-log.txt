@@ -1,69 +1,77 @@
 {******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
-{  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
-{ mentos de Automação Comercial utilizados no Brasil                           }
+{  Biblioteca multiplataforma de componentes Delphi para interaï¿½ï¿½o com equipa- }
+{ mentos de Automaï¿½ï¿½o Comercial utilizados no Brasil                           }
 {                                                                              }
-{  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
+{  Vocï¿½ pode obter a ï¿½ltima versï¿½o desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
 {                                                                              }
-{  Esta biblioteca é software livre; você pode redistribuí-la e/ou modificá-la }
-{ sob os termos da Licença Pública Geral Menor do GNU conforme publicada pela  }
-{ Free Software Foundation; tanto a versão 2.1 da Licença, ou (a seu critério) }
-{ qualquer versão posterior.                                                   }
+{  Esta biblioteca ï¿½ software livre; vocï¿½ pode redistribuï¿½-la e/ou modificï¿½-la }
+{ sob os termos da Licenï¿½a Pï¿½blica Geral Menor do GNU conforme publicada pela  }
+{ Free Software Foundation; tanto a versï¿½o 2.1 da Licenï¿½a, ou (a seu critï¿½rio) }
+{ qualquer versï¿½o posterior.                                                   }
 {                                                                              }
-{  Esta biblioteca é distribuída na expectativa de que seja útil, porém, SEM   }
-{ NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU      }
-{ ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral Menor}
-{ do GNU para mais detalhes. (Arquivo LICENÇA.TXT ou LICENSE.TXT)              }
+{  Esta biblioteca ï¿½ distribuï¿½da na expectativa de que seja ï¿½til, porï¿½m, SEM   }
+{ NENHUMA GARANTIA; nem mesmo a garantia implï¿½cita de COMERCIABILIDADE OU      }
+{ ADEQUAï¿½ï¿½O A UMA FINALIDADE ESPECï¿½FICA. Consulte a Licenï¿½a Pï¿½blica Geral Menor}
+{ do GNU para mais detalhes. (Arquivo LICENï¿½A.TXT ou LICENSE.TXT)              }
 {                                                                              }
-{  Você deve ter recebido uma cópia da Licença Pública Geral Menor do GNU junto}
-{ com esta biblioteca; se não, escreva para a Free Software Foundation, Inc.,  }
-{ no endereço 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
-{ Você também pode obter uma copia da licença em:                              }
+{  Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral Menor do GNU junto}
+{ com esta biblioteca; se nï¿½o, escreva para a Free Software Foundation, Inc.,  }
+{ no endereï¿½o 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
+{ Vocï¿½ tambï¿½m pode obter uma copia da licenï¿½a em:                              }
 { http://www.opensource.org/licenses/lgpl-license.php                          }
 {                                                                              }
-{ Daniel Simões de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
-{       Rua Coronel Aureliano de Camargo, 963 - Tatuí - SP - 18270-170         }
+{ Daniel Simï¿½es de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
+{       Rua Coronel Aureliano de Camargo, 963 - Tatuï¿½ - SP - 18270-170         }
 {******************************************************************************}
 Agradecimentos:
 
 * Administradores:
-- Daniel Simões de Almeida
+- Daniel Simï¿½es de Almeida
 
 {******************************************************************************
 |* ACBrLibMDFe
 |*
-|* PROPÓSITO: Registro de Alterações
+|* PROPï¿½SITO: Registro de Alteraï¿½ï¿½es
 ******************************************************************************}
 
-Símbolo : Significado
+Sï¿½mbolo : Significado
 
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
-[-]     : Correção de Bug (assim esperamos)
+[-]     : Correï¿½ï¿½o de Bug (assim esperamos)
+
+09/10/2025
+-- ACBrLibMDFeConsoleMT.lpi, ACBrLibMDFeConsoleMTDemo.lpi --
+[+] TK-7487 - Habilita 16KB de alinhamento nos LPI console da ACBrLibMDFe, obs: para ndk <=r22b
+   Adiciona flags de linker -k-z" common-page-size=16384" e -k-z" max-page-size=16384" 
+   no perfil de compilaÃ§Ã£o android-arm64-v8a para resolver problemas de alinhamento de pÃ¡gina e compatibilizar com Android 15+.
+   
+   Por: doszapro
 
 20/06/2025
 -- ACBrLibMDFeConsoleMT.lpi, ACBrLibMDFeConsoleMTDemo.lpi --
-[*] Remoção das configurações debug.
+[*] Remoï¿½ï¿½o das configuraï¿½ï¿½es debug.
    Por: Antonio Carlos Junior
 
 20/06/2025
 --- ACBrLibMDFe.lpi, ACBrLibMDFeDemo.lpi ---
-[*] Ajustes paths compilação.
+[*] Ajustes paths compilaï¿½ï¿½o.
    Por: Antonio Carlos Junior
 
 18/06/2025
 -- ACBrLibMDFeDataModule --
-[-] Ajuste necessário para compilação da Lib depois de mudança da propriedade do Tipo de Ambiente.
+[-] Ajuste necessï¿½rio para compilaï¿½ï¿½o da Lib depois de mudanï¿½a da propriedade do Tipo de Ambiente.
   Por: Diego Folieni \ Italo Giurizzato Junior \ Alexandre de Paula
 -- ACBrLibMDFeBase, ACBrLibMDFeResposta --
-[-] Ajustes necessários para compilação da Lib depois de mudança da propriedade do Tipo de Ambiente.
-   Por: Diego Folieni \ Antônio Carlos \ Italo Giurizzato Junior
+[-] Ajustes necessï¿½rios para compilaï¿½ï¿½o da Lib depois de mudanï¿½a da propriedade do Tipo de Ambiente.
+   Por: Diego Folieni \ Antï¿½nio Carlos \ Italo Giurizzato Junior
 
 09/06/2025
 -- ACBrLibNFSeConsoleMT.lpi, ACBrLibNFSeConsoleMTDemo.lpi --
-[+] Adicionado novo Projeto, 100% CONSOLE e MT versão Pro e Demonstração.
-[+] Compatível com compilação em Linux 32 e 64, Android 32 e 64
+[+] Adicionado novo Projeto, 100% CONSOLE e MT versï¿½o Pro e Demonstraï¿½ï¿½o.
+[+] Compatï¿½vel com compilaï¿½ï¿½o em Linux 32 e 64, Android 32 e 64
     Por: Antonio Carlos Junior
 
 28/04/2025
@@ -73,7 +81,7 @@ Símbolo : Significado
 
 17/03/2025
 -- ACBrLibMDFeDataModule.pas --
-[*] Implementada função B64CryptToString.
+[*] Implementada funï¿½ï¿½o B64CryptToString.
     Por: Antonio Carlos Junior.
 
 31/10/2024
@@ -83,14 +91,14 @@ Símbolo : Significado
 
 10/09/2024
 --- ACBrLibMDFeRespostas ---
-[*] #TK-5699: Adiciona NomeArq na resposta e também função para garantir que sempre devolva Chave do MDFe 
-    no título da seção
+[*] #TK-5699: Adiciona NomeArq na resposta e tambï¿½m funï¿½ï¿½o para garantir que sempre devolva Chave do MDFe 
+    no tï¿½tulo da seï¿½ï¿½o
     Por: Diego Folieni
 
 06/09/2024
 --- ACBrLibMDFeBase ---
 [*] LibMDFe PDF Evento Stream - #TK-5777
-    Realizado ajustes no método SalvarEventoPDF.
+    Realizado ajustes no mï¿½todo SalvarEventoPDF.
     Por: Antonio Carlos Junior
 
 15/08/2024
@@ -102,53 +110,53 @@ Símbolo : Significado
 
 16/04/2024
 -- ACBrLibMDFeDataModule -- 
-[*] Correção da nomenclatura da classe Manifesto para TManifesto.
+[*] Correï¿½ï¿½o da nomenclatura da classe Manifesto para TManifesto.
     Por: Diego Folieni
 
 14/11/2023
 --- ACBrLibMDFeBase, ACBrLibMDFeST, ACBrLibMDFeMT, ACBrLibMDFeStaticImport, ACBrLibMDFeStaticImportMT ---
-[+] Inclusão novos métodos: MDFE_SalvarPDF e MDFE_SalvarEventoPDF
+[+] Inclusï¿½o novos mï¿½todos: MDFE_SalvarPDF e MDFE_SalvarEventoPDF
     Por: Antonio Carlos Junior	
 
 10/01/2023
 --- ACBrLibMDFeBase ---
-[-] Correção para conversão das respostas com Erros, em ANSI, se assim estiver configurado
+[-] Correï¿½ï¿½o para conversï¿½o das respostas com Erros, em ANSI, se assim estiver configurado
 	Por: Antonio Carlos Junior
 
 30/11/2022
 --- ACBrLibMDFeBase ---
-[*] Concatenação E.Message junto ao xMotivo para saber real motivo do Exception - #TK-3293
+[*] Concatenaï¿½ï¿½o E.Message junto ao xMotivo para saber real motivo do Exception - #TK-3293
 	Por: Antonio Carlos Junior
 
 20/07/2022
 --- ACBrLibMDFe ---
-[*] Remoção de Warning @deprecated ref. ACBrUtils
+[*] Remoï¿½ï¿½o de Warning @deprecated ref. ACBrUtils
 
 28/06/2022
 --- ACBrLibMDFeConfig, ACBrLibMDFeConsts---
-[+] Adicionado propriedade ExibirMunicipioDescarregamento para impressão do DAMDFe
-	Por: José M S Junior
+[+] Adicionado propriedade ExibirMunicipioDescarregamento para impressï¿½o do DAMDFe
+	Por: Josï¿½ M S Junior
 
 21/12/2021
 --- ACBrLibMDFeDataModule ---
-[-] Correção para herença visual em Lazarus de "TLibDataModule"
+[-] Correï¿½ï¿½o para herenï¿½a visual em Lazarus de "TLibDataModule"
     (por: DSA)
 
 17/08/2021
 --- ACBrLibMDFeDataModule ---
-[*] Ajustado o DataModule para usar a classe base padrão do projeto.
+[*] Ajustado o DataModule para usar a classe base padrï¿½o do projeto.
 	Por: Rafael Dias
 
 12/02/2021
 --- ACBrLiMDFeBase ---
-[-] Correção no metodo Validar o mesmo estava fazendo o retorno errado.
+[-] Correï¿½ï¿½o no metodo Validar o mesmo estava fazendo o retorno errado.
 	Por: Rafael Dias
 
 29/10/2020
 --- ACBrLiMDFeBase ---
-[-] Correção nos métodos de impressão de evento para carregar o conteudo do xml quando passado o mesmo.
+[-] Correï¿½ï¿½o nos mï¿½todos de impressï¿½o de evento para carregar o conteudo do xml quando passado o mesmo.
 	Por: Rafael Dias
-[-] Correção nos métodos de envio de email para carregar o conteudo do xml quando passado o mesmo.
+[-] Correï¿½ï¿½o nos mï¿½todos de envio de email para carregar o conteudo do xml quando passado o mesmo.
 	Por: Rafael Dias
 
 07/09/2020
@@ -162,7 +170,7 @@ Símbolo : Significado
 
 27/02/2020
 --- ACBrLibMDFeClass ---
-[+] Adicionado o metodo um novo parametro ao metodo MDFE_Consultar, para definir se deve ou não extrair os eventos, se houverem, da resposta.
+[+] Adicionado o metodo um novo parametro ao metodo MDFE_Consultar, para definir se deve ou nï¿½o extrair os eventos, se houverem, da resposta.
     Por: Rafael Dias
 
 17/01/2020
@@ -182,14 +190,14 @@ Símbolo : Significado
 03/01/2020
 --- ACBrLibMDFeClass ---
 --- ACBrLibMDFeConfig ---
-[+] Adicionado o metodo ImportConfig para importar a configuração do ACBrMonitor.
+[+] Adicionado o metodo ImportConfig para importar a configuraï¿½ï¿½o do ACBrMonitor.
     Por: Rafael Dias
 [-] Corrigido erro no metodo consultar.
     Por: Rafael Dias
 
 30/12/2019
 --- ACBrLibMDFe ---
-[-] Corrigido o nome de saida na compílação em linux x86.
+[-] Corrigido o nome de saida na compï¿½laï¿½ï¿½o em linux x86.
     Por: Rafael Dias
 
 19/12/2019
@@ -199,7 +207,7 @@ Símbolo : Significado
 
 13/12/2019
 --- ACBrLibMDFeClass ---
-[-] Correção nos metodos MDFE_EncerrarMDFe e MDFE_ConsultaMDFeNaoEnc.
+[-] Correï¿½ï¿½o nos metodos MDFE_EncerrarMDFe e MDFE_ConsultaMDFeNaoEnc.
     Por: Rafael Dias.
 
 19/09/2018
@@ -214,7 +222,7 @@ Símbolo : Significado
 
 14/05/2018
 --- ACBrLibMDFe ---
-[+] Adicionado métodos para retorno de envio do XML do componente MDFe
- (Utilizado também pelo ACBrMonitorPlus).
+[+] Adicionado mï¿½todos para retorno de envio do XML do componente MDFe
+ (Utilizado tambï¿½m pelo ACBrMonitorPlus).
     Por: Italo Jurisato Junior
 

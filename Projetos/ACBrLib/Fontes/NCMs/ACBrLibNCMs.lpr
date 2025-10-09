@@ -83,8 +83,8 @@ begin
    SetHeapTraceOutput( HeapTraceFile );
   {$ENDIF}
 
-  MainThreadID := GetCurrentThreadId();
   Application.FindGlobalComponentEnabled:= false;
   Application.Initialize;
+  MainThreadID := GetCurrentThreadId();
 end.
 

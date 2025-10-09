@@ -1,46 +1,54 @@
 {******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
-{  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
-{ mentos de Automação Comercial utilizados no Brasil                           }
+{  Biblioteca multiplataforma de componentes Delphi para interaï¿½ï¿½o com equipa- }
+{ mentos de Automaï¿½ï¿½o Comercial utilizados no Brasil                           }
 {                                                                              }
-{  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
+{  Vocï¿½ pode obter a ï¿½ltima versï¿½o desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
 {                                                                              }
-{  Esta biblioteca é software livre; você pode redistribuí-la e/ou modificá-la }
-{ sob os termos da Licença Pública Geral Menor do GNU conforme publicada pela  }
-{ Free Software Foundation; tanto a versão 2.1 da Licença, ou (a seu critério) }
-{ qualquer versão posterior.                                                   }
+{  Esta biblioteca ï¿½ software livre; vocï¿½ pode redistribuï¿½-la e/ou modificï¿½-la }
+{ sob os termos da Licenï¿½a Pï¿½blica Geral Menor do GNU conforme publicada pela  }
+{ Free Software Foundation; tanto a versï¿½o 2.1 da Licenï¿½a, ou (a seu critï¿½rio) }
+{ qualquer versï¿½o posterior.                                                   }
 {                                                                              }
-{  Esta biblioteca é distribuída na expectativa de que seja útil, porém, SEM   }
-{ NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU      }
-{ ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral Menor}
-{ do GNU para mais detalhes. (Arquivo LICENÇA.TXT ou LICENSE.TXT)              }
+{  Esta biblioteca ï¿½ distribuï¿½da na expectativa de que seja ï¿½til, porï¿½m, SEM   }
+{ NENHUMA GARANTIA; nem mesmo a garantia implï¿½cita de COMERCIABILIDADE OU      }
+{ ADEQUAï¿½ï¿½O A UMA FINALIDADE ESPECï¿½FICA. Consulte a Licenï¿½a Pï¿½blica Geral Menor}
+{ do GNU para mais detalhes. (Arquivo LICENï¿½A.TXT ou LICENSE.TXT)              }
 {                                                                              }
-{  Você deve ter recebido uma cópia da Licença Pública Geral Menor do GNU junto}
-{ com esta biblioteca; se não, escreva para a Free Software Foundation, Inc.,  }
-{ no endereço 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
-{ Você também pode obter uma copia da licença em:                              }
+{  Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral Menor do GNU junto}
+{ com esta biblioteca; se nï¿½o, escreva para a Free Software Foundation, Inc.,  }
+{ no endereï¿½o 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
+{ Vocï¿½ tambï¿½m pode obter uma copia da licenï¿½a em:                              }
 { http://www.opensource.org/licenses/lgpl-license.php                          }
 {                                                                              }
-{ Daniel Simões de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
-{       Rua Coronel Aureliano de Camargo, 963 - Tatuí - SP - 18270-170         }
+{ Daniel Simï¿½es de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
+{       Rua Coronel Aureliano de Camargo, 963 - Tatuï¿½ - SP - 18270-170         }
 {******************************************************************************}
 Agradecimentos:
 
 * Administradores:
-- Daniel Simões de Almeida
+- Daniel Simï¿½es de Almeida
 
 {******************************************************************************
 |* ACBrLibReinf
 |*
-|* PROPÓSITO: Registro de Alterações
+|* PROPï¿½SITO: Registro de Alteraï¿½ï¿½es
 ******************************************************************************}
 
-Símbolo : Significado
+Sï¿½mbolo : Significado
 
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
-[-]     : Correção de Bug (assim esperamos)
+[-]     : Correï¿½ï¿½o de Bug (assim esperamos)
+
+09/10/2025
+-- ACBrLibReinfConsoleMT.lpi, ACBrLibReinfConsoleMTDemo.lpi --
+[+] TK-7487 - Habilita 16KB de alinhamento nos LPI console da ACBrLibReinf, obs: para ndk <=r22b
+   Adiciona flags de linker -k-z" common-page-size=16384" e -k-z" max-page-size=16384" 
+   no perfil de compilaÃ§Ã£o android-arm64-v8a para resolver problemas de alinhamento de pÃ¡gina e compatibilizar com Android 15+.
+   
+   Por: doszapro
 
 17/03/2025
 -- Diversos --
@@ -49,18 +57,18 @@ Símbolo : Significado
 
 13/03/2025
 -- ACBrLibReinfBase --
-[*] #TK-4956-8 Implementado método CriarEnviarReinf para receber o conteúdo do arquivo ini ou o caminho do arquivo
+[*] #TK-4956-8 Implementado mï¿½todo CriarEnviarReinf para receber o conteï¿½do do arquivo ini ou o caminho do arquivo
     Por: Renato Rubinho
 
 10/02/2025
 -- ACBrLibReinfConsoleMT.lpi, ACBrLibReinfConsoleMTDemo.lpi --
-[+] Adicionado novo Projeto, 100% CONSOLE e MT versão Pro e Demonstração.
-[+] Compatível com compilação em Linux 64 e Android 32 e 64
+[+] Adicionado novo Projeto, 100% CONSOLE e MT versï¿½o Pro e Demonstraï¿½ï¿½o.
+[+] Compatï¿½vel com compilaï¿½ï¿½o em Linux 64 e Android 32 e 64
     Por: Antonio Carlos Junior
 
 05/02/2025
 -- ACBrLib.hnd --
-[*] #TK-6528 Revisada e atualizada documentação do Reinf na Lib.
+[*] #TK-6528 Revisada e atualizada documentaï¿½ï¿½o do Reinf na Lib.
     Por: Renato Rubinho
 
 15/02/2024
@@ -70,7 +78,7 @@ Símbolo : Significado
 
 30/01/2024
 --- ACBrReinf, ACBrReinf.Delegates ---
-[-] Correção no programa de exemplo MT em C#
+[-] Correï¿½ï¿½o no programa de exemplo MT em C#
     Por: Renato Rubinho
 
 05/01/2024
@@ -80,61 +88,61 @@ Símbolo : Significado
 
 28/12/2023
 --- ACBrLibReinfDataModule ---
-[+] Criação Versão Demo ACBrLibReinf
+[+] Criaï¿½ï¿½o Versï¿½o Demo ACBrLibReinf
     Por: Antonio Carlos Junior
 
 19/12/2023
 -- ACBrLib.hnd --
-[*] Implementada documentação do Reinf
+[*] Implementada documentaï¿½ï¿½o do Reinf
   Por: Renato Rubinho
 
 15/12/2023
 --- ACBrLibReinfTestCase ---
-[*] Declaração de testregistry para corrigir erro de compilação
+[*] Declaraï¿½ï¿½o de testregistry para corrigir erro de compilaï¿½ï¿½o
 
 15/12/2023
 --- ACBrLibReinfTestCase ---
-[+] Implementados testes unitários
+[+] Implementados testes unitï¿½rios
 --- ACBrLibReinf.lpi ---
-[*] Atualizada versão com a mesma gravada nos fontes
+[*] Atualizada versï¿½o com a mesma gravada nos fontes
 --- ACBrLibReinfStaticImportMT, ACBrLibReinfStaticImportST --- 
-[*] Corrigida declaração do método Reinf_CriarEnviarReinf()
+[*] Corrigida declaraï¿½ï¿½o do mï¿½todo Reinf_CriarEnviarReinf()
 
 12/12/2023
 --- Diversos ---
 [+] Desenvolvido programa de exemplo em C#
 --- ACBrLibReinfConfig, ACBrLibReinfDataModule ---
-[*] Correção na inicialização da lib e carregamento das configurações
+[*] Correï¿½ï¿½o na inicializaï¿½ï¿½o da lib e carregamento das configuraï¿½ï¿½es
 --- ACBrLibReinfMT, ACBrLibReinfStaticImportMT, ACBrLibReinfStaticImportST ---
-[*] Correção e funções de Empregrador para Contribuinte e remoção de funções indevidas
+[*] Correï¿½ï¿½o e funï¿½ï¿½es de Empregrador para Contribuinte e remoï¿½ï¿½o de funï¿½ï¿½es indevidas
     Por: Renato Rubinho
 
 07/12/2023
 --- ACBrLibReinfConsts, ACBrLibReinfMT, ACBrLibReinfStaticImportMT ---
-[*] Ajuste e melhorias para realizar os testes unitários.
+[*] Ajuste e melhorias para realizar os testes unitï¿½rios.
     Por: Antonio Carlos Junior
 
 01/12/2023
 --- ACBrLibReinfMT ---
-[*] Correção método CriarEnviarReinf..
+[*] Correï¿½ï¿½o mï¿½todo CriarEnviarReinf..
     Por: Antonio Carlos
 
 01/12/2023
 --- ACBrLibReinf ---
-[*] Ajustes para compilação versão MultiThread.
+[*] Ajustes para compilaï¿½ï¿½o versï¿½o MultiThread.
     Por: Antonio Carlos
  
 30/11/2023
 --- Diversos --- 
-[*] Remoção dos parâmetros "grupo", não utilizados no Reinf
-    Implementado retorno da Resposta no método CriarEnviarReinf()
+[*] Remoï¿½ï¿½o dos parï¿½metros "grupo", nï¿½o utilizados no Reinf
+    Implementado retorno da Resposta no mï¿½todo CriarEnviarReinf()
 --- lib_test_teste-acbrlibreinf.js ---
-[*] Atualização do programa de exemplo em node.js
+[*] Atualizaï¿½ï¿½o do programa de exemplo em node.js
    Por: Renato Rubinho
 
 27/10/2023
 --- ACBrLibReinf ---
-[*] Refatorada Lib, criadas classes e métodos de respostas, implementada Reinf_ConsultarReciboReinf
+[*] Refatorada Lib, criadas classes e mï¿½todos de respostas, implementada Reinf_ConsultarReciboReinf
    Por: Renato Rubinho
 
 17/09/2018
@@ -144,18 +152,18 @@ Símbolo : Significado
 
 29/05/2018
 --- ACBrLibReinfRespostas / ACBrLibReinfConsts ---
-[*] Alterações nos nomes de constantes e classes visando a reutilização das mesmas
+[*] Alteraï¿½ï¿½es nos nomes de constantes e classes visando a reutilizaï¿½ï¿½o das mesmas
    para o Envio e Consulta.
    Por: Italo Jurisato Junior
 
 21/05/2018
 --- ACBrLibReinfRespostas ---
-[*] Adequações em viture das alterações feitas no componente ACBrReinf.
+[*] Adequaï¿½ï¿½es em viture das alteraï¿½ï¿½es feitas no componente ACBrReinf.
    Por: Italo Jurisato Junior
 
 15/05/2018
 --- ACBrLibReinf ---
 
-[+] Adicionado métodos para retorno de envio do XML do componente Reinf
- (Utilizado também pelo ACBrMonitorPlus).
+[+] Adicionado mï¿½todos para retorno de envio do XML do componente Reinf
+ (Utilizado tambï¿½m pelo ACBrMonitorPlus).
 
