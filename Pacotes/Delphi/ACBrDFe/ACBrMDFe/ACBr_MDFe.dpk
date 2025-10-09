@@ -79,9 +79,11 @@ contains
 
   ACBrMDFe.Consts in '..\..\..\..\Fontes\ACBrDFe\ACBrMDFe\Base\ACBrMDFe.Consts.pas',
   ACBrMDFe.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrMDFe\Base\ACBrMDFe.Classes.pas',
+  ACBrMDFe.Conversao in '..\..\..\..\Fontes\ACBrDFe\ACBrMDFe\Base\ACBrMDFe.Conversao.pas',
   ACBrMDFe.ProcInfraSA in '..\..\..\..\Fontes\ACBrDFe\ACBrMDFe\Base\ACBrMDFe.ProcInfraSA.pas',
   ACBrMDFe.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrMDFe\Base\ACBrMDFe.IniReader.pas',
   ACBrMDFe.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrMDFe\Base\ACBrMDFe.IniWriter.pas',
+  ACBrMDFe.ValidarRegrasdeNegocio in '..\..\..\..\Fontes\ACBrDFe\ACBrMDFe\Base\ACBrMDFe.ValidarRegrasdeNegocio.pas',
 
   {$IFDEF USE_ACBr_XMLDOCUMENT}
   ACBrMDFe.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrMDFe\Base\ACBrMDFe.XmlReader.pas',

@@ -9,12 +9,13 @@ interface
 
 uses
   ACBrMDFe, ACBrMDFeConfiguracoes, ACBrMDFeManifestos, ACBrMDFeReg, 
-  ACBrMDFeWebServices, pmdfeConversaoMDFe, pmdfeMDFeR, pmdfeMDFeW, 
+  ACBrMDFeWebServices, pmdfeConversaoMDFe, 
   ACBrMDFeDAMDFeClass, ACBrMDFe.Classes, ACBrMDFe.ProcInfraSA, 
   ACBrMDFe.XmlReader, ACBrMDFe.XmlWriter, ACBrMDFe.ConsNaoEnc, 
   ACBrMDFe.RetConsNaoEnc, ACBrMDFe.ConsSit, ACBrMDFe.RetConsSit, 
   ACBrMDFe.EventoClass, ACBrMDFe.EnvEvento, ACBrMDFe.RetEnvEvento, 
-  ACBrMDFe.Consts, ACBrMDFe.IniReader, ACBrMDFe.IniWriter, LazarusPackageIntf;
+  ACBrMDFe.Consts, ACBrMDFe.IniReader, ACBrMDFe.IniWriter, 
+  ACBrMDFe.ValidarRegrasdeNegocio, ACBrMDFe.Conversao, LazarusPackageIntf;
 
 implementation
 
