@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 09/10/2025
+-- Diversos --
+[*] Acrescentado a unit ACBrDFe.Conversao visando a Reforma Tributária.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] Correção da URL para obter o DANFSE em PDF PadraoNacional.
    Por: dna.automacao

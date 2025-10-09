@@ -39,7 +39,7 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrUtil.Base, ACBrUtil.Strings,
-  ACBrXmlBase, ACBrXmlDocument, ACBrNFSeXClass,
+  ACBrXmlDocument, ACBrNFSeXClass,
   ACBrNFSeXConversao, ACBrNFSeXLerXml, ACBrJSON;
 
 type

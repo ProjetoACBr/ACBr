@@ -109,6 +109,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Strings, ACBrUtil.XMLHTML,
   ACBrDFeException,
   DSF.GravarXml, DSF.LerXml;

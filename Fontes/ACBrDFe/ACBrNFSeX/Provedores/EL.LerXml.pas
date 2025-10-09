@@ -38,8 +38,11 @@ interface
 
 uses
   SysUtils, Classes, StrUtils, Math,
-  ACBrXmlBase, ACBrXmlDocument,
-  ACBrNFSeXConversao, ACBrNFSeXLerXml,
+  ACBrXmlBase,
+  ACBrXmlDocument,
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao,
+  ACBrNFSeXLerXml,
   ACBrNFSeXLerXml_ABRASFv2;
 
 type

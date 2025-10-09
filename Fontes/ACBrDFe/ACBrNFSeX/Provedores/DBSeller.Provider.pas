@@ -119,7 +119,9 @@ implementation
 
 uses
   ACBrUtil.XMLHTML, ACBrUtil.Strings,
-  ACBrXmlBase, ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes,
+  ACBrDFe.Conversao,
+  ACBrXmlBase,
+  ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes,
   DBSeller.GravarXml, DBSeller.LerXml;
 
 { TACBrNFSeXWebserviceDBSeller }

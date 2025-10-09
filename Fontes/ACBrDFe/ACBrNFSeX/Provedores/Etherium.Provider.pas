@@ -105,6 +105,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrDFeException,
   ACBrUtil.XMLHTML,
   ACBrNFSeX,

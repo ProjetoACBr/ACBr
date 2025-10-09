@@ -37,9 +37,9 @@ unit EloTech.LerXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
-  IniFiles,
-  ACBrXmlDocument, ACBrXmlBase,
+  SysUtils, Classes, StrUtils, IniFiles,
+  ACBrXmlBase,
+  ACBrXmlDocument,
   ACBrNFSeXClass,
   ACBrNFSeXLerXml_ABRASFv2;
 
@@ -63,6 +63,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Base;
 
 //==============================================================================

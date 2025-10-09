@@ -90,6 +90,7 @@ implementation
 
 uses
   synacode,
+  ACBrDFe.Conversao,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML,
   ACBrDFeException, ACBrCompress,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts,
