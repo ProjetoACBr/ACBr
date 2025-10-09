@@ -44,10 +44,10 @@ Símbolo : Significado
 
 09/10/2025
 --
-[+] TK-7487 - Habilita 16KB de alinhamento nos LPI console da ACBrLibCEP
+[+] TK-7487 - Habilita 16KB  de alinhamento nos LPI console da ACBrLibCEP, obs: para ndk <=r22b
    
    Por: doszapro
-   
+
 14/01/2025
 --- Diversos ---
 [+] TK-6389 Refatorado o programa de exemplo em PHP com a ACBrComum.php, métodos centralizados e página principal unificada entre MT e ST
