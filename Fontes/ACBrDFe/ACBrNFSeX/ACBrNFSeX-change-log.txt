@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 09/10/2025
+-- Bauhaus.GravarXml --
+[*] #ACBr-8150 Incluido a geração do elemento: CodigoLC116.
+   Por: Juliana G Viana
 -- ACBrNFSeXClass/ACBrNFSeXConversao/PadraoNacional.GravarXml/PadraoNacional.LerXml --
 [*] #ACBr-8132 Ajustes para atender as alterações realizadas nos schemas.
    Por: Italo Giurizzato Junior

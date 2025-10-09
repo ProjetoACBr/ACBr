@@ -154,7 +154,8 @@ begin
 
   Result := TACBrJSONObject.Create
               .AddPair('Codigo', StrToIntDef(wCodTribMun, 0))
-              .AddPair('CodigoCnae', NFSe.Servico.CodigoCnae);
+              .AddPair('CodigoCnae', NFSe.Servico.CodigoCnae)
+              .AddPair('CodigoLc116', NFSe.Servico.ItemListaServico);
 end;
 
 function TNFSeW_Bauhaus.GerarPrestador: TACBrJSONObject;
