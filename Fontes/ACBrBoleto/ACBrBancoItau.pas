@@ -89,6 +89,9 @@ type
 
     function TipoOcorrenciaToCodRemessa(const TipoOcorrencia: TACBrTipoOcorrencia): String; override;
 
+    function DefineNossoNumeroRetorno(const Retorno: String): String; override;
+
+
     property TipoOcorrenciaRemessa: String read fTipoOcorrenciaRemessa write fTipoOcorrenciaRemessa;
     property DataProtestoNegativacao : TDateTime read  fDataProtestoNegativacao ;
     property DiasProtestoNegativacao : String read fDiasProtestoNegativacao ;
@@ -125,6 +128,20 @@ begin
    fpModuloMultiplicadorAtual:= 2;
 
    fpCodigosMoraAceitos    := '123590919305';
+end;
+
+function TACBrBancoItau.DefineNossoNumeroRetorno(const Retorno: String): String;
+begin
+  if ACBrBanco.ACBrBoleto.LerNossoNumeroCompleto then
+  begin
+    ACBrBanco.TamanhoMaximoNossoNum := 9;
+    Result := Copy(Retorno,DefinePosicaoNossoNumeroRetorno,9)
+  end else
+  begin
+    ACBrBanco.TamanhoMaximoNossoNum := 8;
+    Result := Copy(Retorno,DefinePosicaoNossoNumeroRetorno,8);
+  end;
+
 end;
 
 function TACBrBancoItau.DefineNumeroDocumentoModulo(
@@ -324,7 +341,7 @@ begin
   if ACBrBanco.ACBrBoleto.LayoutRemessa = c240 then
     Result := 41
   else
-    Result := 63;
+    Result := 86;
 end;
 
 function TACBrBancoItau.DefinePosicaoCarteiraRetorno: Integer;
@@ -1087,7 +1104,7 @@ begin
         ValorMoraJuros       := StrToFloatDef(Copy(Linha,267,13),0)/100;
         ValorOutrosCreditos  := StrToFloatDef(Copy(Linha,280,13),0)/100;
         ValorRecebido        := StrToFloatDef(Copy(Linha,254,13),0)/100;
-        NossoNumero          := Copy(Linha,63,8);
+        NossoNumero          := DefineNossoNumeroRetorno(Linha);
         Carteira             := Copy(Linha,83,3);
         ValorDespesaCobranca := StrToFloatDef(Copy(Linha,176,13),0)/100;
         CodigoLiquidacao     := Copy(Linha,393,2);
