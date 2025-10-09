@@ -198,7 +198,9 @@
 -dNOGUI
 -dMT
 -Xd
--XPaarch64-linux-android-"/>
+-XPaarch64-linux-android-
+-k-z common-page-size=16384
+-k-z max-page-size=16384"/>
           </Other>
         </CompilerOptions>
       </Item5>
