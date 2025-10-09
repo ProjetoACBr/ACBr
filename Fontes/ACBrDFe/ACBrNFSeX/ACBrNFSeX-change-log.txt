@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 09/10/2025
+-- ACBrNFSeXServicos --
+[*] Correção nos endpoints e Params da cidade Jaragua do Sul/SC.
+   Por: Alexandre de Paula
+
+09/10/2025
 -- Infisc.GravarXml --
 [*] Possível solução para realizar a compilação e instalação.
    Por: Italo Giurizzato Junior
