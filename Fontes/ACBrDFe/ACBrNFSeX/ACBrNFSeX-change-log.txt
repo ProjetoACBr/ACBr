@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/10/2025
+-- ACBrNFSeXServicos --
+[*] Correção no Params da cidade Rondonopolis/MT.
+   Por: Italo Giurizzato Junior
+
 08/10/2025
 -- ACBrNFSeXLerXml_ABRASFv1/ACBrNFSeXLerXml_ABRASFv2 --
 [*] Ajustes na leitura de campos numericos do arquivo INI.
