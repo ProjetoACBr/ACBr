@@ -39,10 +39,11 @@ interface
 uses
   Classes, SysUtils,
   IniFiles,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrMDFe.Classes,
-//  ACBrMDFe.Conversao,
   ACBrDFeComum.Proc,
-//  pmdfeProcMDFe,
+//  ACBrMDFe.Conversao,
   pmdfeConversaoMDFe;
 
 type
@@ -119,7 +120,6 @@ type
 implementation
 
 uses
-  ACBrXmlBase,
   ACBrDFeUtil,
   ACBrMDFe,
   ACBrUtil.Base,

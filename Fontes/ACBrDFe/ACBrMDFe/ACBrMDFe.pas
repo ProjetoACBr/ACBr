@@ -42,6 +42,7 @@ uses
   ACBrUtil.Base,
   ACBrUtil.FilesIO,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrDFe, ACBrDFeConfiguracoes, ACBrDFeException, ACBrBase,
   ACBrMDFeConfiguracoes, ACBrMDFeWebServices, ACBrMDFeManifestos,
   ACBrMDFeDAMDFeClass,

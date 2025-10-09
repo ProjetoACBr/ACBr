@@ -60,7 +60,7 @@ type
     FImprimirHoraSaida: Boolean;
     FImprimirHoraSaida_Hora: String;
     FTipoDAMDFe: TpcnTipoImpressao;
-    FTamanhoPapel: TpcnTamanhoPapel;
+//    FTamanhoPapel: TpcnTamanhoPapel;
     FProtocoloMDFe: String;
     FMDFeCancelada: Boolean;
     FMDFeEncerrado: Boolean;
@@ -89,7 +89,7 @@ type
     property ImprimeHoraSaida: Boolean      read FImprimirHoraSaida      write FImprimirHoraSaida;
     property ImprimeHoraSaida_Hora: String  read FImprimirHoraSaida_Hora write FImprimirHoraSaida_Hora;
     property TipoDAMDFe: TpcnTipoImpressao  read FTipoDAMDFe             write FTipoDAMDFe;
-    property TamanhoPapel: TpcnTamanhoPapel read FTamanhoPapel           write FTamanhoPapel;
+//    property TamanhoPapel: TpcnTamanhoPapel read FTamanhoPapel           write FTamanhoPapel;
     property Protocolo: String              read FProtocoloMDFe          write FProtocoloMDFe;
     property Cancelada: Boolean             read FMDFeCancelada          write FMDFeCancelada;
     property Encerrado: Boolean             read FMDFeEncerrado          write FMDFeEncerrado;

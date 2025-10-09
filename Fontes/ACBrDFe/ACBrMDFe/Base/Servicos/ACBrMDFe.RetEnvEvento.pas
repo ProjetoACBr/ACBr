@@ -44,10 +44,12 @@ uses
    System.Contnrs,
   {$IfEnd}
   pcnConversao,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcnSignature,
+//  ACBrDFeComum.SignatureClass,
   ACBrMDFe.EventoClass,
   ACBrBase,
-  ACBrXmlBase,
   ACBrXmlDocument;
 
 type
@@ -237,7 +239,7 @@ begin
     sAux := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('indEncPorTerceiro'), tcStr);
 
     if sAux = '1' then
-      InfEvento.detEvento.indEncPorTerceiro := tiSim;
+      InfEvento.detEvento.indEncPorTerceiro := pcnConversao.tiSim;
 
     InfEvento.detEvento.cMunCarrega := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('cMunCarrega'), tcInt);
     InfEvento.DetEvento.xMunCarrega := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('xMunCarrega'), tcStr);
@@ -307,7 +309,7 @@ begin
   sAux := ObterConteudoTag(ANode.Childrens.FindAnyNs('indAntecipaAdiant'), tcStr);
 
   if sAux <> '' then
-    Item.indAntecipaAdiant := StrToTIndicador(ok, sAux);
+    Item.indAntecipaAdiant := pcnConversao.StrToTIndicador(ok, sAux);
 
   Item.tpAntecip := StrTotpAntecip(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAntecip'), tcStr));
 

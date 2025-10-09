@@ -45,11 +45,13 @@ uses
   {$IfEnd}
   ACBrDFeConsts,
   pcnConversao,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcnSignature,
+//  ACBrDFeComum.SignatureClass,
   ACBrMDFe.Consts,
   ACBrMDFe.EventoClass,
   ACBrBase,
-  ACBrXmlBase,
   ACBrXmlWriter,
   ACBrXmlDocument;
 

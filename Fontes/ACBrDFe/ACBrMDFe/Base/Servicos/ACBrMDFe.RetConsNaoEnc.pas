@@ -44,7 +44,9 @@ uses
    System.Contnrs,
   {$IFEND}
   pcnConversao,
-  ACBrBase, ACBrXmlBase;
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
+  ACBrBase;
 
 type
 

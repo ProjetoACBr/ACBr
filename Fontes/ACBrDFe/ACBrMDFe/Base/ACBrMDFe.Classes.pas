@@ -47,9 +47,11 @@ uses
    System.Contnrs,
   {$IFEND}
   ACBrBase,
-  pcnConversao, pmdfeConversaoMDFe, pcnSignature,
-  ACBrDFeComum.Proc,
-  pcnGerador;
+  pcnConversao,
+  pmdfeConversaoMDFe,
+  pcnSignature,
+//  ACBrDFeComum.SignatureClass,
+  ACBrDFeComum.Proc;
 
 type
 

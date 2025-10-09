@@ -44,6 +44,7 @@ uses
    System.Contnrs,
   {$IfEnd}
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcnConversao,
   ACBrBase,
   ACBrMDFe.Classes;

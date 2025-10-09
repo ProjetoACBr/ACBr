@@ -40,7 +40,9 @@ uses
   Classes, SysUtils,
   ACBrXmlDocument, ACBrXmlReader,
   ACBrMDFe.Classes,
-  pcnConversao;
+  pcnConversao,
+  ACBrXmlBase,
+  ACBrDFe.Conversao;
 
 type
   { TMDFeXmlReader }
@@ -157,7 +159,7 @@ type
 implementation
 
 uses
-  ACBrXmlBase, ACBrUtil.Base,
+  ACBrUtil.Base,
   pmdfeConversaoMDFe;
 
 { TMDFeXmlReader }

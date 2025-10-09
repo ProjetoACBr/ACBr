@@ -39,7 +39,9 @@ interface
 uses
   Classes, SysUtils,
   pcnConversao,
-  ACBrXmlBase, ACBrXmlDocument, ACBrXmlWriter,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
+  ACBrXmlDocument, ACBrXmlWriter,
   ACBrMDFe.Classes,
   pmdfeConversaoMDFe;
 
@@ -226,7 +228,7 @@ constructor TMDFeXmlWriter.Create(AOwner: TMDFe);
 begin
   inherited Create;
 
-  TMDFeXmlWriterOptions(Opcoes).AjustarTagNro := True;
+  TMDFeXmlWriterOptions(Opcoes).AjustarTagNro := False;
   TMDFeXmlWriterOptions(Opcoes).GerarTagIPIparaNaoTributado := True;
   TMDFeXmlWriterOptions(Opcoes).NormatizarMunicipios := False;
   TMDFeXmlWriterOptions(Opcoes).PathArquivoMunicipios := '';
