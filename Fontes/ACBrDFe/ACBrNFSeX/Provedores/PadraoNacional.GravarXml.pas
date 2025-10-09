@@ -218,6 +218,9 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'tpEmit', 1, 1, 1,
                                                  tpEmitToStr(NFSe.tpEmit), ''));
 
+  Result.AppendChild(AddNode(tcStr, '#1', 'cMotivoEmisTI', 1, 1, 0,
+                                   cMotivoEmisTIToStr(NFSe.cMotivoEmisTI), ''));
+
   case NFSe.tpEmit of
     teTomador:
       Result.AppendChild(AddNode(tcStr, '#1', 'cLocEmi', 7, 7, 1,
@@ -584,11 +587,11 @@ function TNFSeW_PadraoNacional.GerarXMLLocalPrestacao: TACBrXmlNode;
 begin
   Result := CreateElement('locPrest');
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'cLocPrestacao', 7, 7, 0,
-                                             NFSe.Servico.CodigoMunicipio, ''));
-
-  if (NFSe.Servico.CodigoPais <> 0) and (NFSe.Servico.CodigoPais <> 1058) then
-    Result.AppendChild(AddNode(tcStr, '#1', 'cPaisPrestacao', 2, 2, 0,
+  if NFSe.Servico.CodigoMunicipio <> '' then
+    Result.AppendChild(AddNode(tcStr, '#1', 'cLocPrestacao', 7, 7, 1,
+                                              NFSe.Servico.CodigoMunicipio, ''))
+  else
+    Result.AppendChild(AddNode(tcStr, '#1', 'cPaisPrestacao', 2, 2, 1,
                           CodIBGEPaisToSiglaISO2(NFSe.Servico.CodigoPais), ''));
 end;
 
@@ -679,19 +682,19 @@ function TNFSeW_PadraoNacional.GerarXMLObra: TACBrXmlNode;
 begin
   Result := nil;
 
-  if NFSe.ConstrucaoCivil.CodigoObra <> '' then
-  begin
-    Result := CreateElement('obra');
-    Result.AppendChild(AddNode(tcStr, '#1', 'cObra', 1, 30, 1,
-                                          NFSe.ConstrucaoCivil.CodigoObra, ''));
-    exit;
-  end;
-
   if NFSe.ConstrucaoCivil.inscImobFisc <> '' then
   begin
     Result := CreateElement('obra');
     Result.AppendChild(AddNode(tcStr, '#1', 'inscImobFisc', 1, 30, 1,
                                         NFSe.ConstrucaoCivil.inscImobFisc, ''));
+    exit;
+  end;
+
+  if NFSe.ConstrucaoCivil.CodigoObra <> '' then
+  begin
+    Result := CreateElement('obra');
+    Result.AppendChild(AddNode(tcStr, '#1', 'cObra', 1, 30, 1,
+                                          NFSe.ConstrucaoCivil.CodigoObra, ''));
     exit;
   end;
 
@@ -1145,18 +1148,18 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'cPaisResult', 2, 2, 0,
          CodIBGEPaisToSiglaISO2(NFSe.Servico.Valores.tribMun.cPaisResult), ''));
 
-  Result.AppendChild(GerarXMLBeneficioMunicipal);
-  Result.AppendChild(GerarXMLExigibilidadeSuspensa);
-
   if NFSe.Servico.Valores.tribMun.tribISSQN = tiImunidade then
     Result.AppendChild(AddNode(tcStr, '#1', 'tpImunidade', 1, 1, 0,
                tpImunidadeToStr(NFSe.Servico.Valores.tribMun.tpImunidade), ''));
 
-  Result.AppendChild(AddNode(tcDe2, '#1', 'pAliq', 1, 3, 0,
-                                       NFSe.Servico.Valores.tribMun.pAliq, ''));
+  Result.AppendChild(GerarXMLExigibilidadeSuspensa);
+  Result.AppendChild(GerarXMLBeneficioMunicipal);
 
   Result.AppendChild(AddNode(tcStr, '#1', 'tpRetISSQN', 2, 2, 1,
                  tpRetISSQNToStr(NFSe.Servico.Valores.tribMun.tpRetISSQN), ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pAliq', 1, 3, 0,
+                                       NFSe.Servico.Valores.tribMun.pAliq, ''));
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLBeneficioMunicipal: TACBrXmlNode;
@@ -1167,8 +1170,8 @@ begin
   begin
     Result := CreateElement('BM');
 
-    Result.AppendChild(AddNode(tcStr, '#1', 'tpBM', 1, 1, 1,
-                             tpBMToStr(NFSe.Servico.Valores.tribMun.tpBM), ''));
+//    Result.AppendChild(AddNode(tcStr, '#1', 'tpBM', 1, 1, 1,
+//                             tpBMToStr(NFSe.Servico.Valores.tribMun.tpBM), ''));
 
     Result.AppendChild(AddNode(tcStr, '#1', 'nBM', 14, 14, 1,
                                          NFSe.Servico.Valores.tribMun.nBM, ''));
@@ -1469,6 +1472,7 @@ begin
   AINIRec.WriteString(LSecao, 'Competencia', DateTimeTodh(NFSe.Competencia));
   AINIRec.WriteString(LSecao, 'verAplic', NFSe.verAplic);
   AINIRec.WriteString(LSecao, 'tpEmit', tpEmitToStr(NFSe.tpEmit));
+  AINIRec.WriteString(LSecao, 'cMotivoEmisTI', cMotivoEmisTIToStr(NFSe.cMotivoEmisTI));
 end;
 
 procedure TNFSeW_PadraoNacional.GerarININFSeSubstituicao(AINIRec: TMemIniFile);
@@ -1731,7 +1735,7 @@ begin
 
   AINIRec.WriteString(LSecao, 'tribISSQN', tribISSQNToStr(NFSe.Servico.Valores.tribMun.tribISSQN));
   AINIRec.WriteInteger(LSecao, 'cPaisResult', NFSe.Servico.Valores.tribMun.cPaisResult);
-  AINIRec.WriteString(LSecao, 'tpBM', tpBMToStr(NFSe.Servico.Valores.tribMun.tpBM));
+//  AINIRec.WriteString(LSecao, 'tpBM', tpBMToStr(NFSe.Servico.Valores.tribMun.tpBM));
   AINIRec.WriteFloat(LSecao, 'vRedBCBM', NFSe.Servico.Valores.tribMun.vRedBCBM);
   AINIRec.WriteFloat(LSecao, 'pRedBCBM', NFSe.Servico.Valores.tribMun.pRedBCBM);
   AINIRec.WriteString(LSecao, 'tpSusp', tpSuspToStr(NFSe.Servico.Valores.tribMun.tpSusp));

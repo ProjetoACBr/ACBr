@@ -2017,6 +2017,7 @@ type
     FOptanteSN: TOptanteSN;
     FRegimeApuracaoSN: TRegimeApuracaoSN;
     Fsubst: TSubstituicao;
+    FcMotivoEmisTI: TcMotivoEmisTI;
     // Reforma Tributaria
     FIBSCBS: TIBSCBSDPS;
 
@@ -2144,6 +2145,7 @@ type
     property OptanteSN: TOptanteSN read FOptanteSN write FOptanteSN;
     property RegimeApuracaoSN: TRegimeApuracaoSN read FRegimeApuracaoSN write FRegimeApuracaoSN;
     property subst: TSubstituicao read Fsubst write Fsubst;
+    property cMotivoEmisTI: TcMotivoEmisTI read FcMotivoEmisTI write FcMotivoEmisTI;
     // Reforma Tributaria
     property IBSCBS: TIBSCBSDPS read FIBSCBS write FIBSCBS;
 

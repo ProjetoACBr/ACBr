@@ -395,7 +395,7 @@ const
 
 type
   TmdPrestacao = (mpDesconhecido, mpTransfronteirico, mpConsumoBrasil,
-                  mpPresencaComercialExterior, mpMovimentoTempPessoasFisicas);
+                  mpMovimentoTempPessoasFisicas, mpConsumoExterior);
 
 const
   TmdPrestacaoArrayStrings: array[TmdPrestacao] of string = ('0', '1', '2',
@@ -501,10 +501,10 @@ const
   TtpRetISSQNArrayStrings: array[TtpRetISSQN] of string = ('1', '2', '3');
 
 type
-  TtpBM = (tbAliquota, tbReducaoBC, tbIsencao);
+  TtpBM = (tbIsencao, tbReducaoBCperc, tbReducaoBCvalor, tbAliquota);
 
 const
-  TtpBMArrayStrings: array[TtpBM] of string = ('1', '2', '3');
+  TtpBMArrayStrings: array[TtpBM] of string = ('1', '2', '3', '4');
 
 type
   TtpSusp = (tsNenhum, tsDecisaoJudicial, tsProcessoAdm);
@@ -617,6 +617,15 @@ type
 const
   TLogradouroLocalPrestacaoServicoArrayStrings: array[TLogradouroLocalPrestacaoServico] of string =
     ('1', '2');
+
+type
+  TcMotivoEmisTI = (meNenhum, meImportacao, meObrigadoEmitir, meEmitidoPorRecusa,
+    meEmitidoPorRejeitar);
+
+const
+  TcMotivoEmisTIArrayStrings: array[TcMotivoEmisTI] of string =
+    ('', '1', '2', '3', '4');
+
 
 // Reforma Tributária
 
@@ -844,6 +853,9 @@ function StrToLocalPrestacao(out ok: boolean; const s: string): TLocalPrestacao;
 
 function LogradouroLocalPrestacaoServicoToStr(t: TLogradouroLocalPrestacaoServico): string;
 function StrToLogradouroLocalPrestacaoServico(const s: string): TLogradouroLocalPrestacaoServico;
+
+function cMotivoEmisTIToStr(t: TcMotivoEmisTI): string;
+function StrTocMotivoEmisTI(const s: string): TcMotivoEmisTI;
 
 // Reforma Tributária
 function finNFSeToStr(const t: TfinNFSe): string;
@@ -12907,7 +12919,7 @@ begin
   result := EnumeradoToStr(t,
                            ['0', '1', '2', '3', '4'],
                            [mpDesconhecido, mpTransfronteirico, mpConsumoBrasil,
-                   mpPresencaComercialExterior, mpMovimentoTempPessoasFisicas]);
+                             mpMovimentoTempPessoasFisicas, mpConsumoExterior]);
 end;
 
 function StrTomdPrestacao(out ok: Boolean; const s: string): TmdPrestacao;
@@ -12915,7 +12927,7 @@ begin
   result := StrToEnumerado(ok, s,
                            ['0', '1', '2', '3', '4'],
                            [mpDesconhecido, mpTransfronteirico, mpConsumoBrasil,
-                   mpPresencaComercialExterior, mpMovimentoTempPessoasFisicas]);
+                             mpMovimentoTempPessoasFisicas, mpConsumoExterior]);
 end;
 
 function vincPrestToStr(const t: TvincPrest): string;
@@ -13129,15 +13141,15 @@ end;
 function tpBMToStr(const t: TtpBM): string;
 begin
   result := EnumeradoToStr(t,
-                           ['1', '2', '3'],
-                           [tbAliquota, tbReducaoBC, tbIsencao]);
+                           ['1', '2', '3', '4'],
+                           [tbIsencao, tbReducaoBCperc, tbReducaoBCvalor, tbAliquota]);
 end;
 
 function StrTotpBM(out ok: Boolean; const s: string): TtpBM;
 begin
   result := StrToEnumerado(ok, s,
-                           ['1', '2', '3'],
-                           [tbAliquota, tbReducaoBC, tbIsencao]);
+                           ['1', '2', '3', '4'],
+                           [tbIsencao, tbReducaoBCperc, tbReducaoBCvalor, tbAliquota]);
 end;
 
 function tpSuspToStr(const t: TtpSusp): string;
@@ -13439,6 +13451,26 @@ begin
     end;
   end;
   raise EACBrException.CreateFmt('Valor string inválido para TLogradouroLocalPrestacaoServico: %s', [s]);
+end;
+
+function cMotivoEmisTIToStr(t: TcMotivoEmisTI): string;
+begin
+  Result := TcMotivoEmisTIArrayStrings[t];
+end;
+
+function StrTocMotivoEmisTI(const s: string): TcMotivoEmisTI;
+var
+  idx: TcMotivoEmisTI;
+begin
+  for idx:= Low(TcMotivoEmisTIArrayStrings) to High(TcMotivoEmisTIArrayStrings) do
+  begin
+    if (TcMotivoEmisTIArrayStrings[idx] = s) then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TcMotivoEmisTI: %s', [s]);
 end;
 
 // Reforma Tributária

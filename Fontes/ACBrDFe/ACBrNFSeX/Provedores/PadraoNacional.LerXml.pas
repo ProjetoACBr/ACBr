@@ -196,7 +196,7 @@ begin
   begin
     with NFSe.Servico.Valores.tribMun do
     begin
-      tpBM := StrTotpBM(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpBM'), tcStr));
+//      tpBM := StrTotpBM(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpBM'), tcStr));
       nBM := ObterConteudo(AuxNode.Childrens.FindAnyNs('nBM'), tcStr);
       vRedBCBM := ObterConteudo(AuxNode.Childrens.FindAnyNs('vRedBCBM'), tcDe2);
       pRedBCBM := ObterConteudo(AuxNode.Childrens.FindAnyNs('pRedBCBM'), tcDe2);
@@ -842,6 +842,7 @@ begin
     NFSe.IdentificacaoRps.Numero := ObterConteudo(AuxNode.Childrens.FindAnyNs('nDPS'), tcStr);
     NFSe.Competencia := ObterConteudo(AuxNode.Childrens.FindAnyNs('dCompet'), tcDat);
     NFSe.tpEmit := StrTotpEmit(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpEmit'), tcStr));
+    NFSe.cMotivoEmisTI := StrTocMotivoEmisTI(ObterConteudo(AuxNode.Childrens.FindAnyNs('cMotivoEmisTI'), tcStr));
 
     LerXMLSubstituicao(AuxNode);
     LerXMLPrestador(AuxNode);
@@ -1293,8 +1294,8 @@ begin
       LerXMLExigibilidadeSuspensa(AuxNode);
 
       tpImunidade := StrTotpImunidade(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpImunidade'), tcStr));
-      pAliq := ObterConteudo(AuxNode.Childrens.FindAnyNs('pAliq'), tcDe2);
       tpRetISSQN := StrTotpRetISSQN(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpRetISSQN'), tcStr));
+      pAliq := ObterConteudo(AuxNode.Childrens.FindAnyNs('pAliq'), tcDe2);
 
       if tpRetISSQN = trNaoRetido then
       begin
@@ -1640,6 +1641,7 @@ begin
 
     NFSe.verAplic := AINIRec.ReadString(sSecao, 'verAplic', 'ACBrNFSeX-1.00');
     NFSe.tpEmit := StrTotpEmit(Ok, AINIRec.ReadString(sSecao, 'tpEmit', '1'));
+    NFSe.cMotivoEmisTI := StrTocMotivoEmisTI(AINIRec.ReadString(sSecao, 'cMotivoEmisTI', ''));
   end;
 end;
 
@@ -2049,7 +2051,7 @@ begin
   begin
     NFSe.Servico.Valores.tribMun.tribISSQN := StrTotribISSQN(Ok, AINIRec.ReadString(sSecao, 'tribISSQN', '1'));
     NFSe.Servico.Valores.tribMun.cPaisResult := AINIRec.ReadInteger(sSecao, 'cPaisResult', 0);
-    NFSe.Servico.Valores.tribMun.tpBM := StrTotpBM(Ok, AINIRec.ReadString(sSecao, 'tpBM', '1'));
+//    NFSe.Servico.Valores.tribMun.tpBM := StrTotpBM(Ok, AINIRec.ReadString(sSecao, 'tpBM', '1'));
     NFSe.Servico.Valores.tribMun.nBM := AINIRec.ReadString(sSecao, 'nBM', '');
     NFSe.Servico.Valores.tribMun.vRedBCBM := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRedBCBM', ''), 0);
     NFSe.Servico.Valores.tribMun.pRedBCBM := StringToFloatDef(AINIRec.ReadString(sSecao, 'pRedBCBM', ''), 0);
