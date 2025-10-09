@@ -56,6 +56,7 @@ implementation
 
 uses
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrNFSeXConversao;
 
 //==============================================================================

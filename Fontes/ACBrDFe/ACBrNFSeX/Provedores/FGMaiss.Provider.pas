@@ -63,6 +63,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrXmlBase, ACBrDFeException,
   FGMaiss.GravarXml, FGMaiss.LerXml;
 

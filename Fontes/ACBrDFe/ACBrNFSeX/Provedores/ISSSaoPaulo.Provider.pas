@@ -113,6 +113,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrDFeException,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts,
@@ -462,6 +463,7 @@ begin
   DataFinal := 0;
   vTotServicos := 0;
   vTotDeducoes := 0;
+  Transacao := True;
 
   for I := 0 to TACBrNFSeX(FAOwner).NotasFiscais.Count - 1 do
   begin

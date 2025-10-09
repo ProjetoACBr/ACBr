@@ -64,6 +64,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Strings;
 
 //==============================================================================
@@ -204,7 +205,8 @@ begin
                                            NFSe.Servico.Valores.ValorInss, ''));
 
    Result.AppendChild(AddNode(tcStr, '#1', 'servicoDiscriminacao', 1, 1400, 0,
-                                               NFSe.Servico.Discriminacao, ''));
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                          FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll])));
 end;
 
 

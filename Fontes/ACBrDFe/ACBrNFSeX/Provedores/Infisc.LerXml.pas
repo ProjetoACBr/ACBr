@@ -39,6 +39,7 @@ interface
 uses
   SysUtils, Classes, StrUtils, DateUtils,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrXmlDocument,
   ACBrNFSeXConversao, ACBrNFSeXLerXml,
   ACBrNFSeXLerXml_ABRASFv2;

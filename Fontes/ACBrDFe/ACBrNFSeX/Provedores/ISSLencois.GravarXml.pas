@@ -60,6 +60,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Strings;
 
 //==============================================================================
@@ -102,7 +103,8 @@ begin
                                              NFSe.Servico.CodigoMunicipio, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#', 'Descricao', 1, 1000, 1,
-                                               NFSe.Servico.Discriminacao, ''));
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                      FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), ''));
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#', 'ValorTotal', 1, 15, 1,
                                        NFSe.Servico.Valores.ValorServicos, ''));

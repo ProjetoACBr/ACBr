@@ -59,6 +59,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Strings,
   ACBrNFSeXConversao,
   ACBrNFSeXConsts;
@@ -259,7 +260,8 @@ begin
   end;
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'Discriminacao', 1, 2000, 1,
-                                               NFSe.Servico.Discriminacao, ''));
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                          FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll])));
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorCargaTributaria', 1, 15, 0,
                                         NFSe.Servico.ValorCargaTributaria, ''));
@@ -288,6 +290,82 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorTotalRecebido', 1, 15, 0,
                                           NFSe.Servico.ValorTotalRecebido, ''));
 
+  (*
+      <xs:choice>
+        <xs:element name="ValorInicialCobrado" type="tipos:tpValor" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>Valor inicial cobrado pela prestação do serviço, antes de tributos, multa e juros.</xs:documentation>
+            <xs:documentation>"Valor dos serviços antes dos tributos". Corresponde ao valor cobrado pela prestação do serviço, antes de tributos, multa e juros.</xs:documentation>
+            <xs:documentation>Informado para realizar o cálculo dos tributos do início para o fim.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="ValorFinalCobrado" type="tipos:tpValor" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>Valor final cobrado pela prestação do serviço, incluindo todos os tributos.</xs:documentation>
+            <xs:documentation>"Valor total na nota". Corresponde ao valor final cobrado pela prestação do serviço, incluindo todos os tributos, multa e juros.</xs:documentation>
+            <xs:documentation>Informado para realizar o cálculo dos impostos do fim para o início.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
+
+      <xs:element name="ValorMulta" type="tipos:tpValor" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Valor da multa.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ValorJuros" type="tipos:tpValor" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Valor dos juros.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ValorIPI" type="tipos:tpValor" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Valor de IPI.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ExigibilidadeSuspensa" type="tipos:tpNaoSim" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Informe se é uma emissão com exigibilidade suspensa.</xs:documentation>
+          <xs:documentation>0 - Não.</xs:documentation>
+          <xs:documentation>1 - Sim.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PagamentoParceladoAntecipado" type="tipos:tpNaoSim" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Informe a nota fiscal de pagamento parcelado antecipado (realizado antes do fornecimento).</xs:documentation>
+          <xs:documentation>0 - Não.</xs:documentation>
+          <xs:documentation>1 - Sim.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="NCM" type="tipos:tpCodigoNCM" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Informe o número NCM (Nomenclatura Comum do Mercosul).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="NBS" type="tipos:tpCodigoNBS" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Informe o número NBS (Nomenclatura Brasileira de Serviços).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="atvEvento" type="tipos:tpAtividadeEvento" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Informações dos Tipos de evento.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:group ref="tipos:gpPrestacao" />
+
+  <xs:group name="gpPrestacao">
+    <xs:annotation>
+      <xs:documentation>Grupo do local de prestação do serviço.</xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element name="cLocPrestacao" type="tipos:tpCidade" minOccurs="1" maxOccurs="1" />
+      <xs:element name="cPaisPrestacao" type="tipos:tpCodigoPaisISO" minOccurs="1" maxOccurs="1" />
+    </xs:choice>
+  </xs:group>
+
+
+      <xs:element name="IBSCBS" type="tipos:tpIBSCBS" minOccurs="1" maxOccurs="1">  *)
   Result := True;
 end;
 

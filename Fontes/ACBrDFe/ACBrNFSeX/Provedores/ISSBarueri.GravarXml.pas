@@ -61,7 +61,7 @@ type
 implementation
 
 uses
-  {$IFDEF MSWINDOWS} Windows, {$ENDIF MSWINDOWS}
+//  {$IFDEF MSWINDOWS} Windows, {$ENDIF MSWINDOWS}
   synacode, synautil,
   ACBrUtil.Strings,
   ACBrConsts;

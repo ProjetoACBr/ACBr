@@ -38,7 +38,8 @@ interface
 uses
   SysUtils, Classes, Variants,
   ACBrBase, ACBrDFeSSL,
-  ACBrXmlBase, ACBrXmlDocument,
+  ACBrXmlBase,
+  ACBrXmlDocument,
   ACBrNFSeXNotasFiscais,
   ACBrNFSeXClass, ACBrNFSeXConversao,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
@@ -120,6 +121,7 @@ implementation
 
 uses
   synacode, synautil,
+  ACBrDFe.Conversao,
   ACBrConsts,
   ACBrUtil.Base, ACBrUtil.DateTime, ACBrUtil.Strings, ACBrUtil.XMLHTML,
   ACBrDFeException,
@@ -473,8 +475,8 @@ var
   Emitente: TEmitenteConfNFSe;
   Registro1, Registro9, AIdentificacaoRemessa: string;
   Nota: TNotaFiscal;
-  ValorServicos, ValorTotalRetencoes: Double;
-  I: Integer;
+  ValorServicos, ValorTotalRetencoes, Retencoes: Double;
+  I, TotalLinhas: Integer;
 begin
   Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
   ValorServicos := 0;
@@ -499,21 +501,33 @@ begin
                    'PMB002'+
                    PadLeft(AIdentificacaoRemessa, 11, '0') + CRLF;
 
+      // Inclui no total de linhas o Registro 1
+      TotalLinhas := 1;
     end;
 
+    // Informação contida no REgistro 2
     ValorServicos := ValorServicos +
                      Nota.NFSe.Servico.Valores.ValorServicos;
+    Inc(TotalLinhas);
 
-    ValorTotalRetencoes := ValorTotalRetencoes +
-                           Nota.NFSe.Servico.Valores.ValorIr +
-                           Nota.NFSe.Servico.Valores.ValorPis +
-                           Nota.NFSe.Servico.Valores.ValorCofins +
-                           Nota.NFSe.Servico.Valores.ValorCsll;
+    // Informações contidas no REgistro 3
+    Retencoes := Nota.NFSe.Servico.Valores.ValorIr +
+                 Nota.NFSe.Servico.Valores.ValorPis +
+                 Nota.NFSe.Servico.Valores.ValorCofins +
+                 Nota.NFSe.Servico.Valores.ValorCsll;
 
+    if Retencoes > 0 then
+    begin
+      ValorTotalRetencoes := ValorTotalRetencoes + Retencoes;
+      Inc(TotalLinhas);
+    end;
   end;
 
+  // Inclui no total de linhas o Registro 9
+  Inc(TotalLinhas);
+
   Registro9 := '9' +
-        PadRight(IntToStr(TACBrNFSeX(FAOwner).NotasFiscais.Count + 2), 7, ' ') +
+        PadRight(IntToStr(TotalLinhas), 7, ' ') +
         PadLeft(FloatToStr(ValorServicos * 100), 15, '0') +
         PadLeft(FloatToStr(ValorTotalRetencoes * 100), 15, '0') + CRLF;
 

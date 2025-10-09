@@ -63,7 +63,9 @@ type
 implementation
 
 uses
-  ACBrXmlBase, ACBrDFeException,
+  ACBrDFe.Conversao,
+  ACBrXmlBase,
+  ACBrDFeException,
   Facundo.GravarXml, Facundo.LerXml;
 
 { TACBrNFSeProviderFacundo }

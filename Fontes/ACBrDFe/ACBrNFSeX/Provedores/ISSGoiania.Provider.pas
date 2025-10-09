@@ -71,6 +71,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Strings, ACBrUtil.XMLHTML,
   ACBrDFeException, ACBrNFSeX, ACBrNFSeXNotasFiscais,
   ISSGoiania.GravarXml, ISSGoiania.LerXml;

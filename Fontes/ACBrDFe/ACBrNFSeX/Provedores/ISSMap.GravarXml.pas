@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrXmlBase, ACBrXmlDocument,
+  ACBrXmlBase,
+  ACBrXmlDocument,
   ACBrNFSeXParametros, ACBrNFSeXGravarXml;
 
 type
@@ -59,6 +60,7 @@ uses
   synacode,
   DateUtils,
   Variants,
+  ACBrDFe.Conversao,
   ACBrNFSeXConversao;
 
 //==============================================================================
@@ -152,7 +154,8 @@ begin
                                          cryptAESDat(NFSe.DataEmissaoRps), ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'descServico', 1, 4000, 1,
-                                     cryptAES(NFSe.Servico.Discriminacao), ''));
+    cryptAES(StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                         FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]))));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'emailPrestador', 1, 60, 0,
                                    cryptAES(NFSe.Prestador.Contato.Email), ''));

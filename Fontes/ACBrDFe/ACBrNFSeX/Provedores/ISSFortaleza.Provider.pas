@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes,
-  ACBrXmlBase, ACBrNFSeXClass, ACBrNFSeXConversao,
+  ACBrXmlBase,
+  ACBrNFSeXClass, ACBrNFSeXConversao,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
   ACBrNFSeXProviderABRASFv1,
   ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
@@ -78,7 +79,9 @@ uses
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
-  ACBrDFeException, ACBrXmlDocument,
+  ACBrDFeException,
+  ACBrDFe.Conversao,
+  ACBrXmlDocument,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts,
   ISSFortaleza.GravarXml, ISSFortaleza.LerXml;
 

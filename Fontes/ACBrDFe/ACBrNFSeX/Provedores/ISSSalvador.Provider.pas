@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes,
+  ACBrXmlBase,
   ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml, ACBrNFSeXProviderABRASFv1,
   ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
@@ -71,7 +72,8 @@ implementation
 
 uses
   ACBrUtil.XMLHTML, ACBrUtil.Strings,
-  ACBrDFeException, ACBrXmlBase, ACBrNFSeX, ACBrNFSeXConsts,
+  ACBrDFe.Conversao,
+  ACBrDFeException, ACBrNFSeX, ACBrNFSeXConsts,
   ISSSalvador.GravarXml, ISSSalvador.LerXml;
 
 { TACBrNFSeXWebserviceISSSalvador }

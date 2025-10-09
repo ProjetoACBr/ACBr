@@ -77,6 +77,7 @@ uses
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
   ACBrDFeException,
+  ACBrDFe.Conversao,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts,
   ACBrNFSeXNotasFiscais, ISSRio.GravarXml, ISSRio.LerXml;
 

@@ -66,6 +66,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Strings;
 
 //==============================================================================
@@ -223,7 +224,8 @@ begin
                          TipoLancamentoToStr(NFSe.Servico.TipoLancamento), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'Discriminacao', 1, 1500, 1,
-                                               NFSe.Servico.Discriminacao, ''));
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                          FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll])));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'MunicipioPrestacaoServico', 1, 100, 1,
                                    NFSe.Servico.MunicipioPrestacaoServico, ''));

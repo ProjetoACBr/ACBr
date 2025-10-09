@@ -64,8 +64,8 @@ type
 implementation
 
 uses
-  ACBrUtil.Strings,
-  ACBrXmlBase;
+  ACBrXmlBase,
+  ACBrUtil.Strings;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:

@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXLerXml_ABRASFv2, ACBrXmlDocument, ACBrXmlBase,
+  ACBrXmlBase,
+  ACBrNFSeXLerXml_ABRASFv2, ACBrXmlDocument,
   ACBrUtil.FilesIO, ACBrUtil.Strings;
 
 const
@@ -58,6 +59,9 @@ type
   end;
 
 implementation
+
+uses
+  ACBrDFe.Conversao;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:

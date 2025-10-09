@@ -73,6 +73,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrDFeException,
   ACBrUtil.XMLHTML,
   ISSCamacari.GravarXml, ISSCamacari.LerXml;

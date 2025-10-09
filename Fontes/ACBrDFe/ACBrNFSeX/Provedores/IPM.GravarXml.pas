@@ -312,6 +312,7 @@ end;
 function TNFSeW_IPM.GerarLista: TACBrXmlNodeArray;
 var
   i: integer;
+  xDescr: string;
 begin
   Result := nil;
   SetLength(Result, NFSe.Servico.ItemServico.Count);
@@ -341,9 +342,16 @@ begin
     Result[i].AppendChild(AddNode(tcStr, '#', 'codigo_atividade', 1, 9, FpNrOcorrCodigoAtividade,
                        OnlyNumber(NFSe.Servico.ItemServico[I].CodigoCnae), ''));
 
+    if NFSe.Servico.ItemServico[I].Descricao = '' then
+      xDescr := NFSe.Servico.Discriminacao
+    else
+      xDescr := NFSe.Servico.ItemServico[I].Descricao;
+
+    xDescr := StringReplace(xDescr, Opcoes.QuebraLinha,
+                            FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]);
+
     Result[i].AppendChild(AddNode(tcStr, '#', 'descritivo', 1, 1000, 1,
-      IfThen(NFSe.Servico.ItemServico[I].Descricao = '',
-       NFSe.Servico.Discriminacao, NFSe.Servico.ItemServico[I].Descricao), ''));
+                                                                   xDescr, ''));
 
     if NFSe.Servico.ItemServico[I].Aliquota = 0 then
       Result[i].AppendChild(AddNode(tcDe4, '#', 'aliquota_item_lista_servico', 1, 15, 1,

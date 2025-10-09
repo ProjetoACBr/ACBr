@@ -88,6 +88,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML,
   ACBrDFeException,
   ACBrNFSeX, ACBrNFSeXConsts, ACBrNFSeXConfiguracoes, ACBrNFSeXNotasFiscais,

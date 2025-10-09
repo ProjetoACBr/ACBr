@@ -80,6 +80,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.XMLHTML,
   ACBrDFeException,
   Fisco.GravarXml, Fisco.LerXml;

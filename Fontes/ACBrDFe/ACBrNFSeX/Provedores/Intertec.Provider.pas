@@ -65,6 +65,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrDFeException,
   Intertec.GravarXml, Intertec.LerXml;
 

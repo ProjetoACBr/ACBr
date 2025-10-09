@@ -77,7 +77,9 @@ type
 implementation
 
 uses
-  ACBrDFeException, ACBrNFSeX, ACBrUtil.XMLHTML,
+  ACBrDFeException,
+  ACBrDFe.Conversao,
+  ACBrNFSeX, ACBrUtil.XMLHTML,
   Horus.GravarXml, Horus.LerXml;
 
 { TACBrNFSeProviderHorus }
