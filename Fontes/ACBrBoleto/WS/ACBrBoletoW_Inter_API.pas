@@ -329,7 +329,7 @@ begin
           end;
         isbCancelado:
           begin
-            LConsulta.Add('filtrarDataPor='+LFiltroDataPagamento );
+            LConsulta.Add('filtrarDataPor='+LFiltroDataEmissao );
             LConsulta.Add('situacao='+LSituacaoCancelados);
             LConsulta.Add('dataInicial=' +DateTimeToDateInter(Boleto.Configuracoes.WebService.Filtro.dataMovimento.DataInicio));
             LConsulta.Add('dataFinal=' +DateTimeToDateInter(Boleto.Configuracoes.WebService.Filtro.dataMovimento.DataFinal));
