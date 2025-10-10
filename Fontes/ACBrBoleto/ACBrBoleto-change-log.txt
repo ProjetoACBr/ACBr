@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+10/10/2025
+-- ACBrBoletoRet_BancoBrasil_API --
+[*] Preenchida url do boleto nas propriedades de retorno do envio da cobrança do BB via API
+   Por Renato Rubinho
+
 09/10/2025
 -- ACBrBancoItau --
 [*] Implementado o metodo LerNossoNumeroCompleto no Itau CNAB400
