@@ -176,7 +176,7 @@ uses
   ACBrUtil.DateTime,
   ACBrUtil.FilesIO,
   ACBrUtil.Base,
-  ACBrValidador, ACBrImage, ACBrDelphiZXingQRCode, frPrinter;
+  ACBrValidador, ACBrImage, ACBrDelphiZXingQRCode;
 
 function CollateBr(Str: string): string;
 var
@@ -989,6 +989,8 @@ begin
   else
     raise EACBrMDFeDAMDFEFR.Create('Caminho do arquivo de impressão do DAMDFe não assinalado.');
 
+  frxReport.PrintOptions.Copies      := NumCopias;
+  frxReport.PrintOptions.ShowDialog  := MostraSetup;
   frxReport.ShowProgress             := MostraStatus;
   frxReport.PreviewOptions.AllowEdit := False;
 
@@ -996,15 +998,8 @@ begin
     frxReport.FileName := Trim(DAMDFEClassOwner.NomeDocumento);
 
   // Define a impressora
-  if EstaVazio(Impressora) then
-  begin
-    frxReport.PrintOptions.Clear;
-    frxPrinters.PrinterIndex := -1;
-  end else
+  if NaoEstaVazio(frxReport.PrintOptions.Printer) then
     frxReport.PrintOptions.Printer := Impressora;
-
-  frxReport.PrintOptions.Copies      := NumCopias;
-  frxReport.PrintOptions.ShowDialog  := MostraSetup;
 
   if Assigned(AMDFe) then
   begin
@@ -1059,19 +1054,14 @@ begin
   else
     raise EACBrMDFeDAMDFEFR.Create('Caminho do arquivo de impressão do EVENTO não assinalado.');
 
+  frxReport.PrintOptions.Copies      := NumCopias;
+  frxReport.PrintOptions.ShowDialog  := MostraSetup;
   frxReport.ShowProgress             := MostraStatus;
   frxReport.PreviewOptions.AllowEdit := False;
 
   // Define a impressora
-  if EstaVazio(Impressora) then
-  begin
-    frxReport.PrintOptions.Clear;
-    frxPrinters.PrinterIndex := -1;
-  end else
+  if NaoEstaVazio(frxReport.PrintOptions.Printer) then
     frxReport.PrintOptions.Printer := Impressora;
-
-  frxReport.PrintOptions.Copies      := NumCopias;
-  frxReport.PrintOptions.ShowDialog  := MostraSetup;
 
   // preparar relatorio
   if Assigned(ACBrMDFe) then

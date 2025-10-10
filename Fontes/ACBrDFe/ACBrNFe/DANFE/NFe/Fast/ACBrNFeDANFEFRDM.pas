@@ -43,7 +43,7 @@ uses
   ACBrNFe.EnvEvento,
   ACBrNFe.RetInut, ACBrNFe.Classes, pcnConversao,
   ACBrDFeReport, ACBrDFeDANFeReport, ACBrNFeDANFEClass,
-  frxClass, frxExportPDF, frxDBSet, frxBarcode, frPrinter;
+  frxClass, frxExportPDF, frxDBSet, frxBarcode;
 
 type
 
@@ -186,7 +186,7 @@ implementation
 uses
   StrUtils, Math, DateUtils,
   ACBrNFe, ACBrNFeDANFEFR, ACBrDFeUtil,
-  ACBrUtil.Strings,
+  ACBrUtil.Strings, 
   ACBrUtil.Math, ACBrUtil.FilesIO, ACBrUtil.Base, ACBrUtil.DateTime, ACBrUtil.XMLHTML,
   ACBrValidador, ACBrImage, ACBrDelphiZXingQRCode,
   pcnConversaoNFe;
@@ -2074,7 +2074,10 @@ begin
   else
     raise EACBrNFeDANFEFR.Create('Caminho do arquivo de impressão do DANFE não assinalado.');
 
-
+  frxReport.PrintOptions.Copies := DANFEClassOwner.NumCopias;
+  frxReport.PrintOptions.ShowDialog := DANFEClassOwner.MostraSetup;
+  frxReport.PrintOptions.PrintMode := FPrintMode; //Precisamos dessa propriedade porque impressoras não fiscais cortam o papel quando há muitos itens. O ajuste dela deve ser necessariamente após a carga do arquivo FR3 pois, antes da carga o componente é inicializado
+  frxReport.PrintOptions.PrintOnSheet := FPrintOnSheet; //Essa propriedade pode trabalhar em conjunto com a printmode
   frxReport.ShowProgress := DANFEClassOwner.MostraStatus;
   frxReport.PreviewOptions.AllowEdit := False;
   frxReport.PreviewOptions.ShowCaptions := FExibeCaptionButton;
@@ -2095,17 +2098,8 @@ begin
     frxReport.FileName := DANFEClassOwner.NomeDocumento;
 
   // Define a impressora
-  if EstaVazio(DANFEClassOwner.Impressora) then
-  begin
-    frxReport.PrintOptions.Clear;
-    frxPrinters.PrinterIndex := -1;
-  end else
+  if NaoEstaVazio(DANFEClassOwner.Impressora) then
     frxReport.PrintOptions.Printer := DANFEClassOwner.Impressora;
-
-  frxReport.PrintOptions.Copies := DANFEClassOwner.NumCopias;
-  frxReport.PrintOptions.ShowDialog := DANFEClassOwner.MostraSetup;
-  frxReport.PrintOptions.PrintMode := FPrintMode; //Precisamos dessa propriedade porque impressoras não fiscais cortam o papel quando há muitos itens. O ajuste dela deve ser necessariamente após a carga do arquivo FR3 pois, antes da carga o componente é inicializado
-  frxReport.PrintOptions.PrintOnSheet := FPrintOnSheet; //Essa propriedade pode trabalhar em conjunto com a printmode
 
   // preparar relatorio
   if Assigned(ANFE) then
@@ -2173,6 +2167,8 @@ begin
   else
     raise EACBrNFeDANFEFR.Create('Caminho do arquivo de impressão do EVENTO não assinalado.');
 
+  frxReport.PrintOptions.Copies := DANFEClassOwner.NumCopias;
+  frxReport.PrintOptions.ShowDialog := DANFEClassOwner.MostraSetup;
   frxReport.ShowProgress := DANFEClassOwner.MostraStatus;
   frxReport.PreviewOptions.ShowCaptions := ExibeCaptionButton;
   frxReport.PreviewOptions.ZoomMode     := ZoomModePadrao;
@@ -2182,15 +2178,8 @@ begin
     frxReport.FileName := DANFEClassOwner.NomeDocumento;
 
   // Define a impressora
-  if EstaVazio(DANFEClassOwner.Impressora) then
-  begin
-    frxReport.PrintOptions.Clear;
-    frxPrinters.PrinterIndex := -1;
-  end else
+  if NaoEstaVazio(DANFEClassOwner.Impressora) then
     frxReport.PrintOptions.Printer := DANFEClassOwner.Impressora;
-
-  frxReport.PrintOptions.Copies := DANFEClassOwner.NumCopias;
-  frxReport.PrintOptions.ShowDialog := DANFEClassOwner.MostraSetup;
 
   // preparar relatorio
   if Assigned(DANFEClassOwner.ACBrNFe) then
@@ -2257,6 +2246,8 @@ begin
   else
     raise EACBrNFeDANFEFR.Create('Caminho do arquivo de impressão de INUTILIZAÇÃO não assinalado.');
 
+  frxReport.PrintOptions.Copies := DANFEClassOwner.NumCopias;
+  frxReport.PrintOptions.ShowDialog := DANFEClassOwner.MostraSetup;
   frxReport.ShowProgress := DANFEClassOwner.MostraStatus;
   frxReport.PreviewOptions.ShowCaptions := ExibeCaptionButton;
   frxReport.PreviewOptions.ZoomMode     := ZoomModePadrao;
@@ -2266,15 +2257,8 @@ begin
     frxReport.FileName := DANFEClassOwner.NomeDocumento;
 
   // Define a impressora
-  if EstaVazio(DANFEClassOwner.Impressora) then
-  begin
-    frxReport.PrintOptions.Clear;
-    frxPrinters.PrinterIndex := -1;
-  end else
+  if NaoEstaVazio(DANFEClassOwner.Impressora) then
     frxReport.PrintOptions.Printer := DANFEClassOwner.Impressora;
-
-  frxReport.PrintOptions.Copies := DANFEClassOwner.NumCopias;
-  frxReport.PrintOptions.ShowDialog := DANFEClassOwner.MostraSetup;
 
   // preparar relatorio
   if Assigned(DANFEClassOwner.ACBrNFe) then

@@ -148,7 +148,7 @@ uses
   ACBrNFSeXInterface,
   ACBrImage,
   ACBrDelphiZXingQRCode,
-  ACBrNFSeXConfiguracoes, frPrinter;
+  ACBrNFSeXConfiguracoes;
 
 constructor TACBrNFSeXDANFSeFR.Create(AOwner: TComponent);
 begin
@@ -369,19 +369,14 @@ begin
   else
     raise EACBrNFSeXDANFSeFR.Create('Caminho do arquivo de impressão do DANFSe não assinalado.');
 
+  frxReport.PrintOptions.Copies      := NumCopias;
+  frxReport.PrintOptions.ShowDialog  := MostraSetup;
   frxReport.ShowProgress             := MostraStatus;
   frxReport.PreviewOptions.AllowEdit := false;
 
     // Define a impressora
-  if EstaVazio(Impressora) then
-  begin
-    frxReport.PrintOptions.Clear;
-    frxPrinters.PrinterIndex := -1;
-  end else
+  if NaoEstaVazio(frxReport.PrintOptions.Printer) then
     frxReport.PrintOptions.Printer := Impressora;
-
-  frxReport.PrintOptions.Copies      := NumCopias;
-  frxReport.PrintOptions.ShowDialog  := MostraSetup;
 
   if Assigned(ANFSe) then
   begin
@@ -424,6 +419,7 @@ begin
   frxReport.IniFile                   := '\Software\Fast Reports';
   frxReport.PreviewOptions.Buttons    := [ pbPrint, pbZoom, pbFind, pbNavigator, pbExportQuick ];
   frxReport.PreviewOptions.Zoom       := 1.000000000000000000;
+  frxReport.PrintOptions.Printer      := 'Padrão';
   frxReport.PrintOptions.PrintOnSheet := 0;
   frxReport.ScriptLanguage            := 'PascalScript';
   frxReport.StoreInDFM                := false;
