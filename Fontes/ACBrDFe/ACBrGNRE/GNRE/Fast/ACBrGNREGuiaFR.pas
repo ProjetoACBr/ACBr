@@ -87,7 +87,8 @@ uses
   ACBrUtil.DateTime, 
   ACBrUtil.XMLHTML, 
   StrUtils, 
-  ACBrGNREGuiasRetorno;
+  ACBrGNREGuiasRetorno,
+  frPrinter;
 
 constructor TACBrGNREGuiaFR.Create(AOwner: TComponent);
 begin
@@ -204,14 +205,20 @@ begin
   else
     raise EACBrGNREGuiaFR.Create('Caminho do arquivo de impressão do Guia não assinalado.');
 
-  dmGuia.frxReport.PrintOptions.Copies      := NumCopias;
-  dmGuia.frxReport.PrintOptions.ShowDialog  := ShowDialog;
+
   dmGuia.frxReport.ShowProgress             := MostrarStatus;
   dmGuia.frxReport.PreviewOptions.AllowEdit := False;
 
   // Define a impressora
-  if NaoEstaVazio(dmGuia.frxReport.PrintOptions.Printer) then
+  if EstaVazio(Impressora) then
+  begin
+    dmGuia.frxReport.PrintOptions.Clear;
+    frxPrinters.PrinterIndex := -1;
+  end else
     dmGuia.frxReport.PrintOptions.Printer := Impressora;
+
+  dmGuia.frxReport.PrintOptions.Copies      := NumCopias;
+  dmGuia.frxReport.PrintOptions.ShowDialog  := ShowDialog;
 
   if Assigned(GNRE) then
   begin
