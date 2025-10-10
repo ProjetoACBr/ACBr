@@ -2182,7 +2182,7 @@ begin
     frxReport.FileName := DANFEClassOwner.NomeDocumento;
 
   // Define a impressora
-    if EstaVazio(DANFEClassOwner.Impressora) then
+  if EstaVazio(DANFEClassOwner.Impressora) then
   begin
     frxReport.PrintOptions.Clear;
     frxPrinters.PrinterIndex := -1;

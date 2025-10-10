@@ -1063,7 +1063,7 @@ begin
   frxReport.PreviewOptions.AllowEdit := False;
 
   // Define a impressora
-    if EstaVazio(Impressora) then
+  if EstaVazio(Impressora) then
   begin
     frxReport.PrintOptions.Clear;
     frxPrinters.PrinterIndex := -1;
