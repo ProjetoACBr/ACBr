@@ -319,7 +319,7 @@ begin
   end;
 
   PintarQRCode(fpNFCom.infNFComSupl.qrCodNFCom, imgQRCode.Picture.Bitmap, qrUTF8NoBOM);
-  PintarQRCode(fpNFCom.gFat.gPIX.urlQRCodePIX, imgQRCodePix.Picture.Bitmap, qrUTF8NoBOM);
+  PintarQRCode(fpNFCom.gFat.gPIX.urlQRCodePIX, imgQRCodePix.Picture.Bitmap, qrUTF8BOM);
 
   rllNumNF1.Caption := ACBrStr('NOTA FISCAL FATURA No. ') +
                        FormatarNumeroDocumentoFiscal(IntToStr(fpNFCom.Ide.nNF));
