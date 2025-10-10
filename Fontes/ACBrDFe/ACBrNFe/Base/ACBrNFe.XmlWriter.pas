@@ -4108,7 +4108,7 @@ begin
     Result.AppendChild(AddNode(tcDe4, 'B33', 'pRedutor', 1, 7, 1,
                                     NFe.ide.gCompraGov.pRedutor, DSC_PREDUTOR));
 
-    Result.AppendChild(AddNode(tcStr, 'B32', 'tpOperGov', 1, 1, 1,
+    Result.AppendChild(AddNode(tcStr, 'B34', 'tpOperGov', 1, 1, 1,
             tpOperGovToStr(NFe.ide.gCompraGov.tpOperGov), DSC_TPOPERGOV));
   end;
 end;
