@@ -642,6 +642,7 @@ begin
       Imp.vTotDFe := 100;
       Imp.IBSCBS.CST := cst000;
       Imp.IBSCBS.cClassTrib := '000001';
+      Imp.IBSCBS.indDoacao := tieSim; //tieNenhum;
 
       Imp.IBSCBS.gIBSCBS.vBC := 100;
 
@@ -681,16 +682,6 @@ begin
       Imp.IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegCBS := 5;
       Imp.IBSCBS.gIBSCBS.gTribRegular.vTribRegCBS := 50;
 
-      Imp.IBSCBS.gIBSCBS.gIBSCredPres.cCredPres := cp01;
-      Imp.IBSCBS.gIBSCBS.gIBSCredPres.pCredPres := 5;
-      Imp.IBSCBS.gIBSCBS.gIBSCredPres.vCredPres := 50;
-      Imp.IBSCBS.gIBSCBS.gIBSCredPres.vCredPresCondSus := 50;
-
-      Imp.IBSCBS.gIBSCBS.gCBSCredPres.cCredPres := cp01;
-      Imp.IBSCBS.gIBSCBS.gCBSCredPres.pCredPres := 5;
-      Imp.IBSCBS.gIBSCBS.gCBSCredPres.vCredPres := 50;
-      Imp.IBSCBS.gIBSCBS.gCBSCredPres.vCredPresCondSus := 50;
-
       // Tipo Tributação Compra Governamental
       Imp.IBSCBS.gIBSCBS.gTribCompraGov.pAliqIBSUF := 5;
       Imp.IBSCBS.gIBSCBS.gTribCompraGov.vTribIBSUF := 50;
@@ -698,6 +689,10 @@ begin
       Imp.IBSCBS.gIBSCBS.gTribCompraGov.vTribIBSMun := 50;
       Imp.IBSCBS.gIBSCBS.gTribCompraGov.pAliqCBS := 5;
       Imp.IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
+
+      // Estorno de Crédito
+      Imp.IBSCBS.gEstornoCred.vIBSEstCred := 10;
+      Imp.IBSCBS.gEstornoCred.vCBSEstCred := 10;
     end;
 
     //
@@ -846,6 +841,7 @@ begin
           Imp.vTotDFe := 0; // No BPeTM essa informação se encontra em total.
           Imp.IBSCBS.CST := cst000;
           Imp.IBSCBS.cClassTrib := '000001';
+          Imp.IBSCBS.indDoacao := tieNenhum;
 
           Imp.IBSCBS.gIBSCBS.vBC := 100;
 
@@ -885,16 +881,6 @@ begin
           Imp.IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegCBS := 5;
           Imp.IBSCBS.gIBSCBS.gTribRegular.vTribRegCBS := 50;
 
-          Imp.IBSCBS.gIBSCBS.gIBSCredPres.cCredPres := cp01;
-          Imp.IBSCBS.gIBSCBS.gIBSCredPres.pCredPres := 5;
-          Imp.IBSCBS.gIBSCBS.gIBSCredPres.vCredPres := 50;
-          Imp.IBSCBS.gIBSCBS.gIBSCredPres.vCredPresCondSus := 50;
-
-          Imp.IBSCBS.gIBSCBS.gCBSCredPres.cCredPres := cp01;
-          Imp.IBSCBS.gIBSCBS.gCBSCredPres.pCredPres := 5;
-          Imp.IBSCBS.gIBSCBS.gCBSCredPres.vCredPres := 50;
-          Imp.IBSCBS.gIBSCBS.gCBSCredPres.vCredPresCondSus := 50;
-
           // Tipo Tributação Compra Governamental
           Imp.IBSCBS.gIBSCBS.gTribCompraGov.pAliqIBSUF := 5;
           Imp.IBSCBS.gIBSCBS.gTribCompraGov.vTribIBSUF := 50;
@@ -902,6 +888,10 @@ begin
           Imp.IBSCBS.gIBSCBS.gTribCompraGov.vTribIBSMun := 50;
           Imp.IBSCBS.gIBSCBS.gTribCompraGov.pAliqCBS := 5;
           Imp.IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
+
+          // Estorno de Crédito
+          Imp.IBSCBS.gEstornoCred.vIBSEstCred := 0;
+          Imp.IBSCBS.gEstornoCred.vCBSEstCred := 0;
         end;
 
         //
@@ -943,16 +933,16 @@ begin
       total.IBSCBSTot.gIBS.gIBSMunTot.vDevTrib := 100;
       total.IBSCBSTot.gIBS.gIBSMunTot.vIBSMun := 100;
 
-      total.IBSCBSTot.gIBS.vCredPres := 100;
-      total.IBSCBSTot.gIBS.vCredPresCondSus := 100;
       total.IBSCBSTot.gIBS.vIBS := 100;
 
       total.IBSCBSTot.gCBS.vDif := 100;
       total.IBSCBSTot.gCBS.vDevTrib := 100;
       total.IBSCBSTot.gCBS.vCBS := 100;
-      total.IBSCBSTot.gCBS.vCredPres := 100;
-      total.IBSCBSTot.gCBS.vCredPresCondSus := 100;
-    end;
+
+      // Estorno de Crédito
+      total.IBSCBSTot.gEstornoCred.vIBSEstCred := 0;
+      total.IBSCBSTot.gEstornoCred.vCBSEstCred := 0;
+   end;
 
     //
     // Autorizados para o Download do XML do BPe

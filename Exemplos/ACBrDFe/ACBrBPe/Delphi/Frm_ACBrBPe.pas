@@ -697,8 +697,8 @@ begin
       Imp.IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
 
       // Estorno de Crédito
-      Imp.IBSCBS.gIBSCBS.gEstornoCred.vIBSEstCred := 0;
-      Imp.IBSCBS.gIBSCBS.gEstornoCred.vCBSEstCred := 0;
+      Imp.IBSCBS.gEstornoCred.vIBSEstCred := 10;
+      Imp.IBSCBS.gEstornoCred.vCBSEstCred := 10;
     end;
 
     //
@@ -898,8 +898,8 @@ begin
           Imp.IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
 
           // Estorno de Crédito
-          Imp.IBSCBS.gIBSCBS.gEstornoCred.vIBSEstCred := 0;
-          Imp.IBSCBS.gIBSCBS.gEstornoCred.vCBSEstCred := 0;
+          Imp.IBSCBS.gEstornoCred.vIBSEstCred := 0;
+          Imp.IBSCBS.gEstornoCred.vCBSEstCred := 0;
         end;
 
         //
