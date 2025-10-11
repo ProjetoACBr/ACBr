@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/10/2025
+-- Diversos --
+[*] Mais ajustes para a correta geração/leitura do arquivo XML e INI.
+   Por: Italo Giurizzato Junior
+
 08/10/2025
 -- ACBrCTe.IniReader --
 [*] Ajustes para não gerar o grupo gTribRegular de forma indevida.
