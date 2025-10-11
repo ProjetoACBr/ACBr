@@ -584,8 +584,8 @@ begin
           IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
 
           // Estorno de Crédito
-          IBSCBS.gIBSCBS.gEstornoCred.vIBSEstCred := 0;
-          IBSCBS.gIBSCBS.gEstornoCred.vCBSEstCred := 0;
+          IBSCBS.gEstornoCred.vIBSEstCred := 0;
+          IBSCBS.gEstornoCred.vCBSEstCred := 0;
         end;
       end;
 
