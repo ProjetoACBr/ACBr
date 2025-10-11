@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/10/2025
+-- Diversos --
+[*] Mais ajustes para a correta geração/leitura do arquivo XML e INI.
+   Por: Italo Giurizzato Junior
+
 09/10/2025
 -- ACBrNF3eXmlWriter --
 [*] Ajustes para não gerar o grupo gEstornoCred de forma indevida.

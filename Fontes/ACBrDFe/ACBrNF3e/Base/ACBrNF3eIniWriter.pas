@@ -106,7 +106,7 @@ type
       Idx1, Idx2: Integer);
     procedure Gerar_IBSCBS_gIBSCBS_gTribCompraGov(AINIRec: TMemIniFile; gTribCompraGov: TgTribCompraGov;
       Idx1, Idx2: Integer);
-    procedure Gerar_IBSCBS_gIBSCBS_gEstornoCred(AINIRec: TMemIniFile; gEstornoCred: TgEstornoCred;
+    procedure Gerar_IBSCBS_gEstornoCred(AINIRec: TMemIniFile; gEstornoCred: TgEstornoCred;
       Idx1, Idx2: Integer);
 
     procedure Gerar_IBSCBSTot(AINIRec: TMemIniFile; IBSCBSTot: TIBSCBSTot);
@@ -997,6 +997,9 @@ begin
 
     if IBSCBS.gIBSCBS.vBC > 0 then
       Gerar_IBSCBS_gIBSCBS(AINIRec, IBSCBS.gIBSCBS, Idx1, Idx2);
+
+    if (IBSCBS.gEstornoCred.vIBSEstCred > 0) or (IBSCBS.gEstornoCred.vCBSEstCred > 0) then
+      Gerar_IBSCBS_gEstornoCred(AINIRec, IBSCBS.gEstornoCred, Idx1, Idx2);
   end;
 end;
 
@@ -1018,9 +1021,6 @@ begin
 
   if gIBSCBS.gTribCompraGov.pAliqIBSUF > 0 then
     Gerar_IBSCBS_gIBSCBS_gTribCompraGov(AINIRec, gIBSCBS.gTribCompraGov, Idx1, Idx2);
-
-  if (gIBSCBS.gEstornoCred.vIBSEstCred > 0) or (gIBSCBS.gEstornoCred.vCBSEstCred > 0) then
-    Gerar_IBSCBS_gIBSCBS_gEstornoCred(AINIRec, gIBSCBS.gEstornoCred, Idx1, Idx2);
 end;
 
 procedure TNF3eIniWriter.Gerar_gIBSUF(AINIRec: TMemIniFile;
@@ -1111,7 +1111,7 @@ begin
   AINIRec.WriteFloat(sSecao, 'vTribCBS', gTribCompraGov.vTribCBS);
 end;
 
-procedure TNF3eIniWriter.Gerar_IBSCBS_gIBSCBS_gEstornoCred(AINIRec: TMemIniFile;
+procedure TNF3eIniWriter.Gerar_IBSCBS_gEstornoCred(AINIRec: TMemIniFile;
   gEstornoCred: TgEstornoCred; Idx1, Idx2: Integer);
 var
   sSecao: string;
