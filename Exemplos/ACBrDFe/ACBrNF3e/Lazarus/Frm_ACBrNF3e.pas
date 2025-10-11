@@ -1,4 +1,4 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
@@ -50,6 +50,7 @@ type
     pnlMenus: TPanel;
     pnlCentral: TPanel;
     PageControl1: TPageControl;
+    rgReformaTributaria: TRadioGroup;
     SynXMLSyn1: TSynXMLSyn;
     TabSheet1: TTabSheet;
     PageControl4: TPageControl;
@@ -336,7 +337,7 @@ uses
   ACBrUtil.Strings,
   ACBrUtil.FilesIO,
   ACBrUtil.Base,
-  pcnAuxiliar, pcnConversao,
+  pcnAuxiliar, pcnConversao, ACBrDFe.Conversao,
   ACBrDFeUtil, ACBrDFeSSL,
   Frm_Status, Frm_SelecionarCertificado, Frm_ConfiguraSerial;
 
@@ -359,10 +360,10 @@ begin
     //
     Ide.cUF := UFtoCUF(edtEmitUF.Text);
 
-    // TpcnTipoAmbiente = (taProducao, taHomologacao);
+    // TACBrTipoAmbiente = (taProducao, taHomologacao);
     case rgTipoAmb.ItemIndex of
-      0: Ide.tpAmb := ACBrXmlBase.taProducao;
-      1: Ide.tpAmb := ACBrXmlBase.taHomologacao;
+      0: Ide.tpAmb := taProducao;
+      1: Ide.tpAmb := taHomologacao;
     end;
 
     Ide.modelo := 66;
@@ -370,8 +371,8 @@ begin
     Ide.nNF    := StrToIntDef(NumDFe, 0);
     Ide.cNF    := GerarCodigoDFe(Ide.nNF);
     Ide.dhEmi  := Now;
-    // TpcnTipoEmissao = (teNormal, teOffLine);
-    Ide.tpEmis  := ACBrXmlBase.teNormal;
+    // TACBrTipoEmissao = (teNormal, teOffLine);
+    Ide.tpEmis  := teNormal;
     Ide.cMunFG  := 3503208;
     Ide.finNF3e := ACBrNF3eConversao.fnNormal;
     Ide.verProc := '1.0.0.0'; //Versão do seu sistema
@@ -379,6 +380,13 @@ begin
     // Alimentar os 2 campos abaixo só em caso de contingência
 //   Ide.dhCont  := Now;
 //   Ide.xJust   := 'Motivo da Contingência';
+
+    // Reforma Tributária
+    if rgReformaTributaria.ItemIndex = 0 then
+    begin
+      Ide.gCompraGov.tpEnteGov := tcgUniao;
+      Ide.gCompraGov.pRedutor := 5;
+    end;
 
     // Dados do
     //
@@ -498,9 +506,66 @@ begin
               pCOFINS := 1.5;
               vCOFINS := vBC * pCOFINS / 100;
             end;
+
+            // Reforma Tributária
+            if rgReformaTributaria.ItemIndex = 0 then
+            begin
+              IBSCBS.CST := cst000;
+              IBSCBS.cClassTrib := '000001';
+              IBSCBS.indDoacao := tieSim; //tieNenhum;
+
+              IBSCBS.gIBSCBS.vBC := 100;
+
+              IBSCBS.gIBSCBS.gIBSUF.pIBS := 5;
+              IBSCBS.gIBSCBS.gIBSUF.gDif.pDif := 5;
+              IBSCBS.gIBSCBS.gIBSUF.gDif.vDif := 50;
+              IBSCBS.gIBSCBS.gIBSUF.gDevTrib.vDevTrib := 50;
+              IBSCBS.gIBSCBS.gIBSUF.gRed.pRedAliq := 5;
+              IBSCBS.gIBSCBS.gIBSUF.gRed.pAliqEfet := 5;
+              IBSCBS.gIBSCBS.gIBSUF.vIBS := 50;
+
+              IBSCBS.gIBSCBS.gIBSMun.pIBS := 5;
+              IBSCBS.gIBSCBS.gIBSMun.gDif.pDif := 5;
+              IBSCBS.gIBSCBS.gIBSMun.gDif.vDif := 50;
+              IBSCBS.gIBSCBS.gIBSMun.gDevTrib.vDevTrib := 50;
+              IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq := 5;
+              IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet := 5;
+              IBSCBS.gIBSCBS.gIBSMun.vIBS := 50;
+
+              // vIBS = vIBS do IBSUF + vIBS do IBSMun
+              IBSCBS.gIBSCBS.vIBS := 100;
+
+              IBSCBS.gIBSCBS.gCBS.pCBS := 5;
+              IBSCBS.gIBSCBS.gCBS.gDif.pDif := 5;
+              IBSCBS.gIBSCBS.gCBS.gDif.vDif := 50;
+              IBSCBS.gIBSCBS.gCBS.gDevTrib.vDevTrib := 50;
+              IBSCBS.gIBSCBS.gCBS.gRed.pRedAliq := 5;
+              IBSCBS.gIBSCBS.gCBS.gRed.pAliqEfet := 5;
+              IBSCBS.gIBSCBS.gCBS.vCBS := 50;
+
+              IBSCBS.gIBSCBS.gTribRegular.CSTReg := cst000;
+              IBSCBS.gIBSCBS.gTribRegular.cClassTribReg := '000001';
+              IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSUF := 5;
+              IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSUF := 50;
+              IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegIBSMun := 5;
+              IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSMun := 50;
+              IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegCBS := 5;
+              IBSCBS.gIBSCBS.gTribRegular.vTribRegCBS := 50;
+
+              // Tipo Tributação Compra Governamental
+              IBSCBS.gIBSCBS.gTribCompraGov.pAliqIBSUF := 5;
+              IBSCBS.gIBSCBS.gTribCompraGov.vTribIBSUF := 50;
+              IBSCBS.gIBSCBS.gTribCompraGov.pAliqIBSMun := 5;
+              IBSCBS.gIBSCBS.gTribCompraGov.vTribIBSMun := 50;
+              IBSCBS.gIBSCBS.gTribCompraGov.pAliqCBS := 5;
+              IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
+
+              // Estorno de Crédito
+              IBSCBS.gEstornoCred.vIBSEstCred := 0;
+              IBSCBS.gEstornoCred.vCBSEstCred := 0;
+            end;
           end;
         end;
-
       end;
     end;
 
@@ -517,6 +582,31 @@ begin
       vCOFINS    := 1.5;
       vPIS       := 2;
       vNF        := 100;
+    end;
+
+    // Reforma Tributária
+    if rgReformaTributaria.ItemIndex = 0 then
+    begin
+      total.vTotDFe := 100;
+      total.IBSCBSTot.vBCIBSCBS := 100;
+
+      total.IBSCBSTot.gIBS.gIBSUFTot.vDif := 100;
+      total.IBSCBSTot.gIBS.gIBSUFTot.vDevTrib := 100;
+      total.IBSCBSTot.gIBS.gIBSUFTot.vIBSUF := 100;
+
+      total.IBSCBSTot.gIBS.gIBSMunTot.vDif := 100;
+      total.IBSCBSTot.gIBS.gIBSMunTot.vDevTrib := 100;
+      total.IBSCBSTot.gIBS.gIBSMunTot.vIBSMun := 100;
+
+      total.IBSCBSTot.gIBS.vIBS := 100;
+
+      total.IBSCBSTot.gCBS.vDif := 100;
+      total.IBSCBSTot.gCBS.vCBS := 100;
+      total.IBSCBSTot.gCBS.vDevTrib := 100;
+
+      // Estorno de Crédito
+      total.IBSCBSTot.gEstornoCred.vIBSEstCred := 0;
+      total.IBSCBSTot.gEstornoCred.vCBSEstCred := 0;
     end;
 
     with gFat do
@@ -753,7 +843,7 @@ begin
 
     MemoDados.Lines.Add('');
     MemoDados.Lines.Add('Envio NF3e');
-    MemoDados.Lines.Add('tpAmb: '+ TipoAmbienteToStr(ACBrNF3e1.WebServices.Retorno.TpAmb));
+    MemoDados.Lines.Add('tpAmb: '+ TpAmbToStr(ACBrNF3e1.WebServices.Retorno.TpAmb));
     MemoDados.Lines.Add('verAplic: '+ ACBrNF3e1.WebServices.Retorno.verAplic);
     MemoDados.Lines.Add('cStat: '+ IntToStr(ACBrNF3e1.WebServices.Retorno.cStat));
     MemoDados.Lines.Add('cUF: '+ IntToStr(ACBrNF3e1.WebServices.Retorno.cUF));
@@ -1255,7 +1345,7 @@ begin
   begin
     lMsg:=
     'Id: ' + Id + #13 +
-    'tpAmb: ' + TipoAmbienteToStr(tpAmb) + #13 +
+    'tpAmb: ' + TpAmbToStr(tpAmb) + #13 +
     'verAplic: ' + verAplic + #13 +
     'cOrgao: ' + IntToStr(cOrgao) + #13 +
     'cStat: ' + IntToStr(cStat) + #13 +
@@ -1486,7 +1576,7 @@ end;
 procedure TfrmACBrNF3e.FormCreate(Sender: TObject);
 var
   T: TSSLLib;
-  I: TpcnTipoEmissao;
+  I: TACBrTipoEmissao;
   K: TVersaoNF3e;
   U: TSSLCryptLib;
   V: TSSLHttpLib;
@@ -1522,8 +1612,8 @@ begin
   cbSSLType.ItemIndex := 0;
 
   cbFormaEmissao.Items.Clear;
-  for I := Low(TpcnTipoEmissao) to High(TpcnTipoEmissao) do
-     cbFormaEmissao.Items.Add( GetEnumName(TypeInfo(TpcnTipoEmissao), integer(I) ) );
+  for I := Low(TACBrTipoEmissao) to High(TACBrTipoEmissao) do
+     cbFormaEmissao.Items.Add( GetEnumName(TypeInfo(TACBrTipoEmissao), integer(I) ) );
   cbFormaEmissao.ItemIndex := 0;
 
   cbVersaoDF.Items.Clear;
@@ -1825,7 +1915,7 @@ begin
     ExibirErroSchema := cbxExibirErroSchema.Checked;
     RetirarAcentos   := cbxRetirarAcentos.Checked;
     FormatoAlerta    := edtFormatoAlerta.Text;
-    FormaEmissao     := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
+    FormaEmissao     := TACBrTipoEmissao(cbFormaEmissao.ItemIndex);
     VersaoDF         := TVersaoNF3e(cbVersaoDF.ItemIndex);
   end;
 

@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <PathDelim Value="\"/>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <BuildModes Active="Default"/>
     <Units Count="12">
       <Unit0>
@@ -10,7 +10,6 @@
         <IsPartOfProject Value="True"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
         <Filename Value="Frm_ACBrNF3e.pas"/>
@@ -20,12 +19,11 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="1853"/>
-        <CursorPos X="3" Y="1851"/>
+        <TopLine Value="330"/>
+        <CursorPos X="48" Y="340"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
       <Unit2>
         <Filename Value="Frm_SelecionarCertificado.pas"/>
@@ -104,118 +102,129 @@
         <UsageCount Value="10"/>
       </Unit11>
     </Units>
-    <JumpHistory Count="27" HistoryIndex="26">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="369" Column="32" TopLine="348"/>
+        <Caret Line="371" Column="20" TopLine="360"/>
       </Position1>
       <Position2>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="371" Column="32" TopLine="360"/>
+        <Caret Line="40" Column="61" TopLine="25"/>
       </Position2>
       <Position3>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="371" Column="20" TopLine="360"/>
+        <Caret Line="400" Column="23" TopLine="389"/>
       </Position3>
       <Position4>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="40" Column="61" TopLine="25"/>
+        <Caret Line="400" Column="41" TopLine="389"/>
       </Position4>
       <Position5>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="400" Column="23" TopLine="389"/>
+        <Caret Line="467" Column="29" TopLine="456"/>
       </Position5>
       <Position6>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="400" Column="41" TopLine="389"/>
+        <Caret Line="475" Column="24" TopLine="464"/>
       </Position6>
       <Position7>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="467" Column="29" TopLine="456"/>
+        <Caret Line="792" Column="30" TopLine="781"/>
       </Position7>
       <Position8>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="475" Column="24" TopLine="464"/>
+        <Caret Line="1289" Column="28" TopLine="1278"/>
       </Position8>
       <Position9>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="792" Column="30" TopLine="781"/>
+        <Caret Line="1287" Column="28" TopLine="1278"/>
       </Position9>
       <Position10>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="1289" Column="28" TopLine="1278"/>
       </Position10>
       <Position11>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="1287" Column="28" TopLine="1278"/>
+        <Caret Line="334" Column="28" TopLine="315"/>
       </Position11>
       <Position12>
         <Filename Value="Frm_ACBrNF3e.pas"/>
+        <Caret Line="1289" Column="41" TopLine="1278"/>
       </Position12>
       <Position13>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="334" Column="28" TopLine="315"/>
+        <Caret Line="1288" Column="30" TopLine="1278"/>
       </Position13>
       <Position14>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="1289" Column="41" TopLine="1278"/>
+        <Caret Line="1289" Column="43" TopLine="1278"/>
       </Position14>
       <Position15>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="1288" Column="30" TopLine="1278"/>
+        <Caret Line="1290" Column="34" TopLine="1278"/>
       </Position15>
       <Position16>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="1289" Column="43" TopLine="1278"/>
+        <Caret Line="1289" Column="34" TopLine="1278"/>
       </Position16>
       <Position17>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="1290" Column="34" TopLine="1278"/>
+        <Caret Line="751" Column="53" TopLine="740"/>
       </Position17>
       <Position18>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="1289" Column="34" TopLine="1278"/>
+        <Caret Line="921" Column="54" TopLine="913"/>
       </Position18>
       <Position19>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="751" Column="53" TopLine="740"/>
+        <Caret Line="44" Column="32" TopLine="37"/>
       </Position19>
       <Position20>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="921" Column="54" TopLine="913"/>
+        <Caret Line="1298" Column="39" TopLine="1290"/>
       </Position20>
       <Position21>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="44" Column="32" TopLine="37"/>
+        <Caret Line="82" Column="31" TopLine="77"/>
       </Position21>
       <Position22>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="1292" Column="54" TopLine="1317"/>
+        <Caret Line="251" Column="18" TopLine="237"/>
       </Position22>
       <Position23>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="1298" Column="39" TopLine="1290"/>
+        <Caret Line="252" Column="18" TopLine="238"/>
       </Position23>
       <Position24>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="82" Column="31" TopLine="77"/>
+        <Caret Line="308" Column="28" TopLine="294"/>
       </Position24>
       <Position25>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="251" Column="18" TopLine="237"/>
+        <Caret Line="1851" Column="3" TopLine="1853"/>
       </Position25>
       <Position26>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="252" Column="18" TopLine="238"/>
+        <Caret Line="1858" Column="43" TopLine="1853"/>
       </Position26>
       <Position27>
         <Filename Value="Frm_ACBrNF3e.pas"/>
-        <Caret Line="308" Column="28" TopLine="294"/>
       </Position27>
+      <Position28>
+        <Filename Value="Frm_ACBrNF3e.pas"/>
+        <Caret Line="146" Column="40" TopLine="140"/>
+      </Position28>
+      <Position29>
+        <Filename Value="Frm_ACBrNF3e.pas"/>
+        <Caret Line="389" Column="23" TopLine="374"/>
+      </Position29>
+      <Position30>
+        <Filename Value="Frm_ACBrNF3e.pas"/>
+        <Caret Line="612" TopLine="601"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes Count="0" ActiveMode=""/>
+      <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
 </CONFIG>
