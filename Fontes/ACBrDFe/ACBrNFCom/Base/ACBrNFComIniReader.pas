@@ -709,6 +709,7 @@ begin
     IBSCBS.indDoacao := StrToTIndicadorEx(ok, AINIRec.ReadString(sSecao, 'indDoacao', ''));
 
     Ler_IBSCBS_gIBSCBS(AINIRec, IBSCBS.gIBSCBS, Idx);
+    Ler_gEstornoCred(AINIRec, IBSCBS.gEstornoCred, Idx);
   end;
 end;
 
@@ -728,7 +729,6 @@ begin
     Ler_gCBS(AINIRec, gIBSCBS.gCBS, Idx);
     Ler_gTribReg(AINIRec, gIBSCBS.gTribRegular, Idx);
     Ler_gTribCompraGov(AINIRec, gIBSCBS.gTribCompraGov, Idx);
-    Ler_gEstornoCred(AINIRec, gIBSCBS.gEstornoCred, Idx);
   end;
 end;
 

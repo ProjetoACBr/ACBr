@@ -1627,6 +1627,9 @@ begin
 
     if IBSCBS.CST = cst000 then
       Result.AppendChild(Gerar_IBSCBS_gIBSCBS(IBSCBS.gIBSCBS));
+
+  if (IBSCBS.gEstornoCred.vIBSEstCred > 0) or (IBSCBS.gEstornoCred.vCBSEstCred > 0) then
+    Result.AppendChild(Gerar_gEstornoCred(IBSCBS.gEstornoCred));
   end;
 end;
 
@@ -1651,9 +1654,6 @@ begin
 
   if (gIBSCBS.gTribCompraGov.pAliqIBSUF > 0) and (NFCom.Ide.gCompraGov.tpEnteGov <> tcgNenhum) then
     Result.AppendChild(Gerar_gTribCompraGov(gIBSCBS.gTribCompraGov));
-
-  if (gIBSCBS.gEstornoCred.vIBSEstCred > 0) or (gIBSCBS.gEstornoCred.vCBSEstCred > 0) then
-    Result.AppendChild(Gerar_gEstornoCred(gIBSCBS.gEstornoCred));
 end;
 
 function TNFComXmlWriter.Gerar_IBSCBS_gIBSCBS_gIBSUF(
