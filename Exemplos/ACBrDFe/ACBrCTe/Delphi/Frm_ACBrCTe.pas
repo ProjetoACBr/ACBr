@@ -701,8 +701,8 @@ begin
       Imp.IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
 
       // Estorno de Crédito
-      Imp.IBSCBS.gIBSCBS.gEstornoCred.vIBSEstCred := 0;
-      Imp.IBSCBS.gIBSCBS.gEstornoCred.vCBSEstCred := 0;
+      Imp.IBSCBS.gEstornoCred.vIBSEstCred := 10;
+      Imp.IBSCBS.gEstornoCred.vCBSEstCred := 10;
     end;
 
     {Carrega as informacoes CTe Normal}
@@ -1213,8 +1213,8 @@ begin
       Imp.IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
 
       // Estorno de Crédito
-      Imp.IBSCBS.gIBSCBS.gEstornoCred.vIBSEstCred := 0;
-      Imp.IBSCBS.gIBSCBS.gEstornoCred.vCBSEstCred := 0;
+      Imp.IBSCBS.gEstornoCred.vIBSEstCred := 10;
+      Imp.IBSCBS.gEstornoCred.vCBSEstCred := 10;
     end;
 
     {Informações sobre Total}
@@ -1585,8 +1585,8 @@ begin
       Imp.IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
 
       // Estorno de Crédito
-      Imp.IBSCBS.gIBSCBS.gEstornoCred.vIBSEstCred := 0;
-      Imp.IBSCBS.gIBSCBS.gEstornoCred.vCBSEstCred := 0;
+      Imp.IBSCBS.gEstornoCred.vIBSEstCred := 10;
+      Imp.IBSCBS.gEstornoCred.vCBSEstCred := 10;
     end;
 
     Imp.infAdFisco := 'Lei da Transparencia: O valor aproximado de tributos incidentes sobre o preço deste servico é de R$ 17,00 (17,00%) Fonte: IBPT';
