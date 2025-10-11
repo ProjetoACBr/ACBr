@@ -522,7 +522,20 @@ procedure TEvtTSVInicio.GerarInstEnsino(obj: TinstEnsino);
 begin
   Gerador.wGrupo('instEnsino');
 
-  Gerador.wCampo(tcStr, '', 'cnpjInstEnsino', 14,  14, 0, obj.cnpjInstEnsino);
+  If Length(obj.cnpjInstEnsino) > 0 then
+     Begin
+        Gerador.wCampo(tcStr, '', 'cnpjInstEnsino', 14,  14, 0, obj.cnpjInstEnsino);
+     End
+  Else
+     Begin
+        Gerador.wCampo(tcStr, '', 'nmRazao', 0,  100, 0, obj.nmRazao);
+        Gerador.wCampo(tcStr, '', 'dscLograd', 0,  100, 0, obj.dscLograd);
+        Gerador.wCampo(tcStr, '', 'nrLograd', 0,  10, 0, obj.nrLograd);
+        Gerador.wCampo(tcStr, '', 'bairro', 0,  90, 0, obj.bairro);
+        Gerador.wCampo(tcStr, '', 'cep', 0,  8, 0, obj.cep);
+        Gerador.wCampo(tcStr, '', 'codmunic', 0,  7, 0, obj.codmunic);
+        Gerador.wCampo(tcStr, '', 'uf', 0,  2, 0, obj.uf);
+     End;
 
   Gerador.wGrupo('/instEnsino');
 end;
