@@ -38,7 +38,23 @@
 npm install
 ```
 
-### 2️⃣ Configure as credenciais
+### 2️⃣ Prepare a estrutura de pastas
+
+```
+📦 PIXCD/
+├── 📄 index.js
+├── ⚙️ ACBrLib.ini
+├── 📂 libs/
+│   └── 🔧 libacbrpixcd64.so (Linux) ou ACBrPIXCD64.dll (Windows)
+├── 📂 data/
+│   └── 📄 exemploCobrancaImediata.ini
+├── 📂 logs/
+└── 📂 node_modules/
+```
+
+> 📋 **Importante**: Copie a biblioteca `libacbrpixcd64.so` (Linux) ou `ACBrPIXCD64.dll` (Windows) para a pasta **libs/** do projeto PIXCD.
+
+### 3️⃣ Configure as credenciais
 
 Crie um arquivo `.env` na raiz do projeto com as credenciais fornecidas pelo PSP (Provedor de Serviços de Pagamento):
 
@@ -58,11 +74,13 @@ UF_RECEBEDOR=UF do Recebedor
 TOKEN=SeuToken
 ```
 
-### 3️⃣ Execute o exemplo
+### 4️⃣ Execute o exemplo
 
 ```bash
 npm start
 ```
+
+> ⚠️ **Windows**: Use biblioteca CDECL MT (64 bits)
 
 ## 🖥️ Compatibilidade com Windows
 
