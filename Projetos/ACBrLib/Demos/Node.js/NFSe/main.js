@@ -1,5 +1,6 @@
 const path = require("path");
 const os = require("os");
+const dotenv = require('dotenv')
 
 // ACBrLibNFSeMT é exportado como default
 const ACBrLibNFSeMT = require("@projetoacbr/acbrlib-nfse-node/dist/src").default;
@@ -40,6 +41,8 @@ let nfse = new ACBrLibNFSeMT(pathACBrLibNFSe, eArqConfig, eChaveCrypt);
 
 let inicio = 2;
 
+
+dotenv.config({ path: path.resolve(__dirname, '.env') })
 try {
 
   let senha = process.env.PFX_PASSWORD;

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@projetoacbr/acbrlib-reinf-node": "latest",
+    "dotenv": "^17.2.3",
     "koffi": "^2.12.0"
   }
 }

@@ -32,6 +32,7 @@
 
 const path = require('path');
 const os = require('os');
+const dotenv = require('dotenv')
 const ACBrLibReinfMT = require('@projetoacbr/acbrlib-reinf-node/dist/src').default;
 
 
@@ -90,6 +91,8 @@ function aplicarConfiguracoes() {
 }
 
 let status  = -1;
+
+dotenv.config({ path: path.resolve(__dirname, '.env') })
 try {
 
 
@@ -124,10 +127,5 @@ catch (error) {
   console.error('Erro ' +error )
 }
 finally {
-  if (status === 0) {
-    status = acbrReinf.finalizar();
-    console.log('Status da finalização: ' + status);
-  }else{
-    console.log('Erro na finalização: ' + acbrReinf.ultimoRetorno());
-  }
+  status = acbrReinf.finalizar();
 }
