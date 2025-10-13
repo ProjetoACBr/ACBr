@@ -37,8 +37,8 @@ unit NFEletronica.GravarXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
-  IniFiles,
+  SysUtils, Classes, StrUtils, IniFiles,
+  ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXGravarXml_ABRASFv1;
 
@@ -65,7 +65,7 @@ type
 implementation
 
 uses
-  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrUtil.Strings,
   ACBrNFSeXConversao,
   ACBrNFSeXConsts;

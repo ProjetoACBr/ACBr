@@ -76,7 +76,8 @@ type
 implementation
 
 uses
-  ACBrUtil.XMLHTML, //ACBrUtil.Strings,
+  ACBrDFe.Conversao,
+  ACBrUtil.XMLHTML,
   ACBrDFeException, ACBrDFeUtil,
   PRODAUB.GravarXml, PRODAUB.LerXml;
 

@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes,
+  ACBrXmlBase,
   ACBrNFSeXClass, ACBrNFSeXConversao,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
   ACBrNFSeXProviderABRASFv1, ACBrNFSeXWebserviceBase;
@@ -67,7 +68,8 @@ type
 implementation
 
 uses
-  ACBrXmlBase, ACBrDFeException,
+  ACBrDFeException,
+  ACBrDFe.Conversao,
   Lexsom.GravarXml, Lexsom.LerXml;
 
 { TACBrNFSeProviderLexsom }

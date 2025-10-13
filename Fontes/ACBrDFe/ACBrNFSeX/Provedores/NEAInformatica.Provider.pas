@@ -72,6 +72,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrDFeException,
   NEAInformatica.GravarXml, NEAInformatica.LerXml;
 

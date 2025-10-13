@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
+  ACBrXmlBase,
   ACBrNFSeXLerXml_ABRASFv1,
   ACBrXmlDocument;
 
@@ -70,7 +71,8 @@ uses
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
   ACBrConsts,
-  ACBrXMLBase, ACBrNFSeXConversao;
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:

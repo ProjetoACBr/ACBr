@@ -96,6 +96,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrDFeException,
   ACBrUtil.XMLHTML, ACBrUtil.Strings, ACBrUtil.FilesIO,
   ACBrNFSeX,

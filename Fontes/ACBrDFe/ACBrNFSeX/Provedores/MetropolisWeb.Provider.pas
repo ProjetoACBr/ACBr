@@ -70,6 +70,7 @@ implementation
 uses
   ACBrUtil.XMLHTML,
   ACBrDFeException,
+  ACBrDFe.Conversao,
   MetropolisWeb.GravarXml, MetropolisWeb.LerXml;
 
 { TACBrNFSeProviderMetropolisWeb }

@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+13/10/2025
+-- Diversos --
+[*] Acrescentado a unit ACBrDFe.Conversao visando a Reforma Tributária.
+   Por: Italo Giurizzato Junior
+
 09/10/2025
 -- ACBrNFSeXServicos --
 [*] Correção nos endpoints e Params da cidade Jaragua do Sul/SC.

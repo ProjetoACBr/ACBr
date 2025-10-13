@@ -71,6 +71,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes,
   ACBrNFSeXNotasFiscais, NotaInteligente.GravarXml, NotaInteligente.LerXml;
 

@@ -56,7 +56,6 @@ implementation
 //     PublicSoft
 //==============================================================================
 
-
 { TNFSeW_PublicSoft203 }
 
 procedure TNFSeW_PublicSoft203.Configuracao;

@@ -64,6 +64,9 @@ type
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
 
+    function DefinirIDCancelamento(const CNPJ: string; const InscMunic: string;
+                                   const NumNfse: string): string; override;
+
     procedure PrepararEmitir(Response: TNFSeEmiteResponse); override;
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
 
@@ -81,6 +84,7 @@ implementation
 uses
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML,
   ACBrDFeException,
+  ACBrDFe.Conversao,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts,
   ACBrNFSeXNotasFiscais, Publica.GravarXml, Publica.LerXml;
 
@@ -183,7 +187,9 @@ begin
   FPMsgOrig := AMSG;
 
   Request := '<ns2:CancelarNfse>';
-  Request := Request + '<XML>' + IncluirCDATA(AMSG) + '</XML>';
+  Request := Request + '<XML>' +
+                 IncluirCDATA('<?xml version="1.0" encoding="UTF-8"?>' + AMSG) +
+                       '</XML>';
   Request := Request + '</ns2:CancelarNfse>';
 
   Result := Executar('', Request,
@@ -269,6 +275,15 @@ begin
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
   end;
+end;
+
+function TACBrNFSeProviderPublica.DefinirIDCancelamento(const CNPJ, InscMunic,
+  NumNfse: string): string;
+begin
+  if ConfigGeral.Identificador <> '' then
+    Result := ' ' + ConfigGeral.Identificador + '="CANC' + NumNfse + '"'
+  else
+    Result := '';
 end;
 
 function TACBrNFSeProviderPublica.NaturezaOperacaoDescricao(

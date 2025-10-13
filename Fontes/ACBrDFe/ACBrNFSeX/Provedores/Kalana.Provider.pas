@@ -75,6 +75,7 @@ implementation
 uses
   ACBrUtil.XMLHTML,
   ACBrDFeException,
+  ACBrDFe.Conversao,
   ACBrNFSeXConfiguracoes,
   Kalana.GravarXml, Kalana.LerXml;
 

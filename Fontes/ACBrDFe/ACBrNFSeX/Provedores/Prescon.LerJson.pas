@@ -37,11 +37,11 @@ unit Prescon.LerJson;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
-  StrUtilsEx,
+  SysUtils, Classes, StrUtils, StrUtilsEx,
   ACBrUtil.DateTime,
   ACBrUtil.Base, ACBrUtil.Strings,
-  ACBrXmlBase, ACBrXmlDocument, ACBrNFSeXClass,
+  ACBrXmlBase,
+  ACBrXmlDocument, ACBrNFSeXClass,
   ACBrNFSeXConversao, ACBrNFSeXLerXml, ACBrJSON;
 
 type
@@ -63,6 +63,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrDFeUtil;
 
 //==============================================================================

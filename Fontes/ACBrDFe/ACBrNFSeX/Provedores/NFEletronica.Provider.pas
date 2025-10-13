@@ -105,6 +105,7 @@ implementation
 
 uses
   StrUtils,
+  ACBrDFe.Conversao,
   ACBrUtil.Base,
   ACBrUtil.XMLHTML,
   ACBrUtil.FilesIO,

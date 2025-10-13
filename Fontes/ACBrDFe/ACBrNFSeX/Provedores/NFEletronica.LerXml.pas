@@ -37,8 +37,8 @@ unit NFEletronica.LerXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
-  IniFiles,
+  SysUtils, Classes, StrUtils, IniFiles,
+  ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXLerXml_ABRASFv1;
 
@@ -74,7 +74,7 @@ type
 implementation
 
 uses
-  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrUtil.Base,
   ACBrNFSeXConversao;
 
