@@ -416,17 +416,19 @@ type
   TtpNFDebito = (tdNenhum, tdTransferenciaCreditoCooperativa, tdAnulacao,
                  tdDebitosNaoProcessadas, tdMultaJuros,
                  tdTransferenciaCreditoSucessao, tdPagamentoAntecipado,
-                 tdPerdaEmEstoque);
+                 tdPerdaEmEstoque, tdDesenquadramentodoSN);
 
 const
   TtpNFDebitoArrayStrings: array[TtpNFDebito] of string = ('', '01', '02', '03',
-    '04', '05', '06', '07');
+    '04', '05', '06', '07', '08');
 
 type
-  TtpNFCredito = (tcNenhum, tcMultaJuros, tcApropriacaoCreditoPresumido, tcRetorno);
+  TtpNFCredito = (tcNenhum, tcMultaJuros, tcApropriacaoCreditoPresumido, tcRetorno,
+                  tcReducaoValores, tcTransferenciaCreditoSucessao);
 
 const
-  TtpNFCreditoArrayStrings: array[TtpNFCredito] of string = ('', '01', '02', '03');
+  TtpNFCreditoArrayStrings: array[TtpNFCredito] of string = ('', '01', '02', '03',
+    '04', '05');
 
 type
   TCSTIS = (cstisNenhum,

@@ -411,6 +411,8 @@ resourcestring
   DSC_TPCREDPRESIBSZFM = 'Classificação de acordo com o art. 450, § 1º, da LC 214/25 para o cálculo do crédito presumido na ZFM';
   DSC_VCREDPRESIBSZFM = 'Valor do crédito presumido calculado sobre o saldo devedor apurado';
   DSC_INDBEMMOVELUSADO = 'Indicador de fornecimento de bem móvel usado';
+  DSC_DPREVENTREGA = 'Data de previsão de entrega';
+  DSC_VBCCREDPRES = 'Valor da Base de Cálculo do Crédito Presumido da Operação ';
 
 implementation
 

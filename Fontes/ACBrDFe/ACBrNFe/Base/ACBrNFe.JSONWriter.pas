@@ -2601,8 +2601,8 @@ begin
   Gerar_IBSCBS_gIBSCBS_gIBSMun(AGIBSCBS.gIBSMun, lGIBSCBSJSONObj);
   Gerar_IBSCBS_gIBSCBS_gCBS(AGIBSCBS.gCBS, lGIBSCBSJSONObj);
   Gerar_IBSCBS_gIBSCBS_gTribRegular(AGIBSCBS.gTribRegular, lGIBSCBSJSONObj);
-  Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(AGIBSCBS.gIBSCredPres, 'gIBSCredPres', lGIBSCBSJSONObj);
-  Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(AGIBSCBS.gCBSCredPres, 'gCBSCredPres', lGIBSCBSJSONObj);
+//  Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(AGIBSCBS.gIBSCredPres, 'gIBSCredPres', lGIBSCBSJSONObj);
+//  Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(AGIBSCBS.gCBSCredPres, 'gCBSCredPres', lGIBSCBSJSONObj);
   Gerar_IBSCBS_gIBSCBS_gTribCompraGov(AGIBSCBS.gTribCompraGov, lGIBSCBSJSONObj);
 
   AJSONObject.AddPair('gIBSCBS', lGIBSCBSJSONObj);
@@ -2865,6 +2865,7 @@ procedure TNFeJSONWriter.Gerar_IBSCBS_gIBSCBS_gIBSCBSCredPres(const AGIBSCredPre
 var
   lGIBSCredPresJSONObj: TACBrJSONObject;
 begin
+{
   if AGIBSCredPres.cCredPres = cpNenhum then
     exit;
 
@@ -2877,6 +2878,7 @@ begin
     lGIBSCredPresJSONObj.AddPair('vCredPresCondSus', AGIBSCredPres.vCredPresCondSus);
 
   AJSONObject.AddPair(AKeyName, lGIBSCredPresJSONObj);
+  }
 end;
 
 procedure TNFeJSONWriter.Gerar_IBSCBS_gIBSCBS_gTribCompraGov(const AGTribCompraGov: TgTribCompraGov; AJSONObject: TACBrJSONObject);

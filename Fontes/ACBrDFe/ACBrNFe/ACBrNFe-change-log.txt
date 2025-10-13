@@ -43,6 +43,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+13/10/2025
+-- Diversos --
+[*] Ajustes diversos no componente visando a NT 2025/002 versão 1.30
+   Por: Italo Giurizzato Junior
+
 08/10/2025
 -- ACBrNFeDANFeRLSimplificado --
 [*] Ajustado o texto "Série" e "informações adicionais" que estavam sem ACbrStr, causando erro acentuacao na lib e lazarus
