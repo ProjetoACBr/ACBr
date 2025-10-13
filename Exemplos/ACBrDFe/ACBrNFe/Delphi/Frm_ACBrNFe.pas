@@ -562,6 +562,11 @@ begin
     Ide.dEmi      := now;
     Ide.dSaiEnt   := now;
     Ide.hSaiEnt   := now;
+
+    // Reforma Tributária
+    if rgReformaTributaria.ItemIndex = 0 then
+      Ide.dPrevEntrega := Date + 10;
+
     Ide.tpNF      := tnSaida;
     Ide.tpEmis    := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
     Ide.tpAmb     := ACBrNFe1.Configuracoes.WebServices.Ambiente;
@@ -601,6 +606,15 @@ begin
       Ide.gCompraGov.tpEnteGov := tcgEstados;
       Ide.gCompraGov.pRedutor := 5;
       Ide.gCompraGov.tpOperGov := togFornecimento;
+
+//    Informado para abater as parcelas de antecipação de pagamento, conforme Art. 10. § 4º
+//    refNFe: Referência uma NF-e (modelo 55) emitida anteriormente, referente a pagamento antecipado
+
+      with Ide.gPagAntecipado.New do
+        refNFe := '12345678901234567890123456789012345678901234';
+
+      with Ide.gPagAntecipado.New do
+        refNFe := '12345678901234567890123456789012345678904567';
     end;
 
     Emit.CNPJCPF           := edtEmitCNPJ.Text;
@@ -675,6 +689,11 @@ begin
       Prod.cEAN     := '7896523206646';
       Prod.xProd    := 'Descrição do Produto';
       Prod.NCM      := '94051010'; // Tabela NCM disponível em  http://www.receita.fazenda.gov.br/Aliquotas/DownloadArqTIPI.htm
+
+      // Reforma Tributária
+      if rgReformaTributaria.ItemIndex = 0 then
+        Prod.tpCredPresIBSZFM := tcpSemCredito;
+
       Prod.EXTIPI   := '';
       Prod.CFOP     := '5101';
       Prod.uCom     := 'UN';
@@ -943,9 +962,9 @@ begin
           //  Informações do tributo: IBS / CBS
           IBSCBS.CST := cst000;
           IBSCBS.cClassTrib := '000001';
+          IBSCBS.indDoacao := tieSim;
 
           IBSCBS.gIBSCBS.vBC := 100;
-          IBSCBS.gIBSCBS.vIBS := 100;
 
           IBSCBS.gIBSCBS.gIBSUF.pIBSUF := 5;
           IBSCBS.gIBSCBS.gIBSUF.vIBSUF := 100;
@@ -969,6 +988,9 @@ begin
           IBSCBS.gIBSCBS.gIBSMun.gRed.pRedAliq := 5;
           IBSCBS.gIBSCBS.gIBSMun.gRed.pAliqEfet := 5;
 
+          // vIBS = vIBSUF + vIBSMun
+          IBSCBS.gIBSCBS.vIBS := 100;
+
           IBSCBS.gIBSCBS.gCBS.pCBS := 5;
           IBSCBS.gIBSCBS.gCBS.vCBS := 100;
 
@@ -988,16 +1010,6 @@ begin
           IBSCBS.gIBSCBS.gTribRegular.vTribRegIBSMun := 50;
           IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegCBS := 5;
           IBSCBS.gIBSCBS.gTribRegular.vTribRegCBS := 50;
-
-          IBSCBS.gIBSCBS.gIBSCredPres.cCredPres := cp01;
-          IBSCBS.gIBSCBS.gIBSCredPres.pCredPres := 5;
-          IBSCBS.gIBSCBS.gIBSCredPres.vCredPres := 100;
-          IBSCBS.gIBSCBS.gIBSCredPres.vCredPresCondSus := 100;
-
-          IBSCBS.gIBSCBS.gCBSCredPres.cCredPres := cp01;
-          IBSCBS.gIBSCBS.gCBSCredPres.pCredPres := 5;
-          IBSCBS.gIBSCBS.gCBSCredPres.vCredPres := 100;
-          IBSCBS.gIBSCBS.gCBSCredPres.vCredPresCondSus := 100;
 
           // Tipo Tributação Compra Governamental
           IBSCBS.gIBSCBS.gTribCompraGov.pAliqIBSUF := 5;
@@ -1031,6 +1043,36 @@ begin
 
           IBSCBS.gIBSCBSMono.vTotIBSMonoItem := 100;
           IBSCBS.gIBSCBSMono.vTotCBSMonoItem := 100;
+
+          //  Informações da Transferencia de Crédito
+          IBSCBS.gTransfCred.vIBS := 100;
+          IBSCBS.gTransfCred.vCBS := 100;
+
+          //  Informações Ajuste de Competência
+          IBSCBS.gAjusteCompet.competApur := Date;
+          IBSCBS.gAjusteCompet.vIBS := 100;
+          IBSCBS.gAjusteCompet.vCBS := 100;
+
+          //  Informações Estorno de Crédito
+          IBSCBS.gEstornoCred.vIBSEstCred := 100;
+          IBSCBS.gEstornoCred.vCBSEstCred := 100;
+
+          //  Informações do Crédito Presumido Operacional
+          IBSCBS.gCredPresOper.cCredPres := cpNenhum;
+          IBSCBS.gCredPresOper.vBCCredPres := 100;
+          IBSCBS.gCredPresOper.gIBSCredPres.pCredPres := 5;
+          IBSCBS.gCredPresOper.gIBSCredPres.vCredPres := 100;
+          IBSCBS.gCredPresOper.gIBSCredPres.vCredPresCondSus := 0;
+          IBSCBS.gCredPresOper.gCBSCredPres.pCredPres := 5;
+          IBSCBS.gCredPresOper.gCBSCredPres.vCredPres := 100;
+          IBSCBS.gCredPresOper.gCBSCredPres.vCredPresCondSus := 0;
+
+          //  Informações do Crédito Presumido IBS ZFM
+          // tcpNenhum, tcpSemCredito, tcpBensConsumoFinal, tcpBensCapital,
+          // tcpBensIntermediarios, tcpBensInformaticaOutros
+          IBSCBS.gCredPresIBSZFM.competApur := Date;
+          IBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM := tcpBensInformaticaOutros;
+          IBSCBS.gCredPresIBSZFM.vCredPresIBSZFM := 100;
         end;
       end;
     end;
@@ -1100,6 +1142,9 @@ begin
       Total.IBSCBSTot.gMono.vCBSMonoReten := 100;
       Total.IBSCBSTot.gMono.vIBSMonoRet := 100;
       Total.IBSCBSTot.gMono.vCBSMonoRet := 100;
+
+      Total.IBSCBSTot.gEstornoCred.vIBSEstCred := 100;
+      Total.IBSCBSTot.gEstornoCred.vCBSEstCred := 100;
 
       // Valor total da NF-e com IBS / CBS / IS
       Total.vNFTot := 100;
@@ -1188,6 +1233,11 @@ begin
   NotaF.NFe.Ide.dEmi      := Date;
   NotaF.NFe.Ide.dSaiEnt   := Date;
   NotaF.NFe.Ide.hSaiEnt   := Now;
+
+  // Reforma Tributária
+  if rgReformaTributaria.ItemIndex = 0 then
+    NotaF.NFe.Ide.dPrevEntrega := Date + 10;
+
   NotaF.NFe.Ide.tpNF      := tnSaida;
   NotaF.NFe.Ide.tpEmis    := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
 
@@ -1342,6 +1392,11 @@ begin
   Produto.Prod.cEAN     := '7896523206646';
   Produto.Prod.xProd    := 'Camisa Polo ACBr';
   Produto.Prod.NCM      := '61051000';
+
+  // Reforma Tributária
+  if rgReformaTributaria.ItemIndex = 0 then
+    Produto.Prod.tpCredPresIBSZFM := tcpSemCredito;
+
   Produto.Prod.EXTIPI   := '';
   Produto.Prod.CFOP     := '5101';
   Produto.Prod.uCom     := 'UN';
@@ -1790,8 +1845,9 @@ begin
       }
 
       //  Informações do tributo: IBS / CBS
-      IBSCBS.CST := cst000;
+      IBSCBS.CST := cst811;
       IBSCBS.cClassTrib := '000001';
+      IBSCBS.indDoacao := tieSim;
 
       IBSCBS.gIBSCBS.vBC := 100;
 
@@ -1840,16 +1896,6 @@ begin
       IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegCBS := 5;
       IBSCBS.gIBSCBS.gTribRegular.vTribRegCBS := 50;
 
-      IBSCBS.gIBSCBS.gIBSCredPres.cCredPres := cp01;
-      IBSCBS.gIBSCBS.gIBSCredPres.pCredPres := 5;
-      IBSCBS.gIBSCBS.gIBSCredPres.vCredPres := 100;
-      IBSCBS.gIBSCBS.gIBSCredPres.vCredPresCondSus := 100;
-
-      IBSCBS.gIBSCBS.gCBSCredPres.cCredPres := cp01;
-      IBSCBS.gIBSCBS.gCBSCredPres.pCredPres := 5;
-      IBSCBS.gIBSCBS.gCBSCredPres.vCredPres := 100;
-      IBSCBS.gIBSCBS.gCBSCredPres.vCredPresCondSus := 100;
-
       // Tipo Tributação Compra Governamental
       IBSCBS.gIBSCBS.gTribCompraGov.pAliqIBSUF := 5;
       IBSCBS.gIBSCBS.gTribCompraGov.vTribIBSUF := 50;
@@ -1887,9 +1933,29 @@ begin
       IBSCBS.gTransfCred.vIBS := 100;
       IBSCBS.gTransfCred.vCBS := 100;
 
+      //  Informações Ajuste de Competência
+      IBSCBS.gAjusteCompet.competApur := Date;
+      IBSCBS.gAjusteCompet.vIBS := 100;
+      IBSCBS.gAjusteCompet.vCBS := 100;
+
+      //  Informações Estorno de Crédito
+      IBSCBS.gEstornoCred.vIBSEstCred := 100;
+      IBSCBS.gEstornoCred.vCBSEstCred := 100;
+
+      //  Informações do Crédito Presumido Operacional
+      IBSCBS.gCredPresOper.cCredPres := cpNenhum;
+      IBSCBS.gCredPresOper.vBCCredPres := 100;
+      IBSCBS.gCredPresOper.gIBSCredPres.pCredPres := 5;
+      IBSCBS.gCredPresOper.gIBSCredPres.vCredPres := 100;
+      IBSCBS.gCredPresOper.gIBSCredPres.vCredPresCondSus := 0;
+      IBSCBS.gCredPresOper.gCBSCredPres.pCredPres := 5;
+      IBSCBS.gCredPresOper.gCBSCredPres.vCredPres := 100;
+      IBSCBS.gCredPresOper.gCBSCredPres.vCredPresCondSus := 0;
+
       //  Informações do Crédito Presumido IBS ZFM
       // tcpNenhum, tcpSemCredito, tcpBensConsumoFinal, tcpBensCapital,
       // tcpBensIntermediarios, tcpBensInformaticaOutros
+      IBSCBS.gCredPresIBSZFM.competApur := Date;
       IBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM := tcpBensInformaticaOutros;
       IBSCBS.gCredPresIBSZFM.vCredPresIBSZFM := 100;
     end;
@@ -2014,6 +2080,9 @@ begin
     NotaF.NFe.Total.IBSCBSTot.gMono.vCBSMonoReten := 100;
     NotaF.NFe.Total.IBSCBSTot.gMono.vIBSMonoRet := 100;
     NotaF.NFe.Total.IBSCBSTot.gMono.vCBSMonoRet := 100;
+
+    NotaF.NFe.Total.IBSCBSTot.gEstornoCred.vIBSEstCred := 100;
+    NotaF.NFe.Total.IBSCBSTot.gEstornoCred.vCBSEstCred := 100;
 
     // Valor total da NF-e com IBS / CBS / IS
     NotaF.NFe.Total.vNFTot := 100;
@@ -4506,12 +4575,12 @@ begin
     ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.NotasFiscais.LoadFromIni(OpenDialog1.FileName);
     ACBrNFe1.NotasFiscais.Assinar;
-    ACBrNFe1.NotasFiscais.GravarXML();
+//    ACBrNFe1.NotasFiscais.GravarXML();
 
     memoLog.Lines.Add('Arquivo gerado em: ' + ACBrNFe1.NotasFiscais[0].NomeArq);
 
     try
-      ACBrNFe1.NotasFiscais.Validar;
+//      ACBrNFe1.NotasFiscais.Validar;
 
       if ACBrNFe1.NotasFiscais[0].Alertas <> '' then
         MemoDados.Lines.Add('Alertas: '+ACBrNFe1.NotasFiscais[0].Alertas);

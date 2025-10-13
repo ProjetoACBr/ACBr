@@ -2148,7 +2148,9 @@ object frmACBrNFe: TfrmACBrNFe
       Width = 567
       Height = 40
       Align = alTop
-      Caption = 'Gera os campos da ReformaTributaria'
+      Caption = 
+        'Gera os campos da ReformaTributaria (em conformidade com a NT 20' +
+        '25/002 vers'#227'o 1.30)'
       Columns = 2
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
