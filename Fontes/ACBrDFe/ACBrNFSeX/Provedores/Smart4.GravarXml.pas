@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrXmlBase, ACBrXmlDocument,
+  ACBrXmlBase,
+  ACBrXmlDocument,
   ACBrNFSeXParametros, ACBrNFSeXGravarXml;
 
 type
@@ -59,6 +60,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrNFSeXConsts,
   ACBrNFSeXConversao;
 
@@ -133,7 +135,8 @@ begin
                                       NFSe.Servico.Valores.ValorIssRetido, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'OBSERVACAO', 1, 1000, 0,
-                                               NFSe.Servico.Discriminacao, ''));
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                          FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll])));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'DEDMATERIAIS', 1, 1, 1, 'S', ''));
 

@@ -89,8 +89,8 @@ begin
 
     NFSe.Servico.ItemServico.New;
     NFSe.Servico.ItemServico.Items[I].Descricao := ChangeLineBreak(AINIRec.ReadString(LSecao, 'Descricao', ''), FpAOwner.ConfigGeral.QuebradeLinha);
-    NFSe.Servico.ItemServico.Items[I].Quantidade := AINIRec.ReadFloat(LSecao, 'Quantidade', 0);
-    NFSe.Servico.ItemServico.Items[I].ValorUnitario := AINIRec.ReadFloat(LSecao, 'ValorUnitario', 0);
+    NFSe.Servico.ItemServico.Items[I].Quantidade := StringtoFloatDef(AINIRec.ReadString(LSecao, 'Quantidade', ''), 0);
+    NFSe.Servico.ItemServico.Items[I].ValorUnitario := StringtoFloatDef(AINIRec.ReadString(LSecao, 'ValorUnitario', ''), 0);
 
     Inc(I);
   end;

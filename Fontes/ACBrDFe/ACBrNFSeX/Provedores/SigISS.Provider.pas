@@ -135,6 +135,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,

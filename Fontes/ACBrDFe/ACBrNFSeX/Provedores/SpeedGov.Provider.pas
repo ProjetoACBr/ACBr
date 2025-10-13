@@ -69,6 +69,7 @@ implementation
 
 uses
   ACBrUtil.XMLHTML,
+  ACBrDFe.Conversao,
   ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes,
   ACBrNFSeXNotasFiscais, SpeedGov.GravarXml, SpeedGov.LerXml;
 

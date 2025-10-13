@@ -169,7 +169,8 @@ begin
                                              NFSe.Servico.xFormaPagamento, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'descricao', 1, 100, 1,
-                                               NFSe.Servico.Discriminacao, ''));
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                          FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll])));
 
   item := FormatarItemServico(NFSe.Servico.ItemListaServico, FormatoItemListaServico);
 

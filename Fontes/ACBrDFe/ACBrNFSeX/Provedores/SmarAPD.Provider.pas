@@ -146,6 +146,7 @@ implementation
 
 uses
   SynaCode,
+  ACBrDFe.Conversao,
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,

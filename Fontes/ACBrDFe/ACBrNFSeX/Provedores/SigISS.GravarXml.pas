@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrXmlBase, ACBrXmlDocument,
+  ACBrXmlBase,
+  ACBrXmlDocument,
   ACBrNFSeXGravarXml;
 
 type
@@ -81,6 +82,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Strings,
   ACBrNFSeXConversao,
   ACBrNFSeXConsts;
@@ -143,7 +145,8 @@ begin
                                          NFSe.Servico.Valores.BaseCalculo, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'descricaoNF', 1, 150, 1,
-                                               NFSe.Servico.Discriminacao, ''));
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                          FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll])));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'tomador_tipo', 1, 1, 1,
          FpAOwner.TipoPessoaToStr(NFSe.Tomador.IdentificacaoTomador.Tipo), ''));
@@ -402,7 +405,8 @@ begin
                                 NFSe.Servico.MunicipioIncidencia, DSC_MUNINCI));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'descricaoNF', 1, 150, 1,
-                                               NFSe.Servico.Discriminacao, ''));
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                          FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll])));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'tomador_tipo', 1, 1, 1,
          FpAOwner.TipoPessoaToStr(NFSe.Tomador.IdentificacaoTomador.Tipo), ''));

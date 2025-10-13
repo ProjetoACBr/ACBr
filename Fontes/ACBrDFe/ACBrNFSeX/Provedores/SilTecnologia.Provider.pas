@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes,
+  ACBrXmlBase,
   ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
   ACBrNFSeXProviderABRASFv1, ACBrNFSeXProviderABRASFv2,
@@ -96,8 +97,9 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.XMLHTML, ACBrUtil.Strings,
-  ACBrDFeException, ACBrXmlBase,
+  ACBrDFeException,
   SilTecnologia.GravarXml, SilTecnologia.LerXml;
 
 { TACBrNFSeXWebserviceSilTecnologia }

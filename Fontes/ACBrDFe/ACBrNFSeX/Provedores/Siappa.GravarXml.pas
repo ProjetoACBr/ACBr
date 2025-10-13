@@ -55,6 +55,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.Strings;
 
 //==============================================================================
@@ -155,7 +156,8 @@ begin
                                        DescReduzida, ''));
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'ws_001_in_nfse_desc_detalhada', 1, 1000, 1,
-                                       NFSe.Servico.Discriminacao, ''));
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+                          FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll])));
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ws_001_in_nfse_valor_bruto', 1, 18, 1,
                                        NFSe.Servico.Valores.ValorServicos, ''));

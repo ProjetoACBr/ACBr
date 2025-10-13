@@ -39,12 +39,17 @@ interface
 uses
   SysUtils, Classes, Variants,
   ACBrDFeSSL,
-  ACBrXmlBase, ACBrXmlDocument,
+  ACBrXmlBase,
+  ACBrXmlDocument,
+  ACBrDFe.Conversao,
   ACBrNFSeXNotasFiscais,
-  ACBrNFSeXClass, ACBrNFSeXConversao,
-  ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
+  ACBrNFSeXClass,
+  ACBrNFSeXConversao,
+  ACBrNFSeXGravarXml,
+  ACBrNFSeXLerXml,
   ACBrNFSeXProviderProprio,
-  ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
+  ACBrNFSeXWebserviceBase,
+  ACBrNFSeXWebservicesResponse;
 
 type
   TACBrNFSeXWebserviceSiappa = class(TACBrNFSeXWebserviceSoap11)

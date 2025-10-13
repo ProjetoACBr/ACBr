@@ -64,6 +64,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes,
   ACBrNFSeXNotasFiscais, Siam.GravarXml, Siam.LerXml;
 

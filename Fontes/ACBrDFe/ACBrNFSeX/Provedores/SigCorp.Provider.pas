@@ -110,6 +110,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrUtil.XMLHTML, ACBrUtil.DateTime, ACBrUtil.Strings,
   ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts,
   ACBrNFSeXNotasFiscais, SigCorp.GravarXml, SigCorp.LerXml;

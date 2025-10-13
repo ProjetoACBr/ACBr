@@ -73,6 +73,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes,
   ACBrNFSeXNotasFiscais, SiapSistemas.GravarXml, SiapSistemas.LerXml;
 

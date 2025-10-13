@@ -78,6 +78,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrDFeException, ACBrUtil.Strings, ACBrUtil.XMLHTML,
   Sudoeste.GravarXml, Sudoeste.LerXml;
 

@@ -104,6 +104,7 @@ implementation
 
 uses
   synacode,
+  ACBrDFe.Conversao,
   ACBrDFeException, ACBrUtil.Base, ACBrUtil.FilesIO, ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
   ACBrNFSeX, ACBrNFSeXNotasFiscais, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts,

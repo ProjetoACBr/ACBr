@@ -77,6 +77,7 @@ implementation
 
 uses
   synacode, DateUtils,
+  ACBrDFe.Conversao,
   ACBrDFeException,
   ACBrUtil.DateTime,
   ACBrUtil.Math, 

@@ -38,8 +38,12 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrXmlBase, ACBrXmlDocument,
-  ACBrNFSeXConversao, ACBrNFSeXLerXml, ACBrNFSeXLerXml_ABRASFv2;
+  ACBrXmlBase,
+  ACBrXmlDocument,
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao,
+  ACBrNFSeXLerXml,
+  ACBrNFSeXLerXml_ABRASFv2;
 
 type
   { TNFSeR_SmarAPD }

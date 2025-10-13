@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes, Variants,
+  ACBrXmlBase,
   ACBrNFSeXClass, ACBrNFSeXConversao,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
   WebFisco.Provider,
@@ -63,7 +64,8 @@ type
 implementation
 
 uses
-  ACBrXmlBase, ACBrDFeException,
+  ACBrDFe.Conversao,
+  ACBrDFeException,
   Sam.GravarXml, Sam.LerXml;
 
 { TACBrNFSeProviderSam }
