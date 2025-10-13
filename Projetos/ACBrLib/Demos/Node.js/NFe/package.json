@@ -8,6 +8,7 @@
   },
   "author": "Projeto ACBr",
   "dependencies": {
-    "@projetoacbr/acbrlib-nfe-node": "latest"
+    "@projetoacbr/acbrlib-nfe-node": "latest",
+    "dotenv": "^17.2.3"
   }
 }

@@ -32,6 +32,7 @@
 
 const path = require('path');
 const os = require('os');
+const dotenv = require('dotenv')
 
 //importa a classe ACBrLibNFeMT
 // a classe ACBrLibNFeMT é exportada como default 
@@ -107,7 +108,7 @@ function configuraSessaoDFe() {
   // apenas para teste
   //não fazer isso em produção
 
-  let senhaPFX = process.env.PFX_PASSWORD; 
+  let senhaPFX = process.env.PFX_PASSWORD;
 
 
   //configuração para usar a lib de criptografia openssl
@@ -145,12 +146,14 @@ function aplicarConfiguracoes() {
 }
 
 
+dotenv.config({ path: path.resolve(__dirname, '.env') })
+
 try {
   acbrNFe.inicializar()
 
   aplicarConfiguracoes()
 
-  
+
   acbrNFe.carregarXML(pathExemploNotaXML)
 
 
@@ -162,7 +165,9 @@ try {
 
   acbrNFe.obterXml(0)
 
- // acbrNFe.enviar()
+  // acbrNFe.enviar()
+  console.log(acbrNFe.statusServico())
+  console.log(acbrNFe.openSslInfo())
 
   acbrNFe.finalizar()
 
