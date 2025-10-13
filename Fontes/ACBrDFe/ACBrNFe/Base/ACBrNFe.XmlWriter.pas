@@ -4235,7 +4235,7 @@ begin
 
     if (IBSCBS.gCredPresOper.cCredPres <> cpNenhum) then
       Result.AppendChild(Gerar_IBSCBS_gCredPresOper(IBSCBS.gCredPresOper))
-    else
+    else if (IBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM <> tcpNenhum) then
       Result.AppendChild(Gerar_IBSCBS_gCredPresIBSZFM(IBSCBS.gCredPresIBSZFM));
   end;
 end;
