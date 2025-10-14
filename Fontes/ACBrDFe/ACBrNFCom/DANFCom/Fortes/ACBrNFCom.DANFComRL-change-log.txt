@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/10/2025
+-- ACBrNFCom.DANFComRLRetrato --
+[*] Ajuste para imprimir o titulo do campo dentro do seu quadro.
+   Por: Italo Giurizzato Junior
+
 09/10/2025
 -- ACBrNFCom.DANFComRLRetrato/ACBrNFComDANFComClass --
 [*] Ajustes para impressão correta de palavras acentuadas.

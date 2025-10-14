@@ -1652,7 +1652,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       object RLDraw46: TRLDraw
         Left = 0
         Top = 6
-        Width = 560
+        Width = 585
         Height = 43
         Angle = 90.000000000000000000
         HoldStyle = hsVertically
@@ -1674,7 +1674,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
       object RLLabel50: TRLLabel
         Tag = 10
-        Left = 221
+        Left = 241
         Top = 12
         Width = 100
         Height = 14
@@ -1689,7 +1689,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
       object RLLabel51: TRLLabel
         Tag = 10
-        Left = 340
+        Left = 360
         Top = 12
         Width = 100
         Height = 14
@@ -1704,7 +1704,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
       object RLLabel52: TRLLabel
         Tag = 10
-        Left = 451
+        Left = 475
         Top = 12
         Width = 100
         Height = 14
@@ -1719,7 +1719,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
       object rllMesRef: TRLLabel
         Tag = 703
-        Left = 221
+        Left = 241
         Top = 32
         Width = 100
         Height = 14
@@ -1734,7 +1734,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
       object rllVencimento2: TRLLabel
         Tag = 703
-        Left = 340
+        Left = 360
         Top = 32
         Width = 100
         Height = 14
@@ -1749,7 +1749,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
       object rllTotPagar: TRLLabel
         Tag = 703
-        Left = 451
+        Left = 475
         Top = 32
         Width = 100
         Height = 14
@@ -1780,14 +1780,14 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       object RLDraw47: TRLDraw
         Left = 0
         Top = 29
-        Width = 560
+        Width = 585
         Height = 1
         Angle = 180.000000000000000000
         DrawKind = dkLine
         HoldStyle = hsVertically
       end
       object RLDraw48: TRLDraw
-        Left = 214
+        Left = 230
         Top = 6
         Width = 1
         Height = 43
@@ -1796,7 +1796,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
         HoldStyle = hsVertically
       end
       object RLDraw49: TRLDraw
-        Left = 330
+        Left = 350
         Top = 6
         Width = 1
         Height = 43
@@ -1805,7 +1805,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
         HoldStyle = hsVertically
       end
       object RLDraw3: TRLDraw
-        Left = 445
+        Left = 465
         Top = 6
         Width = 1
         Height = 43
