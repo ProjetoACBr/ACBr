@@ -9,7 +9,7 @@ interface
 
 uses
   ACBrMDFe, ACBrMDFeConfiguracoes, ACBrMDFeManifestos, ACBrMDFeReg, 
-  ACBrMDFeWebServices, pmdfeConversaoMDFe, 
+  ACBrMDFeWebServices, pmdfeConversaoMDFe, pmdfeMDFeR, pmdfeMDFeW,  
   ACBrMDFeDAMDFeClass, ACBrMDFe.Classes, ACBrMDFe.ProcInfraSA, 
   ACBrMDFe.XmlReader, ACBrMDFe.XmlWriter, ACBrMDFe.ConsNaoEnc, 
   ACBrMDFe.RetConsNaoEnc, ACBrMDFe.ConsSit, ACBrMDFe.RetConsSit, 
