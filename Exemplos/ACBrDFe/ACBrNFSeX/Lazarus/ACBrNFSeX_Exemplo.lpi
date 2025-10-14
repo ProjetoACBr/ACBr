@@ -16,8 +16,44 @@
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
-    <BuildModes Count="1">
-      <Item1 Name="Default" Default="True"/>
+    <BuildModes Count="2">
+      <Item1 Name="Debug" Default="True"/>
+      <Item2 Name="Release">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <SearchPaths>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <RunWithoutDebug Value="True"/>
+              <StripSymbols Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL"/>
+          </Other>
+        </CompilerOptions>
+      </Item2>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -26,34 +62,37 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages Count="9">
+    <RequiredPackages Count="10">
       <Item1>
-        <PackageName Value="ACBr_NFSeXDanfseRL"/>
+        <PackageName Value="SynEditDsgn"/>
       </Item1>
       <Item2>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="ACBr_NFSeXDanfseRL"/>
       </Item2>
       <Item3>
-        <PackageName Value="laz_synapse"/>
+        <PackageName Value="SynEdit"/>
       </Item3>
       <Item4>
-        <PackageName Value="PCNComum"/>
+        <PackageName Value="laz_synapse"/>
       </Item4>
       <Item5>
-        <PackageName Value="ACBrComum"/>
+        <PackageName Value="PCNComum"/>
       </Item5>
       <Item6>
-        <PackageName Value="ACBrDFeComum"/>
+        <PackageName Value="ACBrComum"/>
       </Item6>
       <Item7>
-        <PackageName Value="ACBrTCP"/>
+        <PackageName Value="ACBrDFeComum"/>
       </Item7>
       <Item8>
-        <PackageName Value="ACBr_NFSeX"/>
+        <PackageName Value="ACBrTCP"/>
       </Item8>
       <Item9>
-        <PackageName Value="LCL"/>
+        <PackageName Value="ACBr_NFSeX"/>
       </Item9>
+      <Item10>
+        <PackageName Value="LCL"/>
+      </Item10>
     </RequiredPackages>
     <Units Count="4">
       <Unit0>
@@ -87,14 +126,29 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
-        <SyntaxMode Value="delphi"/>
+        <SyntaxMode Value="Delphi"/>
+        <IncludeAssertionCode Value="True"/>
       </SyntaxOptions>
     </Parsing>
+    <CodeGeneration>
+      <Checks>
+        <IOChecks Value="True"/>
+        <RangeChecks Value="True"/>
+        <OverflowChecks Value="True"/>
+        <StackChecks Value="True"/>
+      </Checks>
+      <VerifyObjMethodCallValidity Value="True"/>
+    </CodeGeneration>
     <Linking>
+      <Debugging>
+        <UseHeaptrc Value="True"/>
+        <TrashVariables Value="True"/>
+      </Debugging>
       <Options>
         <Win32>
           <GraphicApplication Value="True"/>
@@ -102,7 +156,7 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL"/>
+      <CustomOptions Value="-dDebug"/>
     </Other>
   </CompilerOptions>
   <Debugging>
