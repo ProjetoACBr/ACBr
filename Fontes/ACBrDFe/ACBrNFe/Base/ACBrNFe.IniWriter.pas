@@ -1617,7 +1617,7 @@ begin
       cst000, cst200, cst220, cst510:
         Gerar_IBSCBS_gIBSCBS(AINIRec, IBSCBS.gIBSCBS, Idx);
 
-      cst550:
+      cst515, cst550, cst830:
         if (NFe.Ide.modelo = 55) then
           Gerar_IBSCBS_gIBSCBS(AINIRec, IBSCBS.gIBSCBS, Idx);
 
@@ -1637,14 +1637,13 @@ begin
           Gerar_IBSCBS_gAjusteCompet(AINIRec, IBSCBS.gAjusteCompet, Idx);
     end;
 
-//  cst010 = Tributação com alíquotas uniformes sem informações de qual DF-e usar
-//  cst011 = Tributação com alíquotas uniformes reduzidas sem informações de qual DF-e usar
+//  cst010 = Tributação com alíquotas uniformes usado em NFSe e DERE
+//  cst011 = Tributação com alíquotas uniformes usado em NFSe e DERE
 //  cst221 = Alíquota fixa rateada usado na NFSe
-//  cst222 = Redução de Base de Cálculo sem informação de qual DF-e usar
+//  cst222 = Redução de Base de Cálculo usado em BPe e BPeTA
 //  cst400 = Isenção usado na NFSe e BPeTM
 //  cst410 = Imunidade e não incidência usado em praticante todos DF-e mas não se calcula IBS/CBS
 //  cst820 = Tributação em declaração de regime especifico usado na NFSe
-//  cst830 = Exclusão da Base de Cálculo usado na NF3e
 
     if (IBSCBS.gEstornoCred.vIBSEstCred > 0) or (IBSCBS.gEstornoCred.vCBSEstCred > 0) then
       Gerar_IBSCBS_gEstornoCred(AINIRec, IBSCBS.gEstornoCred, Idx);
