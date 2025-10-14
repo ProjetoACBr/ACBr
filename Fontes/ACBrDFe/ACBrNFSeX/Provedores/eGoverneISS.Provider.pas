@@ -518,7 +518,7 @@ begin
 
         if ANode <> nil then
         begin
-          ANodeArray := ANode.Childrens.FindAllAnyNs('NotaFiscalLoteGeradaDTO');
+          ANodeArray := ANode.Childrens.FindAllAnyNs('NotaFiscalConsultaDTO');
 
           if Assigned(ANodeArray) then
           begin
@@ -539,9 +539,9 @@ begin
               begin
                 NumeroNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('Numero'), tcStr);
 
-                CodigoVerificacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('Autenticador'), tcStr);
+                CodigoVerificacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('CodigoAutenticidade'), tcStr);
 
-                Link := ObterConteudoTag(ANode.Childrens.FindAnyNs('Link'), tcStr);
+                Link := ObterConteudoTag(ANode.Childrens.FindAnyNs('LinkNFE'), tcStr);
                 Link := StringReplace(Link, '&amp;', '&', [rfReplaceAll]);
               end;
 

@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/10/2025
+-- eGoverneISS.Provider --
+[*] Ajuste para tratar o retorno da consulta da NFS-e por RPS.
+   Por: Italo Giurizzato Junior
+
 13/10/2025
 -- Diversos --
 [*] Acrescentado a unit ACBrDFe.Conversao visando a Reforma Tributária.
