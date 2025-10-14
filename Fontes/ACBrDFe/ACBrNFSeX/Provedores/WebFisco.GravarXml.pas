@@ -57,6 +57,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrValidador;
 
 //==============================================================================

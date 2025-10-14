@@ -79,6 +79,7 @@ implementation
 uses
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.XMLHTML,
   ACBrDFeException,
+  ACBrDFe.Conversao,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts, ACBrNFSeXNotasFiscais,
   Thema.GravarXml, Thema.LerXml;
 

@@ -96,6 +96,7 @@ implementation
 
 uses
   DateUtils,
+  ACBrDFe.Conversao,
   ACBrUtil.Strings,
   ACBrUtil.XMLHTML,
   ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts,

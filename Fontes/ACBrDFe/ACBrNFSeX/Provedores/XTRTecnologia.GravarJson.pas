@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes, Variants, StrUtils,
+  ACBrXmlBase,
   ACBrJSON,
   ACBrNFSeXGravarXml,
   ACBrNFSeXConversao;
@@ -60,7 +61,7 @@ implementation
 
 uses
   DateUtils,
-  ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrUtil.Strings,
   ACBrConsts;
 

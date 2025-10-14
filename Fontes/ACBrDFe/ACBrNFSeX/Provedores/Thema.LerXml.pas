@@ -54,6 +54,10 @@ type
 
 implementation
 
+uses
+  ACBrDFe.Conversao;
+
+
 //==============================================================================
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:
 //     Thema

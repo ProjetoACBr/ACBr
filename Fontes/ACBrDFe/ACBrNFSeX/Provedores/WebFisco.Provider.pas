@@ -96,6 +96,7 @@ type
 implementation
 
 uses
+  ACBrDFe.Conversao,
   ACBrDFeException,
   ACBrUtil.Base, ACBrUtil.Strings,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts,

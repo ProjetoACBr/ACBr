@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes,
+  ACBrXmlBase,
   ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml, ACBrNFSeXWebservicesResponse,
   ACBrNFSeXProviderABRASFv1, ACBrNFSeXWebserviceBase;
@@ -79,7 +80,9 @@ type
 implementation
 
 uses
-  ACBrXmlBase, ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes,
+  ACBrDFeException,
+  ACBrDFe.Conversao,
+  ACBrNFSeX, ACBrNFSeXConfiguracoes,
   ACBrNFSeXNotasFiscais, Tinus.GravarXml, Tinus.LerXml;
 
 { TACBrNFSeXWebserviceTinus }
