@@ -87,7 +87,7 @@ begin
   fpNome                  := 'CREDISANCED';
   fpNumero                := 089;
   fpTamanhoMaximoNossoNum := 7;
-  fpTamanhoConta          := 8;
+  fpTamanhoConta          := 7;
   fpTamanhoAgencia        := 4;
   fpTamanhoCarteira       := 1;
   fpCodigosMoraAceitos    := '2'
@@ -98,7 +98,7 @@ var LParcela : String;
 begin
   LParcela := PadLeft(IntToStr(ACBrTitulo.Parcela),3,'0');
 
-  Result := ACBrTitulo.Carteira +
+  Result := PadLeft(Trim(ACBrTitulo.Carteira),1,'0') +
             PadLeft(Trim(ACBrTitulo.ACBrBoleto.Cedente.Agencia),4,'0') +
             PadLeft(Trim(ACBrTitulo.ACBrBoleto.Cedente.Modalidade),2,'0') +
             PadLeft(Trim(ACBrTitulo.ACBrBoleto.Cedente.Conta),7,'0') +
@@ -129,14 +129,7 @@ end;
 
 function TACBrBancoCredisan.MontarCampoCodigoCedente(const ACBrTitulo: TACBrTitulo): String;
 begin
-  if (ACBrTitulo.ACBrBoleto.Banco.TipoCobranca = cobBancoDoBrasilAPI) then
-  begin
-    Result := ACBrTitulo.ACBrBoleto.Cedente.Agencia + '/' + IntToStr(StrToIntDef(ACBrTitulo.ACBrBoleto.Cedente.Conta, 0));
-  end
-  else
-  begin
     Result := ACBrTitulo.ACBrBoleto.Cedente.Agencia + '-' + ACBrTitulo.ACBrBoleto.Cedente.AgenciaDigito + '/' + IntToStr(StrToIntDef(ACBrTitulo.ACBrBoleto.Cedente.Conta, 0)) + '-' + ACBrTitulo.ACBrBoleto.Cedente.ContaDigito;
-  end;
 end;
 
 function TACBrBancoCredisan.MontarCampoNossoNumero(const ACBrTitulo: TACBrTitulo): String;
@@ -311,11 +304,11 @@ begin
     if (ACBrTitulo.CodigoMulta <> cmIsento) and (ACBrTitulo.CodigoMulta <> cmPercentual) then
       raise Exception.Create('Permitido somente Taxa (Percentual) Multa Mensal');
 
-    LValorTaxaMoraMes := FloatToStr(ACBrTitulo.ValorMoraJuros * 100);
+    LValorTaxaMoraMes := FloatToStr(ACBrTitulo.ValorMoraJuros * 1000);
     if ACBrTitulo.MultaValorFixo then
       raise Exception.Create('Permitido somente Taxa Multa Mensal')
     else
-      LValorTaxaMulta   := FloatToStr(ACBrTitulo.PercentualMulta * 100);
+      LValorTaxaMulta   := FloatToStr(ACBrTitulo.PercentualMulta * 1000);
 
 
 
@@ -374,8 +367,8 @@ begin
               FormatDateTime('ddmmyy', ACBrTitulo.DataDocumento)       + // 151 - 156 Data de Emissão
               PadLeft(ACBrTitulo.Instrucao1,2,'0')                     + // 157 - 158 1ª instrução codificada
               PadLeft(ACBrTitulo.Instrucao2,2,'0')                     + // 159 - 160 2ª instrução codificada
-              PadRight(LValorTaxaMoraMes,6,'0')                        + // 161 - 166 Taxa Juros de mora por mês
-              PadRight(LValorTaxaMulta,6,'0')                          + // 167 - 172 Taxa de multa por mês
+              PadLeft(LValorTaxaMoraMes,6,'0')                         + // 161 - 166 Taxa Juros de mora por mês
+              PadLeft(LValorTaxaMulta,6,'0')                           + // 167 - 172 Taxa de multa por mês
               Space(1)                                                 + // 173 - 173 Filler Branco
               LDataDesconto                                            + // 174 - 179 Data Primeiro Desconto
               IntToStrZero(Round(ACBrTitulo.ValorDesconto * 100), 13)  + // 180 - 192 Valor do desconto
