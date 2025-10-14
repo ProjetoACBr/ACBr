@@ -430,7 +430,7 @@ begin
               if aJson.AsJSONObject['resultado'].AsString['arquivo'] <> EmptyStr then
               begin
                 LRetorno := String(UTF8ToNativeString(unzip( DecodeBase64(aJson.AsJSONObject['resultado'].AsString['arquivo']))));
-                AJsonBoletosArray := AJsonBoletosArray.Parse( LRetorno );
+                AJsonBoletosArray := TACBrJSONArray.Parse( LRetorno );
                 try
                   (*
                   LMeuArq := TStringList.Create();
