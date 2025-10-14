@@ -2848,11 +2848,7 @@ begin
   ImageList2.GetBitmap(16, imgErrNFSe.Picture.Bitmap);
   ImageList2.GetBitmap(16, imgErrNFSe_Municipio.Picture.Bitmap);
 
-
-
-
   FMenuTreeView := TMenu.Create(pgConfig, TreeViewMenu);
-
 end;
 
 procedure TFrmACBrMonitor.FormClose(Sender: TObject; var CloseAction: TCloseAction);
