@@ -1185,7 +1185,7 @@ type
     procedure ACBrPSPBancoDoBrasil1PrecisaAutenticar(var aToken: String; var aValidadeToken: TDateTime);
     procedure ACBrPSPBancoDoBrasil1QuandoReceberRespostaHttp(const AURL: String;
       const AMethod: String; RespHeaders: TStrings; var AResultCode: Integer;
-      var RespostaHttp: String);
+      var RespostaHttp: AnsiString);
     procedure btAilosAcharCertificadoClick(Sender: TObject);
     procedure btAilosAcharCertificadoRootClick(Sender: TObject);
     procedure btAilosAcharchavePrivadaClick(Sender: TObject);
@@ -1974,7 +1974,7 @@ end;
 
 procedure TForm1.ACBrPSPBancoDoBrasil1QuandoReceberRespostaHttp(
   const AURL: String; const AMethod: String; RespHeaders: TStrings;
-  var AResultCode: Integer; var RespostaHttp: String);
+  var AResultCode: Integer; var RespostaHttp: AnsiString);
 var
   jsRet, js: TACBrJSONObject;
   ja, jsArr: TACBrJSONArray;
@@ -5696,7 +5696,7 @@ begin
   pnBradescoPFX.Parent := pnBradescoCertificados;
   pnBradescoChaveECert.Parent := pnBradescoCertificados;
   {$IfNDef FPC}cbBBConfigTokenManual.Top := -2;{$EndIf}
-  {$IfNDef DELPHI7}edBBConfigTokenValidade.Kind := dtkDateTime;{$Else}
+  {$IfDef DELPHIX_ALEXANDRIA_UP}edBBConfigTokenValidade.Kind := dtkDateTime;{$Else}
   {$IfDef FPC}edBBConfigTokenValidade.Kind := dtkDateTime;{$EndIf}{$EndIf}
 
   fTokenBB := EmptyStr;
