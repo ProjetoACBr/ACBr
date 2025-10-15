@@ -632,6 +632,16 @@ procedure TfrlDANFeRLSimplificado.RLBand1BeforePrint(Sender: TObject; var
     PrintIt: Boolean);
 begin
   inherited;
+  if not fpDANFe.Etiqueta then
+  begin
+    rlmDadosAdicionais.AutoSize := true;
+    rlmDadosAdicionais.Align    := faClientBottom;
+  end
+  else
+  begin
+    rlmDadosAdicionais.AutoSize := false;
+    rlmDadosAdicionais.Align    := faLeft;
+  end;
   rlmDadosAdicionais.Lines.Clear;
   rlmDadosAdicionais.Lines.Add(ACBrStr('Informações Adicionais:'));
   rlmDadosAdicionais.Lines.Add(fpNFe.infAdic.infCpl);

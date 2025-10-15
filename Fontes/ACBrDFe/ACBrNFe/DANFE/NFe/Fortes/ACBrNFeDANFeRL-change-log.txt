@@ -45,14 +45,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
-
-
-05/02/2025
--- Diversos --
-[*] Nos quadros: Peso Bruto e Peso Linquido foi acrescentado "(Kg)" para deixar
-    claro que o numero informado nos quadros estão na unidade Kg.
-    Essa alteração foi aplicada nos modelos feitos em Fortes e FPDF.
-   Por: Italo Giurizzato Junior
+15/10/2025
+-- ACBrNFeDANFeRLSimplificado (pas, lfm e dfm) -- 
+[*] Quando nao for etiqueta, ativa autosize e muda o alinhamento para impressao completa do texto.
+   ACBr-8207- https://www.projetoacbr.com.br/forum/topic/86417-danfe-simplificado-cortando-informa%C3%A7%C3%B5es-adicionais
+   Por: Daniel Morais InfoCotidiano
 
 20/01/2025
 -- ACBrNFeDANFeEventoRLRetrato --
