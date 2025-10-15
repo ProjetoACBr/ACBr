@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+15/10/2025
+-- ACBrNFComXmlWriter --
+[*] Ajuste na geração do XML os grupos gFat e gFatCentral são mutuamente excludentes.
+   Por: Italo Giurizzato Junior
+
 11/10/2025
 -- Diversos --
 [*] Mais ajustes para a correta geração/leitura do arquivo XML e INI.

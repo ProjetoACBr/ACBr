@@ -1385,7 +1385,7 @@ function TNFComXmlWriter.Gerar_gFat: TACBrXmlNode;
 begin
   Result := nil;
 
-  if NFCom.gFat.dVencFat > 0 then
+  if (NFCom.gFat.dVencFat > 0) and (NFCom.gFatCentral.CNPJ = '') then
   begin
     Result := FDocument.CreateElement('gFat');
 
@@ -1483,7 +1483,7 @@ function TNFComXmlWriter.Gerar_gFatCentral: TACBrXmlNode;
 begin
   Result := nil;
 
-  if NFCom.gFatCentral.CNPJ <> '' then
+  if (NFCom.gFat.dVencFat = 0) and (NFCom.gFatCentral.CNPJ <> '') then
   begin
     Result := FDocument.CreateElement('gFatCentral');
 
