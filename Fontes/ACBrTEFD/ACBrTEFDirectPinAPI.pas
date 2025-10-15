@@ -514,7 +514,7 @@ end;
 procedure TDPPayLoadRequestReversal.Clear;
 begin
   Fnsu := '';
-  Ftype_ := 'reversal';
+  Ftype_ := 'cancelTransaction';
 end;
 
 function TDPPayLoadRequestReversal.GetAsJSON: String;

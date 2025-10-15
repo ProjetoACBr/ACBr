@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/10/2025
+-- ACBrTEFDirectPinAPI --
+[*] Ajuste TDPPayLoadRequestReversal informando o tipo correto para estorno da transação.
+   Por: Antonio Carlos Junior
+
 08/10/2025
 -- ACBrTEFSmartTEFSchemas --
 [*] Ajuste para ler corretamente as mensagens de erro quando forem enviadas em lista.
