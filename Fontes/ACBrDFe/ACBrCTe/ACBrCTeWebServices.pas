@@ -2208,7 +2208,7 @@ begin
     with FprocEventoCTe[i].RetEventoCTe do
     begin
       XML := '<procEventoCTe versao="' + FVersao + '" xmlns="' + ACBRCTE_NAMESPACE + '">' +
-               XML +
+               SeparaDados(XML, 'procEventoCTe') +
              '</procEventoCTe>';
 
       Inicio := Pos('Id=', XML) + 6;

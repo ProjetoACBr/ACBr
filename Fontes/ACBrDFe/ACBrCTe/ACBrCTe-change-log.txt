@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+15/10/2025
+-- ACBrCTeWebServices --
+[*] Possível solução para não gerar o XML com a tag procEventoCTe em duplicidade.
+   Por: Italo Giurizzato Junior
+
 11/10/2025
 -- Diversos --
 [*] Mais ajustes para a correta geração/leitura do arquivo XML e INI.
