@@ -1526,7 +1526,9 @@ uses
   {$IfDef FPC}
    fpjson, jsonparser, jsonscanner,
   {$Else}
-    {$IFDEF DELPHIXE6_UP}JSON,{$ENDIF}
+    {$IFDEF DELPHIXE6_UP}JSON,
+    {$IFNDEF DELPHIRIO_UP}REST.Json,{$ENDIF}
+    {$ENDIF}
   {$EndIf}
   TypInfo, Clipbrd, IniFiles, DateUtils, synacode, synautil, pcnConversao,
   ACBrDelphiZXingQRCode, ACBrImage, ACBrValidador, ACBrPIXUtil, ACBrConsts,
@@ -6081,7 +6083,11 @@ begin
       try
         if Assigned(wJsonValue) then
         begin
+          {$IFDEF DELPHIRIO_UP}
           Result := wJsonValue.Format(2);
+          {$ELSE}
+          Result := TJson.Format(wJsonValue);
+          {$ENDIF}
         end;
       finally
         wJsonValue.Free;
