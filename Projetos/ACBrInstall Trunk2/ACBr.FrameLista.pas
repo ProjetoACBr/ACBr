@@ -225,14 +225,16 @@ type
     Label39: TLabel;
     Label40: TLabel;
     Label41: TLabel;
-    CheckBox1: TCheckBox;
+    ACBr_BPeDabpeFR_dpk: TCheckBox;
     Label42: TLabel;
-    CheckBox2: TCheckBox;
+    ACBr_NFComDANFComRL_dpk: TCheckBox;
     Label43: TLabel;
     ACBr_MDFeDAMDFEFPDF_dpk: TCheckBox;
     Label44: TLabel;
     CheckBox3: TCheckBox;
     Label45: TLabel;
+    ACBr_FastReportComum_dpk: TCheckBox;
+    Label46: TLabel;
     procedure btnPacotesMarcarTodosClick(Sender: TObject);
     procedure btnPacotesDesmarcarTodosClick(Sender: TObject);
     procedure VerificarCheckboxes(Sender: TObject);
@@ -584,9 +586,21 @@ begin
          (ACBr_NFeDanfeRL_dpk.Checked or ACBr_NFSeDanfseRL_dpk.Checked or
           ACBr_CTeDacteRL_dpk.Checked or ACBr_BoletoRL_dpk.Checked or
           ACBr_MDFeDamdfeRL_dpk.Checked or ACBr_SATExtratoRL_dpk.Checked or
-          ACBr_GNREGuiaRL_dpk.Checked or ACBr_NFSeXDanfseRL_dpk.Checked) then
+          ACBr_GNREGuiaRL_dpk.Checked or ACBr_NFSeXDanfseRL_dpk.Checked or
+          ACBr_NFComDANFComRL_dpk.Checked or ACBr_DCeDACERL_dpk.Checked or
+          ACBr_NF3eDANF3eRL_dpk.Checked ) then
       begin
         ACBr_DFeReportRL_dpk.Checked := True;
+      end;
+
+      if (not ACBr_FastReportComum_dpk.Checked) and
+         (ACBr_NFeDanfeFR_dpk.Checked or ACBr_CTeDacteFR_dpk.Checked or
+          ACBr_NFSeDanfseFR_dpk.Checked or ACBr_NFSeXDanfseFR_dpk.Checked or
+          ACBr_BoletoFR_dpk.Checked or ACBr_MDFeDamdfeFR_dpk.Checked or
+          ACBr_SATExtratoFR_dpk.Checked or ACBr_GNREGuiaFR_dpk.Checked or
+          ACBr_BPeDabpeFR_dpk.Checked) then
+      begin
+        ACBr_FastReportComum_dpk.Checked := True;
       end;
 
       // Dependencias do OpenDelivery

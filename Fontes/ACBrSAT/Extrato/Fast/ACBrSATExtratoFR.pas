@@ -138,7 +138,8 @@ uses
   StrUtils,
   ACBrDFeUtil, ACBrSAT,
   ACBrValidador, ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime,
-  ACBrImage, ACBrDelphiZXingQRCode;
+  ACBrImage, ACBrDelphiZXingQRCode, 
+  ACBrUtil.FR;
 
 { TACBrSATExtratoFR }
 
@@ -307,16 +308,20 @@ begin
   end else
     raise EACBrSATExtratoFR.Create('Caminho do arquivo de impressão do Extrato SAT não assinalado.');
 
-  frxReport.PrintOptions.Copies      := NumCopias;
-  frxReport.PrintOptions.ShowDialog  := MostraSetup;
+
   frxReport.ShowProgress             := MostraStatus;
-  frxReport.PrintOptions.PrintMode   := FPrintMode; //Precisamos dessa propriedade porque impressoras não fiscais cortam o papel quando há muitos itens. O ajuste dela deve ser necessariamente após a carga do arquivo FR3 pois, antes da carga o componente é inicializado
-  frxReport.PrintOptions.PrintOnSheet := FPrintOnSheet; //Essa propriedade pode trabalhar em conjunto com a printmode
   frxReport.PreviewOptions.AllowEdit := False;
 
   // Define a impressora
-  if NaoEstaVazio(frxReport.PrintOptions.Printer) then
+  if EstaVazio(Impressora) then
+    SetDefaultPrinter(frxReport)
+  else
     frxReport.PrintOptions.Printer := Impressora;
+
+  frxReport.PrintOptions.Copies      := NumCopias;
+  frxReport.PrintOptions.ShowDialog  := MostraSetup;
+  frxReport.PrintOptions.PrintMode   := FPrintMode; //Precisamos dessa propriedade porque impressoras não fiscais cortam o papel quando há muitos itens. O ajuste dela deve ser necessariamente após a carga do arquivo FR3 pois, antes da carga o componente é inicializado
+  frxReport.PrintOptions.PrintOnSheet := FPrintOnSheet; //Essa propriedade pode trabalhar em conjunto com a printmode
 
   frxReport.Variables['isCancelado'] := Ord(FTipoImpressao = tiCancelado);
 

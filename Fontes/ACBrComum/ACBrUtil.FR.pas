@@ -35,22 +35,20 @@
 
 {$I ACBr.inc}
 
-
-
 unit ACBrUtil.FR;
 
 interface
 uses
+  frxClass,
 {$IFDEF FPC}
   BufDataset
 {$ELSE}
   DBClient
 {$ENDIF}
 ;
+
 type
-
   TACBrFRDataSet = {$IFDEF FPC}TBufDataset{$ELSE}TClientDataSet{$ENDIF};
-
 
 {$IFDEF FPC}
 { THBufDataset }
@@ -60,17 +58,19 @@ type
   end;
 
 {$ENDIF}
+ procedure SetDefaultPrinter(var frxReport : TfrxReport);
 
 implementation
 
+
 uses
   SysUtils,
-  frxClass,
-  frxDsgnIntf;
+  frxDsgnIntf,
+  Classes,
+  Printers;
 
 {$IFDEF FPC}
 { THBufDataset }
-
 procedure THBufDataset.EmptyDataSet;
 begin
   TBufDataset(Self).Active := True;
@@ -81,7 +81,7 @@ begin
 end;
 {$ENDIF}
 
-procedure RemoveExportPDFDup;
+procedure RemoveExportPDFDuplicate;
 var
   LCount, I: Integer;
 begin
@@ -103,6 +103,18 @@ begin
         Inc(LCount);
     end;
   end;
+end;
+
+procedure SetDefaultPrinter(var frxReport : TfrxReport);
+begin
+  frxReport.PrintOptions.Clear;
+  Printer.PrinterIndex := -1;
+  frxReport.PrintOptions.Printer := Printer.Printers.Strings[Printer.PrinterIndex];
+end;
+
+initialization
+begin
+
 end;
 
 end.

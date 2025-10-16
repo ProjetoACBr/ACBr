@@ -110,7 +110,10 @@ uses
   ACBrUtil.FilesIO,
   ACBrUtil.DateTime,
   ACBrUtil.Strings,
-  StrUtils, ACBrDFeUtil, Math;
+  StrUtils, 
+  ACBrDFeUtil, 
+  Math, 
+  ACBrUtil.FR;
 
 constructor TACBrNFSeDANFSeFR.Create(AOwner: TComponent);
 begin
@@ -271,14 +274,17 @@ begin
   else
     raise EACBrNFSeDANFSeFR.Create('Caminho do arquivo de impressão do DANFSe não assinalado.');
 
-  frxReport.PrintOptions.Copies      := NumCopias;
-  frxReport.PrintOptions.ShowDialog  := MostraSetup;
   frxReport.ShowProgress             := MostraStatus;
   frxReport.PreviewOptions.AllowEdit := False;
 
   // Define a impressora
-  if NaoEstaVazio(frxReport.PrintOptions.Printer) then
+  if EstaVazio(Impressora) then
+    SetDefaultPrinter(FfrxReport)
+  else
     frxReport.PrintOptions.Printer := Impressora;
+
+  frxReport.PrintOptions.Copies      := NumCopias;
+  frxReport.PrintOptions.ShowDialog  := MostraSetup;
 
   if Assigned(ANFSe) then
   begin

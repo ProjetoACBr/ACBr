@@ -47,7 +47,8 @@ uses
   ACBrGNREGuiaFRDM,
   pcnConversao, 
   frxClass, 
-  pgnreGNRERetorno;
+  pgnreGNRERetorno,
+  ACBrUtil.FR;
 
 type
   EACBrGNREGuiaFR = class(Exception);
@@ -204,14 +205,18 @@ begin
   else
     raise EACBrGNREGuiaFR.Create('Caminho do arquivo de impressão do Guia não assinalado.');
 
-  dmGuia.frxReport.PrintOptions.Copies      := NumCopias;
-  dmGuia.frxReport.PrintOptions.ShowDialog  := ShowDialog;
+
   dmGuia.frxReport.ShowProgress             := MostrarStatus;
   dmGuia.frxReport.PreviewOptions.AllowEdit := False;
 
   // Define a impressora
-  if NaoEstaVazio(dmGuia.frxReport.PrintOptions.Printer) then
+  if EstaVazio(Impressora) then
+    SetDefaultPrinter(dmGuia.frxReport)
+  else
     dmGuia.frxReport.PrintOptions.Printer := Impressora;
+
+  dmGuia.frxReport.PrintOptions.Copies      := NumCopias;
+  dmGuia.frxReport.PrintOptions.ShowDialog  := ShowDialog;
 
   if Assigned(GNRE) then
   begin
