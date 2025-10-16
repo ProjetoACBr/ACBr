@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="12"/>
+    <PathDelim Value="\"/>
+    <General>
+      <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
+        <CompatibilityMode Value="True"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <Title Value="ACBrLibExtratoAPI"/>
+      <ResourceType Value="res"/>
+    </General>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <AutoIncrementBuild Value="True"/>
+      <BuildNr Value="1"/>
+      <Language Value="0416"/>
+      <StringTable CompanyName="Projeto ACBr" FileDescription="ACBrExtratoAPI - Biblioteca para consulta de Extratos via API" InternalName="ACBrLibExtratoAPI" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductVersion="1.0.0.0"/>
+    </VersionInfo>
+    <MacroValues Count="2">
+      <Macro1 Name="ACBrDir" Value="$Env(ACBR_HOME)"/>
+      <Macro2 Name="LCLWidgetType" Value="nogui"/>
+    </MacroValues>
+    <BuildModes Count="5">
+      <Item1 Name="i386-CDECL-DEBUG" Default="True"/>
+      <Item2 Name="Linux-x86_64-MT">
+        <MacroValues Count="2">
+          <Macro1 Name="ACBrDir" Value="$Env(ACBR_HOME)"/>
+          <Macro2 Name="LCLWidgetType" Value="nogui"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="bin\Linux\CONSOLE-MT\acbrextratoapi64"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrBaaS;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\ACBrTCP"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="linux"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <UseLineInfoUnit Value="False"/>
+              <StripSymbols Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dMT -dNOGUI"/>
+          </Other>
+        </CompilerOptions>
+      </Item2>
+      <Item3 Name="Linux-i386-MT">
+        <MacroValues Count="2">
+          <Macro1 Name="ACBrDir" Value="$Env(ACBR_HOME)"/>
+          <Macro2 Name="LCLWidgetType" Value="nogui"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="bin\Linux\CONSOLE-MT\acbrextratoapi32"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrBaaS;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\ACBrTCP"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <TargetCPU Value="i386"/>
+            <TargetOS Value="linux"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <UseLineInfoUnit Value="False"/>
+              <StripSymbols Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dMT -dNOGUI"/>
+          </Other>
+        </CompilerOptions>
+      </Item3>
+      <Item4 Name="android-armeabi-v7a">
+        <MacroValues Count="2">
+          <Macro1 Name="ACBrDir" Value="$Env(ACBR_HOME)"/>
+          <Macro2 Name="LCLWidgetType" Value="nogui"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="bin\Android\jniLibs\armeabi-v7a\libACBrLibExtratoAPI"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrBaaS;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\ACBrTCP"/>
+            <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <TargetCPU Value="arm"/>
+            <TargetOS Value="android"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <StripSymbols Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dANDROID
+-dNOGUI
+-dMT
+-Xd
+-CfVFPv3
+-CpARMV7A
+-XParm-linux-androideabi-"/>
+          </Other>
+        </CompilerOptions>
+      </Item4>
+      <Item5 Name="android-arm64-v8a">
+        <MacroValues Count="2">
+          <Macro1 Name="ACBrDir" Value="$Env(ACBR_HOME)"/>
+          <Macro2 Name="LCLWidgetType" Value="nogui"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="bin\Android\jniLibs\arm64-v8a\libACBrLibExtratoAPI"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
+            <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrBaaS;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\ACBrTCP"/>
+            <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <TargetCPU Value="aarch64"/>
+            <TargetOS Value="android"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <StripSymbols Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dANDROID
+-dNOGUI
+-dMT
+-Xd
+-XPaarch64-linux-android-"/>
+          </Other>
+        </CompilerOptions>
+      </Item5>
+      <SharedMatrixOptions Count="2">
+        <Item1 ID="014058045923" Modes="android-armeabi-v7a,i386-CDECL-DEBUG,Linux-x86_64-MT,android-arm64-v8a,Linux-i386-MT" Type="IDEMacro" MacroName="ACBrDir" Value="$Env(ACBR_HOME)"/>
+        <Item2 ID="134881196631" Modes="android-armeabi-v7a,i386-CDECL-DEBUG,Linux-x86_64-MT,android-arm64-v8a,Linux-i386-MT" Type="IDEMacro" MacroName="LCLWidgetType" Value="nogui"/>
+      </SharedMatrixOptions>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+    </RunParams>
+    <RequiredPackages Count="2">
+      <Item1>
+        <PackageName Value="FCL"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+    </RequiredPackages>
+    <Units Count="14">
+      <Unit0>
+        <Filename Value="ACBrLibExtratoAPI.lpr"/>
+        <IsPartOfProject Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="..\Comum\ACBrLibComum.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\Comum\ACBrLibConfig.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\Comum\ACBrLibConsts.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="ACBrLibExtratoAPIDataModule.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="LibExtratoAPIDM"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="ACBrLibExtratoAPIBase.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="ACBrLibExtratoAPIConfig.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="ACBrLibExtratoAPIConsts.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="ACBrLibExtratoAPIRespostas.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="ACBrLibExtratoAPIST.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="ACBrLibExtratoAPIMT.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="ACBrLibExtratoAPIStaticImportST.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="ACBrLibExtratoAPIStaticImportMT.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="ACBrLibExtratoAPIMateraRespostas.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit13>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="..\..\Testes\ExtratoAPI\bin\ACBrExtratoAPI32"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir);..\Comum;$(ACBrDir)\Fontes\ACBrComum"/>
+      <OtherUnitFiles Value="..\Comum;$(ACBrDir)\Fontes\ACBrComum;$(ACBrDir)\Fontes\ACBrBaaS;$(ACBrDir)\Fontes\ACBrOpenSSL;$(ACBrDir)\Fontes\ACBrDiversos;$(ACBrDir)\Fontes\Terceiros\synalist;$(ACBrDir)\Fontes\Terceiros\GZIPUtils;$(ACBrDir)\Fontes\Terceiros\FastStringReplace;$(ACBrDir)\Fontes\ACBrTCP"/>
+      <UnitOutputDirectory Value="lib\CONSOLE-$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <CodeGeneration>
+      <TargetCPU Value="i386"/>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <UseHeaptrc Value="True"/>
+        <TrashVariables Value="True"/>
+      </Debugging>
+    </Linking>
+    <Other>
+      <CustomOptions Value="-dMT -dDEBUG -dNOGUI"/>
+    </Other>
+  </CompilerOptions>
+</CONFIG>

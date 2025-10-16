@@ -1,0 +1,11 @@
+inherited LibExtratoAPIDM: TLibExtratoAPIDM
+  Height = 315
+  HorizontalOffset = 775
+  VerticalOffset = 283
+  Width = 455
+  object ACBrExtratoAPI1: TACBrExtratoAPI[0]
+    LogNivel = 0
+    Left = 57
+    Top = 40
+  end
+end
