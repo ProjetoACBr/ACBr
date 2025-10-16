@@ -183,59 +183,61 @@ begin
     SA.nLength := SizeOf(SA);
     SA.bInheritHandle := True;
     SA.lpSecurityDescriptor := nil;
-
-    if not CreatePipe(StdOutRead, StdOutWrite, @SA, 0) then
-      RaiseLastOSError;
-
     try
-      FillChar(SI, SizeOf(SI), 0);
-      SI.cb := SizeOf(SI);
-      SI.dwFlags := STARTF_USESTDHANDLES or STARTF_USESHOWWINDOW;
-      SI.wShowWindow := SW_HIDE;
-      SI.hStdOutput := StdOutWrite;
-      SI.hStdError := StdOutWrite;
-
-      Command := 'svn info "\\?\' + APath + '"';
-
-      if not CreateProcess(nil, PChar(Command), nil, nil, True,
-        CREATE_NO_WINDOW, nil, nil, SI, PI) then
+      if not CreatePipe(StdOutRead, StdOutWrite, @SA, 0) then
         RaiseLastOSError;
 
-      CloseHandle(StdOutWrite);
+      try
+        FillChar(SI, SizeOf(SI), 0);
+        SI.cb := SizeOf(SI);
+        SI.dwFlags := STARTF_USESTDHANDLES or STARTF_USESHOWWINDOW;
+        SI.wShowWindow := SW_HIDE;
+        SI.hStdOutput := StdOutWrite;
+        SI.hStdError := StdOutWrite;
 
-      repeat
-        BytesRead := 0;
-        if not ReadFile(StdOutRead, Buffer, SizeOf(Buffer)-1, BytesRead, nil) then
-          Break;
-        if BytesRead > 0 then
-        begin
-          Buffer[BytesRead] := #0;
-          Output.Text := Output.Text + string(Buffer);
-        end;
-      until BytesRead = 0;
+        Command := 'svn info "\\?\' + APath + '"';
 
-      WaitForSingleObject(PI.hProcess, INFINITE);
-      CloseHandle(PI.hProcess);
-      CloseHandle(PI.hThread);
+        if not CreateProcess(nil, PChar(Command), nil, nil, True,
+          CREATE_NO_WINDOW, nil, nil, SI, PI) then
+          RaiseLastOSError;
 
-    finally
-      CloseHandle(StdOutRead);
-    end;
+        CloseHandle(StdOutWrite);
 
-    // Extrai o campo "Revision" e "LastDate"
-    for var S in Output do
-    begin
-      if Pos('Revision:', S) = 1 then
-        Rev := 'Revision SVN: '+Trim(Copy(S, 10, MaxInt));
+        repeat
+          BytesRead := 0;
+          if not ReadFile(StdOutRead, Buffer, SizeOf(Buffer)-1, BytesRead, nil) then
+            Break;
+          if BytesRead > 0 then
+          begin
+            Buffer[BytesRead] := #0;
+            Output.Text := Output.Text + string(Buffer);
+          end;
+        until BytesRead = 0;
 
-      if Pos('Last Changed Date:', S) = 1 then
-        LastDate := 'Last Changed Date: ' + Trim(Copy(S, 20, MaxInt));
+        WaitForSingleObject(PI.hProcess, INFINITE);
+        CloseHandle(PI.hProcess);
+        CloseHandle(PI.hThread);
 
-      if (Rev <> '') and (LastDate <> '') then
-      begin
-        Result := Rev + sLineBreak + LastDate;
-        Break;
+      finally
+        CloseHandle(StdOutRead);
       end;
+
+      // Extrai o campo "Revision" e "LastDate"
+      for var S in Output do
+      begin
+        if Pos('Revision:', S) = 1 then
+          Rev := 'Revision SVN: '+Trim(Copy(S, 10, MaxInt));
+
+        if Pos('Last Changed Date:', S) = 1 then
+          LastDate := 'Last Changed Date: ' + Trim(Copy(S, 20, MaxInt));
+
+        if (Rev <> '') and (LastDate <> '') then
+        begin
+          Result := Rev + sLineBreak + LastDate;
+          Break;
+        end;
+      end;
+    except
     end;
   finally
     Output.Free;
