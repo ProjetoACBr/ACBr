@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/10/2025
+-- ACBrNFeNotasFiscais --
+[-] Ajuste visando evitar erro ao ler XML na codificação UTF-8 BOM.
+  Por: Microsys Sistemas 
+
 14/10/2025
 -- ACBrNFe.IniWriter/ACBrNFe.XmlWriter --
 [*] Ajustes na geração do grupo IBSCBS por conta das alterações na tabela CST/cClassTrib

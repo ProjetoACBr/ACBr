@@ -203,6 +203,7 @@ implementation
 uses
   dateutils, IniFiles,
   synautil,
+  ACBrConsts,
   ACBrNFe,
   ACBrNFe.ValidarRegrasdeNegocio,
   ACBrUtil.Base,
@@ -1040,6 +1041,9 @@ begin
   try
     MS.LoadFromFile(CaminhoArquivo);
     XMLUTF8 := ReadStrFromStream(MS, MS.Size);
+    l := Length(CUTF8BOM);
+    if (copy(XMLUTF8, 1, l) = CUTF8BOM) then
+      System.Delete(XMLUTF8, 1, l);
   finally
     MS.Free;
   end;
