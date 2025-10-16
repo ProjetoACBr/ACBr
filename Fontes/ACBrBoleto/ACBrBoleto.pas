@@ -4440,6 +4440,7 @@ end;
 function TACBrBoleto.GravarArqIni(DirIniRetorno: string; const NomeArquivo: String; const SomenteConfig:Boolean = false): String;
 var
   IniRetorno: TMemIniFile;
+  LStream : TStream;
   SL: TStringList;
   wSessao: String;
   I: Integer;
@@ -4448,154 +4449,184 @@ begin
   Result:= '';
   DirIniRetorno:= PathWithDelim(DirIniRetorno);
 
-  IniRetorno:= TMemIniFile.Create(DirIniRetorno + IfThen( EstaVazio(NomeArquivo), 'Retorno.ini', NomeArquivo ) );
+  //No Lazarus está persistindo em disco mesmo IniRetorno sendo TMemIniFile,
+  //Comportamento diferente de Lazarus Vs Delphi
+{$IFDEF FPC}
+  if (EstaVazio(DirIniRetorno) and EstaVazio(NomeArquivo)) then
+    LStream := TMemoryStream.Create;
+{$ENDIF}
+
+
   try
-    with Self do
-    begin
-       { BENEFICIARIO }
-       IniRetorno.WriteString(CCedente,'CNPJCPF',Cedente.CNPJCPF);
-       IniRetorno.WriteString(CCedente,'Nome',Cedente.Nome);
-       IniRetorno.WriteString(CCedente,'FantasiaCedente',Cedente.FantasiaCedente);
-       IniRetorno.WriteString(CCedente,'Logradouro',Cedente.Logradouro);
-       IniRetorno.WriteString(CCedente,'Numero',Cedente.NumeroRes);
-       IniRetorno.WriteString(CCedente,'Complemento',Cedente.Complemento);
-       IniRetorno.WriteString(CCedente,'Bairro',Cedente.Bairro);
-       IniRetorno.WriteString(CCedente,'Cidade',Cedente.Cidade);
-       IniRetorno.WriteString(CCedente,'UF',Cedente.UF);
-       IniRetorno.WriteString(CCedente,'CEP',Cedente.CEP);
-       IniRetorno.WriteString(CCedente,'Telefone',Cedente.Telefone);
-
-       IniRetorno.WriteString(CCedente,'CodigoCedente',Cedente. CodigoCedente);
-       IniRetorno.WriteString(CCedente,'MODALIDADE',Cedente.Modalidade);
-       IniRetorno.WriteString(CCedente,'CODTRANSMISSAO',Cedente.CodigoTransmissao);
-       IniRetorno.WriteString(CCedente,'CONVENIO',Cedente.Convenio);
-
-       IniRetorno.WriteString(CConta,'Conta',Cedente.Conta);
-       IniRetorno.WriteString(CConta,'DigitoConta',Cedente.ContaDigito);
-       IniRetorno.WriteString(CConta,'Agencia',Cedente.Agencia);
-       IniRetorno.WriteString(CConta,'DigitoAgencia',Cedente.AgenciaDigito);
-       IniRetorno.WriteString(CConta,'DigitoVerificadorAgenciaConta',Cedente.DigitoVerificadorAgenciaConta);
-
-       IniRetorno.WriteInteger(CCedente,'CaracTitulo',Integer(Cedente.CaracTitulo));
-       IniRetorno.WriteInteger(CCedente,'TipoDocumento',Integer(Cedente.TipoDocumento));
-       IniRetorno.WriteInteger(CCedente,'TipoCarteira',Integer(Cedente.TipoCarteira));
-       IniRetorno.WriteInteger(CCedente,'TipoInscricao',Integer(Cedente.TipoInscricao));
-       IniRetorno.WriteInteger(CCedente,'IdentDistribuicao',Integer(Cedente.IdentDistribuicao));
-       IniRetorno.WriteInteger(CCedente,'ResponEmissao',Integer(Cedente.ResponEmissao));
-       IniRetorno.WriteString(CCedente,'Operacao',Cedente.Operacao);
-       IniRetorno.WriteString(CCedente,'CodigoFlash',Cedente.CodigoFlash);
-
-       IniRetorno.WriteInteger(CCedente,'IntegradoraBoleto',Integer(Cedente.IntegradoraBoleto));
-       
-       IniRetorno.WriteString(CCedente,'PIX.Chave',Cedente.PIX.Chave);
-       IniRetorno.WriteInteger(CCedente,'PIX.TipoChavePIX',Integer(Cedente.PIX.TipoChavePIX));
-
-       { BANCO }
-       IniRetorno.WriteInteger(CBanco,'Numero',Banco.Numero);
-       IniRetorno.WriteInteger(CBanco,'IndiceACBr',Integer(Banco.TipoCobranca));
-       IniRetorno.WriteInteger(CBanco,'NumeroCorrespondente',Banco.NumeroCorrespondente);
-       IniRetorno.WriteInteger(CBanco,'VersaoArquivo',Banco.LayoutVersaoArquivo);
-       IniRetorno.WriteInteger(CBanco,'VersaoLote',Banco.LayoutVersaoLote);
-       IniRetorno.WriteString(CBanco,'OrientacoesBanco',StringReplace( Banco.OrientacoesBanco.Text, sLineBreak, '|', [rfReplaceAll] ));
-       IniRetorno.WriteInteger(CBanco,'NumeroArquivo',NumeroArquivo);
-       IniRetorno.WriteString(CBanco,'NomeArqRetorno',NomeArqRetorno);
-
-       IniRetorno.WriteString(CBanco,'LocalPagamento',Banco.LocalPagamento);
-       IniRetorno.WriteInteger(CBanco,'CasasDecimaisMoraJuros',Banco.CasasDecimaisMoraJuros);
-       IniRetorno.WriteString(CBanco,'DensidadeGravacao',Banco.DensidadeGravacao);
-       IniRetorno.WriteString(CBanco,'CIP',Banco.CIP);
-
-       { BOLETO }
-       IniRetorno.WriteString(CBanco,'PrefixArqRemessa',PrefixArqRemessa);
-
-       if LayoutRemessa = c240 then
-         IniRetorno.WriteInteger(CBanco,'CNAB',0)
-       else
-         IniRetorno.WriteInteger(CBanco,'CNAB',1);
-
-       IniRetorno.WriteBool(CBanco,'Homologacao',Homologacao);
-       IniRetorno.WriteBool(CBanco,'ImprimirMensagemPadrao',ImprimirMensagemPadrao);
-       IniRetorno.WriteBool(CBanco,'LeCedenteRetorno',LeCedenteRetorno);
-       IniRetorno.WriteBool(CBanco,'LerNossoNumeroCompleto',LerNossoNumeroCompleto);
-       IniRetorno.WriteBool(CBanco,'RemoveAcentosArqRemessa',RemoveAcentosArqRemessa);
-
-       { ARQUIVOS }
-       IniRetorno.WriteInteger(CArquivos,'LogNivel',Integer(Configuracoes.Arquivos.LogNivel));
-       IniRetorno.WriteString(CArquivos,'PathGravarRegistro',Configuracoes.Arquivos.PathGravarRegistro);
-       IniRetorno.WriteString(CArquivos,'NomeArquivoLog',Configuracoes.Arquivos.NomeArquivoLog);
-
-       { WEBSERVICES }
-       IniRetorno.WriteString(CWebService,'ClientID',Cedente.CedenteWS.ClientID);
-       IniRetorno.WriteString(CWebService,'ClientSecret',Cedente.CedenteWS.ClientSecret);
-       IniRetorno.WriteString(CWebService,'KeyUser',Cedente.CedenteWS.KeyUser);
-       IniRetorno.WriteBool(CWebService,'IndicadorPix',Cedente.CedenteWS.IndicadorPix);
-       IniRetorno.WriteString(CWebService,'Scope',Cedente.CedenteWS.Scope);
-       IniRetorno.WriteInteger(CWebService,'Ambiente',Integer(Configuracoes.WebService.Ambiente));
-       IniRetorno.WriteInteger(CWebService,'SSLHttpLib',Integer(Configuracoes.WebService.SSLHttpLib));
-       IniRetorno.WriteInteger(CWebService,'SSLCryptLib',Integer(Configuracoes.WebService.SSLCryptLib));
-       IniRetorno.WriteInteger(CWebService,'SSLXmlSignLib',Integer(Configuracoes.WebService.SSLXmlSignLib));
-       IniRetorno.WriteInteger(CWebService,'SSLType',Integer(Configuracoes.WebService.SSLType));
-
-
-       IniRetorno.WriteString(CWebService,'ArquivoCRT', Configuracoes.WebService.ArquivoCRT);
-       IniRetorno.WriteString(CWebService,'ArquivoKEY', Configuracoes.WebService.ArquivoKEY);
-       IniRetorno.WriteString(CWebService,'ArquivoPFX', Configuracoes.WebService.ArquivoPFX);
-       IniRetorno.WriteString(CWebService,'Senha', Configuracoes.WebService.Senha);
-
-       if not SomenteConfig then
-       begin
-         for I:= 0 to Pred(ListadeBoletos.Count) do
-         begin
-           wSessao:= 'Titulo'+ IntToStr(I+1);
-           IniRetorno.WriteString(wSessao,'Sacado.Nome', ListadeBoletos[I].Sacado.NomeSacado);
-           IniRetorno.WriteString(wSessao,'Sacado.CNPJCPF', ListadeBoletos[I].Sacado.CNPJCPF);
-           IniRetorno.WriteString(wSessao,'Vencimento',DateToStr(ListadeBoletos[I].Vencimento));
-           IniRetorno.WriteString(wSessao,'DataRegistro',DateToStr(ListadeBoletos[I].DataRegistro));
-           IniRetorno.WriteString(wSessao,'DataDocumento',DateToStr(ListadeBoletos[I].DataDocumento));
-           IniRetorno.WriteString(wSessao,'NumeroDocumento',ListadeBoletos[I].NumeroDocumento);
-           IniRetorno.WriteString(wSessao,'DataProcessamento',DateToStr(ListadeBoletos[I].DataProcessamento));
-           IniRetorno.WriteString(wSessao,'NossoNumero',ListadeBoletos[I].NossoNumero);
-           IniRetorno.WriteString(wSessao,'NossoNumeroCorrespondente',ListadeBoletos[I].NossoNumeroCorrespondente);
-           IniRetorno.WriteString(wSessao,'Carteira',ListadeBoletos[I].Carteira);
-           IniRetorno.WriteFloat(wSessao,'ValorDocumento',ListadeBoletos[I].ValorDocumento);
-           IniRetorno.WriteString(wSessao,'DataOcorrencia',DateToStr(ListadeBoletos[I].DataOcorrencia));
-           IniRetorno.WriteString(wSessao,'DataCredito',DateToStr(ListadeBoletos[I].DataCredito));
-           IniRetorno.WriteString(wSessao,'DataBaixa',DateToStr(ListadeBoletos[I].DataBaixa));
-           IniRetorno.WriteString(wSessao,'DataMoraJuros',DateToStr(ListadeBoletos[I].DataMoraJuros));
-           IniRetorno.WriteFloat(wSessao,'ValorDespesaCobranca',ListadeBoletos[I].ValorDespesaCobranca);
-           IniRetorno.WriteFloat(wSessao,'ValorAbatimento',ListadeBoletos[I].ValorAbatimento);
-           IniRetorno.WriteFloat(wSessao,'ValorDesconto',ListadeBoletos[I].ValorDesconto);
-           IniRetorno.WriteFloat(wSessao,'ValorMoraJuros',ListadeBoletos[I].ValorMoraJuros);
-           IniRetorno.WriteFloat(wSessao,'ValorIOF',ListadeBoletos[I].ValorIOF);
-           IniRetorno.WriteFloat(wSessao,'ValorOutrasDespesas',ListadeBoletos[I].ValorOutrasDespesas);
-           IniRetorno.WriteFloat(wSessao,'ValorOutrosCreditos',ListadeBoletos[I].ValorOutrosCreditos);
-           IniRetorno.WriteFloat(wSessao,'ValorRecebido',ListadeBoletos[I].ValorRecebido);
-           IniRetorno.WriteString(wSessao,'SeuNumero',ListadeBoletos[I].SeuNumero);
-           IniRetorno.WriteString(wSessao,'EMV',ListadeBoletos[I].QrCode.emv);
-
-           IniRetorno.WriteString(wSessao,'CodTipoOcorrencia',
-                                  GetEnumName( TypeInfo(TACBrTipoOcorrencia),
-                                               Integer(ListadeBoletos[I].OcorrenciaOriginal.Tipo)));
-           IniRetorno.WriteString(wSessao,'DescricaoTipoOcorrencia',ListadeBoletos[I].OcorrenciaOriginal.Descricao);
-
-           for J:= 0 to ListadeBoletos[I].DescricaoMotivoRejeicaoComando.Count-1 do
-              IniRetorno.WriteString(wSessao,'MotivoRejeicao' + IntToStr(I+1),
-                                     ListadeBoletos[I].DescricaoMotivoRejeicaoComando[J]);
-         end;
-       end;
-
+{$IFDEF FPC}
+    if Assigned(LStream) then
+      IniRetorno := TMemIniFile.Create(LStream)
+    else begin
+      IniRetorno:= TMemIniFile.Create(
+                                       DirIniRetorno + IfThen( EstaVazio(NomeArquivo),
+                                       'Retorno.ini',
+                                        NomeArquivo )
+                                     );
     end;
+{$ELSE}
+  IniRetorno:= TMemIniFile.Create(
+                                   DirIniRetorno + IfThen( EstaVazio(NomeArquivo),
+                                   'Retorno.ini',
+                                   NomeArquivo )
+                                 );
+{$ENDIF}
 
-    SL:= TStringList.Create;
     try
-      IniRetorno.GetStrings(SL);
-      Result:= ACBrStr(SL.Text);
-    finally
-      SL.Free;
-    end;
+      with Self do
+      begin
+         { BENEFICIARIO }
+         IniRetorno.WriteString(CCedente,'CNPJCPF',Cedente.CNPJCPF);
+         IniRetorno.WriteString(CCedente,'Nome',Cedente.Nome);
+         IniRetorno.WriteString(CCedente,'FantasiaCedente',Cedente.FantasiaCedente);
+         IniRetorno.WriteString(CCedente,'Logradouro',Cedente.Logradouro);
+         IniRetorno.WriteString(CCedente,'Numero',Cedente.NumeroRes);
+         IniRetorno.WriteString(CCedente,'Complemento',Cedente.Complemento);
+         IniRetorno.WriteString(CCedente,'Bairro',Cedente.Bairro);
+         IniRetorno.WriteString(CCedente,'Cidade',Cedente.Cidade);
+         IniRetorno.WriteString(CCedente,'UF',Cedente.UF);
+         IniRetorno.WriteString(CCedente,'CEP',Cedente.CEP);
+         IniRetorno.WriteString(CCedente,'Telefone',Cedente.Telefone);
 
+         IniRetorno.WriteString(CCedente,'CodigoCedente',Cedente. CodigoCedente);
+         IniRetorno.WriteString(CCedente,'MODALIDADE',Cedente.Modalidade);
+         IniRetorno.WriteString(CCedente,'CODTRANSMISSAO',Cedente.CodigoTransmissao);
+         IniRetorno.WriteString(CCedente,'CONVENIO',Cedente.Convenio);
+
+         IniRetorno.WriteString(CConta,'Conta',Cedente.Conta);
+         IniRetorno.WriteString(CConta,'DigitoConta',Cedente.ContaDigito);
+         IniRetorno.WriteString(CConta,'Agencia',Cedente.Agencia);
+         IniRetorno.WriteString(CConta,'DigitoAgencia',Cedente.AgenciaDigito);
+         IniRetorno.WriteString(CConta,'DigitoVerificadorAgenciaConta',Cedente.DigitoVerificadorAgenciaConta);
+
+         IniRetorno.WriteInteger(CCedente,'CaracTitulo',Integer(Cedente.CaracTitulo));
+         IniRetorno.WriteInteger(CCedente,'TipoDocumento',Integer(Cedente.TipoDocumento));
+         IniRetorno.WriteInteger(CCedente,'TipoCarteira',Integer(Cedente.TipoCarteira));
+         IniRetorno.WriteInteger(CCedente,'TipoInscricao',Integer(Cedente.TipoInscricao));
+         IniRetorno.WriteInteger(CCedente,'IdentDistribuicao',Integer(Cedente.IdentDistribuicao));
+         IniRetorno.WriteInteger(CCedente,'ResponEmissao',Integer(Cedente.ResponEmissao));
+         IniRetorno.WriteString(CCedente,'Operacao',Cedente.Operacao);
+         IniRetorno.WriteString(CCedente,'CodigoFlash',Cedente.CodigoFlash);
+
+         IniRetorno.WriteInteger(CCedente,'IntegradoraBoleto',Integer(Cedente.IntegradoraBoleto));
+
+         IniRetorno.WriteString(CCedente,'PIX.Chave',Cedente.PIX.Chave);
+         IniRetorno.WriteInteger(CCedente,'PIX.TipoChavePIX',Integer(Cedente.PIX.TipoChavePIX));
+
+         { BANCO }
+         IniRetorno.WriteInteger(CBanco,'Numero',Banco.Numero);
+         IniRetorno.WriteInteger(CBanco,'IndiceACBr',Integer(Banco.TipoCobranca));
+         IniRetorno.WriteInteger(CBanco,'NumeroCorrespondente',Banco.NumeroCorrespondente);
+         IniRetorno.WriteInteger(CBanco,'VersaoArquivo',Banco.LayoutVersaoArquivo);
+         IniRetorno.WriteInteger(CBanco,'VersaoLote',Banco.LayoutVersaoLote);
+         IniRetorno.WriteString(CBanco,'OrientacoesBanco',StringReplace( Banco.OrientacoesBanco.Text, sLineBreak, '|', [rfReplaceAll] ));
+         IniRetorno.WriteInteger(CBanco,'NumeroArquivo',NumeroArquivo);
+         IniRetorno.WriteString(CBanco,'NomeArqRetorno',NomeArqRetorno);
+
+         IniRetorno.WriteString(CBanco,'LocalPagamento',Banco.LocalPagamento);
+         IniRetorno.WriteInteger(CBanco,'CasasDecimaisMoraJuros',Banco.CasasDecimaisMoraJuros);
+         IniRetorno.WriteString(CBanco,'DensidadeGravacao',Banco.DensidadeGravacao);
+         IniRetorno.WriteString(CBanco,'CIP',Banco.CIP);
+
+         { BOLETO }
+         IniRetorno.WriteString(CBanco,'PrefixArqRemessa',PrefixArqRemessa);
+
+         if LayoutRemessa = c240 then
+           IniRetorno.WriteInteger(CBanco,'CNAB',0)
+         else
+           IniRetorno.WriteInteger(CBanco,'CNAB',1);
+
+         IniRetorno.WriteBool(CBanco,'Homologacao',Homologacao);
+         IniRetorno.WriteBool(CBanco,'ImprimirMensagemPadrao',ImprimirMensagemPadrao);
+         IniRetorno.WriteBool(CBanco,'LeCedenteRetorno',LeCedenteRetorno);
+         IniRetorno.WriteBool(CBanco,'LerNossoNumeroCompleto',LerNossoNumeroCompleto);
+         IniRetorno.WriteBool(CBanco,'RemoveAcentosArqRemessa',RemoveAcentosArqRemessa);
+
+         { ARQUIVOS }
+         IniRetorno.WriteInteger(CArquivos,'LogNivel',Integer(Configuracoes.Arquivos.LogNivel));
+         IniRetorno.WriteString(CArquivos,'PathGravarRegistro',Configuracoes.Arquivos.PathGravarRegistro);
+         IniRetorno.WriteString(CArquivos,'NomeArquivoLog',Configuracoes.Arquivos.NomeArquivoLog);
+
+         { WEBSERVICES }
+         IniRetorno.WriteString(CWebService,'ClientID',Cedente.CedenteWS.ClientID);
+         IniRetorno.WriteString(CWebService,'ClientSecret',Cedente.CedenteWS.ClientSecret);
+         IniRetorno.WriteString(CWebService,'KeyUser',Cedente.CedenteWS.KeyUser);
+         IniRetorno.WriteBool(CWebService,'IndicadorPix',Cedente.CedenteWS.IndicadorPix);
+         IniRetorno.WriteString(CWebService,'Scope',Cedente.CedenteWS.Scope);
+         IniRetorno.WriteInteger(CWebService,'Ambiente',Integer(Configuracoes.WebService.Ambiente));
+         IniRetorno.WriteInteger(CWebService,'SSLHttpLib',Integer(Configuracoes.WebService.SSLHttpLib));
+         IniRetorno.WriteInteger(CWebService,'SSLCryptLib',Integer(Configuracoes.WebService.SSLCryptLib));
+         IniRetorno.WriteInteger(CWebService,'SSLXmlSignLib',Integer(Configuracoes.WebService.SSLXmlSignLib));
+         IniRetorno.WriteInteger(CWebService,'SSLType',Integer(Configuracoes.WebService.SSLType));
+
+
+         IniRetorno.WriteString(CWebService,'ArquivoCRT', Configuracoes.WebService.ArquivoCRT);
+         IniRetorno.WriteString(CWebService,'ArquivoKEY', Configuracoes.WebService.ArquivoKEY);
+         IniRetorno.WriteString(CWebService,'ArquivoPFX', Configuracoes.WebService.ArquivoPFX);
+         IniRetorno.WriteString(CWebService,'Senha', Configuracoes.WebService.Senha);
+
+         if not SomenteConfig then
+         begin
+           for I:= 0 to Pred(ListadeBoletos.Count) do
+           begin
+             wSessao:= 'Titulo'+ IntToStr(I+1);
+             IniRetorno.WriteString(wSessao,'Sacado.Nome', ListadeBoletos[I].Sacado.NomeSacado);
+             IniRetorno.WriteString(wSessao,'Sacado.CNPJCPF', ListadeBoletos[I].Sacado.CNPJCPF);
+             IniRetorno.WriteString(wSessao,'Vencimento',DateToStr(ListadeBoletos[I].Vencimento));
+             IniRetorno.WriteString(wSessao,'DataRegistro',DateToStr(ListadeBoletos[I].DataRegistro));
+             IniRetorno.WriteString(wSessao,'DataDocumento',DateToStr(ListadeBoletos[I].DataDocumento));
+             IniRetorno.WriteString(wSessao,'NumeroDocumento',ListadeBoletos[I].NumeroDocumento);
+             IniRetorno.WriteString(wSessao,'DataProcessamento',DateToStr(ListadeBoletos[I].DataProcessamento));
+             IniRetorno.WriteString(wSessao,'NossoNumero',ListadeBoletos[I].NossoNumero);
+             IniRetorno.WriteString(wSessao,'NossoNumeroCorrespondente',ListadeBoletos[I].NossoNumeroCorrespondente);
+             IniRetorno.WriteString(wSessao,'Carteira',ListadeBoletos[I].Carteira);
+             IniRetorno.WriteFloat(wSessao,'ValorDocumento',ListadeBoletos[I].ValorDocumento);
+             IniRetorno.WriteString(wSessao,'DataOcorrencia',DateToStr(ListadeBoletos[I].DataOcorrencia));
+             IniRetorno.WriteString(wSessao,'DataCredito',DateToStr(ListadeBoletos[I].DataCredito));
+             IniRetorno.WriteString(wSessao,'DataBaixa',DateToStr(ListadeBoletos[I].DataBaixa));
+             IniRetorno.WriteString(wSessao,'DataMoraJuros',DateToStr(ListadeBoletos[I].DataMoraJuros));
+             IniRetorno.WriteFloat(wSessao,'ValorDespesaCobranca',ListadeBoletos[I].ValorDespesaCobranca);
+             IniRetorno.WriteFloat(wSessao,'ValorAbatimento',ListadeBoletos[I].ValorAbatimento);
+             IniRetorno.WriteFloat(wSessao,'ValorDesconto',ListadeBoletos[I].ValorDesconto);
+             IniRetorno.WriteFloat(wSessao,'ValorMoraJuros',ListadeBoletos[I].ValorMoraJuros);
+             IniRetorno.WriteFloat(wSessao,'ValorIOF',ListadeBoletos[I].ValorIOF);
+             IniRetorno.WriteFloat(wSessao,'ValorOutrasDespesas',ListadeBoletos[I].ValorOutrasDespesas);
+             IniRetorno.WriteFloat(wSessao,'ValorOutrosCreditos',ListadeBoletos[I].ValorOutrosCreditos);
+             IniRetorno.WriteFloat(wSessao,'ValorRecebido',ListadeBoletos[I].ValorRecebido);
+             IniRetorno.WriteString(wSessao,'SeuNumero',ListadeBoletos[I].SeuNumero);
+             IniRetorno.WriteString(wSessao,'EMV',ListadeBoletos[I].QrCode.emv);
+
+             IniRetorno.WriteString(wSessao,'CodTipoOcorrencia',
+                                    GetEnumName( TypeInfo(TACBrTipoOcorrencia),
+                                                 Integer(ListadeBoletos[I].OcorrenciaOriginal.Tipo)));
+             IniRetorno.WriteString(wSessao,'DescricaoTipoOcorrencia',ListadeBoletos[I].OcorrenciaOriginal.Descricao);
+
+             for J:= 0 to ListadeBoletos[I].DescricaoMotivoRejeicaoComando.Count-1 do
+                IniRetorno.WriteString(wSessao,'MotivoRejeicao' + IntToStr(I+1),
+                                       ListadeBoletos[I].DescricaoMotivoRejeicaoComando[J]);
+           end;
+         end;
+
+      end;
+
+      SL:= TStringList.Create;
+      try
+        IniRetorno.GetStrings(SL);
+        Result:= ACBrStr(SL.Text);
+      finally
+        SL.Free;
+      end;
+
+    finally
+      IniRetorno.Free;
+    end;
   finally
-    IniRetorno.Free;
+    if Assigned(LStream) then
+      LStream.Free;
   end;
 
 end;
