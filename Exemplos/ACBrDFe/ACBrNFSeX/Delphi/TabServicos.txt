@@ -73,7 +73,7 @@
   0722 Nucleacao e bombardeamento de nuvens e congeneres.
   0801 Ensino regular pre-escolar, fundamental, medio e superior.
   0802 Instrucao, treinamento, orientacao pedagogica e educacional, avaliacao de conhecimentos de qualquer natureza.
-  0901 зг-Hospedagem de qualquer natureza em hoteis, apartservice condominiais, flat , apart-hoteis, hoteis residencia, residence-service , suite service , hotelaria maritima, moteis, pensoes e congeneres; ocupacao por temporada com fornecimento de servico (o valor da alimentacao e gorjeta, quando incluido no preco da diaria, fica sujeito ao Imposto Sobre Servicos).
+  0901 Hospedagem de qualquer natureza em hoteis, apartservice condominiais, flat , apart-hoteis, hoteis residencia, residence-service , suite service , hotelaria maritima, moteis, pensoes e congeneres; ocupacao por temporada com fornecimento de servico (o valor da alimentacao e gorjeta, quando incluido no preco da diaria, fica sujeito ao Imposto Sobre Servicos).
   0902 Agenciamento, organizacao, promocao, intermediacao e execucao de programas de turismo, passeios, viagens, excursoes, hospedagens e congeneres.
   0903 Guias de turismo.
   1001 Agenciamento, corretagem ou intermediacao de cambio, de seguros, de cartoes de credito, de planos de saude e de planos de previdencia privada.
