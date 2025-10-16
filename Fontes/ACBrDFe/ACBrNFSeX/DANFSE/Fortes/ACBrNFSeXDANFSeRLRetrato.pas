@@ -499,7 +499,7 @@ begin
     begin
       rlmCodServico.Lines.Append(ACBrStr('Código Serviço:'));
       rlmCodServico.Lines.Append('   ' + Servico.ItemListaServico + ' - ' +
-        ACBrStr(Servico.xItemListaServico));
+        Servico.xItemListaServico);
     end;
 
     if Servico.CodigoNBS <> '' then

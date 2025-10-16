@@ -12376,7 +12376,7 @@ begin
       while (i < list.count) and (Result = '') do
       begin
         if pos(cCodigo, List[i]) > 0 then
-          Result := Trim(stringReplace(list[i], ccodigo, '', []));
+          Result := ACBrStr(Trim(stringReplace(list[i], ccodigo, '', [])));
         inc(i);
       end;
     finally

@@ -578,7 +578,7 @@ function TNFSeRClass.LerDescricaoServico(const ACodigo: string): string;
 begin
   FIniParamsTab.SetStrings(ParamsTab);
 
-  Result := FIniParamsTab.ReadString(OnlyNumber(ACodigo), 'Descricao', '');
+  Result := ACBrStr(FIniParamsTab.ReadString(OnlyNumber(ACodigo), 'Descricao', ''));
 end;
 
 procedure TNFSeRClass.LerCampoLink;

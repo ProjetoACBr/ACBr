@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/10/2025
+-- ACBrNFSeXConversao/ACBrNFSeXLerXml/ACBrNFSeXDANFSeRLRetrato --
+[*] #ACBr-8221 Ajustes para imprimir vogais acentuadas e cedilha da descrição do serviço.
+   Por: Italo Giurizzato Junior/Júlio Cavalcanti
 -- ACBrNFSeXServicos --
 [*] #ACBr-8187 A cidade Muriae/MG trocou de provedor, agora é IPM versão 2.04
    Por: Paulo R G Oliveira
