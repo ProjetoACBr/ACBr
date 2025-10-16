@@ -1333,7 +1333,8 @@ begin
   ArqIni := TIniFile.Create(ArquivoIni);
   try
     DeveInstalarCapicom       := ArqIni.ReadBool('CONFIG','InstalaCapicom', DeveInstalarCapicom);
-    DeveInstalarOpenSSL       := ArqIni.ReadBool('CONFIG','InstalaOpenSSL', DeveInstalarOpenSSL);
+    DeveInstalarOpenSSL       := True;
+//    DeveInstalarOpenSSL       := ArqIni.ReadBool('CONFIG','InstalaOpenSSL', DeveInstalarOpenSSL);
 //    DeveInstalarXMLSec        := False;
     DeveInstalarMsXML         := ArqIni.ReadBool('CONFIG','InstalaMsXML', DeveInstalarMsXML);
     UsarCargaTardiaDLL        := ArqIni.ReadBool('CONFIG','CargaDllTardia', True);

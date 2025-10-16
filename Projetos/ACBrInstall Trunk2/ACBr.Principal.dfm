@@ -23,7 +23,7 @@ object frmPrincipal: TfrmPrincipal
     Top = 0
     Width = 740
     Height = 630
-    ActivePage = wizPgPacotes
+    ActivePage = wizPgInicio
     ButtonBarHeight = 42
     ButtonStart.Caption = 'Para o in'#237'cio'
     ButtonStart.NumGlyphs = 1
@@ -12891,6 +12891,7 @@ object frmPrincipal: TfrmPrincipal
           Height = 17
           Hint = 'Desabilita o uso das Dlls da OpenSLL'
           Caption = 'N'#227'o utilizar OpenSSL'
+          Enabled = False
           ParentShowHint = False
           ShowHint = True
           TabOrder = 2
