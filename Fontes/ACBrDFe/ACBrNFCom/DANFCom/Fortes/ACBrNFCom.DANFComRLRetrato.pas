@@ -315,7 +315,11 @@ begin
     rlmDestinatario.Lines.Add(ACBrStr('CÓDIGO CLIENTE: ') + fpNFCom.assinante.iCodAssinante);
     rlmDestinatario.Lines.Add('N. TELEFONE: ' + FormatarFone(EnderDest.Fone));
 
-    rlmDestinatario.Lines.Add(ACBrStr('PERÍODO: ') + '');
+    sTemp := '';
+    if (fpNFCom.gFat.dPerUsoIni >0) and (fpNFCom.gFat.dPerUsoFim > 0) then
+      sTemp := Format('%s A %s',[DateToStr(fpNFCom.gFat.dPerUsoIni), DateToStr(fpNFCom.gFat.dPerUsoFim)]);
+
+    rlmDestinatario.Lines.Add(ACBrStr('PERÍODO: ') + sTemp);
   end;
 
   PintarQRCode(fpNFCom.infNFComSupl.qrCodNFCom, imgQRCode.Picture.Bitmap, qrUTF8NoBOM);
@@ -390,7 +394,7 @@ begin
   if (fpNFCom.gFat.CompetFat > 0) then
   begin
     sTemp := FormatDateBr(fpNFCom.gFat.CompetFat);
-    sTemp := RightStr(sTemp, 4) + '/' + Copy(sTemp, 4, 2);
+    sTemp := Copy(sTemp, 4, 2) + '/' + RightStr(sTemp, 4);
     rllReferencia.Caption := sTemp;
   end
   else
@@ -447,7 +451,7 @@ begin
   if (fpNFCom.gFat.CompetFat > 0) then
   begin
     sTemp := FormatDateBr(fpNFCom.gFat.CompetFat);
-    sTemp := RightStr(sTemp, 4) + '/' + Copy(sTemp, 4, 2);
+    sTemp := Copy(sTemp, 4, 2) + '/' + RightStr(sTemp, 4);
     rllMesRef.Caption := sTemp;
   end
   else
@@ -469,10 +473,24 @@ begin
   end;
 
   sTemp := fpNFCom.gFat.codBarras;
-  rllLinhaDig.Caption := Copy(sTemp, 01, 12) + ' ' + Copy(sTemp, 13, 12) + ' ' +
-                         Copy(sTemp, 25, 12) + ' ' + Copy(sTemp, 37, 12);
-  rlbCodBarLinhaDig.Visible := True;
-  rlbCodBarLinhaDig.Caption := OnlyNumber(fpNFCom.gFat.codBarras);
+  if (sTemp <> '') and (StrToIntDef(OnlyNumber(sTemp), 0) > 0) then
+  begin
+    rllLinhaDig.Caption :=
+      Copy(sTemp, 01, 12) + ' ' +
+      Copy(sTemp, 13, 12) + ' ' +
+      Copy(sTemp, 25, 12) + ' ' +
+      Copy(sTemp, 37, 12);
+
+    rlbCodBarLinhaDig.Visible := True;
+    rlbCodBarLinhaDig.Caption := OnlyNumber(sTemp);
+  end
+  else
+  begin
+    // Se for "0" ou zeros, esconde os componentes
+    rlbCodBarLinhaDig.Visible := False;
+    rllLinhaDig.Caption := '';
+    rlbCodBarLinhaDig.Caption := '';
+  end;
 end;
 
 procedure TfrlDANFComRLRetrato.rlbDivisao07BeforePrint(Sender: TObject;

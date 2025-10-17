@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/10/2025
+-- ACBrNFCom.DANFComRLRetrato --
+[*] Ajuste para imprimir o periodo de competencia correto.
+   Por: Marco Prodata
+
 14/10/2025
 -- ACBrNFCom.DANFComRLRetrato --
 [*] Ajuste para imprimir o titulo do campo dentro do seu quadro.
