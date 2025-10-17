@@ -1896,7 +1896,7 @@ begin
   end;
 
   // Reforma Tributária
-  if NFe.Det[i].Imposto.ISel.vBCIS > 0 then
+  if NFe.Det[i].Imposto.ISel.CSTIS <> cstisNenhum then
     Result.AppendChild(Gerar_ISel(NFe.Det[i].Imposto.ISel));
 
   Result.AppendChild(Gerar_IBSCBS(NFe.Det[i].Imposto.IBSCBS));

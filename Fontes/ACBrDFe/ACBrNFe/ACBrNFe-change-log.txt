@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/10/2025
+-- Diversos --
+[+] Implementação dos eventos: 211110, 211120, 211124, 211130, 211140 e 211150.
+  Por: SG Sistemas
+
 16/10/2025
 -- ACBrNFeNotasFiscais --
 [-] Ajuste visando evitar erro ao ler XML na codificação UTF-8 BOM.

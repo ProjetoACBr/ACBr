@@ -897,7 +897,7 @@ begin
   Gerar_ImpostoISSQN(AINIRec, Imposto.ISSQN, Idx);
 
   // Reforma Tributária
-  if Imposto.ISel.vBCIS > 0 then
+  if Imposto.ISel.CSTIS <> cstisNenhum then
     Gerar_ISel(AINIRec, Imposto.ISel, Idx);
 
   Gerar_IBSCBS(AINIRec, Imposto.IBSCBS, Idx);

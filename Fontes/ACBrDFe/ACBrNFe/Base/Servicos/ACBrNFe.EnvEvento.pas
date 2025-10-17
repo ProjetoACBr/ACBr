@@ -128,13 +128,25 @@ type
     function Gerar_Evento_CancelamentoGenerico(Idx: Integer): TACBrXmlNode;
     function Gerar_Evento_PagIntegLibCredPresAdq(Idx: Integer): TACBrXmlNode;
     function Gerar_Evento_SolicApropCredPres(Idx: Integer): TACBrXmlNode;
+    function Gerar_Evento_SolicApropCredBensServicos(Idx: Integer): TACBrXmlNode;
     function Gerar_gCredPres(Idx: Integer): TACBrXmlNodeArray;
     function Gerar_gIBS(gIBS: TgIBSgCBS): TACBrXmlNode;
     function Gerar_gCBS(gCBS: TgIBSgCBS): TACBrXmlNode;
     function Gerar_Evento_DestItemConsPessoal(Idx: Integer): TACBrXmlNode;
     function Gerar_gConsumo(Idx: Integer): TACBrXmlNodeArray;
-    function Gerar_gControleEstoque(gControleEstoque: TgControleEstoque): TACBrXmlNode;
+    function Gerar_gControleEstoque(gControleEstoque: TgControleEstoque): TACBrXmlNode; overload;
     function Gerar_DFeReferenciado(DFeReferenciado: TDFeReferenciado): TACBrXmlNode;
+    function Gerar_gCredito(Idx: Integer): TACBrXmlNodeArray;
+    function Gerar_Evento_ImobilizacaoItem(Idx: Integer): TACBrXmlNode;
+    function Gerar_gImobilizacao(Idx: Integer): TACBrXmlNodeArray;
+    function Gerar_gControleEstoque(gControleEstoque: TgControleEstoqueImobilizacao): TACBrXmlNode; overload;
+    function Gerar_Evento_SolicApropCredCombustivel(Idx: Integer): TACBrXmlNode;
+    function Gerar_gConsumoComb(Idx: Integer): TACBrXmlNodeArray;
+    function Gerar_gControleEstoque(gControleEstoque: TgControleEstoqueComb): TACBrXmlNode; overload;
+    function Gerar_Evento_PerecPerdaRouboTranspContrAdq(Idx: Integer): TACBrXmlNode;
+    function Gerar_gPerecimento(Idx: Integer): TACBrXmlNodeArray;
+    function Gerar_gControleEstoque(gControleEstoque: TgControleEstoquePerecimento): TACBrXmlNode; overload;
+
 
   public
     constructor Create;
@@ -981,15 +993,15 @@ begin
 
     teDestItemConsPessoal: Result.AppendChild(Gerar_Evento_DestItemConsPessoal(Idx));
 
-    tePerecPerdaRouboFurtoTranspContratAqu: Result := nil;
+    tePerecPerdaRouboFurtoTranspContratAqu: Result.AppendChild(Gerar_Evento_PerecPerdaRouboTranspContrAdq(Idx));
 
     teAceiteDebitoApuracaoNotaCredito: Result := nil;
 
-    teImobilizacaoItem: Result := nil;
+    teImobilizacaoItem: Result.AppendChild(Gerar_Evento_ImobilizacaoItem(Idx));
 
-    teSolicApropCredCombustivel: Result := nil;
+    teSolicApropCredCombustivel: Result.AppendChild(Gerar_Evento_SolicApropCredCombustivel(Idx));
 
-    teSolicApropCredBensServicos: Result := nil;
+    teSolicApropCredBensServicos: Result.AppendChild(Gerar_Evento_SolicApropCredBensServicos(Idx));
 
     teManifPedTransfCredIBSSucessao: Result := nil;
 
@@ -1869,6 +1881,264 @@ begin
 
   Result.AppendChild(AddNode(tcInt, 'HP32', 'nItem', 1, 3, 1,
                                                         DFeReferenciado.nItem));
+end;
+
+function TEventoNFe.Gerar_gCredito(Idx: Integer): TACBrXmlNodeArray;
+var
+  i: integer;
+begin
+  Result := nil;
+  SetLength(Result, Evento[Idx].FInfEvento.detEvento.gCredito.Count);
+
+  for i := 0 to Evento[Idx].FInfEvento.detEvento.gCredito.Count - 1 do
+  begin
+    Result[i] := CreateElement('gCredito');
+    Result[i].SetAttribute('nItem',
+     intToStr(Evento[Idx].InfEvento.detEvento.gCredito[i].nItem));
+
+    Result[i].AppendChild(AddNode(tcDe2, 'HP25', 'vCredIBS', 1, 15, 1,
+                             Evento[Idx].InfEvento.detEvento.gCredito[i].vCredIBS));
+
+    Result[i].AppendChild(AddNode(tcDe2, 'HP26', 'vCredCBS', 1, 15, 1,
+                             Evento[Idx].InfEvento.detEvento.gCredito[i].vCredCBS));
+  end;
+
+  if Evento[Idx].FInfEvento.detEvento.gCredito.Count > 990 then
+    wAlerta('#1', 'gCredito', '', ERR_MSG_MAIOR_MAXIMO + '990');
+end;
+
+function TEventoNFe.Gerar_Evento_SolicApropCredBensServicos(Idx: Integer): TACBrXmlNode;
+var
+  nodeArray: TACBrXmlNodeArray;
+  i: Integer;
+begin
+  Result := CreateElement('detEvento');
+  Result.SetAttribute('versao', Versao);
+
+  Result.AppendChild(AddNode(tcStr, 'P19', 'descEvento', 4, 60, 1,
+                                            Evento[Idx].FInfEvento.DescEvento));
+
+  Result.AppendChild(AddNode(tcInt, 'HP20', 'cOrgaoAutor', 1, 2, 1,
+                                 Evento[Idx].FInfEvento.detEvento.cOrgaoAutor));
+
+  Result.AppendChild(AddNode(tcStr, 'HP21', 'tpAutor', 1, 1, 1,
+                     TipoAutorToStr(Evento[Idx].FInfEvento.detEvento.tpAutor)));
+
+  Result.AppendChild(AddNode(tcStr, 'P22', 'verAplic', 1, 20, 1,
+                                    Evento[Idx].FInfEvento.detEvento.verAplic));
+
+  nodeArray := Gerar_gCredito(Idx);
+  if nodeArray <> nil then
+  begin
+    for i := 0 to Length(nodeArray) - 1 do
+    begin
+      Result.AppendChild(nodeArray[i]);
+    end;
+  end;
+end;
+
+function TEventoNFe.Gerar_gControleEstoque(gControleEstoque: TgControleEstoqueImobilizacao): TACBrXmlNode;
+begin
+  Result := CreateElement('gControleEstoque');
+
+  Result.AppendChild(AddNode(tcDe4, 'HP28', 'qImobilizado', 1, 15, 1,
+                                                    gControleEstoque.qImobilizado));
+
+  Result.AppendChild(AddNode(tcStr, 'HP29', 'uImobilizado', 1, 6, 1,
+                                                   gControleEstoque.uImobilizado));
+end;
+
+function TEventoNFe.Gerar_gControleEstoque(gControleEstoque: TgControleEstoqueComb): TACBrXmlNode;
+begin
+  Result := CreateElement('gControleEstoque');
+
+  Result.AppendChild(AddNode(tcDe4, 'HP28', 'qComb', 1, 15, 1,
+                                                    gControleEstoque.qComb));
+
+  Result.AppendChild(AddNode(tcStr, 'HP29', 'uComb', 1, 6, 1,
+                                                   gControleEstoque.uComb));
+end;
+
+function TEventoNFe.Gerar_gImobilizacao(Idx: Integer): TACBrXmlNodeArray;
+var
+  i: integer;
+begin
+  Result := nil;
+  SetLength(Result, Evento[Idx].FInfEvento.detEvento.gImobilizacao.Count);
+
+  for i := 0 to Evento[Idx].FInfEvento.detEvento.gImobilizacao.Count - 1 do
+  begin
+    Result[i] := CreateElement('gImobilizacao');
+    Result[i].SetAttribute('nItem',
+     intToStr(Evento[Idx].InfEvento.detEvento.gImobilizacao[i].nItem));
+
+    Result[i].AppendChild(AddNode(tcDe2, 'HP25', 'vIBS', 1, 15, 1,
+                             Evento[Idx].InfEvento.detEvento.gImobilizacao[i].vIBS));
+
+    Result[i].AppendChild(AddNode(tcDe2, 'HP26', 'vCBS', 1, 15, 1,
+                             Evento[Idx].InfEvento.detEvento.gImobilizacao[i].vCBS));
+
+    Result[i].AppendChild(Gerar_gControleEstoque(Evento[Idx].InfEvento.detEvento.gImobilizacao[i].gControleEstoque));
+  end;
+
+  if Evento[Idx].FInfEvento.detEvento.gImobilizacao.Count > 990 then
+    wAlerta('#1', 'gImobilizacao', '', ERR_MSG_MAIOR_MAXIMO + '990');
+end;
+
+function TEventoNFe.Gerar_Evento_ImobilizacaoItem(Idx: Integer): TACBrXmlNode;
+var
+  nodeArray: TACBrXmlNodeArray;
+  i: Integer;
+begin
+  Result := CreateElement('detEvento');
+  Result.SetAttribute('versao', Versao);
+
+  Result.AppendChild(AddNode(tcStr, 'P19', 'descEvento', 4, 60, 1,
+                                            Evento[Idx].FInfEvento.DescEvento));
+
+  Result.AppendChild(AddNode(tcInt, 'HP20', 'cOrgaoAutor', 1, 2, 1,
+                                 Evento[Idx].FInfEvento.detEvento.cOrgaoAutor));
+
+  Result.AppendChild(AddNode(tcStr, 'HP21', 'tpAutor', 1, 1, 1,
+                     TipoAutorToStr(Evento[Idx].FInfEvento.detEvento.tpAutor)));
+
+  Result.AppendChild(AddNode(tcStr, 'P22', 'verAplic', 1, 20, 1,
+                                    Evento[Idx].FInfEvento.detEvento.verAplic));
+
+  nodeArray := Gerar_gImobilizacao(Idx);
+  if nodeArray <> nil then
+  begin
+    for i := 0 to Length(nodeArray) - 1 do
+    begin
+      Result.AppendChild(nodeArray[i]);
+    end;
+  end;
+end;
+
+function TEventoNFe.Gerar_gConsumoComb(Idx: Integer): TACBrXmlNodeArray;
+var
+  i: integer;
+begin
+  Result := nil;
+  SetLength(Result, Evento[Idx].FInfEvento.detEvento.gConsumoComb.Count);
+
+  for i := 0 to Evento[Idx].FInfEvento.detEvento.gConsumoComb.Count - 1 do
+  begin
+    Result[i] := CreateElement('gConsumoComb');
+    Result[i].SetAttribute('nItem',
+     intToStr(Evento[Idx].InfEvento.detEvento.gConsumoComb[i].nItem));
+
+    Result[i].AppendChild(AddNode(tcDe2, 'HP25', 'vIBS', 1, 15, 1,
+                             Evento[Idx].InfEvento.detEvento.gConsumoComb[i].vIBS));
+
+    Result[i].AppendChild(AddNode(tcDe2, 'HP26', 'vCBS', 1, 15, 1,
+                             Evento[Idx].InfEvento.detEvento.gConsumoComb[i].vCBS));
+
+    Result[i].AppendChild(Gerar_gControleEstoque(Evento[Idx].InfEvento.detEvento.gConsumoComb[i].gControleEstoque));
+  end;
+
+  if Evento[Idx].FInfEvento.detEvento.gConsumoComb.Count > 990 then
+    wAlerta('#1', 'gConsumoComb', '', ERR_MSG_MAIOR_MAXIMO + '990');
+end;
+
+
+function TEventoNFe.Gerar_Evento_SolicApropCredCombustivel(Idx: Integer): TACBrXmlNode;
+var
+  nodeArray: TACBrXmlNodeArray;
+  i: Integer;
+begin
+  Result := CreateElement('detEvento');
+  Result.SetAttribute('versao', Versao);
+
+  Result.AppendChild(AddNode(tcStr, 'P19', 'descEvento', 4, 60, 1,
+                                            Evento[Idx].FInfEvento.DescEvento));
+
+  Result.AppendChild(AddNode(tcInt, 'HP20', 'cOrgaoAutor', 1, 2, 1,
+                                 Evento[Idx].FInfEvento.detEvento.cOrgaoAutor));
+
+  Result.AppendChild(AddNode(tcStr, 'HP21', 'tpAutor', 1, 1, 1,
+                     TipoAutorToStr(Evento[Idx].FInfEvento.detEvento.tpAutor)));
+
+  Result.AppendChild(AddNode(tcStr, 'P22', 'verAplic', 1, 20, 1,
+                                    Evento[Idx].FInfEvento.detEvento.verAplic));
+
+  nodeArray := Gerar_gConsumoComb(Idx);
+  if nodeArray <> nil then
+  begin
+    for i := 0 to Length(nodeArray) - 1 do
+    begin
+      Result.AppendChild(nodeArray[i]);
+    end;
+  end;
+end;
+
+function TEventoNFe.Gerar_Evento_PerecPerdaRouboTranspContrAdq(
+  Idx: Integer): TACBrXmlNode;
+var
+  nodeArray: TACBrXmlNodeArray;
+  i: Integer;
+begin
+  Result := CreateElement('detEvento');
+  Result.SetAttribute('versao', Versao);
+
+  Result.AppendChild(AddNode(tcStr, 'P19', 'descEvento', 4, 60, 1,
+                                            Evento[Idx].FInfEvento.DescEvento));
+
+  Result.AppendChild(AddNode(tcInt, 'HP20', 'cOrgaoAutor', 1, 2, 1,
+                                 Evento[Idx].FInfEvento.detEvento.cOrgaoAutor));
+
+  Result.AppendChild(AddNode(tcStr, 'HP21', 'tpAutor', 1, 1, 1,
+                     TipoAutorToStr(Evento[Idx].FInfEvento.detEvento.tpAutor)));
+
+  Result.AppendChild(AddNode(tcStr, 'P22', 'verAplic', 1, 20, 1,
+                                    Evento[Idx].FInfEvento.detEvento.verAplic));
+
+  nodeArray := Gerar_gPerecimento(Idx);
+  if nodeArray <> nil then
+  begin
+    for i := 0 to Length(nodeArray) - 1 do
+    begin
+      Result.AppendChild(nodeArray[i]);
+    end;
+  end;
+end;
+
+function TEventoNFe.Gerar_gPerecimento(Idx: Integer): TACBrXmlNodeArray;
+var
+  i: integer;
+begin
+  Result := nil;
+  SetLength(Result, Evento[Idx].FInfEvento.detEvento.gPerecimento.Count);
+
+  for i := 0 to Evento[Idx].FInfEvento.detEvento.gPerecimento.Count - 1 do
+  begin
+    Result[i] := CreateElement('gPerecimento');
+    Result[i].SetAttribute('nItem',
+     intToStr(Evento[Idx].InfEvento.detEvento.gPerecimento[i].nItem));
+
+    Result[i].AppendChild(AddNode(tcDe2, 'HP25', 'vIBS', 1, 15, 1,
+                             Evento[Idx].InfEvento.detEvento.gPerecimento[i].vIBS));
+
+    Result[i].AppendChild(AddNode(tcDe2, 'HP26', 'vCBS', 1, 15, 1,
+                             Evento[Idx].InfEvento.detEvento.gPerecimento[i].vCBS));
+
+    Result[i].AppendChild(Gerar_gControleEstoque(Evento[Idx].InfEvento.detEvento.gPerecimento[i].gControleEstoque));
+  end;
+
+  if Evento[Idx].FInfEvento.detEvento.gPerecimento.Count > 990 then
+    wAlerta('#1', 'gPerecimento', '', ERR_MSG_MAIOR_MAXIMO + '990');
+end;
+
+function TEventoNFe.Gerar_gControleEstoque(
+  gControleEstoque: TgControleEstoquePerecimento): TACBrXmlNode;
+begin
+  Result := CreateElement('gControleEstoque');
+
+  Result.AppendChild(AddNode(tcDe4, 'HP28', 'qPerecimento', 1, 15, 1,
+                                                gControleEstoque.qPerecimento));
+
+  Result.AppendChild(AddNode(tcStr, 'HP29', 'uPerecimento', 1, 6, 1,
+                                                gControleEstoque.uPerecimento));
 end;
 
 end.

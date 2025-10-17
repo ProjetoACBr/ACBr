@@ -234,7 +234,10 @@ type
                 schManifDestOperNaoRealizada, schCompEntrega, schCancCompEntrega,
                 schAtorInteressadoNFe, schInsucessoEntregaNFe,
                 schCancInsucessoEntregaNFe, schConcFinanceira,
-                schCancConcFinanceira);
+                schCancConcFinanceira, schSolicApropCredPres,
+                schDestItemConsPessoal, schPerecPerdaRouboFurtoTranspContratAqu,
+                schAceiteDebitoApuracaoNotaCredito, schImobilizacaoItem,
+                schSolicApropCredCombustivel, schSolicApropCredBensServicos);
 
 const
   TSchemaNFeArrayStrings: array[TSchemaNFe] of string = ('Erro', 'Nfe',
@@ -246,13 +249,16 @@ const
     'ManifDestCiencia', 'ManifDestDesconhecimento', 'ManifDestOperNaoRealizada',
     'CompEntrega', 'CancCompEntrega', 'AtorInteressadoNFe',
     'InsucessoEntrega', 'CancInsucessoEntrega', 'ConcFinanceira',
-    'CancConcFinanceira');
+    'CancConcFinanceira', 'SolicApropCredPres', 'DestItemConsPessoal',
+    'PerecPerdaRouboFurtoTranspContratAqu', 'AceiteDebitoApuracaoNotaCredito',
+    'ImobilizacaoItem', 'SolicApropCredCombustivel', 'SolicApropCredBensServicos');
 
   TEventoArrayStrings: array[TSchemaNFe] of string = ('', '', 'e110111', '',
     'e110110', '', '', 'e110140', '', '', '', '', '', '', '', '', '', '', '',
     'e110112', 'e111500', 'e111501', 'e111502', 'e111503', 'e210200', 'e210210',
     'e210220', 'e210240', 'e110130', 'e110131', 'e110150', 'e110192', 'e110193',
-    'e110750', 'e110751');
+    'e110750', 'e110751', 'e211110', 'e211120', 'e211124', 'e211128', 'e211130',
+    'e211140', 'e211150');
 
 type
   TLayOut = (LayNfeRecepcao, LayNfeRetRecepcao, LayNfeCancelamento,
@@ -1578,13 +1584,19 @@ begin
                                'e111500', 'e111501', 'e111502', 'e111503',
                                'e210200', 'e210210', 'e210220', 'e210240',
                                'e110130', 'e110131', 'e110150', 'e110192',
-                               'e110193', 'e110750', 'e110751'],
+                               'e110193', 'e110750', 'e110751',
+                               'e211110', 'e211120', 'e211124',
+                               'e211128', 'e211130', 'e211140',
+                               'e211150'],
     [schEnvCCe, schcancNFe, schCancSubst, schEnvEPEC,
      schPedProrrog1, schPedProrrog2, schCanPedProrrog1, schCanPedProrrog2,
      schManifDestConfirmacao, schManifDestCiencia, schManifDestDesconhecimento,
      schManifDestOperNaoRealizada, schCompEntrega, schCancCompEntrega,
      schAtorInteressadoNFe, schInsucessoEntregaNFe, schCancInsucessoEntregaNFe,
-     schConcFinanceira, schCancConcFinanceira]);
+     schConcFinanceira, schCancConcFinanceira,
+     schSolicApropCredPres, schDestItemConsPessoal, schPerecPerdaRouboFurtoTranspContratAqu,
+     schAceiteDebitoApuracaoNotaCredito, schImobilizacaoItem, schSolicApropCredCombustivel,
+     schSolicApropCredBensServicos]);
 end;
 
 function AutorizacaoToStr(const t: TAutorizacao): string;
