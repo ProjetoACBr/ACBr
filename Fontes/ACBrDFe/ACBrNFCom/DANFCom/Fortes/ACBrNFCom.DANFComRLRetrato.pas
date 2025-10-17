@@ -429,6 +429,7 @@ begin
     rllValorFUST.Caption := FormatFloatBr(vFUST);
     rllValorFUNTTEL.Caption := FormatFloatBr(vFUNTTEL);
   end;
+  rlmDadosFisco.Lines.Text := StringReplace(fpNFCom.infAdic.infAdFisco, fpDANFCom.CaractereQuebraDeLinha, #13, [rfReplaceAll]);
 end;
 
 procedure TfrlDANFComRLRetrato.rlbDivisao05BeforePrint(Sender: TObject;
