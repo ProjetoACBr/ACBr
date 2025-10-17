@@ -5466,7 +5466,6 @@ var
       4202008: CodTOM := '8039'; // Balneario Camboriu/SC';
       4202057: CodTOM := '5549'; // Balneario Barra Do Sul/SC';
       4202073: CodTOM := '0890'; // Balneario Gaivota/SC';
-      4220000: CodTOM := '1192'; // Balneario Rincão/SC';
       4202081: CodTOM := '0892'; // Bandeirante/SC';
       4202099: CodTOM := '0894'; // Barra Bonita/SC';
       4202107: CodTOM := '8041'; // Barra Velha/SC';
@@ -5732,6 +5731,7 @@ var
       4219606: CodTOM := '8385'; // Xavantina/SC';
       4219705: CodTOM := '8387'; // Xaxim/SC';
       4219853: CodTOM := '0950'; // Zortea/SC';
+      4220000: CodTOM := '1192'; // Balneario Rincão/SC';
    end;
  end;
 
@@ -6756,7 +6756,7 @@ begin
   else if (ACodigo >= 3300100) and (ACodigo <= 3306305) then P33
   else if (ACodigo >= 3500105) and (ACodigo <= 3557303) then P35
   else if (ACodigo >= 4100103) and (ACodigo <= 4128807) then P41
-  else if (ACodigo >= 4200051) and (ACodigo <= 4219853) then P42
+  else if (ACodigo >= 4200051) and (ACodigo <= 4220000) then P42
   else if (ACodigo >= 4300034) and (ACodigo <= 4323804) then P43
   else if (ACodigo >= 5000203) and (ACodigo <= 5008404) then P50
   else if (ACodigo >= 5100102) and (ACodigo <= 5108956) then P51
