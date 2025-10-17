@@ -38,6 +38,9 @@ requires
   ACBr_synapse;
 
 contains
+  // a unit abaixo movida de ACBr_DFeComum
+  ACBrDFe.Conversao in '..\..\..\Fontes\ACBrDFe\ACBrDFe.Conversao.pas',
+
   ACBrBase in '..\..\..\Fontes\ACBrComum\ACBrBase.pas',
   ACBrConsts in '..\..\..\Fontes\ACBrComum\ACBrConsts.pas',
   ACBrUtil in '..\..\..\Fontes\ACBrComum\ACBrUtil.pas',

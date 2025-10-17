@@ -8,10 +8,12 @@ unit ACBrComum;
 interface
 
 uses
-  ACBrReg, ACBrBase, ACBrConsts, ACBrUtil, ACBrUtil.Compatibilidade, ACBrUtil.Base, ACBrUtil.DateTime, 
-  ACBrUtil.FilesIO, ACBrUtil.Math, ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrAAC, ACBrCompress, ACBrImage, 
-  ACBrPAFClass, StrUtilsEx, ACBrDelphiZXingQRCode, ACBr_fpdf, ACBr_fpdf_ext, ACBr_fpdf_report, Jsons, 
-  ACBrJSON, ACBrUtil.FPDF, LazarusPackageIntf;
+  ACBrReg, ACBrBase, ACBrConsts, ACBrUtil, ACBrUtil.Compatibilidade, 
+  ACBrUtil.Base, ACBrUtil.DateTime, ACBrUtil.FilesIO, ACBrUtil.Math, 
+  ACBrUtil.Strings, ACBrUtil.XMLHTML, ACBrAAC, ACBrCompress, ACBrImage, 
+  ACBrPAFClass, StrUtilsEx, ACBrDelphiZXingQRCode, ACBr_fpdf, ACBr_fpdf_ext, 
+  ACBr_fpdf_report, Jsons, ACBrJSON, ACBrUtil.FPDF, ACBrDFe.Conversao, 
+  LazarusPackageIntf;
 
 implementation
 

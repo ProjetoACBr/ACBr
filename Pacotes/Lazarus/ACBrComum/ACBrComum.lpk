@@ -10,7 +10,7 @@
       <PathDelim Value="\"/>
       <SearchPaths>
         <IncludeFiles Value="..\..\..\Fontes\ACBrComum"/>
-        <OtherUnitFiles Value="..\..\..\Fontes\ACBrComum;..\..\..\Fontes\Terceiros\GZIPUtils;..\..\..\Fontes\Terceiros\FastStringReplace;..\..\..\Fontes\Terceiros\DelphiZXingQRCode;..\..\..\Fontes\Terceiros\json4delphi\src;..\..\..\Fontes\Terceiros\FPDF-Pascal"/>
+        <OtherUnitFiles Value="..\..\..\Fontes\ACBrComum;..\..\..\Fontes\Terceiros\GZIPUtils;..\..\..\Fontes\Terceiros\FastStringReplace;..\..\..\Fontes\Terceiros\DelphiZXingQRCode;..\..\..\Fontes\Terceiros\json4delphi\src;..\..\..\Fontes\Terceiros\FPDF-Pascal;..\..\..\Fontes\ACBrDFe"/>
         <UnitOutputDirectory Value="..\..\..\Lib\Lazarus\ACBrComum\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -33,7 +33,7 @@
     <License Value="LGPL
 "/>
     <Version Major="1"/>
-    <Files Count="25">
+    <Files Count="26">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrComum\ACBr.inc"/>
         <Type Value="Include"/>
@@ -136,6 +136,10 @@
         <Filename Value="..\..\..\Fontes\ACBrComum\ACBrUtil.FPDF.pas"/>
         <UnitName Value="ACBrUtil.FPDF"/>
       </Item25>
+      <Item26>
+        <Filename Value="..\..\..\Fontes\ACBrDFe\ACBrDFe.Conversao.pas"/>
+        <UnitName Value="ACBrDFe.Conversao"/>
+      </Item26>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="2">
