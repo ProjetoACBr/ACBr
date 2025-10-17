@@ -46,6 +46,9 @@ const
   UF_EXTERIOR = 'EX';
 
 resourcestring
+  // Descrição de Mensagens
+  Msg_ICMS_123_2006 = 'ICMS a ser recolhido conforme LC 123/2006 - Simples Nacional';
+
   // Descrição de Mensagens de Erro
   ERR_MSG_MAIOR = 'Tamanho maior que o máximo permitido';
   ERR_MSG_MENOR = 'Tamanho menor que o mínimo permitido';

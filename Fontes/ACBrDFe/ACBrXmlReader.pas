@@ -38,7 +38,9 @@ interface
 
 uses
   Classes, SysUtils,
-  ACBrXmlBase, ACBrXmlDocument;
+  ACBrDFe.Conversao,
+  ACBrXmlBase,
+  ACBrXmlDocument;
 
 type
   { TACBrXmlReader }

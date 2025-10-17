@@ -38,43 +38,14 @@ interface
 
 uses
   Classes, SysUtils,
+  ACBrDFe.Conversao,
   pcnSignature,
+//  ACBrDFeComum.SignatureClass,
   ACBrXmlDocument;
-
-type
-  TACBrTagAssinatura = (taSempre, taNunca, taSomenteSeAssinada,
-                        taSomenteParaNaoAssinada);
-
-  TACBrTipoCampo = (tcStr, tcInt, tcInt64, tcDat, tcDatHor, tcEsp, tcDe2, tcDe3,
-                    tcDe4, tcDe5, tcDe6, tcDe7, tcDe8, tcDe10, tcHor, tcDatCFe,
-                    tcHorCFe, tcDatVcto, tcDatHorCFe, tcBool, tcStrOrig,
-                    tcNumStr, tcDatUSA);
-
-  TACBrTipoAmbiente = (taProducao, taHomologacao);
-
-const
-  TACBrTipoAmbienteArrayStrings: array[TACBrTipoAmbiente] of string = ('1', '2');
-
-type
-  TACBrTipoEmissao = (teNormal, teContingencia, teSCAN, teDPEC, teFSDA, teSVCAN,
-                      teSVCRS, teSVCSP, teOffLine);
-
-const
-  TACBrTipoEmissaoArrayStrings: array[TACBrTipoEmissao] of string = ('1', '2',
-    '3', '4', '5', '6', '7', '8', '9');
-
-const
-  LineBreak = #13#10;
 
 function FiltrarTextoXML(const RetirarEspacos: boolean; aTexto: String;
   RetirarAcentos: boolean = True; SubstituirQuebrasLinha: Boolean = True;
   const QuebraLinha: String = ';'): String;
-
-function StrToEnumerado(out ok: boolean; const s: string; const AString: array of string;
-  const AEnumerados: array of variant): variant;
-
-function EnumeradoToStr(const t: variant; const AString:
-  array of string; const AEnumerados: array of variant): variant;
 
 function RemoverIdentacao(const AXML: string): string;
 function XmlToStr(const AXML: string): string;
@@ -90,12 +61,6 @@ function NormatizarBoolean(const aBool: string): string;
 function ObterConteudoTag(const AAtt: TACBrXmlAttribute): string; overload;
 function ObterConteudoTag(const ANode: TACBrXmlNode; const Tipo: TACBrTipoCampo): variant; overload;
 function ObterConteudoTagCNPJCPF(const ANode: TACBrXmlNode): string;
-
-function TipoEmissaoToStr(const t: TACBrTipoEmissao): string;
-function StrToTipoEmissao(out ok: boolean; const s: string): TACBrTipoEmissao;
-
-function TipoAmbienteToStr(const t: TACBrTipoAmbiente): string;
-function StrToTipoAmbiente(out ok: boolean; const s: string): TACBrTipoAmbiente;
 
 procedure LerSignature(ASignatureNode: TACBrXmlNode; Signature: TSignature);
 
@@ -135,31 +100,6 @@ begin
     aTexto := ChangeLineBreak( aTexto, QuebraLinha);
 
   Result := Trim(aTexto);
-end;
-
-function StrToEnumerado(out ok: boolean; const s: string; const AString:
-  array of string; const AEnumerados: array of variant): variant;
-var
-  i: integer;
-begin
-  result := -1;
-  for i := Low(AString) to High(AString) do
-    if AnsiSameText(s, AString[i]) then
-      result := AEnumerados[i];
-  ok := result <> -1;
-  if not ok then
-    result := AEnumerados[0];
-end;
-
-function EnumeradoToStr(const t: variant; const AString:
-  array of string; const AEnumerados: array of variant): variant;
-var
-  i: integer;
-begin
-  result := '';
-  for i := Low(AEnumerados) to High(AEnumerados) do
-    if t = AEnumerados[i] then
-      result := AString[i];
 end;
 
 function RemoverIdentacao(const AXML: string): string;
@@ -318,6 +258,14 @@ begin
           result := 0;
       end;
 
+    tcDatBol:
+      begin
+        if length(ConteudoTag) > 0 then
+          result := EncodeDate(StrToInt(copy(ConteudoTag, 05, 4)), StrToInt(copy(ConteudoTag, 03, 2)), StrToInt(copy(ConteudoTag, 01, 2)))
+        else
+          Result := 0;
+      end;
+
     tcDatUSA:
       begin
         if length(ConteudoTag) > 0 then
@@ -346,11 +294,12 @@ begin
           result := 0;
       end;
 
-    tcDe2, tcDe3, tcDe4, tcDe5, tcDe6, tcDe7, tcDe8, tcDe10:
+    tcDe1, tcDe2, tcDe3, tcDe4, tcDe5, tcDe6, tcDe7, tcDe8, tcDe10:
       begin
         if aFloatIsIntString then
         begin
           case Tipo of
+            tcDe1:  iDecimais := 1;
             tcDe2:  iDecimais := 2;
             tcDe3:  iDecimais := 3;
             tcDe4:  iDecimais := 4;
@@ -385,7 +334,7 @@ begin
           result := 0;
       end;
 
-    tcBool:
+    tcBool, tcBoolStr:
       begin
         if length(ConteudoTag) > 0 then
         begin
@@ -404,8 +353,7 @@ begin
     tcNumStr:
       begin
         result := ConteudoTag;
-      end
-
+      end;
   else
     raise Exception.Create('Node <' + ANode.Name + '> com conteúdo inválido. ' +
                            ConteudoTag);
@@ -418,30 +366,6 @@ begin
 
   if Trim(Result) = '' then
     Result := ObterConteudoTag(ANode.Childrens.Find('CPF'), tcStr);
-end;
-
-function TipoEmissaoToStr(const t: TACBrTipoEmissao): string;
-begin
-  result := EnumeradoToStr(t, ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                              [teNormal, teContingencia, teSCAN, teDPEC, teFSDA,
-                               teSVCAN, teSVCRS, teSVCSP, teOffLine]);
-end;
-
-function StrToTipoEmissao(out ok: boolean; const s: string): TACBrTipoEmissao;
-begin
-  result := StrToEnumerado(ok, s, ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                              [teNormal, teContingencia, teSCAN, teDPEC, teFSDA,
-                               teSVCAN, teSVCRS, teSVCSP, teOffLine]);
-end;
-
-function TipoAmbienteToStr(const t: TACBrTipoAmbiente): string;
-begin
-  result := EnumeradoToStr(t, ['1', '2'], [taProducao, taHomologacao]);
-end;
-
-function StrToTipoAmbiente(out ok: boolean; const s: string): TACBrTipoAmbiente;
-begin
-  result := StrToEnumerado(ok, s, ['1', '2'], [taProducao, taHomologacao]);
 end;
 
 procedure LerSignature(ASignatureNode: TACBrXmlNode; Signature: TSignature);

@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/10/2025
+-- ACBrDFe.Conversao/ACBrDFeConsts/ACBrXmlBase/ACBrXmlReader--
+[*] Migração dos tipos e funções de conversão para a unit ACBrDFe.Conversao
+   Por: Italo Giurizzato Junior
+
 02/10/2025
 -- ACBrDFe.Conversao --
 [*] Atualização dos CST do IBSCBS.
