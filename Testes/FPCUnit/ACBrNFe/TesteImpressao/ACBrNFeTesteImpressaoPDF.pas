@@ -10,20 +10,29 @@ type
   TTestImpressaoPDF = class(TTestCase)
   private
     FACBrNFe: TACBrNFe;
-    FACBrNFeDANFEFR : TACBrNFeDANFEFR;
-    procedure CarregarXMLs;
+    FACBrNFeDANFEFR  : TACBrNFeDANFEFR;
+    FACBrNFeDANFCEFR : TACBrNFeDANFCEFR;
+    procedure CarregarXMLsNFe;
   public
     procedure SetUp; override;
     procedure TearDown; override;
+    procedure PreparaNFe;
   published
-    procedure TestImpressaoPares;
-    procedure TestImpressaoImpares;
-    procedure TestImpressaoIndice5;
-    procedure TestImpressaoTodosPorIndex;
-    procedure TestImpressaoTodosUnicoComando;
-    procedure TestNomeArquivosPadrao;
-    procedure TestQuantidadeCorretaDePDFs;
-    procedure TestTodasNotasPreview;
+    procedure TestNFeImpressaoPares;
+    procedure TestNFeImpressaoImpares;
+    procedure TestNFeImpressaoIndice0;
+    procedure TestNFeImpressaoIndice5;
+    procedure TestNFeImpressaoTodosPorIndex;
+    procedure TestNFeImpressaoTodosUnicoComando;
+    procedure TestNFeNomeArquivosPadrao;
+    procedure TestNFeQuantidadeCorretaDePDFs;
+    procedure TestNFeImpressaoComPathIndividual;
+    procedure TestNFeImpressaoSemPathIndividual;
+    procedure TestNFeImpressaoComPathIndividualIndex0;
+    procedure TestNFeImpressaoComPathIndividualIndex5;
+    procedure TestNFeImpressaoSemPathIndividualIndex0;
+    procedure TestNFeImpressaoSemPathIndividualIndex5;
+    procedure TestNFeTodasNotasPreview;
 
   end;
 
@@ -49,21 +58,47 @@ begin
 end;
 
 
+procedure TTestImpressaoPDF.PreparaNFe;
+begin
+  FACBrNFe.DANFE := FACBrNFeDANFEFR;
+  DeleteFilesInDirectory(FACBrNFeDANFEFR.PathPDF, '*.pdf');
+  CarregarXMLsNFe;
+end;
+
 procedure TTestImpressaoPDF.SetUp;
 begin
   FACBrNFe := TACBrNFe.Create(nil);
-  FACBrNFeDANFEFR := TACBrNFeDANFEFR.Create(FACBrNFe);
-  FACBrNFe.DANFE := FACBrNFeDANFEFR;
+  FACBrNFeDANFEFR  := TACBrNFeDANFEFR.Create(FACBrNFe);
+  FACBrNFeDANFCEFR := TACBrNFeDANFCEFR.Create(FACBrNFe);
 
-  FACBrNFeDANFEFR.PathPDF  := ExtractFilePath(ParamStr(0)) + 'pdfs\';
+  FACBrNFeDANFEFR.UsaSeparadorPathPDF := False;
+  FACBrNFeDANFCEFR.UsaSeparadorPathPDF := False;
+  FACBrNFe.Configuracoes.Arquivos.SepararPorCNPJ := True;
+  FACBrNFe.Configuracoes.Arquivos.SepararPorIE := True;
+  FACBrNFe.Configuracoes.Arquivos.SepararPorModelo := True;
+  FACBrNFe.Configuracoes.Arquivos.SepararPorAno := True;
+  FACBrNFe.Configuracoes.Arquivos.SepararPorMes := True;
+  FACBrNFe.Configuracoes.Arquivos.SepararPorDia := True;
+
+  var LPath := ExtractFilePath(ParamStr(0));
+
+  ForceDirectories(LPath + 'nfe\');
+
+  FACBrNFeDANFEFR.PathPDF  := LPath + 'nfe\';
   FACBrNFeDANFEFR.FastFile             := '..\..\..\Exemplos\ACBrDFe\ACBrNFe\Delphi\Report\NFe\DANFeRetrato.fr3';
   FACBrNFeDANFEFR.FastFileEvento       := '..\..\..\Exemplos\ACBrNFe\Delphi\Report\NFe\EVENTOS.fr3';
   FACBrNFeDANFEFR.FastFileInutilizacao := '..\..\..\Exemplos\ACBrDFe\ACBrNFe\Delphi\Report\NFe\INUTILIZACAO.fr3';
 
-  CarregarXMLs;
+  ForceDirectories(LPath + 'nfce\');
+
+  FACBrNFeDANFCEFR.PathPDF  := LPath + 'nfce\';
+  FACBrNFeDANFCEFR.FastFile             := '..\..\..\Exemplos\ACBrDFe\ACBrNFe\Delphi\Report\NFCe\DANFeNFCe5_00.fr3';
+  FACBrNFeDANFCEFR.FastFileEvento       := '..\..\..\Exemplos\ACBrNFe\Delphi\Report\NFCe\EventosNFCe.fr3';
+  FACBrNFeDANFCEFR.FastFileInutilizacao := '..\..\..\Exemplos\ACBrDFe\ACBrNFe\Delphi\Report\NFCe\INUTILIZACAONFCE.fr3';
+
 end;
 
-procedure TTestImpressaoPDF.CarregarXMLs;
+procedure TTestImpressaoPDF.CarregarXMLsNFe;
 var
   I: Integer;
 begin
@@ -76,15 +111,16 @@ end;
 procedure TTestImpressaoPDF.TearDown;
 begin
   FACBrNFeDANFEFR.Free;
+  FACBrNFeDANFCEFR.Free;
   FACBrNFe.Free;
 end;
 
-procedure TTestImpressaoPDF.TestImpressaoPares;
+procedure TTestImpressaoPDF.TestNFeImpressaoPares;
 var
   i: Integer;
   ArquivosPDF: TStringList;
 begin
-  DeleteFilesInDirectory(FACBrNFeDANFEFR.PathPDF, '*.pdf');
+  PreparaNFe;
   for i := 0 to Pred(FACBrNFe.NotasFiscais.Count) do
     if (i mod 2 = 0) then
       FACBrNFe.NotasFiscais[I].ImprimirPDF;
@@ -97,11 +133,116 @@ begin
   end;
 end;
 
-procedure TTestImpressaoPDF.TestImpressaoImpares;
+procedure TTestImpressaoPDF.TestNFeImpressaoComPathIndividual;
+var LUsaSeparadorPathPDF : Boolean;
+begin
+  PreparaNFe;
+  LUsaSeparadorPathPDF := FACBrNFeDANFEFR.UsaSeparadorPathPDF;
+
+  var LPath := 'C:\ACBr\Testes\Dunit\ACBrNFe\nfe\';
+
+  if TDirectory.Exists(LPath) then
+    TDirectory.Delete(LPath, True);
+
+  try
+    FACBrNFe.DANFE.UsaSeparadorPathPDF := True;
+    TestNFeImpressaoTodosUnicoComando;
+  finally
+    FACBrNFeDANFEFR.UsaSeparadorPathPDF := LUsaSeparadorPathPDF;
+  end;
+end;
+
+procedure TTestImpressaoPDF.TestNFeImpressaoComPathIndividualIndex0;
+var LUsaSeparadorPathPDF : Boolean;
+  ArquivosPDF: TStringList;
+begin
+  FACBrNFe.DANFE := FACBrNFeDANFEFR;
+  LUsaSeparadorPathPDF := FACBrNFeDANFEFR.UsaSeparadorPathPDF;
+
+  FACBrNFe.DANFE.UsaSeparadorPathPDF := True;
+
+  FACBrNFeDANFEFR.PathPDF;
+
+  var LPath := 'C:\ACBr\Testes\Dunit\ACBrNFe\nfe\';
+
+  if TDirectory.Exists(LPath) then
+    TDirectory.Delete(LPath, True);
+
+  FACBrNFe.NotasFiscais.Clear;
+  FACBrNFe.NotasFiscais.LoadFromFile(Format('..\..\Recursos\NFe\XML\NFe_%d.xml', [1]));
+  FACBrNFe.NotasFiscais[0].ImprimirPDF;
+
+  ArquivosPDF := ObterArquivosPDF(FACBrNFeDANFEFR.PathPDF);
+  try
+    CheckEquals(1, ArquivosPDF.Count, 'Apenas 1 PDF deveria ser gerado para o índice 0.');
+    FACBrNFeDANFEFR.UsaSeparadorPathPDF := LUsaSeparadorPathPDF;
+  finally
+    ArquivosPDF.Free;
+  end;
+end;
+
+procedure TTestImpressaoPDF.TestNFeImpressaoComPathIndividualIndex5;
+var LUsaSeparadorPathPDF : Boolean;
+begin
+  PreparaNFe;
+  LUsaSeparadorPathPDF := FACBrNFeDANFEFR.UsaSeparadorPathPDF;
+  try
+    FACBrNFe.DANFE.UsaSeparadorPathPDF := True;
+    TestNFeImpressaoIndice5;
+  finally
+    FACBrNFeDANFEFR.UsaSeparadorPathPDF := LUsaSeparadorPathPDF;
+    var Path := ExtractFilePath(FACBrNFeDANFEFR.ArquivoPDF);
+    var Arquivo := Path+'352505123456789000161550020000007831478256711-nfe.pdf';
+    CheckEquals( True , FileExists(Arquivo),
+                   'Não encontrado ' + Arquivo);
+  end;
+end;
+
+procedure TTestImpressaoPDF.TestNFeImpressaoSemPathIndividual;
+var LUsaSeparadorPathPDF : Boolean;
+begin
+  PreparaNFe;
+  LUsaSeparadorPathPDF := FACBrNFe.DANFE.UsaSeparadorPathPDF;
+  try
+    FACBrNFe.DANFE.UsaSeparadorPathPDF := False;
+    TestNFeImpressaoTodosUnicoComando;
+  finally
+    FACBrNFeDANFEFR.UsaSeparadorPathPDF := LUsaSeparadorPathPDF;
+  end;
+end;
+
+procedure TTestImpressaoPDF.TestNFeImpressaoSemPathIndividualIndex0;
+var LUsaSeparadorPathPDF : Boolean;
+begin
+  PreparaNFe;
+  LUsaSeparadorPathPDF := FACBrNFeDANFEFR.UsaSeparadorPathPDF;
+  try
+    FACBrNFeDANFEFR.UsaSeparadorPathPDF := False;
+    TestNFeImpressaoIndice0;
+  finally
+    FACBrNFeDANFEFR.UsaSeparadorPathPDF := LUsaSeparadorPathPDF;
+  end;
+end;
+
+procedure TTestImpressaoPDF.TestNFeImpressaoSemPathIndividualIndex5;
+var LUsaSeparadorPathPDF : Boolean;
+begin
+  PreparaNFe;
+  LUsaSeparadorPathPDF := FACBrNFeDANFEFR.UsaSeparadorPathPDF;
+  try
+    FACBrNFeDANFEFR.UsaSeparadorPathPDF := False;
+    TestNFeImpressaoIndice5;
+  finally
+    FACBrNFeDANFEFR.UsaSeparadorPathPDF := LUsaSeparadorPathPDF;
+  end;
+end;
+
+procedure TTestImpressaoPDF.TestNFeImpressaoImpares;
 var
   i: Integer;
   ArquivosPDF: TStringList;
 begin
+  PreparaNFe;
   DeleteFilesInDirectory(FACBrNFeDANFEFR.PathPDF, '*.pdf');
   for i := 0 to Pred(FACBrNFe.NotasFiscais.Count) do
     if (i mod 2 = 1) then
@@ -115,10 +256,29 @@ begin
   end;
 end;
 
-procedure TTestImpressaoPDF.TestImpressaoIndice5;
+procedure TTestImpressaoPDF.TestNFeImpressaoIndice0;
 var
   ArquivosPDF: TStringList;
 begin
+  FACBrNFe.DANFE := FACBrNFeDANFEFR;
+  DeleteFilesInDirectory(FACBrNFeDANFEFR.PathPDF, '*.pdf');
+  FACBrNFe.NotasFiscais.Clear;
+  FACBrNFe.NotasFiscais.LoadFromFile(Format('..\..\Recursos\NFe\XML\NFe_%d.xml', [1]));
+  FACBrNFe.NotasFiscais[0].ImprimirPDF;
+
+  ArquivosPDF := ObterArquivosPDF(FACBrNFeDANFEFR.PathPDF);
+  try
+    CheckEquals(1, ArquivosPDF.Count, 'Apenas 1 PDF deveria ser gerado para o índice 0.');
+  finally
+    ArquivosPDF.Free;
+  end;
+end;
+
+procedure TTestImpressaoPDF.TestNFeImpressaoIndice5;
+var
+  ArquivosPDF: TStringList;
+begin
+  PreparaNFe;
   DeleteFilesInDirectory(FACBrNFeDANFEFR.PathPDF, '*.pdf');
   FACBrNFe.NotasFiscais[5].ImprimirPDF;
 
@@ -130,11 +290,12 @@ begin
   end;
 end;
 
-procedure TTestImpressaoPDF.TestImpressaoTodosPorIndex;
+procedure TTestImpressaoPDF.TestNFeImpressaoTodosPorIndex;
 var
   i: Integer;
   ArquivosPDF: TStringList;
 begin
+  PreparaNFe;
   DeleteFilesInDirectory(FACBrNFeDANFEFR.PathPDF, '*.pdf');
   for i := 0 to Pred(FACBrNFe.NotasFiscais.Count) do
   begin
@@ -149,10 +310,11 @@ begin
   end;
 end;
 
-procedure TTestImpressaoPDF.TestImpressaoTodosUnicoComando;
+procedure TTestImpressaoPDF.TestNFeImpressaoTodosUnicoComando;
 var
     ArquivosPDF: TStringList;
 begin
+  PreparaNFe;
   DeleteFilesInDirectory(FACBrNFeDANFEFR.PathPDF, '*.pdf');
   FACBrNFe.NotasFiscais.ImprimirPDF;
 
@@ -164,12 +326,12 @@ begin
   end;
 end;
 
-procedure TTestImpressaoPDF.TestNomeArquivosPadrao;
+procedure TTestImpressaoPDF.TestNFeNomeArquivosPadrao;
 var
   ArquivosPDF: TStringList;
   i: Integer;
 begin
-  TestImpressaoTodosPorIndex; // Gera os arquivos
+  TestNFeImpressaoTodosPorIndex; // Gera os arquivos
 
   ArquivosPDF := ObterArquivosPDF(FACBrNFeDANFEFR.PathPDF);
   try
@@ -180,11 +342,11 @@ begin
   end;
 end;
 
-procedure TTestImpressaoPDF.TestQuantidadeCorretaDePDFs;
+procedure TTestImpressaoPDF.TestNFeQuantidadeCorretaDePDFs;
 var
   ArquivosPDF: TStringList;
 begin
-  TestImpressaoTodosPorIndex;
+  TestNFeImpressaoTodosPorIndex;
 
   ArquivosPDF := ObterArquivosPDF(FACBrNFeDANFEFR.PathPDF);
   try
@@ -194,12 +356,11 @@ begin
   end;
 end;
 
-
-
-
-procedure TTestImpressaoPDF.TestTodasNotasPreview;
+procedure TTestImpressaoPDF.TestNFeTodasNotasPreview;
 begin
-  FACBrNFe.DANFE.MostraPreview := True;
+  PreparaNFe;
+  FACBrNFe.DANFE.MostraPreview       := True;
+  FACBrNFe.DANFE.UsaSeparadorPathPDF := False;
   FACBrNFe.NotasFiscais.Imprimir;
 end;
 
