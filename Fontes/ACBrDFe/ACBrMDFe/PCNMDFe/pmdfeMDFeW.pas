@@ -39,6 +39,7 @@ interface
 uses
   SysUtils, Classes,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcnConversao, pcnGerador,
   pmdfeConversaoMDFe, ACBrMDFe.Classes,
   ACBrUtil.Strings,

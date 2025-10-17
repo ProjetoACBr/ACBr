@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/10/2025
+-- pmdfeMDFeR/pmdfeMDFeW --
+[-] Acrescentado a unit ACBrDFe.Conversao para compilar no Lazarus.
+   Por: Italo Giurizzato Junior
+
 09/10/2025
 -- Diversos --
 [*] Ajustes diversos em diversas units.

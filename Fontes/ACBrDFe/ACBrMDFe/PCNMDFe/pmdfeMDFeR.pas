@@ -42,6 +42,7 @@ uses
   Variants,
 {$ENDIF}
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcnConversao, pcnLeitor,
   pmdfeConversaoMDFe, ACBrMDFe.Classes,
   ACBrUtil.Strings,
