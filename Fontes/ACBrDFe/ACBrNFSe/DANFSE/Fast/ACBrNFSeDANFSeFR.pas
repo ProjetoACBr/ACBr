@@ -279,7 +279,7 @@ begin
 
   // Define a impressora
   if EstaVazio(Impressora) then
-    SetDefaultPrinter(FfrxReport)
+    SetDefaultPrinter(frxReport)
   else
     frxReport.PrintOptions.Printer := Impressora;
 
