@@ -172,6 +172,7 @@ implementation
 uses
   StrUtils,
   ACBrMDFe, pmdfeConversaoMDFe,
+  ACBrDFe.Conversao,
   ACBrUtil.Strings,
   ACBrUtil.DateTime,
   ACBrUtil.FilesIO,

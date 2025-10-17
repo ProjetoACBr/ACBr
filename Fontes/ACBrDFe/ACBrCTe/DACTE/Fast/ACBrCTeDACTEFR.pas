@@ -208,6 +208,7 @@ implementation
 
 uses
   pcteConversaoCTe,
+  ACBrDFe.Conversao,
   ACBrDFeUtil, ACBrImage, ACBrDelphiZXingQRCode, ACBrValidador, 
   ACBrUtil.FR;
 

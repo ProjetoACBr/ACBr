@@ -281,7 +281,7 @@ begin
             FieldByName('serie').AsInteger := serie;
             FieldByName('DataEmi').AsString := FormatDateTime('dd/mm/yyyy', dhEmi);
             FieldByName('HoraEmi').AsString := FormatDateTime('hh:nn:ss', dhEmi);
-            FieldByName('tpAmb').AsString := ACBrXmlBase.TipoAmbienteToStr(tpAmb);
+            FieldByName('tpAmb').AsString := TipoAmbienteToStr(tpAmb);
             FieldByName('UFIni').AsString := UFIni;
             FieldByName('UFFim').AsString := UFFim;
         end;
