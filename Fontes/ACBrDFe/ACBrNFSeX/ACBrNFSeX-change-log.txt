@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/10/2025
+-- eGoverneISS.GravarXml --
+[-] #ACBr-8228 Corrigido o campo usado para gerar o conteudo da tag Atividade.
+   Por: Microtecs
 -- ACBrNFSeXServicos --
 [*] #ACBr-8227 A cidade Presidente Epitacio/SP trocou de provedor, agora é Pronim versão 2.03
    Por: sidnei_alves1
