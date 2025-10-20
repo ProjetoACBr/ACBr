@@ -75,7 +75,7 @@ type
   { TExtratoResposta }
   TExtratoResposta = class(TACBrLibRespostaBase)
   private
-    FQtd: integer;
+    FQuantidade: integer;
     FItems: TACBrObjectList;
   public
     constructor Create(const ATipo: TACBrLibRespostaTipo; const AFormato: TACBrLibCodificacao); reintroduce;
@@ -84,7 +84,7 @@ type
     procedure Clear;
     procedure Processar(const ACBrExtratoAPI: TACBrExtratoAPI);
   published
-    property Quantidade: integer read FQtd write FQtd;
+    property Quantidade: integer read FQuantidade write FQuantidade;
     property Items: TACBrObjectList read FItems;
   end;
 
@@ -147,7 +147,7 @@ end;
 
 procedure TExtratoResposta.Clear;
 begin
-  FQtd := 0;
+  FQuantidade := 0;
   FItems.Clear;
 end;
 
@@ -156,8 +156,8 @@ var
   I: integer;
   Item: TLancamentoResposta;
 begin
-  FQtd := ACBrExtratoAPI.ExtratoConsultado.Lancamentos.Count;
-  for I := 0 to FQtd - 1 do
+  FQuantidade := ACBrExtratoAPI.ExtratoConsultado.Lancamentos.Count;
+  for I := 0 to FQuantidade - 1 do
   begin
     Item := TLancamentoResposta.Create(I + 1, Tipo, Codificacao);
     Item.Processar(ACBrExtratoAPI.ExtratoConsultado.Lancamentos[I]);

@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/10/2025
+--- ACBrLibExtratoAPIConfig, ACBrLibExtratoAPIRespostas ---
+[*] ACBR-1371 - Configurada criptografia no ClientID e ClientSecret, alterada propriedade Qtd para Quantidade
+    Por: Renato Rubinho
+
 16/10/2025
 --- ACBrLibExtratoAPI ---
 [+] ACBR-1371 - Implementação da ACBrLibExtratoAPI
