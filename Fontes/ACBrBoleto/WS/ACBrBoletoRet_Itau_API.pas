@@ -424,12 +424,12 @@ end;
 function TRetornoEnvio_Itau_API.LerListaRetorno: Boolean;
 var
   LJsonObject, LJsonBoletoObject, LJsonPagadorObject, LErrosObject: TACBrJSONObject;
-  LJsonArray, LJsonBoletosArray, LJsonArrayMensagens, LJsonArrayErros : TACBrJSONArray;
+  LJsonArray, LJsonBoletosArray, LJsonArrayMensagens, LJsonArrayErros, LJsonArrayOperacaoCobranca : TACBrJSONArray;
   ListaRetorno: TACBrBoletoRetornoWS;
   LListaRejeicao : TACBrBoletoRejeicao;
   LTrataBoleto, LSemRegistros : Boolean;
   LMsgRetorno, LStatusBoleto : String;
-  I, j: Integer;
+  I, j, K: Integer;
 begin
   Result := True;
   ListaRetorno := ACBrBoleto.CriarRetornoWebNaLista;
@@ -710,39 +710,30 @@ begin
                   ListaRetorno.DadosRet.TituloRet.DataRegistro         := StringToDateTimeDef(LJsonBoletoObject.AsString['data_inclusao_titulo_cobranca'], 0, 'yyyy-mm-dd');
                   ListaRetorno.DadosRet.TituloRet.UsoBanco             := LJsonBoletoObject.AsString['uso_banco'];
                   ListaRetorno.DadosRet.TituloRet.ValorDocumento       := LJsonBoletoObject.AsCurrency['valor_titulo'];
-                  ListaRetorno.DadosRet.TituloRet.ValorDesconto        := LJsonBoletoObject.AsCurrency['valor_decrescimo'];
-                  ListaRetorno.DadosRet.TituloRet.ValorDespesaCobranca := 0;
-                  ListaRetorno.DadosRet.TituloRet.ValorMoraJuros       := 0;
-                  ListaRetorno.DadosRet.TituloRet.ValorOutrasDespesas  := LJsonBoletoObject.AsCurrency['valor_acrescimo'];
-                  ListaRetorno.DadosRet.TituloRet.ValorPago            := LJsonBoletoObject.AsCurrency['valor_liquido_lancado'];
-                  ListaRetorno.DadosRet.TituloRet.ValorRecebido        := LJsonBoletoObject.AsCurrency['valor_liquido_lancado'];
-                  {
-                  BL Bolecode ate esta data nao devolve valor juros, descontos, acrescimos etc.
-                  ele não retorna qdo liquidado (apenas tarja magnetica); bolecode é baixado  (cancelado) para que
-                  nao possa ser pago via tarja magnetica (segundo banco).
-                  }
-
-                  (*
-
-                  #Mapeamento detalhado Comentado, devido inconsistencias de dados do retorno com o manual da API, questionado Suporte ITAU.
 
                   if LJsonBoletoObject.IsJSONArray('operacoes_cobranca') then
                   begin
                     LJsonArrayOperacaoCobranca := LJsonBoletoObject.AsJSONArray['operacoes_cobranca'];
                     for K := 0 to Pred(LJsonArrayOperacaoCobranca.Count) do
                     begin
-                      if AnsiUpperCase(LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsString['descricao']) = 'TARIFA COBRANÇA' then
-                        ListaRetorno.DadosRet.TituloRet.ValorTarifa      := LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsCurrency['valor'];
+                      // AnsiUpperCase é usado para converter tbm caracteres especiais como ç para Ç
+                      if AnsiUpperCase(LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsString['descricao']) = 'TARIFA DE COBRANÇA' then
+                         ListaRetorno.DadosRet.TituloRet.ValorTarifa     := abs(LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsCurrency['valor']);
+
                       if AnsiUpperCase(LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsString['descricao']) = 'JUROS' then
-                        ListaRetorno.DadosRet.TituloRet.ValorMoraJuros   := LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsCurrency['valor'];
+                        ListaRetorno.DadosRet.TituloRet.ValorMoraJuros   := abs(LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsCurrency['valor']);
+
                       if AnsiUpperCase(LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsString['descricao']) = 'MULTA' then
-                        ListaRetorno.DadosRet.TituloRet.ValorMoraJuros   := LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsCurrency['valor'];
-                      if AnsiUpperCase(LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsString['descricao']) = 'DESCONTO' then
-                        ListaRetorno.DadosRet.TituloRet.ValorMoraJuros   := LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsCurrency['valor'];
+                        ListaRetorno.DadosRet.TituloRet.ValorMulta       := abs(LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsCurrency['valor']);
+
+                      // Na documentacao on line API o retorno é "Desconto", mas em produção testes é Descontos
+                      if AnsiUpperCase(LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsString['descricao']) = 'DESCONTOS' then
+                        ListaRetorno.DadosRet.TituloRet.ValorDesconto    := abs(LJsonArrayOperacaoCobranca.ItemAsJSONObject[K].AsCurrency['valor']);
                     end;
                   end;
-
-                  *)
+                  ListaRetorno.DadosRet.TituloRet.ValorRecebido := LJsonBoletoObject.AsCurrency['valor_liquido_lancado'];
+                  // ValorPago -> Como o ValorRecebido já abate a tarifa, então é só soma-la de volta
+                  ListaRetorno.DadosRet.TituloRet.ValorPago     := ListaRetorno.DadosRet.TituloRet.ValorRecebido + ListaRetorno.DadosRet.TituloRet.ValorTarifa;
                 end;
 
               end;

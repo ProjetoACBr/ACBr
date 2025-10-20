@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+20/10/2025
+-- ACBrBoletoRet_Itau_API --
+[*] Ajustado retorno francesinhas array de operacoes de cobranca 
+   ACBr-8206 https://www.projetoacbr.com.br/forum/topic/86306-api-cobran%C3%A7a-ita%C3%BA-movimenta%C3%A7%C3%A3o/?_rid=8941
+   Por Luciano Rodrigues Pereira 
+
 14/10/2025
 -- ACBrBancoCredisan --
 [*] Ajustado decimais morajuros e tamanhoconta para 7.
