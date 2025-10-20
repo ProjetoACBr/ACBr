@@ -36,6 +36,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/10/2025
+-- ACBrSocket --
+[*] Ajuste para logar Certificado e Body apenas quando houver dados configurados.
+    por: Elias Cesar
+
 01/10/2025
 -- ACBrIMendes --
 [+] Adicionada implementação dos métodos que não existiam.
