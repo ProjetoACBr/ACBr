@@ -42,6 +42,17 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/10/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8227 A cidade Presidente Epitacio/SP trocou de provedor, agora é Pronim versão 2.03
+   Por: sidnei_alves1
+[*] #ACBr-8226 A cidade Açailandia/MA trocou de provedor, agora é SpeedGov versão 1.00
+   Por: PrimeSoftware
+[*] #ACBr-8218 A cidade Conde/PB mudou a URL, o provedor continua o mesmo.
+   Por: Gabriel Herdt
+[*] #ACBr-8189 A cidade Candelaria/RS trocou de provedor, PadraoNacional
+   Por: dna.automacao
+
 16/10/2025
 -- ACBrNFSeXConversao/ACBrNFSeXLerXml/ACBrNFSeXDANFSeRLRetrato --
 [*] #ACBr-8221 Ajustes para imprimir vogais acentuadas e cedilha da descrição do serviço.
