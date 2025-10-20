@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/10/2025
+--- ACBrLibNFComBase.pas, ACBRLibNFComRespostas.pas ---
+[*] Ajuste de use de units de conversão
+	Por: Alexandre de Paula, Eric Bortoleto, Elton Barbosa
+
 26/09/2025
 --- ACBrLibNFCom.lpi, ACBrLibNFComDemo.lpi ---
 [*] Ajuste de versão ACBrLibNFCom.

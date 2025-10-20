@@ -94,7 +94,8 @@ end;
 implementation
 
 Uses
-  ACBrNFCom, ACBrUtil.Base, ACBrUtil.Strings, ACBrDFeUtil, ACBrXmlBase, pcnConversao, ACBrNFComConversao,
+  ACBrNFCom, ACBrUtil.Base, ACBrUtil.Strings, ACBrDFeUtil, ACBrXmlBase, pcnConversao,
+  ACBrDfe.Conversao, ACBrNFComConversao,
   ACBrLibConsts, ACBrLibConfig, ACBrLibResposta,
   ACBrLibNFComConsts, ACBrLibNFComConfig,
   ACBrLibNFComRespostas, ACBrLibHelpers, ACBrLibCertUtils;

@@ -37,7 +37,7 @@ unit ACBrLibNFComRespostas;
 interface
 
 uses
-  Classes, SysUtils, Contnrs, pcnConversao,
+  Classes, SysUtils, Contnrs, pcnConversao, ACBrDfe.Conversao,
   ACBrNFComEventoClass, ACBrNFComConversao, ACBrXmlBase, ACBrBase,
   ACBrLibResposta, ACBrLibConfig,
   ACBrLibConsReciDFe, ACBrNFCom;
