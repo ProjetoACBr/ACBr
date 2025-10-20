@@ -9,7 +9,7 @@
     </PropertyGroup>
     <ItemGroup Condition="'$(Platform)'=='Win32'"/>
     <ItemGroup Condition="'$(Platform)'=='Android64'">
-        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\aarch64-linux-android\Dynamic\libcrypto.so" Condition="'$(Config)'=='Debug'">
+        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\aarch64-linux-android\Dynamic\libcrypto.so" Condition="'$(Config)'=='Debug'">
             <RemoteDir>ConsultaCNPJ\assets\internal\</RemoteDir>
             <RemoteName>libcrypto.so</RemoteName>
             <DeployClass>File</DeployClass>
@@ -18,7 +18,7 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\aarch64-linux-android\Dynamic\libcrypto.so" Condition="'$(Config)'=='Release'">
+        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\aarch64-linux-android\Dynamic\libcrypto.so" Condition="'$(Config)'=='Release'">
             <RemoteDir>ConsultaCNPJ\assets\internal\</RemoteDir>
             <RemoteName>libcrypto.so</RemoteName>
             <DeployClass>File</DeployClass>
@@ -27,7 +27,7 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\aarch64-linux-android\Dynamic\libssl.so" Condition="'$(Config)'=='Debug'">
+        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\aarch64-linux-android\Dynamic\libssl.so" Condition="'$(Config)'=='Debug'">
             <RemoteDir>ConsultaCNPJ\assets\internal\</RemoteDir>
             <RemoteName>libssl.so</RemoteName>
             <DeployClass>File</DeployClass>
@@ -36,7 +36,7 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\aarch64-linux-android\Dynamic\libssl.so" Condition="'$(Config)'=='Release'">
+        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\aarch64-linux-android\Dynamic\libssl.so" Condition="'$(Config)'=='Release'">
             <RemoteDir>ConsultaCNPJ\assets\internal\</RemoteDir>
             <RemoteName>libssl.so</RemoteName>
             <DeployClass>File</DeployClass>
@@ -164,7 +164,7 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\arm-linux-androideabi\Dynamic\libcrypto.so" Condition="'$(Config)'=='Debug'">
+        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\arm-linux-androideabi\Dynamic\libcrypto.so" Condition="'$(Config)'=='Debug'">
             <RemoteDir>ConsultaCNPJ\assets\internal\</RemoteDir>
             <RemoteName>libcrypto.so</RemoteName>
             <DeployClass>File</DeployClass>
@@ -173,7 +173,7 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\arm-linux-androideabi\Dynamic\libcrypto.so" Condition="'$(Config)'=='Release'">
+        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\arm-linux-androideabi\Dynamic\libcrypto.so" Condition="'$(Config)'=='Release'">
             <RemoteDir>ConsultaCNPJ\assets\internal\</RemoteDir>
             <RemoteName>libcrypto.so</RemoteName>
             <DeployClass>File</DeployClass>
@@ -273,7 +273,7 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\arm-linux-androideabi\Dynamic\libssl.so" Condition="'$(Config)'=='Debug'">
+        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\arm-linux-androideabi\Dynamic\libssl.so" Condition="'$(Config)'=='Debug'">
             <RemoteDir>ConsultaCNPJ\assets\internal\</RemoteDir>
             <RemoteName>libssl.so</RemoteName>
             <DeployClass>File</DeployClass>
@@ -282,7 +282,7 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\arm-linux-androideabi\Dynamic\libssl.so" Condition="'$(Config)'=='Release'">
+        <DeployFile Include="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\arm-linux-androideabi\Dynamic\libssl.so" Condition="'$(Config)'=='Release'">
             <RemoteDir>ConsultaCNPJ\assets\internal\</RemoteDir>
             <RemoteName>libssl.so</RemoteName>
             <DeployClass>File</DeployClass>

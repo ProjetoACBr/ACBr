@@ -286,7 +286,7 @@
                 <Platform value="Win64">False</Platform>
             </Platforms>
             <Deployment Version="3">
-                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\arm-linux-androideabi\Dynamic\libcrypto.so" Configuration="Debug" Class="File">
+                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\arm-linux-androideabi\Dynamic\libcrypto.so" Configuration="Debug" Class="File">
                     <Platform Name="Android">
                         <RemoteDir>.\assets\internal\</RemoteDir>
                         <RemoteName>libcrypto.so</RemoteName>
@@ -328,14 +328,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\arm-linux-androideabi\Dynamic\libcrypto.so" Configuration="Release" Class="File">
+                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\arm-linux-androideabi\Dynamic\libcrypto.so" Configuration="Release" Class="File">
                     <Platform Name="Android">
                         <RemoteDir>.\assets\internal\</RemoteDir>
                         <RemoteName>libcrypto.so</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\aarch64-linux-android\Dynamic\libssl.so" Configuration="Release" Class="File">
+                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\aarch64-linux-android\Dynamic\libssl.so" Configuration="Release" Class="File">
                     <Platform Name="Android64">
                         <RemoteDir>.\assets\internal\</RemoteDir>
                         <RemoteName>libssl.so</RemoteName>
@@ -564,7 +564,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\arm-linux-androideabi\Dynamic\libssl.so" Configuration="Release" Class="File">
+                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\arm-linux-androideabi\Dynamic\libssl.so" Configuration="Release" Class="File">
                     <Platform Name="Android">
                         <RemoteDir>.\assets\internal\</RemoteDir>
                         <RemoteName>libssl.so</RemoteName>
@@ -657,7 +657,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\aarch64-linux-android\Dynamic\libssl.so" Configuration="Debug" Class="File">
+                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\aarch64-linux-android\Dynamic\libssl.so" Configuration="Debug" Class="File">
                     <Platform Name="Android64">
                         <RemoteDir>.\assets\internal\</RemoteDir>
                         <RemoteName>libssl.so</RemoteName>
@@ -711,7 +711,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\aarch64-linux-android\Dynamic\libcrypto.so" Configuration="Debug" Class="File">
+                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\aarch64-linux-android\Dynamic\libcrypto.so" Configuration="Debug" Class="File">
                     <Platform Name="Android64">
                         <RemoteDir>.\assets\internal\</RemoteDir>
                         <RemoteName>libcrypto.so</RemoteName>
@@ -816,7 +816,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\arm-linux-androideabi\Dynamic\libssl.so" Configuration="Debug" Class="File">
+                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\arm-linux-androideabi\Dynamic\libssl.so" Configuration="Debug" Class="File">
                     <Platform Name="Android">
                         <RemoteDir>.\assets\internal\</RemoteDir>
                         <RemoteName>libssl.so</RemoteName>
@@ -846,7 +846,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.0.2u\aarch64-linux-android\Dynamic\libcrypto.so" Configuration="Release" Class="File">
+                <DeployFile LocalName="..\..\..\..\DLLs\Android\OpenSSL\openssl-1.1.1d\aarch64-linux-android\Dynamic\libcrypto.so" Configuration="Release" Class="File">
                     <Platform Name="Android64">
                         <RemoteDir>.\assets\internal\</RemoteDir>
                         <RemoteName>libcrypto.so</RemoteName>
