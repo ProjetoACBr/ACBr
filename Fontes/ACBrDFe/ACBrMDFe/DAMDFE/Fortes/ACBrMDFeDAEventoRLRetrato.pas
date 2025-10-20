@@ -277,7 +277,7 @@ begin
     begin
       rllLinha1.Caption := ACBrStr('INCLUSÃO DE DOCUMENTOS FISCAIS ELETRÔNICOS');
       rllLinha2.Caption := ACBrStr(
-        'Não possui valor fiscal, simples representação do Pagamento da Operação de Transporte indicada abaixo.');
+        'Não possui valor fiscal, simples representação da Inclusão de DF-e indicada abaixo.');
       rllLinha3.Caption := ACBrStr(
         'CONSULTE A AUTENTICIDADE DA INCLUSÃO DE DF-e NO SITE DA SEFAZ AUTORIZADORA.');
     end;

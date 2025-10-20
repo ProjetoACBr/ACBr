@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/10/2025
+-- ACBrMDFeDAEventoRLRetrato --
+[*] Alterado texto de identificação de evento
+	Por: MGWare Dev / Rev: Alexandre de Paula
+
 16/10/2023
 -- ACBrMDFeDAMDFeRLRetrato --
 [*] Alterado para informar o label de cnpj/cpf conforme o documento informado 
