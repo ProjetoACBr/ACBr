@@ -45,8 +45,10 @@ uses
 const
   cIMendesURLProducao = '';
   cIMendesURLHomologacao = 'http://consultatributos.com.br:8080';
-  cIMendesAPIV1 = 'api/v1/public';
-  cIMendesAPIV3 = 'api/v3/public';
+  cIMendesAPI = 'api';
+  cIMendesV1 = 'v1';
+  cIMendesV3 = 'v3';
+  cIMendesPublic = 'public';
   cIMendesAPIRegimeEspecial = 'regime_especial';
   cIMendesEndPointLogin = 'api/auth';
   cIMendesEndpointCadCliente = 'CadCliente';
@@ -200,6 +202,7 @@ type
     fcrt: Integer;
     fregimeTrib: String;
     fuf: String;
+    fmunicipio: Integer;
     fcnae: String;
     fsubstICMS: Boolean;
     finterdependente: Boolean;
@@ -227,6 +230,7 @@ type
     property crt: Integer read fcrt write fcrt;
     property regimeTrib: String read fregimeTrib write fregimeTrib;
     property uf: String read fuf write fuf;
+    property municipio: Integer read fmunicipio write fmunicipio;
     property cnae: String read fcnae write fcnae;
     property substICMS: Boolean read fsubstICMS write fsubstICMS;
     property interdependente: Boolean read finterdependente write finterdependente;
@@ -239,21 +243,40 @@ type
     property regimeEspecial: String read fregimeEspecial write fregimeEspecial;
   end;
 
+  { TACBrIMendesCaracTrib }
+  TACBrIMendesCaracTrib = class
+  private
+    flist: TStringList;
+    function list: TStringList;
+
+    function GetItem(Index: Integer): Integer;
+    procedure SetItem(Index: Integer; AValue: Integer);
+  public
+    destructor Destroy; override;
+    function Add(aItem: Integer): Integer;
+    function Count: Integer;
+    procedure Clear;
+
+    property Items[Index: Integer]: Integer read GetItem write SetItem; default;
+  end;
+
   { TACBrIMendesPerfil }
   TACBrIMendesPerfil = class(TACBrAPISchema)
   private
     fuf: TStringList;
-    //fcaracTrib: TACBrJsonArray;
+    fmunicipio: Integer;
     fcfop: String;
+    fcaracTrib: TACBrIMendesCaracTrib;
     ffinalidade: Integer;
     fsimplesN: String;
     forigem: Integer;
-    fsubstICMS_Perfil: String;
+    fsubstICMS: String;
     fregimeTrib: String;
     fprodZFM: String;
     fregimeEspecial: String;
     ffabricacaoPropria: Boolean;
-    function GetCaracTrib: TACBrJsonArray;
+
+    function GetCaracTrib: TACBrIMendesCaracTrib;
     function GetUF: TStringList;
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
@@ -267,12 +290,13 @@ type
     procedure Assign(Source: TACBrIMendesPerfil);
 
     property uf: TStringList read GetUF;
+    property municipio: Integer read fmunicipio write fmunicipio;
     property cfop: String read fcfop write fcfop;
-    property caracTrib: TACBrJsonArray read GetCaracTrib;
+    property caracTrib: TACBrIMendesCaracTrib read GetCaracTrib;
     property finalidade: Integer read ffinalidade write ffinalidade;
     property simplesN: String read fsimplesN write fsimplesN;
     property origem: Integer read forigem write forigem;
-    property substICMS: String read fsubstICMS_Perfil write fsubstICMS_Perfil;
+    property substICMS: String read fsubstICMS write fsubstICMS;
     property regimeTrib: String read fregimeTrib write fregimeTrib;
     property prodZFM: String read fprodZFM write fprodZFM;
     property regimeEspecial: String read fregimeEspecial write fregimeEspecial;
@@ -471,11 +495,431 @@ type
     property duracao: String read fduracao write fduracao;
   end;
 
+  { TACBrIMendesGrupoCBS }
+  TACBrIMendesGrupoCBS = class(TACBrAPISchema)
+  private
+    fcClassTrib: String;
+    fdescrcClassTrib: String;
+    fcst: String;
+    fdescrCST: String;
+    faliquota: Double;
+    freducao: Double;
+    freducaoBaseCalculo: Double;
+    fampLegal: String;
+    fdtVigIni: TDateTime;
+    fdtVigFin: TDateTime;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrIMendesGrupoCBS);
+
+    property cClassTrib: String read fcClassTrib write fcClassTrib;
+    property descrcClassTrib: String read fdescrcClassTrib write fdescrcClassTrib;
+    property cst: String read fcst write fcst;
+    property descrCST: String read fdescrCST write fdescrCST;
+    property aliquota: Double read faliquota write faliquota;
+    property reducao: Double read freducao write freducao;
+    property reducaoBaseCalculo: Double read freducaoBaseCalculo write freducaoBaseCalculo;
+    property ampLegal: String read fampLegal write fampLegal;
+    property dtVigIni: TDateTime read fdtVigIni write fdtVigIni;
+    property dtVigFin: TDateTime read fdtVigFin write fdtVigFin;
+  end;
+
+  TACBrIMendesGrupoPisCofins = class(TACBrAPISchema)
+  private
+    fcstEnt: String;
+    fcstSai: String;
+    faliqPis: Double;
+    faliqCofins: Double;
+    fnri: String;
+    fampLegal: String;
+    fredPis: Double;
+    fredCofins: Double;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrIMendesGrupoPisCofins);
+
+    property cstEnt: String read fcstEnt write fcstEnt;
+    property cstSai: String read fcstSai write fcstSai;
+    property aliqPis: Double read faliqPis write faliqPis;
+    property aliqCofins: Double read faliqCofins write faliqCofins;
+    property nri: String read fnri write fnri;
+    property ampLegal: String read fampLegal write fampLegal;
+    property redPis: Double read fredPis write fredPis;
+    property redCofins: Double read fredCofins write fredCofins;
+  end;
+
+  TACBrIMendesGrupoIPI = class(TACBrAPISchema)
+  private
+    fcstEnt: String;
+    fcstSai: String;
+    faliqipi: Double;
+    fcodenq: String;
+    fex: String;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrIMendesGrupoIPI);
+
+    property cstEnt: String read fcstEnt write fcstEnt;
+    property cstSai: String read fcstSai write fcstSai;
+    property aliqipi: Double read faliqipi write faliqipi;
+    property codenq: String read fcodenq write fcodenq;
+    property ex: String read fex write fex;
+  end;
+
+  TACBrIMendesGrupoIBS = class(TACBrAPISchema)
+  private
+    fcClassTrib: String;
+    fdescrcClassTrib: String;
+    fcst: String;
+    fdescrCST: String;
+    fibsUF: Double;
+    fibsMun: Double;
+    freducaoaliqIBS: Double;
+    freducaoBcIBS: Double;
+    fampLegal: String;
+    fdtVigIni: TDateTime;
+    fdtVigFin: TDateTime;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrIMendesGrupoIBS);
+
+    property cClassTrib: String read fcClassTrib write fcClassTrib;
+    property descrcClassTrib: String read fdescrcClassTrib write fdescrcClassTrib;
+    property cst: String read fcst write fcst;
+    property descrCST: String read fdescrCST write fdescrCST;
+    property ibsUF: Double read fibsUF write fibsUF;
+    property ibsMun: Double read fibsMun write fibsMun;
+    property reducaoaliqIBS: Double read freducaoaliqIBS write freducaoaliqIBS;
+    property reducaoBcIBS: Double read freducaoBcIBS write freducaoBcIBS;
+    property ampLegal: String read fampLegal write fampLegal;
+    property dtVigIni: TDateTime read fdtVigIni write fdtVigIni;
+    property dtVigFin: TDateTime read fdtVigFin write fdtVigFin;
+  end;
+
+  TACBrIMendesGrupoProtocolo = class(TACBrAPISchema)
+  private
+    fprotId: Integer;
+    fprotNome: String;
+    fdescricao: String;
+    fdtVigIni: TDateTime;
+    fdtVigFin: TDateTime;
+    fisento: String;
+    fantecipado: String;
+    fsubsTrib: String;
+    frespTrib: String;
+    faliqIcmsInterestadual: Double;
+    fredBcInterestadual: Double;
+    faliqEfetiva: Double;
+    fiva: Double;
+    fdebitoPresumidoInter: Double;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrIMendesGrupoProtocolo);
+
+    property protId: Integer read fprotId write fprotId;
+    property protNome: String read fprotNome write fprotNome;
+    property descricao: String read fdescricao write fdescricao;
+    property dtVigIni: TDateTime read fdtVigIni write fdtVigIni;
+    property dtVigFin: TDateTime read fdtVigFin write fdtVigFin;
+    property isento: String read fisento write fisento;
+    property antecipado: String read fantecipado write fantecipado;
+    property subsTrib: String read fsubsTrib write fsubsTrib;
+    property respTrib: String read frespTrib write frespTrib;
+    property aliqIcmsInterestadual: Double read faliqIcmsInterestadual write faliqIcmsInterestadual;
+    property redBcInterestadual: Double read fredBcInterestadual write fredBcInterestadual;
+    property aliqEfetiva: Double read faliqEfetiva write faliqEfetiva;
+    property iva: Double read fiva write fiva;
+    property debitoPresumidoInter: Double read fdebitoPresumidoInter write fdebitoPresumidoInter;
+  end;
+
+  TACBrIMendesGrupoCaracTrib = class(TACBrAPISchema)
+  private
+    fcodigo: String;
+    fmunicipio: Integer;
+    ffinalidade: String;
+    fcodRegra: String;
+    fcodExcecao: Integer;
+    fdtVigIni: TDateTime;
+    fdtVigFin: TDateTime;
+    fcFOP: String;
+    fcST: String;
+    fcSOSN: String;
+    faliqIcmsInterna: Double;
+    faliqIcmsInterestadual: Double;
+    freducaoBcIcms: Double;
+    freducaoBcIcmsSt: Double;
+    fredBcICMsInterestadual: Double;
+    faliqIcmsSt: Double;
+    fiVA: Double;
+    fiVAAjust: Double;
+    ffCP: Double;
+    fcodBenef: String;
+    fpDifer: Double;
+    fpIsencao: Double;
+    fantecipado: String;
+    fdesonerado: String;
+    fpICMSDeson: Double;
+    fisento: String;
+    findDeduzDeson: String;
+    ftpCalcDifal: Integer;
+    fdebitoPresumido: Double;
+    fdebitoPresumidoNaoCredenciado: Double;
+    fampLegal: String;
+    fProtocolo: TACBrIMendesGrupoProtocolo;
+    fregraGeral: String;
+    fpSuspensaoImporatcao: Double;
+    fregimeEspecial: String;
+    fibs: TACBrIMendesGrupoIBS;
+    function GetProtocolo: TACBrIMendesGrupoProtocolo;
+    function GetIBS: TACBrIMendesGrupoIBS;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    destructor Destroy; override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrIMendesGrupoCaracTrib);
+
+    property codigo: String read fcodigo write fcodigo;
+    property municipio: Integer read fmunicipio write fmunicipio;
+    property finalidade: String read ffinalidade write ffinalidade;
+    property codRegra: String read fcodRegra write fcodRegra;
+    property codExcecao: Integer read fcodExcecao write fcodExcecao;
+    property dtVigIni: TDateTime read fdtVigIni write fdtVigIni;
+    property dtVigFin: TDateTime read fdtVigFin write fdtVigFin;
+    property cFOP: String read fcFOP write fcFOP;
+    property cST: String read fcST write fcST;
+    property cSOSN: String read fcSOSN write fcSOSN;
+    property aliqIcmsInterna: Double read faliqIcmsInterna write faliqIcmsInterna;
+    property aliqIcmsInterestadual: Double read faliqIcmsInterestadual write faliqIcmsInterestadual;
+    property reducaoBcIcms: Double read freducaoBcIcms write freducaoBcIcms;
+    property reducaoBcIcmsSt: Double read freducaoBcIcmsSt write freducaoBcIcmsSt;
+    property redBcICMsInterestadual: Double read fredBcICMsInterestadual write fredBcICMsInterestadual;
+    property aliqIcmsSt: Double read faliqIcmsSt write faliqIcmsSt;
+    property iVA: Double read fiVA write fiVA;
+    property iVAAjust: Double read fiVAAjust write fiVAAjust;
+    property fCP: Double read ffCP write ffCP;
+    property codBenef: String read fcodBenef write fcodBenef;
+    property pDifer: Double read fpDifer write fpDifer;
+    property pIsencao: Double read fpIsencao write fpIsencao;
+    property antecipado: String read fantecipado write fantecipado;
+    property desonerado: String read fdesonerado write fdesonerado;
+    property pICMSDeson: Double read fpICMSDeson write fpICMSDeson;
+    property isento: String read fisento write fisento;
+    property indDeduzDeson: String read findDeduzDeson write findDeduzDeson;
+    property tpCalcDifal: Integer read ftpCalcDifal write ftpCalcDifal;
+    property debitoPresumido: Double read fdebitoPresumido write fdebitoPresumido;
+    property debitoPresumidoNaoCredenciado: Double read fdebitoPresumidoNaoCredenciado write fdebitoPresumidoNaoCredenciado;
+    property ampLegal: String read fampLegal write fampLegal;
+    property Protocolo: TACBrIMendesGrupoProtocolo read GetProtocolo;
+    property regraGeral: String read fregraGeral write fregraGeral;
+    property pSuspensaoImporatcao: Double read fpSuspensaoImporatcao write fpSuspensaoImporatcao;
+    property regimeEspecial: String read fregimeEspecial write fregimeEspecial;
+    property ibs: TACBrIMendesGrupoIBS read GetIBS;
+  end;
+
+  TACBrIMendesGrupoCaracTribs = class(TACBrAPISchemaArray)
+  private
+    function GetItem(AIndex: Integer): TACBrIMendesGrupoCaracTrib;
+    procedure SetItem(AIndex: Integer; AValue: TACBrIMendesGrupoCaracTrib);
+  public
+    function New: TACBrIMendesGrupoCaracTrib;
+    function NewSchema: TACBrAPISchema; override;
+    function Add(AItem: TACBrIMendesGrupoCaracTrib): Integer;
+    procedure Insert(AIndex: Integer; AItem: TACBrIMendesGrupoCaracTrib);
+    property Items[AIndex: Integer]: TACBrIMendesGrupoCaracTrib read GetItem write SetItem; default;
+  end;
+
+  TACBrIMendesGrupoCFOP = class(TACBrAPISchema)
+  private
+    fcFOP: String;
+    fCaracTrib: TACBrIMendesGrupoCaracTribs;
+    function GetCaracTrib: TACBrIMendesGrupoCaracTribs;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    destructor Destroy; override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrIMendesGrupoCFOP);
+
+    property cFOP: String read fcFOP write fcFOP;
+    property CaracTrib: TACBrIMendesGrupoCaracTribs read GetCaracTrib;
+  end;
+
+  TACBrIMendesGrupoUF = class(TACBrAPISchema)
+  private
+    fuF: String;
+    fCFOP: TACBrIMendesGrupoCFOP;
+    fmensagem: String;
+    function GetCFOP: TACBrIMendesGrupoCFOP;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    destructor Destroy; override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrIMendesGrupoUF);
+
+    property uF: String read fuF write fuF;
+    property CFOP: TACBrIMendesGrupoCFOP read GetCFOP;
+    property mensagem: String read fmensagem write fmensagem;
+  end;
+
+  TACBrIMendesGrupoUFs = class(TACBrAPISchemaArray)
+  private
+    function GetItem(AIndex: Integer): TACBrIMendesGrupoUF;
+    procedure SetItem(AIndex: Integer; AValue: TACBrIMendesGrupoUF);
+  public
+    function New: TACBrIMendesGrupoUF;
+    function NewSchema: TACBrAPISchema; override;
+    function Add(AItem: TACBrIMendesGrupoUF): Integer;
+    procedure Insert(AIndex: Integer; AItem: TACBrIMendesGrupoUF);
+    property Items[AIndex: Integer]: TACBrIMendesGrupoUF read GetItem write SetItem; default;
+  end;
+
+  TACBrIMendesGrupoRegra = class(TACBrAPISchema)
+  private
+    fuFs: TACBrIMendesGrupoUFs;
+    function GetUFs: TACBrIMendesGrupoUFs;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    destructor Destroy; override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrIMendesGrupoRegra);
+
+    property uFs: TACBrIMendesGrupoUFs read GetUFs;
+  end;
+
+  TACBrIMendesGrupoRegras = class(TACBrAPISchemaArray)
+  private
+    function GetItem(AIndex: Integer): TACBrIMendesGrupoRegra;
+    procedure SetItem(AIndex: Integer; AValue: TACBrIMendesGrupoRegra);
+  public
+    function New: TACBrIMendesGrupoRegra;
+    function NewSchema: TACBrAPISchema; override;
+    function Add(AItem: TACBrIMendesGrupoRegra): Integer;
+    procedure Insert(AIndex: Integer; AItem: TACBrIMendesGrupoRegra);
+    property Items[AIndex: Integer]: TACBrIMendesGrupoRegra read GetItem write SetItem; default;
+  end;
+
+  TACBrIMendesGrupo = class(TACBrAPISchema)
+  private
+    fcodigo: String;
+    fdescricao: String;
+    fnCM: String;
+    fcEST: String;
+    fdtVigIni: TDateTime;
+    fdtVigFin: TDateTime;
+    flista: String;
+    ftipo: String;
+    fcodAnp: String;
+    fpassivelPMC: String;
+    fimpostoImportacao: Double;
+    fcbs: TACBrIMendesGrupoCBS;
+    fpisCofins: TACBrIMendesGrupoPisCofins;
+    fipi: TACBrIMendesGrupoIPI;
+    fRegras: TACBrIMendesGrupoRegras;
+    fprodEan: TStringList;
+    fMensagem: String;
+    function GetCBS: TACBrIMendesGrupoCBS;
+    function GetPisCofins: TACBrIMendesGrupoPisCofins;
+    function GetIPI: TACBrIMendesGrupoIPI;
+    function GetRegras: TACBrIMendesGrupoRegras;
+    function GetProdEan: TStringList;
+  protected
+    procedure AssignSchema(aSource: TACBrAPISchema); override;
+    procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
+    procedure DoReadFromJSon(aJSon: TACBrJSONObject); override;
+  public
+    constructor Create(const ObjectName: String = ''); override;
+    destructor Destroy; override;
+    procedure Clear; override;
+    function IsEmpty: Boolean; override;
+    procedure Assign(Source: TACBrIMendesGrupo);
+
+    property codigo: String read fcodigo write fcodigo;
+    property descricao: String read fdescricao write fdescricao;
+    property nCM: String read fnCM write fnCM;
+    property cEST: String read fcEST write fcEST;
+    property dtVigIni: TDateTime read fdtVigIni write fdtVigIni;
+    property dtVigFin: TDateTime read fdtVigFin write fdtVigFin;
+    property lista: String read flista write flista;
+    property tipo: String read ftipo write ftipo;
+    property codAnp: String read fcodAnp write fcodAnp;
+    property passivelPMC: String read fpassivelPMC write fpassivelPMC;
+    property impostoImportacao: Double read fimpostoImportacao write fimpostoImportacao;
+    property cbs: TACBrIMendesGrupoCBS read GetCBS;
+    property pisCofins: TACBrIMendesGrupoPisCofins read GetPisCofins;
+    property iPI: TACBrIMendesGrupoIPI read GetIPI;
+    property Regras: TACBrIMendesGrupoRegras read GetRegras;
+    property prodEan: TStringList read GetProdEan;
+    property Mensagem: String read fMensagem write fMensagem;
+  end;
+
+  TACBrIMendesGrupos = class(TACBrAPISchemaArray)
+  private
+    function GetItem(AIndex: Integer): TACBrIMendesGrupo;
+    procedure SetItem(AIndex: Integer; AValue: TACBrIMendesGrupo);
+  public
+    function New: TACBrIMendesGrupo;
+    function NewSchema: TACBrAPISchema; override;
+    function Add(AItem: TACBrIMendesGrupo): Integer;
+    procedure Insert(AIndex: Integer; AItem: TACBrIMendesGrupo);
+    property Items[AIndex: Integer]: TACBrIMendesGrupo read GetItem write SetItem; default;
+  end;
+
   { TACBrIMendesSaneamentoResponse }
   TACBrIMendesSaneamentoResponse = class(TACBrAPISchema)
   private
     fCabecalho: TACBrIMendesSaneamentoCabecalho;
+    fGrupos: TACBrIMendesGrupos;
     function GetCabecalho: TACBrIMendesSaneamentoCabecalho;
+    function GetGrupos: TACBrIMendesGrupos;
   protected
     procedure AssignSchema(aSource: TACBrAPISchema); override;
     procedure DoWriteToJSon(aJSon: TACBrJSONObject); override;
@@ -487,6 +931,7 @@ type
     procedure Assign(Source: TACBrIMendesSaneamentoResponse);
 
     property Cabecalho: TACBrIMendesSaneamentoCabecalho read GetCabecalho;
+    property Grupos: TACBrIMendesGrupos read GetGrupos;
   end;
 
   { TACBrIMendesErro }
@@ -863,6 +1308,13 @@ begin
   Result := fCabecalho;
 end;
 
+function TACBrIMendesSaneamentoResponse.GetGrupos: TACBrIMendesGrupos;
+begin
+  if (not Assigned(fGrupos)) then
+    fGrupos := TACBrIMendesGrupos.Create('Grupos');
+  Result := fGrupos;
+end;
+
 function TACBrIMendesConsultarResponse.GetProdutos: TACBrIMendesProdutos;
 begin
   if not Assigned(fProdutos) then
@@ -967,6 +1419,7 @@ begin
   fcrt := 0;
   fregimeTrib := EmptyStr;
   fuf := EmptyStr;
+  fmunicipio := 0;
   fcnae := EmptyStr;
   fsubstICMS := False;
   finterdependente := False;
@@ -988,6 +1441,7 @@ begin
     EstaZerado(fcrt) and
     EstaVazio(fregimeTrib) and
     EstaVazio(fuf) and
+    EstaZerado(fmunicipio) and
     EstaVazio(fcnae) and
     (not fsubstICMS) and
     (not finterdependente) and
@@ -1022,6 +1476,7 @@ begin
     .Value('crt', fcrt)
     .Value('regimeTrib', fregimeTrib)
     .Value('uf', fuf)
+    .Value('municipio', fmunicipio)
     .Value('cnae', fcnae)
     .Value('substICMS', s1)
     .Value('interdependente', s2)
@@ -1047,6 +1502,7 @@ begin
     .AddPair('crt', fcrt)
     .AddPair('regimeTrib', fregimeTrib)
     .AddPair('uf', fuf)
+    .AddPair('municipio', fmunicipio)
     .AddPair('cnae', fcnae)
     .AddPair('substICMS', IfThen(fsubstICMS, 'S', 'N'))
     .AddPair('interdependente', IfThen(finterdependente, 'S', 'N'))
@@ -1074,6 +1530,7 @@ begin
   fcrt := Source.crt;
   fregimeTrib := Source.regimeTrib;
   fuf := Source.uf;
+  fmunicipio := Source.municipio;
   fcnae := Source.cnae;
   fsubstICMS := Source.substICMS;
   finterdependente := Source.interdependente;
@@ -1085,6 +1542,48 @@ begin
   fregimeEspecial := Source.regimeEspecial;
   if Assigned(Source.portal) then
     Portal.Assign(Source.portal);
+end;
+
+{ TACBrIMendesCaracTrib }
+
+function TACBrIMendesCaracTrib.list: TStringList;
+begin
+  if (not Assigned(flist)) then
+    flist := TStringList.Create;
+  Result := flist;
+end;
+
+function TACBrIMendesCaracTrib.GetItem(Index: Integer): Integer;
+begin
+  Result := StrToInt(list[Index]);
+end;
+
+procedure TACBrIMendesCaracTrib.SetItem(Index: Integer; AValue: Integer);
+begin
+  list[Index] := IntToStr(AValue);
+end;
+
+destructor TACBrIMendesCaracTrib.Destroy;
+begin
+  if Assigned(flist) then
+    flist.Free;
+  inherited Destroy;
+end;
+
+function TACBrIMendesCaracTrib.Add(aItem: Integer): Integer;
+begin
+  Result := list.Add(IntToStr(aItem));
+end;
+
+function TACBrIMendesCaracTrib.Count: Integer;
+begin
+  Result := list.Count;
+end;
+
+procedure TACBrIMendesCaracTrib.Clear;
+begin
+  if Assigned(flist) then
+    flist.Clear;
 end;
 
 { TACBrIMendesPerfil }
@@ -1099,20 +1598,26 @@ destructor TACBrIMendesPerfil.Destroy;
 begin
   if Assigned(fuf) then
     fuf.Free;
-  //if Assigned(fcaracTrib) then
-  //  fcaracTrib.Free;
+
+  if Assigned(fcaracTrib) then
+    fcaracTrib.Free;
+
   inherited Destroy;
 end;
 
 procedure TACBrIMendesPerfil.Clear;
 begin
-  fuf.Clear;
+  if Assigned(fuf) then
+    fuf.Clear;
+
+  if Assigned(fcaracTrib)  then
+    fcaracTrib.Clear;
+
   fcfop := EmptyStr;
-  //fcaracTrib.Clear;
   ffinalidade := 0;
   fsimplesN := EmptyStr;
   forigem := 0;
-  fsubstICMS_Perfil := EmptyStr;
+  substICMS := EmptyStr;
   fregimeTrib := EmptyStr;
   fprodZFM := EmptyStr;
   fregimeEspecial := EmptyStr;
@@ -1122,13 +1627,13 @@ end;
 function TACBrIMendesPerfil.IsEmpty: Boolean;
 begin
   Result :=
-    //((not Assigned(fcaracTrib)) or EstaZerado(fcaracTrib.Count)) and
+    ((not Assigned(fcaracTrib)) or EstaZerado(fcaracTrib.Count)) and
     ((not Assigned(fuf)) or EstaZerado(fuf.Count)) and
     EstaVazio(fcfop) and
     EstaZerado(ffinalidade) and
     EstaVazio(fsimplesN) and
     EstaZerado(forigem) and
-    EstaVazio(fsubstICMS_Perfil) and
+    EstaVazio(substICMS) and
     EstaVazio(fregimeTrib) and
     EstaVazio(fprodZFM) and
     EstaVazio(fregimeEspecial) and
@@ -1142,12 +1647,11 @@ begin
   Result := fuf;
 end;
 
-function TACBrIMendesPerfil.GetCaracTrib: TACBrJsonArray;
+function TACBrIMendesPerfil.GetCaracTrib: TACBrIMendesCaracTrib;
 begin
-  Result := nil
-{  if (not Assigned(fcaracTrib)) then
-    fcaracTrib := TACBrJsonArray.Create('caracTrib');
-  Result := fcaracTrib;}
+  if (not Assigned(fcaracTrib)) then
+    fcaracTrib := TACBrIMendesCaracTrib.Create;
+  Result := fcaracTrib;
 end;
 
 procedure TACBrIMendesPerfil.DoReadFromJSon(aJSon: TACBrJSONObject);
@@ -1161,7 +1665,7 @@ begin
     .Value('finalidade', ffinalidade)
     .Value('simplesN', fsimplesN)
     .Value('origem', forigem)
-    .Value('substICMS', fsubstICMS_Perfil)
+    .Value('substICMS', fsubstICMS)
     .Value('regimeTrib', fregimeTrib)
     .Value('prodZFM', fprodZFM)
     .Value('regimeEspecial', fregimeEspecial)
@@ -1171,38 +1675,49 @@ begin
   begin
     ja := aJSon.AsJSONArray['uf'];
     for i := 0 to ja.Count - 1 do
-      fuf.Add(ja.Items[i]);
+      uf.Add(ja.Items[i]);
+  end;
+
+  if aJSon.IsJSONArray('caracTrib') then
+  begin
+    ja := aJSon.AsJSONArray['caracTrib'];
+    for i := 0 to ja.Count - 1 do
+      caracTrib.Add(StrToIntDef(ja.Items[i], 0));
   end;
 end;
 
 procedure TACBrIMendesPerfil.DoWriteToJSon(aJSon: TACBrJSONObject);
 var
-  ja: TACBrJSONArray;
+  ja, ja2: TACBrJSONArray;
   i: Integer;
 begin
-  inherited DoWriteToJSon(aJSon);
-
   aJSon
     .AddPair('cfop', fcfop)
     .AddPair('finalidade', ffinalidade)
     .AddPair('simplesN', fsimplesN)
     .AddPair('origem', forigem)
-    .AddPair('substICMS', fsubstICMS_Perfil)
+    .AddPair('substICMS', substICMS)
     .AddPair('regimeTrib', fregimeTrib)
     .AddPair('prodZFM', fprodZFM)
     .AddPair('regimeEspecial', fregimeEspecial)
     .AddPair('fabricacaoPropria', ffabricacaoPropria);
 
-  if NaoEstaZerado(fuf.Count) then
+  if Assigned(fcaracTrib) and NaoEstaZerado(fcaracTrib.Count) then
+  begin
+    ja2 := TACBrJSONArray.Create;
+    for i := 0 to fcaracTrib.Count - 1 do
+      ja2.AddElement(fcaracTrib[i]);
+
+    aJSon.AddPair('caracTrib', ja2);
+  end;
+
+  if Assigned(fuf) and NaoEstaZerado(fuf.Count) then
   begin
     ja := TACBrJSONArray.Create;
-    try
-      for i := 0 to fuf.Count - 1 do
-        ja.AddElement(fuf[i]);
-      aJSon.AddPair('uf', ja);
-    finally
-      ja.Free;
-    end;
+    for i := 0 to fuf.Count - 1 do
+      ja.AddElement(fuf[i]);
+
+    aJSon.AddPair('uf', ja);
   end;
 end;
 
@@ -1219,11 +1734,12 @@ begin
   ffinalidade := Source.finalidade;
   fsimplesN := Source.simplesN;
   forigem := Source.origem;
-  fsubstICMS_Perfil := Source.substICMS;
+  substICMS := Source.substICMS;
   fregimeTrib := Source.regimeTrib;
   fprodZFM := Source.prodZFM;
   fregimeEspecial := Source.regimeEspecial;
   ffabricacaoPropria := Source.fabricacaoPropria;
+  fcaracTrib := Source.caracTrib;
 end;
 
 { TACBrIMendesGradesRequest }
@@ -1812,6 +2328,8 @@ begin
 
   if Assigned(fCabecalho) then
     fCabecalho.WriteToJSon(aJSon);
+  if Assigned(fGrupos) then
+    fGrupos.WriteToJSon(aJSon);
 end;
 
 procedure TACBrIMendesSaneamentoResponse.DoReadFromJSon(aJSon: TACBrJSONObject);
@@ -1820,6 +2338,7 @@ begin
     Exit;
 
   Cabecalho.ReadFromJSon(aJSon);
+  Grupos.ReadFromJSon(aJSon);
 end;
 
 constructor TACBrIMendesSaneamentoResponse.Create(const ObjectName: String);
@@ -1830,17 +2349,22 @@ end;
 
 procedure TACBrIMendesSaneamentoResponse.Clear;
 begin
-  Cabecalho.Clear;
+  if Assigned(fCabecalho) then
+    fCabecalho.Clear;
+  if Assigned(fGrupos) then
+    fGrupos.Clear;
 end;
 
 function TACBrIMendesSaneamentoResponse.IsEmpty: Boolean;
 begin
-  Result := Cabecalho.IsEmpty;
+  Result := ((not Assigned(fCabecalho)) or fCabecalho.IsEmpty) and 
+            ((not Assigned(fGrupos)) or fGrupos.IsEmpty);
 end;
 
 procedure TACBrIMendesSaneamentoResponse.Assign(Source: TACBrIMendesSaneamentoResponse);
 begin
   Cabecalho.Assign(Source.Cabecalho);
+  Grupos.Assign(Source.Grupos);
 end;
 
 { TACBrIMendesErro }
@@ -1932,9 +2456,9 @@ begin
     .Value('initialValidity', s1)
     .Value('finalValidity', s2);
   if NaoEstaVazio(s1) then
-    fInitialValidity := StringToDateTimeDef(s1, 0, 'YYYY-MM-DD');
+    fInitialValidity := StringToDateTimeDef(s1, 0, 'DD-MM-YYYY');
   if NaoEstaVazio(s2) then
-    fFinalValidity := StringToDateTimeDef(s2, 0, 'YYYY-MM-DD');
+    fFinalValidity := StringToDateTimeDef(s2, 0, 'DD-MM-YYYY');
 end;
 
 procedure TACBrIMendesRegimeEspecial.DoWriteToJSon(aJSon: TACBrJSONObject);
@@ -1943,8 +2467,8 @@ begin
     .AddPair('code', fCode)
     .AddPair('description', fDescription)
     .AddPair('legalBasis', fLegalBasis)
-    .AddPair('initialValidity', FormatDateBr(fInitialValidity, 'YYYY-MM-DD'), False)
-    .AddPair('finalValidity', FormatDateBr(fFinalValidity, 'YYYY-MM-DD'), False);
+    .AddPair('initialValidity', FormatDateBr(fInitialValidity, 'DD-MM-YYYY'), False)
+    .AddPair('finalValidity', FormatDateBr(fFinalValidity, 'DD-MM-YYYY'), False);
 end;
 
 procedure TACBrIMendesRegimeEspecial.AssignSchema(aSource: TACBrAPISchema);
@@ -1967,7 +2491,1245 @@ end;
 function TACBrIMendesRegimeEspecialList.New: TACBrIMendesRegimeEspecial;
 begin
   Result := TACBrIMendesRegimeEspecial.Create;
+  Add(Result);
 end;
+
+{ TACBrIMendesGrupoCBS }
+
+constructor TACBrIMendesGrupoCBS.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  Clear;
+end;
+
+procedure TACBrIMendesGrupoCBS.Clear;
+begin
+  fcClassTrib := EmptyStr;
+  fdescrcClassTrib := EmptyStr;
+  fcst := EmptyStr;
+  fdescrCST := EmptyStr;
+  faliquota := 0;
+  freducao := 0;
+  freducaoBaseCalculo := 0;
+  fampLegal := EmptyStr;
+  fdtVigIni := 0;
+  fdtVigFin := 0;
+end;
+
+function TACBrIMendesGrupoCBS.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaVazio(fcClassTrib) and
+    EstaVazio(fdescrcClassTrib) and
+    EstaVazio(fcst) and
+    EstaVazio(fdescrCST) and
+    EstaZerado(faliquota) and
+    EstaZerado(freducao) and
+    EstaZerado(freducaoBaseCalculo) and
+    EstaVazio(fampLegal) and
+    EstaZerado(fdtVigIni) and
+    EstaZerado(fdtVigFin);
+end;
+
+procedure TACBrIMendesGrupoCBS.DoReadFromJSon(aJSon: TACBrJSONObject);
+var
+  s1, s2: String;
+begin
+  {$IfDef FPC}
+  s1 := EmptyStr;
+  s2 := EmptyStr;
+  {$EndIf}
+  aJSon
+    .Value('cClassTrib', fcClassTrib)
+    .Value('descrcClassTrib', fdescrcClassTrib)
+    .Value('cst', fcst)
+    .Value('descrCST', fdescrCST)
+    .Value('aliquota', faliquota)
+    .Value('reducao', freducao)
+    .Value('reducaoBaseCalculo', freducaoBaseCalculo)
+    .Value('ampLegal', fampLegal)
+    .Value('dtVigIni', s1)
+    .Value('dtVigFin', s2);
+  if NaoEstaVazio(s1) then
+    fdtVigIni := StringToDateTimeDef(s1, 0, 'DD/MM/YYYY');
+  if NaoEstaVazio(s2) then
+    fdtVigFin := StringToDateTimeDef(s2, 0, 'DD/MM/YYYY');
+end;
+
+procedure TACBrIMendesGrupoCBS.DoWriteToJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .AddPair('cClassTrib', fcClassTrib, False)
+    .AddPair('descrcClassTrib', fdescrcClassTrib, False)
+    .AddPair('cst', fcst, False)
+    .AddPair('descrCST', fdescrCST, False)
+    .AddPair('aliquota', faliquota)
+    .AddPair('reducao', freducao)
+    .AddPair('reducaoBaseCalculo', freducaoBaseCalculo)
+    .AddPair('ampLegal', fampLegal, False)
+    .AddPair('dtVigIni', FormatDateBr(fdtVigIni, 'DD/MM/YYYY'), False)
+    .AddPair('dtVigFin', FormatDateBr(fdtVigFin, 'DD/MM/YYYY'), False);
+end;
+
+procedure TACBrIMendesGrupoCBS.Assign(Source: TACBrIMendesGrupoCBS);
+begin
+  fcClassTrib := Source.cClassTrib;
+  fdescrcClassTrib := Source.descrcClassTrib;
+  fcst := Source.cst;
+  fdescrCST := Source.descrCST;
+  faliquota := Source.aliquota;
+  freducao := Source.reducao;
+  freducaoBaseCalculo := Source.reducaoBaseCalculo;
+  fampLegal := Source.ampLegal;
+  fdtVigIni := Source.dtVigIni;
+  fdtVigFin := Source.dtVigFin;
+end;
+
+procedure TACBrIMendesGrupoCBS.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrIMendesGrupoCBS) then
+    Assign(TACBrIMendesGrupoCBS(aSource));
+end;
+
+{ TACBrIMendesGrupoPisCofins }
+
+constructor TACBrIMendesGrupoPisCofins.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  Clear;
+end;
+
+procedure TACBrIMendesGrupoPisCofins.Clear;
+begin
+  fcstEnt := EmptyStr;
+  fcstSai := EmptyStr;
+  faliqPis := 0;
+  faliqCofins := 0;
+  fnri := EmptyStr;
+  fampLegal := EmptyStr;
+  fredPis := 0;
+  fredCofins := 0;
+end;
+
+function TACBrIMendesGrupoPisCofins.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaVazio(fcstEnt) and
+    EstaVazio(fcstSai) and
+    EstaZerado(faliqPis) and
+    EstaZerado(faliqCofins) and
+    EstaVazio(fnri) and
+    EstaVazio(fampLegal) and
+    EstaZerado(fredPis) and
+    EstaZerado(fredCofins);
+end;
+
+procedure TACBrIMendesGrupoPisCofins.DoReadFromJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .Value('cstEnt', fcstEnt)
+    .Value('cstSai', fcstSai)
+    .Value('aliqPis', faliqPis)
+    .Value('aliqCofins', faliqCofins)
+    .Value('nri', fnri)
+    .Value('ampLegal', fampLegal)
+    .Value('redPis', fredPis)
+    .Value('redCofins', fredCofins);
+end;
+
+procedure TACBrIMendesGrupoPisCofins.DoWriteToJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .AddPair('cstEnt', fcstEnt, False)
+    .AddPair('cstSai', fcstSai, False)
+    .AddPair('aliqPis', faliqPis)
+    .AddPair('aliqCofins', faliqCofins)
+    .AddPair('nri', fnri, False)
+    .AddPair('ampLegal', fampLegal, False)
+    .AddPair('redPis', fredPis)
+    .AddPair('redCofins', fredCofins);
+end;
+
+procedure TACBrIMendesGrupoPisCofins.Assign(Source: TACBrIMendesGrupoPisCofins);
+begin
+  fcstEnt := Source.cstEnt;
+  fcstSai := Source.cstSai;
+  faliqPis := Source.aliqPis;
+  faliqCofins := Source.aliqCofins;
+  fnri := Source.nri;
+  fampLegal := Source.ampLegal;
+  fredPis := Source.redPis;
+  fredCofins := Source.redCofins;
+end;
+
+procedure TACBrIMendesGrupoPisCofins.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrIMendesGrupoPisCofins) then
+    Assign(TACBrIMendesGrupoPisCofins(aSource));
+end;
+
+{ TACBrIMendesGrupoIPI }
+
+constructor TACBrIMendesGrupoIPI.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  Clear;
+end;
+
+procedure TACBrIMendesGrupoIPI.Clear;
+begin
+  fcstEnt := EmptyStr;
+  fcstSai := EmptyStr;
+  faliqipi := 0;
+  fcodenq := EmptyStr;
+  fex := EmptyStr;
+end;
+
+function TACBrIMendesGrupoIPI.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaVazio(fcstEnt) and
+    EstaVazio(fcstSai) and
+    EstaZerado(faliqipi) and
+    EstaVazio(fcodenq) and
+    EstaVazio(fex);
+end;
+
+procedure TACBrIMendesGrupoIPI.DoReadFromJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .Value('cstEnt', fcstEnt)
+    .Value('cstSai', fcstSai)
+    .Value('aliqipi', faliqipi)
+    .Value('codenq', fcodenq)
+    .Value('ex', fex);
+end;
+
+procedure TACBrIMendesGrupoIPI.DoWriteToJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .AddPair('cstEnt', fcstEnt, False)
+    .AddPair('cstSai', fcstSai, False)
+    .AddPair('aliqipi', faliqipi)
+    .AddPair('codenq', fcodenq, False)
+    .AddPair('ex', fex, False);
+end;
+
+procedure TACBrIMendesGrupoIPI.Assign(Source: TACBrIMendesGrupoIPI);
+begin
+  fcstEnt := Source.cstEnt;
+  fcstSai := Source.cstSai;
+  faliqipi := Source.aliqipi;
+  fcodenq := Source.codenq;
+  fex := Source.ex;
+end;
+
+procedure TACBrIMendesGrupoIPI.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrIMendesGrupoIPI) then
+    Assign(TACBrIMendesGrupoIPI(aSource));
+end;
+
+{ TACBrIMendesGrupoIBS }
+
+constructor TACBrIMendesGrupoIBS.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  Clear;
+end;
+
+procedure TACBrIMendesGrupoIBS.Clear;
+begin
+  fcClassTrib := EmptyStr;
+  fdescrcClassTrib := EmptyStr;
+  fcst := EmptyStr;
+  fdescrCST := EmptyStr;
+  fibsUF := 0;
+  fibsMun := 0;
+  freducaoaliqIBS := 0;
+  freducaoBcIBS := 0;
+  fampLegal := EmptyStr;
+  fdtVigIni := 0;
+  fdtVigFin := 0;
+end;
+
+function TACBrIMendesGrupoIBS.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaVazio(fcClassTrib) and
+    EstaVazio(fdescrcClassTrib) and
+    EstaVazio(fcst) and
+    EstaVazio(fdescrCST) and
+    EstaZerado(fibsUF) and
+    EstaZerado(fibsMun) and
+    EstaZerado(freducaoaliqIBS) and
+    EstaZerado(freducaoBcIBS) and
+    EstaVazio(fampLegal) and
+    EstaZerado(fdtVigIni) and
+    EstaZerado(fdtVigFin);
+end;
+
+procedure TACBrIMendesGrupoIBS.DoReadFromJSon(aJSon: TACBrJSONObject);
+var
+  s1, s2: String;
+begin
+  {$IfDef FPC}
+  s1 := EmptyStr;
+  s2 := EmptyStr;
+  {$EndIf}
+  aJSon
+    .Value('cClassTrib', fcClassTrib)
+    .Value('descrcClassTrib', fdescrcClassTrib)
+    .Value('cst', fcst)
+    .Value('descrCST', fdescrCST)
+    .Value('ibsUF', fibsUF)
+    .Value('ibsMun', fibsMun)
+    .Value('reducaoaliqIBS', freducaoaliqIBS)
+    .Value('reducaoBcIBS', freducaoBcIBS)
+    .Value('ampLegal', fampLegal)
+    .Value('dtVigIni', s1)
+    .Value('dtVigFin', s2);
+  if NaoEstaVazio(s1) then
+    fdtVigIni := StringToDateTimeDef(s1, 0, 'DD/MM/YYYY');
+  if NaoEstaVazio(s2) then
+    fdtVigFin := StringToDateTimeDef(s2, 0, 'DD/MM/YYYY');
+end;
+
+procedure TACBrIMendesGrupoIBS.DoWriteToJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .AddPair('cClassTrib', fcClassTrib, False)
+    .AddPair('descrcClassTrib', fdescrcClassTrib, False)
+    .AddPair('cst', fcst, False)
+    .AddPair('descrCST', fdescrCST, False)
+    .AddPair('ibsUF', fibsUF)
+    .AddPair('ibsMun', fibsMun)
+    .AddPair('reducaoaliqIBS', freducaoaliqIBS)
+    .AddPair('reducaoBcIBS', freducaoBcIBS)
+    .AddPair('ampLegal', fampLegal, False)
+    .AddPair('dtVigIni', FormatDateBr(fdtVigIni, 'DD/MM/YYYY'), False)
+    .AddPair('dtVigFin', FormatDateBr(fdtVigFin, 'DD/MM/YYYY'), False);
+end;
+
+procedure TACBrIMendesGrupoIBS.Assign(Source: TACBrIMendesGrupoIBS);
+begin
+  fcClassTrib := Source.cClassTrib;
+  fdescrcClassTrib := Source.descrcClassTrib;
+  fcst := Source.cst;
+  fdescrCST := Source.descrCST;
+  fibsUF := Source.ibsUF;
+  fibsMun := Source.ibsMun;
+  freducaoaliqIBS := Source.reducaoaliqIBS;
+  freducaoBcIBS := Source.reducaoBcIBS;
+  fampLegal := Source.ampLegal;
+  fdtVigIni := Source.dtVigIni;
+  fdtVigFin := Source.dtVigFin;
+end;
+
+procedure TACBrIMendesGrupoIBS.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrIMendesGrupoIBS) then
+    Assign(TACBrIMendesGrupoIBS(aSource));
+end;
+
+{ TACBrIMendesGrupoProtocolo }
+
+constructor TACBrIMendesGrupoProtocolo.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  Clear;
+end;
+
+procedure TACBrIMendesGrupoProtocolo.Clear;
+begin
+  fprotId := 0;
+  fprotNome := EmptyStr;
+  fdescricao := EmptyStr;
+  fdtVigIni := 0;
+  fdtVigFin := 0;
+  fisento := EmptyStr;
+  fantecipado := EmptyStr;
+  fsubsTrib := EmptyStr;
+  frespTrib := EmptyStr;
+  faliqIcmsInterestadual := 0;
+  fredBcInterestadual := 0;
+  faliqEfetiva := 0;
+  fiva := 0;
+  fdebitoPresumidoInter := 0;
+end;
+
+function TACBrIMendesGrupoProtocolo.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaZerado(fprotId) and
+    EstaVazio(fprotNome) and
+    EstaVazio(fdescricao) and
+    EstaZerado(fdtVigIni) and
+    EstaZerado(fdtVigFin) and
+    EstaVazio(fisento) and
+    EstaVazio(fantecipado) and
+    EstaVazio(fsubsTrib) and
+    EstaVazio(frespTrib) and
+    EstaZerado(faliqIcmsInterestadual) and
+    EstaZerado(fredBcInterestadual) and
+    EstaZerado(faliqEfetiva) and
+    EstaZerado(fiva) and
+    EstaZerado(fdebitoPresumidoInter);
+end;
+
+procedure TACBrIMendesGrupoProtocolo.DoReadFromJSon(aJSon: TACBrJSONObject);
+var
+  s1, s2: String;
+begin
+  {$IfDef FPC}
+  s1 := EmptyStr;
+  s2 := EmptyStr;
+  {$EndIf}
+  aJSon
+    .Value('protId', fprotId)
+    .Value('protNome', fprotNome)
+    .Value('descricao', fdescricao)
+    .Value('dtVigIni', s1)
+    .Value('dtVigFin', s2)
+    .Value('isento', fisento)
+    .Value('antecipado', fantecipado)
+    .Value('subsTrib', fsubsTrib)
+    .Value('respTrib', frespTrib)
+    .Value('aliqIcmsInterestadual', faliqIcmsInterestadual)
+    .Value('redBcInterestadual', fredBcInterestadual)
+    .Value('aliqEfetiva', faliqEfetiva)
+    .Value('iva', fiva)
+    .Value('debitoPresumidoInter', fdebitoPresumidoInter);
+  if NaoEstaVazio(s1) then
+    fdtVigIni := StringToDateTimeDef(s1, 0, 'DD/MM/YYYY');
+  if NaoEstaVazio(s2) then
+    fdtVigFin := StringToDateTimeDef(s2, 0, 'DD/MM/YYYY');
+end;
+
+procedure TACBrIMendesGrupoProtocolo.DoWriteToJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .AddPair('protId', fprotId)
+    .AddPair('protNome', fprotNome, False)
+    .AddPair('descricao', fdescricao, False)
+    .AddPair('dtVigIni', FormatDateBr(fdtVigIni, 'DD/MM/YYYY'), False)
+    .AddPair('dtVigFin', FormatDateBr(fdtVigFin, 'DD/MM/YYYY'), False)
+    .AddPair('isento', fisento, False)
+    .AddPair('antecipado', fantecipado, False)
+    .AddPair('subsTrib', fsubsTrib, False)
+    .AddPair('respTrib', frespTrib, False)
+    .AddPair('aliqIcmsInterestadual', faliqIcmsInterestadual)
+    .AddPair('redBcInterestadual', fredBcInterestadual)
+    .AddPair('aliqEfetiva', faliqEfetiva)
+    .AddPair('iva', fiva)
+    .AddPair('debitoPresumidoInter', fdebitoPresumidoInter);
+end;
+
+procedure TACBrIMendesGrupoProtocolo.Assign(Source: TACBrIMendesGrupoProtocolo);
+begin
+  fprotId := Source.protId;
+  fprotNome := Source.protNome;
+  fdescricao := Source.descricao;
+  fdtVigIni := Source.dtVigIni;
+  fdtVigFin := Source.dtVigFin;
+  fisento := Source.isento;
+  fantecipado := Source.antecipado;
+  fsubsTrib := Source.subsTrib;
+  frespTrib := Source.respTrib;
+  faliqIcmsInterestadual := Source.aliqIcmsInterestadual;
+  fredBcInterestadual := Source.redBcInterestadual;
+  faliqEfetiva := Source.aliqEfetiva;
+  fiva := Source.iva;
+  fdebitoPresumidoInter := Source.debitoPresumidoInter;
+end;
+
+procedure TACBrIMendesGrupoProtocolo.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrIMendesGrupoProtocolo) then
+    Assign(TACBrIMendesGrupoProtocolo(aSource));
+end;
+
+{ TACBrIMendesGrupoCaracTrib }
+
+constructor TACBrIMendesGrupoCaracTrib.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  Clear;
+end;
+
+destructor TACBrIMendesGrupoCaracTrib.Destroy;
+begin
+  if Assigned(fProtocolo) then
+    fProtocolo.Free;
+  if Assigned(fibs) then
+    fibs.Free;
+  inherited Destroy;
+end;
+
+procedure TACBrIMendesGrupoCaracTrib.Clear;
+begin
+  fcodigo := EmptyStr;
+  fmunicipio := 0;
+  ffinalidade := EmptyStr;
+  fcodRegra := EmptyStr;
+  fcodExcecao := 0;
+  fdtVigIni := 0;
+  fdtVigFin := 0;
+  fcFOP := EmptyStr;
+  fcST := EmptyStr;
+  fcSOSN := EmptyStr;
+  faliqIcmsInterna := 0;
+  faliqIcmsInterestadual := 0;
+  freducaoBcIcms := 0;
+  freducaoBcIcmsSt := 0;
+  fredBcICMsInterestadual := 0;
+  faliqIcmsSt := 0;
+  fiVA := 0;
+  fiVAAjust := 0;
+  ffCP := 0;
+  fcodBenef := EmptyStr;
+  fpDifer := 0;
+  fpIsencao := 0;
+  fantecipado := EmptyStr;
+  fdesonerado := EmptyStr;
+  fpICMSDeson := 0;
+  fisento := EmptyStr;
+  findDeduzDeson := EmptyStr;
+  ftpCalcDifal := 0;
+  fdebitoPresumido := 0;
+  fdebitoPresumidoNaoCredenciado := 0;
+  fampLegal := EmptyStr;
+  fregraGeral := EmptyStr;
+  fpSuspensaoImporatcao := 0;
+  fregimeEspecial := EmptyStr;
+  if Assigned(fProtocolo) then
+    fProtocolo.Clear;
+  if Assigned(fibs) then
+    fibs.Clear;
+end;
+
+function TACBrIMendesGrupoCaracTrib.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaVazio(fcodigo) and
+    EstaZerado(fmunicipio) and
+    EstaVazio(ffinalidade) and
+    EstaVazio(fcodRegra) and
+    EstaZerado(fcodExcecao) and
+    EstaZerado(fdtVigIni) and
+    EstaZerado(fdtVigFin) and
+    EstaVazio(fcFOP) and
+    EstaVazio(fcST) and
+    EstaVazio(fcSOSN) and
+    EstaZerado(faliqIcmsInterna) and
+    EstaZerado(faliqIcmsInterestadual) and
+    EstaZerado(freducaoBcIcms) and
+    EstaZerado(freducaoBcIcmsSt) and
+    EstaZerado(fredBcICMsInterestadual) and
+    EstaZerado(faliqIcmsSt) and
+    EstaZerado(fiVA) and
+    EstaZerado(fiVAAjust) and
+    EstaZerado(ffCP) and
+    EstaVazio(fcodBenef) and
+    EstaZerado(fpDifer) and
+    EstaZerado(fpIsencao) and
+    EstaVazio(fantecipado) and
+    EstaVazio(fdesonerado) and
+    EstaZerado(fpICMSDeson) and
+    EstaVazio(fisento) and
+    EstaVazio(findDeduzDeson) and
+    EstaZerado(ftpCalcDifal) and
+    EstaZerado(fdebitoPresumido) and
+    EstaZerado(fdebitoPresumidoNaoCredenciado) and
+    EstaVazio(fampLegal) and
+    (not Assigned(fProtocolo) or fProtocolo.IsEmpty) and
+    EstaVazio(fregraGeral) and
+    EstaZerado(fpSuspensaoImporatcao) and
+    EstaVazio(fregimeEspecial) and
+    (not Assigned(fibs) or fibs.IsEmpty);
+end;
+
+function TACBrIMendesGrupoCaracTrib.GetProtocolo: TACBrIMendesGrupoProtocolo;
+begin
+  if not Assigned(fProtocolo) then
+    fProtocolo := TACBrIMendesGrupoProtocolo.Create('Protocolo');
+  Result := fProtocolo;
+end;
+
+function TACBrIMendesGrupoCaracTrib.GetIBS: TACBrIMendesGrupoIBS;
+begin
+  if not Assigned(fibs) then
+    fibs := TACBrIMendesGrupoIBS.Create('ibs');
+  Result := fibs;
+end;
+
+procedure TACBrIMendesGrupoCaracTrib.DoReadFromJSon(aJSon: TACBrJSONObject);
+var
+  s1, s2: String;
+begin
+  {$IfDef FPC}
+  s1 := EmptyStr;
+  s2 := EmptyStr;
+  {$EndIf}
+  aJSon
+    .Value('codigo', fcodigo)
+    .Value('municipio', fmunicipio)
+    .Value('finalidade', ffinalidade)
+    .Value('codRegra', fcodRegra)
+    .Value('codExcecao', fcodExcecao)
+    .Value('dtVigIni', s1)
+    .Value('dtVigFin', s2)
+    .Value('cFOP', fcFOP)
+    .Value('cST', fcST)
+    .Value('cSOSN', fcSOSN)
+    .Value('aliqIcmsInterna', faliqIcmsInterna)
+    .Value('aliqIcmsInterestadual', faliqIcmsInterestadual)
+    .Value('reducaoBcIcms', freducaoBcIcms)
+    .Value('reducaoBcIcmsSt', freducaoBcIcmsSt)
+    .Value('redBcICMsInterestadual', fredBcICMsInterestadual)
+    .Value('aliqIcmsSt', faliqIcmsSt)
+    .Value('iVA', fiVA)
+    .Value('iVAAjust', fiVAAjust)
+    .Value('fCP', ffCP)
+    .Value('codBenef', fcodBenef)
+    .Value('pDifer', fpDifer)
+    .Value('pIsencao', fpIsencao)
+    .Value('antecipado', fantecipado)
+    .Value('desonerado', fdesonerado)
+    .Value('pICMSDeson', fpICMSDeson)
+    .Value('isento', fisento)
+    .Value('indDeduzDeson', findDeduzDeson)
+    .Value('tpCalcDifal', ftpCalcDifal)
+    .Value('debitoPresumido', fdebitoPresumido)
+    .Value('debitoPresumidoNaoCredenciado', fdebitoPresumidoNaoCredenciado)
+    .Value('ampLegal', fampLegal)
+    .Value('regraGeral', fregraGeral)
+    .Value('pSuspensaoImporatcao', fpSuspensaoImporatcao)
+    .Value('regimeEspecial', fregimeEspecial);
+  if NaoEstaVazio(s1) then
+    fdtVigIni := StringToDateTimeDef(s1, 0, 'DD/MM/YYYY');
+  if NaoEstaVazio(s2) then
+    fdtVigFin := StringToDateTimeDef(s2, 0, 'DD/MM/YYYY');
+
+  Protocolo.ReadFromJSon(aJSon);
+  ibs.ReadFromJSon(aJSon);
+end;
+
+procedure TACBrIMendesGrupoCaracTrib.DoWriteToJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .AddPair('codigo', fcodigo, False)
+    .AddPair('municipio', fmunicipio)
+    .AddPair('finalidade', ffinalidade, False)
+    .AddPair('codRegra', fcodRegra, False)
+    .AddPair('codExcecao', fcodExcecao)
+    .AddPair('dtVigIni', FormatDateBr(fdtVigIni, 'DD/MM/YYYY'), False)
+    .AddPair('dtVigFin', FormatDateBr(fdtVigFin, 'DD/MM/YYYY'), False)
+    .AddPair('cFOP', fcFOP, False)
+    .AddPair('cST', fcST, False)
+    .AddPair('cSOSN', fcSOSN, False)
+    .AddPair('aliqIcmsInterna', faliqIcmsInterna)
+    .AddPair('aliqIcmsInterestadual', faliqIcmsInterestadual)
+    .AddPair('reducaoBcIcms', freducaoBcIcms)
+    .AddPair('reducaoBcIcmsSt', freducaoBcIcmsSt)
+    .AddPair('redBcICMsInterestadual', fredBcICMsInterestadual)
+    .AddPair('aliqIcmsSt', faliqIcmsSt)
+    .AddPair('iVA', fiVA)
+    .AddPair('iVAAjust', fiVAAjust)
+    .AddPair('fCP', ffCP)
+    .AddPair('codBenef', fcodBenef, False)
+    .AddPair('pDifer', fpDifer)
+    .AddPair('pIsencao', fpIsencao)
+    .AddPair('antecipado', fantecipado, False)
+    .AddPair('desonerado', fdesonerado, False)
+    .AddPair('pICMSDeson', fpICMSDeson)
+    .AddPair('isento', fisento, False)
+    .AddPair('indDeduzDeson', findDeduzDeson, False)
+    .AddPair('tpCalcDifal', ftpCalcDifal)
+    .AddPair('debitoPresumido', fdebitoPresumido)
+    .AddPair('debitoPresumidoNaoCredenciado', fdebitoPresumidoNaoCredenciado)
+    .AddPair('ampLegal', fampLegal, False)
+    .AddPair('regraGeral', fregraGeral, False)
+    .AddPair('pSuspensaoImporatcao', fpSuspensaoImporatcao)
+    .AddPair('regimeEspecial', fregimeEspecial, False);
+
+  if Assigned(fProtocolo) then
+    fProtocolo.WriteToJSon(aJSon);
+  if Assigned(fibs) then
+    fibs.WriteToJSon(aJSon);
+end;
+
+procedure TACBrIMendesGrupoCaracTrib.Assign(Source: TACBrIMendesGrupoCaracTrib);
+begin
+  fcodigo := Source.codigo;
+  fmunicipio := Source.municipio;
+  ffinalidade := Source.finalidade;
+  fcodRegra := Source.codRegra;
+  fcodExcecao := Source.codExcecao;
+  fdtVigIni := Source.dtVigIni;
+  fdtVigFin := Source.dtVigFin;
+  fcFOP := Source.cFOP;
+  fcST := Source.cST;
+  fcSOSN := Source.cSOSN;
+  faliqIcmsInterna := Source.aliqIcmsInterna;
+  faliqIcmsInterestadual := Source.aliqIcmsInterestadual;
+  freducaoBcIcms := Source.reducaoBcIcms;
+  freducaoBcIcmsSt := Source.reducaoBcIcmsSt;
+  fredBcICMsInterestadual := Source.redBcICMsInterestadual;
+  faliqIcmsSt := Source.aliqIcmsSt;
+  fiVA := Source.iVA;
+  fiVAAjust := Source.iVAAjust;
+  ffCP := Source.fCP;
+  fcodBenef := Source.codBenef;
+  fpDifer := Source.pDifer;
+  fpIsencao := Source.pIsencao;
+  fantecipado := Source.antecipado;
+  fdesonerado := Source.desonerado;
+  fpICMSDeson := Source.pICMSDeson;
+  fisento := Source.isento;
+  findDeduzDeson := Source.indDeduzDeson;
+  ftpCalcDifal := Source.tpCalcDifal;
+  fdebitoPresumido := Source.debitoPresumido;
+  fdebitoPresumidoNaoCredenciado := Source.debitoPresumidoNaoCredenciado;
+  fampLegal := Source.ampLegal;
+  fregraGeral := Source.regraGeral;
+  fpSuspensaoImporatcao := Source.pSuspensaoImporatcao;
+  fregimeEspecial := Source.regimeEspecial;
+  Protocolo.Assign(Source.Protocolo);
+  ibs.Assign(Source.ibs);
+end;
+
+procedure TACBrIMendesGrupoCaracTrib.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrIMendesGrupoCaracTrib) then
+    Assign(TACBrIMendesGrupoCaracTrib(aSource));
+end;
+
+{ TACBrIMendesGrupoCaracTribs }
+
+function TACBrIMendesGrupoCaracTribs.New: TACBrIMendesGrupoCaracTrib;
+begin
+  Result := TACBrIMendesGrupoCaracTrib.Create;
+  Add(Result);
+end;
+
+function TACBrIMendesGrupoCaracTribs.NewSchema: TACBrAPISchema;
+begin
+  Result := New;
+end;
+
+function TACBrIMendesGrupoCaracTribs.Add(AItem: TACBrIMendesGrupoCaracTrib): Integer;
+begin
+  Result := inherited Add(AItem);
+end;
+
+procedure TACBrIMendesGrupoCaracTribs.Insert(AIndex: Integer; AItem: TACBrIMendesGrupoCaracTrib);
+begin
+  inherited Insert(AIndex, AItem);
+end;
+
+function TACBrIMendesGrupoCaracTribs.GetItem(AIndex: Integer): TACBrIMendesGrupoCaracTrib;
+begin
+  Result := TACBrIMendesGrupoCaracTrib(inherited Items[AIndex]);
+end;
+
+procedure TACBrIMendesGrupoCaracTribs.SetItem(AIndex: Integer; AValue: TACBrIMendesGrupoCaracTrib);
+begin
+  inherited Items[AIndex] := AValue;
+end;
+
+{ TACBrIMendesGrupoCFOP }
+
+constructor TACBrIMendesGrupoCFOP.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  Clear;
+end;
+
+destructor TACBrIMendesGrupoCFOP.Destroy;
+begin
+  if Assigned(fCaracTrib) then
+    fCaracTrib.Free;
+  inherited Destroy;
+end;
+
+procedure TACBrIMendesGrupoCFOP.Clear;
+begin
+  fcFOP := EmptyStr;
+  if Assigned(fCaracTrib) then
+    fCaracTrib.Clear;
+end;
+
+function TACBrIMendesGrupoCFOP.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaVazio(fcFOP) and
+    (not Assigned(fCaracTrib) or fCaracTrib.IsEmpty);
+end;
+
+function TACBrIMendesGrupoCFOP.GetCaracTrib: TACBrIMendesGrupoCaracTribs;
+begin
+  if not Assigned(fCaracTrib) then
+    fCaracTrib := TACBrIMendesGrupoCaracTribs.Create('CaracTrib');
+  Result := fCaracTrib;
+end;
+
+procedure TACBrIMendesGrupoCFOP.DoReadFromJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .Value('cFOP', fcFOP);
+  CaracTrib.ReadFromJSon(aJSon);
+end;
+
+procedure TACBrIMendesGrupoCFOP.DoWriteToJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .AddPair('cFOP', fcFOP, False);
+  if Assigned(fCaracTrib) then
+    fCaracTrib.WriteToJSon(aJSon);
+end;
+
+procedure TACBrIMendesGrupoCFOP.Assign(Source: TACBrIMendesGrupoCFOP);
+begin
+  fcFOP := Source.cFOP;
+  CaracTrib.Assign(Source.CaracTrib);
+end;
+
+procedure TACBrIMendesGrupoCFOP.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrIMendesGrupoCFOP) then
+    Assign(TACBrIMendesGrupoCFOP(aSource));
+end;
+
+{ TACBrIMendesGrupoUF }
+
+constructor TACBrIMendesGrupoUF.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  Clear;
+end;
+
+destructor TACBrIMendesGrupoUF.Destroy;
+begin
+  if Assigned(fCFOP) then
+    fCFOP.Free;
+  inherited Destroy;
+end;
+
+procedure TACBrIMendesGrupoUF.Clear;
+begin
+  fuF := EmptyStr;
+  fmensagem := EmptyStr;
+  if Assigned(fCFOP) then
+    fCFOP.Clear;
+end;
+
+function TACBrIMendesGrupoUF.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaVazio(fuF) and
+    (not Assigned(fCFOP) or fCFOP.IsEmpty) and
+    EstaVazio(fmensagem);
+end;
+
+function TACBrIMendesGrupoUF.GetCFOP: TACBrIMendesGrupoCFOP;
+begin
+  if not Assigned(fCFOP) then
+    fCFOP := TACBrIMendesGrupoCFOP.Create('CFOP');
+  Result := fCFOP;
+end;
+
+procedure TACBrIMendesGrupoUF.DoReadFromJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .Value('uF', fuF)
+    .Value('mensagem', fmensagem);
+  CFOP.ReadFromJSon(aJSon);
+end;
+
+procedure TACBrIMendesGrupoUF.DoWriteToJSon(aJSon: TACBrJSONObject);
+begin
+  aJSon
+    .AddPair('uF', fuF, False)
+    .AddPair('mensagem', fmensagem, False);
+  if Assigned(fCFOP) then
+    fCFOP.WriteToJSon(aJSon);
+end;
+
+procedure TACBrIMendesGrupoUF.Assign(Source: TACBrIMendesGrupoUF);
+begin
+  fuF := Source.uF;
+  fmensagem := Source.mensagem;
+  CFOP.Assign(Source.CFOP);
+end;
+
+procedure TACBrIMendesGrupoUF.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrIMendesGrupoUF) then
+    Assign(TACBrIMendesGrupoUF(aSource));
+end;
+
+{ TACBrIMendesGrupoUFs }
+
+function TACBrIMendesGrupoUFs.New: TACBrIMendesGrupoUF;
+begin
+  Result := TACBrIMendesGrupoUF.Create;
+  Add(Result);
+end;
+
+function TACBrIMendesGrupoUFs.NewSchema: TACBrAPISchema;
+begin
+  Result := New;
+end;
+
+function TACBrIMendesGrupoUFs.Add(AItem: TACBrIMendesGrupoUF): Integer;
+begin
+  Result := inherited Add(AItem);
+end;
+
+procedure TACBrIMendesGrupoUFs.Insert(AIndex: Integer; AItem: TACBrIMendesGrupoUF);
+begin
+  inherited Insert(AIndex, AItem);
+end;
+
+function TACBrIMendesGrupoUFs.GetItem(AIndex: Integer): TACBrIMendesGrupoUF;
+begin
+  Result := TACBrIMendesGrupoUF(inherited Items[AIndex]);
+end;
+
+procedure TACBrIMendesGrupoUFs.SetItem(AIndex: Integer; AValue: TACBrIMendesGrupoUF);
+begin
+  inherited Items[AIndex] := AValue;
+end;
+
+{ TACBrIMendesGrupoRegra }
+
+constructor TACBrIMendesGrupoRegra.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  Clear;
+end;
+
+destructor TACBrIMendesGrupoRegra.Destroy;
+begin
+  if Assigned(fuFs) then
+    fuFs.Free;
+  inherited Destroy;
+end;
+
+procedure TACBrIMendesGrupoRegra.Clear;
+begin
+  if Assigned(fuFs) then
+    fuFs.Clear;
+end;
+
+function TACBrIMendesGrupoRegra.IsEmpty: Boolean;
+begin
+  Result := (not Assigned(fuFs)) or fuFs.IsEmpty;
+end;
+
+function TACBrIMendesGrupoRegra.GetUFs: TACBrIMendesGrupoUFs;
+begin
+  if not Assigned(fuFs) then
+    fuFs := TACBrIMendesGrupoUFs.Create('uFs');
+  Result := fuFs;
+end;
+
+procedure TACBrIMendesGrupoRegra.DoReadFromJSon(aJSon: TACBrJSONObject);
+begin
+  uFs.ReadFromJSon(aJSon);
+end;
+
+procedure TACBrIMendesGrupoRegra.DoWriteToJSon(aJSon: TACBrJSONObject);
+begin
+  if Assigned(fuFs) then
+    fuFs.WriteToJSon(aJSon);
+end;
+
+procedure TACBrIMendesGrupoRegra.Assign(Source: TACBrIMendesGrupoRegra);
+begin
+  uFs.Assign(Source.uFs);
+end;
+
+procedure TACBrIMendesGrupoRegra.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrIMendesGrupoRegra) then
+    Assign(TACBrIMendesGrupoRegra(aSource));
+end;
+
+{ TACBrIMendesGrupoRegras }
+
+function TACBrIMendesGrupoRegras.New: TACBrIMendesGrupoRegra;
+begin
+  Result := TACBrIMendesGrupoRegra.Create;
+  Add(Result);
+end;
+
+function TACBrIMendesGrupoRegras.NewSchema: TACBrAPISchema;
+begin
+  Result := New;
+end;
+
+function TACBrIMendesGrupoRegras.Add(AItem: TACBrIMendesGrupoRegra): Integer;
+begin
+  Result := inherited Add(AItem);
+end;
+
+procedure TACBrIMendesGrupoRegras.Insert(AIndex: Integer; AItem: TACBrIMendesGrupoRegra);
+begin
+  inherited Insert(AIndex, AItem);
+end;
+
+function TACBrIMendesGrupoRegras.GetItem(AIndex: Integer): TACBrIMendesGrupoRegra;
+begin
+  Result := TACBrIMendesGrupoRegra(inherited Items[AIndex]);
+end;
+
+procedure TACBrIMendesGrupoRegras.SetItem(AIndex: Integer; AValue: TACBrIMendesGrupoRegra);
+begin
+  inherited Items[AIndex] := AValue;
+end;
+
+{ TACBrIMendesGrupo }
+
+constructor TACBrIMendesGrupo.Create(const ObjectName: String);
+begin
+  inherited Create(ObjectName);
+  Clear;
+end;
+
+destructor TACBrIMendesGrupo.Destroy;
+begin
+  if Assigned(fcbs) then
+    fcbs.Free;
+  if Assigned(fpisCofins) then
+    fpisCofins.Free;
+  if Assigned(fipi) then
+    fipi.Free;
+  if Assigned(fRegras) then
+    fRegras.Free;
+  if Assigned(fprodEan) then
+    fprodEan.Free;
+  inherited Destroy;
+end;
+
+procedure TACBrIMendesGrupo.Clear;
+begin
+  fcodigo := EmptyStr;
+  fdescricao := EmptyStr;
+  fnCM := EmptyStr;
+  fcEST := EmptyStr;
+  fdtVigIni := 0;
+  fdtVigFin := 0;
+  flista := EmptyStr;
+  ftipo := EmptyStr;
+  fcodAnp := EmptyStr;
+  fpassivelPMC := EmptyStr;
+  fimpostoImportacao := 0;
+  fMensagem := EmptyStr;
+  if Assigned(fcbs) then fcbs.Clear;
+  if Assigned(fpisCofins) then fpisCofins.Clear;
+  if Assigned(fipi) then fipi.Clear;
+  if Assigned(fRegras) then fRegras.Clear;
+  if Assigned(fprodEan) then fprodEan.Clear;
+end;
+
+function TACBrIMendesGrupo.IsEmpty: Boolean;
+begin
+  Result :=
+    EstaVazio(fcodigo) and
+    EstaVazio(fdescricao) and
+    EstaVazio(fnCM) and
+    EstaVazio(fcEST) and
+    EstaZerado(fdtVigIni) and
+    EstaZerado(fdtVigFin) and
+    EstaVazio(flista) and
+    EstaVazio(ftipo) and
+    EstaVazio(fcodAnp) and
+    EstaVazio(fpassivelPMC) and
+    EstaZerado(fimpostoImportacao) and
+    (not Assigned(fcbs) or fcbs.IsEmpty) and
+    (not Assigned(fpisCofins) or fpisCofins.IsEmpty) and
+    (not Assigned(fipi) or fipi.IsEmpty) and
+    (not Assigned(fRegras) or fRegras.IsEmpty) and
+    ((not Assigned(fprodEan)) or (fprodEan.Count = 0)) and
+    EstaVazio(fMensagem);
+end;
+
+function TACBrIMendesGrupo.GetCBS: TACBrIMendesGrupoCBS;
+begin
+  if not Assigned(fcbs) then
+    fcbs := TACBrIMendesGrupoCBS.Create('cbs');
+  Result := fcbs;
+end;
+
+function TACBrIMendesGrupo.GetPisCofins: TACBrIMendesGrupoPisCofins;
+begin
+  if not Assigned(fpisCofins) then
+    fpisCofins := TACBrIMendesGrupoPisCofins.Create('pisCofins');
+  Result := fpisCofins;
+end;
+
+function TACBrIMendesGrupo.GetIPI: TACBrIMendesGrupoIPI;
+begin
+  if not Assigned(fipi) then
+    fipi := TACBrIMendesGrupoIPI.Create('iPI');
+  Result := fipi;
+end;
+
+function TACBrIMendesGrupo.GetRegras: TACBrIMendesGrupoRegras;
+begin
+  if not Assigned(fRegras) then
+    fRegras := TACBrIMendesGrupoRegras.Create('Regras');
+  Result := fRegras;
+end;
+
+function TACBrIMendesGrupo.GetProdEan: TStringList;
+begin
+  if not Assigned(fprodEan) then
+    fprodEan := TStringList.Create;
+  Result := fprodEan;
+end;
+
+procedure TACBrIMendesGrupo.DoReadFromJSon(aJSon: TACBrJSONObject);
+var
+  s1, s2: String;
+  ja: TACBrJSONArray;
+  i: Integer;
+begin
+  {$IfDef FPC}
+  s1 := EmptyStr;
+  s2 := EmptyStr;
+  {$EndIf}
+  aJSon
+    .Value('codigo', fcodigo)
+    .Value('descricao', fdescricao)
+    .Value('nCM', fnCM)
+    .Value('cEST', fcEST)
+    .Value('dtVigIni', s1)
+    .Value('dtVigFin', s2)
+    .Value('lista', flista)
+    .Value('tipo', ftipo)
+    .Value('codAnp', fcodAnp)
+    .Value('passivelPMC', fpassivelPMC)
+    .Value('impostoImportacao', fimpostoImportacao)
+    .Value('Mensagem', fMensagem);
+  if NaoEstaVazio(s1) then
+    fdtVigIni := StringToDateTimeDef(s1, 0, 'DD/MM/YYYY');
+  if NaoEstaVazio(s2) then
+    fdtVigFin := StringToDateTimeDef(s2, 0, 'DD/MM/YYYY');
+
+  cbs.ReadFromJSon(aJSon);
+  pisCofins.ReadFromJSon(aJSon);
+  iPI.ReadFromJSon(aJSon);
+  if aJSon.IsJSONArray('prodEan') then
+  begin
+    prodEan.Clear;
+    ja := aJSon.AsJSONArray['prodEan'];
+    for i := 0 to ja.Count - 1 do
+      prodEan.Add(ja.Items[i]);
+  end;
+
+  Regras.ReadFromJSon(aJSon);
+end;
+
+procedure TACBrIMendesGrupo.DoWriteToJSon(aJSon: TACBrJSONObject);
+var
+  ja: TACBrJSONArray;
+  i: Integer;
+begin
+  aJSon
+    .AddPair('codigo', fcodigo, False)
+    .AddPair('descricao', fdescricao, False)
+    .AddPair('nCM', fnCM, False)
+    .AddPair('cEST', fcEST, False)
+    .AddPair('dtVigIni', FormatDateBr(fdtVigIni, 'DD/MM/YYYY'), False)
+    .AddPair('dtVigFin', FormatDateBr(fdtVigFin, 'DD/MM/YYYY'), False)
+    .AddPair('lista', flista, False)
+    .AddPair('tipo', ftipo, False)
+    .AddPair('codAnp', fcodAnp, False)
+    .AddPair('passivelPMC', fpassivelPMC, False)
+    .AddPair('impostoImportacao', fimpostoImportacao)
+    .AddPair('Mensagem', fMensagem, False);
+
+  if Assigned(fcbs) then
+    fcbs.WriteToJSon(aJSon);
+  if Assigned(fpisCofins) then
+    fpisCofins.WriteToJSon(aJSon);
+  if Assigned(fipi) then
+    fipi.WriteToJSon(aJSon);
+  if Assigned(fprodEan) and (fprodEan.Count > 0) then
+  begin
+    ja := TACBrJSONArray.Create;
+    for i := 0 to fprodEan.Count - 1 do
+      ja.AddElement(fprodEan[i]);
+    aJSon.AddPair('prodEan', ja);
+  end;
+  if Assigned(fRegras) then
+    fRegras.WriteToJSon(aJSon);
+end;
+
+procedure TACBrIMendesGrupo.Assign(Source: TACBrIMendesGrupo);
+begin
+  fcodigo := Source.codigo;
+  fdescricao := Source.descricao;
+  fnCM := Source.nCM;
+  fcEST := Source.cEST;
+  fdtVigIni := Source.dtVigIni;
+  fdtVigFin := Source.dtVigFin;
+  flista := Source.lista;
+  ftipo := Source.tipo;
+  fcodAnp := Source.codAnp;
+  fpassivelPMC := Source.passivelPMC;
+  fimpostoImportacao := Source.impostoImportacao;
+  fMensagem := Source.Mensagem;
+  cbs.Assign(Source.cbs);
+  pisCofins.Assign(Source.pisCofins);
+  iPI.Assign(Source.iPI);
+  Regras.Assign(Source.Regras);
+  prodEan.Assign(Source.prodEan);
+end;
+
+procedure TACBrIMendesGrupo.AssignSchema(aSource: TACBrAPISchema);
+begin
+  if Assigned(aSource) and (aSource is TACBrIMendesGrupo) then
+    Assign(TACBrIMendesGrupo(aSource));
+end;
+
+{ TACBrIMendesGrupos }
+
+function TACBrIMendesGrupos.New: TACBrIMendesGrupo;
+begin
+  Result := TACBrIMendesGrupo.Create;
+  Add(Result);
+end;
+
+function TACBrIMendesGrupos.NewSchema: TACBrAPISchema;
+begin
+  Result := New;
+end;
+
+function TACBrIMendesGrupos.Add(AItem: TACBrIMendesGrupo): Integer;
+begin
+  Result := inherited Add(AItem);
+end;
+
+procedure TACBrIMendesGrupos.Insert(AIndex: Integer; AItem: TACBrIMendesGrupo);
+begin
+  inherited Insert(AIndex, AItem);
+end;
+
+function TACBrIMendesGrupos.GetItem(AIndex: Integer): TACBrIMendesGrupo;
+begin
+  Result := TACBrIMendesGrupo(inherited Items[AIndex]);
+end;
+
+procedure TACBrIMendesGrupos.SetItem(AIndex: Integer; AValue: TACBrIMendesGrupo);
+begin
+  inherited Items[AIndex] := AValue;
+end;
+
+{ ==== FIM: Implementacao Saneamento Grupos ==== }
 
 function TACBrIMendesRegimeEspecialList.NewSchema: TACBrAPISchema;
 begin
@@ -2210,7 +3972,9 @@ begin
   end;
 
   try
-    URLPathParams.Add(cIMendesAPIV3);
+    URLPathParams.Add(cIMendesAPI);
+    URLPathParams.Add(cIMendesV3);
+    URLPathParams.Add(cIMendesPublic);
     URLPathParams.Add(cIMendesEndpointSaneamentoGrades);
     HTTPMethod(cHTTPMethodPOST, CalcularURL);
     Result := (HTTPResultCode = HTTP_OK);
@@ -2254,7 +4018,9 @@ begin
   end; 
 
   try
-    URLPathParams.Add(cIMendesAPIV1);
+    URLPathParams.Add(cIMendesAPI);
+    URLPathParams.Add(cIMendesV1);
+    URLPathParams.Add(cIMendesPublic);
     URLPathParams.Add(cIMendesEndpointEnviaRecebeDados);
     HTTPMethod(cHTTPMethodPOST, CalcularURL);
     Result := (HTTPResultCode = HTTP_OK);
@@ -2298,7 +4064,9 @@ begin
   end;
 
   try
-    URLPathParams.Add(cIMendesAPIV1);
+    URLPathParams.Add(cIMendesAPI);
+    URLPathParams.Add(cIMendesV1);
+    URLPathParams.Add(cIMendesPublic);
     URLPathParams.Add(cIMendesEndpointEnviaRecebeDados);
     HTTPMethod(cHTTPMethodPOST, CalcularURL);
     Result := (HTTPResultCode = HTTP_OK);
@@ -2381,7 +4149,9 @@ begin
   end;
 
   try
-    URLPathParams.Add(cIMendesAPIV1);
+    URLPathParams.Add(cIMendesAPI);
+    URLPathParams.Add(cIMendesV1);
+    URLPathParams.Add(cIMendesPublic);
     URLPathParams.Add(cIMendesEndpointEnviaRecebeDados);
     HTTPMethod(cHTTPMethodPOST, CalcularURL);
     Result := (HTTPResultCode = HTTP_OK);
