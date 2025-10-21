@@ -238,7 +238,8 @@ type
 implementation
 
 uses
-  pcnConversao, pcteConversaoCTe, ACBrXMLBase,
+  pcnConversao, pcteConversaoCTe,
+  ACBrDFe.Conversao,  ACBrXMLBase,
   ACBrUtil.Base, ACBrUtil.FilesIO, ACBrUtil.Strings,
   ACBrLibCTeConsts;
 
