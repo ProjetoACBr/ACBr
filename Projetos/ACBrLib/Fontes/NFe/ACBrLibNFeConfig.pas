@@ -47,7 +47,7 @@ uses
   ACBrNFeConfiguracoes, ACBrDFeReport, ACBrDFeDANFeReport,
   ACBrNFeDANFEClass,
   ACBrLibConfig,
-  DFeReportConfig;
+  DFeReportConfig, ACBrDFe.Conversao;
 
 type
   TTipoRelatorioBobina = (tpFortes, tpEscPos, tpFortesA4);
