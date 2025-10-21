@@ -119,6 +119,7 @@ end;
 
 procedure TACBrGNREGuiaFR.ImprimirGuia(GNRE: TGNRERetorno);
 begin
+  RemoveExportFastReportPDFDuplicate;
   if PrepareReport(GNRE) then
   begin
     if MostrarPreview then

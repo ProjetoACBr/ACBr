@@ -211,6 +211,7 @@ end;
 
 procedure TACBrNFSeXDANFSeFR.ImprimirDANFSe(NFSe: TNFSe);
 begin
+  RemoveExportFastReportPDFDuplicate;
   Provedor := TACBrNFSeX(ACBrNFSe).Configuracoes.Geral.Provedor;
 
   DANFSeXClassOwner.FIndexImpressaoIndividual := -1;

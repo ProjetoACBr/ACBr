@@ -164,6 +164,7 @@ end;
 
 procedure TACBrNFSeDANFSeFR.ImprimirDANFSe(NFSe: TNFSe);
 begin
+  RemoveExportFastReportPDFDuplicate;
   if PrepareReport(NFSe) then
   begin
     if MostraPreview then

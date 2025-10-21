@@ -811,6 +811,7 @@ end;
 
 procedure TACBrMDFeDAMDFEFR.ImprimirDAMDFe(AMDFe: TMDFe);
 begin
+  RemoveExportFastReportPDFDuplicate;
   if PrepareReport(AMDFe) then
   begin
     if MostraPreview then
@@ -893,6 +894,7 @@ end;
 
 procedure TACBrMDFeDAMDFEFR.ImprimirEVENTO(AMDFe: TMDFe);
 begin
+  RemoveExportFastReportPDFDuplicate;
   if PrepareReportEvento then
   begin
     if MostraPreview then

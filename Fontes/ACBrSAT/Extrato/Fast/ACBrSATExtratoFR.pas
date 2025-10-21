@@ -37,15 +37,26 @@ unit ACBrSATExtratoFR;
 interface
 
 uses
-  Classes, SysUtils, ACBrBase, ACBrSATExtratoClass, ACBrSATExtratoReportClass, pcnCFe,
-  pcnCFeCanc, pcnConversao, DB, DBClient, frxClass, frxExportPDF, frxDBSet, frxBarcode
+  Classes,
+  SysUtils,
+  ACBrBase,
+  ACBrSATExtratoClass,
+  ACBrSATExtratoReportClass,
+  pcnCFe,
+  pcnCFeCanc,
+  pcnConversao,
+  DB,
+  DBClient,
+  frxClass,
+  frxExportPDF,
+  frxDBSet,
+  frxBarcode
   {$IFDEF USE_EXPORT_FR_SVG} // ImprimirExtratoSVG
     , frxExportSVG
   {$ENDIF}
   {$IFDEF USE_EXPORT_FR_PNG} // ImprimirExtratoPNG
     , frxExportImage
   {$ENDIF}
-
   ,frxExportHTML;
 
 type
@@ -130,15 +141,20 @@ type
     property PreparedReport: TfrxReport read GetPreparedReport;
   published
     property FastExtrato: string read FFastExtrato write FFastExtrato;
-  end ;
+  end;
 
 implementation
 
 uses
   StrUtils,
-  ACBrDFeUtil, ACBrSAT,
-  ACBrValidador, ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime,
-  ACBrImage, ACBrDelphiZXingQRCode, 
+  ACBrDFeUtil,
+  ACBrSAT,
+  ACBrValidador,
+  ACBrUtil.Base,
+  ACBrUtil.Strings,
+  ACBrUtil.DateTime,
+  ACBrImage,
+  ACBrDelphiZXingQRCode,
   ACBrUtil.FR;
 
 { TACBrSATExtratoFR }
@@ -283,6 +299,7 @@ function TACBrSATExtratoFR.PrepareReport(ACFe: TCFe; ACFeCanc:TCFeCanc = nil): B
 var
   Stream: TStringStream;
 begin
+  RemoveExportFastReportPDFDuplicate;
   Result := False;
 
   SetDataSetsToFrxReport;
@@ -365,6 +382,7 @@ end;
 
 procedure TACBrSATExtratoFR.Imprimir;
 begin
+  RemoveExportFastReportPDFDuplicate;
   case Filtro of
     fiNenhum:
       Begin

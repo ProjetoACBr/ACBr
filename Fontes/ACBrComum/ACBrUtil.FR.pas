@@ -58,11 +58,10 @@ type
   end;
 
 {$ENDIF}
- procedure SetDefaultPrinter(var frxReport : TfrxReport);
+  procedure SetDefaultPrinter(var frxReport : TfrxReport);
+  procedure RemoveExportFastReportPDFDuplicate;
 
 implementation
-
-
 uses
   SysUtils,
   frxDsgnIntf,
@@ -81,7 +80,7 @@ begin
 end;
 {$ENDIF}
 
-procedure RemoveExportPDFDuplicate;
+procedure RemoveExportFastReportPDFDuplicate;
 var
   LCount, I: Integer;
 begin

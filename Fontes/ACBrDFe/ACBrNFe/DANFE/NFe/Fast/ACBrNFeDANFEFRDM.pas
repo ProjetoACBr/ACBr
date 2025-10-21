@@ -2114,6 +2114,7 @@ begin
     NFe := ANFE;
     CarregaDadosNFe;
 
+    AjustaMargensReports;
     Result := frxReport.PrepareReport;
   end
   else
@@ -2406,6 +2407,7 @@ end;
 
 procedure TACBrNFeFRClass.ImprimirDANFE(ANFE: TNFe);
 begin
+  RemoveExportFastReportPDFDuplicate;
   DANFEClassOwner.FIndexImpressaoIndividual := -1;
   if PrepareReport(ANFE) then
   begin
@@ -2423,6 +2425,7 @@ var
   fsShowDialog : Boolean;
   NomeArq: String;
 begin
+  RemoveExportFastReportPDFDuplicate;
   if PrepareReport(ANFE) then
   begin
     if (AStream <> nil) then
@@ -2459,6 +2462,7 @@ end;
 
 procedure TACBrNFeFRClass.ImprimirDANFEResumido(ANFE: TNFe);
 begin
+  RemoveExportFastReportPDFDuplicate;
   if PrepareReport(ANFE) then
   begin
     if DANFEClassOwner.MostraPreview then
@@ -2472,7 +2476,7 @@ procedure TACBrNFeFRClass.ImprimirEVENTO(ANFE: TNFe);
 var
   OK : boolean;
 begin
-
+  RemoveExportFastReportPDFDuplicate;
   OK := PrepareReportEvento;
   if OK then
   begin
@@ -2526,7 +2530,7 @@ end;
 
 procedure TACBrNFeFRClass.ImprimirINUTILIZACAO(ANFE: TNFe);
 begin
-
+  RemoveExportFastReportPDFDuplicate;
   if PrepareReportInutilizacao then
   begin
     if DANFEClassOwner.MostraPreview then
@@ -2584,11 +2588,11 @@ var
   Page: TfrxReportPage;
   I: Integer;
 begin
-  for I := 0 to (frxReport.PreviewPages.Count - 1) do
+  for I := 0 to (frxReport.PagesCount - 1) do
   begin
-    if frxReport.PreviewPages.Page[I] is TfrxReportPage then
+    if frxReport.Pages[I] is TfrxReportPage then
     begin
-      Page := frxReport.PreviewPages.Page[I];
+      Page := TfrxReportPage(frxReport.Pages[I]);
       if (DANFEClassOwner.MargemSuperior > 0) then
         Page.TopMargin := DANFEClassOwner.MargemSuperior;
       if (DANFEClassOwner.MargemInferior > 0) then
@@ -2597,7 +2601,6 @@ begin
         Page.LeftMargin := DANFEClassOwner.MargemEsquerda;
       if (DANFEClassOwner.MargemDireita > 0) then
         Page.RightMargin := DANFEClassOwner.MargemDireita;
-      frxReport.PreviewPages.ModifyPage(I, Page);
     end;
   end;
 end;

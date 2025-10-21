@@ -364,6 +364,7 @@ end;
 
 procedure TACBrBoletoFCFR.Imprimir;
 begin
+  RemoveExportFastReportPDFDuplicate;
   inherited Imprimir; // Verifica se a lista de boletos está vazia
   FcdsBanco.EmptyDataSet;
   FcdsCedente.EmptyDataSet;

@@ -1265,6 +1265,7 @@ end;
 
 procedure TACBrCTeDACTEFR.ImprimirDACTe(ACTE: TCTe);
 begin
+  RemoveExportFastReportPDFDuplicate;
   if PrepareReport(ACTE) then
   begin
     if MostraPreview then
@@ -1310,6 +1311,7 @@ end;
 
 procedure TACBrCTeDACTEFR.ImprimirEVENTO(ACTE: TCTe);
 begin
+  RemoveExportFastReportPDFDuplicate;
   if PrepareReportEvento then
   begin
     if MostraPreview then
@@ -1355,6 +1357,7 @@ end;
 
 procedure TACBrCTeDACTEFR.ImprimirINUTILIZACAO(ACTE: TCTe);
 begin
+  RemoveExportFastReportPDFDuplicate;
   if PrepareReportInutilizacao then
   begin
     if MostraPreview then
