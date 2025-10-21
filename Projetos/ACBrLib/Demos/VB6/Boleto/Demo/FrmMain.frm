@@ -5,13 +5,13 @@ Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form FrmMain 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "ACBrLibBoleto Demo"
-   ClientHeight    =   9825
-   ClientLeft      =   45
-   ClientTop       =   390
+   ClientHeight    =   9816
+   ClientLeft      =   48
+   ClientTop       =   396
    ClientWidth     =   10440
    BeginProperty Font 
       Name            =   "Tahoma"
-      Size            =   8.25
+      Size            =   8.4
       Charset         =   0
       Weight          =   400
       Underline       =   0   'False
@@ -21,9 +21,17 @@ Begin VB.Form FrmMain
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   9825
+   ScaleHeight     =   9816
    ScaleWidth      =   10440
    StartUpPosition =   2  'CenterScreen
+   Begin VB.CommandButton btnConsultaLista 
+      Caption         =   "Consulta Periodo"
+      Height          =   372
+      Left            =   2520
+      TabIndex        =   150
+      Top             =   9360
+      Width           =   1452
+   End
    Begin VB.CommandButton btnCarregarConfiguracoes 
       Caption         =   "Carregar Configurações"
       Height          =   480
@@ -261,8 +269,8 @@ Begin VB.Form FrmMain
       TabIndex        =   0
       Top             =   0
       Width           =   10335
-      _ExtentX        =   18230
-      _ExtentY        =   5953
+      _ExtentX        =   18225
+      _ExtentY        =   5948
       _Version        =   393216
       Style           =   1
       Tabs            =   6
@@ -327,147 +335,115 @@ Begin VB.Form FrmMain
       TabCaption(1)   =   "Layout"
       TabPicture(1)   =   "FrmMain.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "chkProgresso"
-      Tab(1).Control(1)=   "chkSetup"
-      Tab(1).Control(2)=   "chkPreview"
-      Tab(1).Control(3)=   "txtNomeArquivo"
-      Tab(1).Control(4)=   "nudCopias"
-      Tab(1).Control(5)=   "txtCopias"
-      Tab(1).Control(6)=   "btnDirLogo"
+      Tab(1).Control(0)=   "lblImpressora"
+      Tab(1).Control(1)=   "lblModelo"
+      Tab(1).Control(2)=   "lblDiretórioLogotipo"
+      Tab(1).Control(3)=   "lblCopias"
+      Tab(1).Control(4)=   "lblNomeArquivo"
+      Tab(1).Control(5)=   "cmbImpressora"
+      Tab(1).Control(6)=   "cmbModeloImpressao"
       Tab(1).Control(7)=   "txtDirLogo"
-      Tab(1).Control(8)=   "cmbModeloImpressao"
-      Tab(1).Control(9)=   "cmbImpressora"
-      Tab(1).Control(10)=   "lblNomeArquivo"
-      Tab(1).Control(11)=   "lblCopias"
-      Tab(1).Control(12)=   "lblDiretórioLogotipo"
-      Tab(1).Control(13)=   "lblModelo"
-      Tab(1).Control(14)=   "lblImpressora"
+      Tab(1).Control(8)=   "btnDirLogo"
+      Tab(1).Control(9)=   "txtCopias"
+      Tab(1).Control(10)=   "nudCopias"
+      Tab(1).Control(11)=   "txtNomeArquivo"
+      Tab(1).Control(12)=   "chkPreview"
+      Tab(1).Control(13)=   "chkSetup"
+      Tab(1).Control(14)=   "chkProgresso"
       Tab(1).ControlCount=   15
       TabCaption(2)   =   "Conta Bancária"
       TabPicture(2)   =   "FrmMain.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblBanco"
-      Tab(2).Control(1)=   "lblAgência"
-      Tab(2).Control(2)=   "lblConta"
-      Tab(2).Control(3)=   "lblRespEmissão"
-      Tab(2).Control(4)=   "lblCodTransmissão"
-      Tab(2).Control(5)=   "lblConvenio"
-      Tab(2).Control(6)=   "lblModalidade"
-      Tab(2).Control(7)=   "lblCodCedente"
-      Tab(2).Control(8)=   "cmbBanco"
-      Tab(2).Control(9)=   "txtAgencia"
-      Tab(2).Control(10)=   "txtConta"
-      Tab(2).Control(11)=   "txtDigConta"
-      Tab(2).Control(12)=   "cmbRespEmissao"
-      Tab(2).Control(13)=   "txtDigAgencia"
-      Tab(2).Control(14)=   "txtCodTransmissao"
-      Tab(2).Control(15)=   "txtModalidade"
-      Tab(2).Control(16)=   "txtCodCedente"
-      Tab(2).Control(17)=   "txtConvenio"
+      Tab(2).Control(0)=   "txtConvenio"
+      Tab(2).Control(1)=   "txtCodCedente"
+      Tab(2).Control(2)=   "txtModalidade"
+      Tab(2).Control(3)=   "txtCodTransmissao"
+      Tab(2).Control(4)=   "txtDigAgencia"
+      Tab(2).Control(5)=   "cmbRespEmissao"
+      Tab(2).Control(6)=   "txtDigConta"
+      Tab(2).Control(7)=   "txtConta"
+      Tab(2).Control(8)=   "txtAgencia"
+      Tab(2).Control(9)=   "cmbBanco"
+      Tab(2).Control(10)=   "lblCodCedente"
+      Tab(2).Control(11)=   "lblModalidade"
+      Tab(2).Control(12)=   "lblConvenio"
+      Tab(2).Control(13)=   "lblCodTransmissão"
+      Tab(2).Control(14)=   "lblRespEmissão"
+      Tab(2).Control(15)=   "lblConta"
+      Tab(2).Control(16)=   "lblAgência"
+      Tab(2).Control(17)=   "lblBanco"
       Tab(2).ControlCount=   18
       TabCaption(3)   =   "Remessa/Retorno"
       TabPicture(3)   =   "FrmMain.frx":0054
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lblLayoutCNAB"
-      Tab(3).Control(1)=   "lblDiretórioArquivo"
-      Tab(3).Control(2)=   "lblDirArquivoRetorno"
-      Tab(3).Control(3)=   "lblNomeArquivoRemessa"
-      Tab(3).Control(4)=   "lblNomeArquivoRetorno"
-      Tab(3).Control(5)=   "cmbLayoutCNAB"
+      Tab(3).Control(0)=   "txtNomeRetorno"
+      Tab(3).Control(1)=   "txtNomeRemessa"
+      Tab(3).Control(2)=   "txtDirRetorno"
+      Tab(3).Control(3)=   "btnDirRetorno"
+      Tab(3).Control(4)=   "ckbCedenteRetorno"
+      Tab(3).Control(5)=   "txtDirRemessa"
       Tab(3).Control(6)=   "btnDirRemessa"
-      Tab(3).Control(7)=   "txtDirRemessa"
-      Tab(3).Control(8)=   "ckbCedenteRetorno"
-      Tab(3).Control(9)=   "btnDirRetorno"
-      Tab(3).Control(10)=   "txtDirRetorno"
-      Tab(3).Control(11)=   "txtNomeRemessa"
-      Tab(3).Control(12)=   "txtNomeRetorno"
+      Tab(3).Control(7)=   "cmbLayoutCNAB"
+      Tab(3).Control(8)=   "lblNomeArquivoRetorno"
+      Tab(3).Control(9)=   "lblNomeArquivoRemessa"
+      Tab(3).Control(10)=   "lblDirArquivoRetorno"
+      Tab(3).Control(11)=   "lblDiretórioArquivo"
+      Tab(3).Control(12)=   "lblLayoutCNAB"
       Tab(3).ControlCount=   13
       TabCaption(4)   =   "Email"
       TabPicture(4)   =   "FrmMain.frx":0070
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "txtUsuario"
-      Tab(4).Control(1)=   "txtNome"
-      Tab(4).Control(2)=   "txtEmail"
-      Tab(4).Control(3)=   "txtSenha"
-      Tab(4).Control(4)=   "txtHost"
-      Tab(4).Control(5)=   "txtMailPorta"
-      Tab(4).Control(6)=   "chkSSL"
+      Tab(4).Control(0)=   "lblPorta"
+      Tab(4).Control(1)=   "lblHostSMTP"
+      Tab(4).Control(2)=   "lblSenha"
+      Tab(4).Control(3)=   "lblUsuário"
+      Tab(4).Control(4)=   "lblEmail"
+      Tab(4).Control(5)=   "lblNome"
+      Tab(4).Control(6)=   "nudPorta"
       Tab(4).Control(7)=   "chkTLS"
-      Tab(4).Control(8)=   "nudPorta"
-      Tab(4).Control(9)=   "lblNome"
-      Tab(4).Control(10)=   "lblEmail"
-      Tab(4).Control(11)=   "lblUsuário"
-      Tab(4).Control(12)=   "lblSenha"
-      Tab(4).Control(13)=   "lblHostSMTP"
-      Tab(4).Control(14)=   "lblPorta"
+      Tab(4).Control(8)=   "chkSSL"
+      Tab(4).Control(9)=   "txtMailPorta"
+      Tab(4).Control(10)=   "txtHost"
+      Tab(4).Control(11)=   "txtSenha"
+      Tab(4).Control(12)=   "txtEmail"
+      Tab(4).Control(13)=   "txtNome"
+      Tab(4).Control(14)=   "txtUsuario"
       Tab(4).ControlCount=   15
       TabCaption(5)   =   "WebService"
       TabPicture(5)   =   "FrmMain.frx":008C
       Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "Label1"
-      Tab(5).Control(0).Enabled=   0   'False
-      Tab(5).Control(1)=   "Label2"
-      Tab(5).Control(1).Enabled=   0   'False
-      Tab(5).Control(2)=   "Label3"
-      Tab(5).Control(2).Enabled=   0   'False
-      Tab(5).Control(3)=   "Label4"
-      Tab(5).Control(3).Enabled=   0   'False
-      Tab(5).Control(4)=   "Label5"
-      Tab(5).Control(4).Enabled=   0   'False
-      Tab(5).Control(5)=   "lblHttpLib"
-      Tab(5).Control(5).Enabled=   0   'False
-      Tab(5).Control(6)=   "lblSSLType"
-      Tab(5).Control(6).Enabled=   0   'False
-      Tab(5).Control(7)=   "Label6"
-      Tab(5).Control(7).Enabled=   0   'False
-      Tab(5).Control(8)=   "lblTimeOut(1)"
-      Tab(5).Control(8).Enabled=   0   'False
-      Tab(5).Control(9)=   "Label7"
-      Tab(5).Control(9).Enabled=   0   'False
-      Tab(5).Control(10)=   "Label8"
-      Tab(5).Control(10).Enabled=   0   'False
-      Tab(5).Control(11)=   "Label9"
-      Tab(5).Control(11).Enabled=   0   'False
-      Tab(5).Control(12)=   "Label10"
-      Tab(5).Control(12).Enabled=   0   'False
-      Tab(5).Control(13)=   "nudTimeOut"
-      Tab(5).Control(13).Enabled=   0   'False
-      Tab(5).Control(14)=   "txtClientID"
-      Tab(5).Control(14).Enabled=   0   'False
-      Tab(5).Control(15)=   "txtClientSecret"
-      Tab(5).Control(15).Enabled=   0   'False
-      Tab(5).Control(16)=   "txtKeyUser"
-      Tab(5).Control(16).Enabled=   0   'False
-      Tab(5).Control(17)=   "txtScope"
-      Tab(5).Control(17).Enabled=   0   'False
-      Tab(5).Control(18)=   "chkIndicadorPix"
-      Tab(5).Control(18).Enabled=   0   'False
-      Tab(5).Control(19)=   "txtPathLog"
-      Tab(5).Control(19).Enabled=   0   'False
-      Tab(5).Control(20)=   "btnPathLog"
-      Tab(5).Control(20).Enabled=   0   'False
-      Tab(5).Control(21)=   "frmAmbiente"
-      Tab(5).Control(21).Enabled=   0   'False
-      Tab(5).Control(22)=   "cmbHttp"
-      Tab(5).Control(22).Enabled=   0   'False
-      Tab(5).Control(23)=   "cmbSSlType"
-      Tab(5).Control(23).Enabled=   0   'False
-      Tab(5).Control(24)=   "cmbOperacao"
-      Tab(5).Control(24).Enabled=   0   'False
-      Tab(5).Control(25)=   "txtTimeOut"
-      Tab(5).Control(25).Enabled=   0   'False
-      Tab(5).Control(26)=   "txtVersao"
-      Tab(5).Control(26).Enabled=   0   'False
-      Tab(5).Control(27)=   "txtArquivoKEY"
-      Tab(5).Control(27).Enabled=   0   'False
-      Tab(5).Control(28)=   "txtArquivoCRT"
-      Tab(5).Control(28).Enabled=   0   'False
-      Tab(5).Control(29)=   "btnArquivoCRT"
-      Tab(5).Control(29).Enabled=   0   'False
-      Tab(5).Control(30)=   "btnArquivoKEY"
-      Tab(5).Control(30).Enabled=   0   'False
-      Tab(5).Control(31)=   "txtNomeLogWebService"
-      Tab(5).Control(31).Enabled=   0   'False
+      Tab(5).Control(0)=   "txtNomeLogWebService"
+      Tab(5).Control(1)=   "btnArquivoKEY"
+      Tab(5).Control(2)=   "btnArquivoCRT"
+      Tab(5).Control(3)=   "txtArquivoCRT"
+      Tab(5).Control(4)=   "txtArquivoKEY"
+      Tab(5).Control(5)=   "txtVersao"
+      Tab(5).Control(6)=   "txtTimeOut"
+      Tab(5).Control(7)=   "cmbOperacao"
+      Tab(5).Control(8)=   "cmbSSlType"
+      Tab(5).Control(9)=   "cmbHttp"
+      Tab(5).Control(10)=   "frmAmbiente"
+      Tab(5).Control(11)=   "btnPathLog"
+      Tab(5).Control(12)=   "txtPathLog"
+      Tab(5).Control(13)=   "chkIndicadorPix"
+      Tab(5).Control(14)=   "txtScope"
+      Tab(5).Control(15)=   "txtKeyUser"
+      Tab(5).Control(16)=   "txtClientSecret"
+      Tab(5).Control(17)=   "txtClientID"
+      Tab(5).Control(18)=   "nudTimeOut"
+      Tab(5).Control(19)=   "Label10"
+      Tab(5).Control(20)=   "Label9"
+      Tab(5).Control(21)=   "Label8"
+      Tab(5).Control(22)=   "Label7"
+      Tab(5).Control(23)=   "lblTimeOut(1)"
+      Tab(5).Control(24)=   "Label6"
+      Tab(5).Control(25)=   "lblSSLType"
+      Tab(5).Control(26)=   "lblHttpLib"
+      Tab(5).Control(27)=   "Label5"
+      Tab(5).Control(28)=   "Label4"
+      Tab(5).Control(29)=   "Label3"
+      Tab(5).Control(30)=   "Label2"
+      Tab(5).Control(31)=   "Label1"
       Tab(5).ControlCount=   32
       Begin VB.TextBox txtNomeLogWebService 
          Height          =   285
@@ -556,7 +532,7 @@ Begin VB.Form FrmMain
          Caption         =   "Ambiente"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -572,7 +548,7 @@ Begin VB.Form FrmMain
             Caption         =   "Produção"
             BeginProperty Font 
                Name            =   "Tahoma"
-               Size            =   8.25
+               Size            =   8.4
                Charset         =   0
                Weight          =   700
                Underline       =   0   'False
@@ -590,7 +566,7 @@ Begin VB.Form FrmMain
             Caption         =   "Homologação"
             BeginProperty Font 
                Name            =   "Tahoma"
-               Size            =   8.25
+               Size            =   8.4
                Charset         =   0
                Weight          =   700
                Underline       =   0   'False
@@ -623,7 +599,7 @@ Begin VB.Form FrmMain
          Caption         =   "Indicador Pix"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -714,7 +690,7 @@ Begin VB.Form FrmMain
          Caption         =   "SSL"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -731,7 +707,7 @@ Begin VB.Form FrmMain
          Caption         =   "TLS"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -777,7 +753,7 @@ Begin VB.Form FrmMain
          Caption         =   "Lê Cedente Retorno"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -895,7 +871,7 @@ Begin VB.Form FrmMain
          Caption         =   "Mostrar Progresso"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -912,7 +888,7 @@ Begin VB.Form FrmMain
          Caption         =   "Mostrar Setup"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -929,7 +905,7 @@ Begin VB.Form FrmMain
          Caption         =   "Mostrar Preview"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -956,8 +932,8 @@ Begin VB.Form FrmMain
          TabIndex        =   36
          Top             =   1620
          Width           =   255
-         _ExtentX        =   450
-         _ExtentY        =   503
+         _ExtentX        =   445
+         _ExtentY        =   508
          _Version        =   393216
          Value           =   1
          AutoBuddy       =   -1  'True
@@ -1125,8 +1101,8 @@ Begin VB.Form FrmMain
          TabIndex        =   88
          Top             =   2220
          Width           =   255
-         _ExtentX        =   450
-         _ExtentY        =   556
+         _ExtentX        =   445
+         _ExtentY        =   550
          _Version        =   393216
          BuddyControl    =   "chkSetup"
          BuddyDispid     =   196684
@@ -1145,12 +1121,12 @@ Begin VB.Form FrmMain
          TabIndex        =   136
          Top             =   2280
          Width           =   255
-         _ExtentX        =   450
-         _ExtentY        =   503
+         _ExtentX        =   445
+         _ExtentY        =   508
          _Version        =   393216
          Value           =   5000
          BuddyControl    =   "txtTimeOut"
-         BuddyDispid     =   196642
+         BuddyDispid     =   196643
          OrigLeft        =   3960
          OrigTop         =   720
          OrigRight       =   4215
@@ -1166,7 +1142,7 @@ Begin VB.Form FrmMain
          Caption         =   "Nome Log"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1185,7 +1161,7 @@ Begin VB.Form FrmMain
          Caption         =   "Arquivo CRT"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1204,7 +1180,7 @@ Begin VB.Form FrmMain
          Caption         =   "Arquivo KEY"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1223,7 +1199,7 @@ Begin VB.Form FrmMain
          Caption         =   "Versão"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1242,7 +1218,7 @@ Begin VB.Form FrmMain
          Caption         =   "TimeOut"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1262,7 +1238,7 @@ Begin VB.Form FrmMain
          Caption         =   "Operação"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1281,7 +1257,7 @@ Begin VB.Form FrmMain
          Caption         =   "SSL Type"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1300,7 +1276,7 @@ Begin VB.Form FrmMain
          Caption         =   "HttpLib"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1319,7 +1295,7 @@ Begin VB.Form FrmMain
          Caption         =   "Path Log"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1338,7 +1314,7 @@ Begin VB.Form FrmMain
          Caption         =   "Scope"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1357,7 +1333,7 @@ Begin VB.Form FrmMain
          Caption         =   "KeyUser"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1376,7 +1352,7 @@ Begin VB.Form FrmMain
          Caption         =   "Client Secret"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1395,7 +1371,7 @@ Begin VB.Form FrmMain
          Caption         =   "ClientID"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1414,7 +1390,7 @@ Begin VB.Form FrmMain
          Caption         =   "Nome"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1433,7 +1409,7 @@ Begin VB.Form FrmMain
          Caption         =   "Email"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1452,7 +1428,7 @@ Begin VB.Form FrmMain
          Caption         =   "Usuário"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1471,7 +1447,7 @@ Begin VB.Form FrmMain
          Caption         =   "Senha"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1490,7 +1466,7 @@ Begin VB.Form FrmMain
          Caption         =   "Host SMTP"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1509,7 +1485,7 @@ Begin VB.Form FrmMain
          Caption         =   "Porta"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1528,7 +1504,7 @@ Begin VB.Form FrmMain
          Caption         =   "Nome Arquivo Retorno"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1547,7 +1523,7 @@ Begin VB.Form FrmMain
          Caption         =   "Nome Arquivo Remessa"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1566,7 +1542,7 @@ Begin VB.Form FrmMain
          Caption         =   "Diretório Arquivo Retorno"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1585,7 +1561,7 @@ Begin VB.Form FrmMain
          Caption         =   "Diretório Arquivo Remessa"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1604,7 +1580,7 @@ Begin VB.Form FrmMain
          Caption         =   "Layout CNAB"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1623,7 +1599,7 @@ Begin VB.Form FrmMain
          Caption         =   "Cód Cedente"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1642,7 +1618,7 @@ Begin VB.Form FrmMain
          Caption         =   "Modalidade"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1661,7 +1637,7 @@ Begin VB.Form FrmMain
          Caption         =   "Convênio"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1680,7 +1656,7 @@ Begin VB.Form FrmMain
          Caption         =   "Cód Transmissão"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1699,7 +1675,7 @@ Begin VB.Form FrmMain
          Caption         =   "Resp. Emissão"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1718,7 +1694,7 @@ Begin VB.Form FrmMain
          Caption         =   "Conta"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1737,7 +1713,7 @@ Begin VB.Form FrmMain
          Caption         =   "Agência"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1756,7 +1732,7 @@ Begin VB.Form FrmMain
          Caption         =   "Banco"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1775,7 +1751,7 @@ Begin VB.Form FrmMain
          Caption         =   "Nome Arquivo PDF"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1794,7 +1770,7 @@ Begin VB.Form FrmMain
          Caption         =   "Nº de Copias"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1813,7 +1789,7 @@ Begin VB.Form FrmMain
          Caption         =   "Diretório Logotipo"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1832,7 +1808,7 @@ Begin VB.Form FrmMain
          Caption         =   "Modelo"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1851,7 +1827,7 @@ Begin VB.Form FrmMain
          Caption         =   "Impressora"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1870,7 +1846,7 @@ Begin VB.Form FrmMain
          Caption         =   "Carteira"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1889,7 +1865,7 @@ Begin VB.Form FrmMain
          Caption         =   "Telefone"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1908,7 +1884,7 @@ Begin VB.Form FrmMain
          Caption         =   "Documento"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1927,7 +1903,7 @@ Begin VB.Form FrmMain
          Caption         =   "Cidade"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1946,7 +1922,7 @@ Begin VB.Form FrmMain
          Caption         =   "UF"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1965,7 +1941,7 @@ Begin VB.Form FrmMain
          Caption         =   "CEP"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -1984,7 +1960,7 @@ Begin VB.Form FrmMain
          Caption         =   "Complemento"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -2003,7 +1979,7 @@ Begin VB.Form FrmMain
          Caption         =   "Número"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -2022,7 +1998,7 @@ Begin VB.Form FrmMain
          Caption         =   "Bairro"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -2041,7 +2017,7 @@ Begin VB.Form FrmMain
          Caption         =   "Logradouro"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -2060,7 +2036,7 @@ Begin VB.Form FrmMain
          Caption         =   "CNPJ/CPF"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -2079,7 +2055,7 @@ Begin VB.Form FrmMain
          Caption         =   "Nome/ Rz Social"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -2098,7 +2074,7 @@ Begin VB.Form FrmMain
          Caption         =   "Pessoa"
          BeginProperty Font 
             Name            =   "Tahoma"
-            Size            =   8.25
+            Size            =   8.4
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -2166,6 +2142,23 @@ On Error GoTo Erro:
 Erro:
     MsgBox Err.Description
     
+End Sub
+
+Private Sub btnConsultaLista_Click()
+    On Error GoTo Erro:
+    
+    CommonDialog1.DialogTitle = "Selecione o arquivo ini"
+    CommonDialog1.InitDir = App.Path
+    CommonDialog1.Filter = "Titulo (*.ini)|*.ini|Todo os Arquivos (*.*)|*.*"
+    CommonDialog1.FileName = vbNullString
+    CommonDialog1.ShowOpen
+            
+    If CommonDialog1.FileName = vbNullString Then Exit Sub
+    boleto.ConsultarTitulosPorPeriodo (CommonDialog1.FileName)
+
+    SetResposta (boleto.ConsultarTitulosPorPeriodo(CommonDialog1.FileName))
+Erro:
+    MsgBox Err.Description
 End Sub
 
 Private Sub btnDirLogo_Click()
@@ -2328,6 +2321,25 @@ End Sub
 
 Private Sub cmdTotalTítulos_Click()
     SetResposta boleto.TotalTitulosLista()
+End Sub
+
+Private Sub Command1_Click()
+     On Error GoTo Erro:
+    
+    CommonDialog1.DialogTitle = "Selecione o arquivo ini"
+    CommonDialog1.InitDir = App.Path
+    CommonDialog1.Filter = "Titulo (*.ini)|*.ini|Todo os Arquivos (*.*)|*.*"
+    CommonDialog1.FileName = vbNullString
+    CommonDialog1.ShowOpen
+            
+    If CommonDialog1.FileName = vbNullString Then Exit Sub
+    boleto.ConsultarTitulosPorPeriodo (CommonDialog1.FileName)
+    
+    SetResposta (boleto.ConsultarTitulosPorPeriodo(CommonDialog1.FileName))
+
+    
+Erro:
+    MsgBox Err.Description
 End Sub
 
 Private Sub Form_Load()
