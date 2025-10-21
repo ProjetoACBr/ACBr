@@ -3459,7 +3459,7 @@ begin
     ATipoMulta := 'após o vencimento';
 
   if ATitulo.MultaValorFixo then
-    Result := ACBrStr(Format('Cobrar multa de R$%s para pagamento %s.',[FormatFloatBr(AValorMulta),ATipoMulta]))
+    Result := ACBrStr(Format('Cobrar multa de R$ %s para pagamento %s.',[FormatFloatBr(AValorMulta),ATipoMulta]))
   else
     Result := ACBrStr(Format('Cobrar multa de %s%s  para pagamento %s.',[FormatFloatBr(AValorMulta),'%',ATipoMulta]));
 end;
