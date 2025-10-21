@@ -40,8 +40,7 @@ uses
   Classes, SysUtils, IniFiles,
   ACBrGNReConfiguracoes,
   ACBrLibConfig,
-  ACBrDFe.Conversao,
-  pcnConversao;
+  ACBrDFe.Conversao;
 
 type
 
