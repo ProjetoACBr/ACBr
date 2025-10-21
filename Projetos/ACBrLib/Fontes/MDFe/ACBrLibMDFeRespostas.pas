@@ -315,7 +315,7 @@ type
 implementation
 
 uses
-  pcnConversao, pcnAuxiliar, ACBrLibMDFeConsts, ACBrUtil.Strings, ACBrXmlBase;
+  ACBrDFe.Conversao, pcnAuxiliar, ACBrLibMDFeConsts, ACBrUtil.Strings, ACBrXmlBase;
 
 { TEventoItemResposta }
 constructor TEventoItemResposta.Create(const ItemID: Integer;

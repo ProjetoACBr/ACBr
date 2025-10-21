@@ -75,7 +75,7 @@ implementation
 
 uses
   ACBrUtil.Base, ACBrUtil.FilesIO, ACBrUtil.Strings, FileUtil,
-{$IFDEF Demo}ACBrMDFeManifestos, ACBrMDFe.EnvEvento, pcnConversao, ACBrXmlBase,{$ENDIF}
+{$IFDEF Demo}ACBrMDFeManifestos, ACBrMDFe.EnvEvento, pcnConversao, ACBrDFe.Conversao, ACBrXmlBase,{$ENDIF}
   ACBrLibMDFeConfig, ACBrLibMDFeBase;
 
 {$R *.lfm}

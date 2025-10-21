@@ -53,7 +53,6 @@ type
     FImprimeHoraSaida: Boolean;
     FImprimeHoraSaida_Hora: String;
     FTipoDAMDFe: TpcnTipoImpressao;
-    FTamanhoPapel: TpcnTamanhoPapel;
     FProtocolo: String;
     FCancelada: Boolean;
     FEncerrado: Boolean;
@@ -71,7 +70,6 @@ type
     property ImprimeHoraSaida: Boolean read FImprimeHoraSaida write FImprimeHoraSaida;
     property ImprimeHoraSaida_Hora: String read FImprimeHoraSaida_Hora write FImprimeHoraSaida_Hora;
     property TipoDAMDFe: TpcnTipoImpressao read FTipoDAMDFe write FTipoDAMDFe;
-    property TamanhoPapel: TpcnTamanhoPapel read FTamanhoPapel write FTamanhoPapel;
     property Protocolo: String read FProtocolo write FProtocolo;
     property Cancelada: Boolean read FCancelada write FCancelada;
     property Encerrado: Boolean read FEncerrado write FEncerrado;
@@ -121,7 +119,6 @@ begin
   FCancelada := False;
   FEncerrado := False;
   FTipoDAMDFe := tiRetrato;
-  FTamanhoPapel := tpA4;
   FExibirMunicipioDescarregamento := False;
 end;
 
@@ -130,7 +127,6 @@ begin
   FImprimeHoraSaida := AIni.ReadBool(FSessao, CChaveImprimeHoraSaida, FImprimeHoraSaida);
   FImprimeHoraSaida_Hora := AIni.ReadString(FSessao, CChaveImprimeHoraSaida_Hora, FImprimeHoraSaida_Hora);
   FTipoDAMDFe := TpcnTipoImpressao(AIni.ReadInteger(FSessao, CChaveTipoDAMDFe, Integer(FTipoDAMDFe)));
-  FTamanhoPapel := TpcnTamanhoPapel(AIni.ReadInteger(FSessao, CChaveTamanhoPapel, Integer(FTamanhoPapel)));
   FProtocolo := AIni.ReadString(FSessao, CChaveProtocolo, FProtocolo);
   FCancelada := AIni.ReadBool(FSessao, CChaveCancelada, FCancelada);
   FEncerrado := AIni.ReadBool(FSessao, CChaveEncerrado, FEncerrado);
@@ -142,7 +138,6 @@ begin
   AIni.WriteBool(FSessao, CChaveImprimeHoraSaida, FImprimeHoraSaida);
   AIni.WriteString(FSessao, CChaveImprimeHoraSaida_Hora, FImprimeHoraSaida_Hora);
   AIni.WriteInteger(FSessao, CChaveTipoDAMDFe, Integer(FTipoDAMDFe));
-  AIni.WriteInteger(FSessao, CChaveTamanhoPapel, Integer(FTamanhoPapel));
   AIni.WriteString(FSessao, CChaveProtocolo, FProtocolo);
   AIni.WriteBool(FSessao, CChaveCancelada, FCancelada);
   AIni.WriteBool(FSessao, CChaveEncerrado, FEncerrado);
@@ -167,7 +162,6 @@ begin
      ImprimeHoraSaida := FImprimeHoraSaida;
      ImprimeHoraSaida_Hora := FImprimeHoraSaida_Hora;
      TipoDAMDFe := FTipoDAMDFe;
-     TamanhoPapel := FTamanhoPapel;
      Protocolo := FProtocolo;
      Cancelada := FCancelada;
      Encerrado := FEncerrado;

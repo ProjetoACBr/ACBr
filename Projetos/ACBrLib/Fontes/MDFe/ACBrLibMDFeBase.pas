@@ -114,7 +114,7 @@ uses
   ACBrLibConsts, ACBrLibMDFeConsts, ACBrLibConfig, ACBrLibResposta,
   ACBrLibMDFeConfig, ACBrLibMDFeRespostas, ACBrMDFe, ACBrMail,
   ACBrLibConsReciDFe, ACBrLibDistribuicaoDFe, ACBrDFeUtil, ACBrLibCertUtils,
-  pcnConversao, pcnAuxiliar, pMDFeConversaoMDFe, blcksock,
+  ACBrDFe.Conversao, pcnAuxiliar, pMDFeConversaoMDFe, blcksock,
   ACBrUtil.Base, ACBrUtil.FilesIO, ACBrUtil.Strings, ACBrXmlBase;
 
 { TACBrLibMDFe }
