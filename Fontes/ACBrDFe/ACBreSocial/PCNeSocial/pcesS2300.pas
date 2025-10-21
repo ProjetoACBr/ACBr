@@ -533,7 +533,7 @@ begin
         Gerador.wCampo(tcStr, '', 'nrLograd', 0,  10, 0, obj.nrLograd);
         Gerador.wCampo(tcStr, '', 'bairro', 0,  90, 0, obj.bairro);
         Gerador.wCampo(tcStr, '', 'cep', 0,  8, 0, obj.cep);
-        Gerador.wCampo(tcStr, '', 'codmunic', 0,  7, 0, obj.codmunic);
+        Gerador.wCampo(tcStr, '', 'codMunic', 0,  7, 0, obj.codmunic);
         Gerador.wCampo(tcStr, '', 'uf', 0,  2, 0, obj.uf);
      End;
 
