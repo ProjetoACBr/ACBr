@@ -1266,10 +1266,10 @@ begin
 
     ConfigurarAutenticacao_mTLS(Method, fURL);
     wCertLog :=
-      IfThen(NaoEstaVazio(HTTPSend.Sock.SSL.PFX), 'Http.Sock.SSL.PFX: ' + HTTPSend.Sock.SSL.PFX + sLineBreak) +
       IfThen(NaoEstaVazio(HTTPSend.Sock.SSL.PFXfile), 'Http.Sock.SSL.PFXfile: ' + HTTPSend.Sock.SSL.PFXfile + sLineBreak) +
-      IfThen(NaoEstaVazio(HTTPSend.Sock.SSL.PrivateKey), 'Http.Sock.SSL.PrivateKey: ' + HTTPSend.Sock.SSL.PrivateKey + sLineBreak) +
-      IfThen(NaoEstaVazio(HTTPSend.Sock.SSL.Certificate), 'Http.Sock.SSL.Certificate: ' + HTTPSend.Sock.SSL.Certificate + sLineBreak) +
+      IfThen(NaoEstaVazio(HTTPSend.Sock.SSL.PFX), Format('Http.Sock.SSL.PFX: -- %d bytes --', [LengthNativeString(HTTPSend.Sock.SSL.PFX)]) + sLineBreak) +
+      IfThen(NaoEstaVazio(HTTPSend.Sock.SSL.PrivateKey), Format('Http.Sock.SSL.PrivateKey: -- %d bytes --', [LengthNativeString(HTTPSend.Sock.SSL.PrivateKey)]) + sLineBreak) +
+      IfThen(NaoEstaVazio(HTTPSend.Sock.SSL.Certificate), Format('Http.Sock.SSL.Certificate: -- %d bytes --', [LengthNativeString(HTTPSend.Sock.SSL.Certificate)]) + sLineBreak) +
       IfThen(NaoEstaVazio(HTTPSend.Sock.SSL.PrivateKeyFile), 'Http.Sock.SSL.PrivateKeyFile: ' + HTTPSend.Sock.SSL.PrivateKeyFile + sLineBreak) +
       IfThen(NaoEstaVazio(HTTPSend.Sock.SSL.CertificateFile), 'Http.Sock.SSL.CertificateFile: ' + HTTPSend.Sock.SSL.CertificateFile + sLineBreak);
 
