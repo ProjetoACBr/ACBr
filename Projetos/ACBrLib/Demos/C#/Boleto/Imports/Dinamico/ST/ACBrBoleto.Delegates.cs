@@ -141,6 +141,9 @@ namespace ACBrLib.Boleto
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int Boleto_InformarToken(string eToken, DateTime eDataValidade);
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int Boleto_OpenSSLInfo(StringBuilder buffer, ref int bufferSize);
+
 
         protected override void InitializeMethods()
         {
@@ -188,6 +191,7 @@ namespace ACBrLib.Boleto
             AddMethod<Boleto_ConsultarTitulosPorPeriodo>("Boleto_ConsultarTitulosPorPeriodo");
             AddMethod<Boleto_GerarToken>("Boleto_GerarToken");
             AddMethod<Boleto_InformarToken>("Boleto_InformarToken");
+            AddMethod<Boleto_OpenSSLInfo>("Boleto_OpenSSLInfo");
         }
     }
 }

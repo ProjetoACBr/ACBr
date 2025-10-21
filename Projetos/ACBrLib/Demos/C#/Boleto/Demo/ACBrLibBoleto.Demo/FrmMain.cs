@@ -923,5 +923,11 @@ namespace ACBrLibBoleto.Demo
             rtbRespostas.AppendLine("Codigo Retorno Informar Token: " + ret);
 
         }
+
+        private void btnOpenSSLInfo_Click(object sender, EventArgs e)
+        {
+            var ret = boleto.OpenSSLInfo();
+            rtbRespostas.AppendLine(ret);
+        }
     }
 }

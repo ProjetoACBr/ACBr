@@ -196,6 +196,7 @@
             this.btnGerarPDFIndex = new System.Windows.Forms.Button();
             this.btn_GerarToken = new System.Windows.Forms.Button();
             this.Btn_InformarToken = new System.Windows.Forms.Button();
+            this.btnOpenSSLInfo = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tbpCedente.SuspendLayout();
             this.tbpLayout.SuspendLayout();
@@ -1167,6 +1168,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btnOpenSSLInfo);
             this.tabPage1.Controls.Add(this.label50);
             this.tabPage1.Controls.Add(this.txtNomeArquivoLog);
             this.tabPage1.Controls.Add(this.btnArquivoKEY);
@@ -1972,6 +1974,16 @@
             this.Btn_InformarToken.UseVisualStyleBackColor = true;
             this.Btn_InformarToken.Click += new System.EventHandler(this.Btn_InformarToken_Click);
             // 
+            // btnOpenSSLInfo
+            // 
+            this.btnOpenSSLInfo.Location = new System.Drawing.Point(646, 164);
+            this.btnOpenSSLInfo.Name = "btnOpenSSLInfo";
+            this.btnOpenSSLInfo.Size = new System.Drawing.Size(116, 23);
+            this.btnOpenSSLInfo.TabIndex = 61;
+            this.btnOpenSSLInfo.Text = "OpenSSL Info";
+            this.btnOpenSSLInfo.UseVisualStyleBackColor = true;
+            this.btnOpenSSLInfo.Click += new System.EventHandler(this.btnOpenSSLInfo_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2218,6 +2230,7 @@
         private System.Windows.Forms.Button btnGerarPDFIndex;
         private System.Windows.Forms.Button btn_GerarToken;
         private System.Windows.Forms.Button Btn_InformarToken;
+        private System.Windows.Forms.Button btnOpenSSLInfo;
     }
 }
 
