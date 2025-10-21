@@ -38,7 +38,7 @@ uses
   Classes, SysUtils, ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.FilesIO, ACBrUtil.Math,
   ACBrLibBPeRespostas, ACBrBPe, ACBrLibResposta, ACBrMonitorConfig,
   ACBrMonitorConsts, ACBrDFeUtil, UtilUnit, DoACBrDFeUnit,
-  CmdUnit, ACBrXmlBase, ACBrBPeEventoClass;
+  CmdUnit, ACBrXmlBase, ACBrBPeEventoClass, ACBrDFe.Conversao;
 
 type
 
