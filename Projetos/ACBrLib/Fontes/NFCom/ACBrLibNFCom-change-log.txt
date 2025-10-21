@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/10/2025
+-- ACBrLibNFComRespostas --
+[-] Ajuste visando corrigir problema na leitura das informações em TCancelamentoResposta
+   Por: marcoprodata
+
 20/10/2025
 --- ACBrLibNFComBase.pas, ACBRLibNFComRespostas.pas ---
 [*] Ajuste de use de units de conversão

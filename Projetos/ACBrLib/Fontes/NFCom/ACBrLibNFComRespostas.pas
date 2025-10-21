@@ -400,7 +400,7 @@ end;
 
 procedure TCancelamentoResposta.Processar(const ACBrNFCom: TACBrNFCom);
 begin
-  with ACBrNFCom.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0] do
+  with ACBrNFCom.WebServices.EnvEvento.EventoRetorno do
   begin
     Arquivo    := RetInfEvento.NomeArquivo;
     Versao     := RetInfEvento.verAplic;
