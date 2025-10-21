@@ -41,6 +41,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+21/10/2025
+--- ACBrLibGNReConfig --
+[-] Adicionado removida a propriedade tamanhoPapel para compilação jenkins
+Por: Daniel Morais Infocotidiano
 
 15/08/2024
 --- ACBrLibGNReBase, ACBrLibGNReST, ACBrLibGNReMT,

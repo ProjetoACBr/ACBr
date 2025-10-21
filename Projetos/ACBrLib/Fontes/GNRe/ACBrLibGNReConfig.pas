@@ -39,8 +39,9 @@ interface
 uses
   Classes, SysUtils, IniFiles,
   ACBrGNReConfiguracoes,
-  pcnConversao,
-  ACBrLibConfig;
+  ACBrLibConfig,
+  ACBrDFe.Conversao,
+  pcnConversao;
 
 type
 
@@ -57,7 +58,7 @@ type
     FNumCopias: Integer;
     FPathPDF: String;
     FPrintDialog: Boolean;
-    FTamanhoPapel: TpcnTamanhoPapel;
+    //FTamanhoPapel: TpcnTamanhoPapel;
     FUsuario: String;
   public
     constructor Create;
@@ -75,7 +76,7 @@ type
     property NumCopias: Integer read FNumCopias write FNumCopias;
     property PathPDF: String read FPathPDF write FPathPDF;
     property PrintDialog: Boolean read FPrintDialog write FPrintDialog;
-    property TamanhoPapel: TpcnTamanhoPapel read FTamanhoPapel write FTamanhoPapel;
+    //property TamanhoPapel: TpcnTamanhoPapel read FTamanhoPapel write FTamanhoPapel;
     property Usuario: String read FUsuario write FUsuario;
   end;
 
@@ -125,7 +126,7 @@ begin
   FNumCopias := 1;
   FPathPDF := '';
   FPrintDialog := False;
-  FTamanhoPapel := tpA4;
+  //FTamanhoPapel := tpA4;
   FUsuario := '';
 end;
 
@@ -141,7 +142,6 @@ begin
   FNumCopias := AIni.ReadInteger(CSessaoGuia, CChaveCopias, FNumCopias);
   FPathPDF := AIni.ReadString(CSessaoGuia, CChavePathPDF, FPathPDF);
   FPrintDialog := AIni.ReadBool(CSessaoGuia, CChavePrintDialog, FPrintDialog);
-  FTamanhoPapel := TpcnTamanhoPapel(AIni.ReadInteger(CSessaoGuia, CChaveTamanhoPapel, Integer(FTamanhoPapel)));
   FUsuario := AIni.ReadString(CSessaoGuia, CChaveUsuario, FUsuario);
 end;
 
@@ -157,7 +157,6 @@ begin
   AIni.WriteInteger(CSessaoGuia, CChaveCopias, FNumCopias);
   AIni.WriteString(CSessaoGuia, CChavePathPDF, FPathPDF);
   AIni.WriteBool(CSessaoGuia, CChavePrintDialog, FPrintDialog);
-  AIni.WriteInteger(CSessaoGuia, CChaveTamanhoPapel, Integer(FTamanhoPapel));
   AIni.WriteString(CSessaoGuia, CChaveUsuario, FUsuario);
 end;
 
