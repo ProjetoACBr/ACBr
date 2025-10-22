@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/10/2025
+-- Aspec.GravarJson --
+[*] #ACBr-8259 Ao gerar o codIBGE do local da prestação de serviço não estava
+    levando em consideração se o local era do prestador ou do tomador.
+   Por: Guilherme Araujo
 -- ACBrNFSeXServicos --
 [+] #ACBr-8266 Incluída a cidade Taquarival/SP, provedor Sistemas4R.
    Por: Beverly
