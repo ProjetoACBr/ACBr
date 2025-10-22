@@ -1,0 +1,3 @@
+Copie nessa pasta, os seguintes arquivos, versão Cdecl:
+- ACBrNFCom32.dll
+- ACBrNFCom64.dll
