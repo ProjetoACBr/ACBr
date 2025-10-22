@@ -2510,6 +2510,8 @@ end;
 
 function TNF3eXmlWriter.Gerar_IBSCBSTot(IBSCBSTot: TIBSCBSTot): TACBrXmlNode;
 begin
+  Result := nil;
+
   if FpGerarGrupoIBSCBSTot then
   begin
     Result := FDocument.CreateElement('IBSCBSTot');

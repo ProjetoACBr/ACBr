@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/10/2025
+-- ACBrNF3eXmlWriter --
+[*] Ajuste na função que gera ou não o grupo IBSCBSTot para não gerar um
+    nó nulo.
+   Por: Italo Giurizzato Junior
+
 11/10/2025
 -- Diversos --
 [*] Mais ajustes para a correta geração/leitura do arquivo XML e INI.
