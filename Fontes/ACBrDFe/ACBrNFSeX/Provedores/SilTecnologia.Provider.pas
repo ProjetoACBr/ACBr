@@ -254,6 +254,7 @@ begin
   inherited Configuracao;
 
   ConfigGeral.ConsultaPorFaixaPreencherNumNfseFinal := True;
+  ConfigGeral.QuebradeLinha := '\s\n';
 
   with ConfigAssinar do
   begin

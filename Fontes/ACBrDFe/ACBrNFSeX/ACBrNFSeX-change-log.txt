@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/10/2025
+-- SilTecnologia.Provider --
+[*] #ACBr-8186 Alterado o caracter de Quebra de Linha para \s\n.
+   Por: ArecoDesenv/Italo Giurizzato Junior
 -- PadraoNacional.Provider --
 [-] #ACBr-8255 Correção para poder converter o tipo de evento para enumerado.
    Por: Sady Martins
