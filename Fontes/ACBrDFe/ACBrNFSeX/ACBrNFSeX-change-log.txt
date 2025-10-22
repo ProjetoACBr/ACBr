@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/10/2025
+-- PadraoNacional.Provider --
+[-] #ACBr-8255 Correção para poder converter o tipo de evento para enumerado.
+   Por: Sady Martins
+[*] Alterações visando uma possível mudança de versão do layout e de Schemas.
+    Incluido no retorno "XmlRetorno" o XML do evento.
+   Por: Italo Giurizzato Junior
 -- Aspec.GravarJson --
 [*] #ACBr-8259 Ao gerar o codIBGE do local da prestação de serviço não estava
     levando em consideração se o local era do prestador ou do tomador.

@@ -125,8 +125,12 @@ uses
 { TACBrNFSeProviderPadraoNacional }
 
 procedure TACBrNFSeProviderPadraoNacional.Configuracao;
+var
+  VersaoDFe: string;
 begin
   inherited Configuracao;
+
+  VersaoDFe := VersaoNFSeToStr(TACBrNFSeX(FAOwner).Configuracoes.Geral.Versao);
 
   with ConfigGeral do
   begin
@@ -152,8 +156,9 @@ begin
 
   with ConfigWebServices do
   begin
-    VersaoDados := '1.00';
-    VersaoAtrib := '1.00';
+    VersaoDados := VersaoDFe;
+    VersaoAtrib := VersaoDFe;
+
     AtribVerLote := 'versao';
   end;
 
@@ -182,11 +187,11 @@ begin
 
   with ConfigSchemas do
   begin
-    GerarNFSe := 'DPS_v1.00.xsd';
-    ConsultarNFSe := 'DPS_v1.00.xsd';
-    ConsultarNFSeRps := 'DPS_v1.00.xsd';
-    EnviarEvento := 'pedRegEvento_v1.00.xsd';
-    ConsultarEvento := 'DPS_v1.00.xsd';
+    GerarNFSe := 'DPS_v' + VersaoDFe + '.xsd';
+    ConsultarNFSe := 'DPS_v' + VersaoDFe + '.xsd';
+    ConsultarNFSeRps := 'DPS_v' + VersaoDFe + '.xsd';
+    EnviarEvento := 'pedRegEvento_v' + VersaoDFe + '.xsd';
+    ConsultarEvento := 'DPS_v' + VersaoDFe + '.xsd';
   end;
 end;
 
@@ -797,6 +802,7 @@ begin
             Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhProc'), tcDatHor);
             Response.idEvento := IDEvento;
             Response.tpEvento := StrTotpEvento(Ok, Copy(IDEvento, 51, 6));
+            Response.XmlRetorno := EventoXml;
 
             case Response.tpEvento of
               teCancelamento:
@@ -1114,7 +1120,7 @@ begin
                 Response.nSeqEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('nSeqEvento'), tcInt);
                 Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhProc'), tcDatHor);
                 Response.idEvento := IDEvento;
-                Response.tpEvento := StrTotpEvento(Ok, Copy(IDEvento, 51, 6));
+                Response.tpEvento := StrTotpEvento(Ok, 'e' + Copy(IDEvento, 51, 6));
 
                 ANode := ANode.Childrens.FindAnyNs('pedRegEvento');
                 ANode := ANode.Childrens.FindAnyNs('infPedReg');
