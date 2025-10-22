@@ -37,7 +37,7 @@ interface
 uses
   IniFiles, LCLIntf, LCLType, SysUtils, Variants, Classes,
   Graphics, Controls, Forms, Dialogs, ComCtrls, StdCtrls, Spin, Buttons, ExtCtrls,
-  SynEdit, SynHighlighterXML,
+  SynEdit, SynHighlighterXML, SynGutterBase,
   ACBrUtil, ACBrMail, ACBrDFe, ACBrDFeSSL, ACBrDFeReport,
   ACBrMDFe, ACBrMDFeDAMDFeClass, ACBrMDFeDAMDFeRLClass;
 
@@ -319,7 +319,7 @@ uses
   strutils, math, TypInfo, DateUtils, blcksock, Grids,
   Printers,
   ACBrXmlBase,
-  pcnAuxiliar, ACBrMDFe.Classes, pcnConversao, pmdfeConversaoMDFe,
+  pcnAuxiliar, ACBrMDFe.Classes, ACBrDFe.Conversao, pmdfeConversaoMDFe,
   ACBrDFeConfiguracoes, ACBrDFeUtil,
   ACBrMDFeManifestos, ACBrMDFeConfiguracoes,
   Frm_Status, Frm_SelecionarCertificado;
@@ -929,7 +929,7 @@ begin
 
   MemoDados.Lines.Add('');
   MemoDados.Lines.Add('Consultar Recibo');
-  MemoDados.Lines.Add('tpAmb: ' + TpAmbToStr(ACBrMDFe1.WebServices.Recibo.tpAmb));
+  MemoDados.Lines.Add('tpAmb: ' + TipoAmbienteToStr(ACBrMDFe1.WebServices.Recibo.tpAmb));
   MemoDados.Lines.Add('versao: ' + ACBrMDFe1.WebServices.Recibo.versao);
   MemoDados.Lines.Add('verAplic: ' + ACBrMDFe1.WebServices.Recibo.verAplic);
   MemoDados.Lines.Add('cStat: ' + IntToStr(ACBrMDFe1.WebServices.Recibo.cStat));
@@ -1433,7 +1433,7 @@ begin
 
   MemoDados.Lines.Add('');
   MemoDados.Lines.Add('Status Serviço');
-  MemoDados.Lines.Add('tpAmb: '    +TpAmbToStr(ACBrMDFe1.WebServices.StatusServico.tpAmb));
+  MemoDados.Lines.Add('tpAmb: '    +TipoAmbienteToStr(ACBrMDFe1.WebServices.StatusServico.tpAmb));
   MemoDados.Lines.Add('verAplic: ' +ACBrMDFe1.WebServices.StatusServico.verAplic);
   MemoDados.Lines.Add('cStat: '    +IntToStr(ACBrMDFe1.WebServices.StatusServico.cStat));
   MemoDados.Lines.Add('xMotivo: '  +ACBrMDFe1.WebServices.StatusServico.xMotivo);
@@ -1598,7 +1598,7 @@ end;
 procedure TfrmACBrMDFe.FormCreate(Sender: TObject);
 var
   T: TSSLLib;
-  I: TpcnTipoEmissao;
+  I: TACBrTipoEmissao;
   K: TVersaoMDFe;
   U: TSSLCryptLib;
   V: TSSLHttpLib;
@@ -1631,8 +1631,8 @@ begin
   cbSSLType.ItemIndex := 5;
 
   cbFormaEmissao.Items.Clear;
-  for I := Low(TpcnTipoEmissao) to High(TpcnTipoEmissao) do
-     cbFormaEmissao.Items.Add( GetEnumName(TypeInfo(TpcnTipoEmissao), integer(I) ) );
+  for I := Low(TACBrTipoEmissao) to High(TACBrTipoEmissao) do
+     cbFormaEmissao.Items.Add( GetEnumName(TypeInfo(TACBrTipoEmissao), integer(I) ) );
   cbFormaEmissao.ItemIndex := 0;
 
   cbVersaoDF.Items.Clear;
@@ -1937,14 +1937,14 @@ begin
     ExibirErroSchema := cbxExibirErroSchema.Checked;
     RetirarAcentos   := cbxRetirarAcentos.Checked;
     FormatoAlerta    := edtFormatoAlerta.Text;
-    FormaEmissao     := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
+    FormaEmissao     := TACBrTipoEmissao(cbFormaEmissao.ItemIndex);
     VersaoDF         := TVersaoMDFe(cbVersaoDF.ItemIndex);
   end;
 
   with ACBrMDFe1.Configuracoes.WebServices do
   begin
     UF         := cbUF.Text;
-    Ambiente   := StrToTpAmb(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
+    Ambiente   := StrToTipoAmbiente(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
     Visualizar := cbxVisualizar.Checked;
     Salvar     := cbxSalvarSOAP.Checked;
 

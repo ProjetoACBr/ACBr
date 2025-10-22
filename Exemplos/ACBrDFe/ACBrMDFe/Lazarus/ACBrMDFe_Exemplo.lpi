@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -9,9 +9,9 @@
         <MainUnitHasCreateFormStatements Value="False"/>
         <MainUnitHasTitleStatement Value="False"/>
         <MainUnitHasScaledStatement Value="False"/>
+        <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="ACBrMDFe_Exemplo"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
@@ -25,36 +25,38 @@
     </PublishOptions>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="9">
+    <RequiredPackages Count="10">
       <Item1>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="SynEditDsgn"/>
       </Item1>
       <Item2>
-        <PackageName Value="laz_synapse"/>
+        <PackageName Value="SynEdit"/>
       </Item2>
       <Item3>
-        <PackageName Value="PCNComum"/>
+        <PackageName Value="laz_synapse"/>
       </Item3>
       <Item4>
-        <PackageName Value="ACBrComum"/>
+        <PackageName Value="PCNComum"/>
       </Item4>
       <Item5>
-        <PackageName Value="ACBrDFeComum"/>
+        <PackageName Value="ACBrComum"/>
       </Item5>
       <Item6>
-        <PackageName Value="ACBrTCP"/>
+        <PackageName Value="ACBrDFeComum"/>
       </Item6>
       <Item7>
-        <PackageName Value="ACBr_MDFe"/>
+        <PackageName Value="ACBrTCP"/>
       </Item7>
       <Item8>
-        <PackageName Value="ACBr_MDFe_DAMDFeRL"/>
+        <PackageName Value="ACBr_MDFe"/>
       </Item8>
       <Item9>
-        <PackageName Value="LCL"/>
+        <PackageName Value="ACBr_MDFe_DAMDFeRL"/>
       </Item9>
+      <Item10>
+        <PackageName Value="LCL"/>
+      </Item10>
     </RequiredPackages>
     <Units Count="4">
       <Unit0>
