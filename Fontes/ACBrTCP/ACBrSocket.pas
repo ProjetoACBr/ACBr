@@ -395,6 +395,7 @@ function URLWithDelim(aURL: String): String;
 function URLWithoutDelim(aURL: String): String;
 
 function GetHeaderValue(const aValue: String; aStringList: TStringList): String;
+procedure SetHeaderValue(const aKey, aValue: String; aStringList: TStringList);
 
 function ContentIsCompressed(aHeader: TStringList): Boolean;
 function StreamToAnsiString(aStream: TStream): AnsiString;
@@ -521,6 +522,12 @@ begin
       Result := Trim(Copy(LinhaHeader, Length(u)+1, Length(LinhaHeader)));
     Inc(i);
   end;
+end;
+
+procedure SetHeaderValue(const aKey, aValue: String; aStringList: TStringList);
+begin
+  if Assigned(aStringList) and NaoEstaVazio(aKey) and NaoEstaVazio(aValue) then
+    aStringList.Add(aKey + ': ' + aValue);
 end;
 
 function ContentIsCompressed(aHeader: TStringList): Boolean;
