@@ -479,7 +479,7 @@ begin
 
   fTEFScopeAPI.MsgPinPad := s;
   fTEFScopeAPI.PortaPinPad := fpACBrTEFAPI.DadosTerminal.PortaPinPad;
-  fTEFScopeAPI.GravarLogScope := (fpACBrTEFAPI.ArqLOG <> '');
+  fTEFScopeAPI.GravarLogScope := fTEFScopeAPI.GravarLogScope and (fpACBrTEFAPI.ArqLOG <> '');
 
   fTEFScopeAPI.Inicializar;
 
