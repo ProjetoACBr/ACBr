@@ -3742,7 +3742,7 @@ begin
     case Length(LListaRetorno.Strings[0]) of
       240:
         begin
-          if (Length(LListaRetorno.Strings[0]) = 240) and (Copy(LListaRetorno.Strings[0], 7, 1) = '0') then
+          if (Length(LListaRetorno.Strings[0]) = 240) and (Copy(LListaRetorno.Strings[0], 143, 1) = '2') then
           begin
             LCodigoBanco := Copy(LListaRetorno.Strings[0], 1, 3);
             LayoutRemessa := c240;

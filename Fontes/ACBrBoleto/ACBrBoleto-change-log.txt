@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+22/10/2025
+-- ACBrBoleto --
+[*] Ajustado verificação do arquivo de retorno no header arquivo posição 143 conforme manual
+   ACBr-8206 https://www.projetoacbr.com.br/forum/topic/86710-banco-amazonia-remessa-de-retorno-n%C3%A3o-%C3%A9-um-arquivo-de-retorno-de-cobran%C3%A7a-com-layout-cnab240-v%C3%A1lido/
+   Por Daniel de Morais InfoCotidiano
+
 20/10/2025
 -- ACBrBoletoRet_Itau_API --
 [*] Ajustado retorno francesinhas array de operacoes de cobranca 
