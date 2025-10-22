@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/10/2025
+-- ACBrNFe.XmlReader --
+[-] Correção na leitura da tag competApur.
+  Por: Italo Giurizzato Junior
+
 17/10/2025
 -- Diversos --
 [+] Implementação dos eventos: 211110, 211120, 211124, 211130, 211140 e 211150.

@@ -140,6 +140,7 @@ uses
   pcnConversao,
   ACBrXmlBase,
   ACBrUtil.Base,
+  ACBrUtil.DateTime,
   ACBrDFe.Conversao,
   pcnConversaoNFe;
 
@@ -1859,10 +1860,13 @@ end;
 
 procedure TNFeXmlReader.Ler_IBSCBS_gAjusteCompet(
   gAjusteCompet: TgAjusteCompet; const ANode: TACBrXmlNode);
+var
+  aData: string;
 begin
   if not Assigned(ANode) then Exit;
 
-  gAjusteCompet.competApur := StrToDate(ObterConteudo(ANode.Childrens.Find('competApur'), tcStr) + '-01');
+  aData := ObterConteudo(ANode.Childrens.Find('competApur'), tcStr) + '-01';
+  gAjusteCompet.competApur := StringToDateTime(aData, 'YYYY-MM-DD');
   gAjusteCompet.vIBS := ObterConteudo(ANode.Childrens.Find('vIBS'), tcDe2);
   gAjusteCompet.vCBS := ObterConteudo(ANode.Childrens.Find('vCBS'), tcDe2);
 end;
@@ -1992,10 +1996,13 @@ end;
 
 procedure TNFeXmlReader.Ler_IBSCBS_gCredPresIBSZFM(gCredPresIBSZFM: TCredPresIBSZFM;
   const ANode: TACBrXmlNode);
+var
+  aData: string;
 begin
   if not Assigned(ANode) then Exit;
 
-  gCredPresIBSZFM.competApur := StrToDate(ObterConteudo(ANode.Childrens.Find('competApur'), tcStr) + '-01');
+  aData := ObterConteudo(ANode.Childrens.Find('competApur'), tcStr) + '-01';
+  gCredPresIBSZFM.competApur := StringToDateTime(aData, 'YYYY-MM-DD');
   gCredPresIBSZFM.tpCredPresIBSZFM := StrToTpCredPresIBSZFM(ObterConteudo(ANode.Childrens.Find('tpCredPresIBSZFM'), tcStr));
   gCredPresIBSZFM.vCredPresIBSZFM := ObterConteudo(ANode.Childrens.Find('vCredPresIBSZFM'), tcDe2);
 end;
