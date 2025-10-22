@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+22/10/2025
+-- ACBrNFComXmlWriter --
+[*] #ACBr-7999: Ajuste na função que gera ou não o grupo IBSCBSTot para não gerar um
+    nó nulo.
+   Por: fabio.lobosque
+
 15/10/2025
 -- ACBrNFComXmlWriter --
 [*] Ajuste na geração do XML os grupos gFat e gFatCentral são mutuamente excludentes.
