@@ -42,6 +42,47 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/10/2025
+-- ACBrNFSeXServicos --
+[+] #ACBr-8266 Incluída a cidade Taquarival/SP, provedor Sistemas4R.
+   Por: Beverly
+[*] #ACBr-8265 A cidade Pouso Alegre/MG trocou de provedor, agora é IPM versão 2.04
+   Por: Maiquel
+[*] #ACBr-8261 A cidade Astorga/PR trocou de provedor, agora é EloTech.
+   Por: armando.boza
+[*] #ACBr-8260 A cidade Itapemirim/ES trocou a versão e a URL, o provedor continua o mesmo.
+   Por: João Antônio
+[*] #ACBr-8258 A cidade Canceias/BA trocou as URLs, o provedor continua o mesmo.
+   Por: João Antônio
+[*] #ACBr-8257 A cidade Machado/MG trocou de provedor, agora é ISSIntel.
+   Por: Anderson Grolli
+[*] #ACBr-8256 A cidade Areal/RJ trocou a versão, o provedor continua o mesmo.
+   Por: Bruno Italo
+[*] #ACBr-8254 A cidade Rio Claro/SP trocou as URLs dos Link, o provedor continua o mesmo.
+   Por: RonBrisola
+[*] #ACBr-8253 A cidade Jardim Alegre/PR trocou de provedor, agora é EloTech.
+   Por: armando.boza
+[+] #ACBr-8252 Incluída a cidade Bom Retiro/SC, provedor IPM versão 1.01
+   Por: Lilia Capelin
+[*] #ACBr-8251 A cidade Tucuma/PA trocou a URL, o provedor continua o mesmo.
+   Por: joemil
+[+] #ACBr-8246 Incluída as cidades Florestopolis/PR e Primeiro de Maio/PR, provedor EloTech.
+[+] #ACBr-8246 Incluída a cidade Alvorada do Sul/PR, provedor Equiplano.
+[+] #ACBr-8246 Incluída a cidade Sertaneja/PR, provedor Betha.
+   Por: armando.boza
+[*] #ACBr-8245 A cidade Sertanopolis/PR trocou de provedor, agora é EloTech.
+   Por: armando.boza
+[*] #ACBr-8244 Incluído o campo Params para a cidade Aripuana/MT.
+   Por: Marcos R Weimer
+[*] #ACBr-8243 A cidade Santa Fé do Sul/SP trocou a versão e a URL, o provedor continua o mesmo.
+   Por: Andréa Ascont Sistemas
+[+] #ACBr-8242 Incluída a cidade São Manuel/SP, provedor Sistemas4R.
+   Por: brsamn
+[*] #ACBr-8241 A cidade Foz do Iguaçu/PR trocou de provedor, agora é GestaoISS.
+   Por: Lu_Grandi
+[*] #ACBr-8237 A cidade Baixo Guandu/ES trocou a versão e a URL, o provedor continua o mesmo.
+   Por: C4Dev
+
 20/10/2025
 -- eGoverneISS.GravarXml --
 [-] #ACBr-8228 Corrigido o campo usado para gerar o conteudo da tag Atividade.
