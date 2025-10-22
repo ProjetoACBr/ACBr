@@ -96,6 +96,7 @@ type
     procedure Ler_Dest(const ANode: TACBrXmlNode);
     procedure Ler_autXML(const ANode: TACBrXmlNode);
     procedure Ler_detPag(const ANode: TACBrXmlNode);
+    procedure Ler_itemPedido(const ANode: TACBrXmlNode);
   public
     constructor Create;
     destructor Destroy; override;
@@ -286,6 +287,9 @@ begin
   infEvento.detEvento.dhHashComprovante := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhHashComprovante'), tcDatHor);
   infEvento.detEvento.nProtEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('nProtEvento'), tcStr);
 
+  //Cancelamento de Prazo de Prorrogação
+  infEvento.detEvento.idPedidoCancelado := ObterConteudoTag(ANode.Childrens.FindAnyNs('idPedidoCancelado'), tcStr);
+
   aValor := ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAutorizacao'), tcStr);
   if aValor <> '' then
     infEvento.detEvento.tpAutorizacao := StrToAutorizacao(ok, aValor);
@@ -299,6 +303,10 @@ begin
 
   Ler_Dest(ANode.Childrens.FindAnyNs('dest'));
   Ler_autXML(ANode.Childrens.FindAnyNs('autXML'));
+
+  ANodes := ANode.Childrens.FindAll('itemPedido');
+  for i := 0 to Length(ANodes) - 1 do
+    Ler_itemPedido(ANodes[i]);
 
   ANodes := ANode.Childrens.FindAll('detPag');
   for i := 0 to Length(ANodes) - 1 do
@@ -373,6 +381,18 @@ begin
   begin
     Ler_chNFePend(ANodes[i], i);
   end;
+end;
+
+procedure TRetEventoNFe.Ler_itemPedido(const ANode: TACBrXmlNode);
+var
+  Item: TitemPedidoCollectionItem;
+begin
+  if not Assigned(ANode) then Exit;
+
+  Item := InfEvento.detEvento.itemPedido.New;
+
+  Item.numItem :=  ObterConteudoTag(ANode.Childrens.FindAnyNs('numItem'), tcInt);
+  Item.qtdeItem :=  ObterConteudoTag(ANode.Childrens.FindAnyNs('qtdeItem'), tcDe4);
 end;
 
 procedure TRetEventoNFe.Ler_RetEvento(const ANode: TACBrXmlNode);

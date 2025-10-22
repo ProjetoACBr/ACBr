@@ -45,6 +45,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/10/2025
+-- ACBrNFe.RetEnvEvento --
+[-] Algumas tags dos eventos e Pedido de Prorrogação e Cancelamento de Pedido 
+    de Prorrogação não estavam sendo identificados ao Ler o XML do evento.
+  Por: Jeanny Paiva
 -- ACBrNFe.XmlReader --
 [-] Correção na leitura da tag competApur.
   Por: Italo Giurizzato Junior
