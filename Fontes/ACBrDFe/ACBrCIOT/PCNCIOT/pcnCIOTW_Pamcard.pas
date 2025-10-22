@@ -43,10 +43,12 @@ uses
 {$ELSE}
 
 {$ENDIF}
-  SysUtils, 
+  SysUtils,
   Classes, 
   StrUtils,
-  synacode, 
+  Variants,
+  Math,
+  synacode,
   ACBrConsts,
   pcnCIOTW, 
   pcnCIOTR,
@@ -54,26 +56,55 @@ uses
   pcnGerador, 
   pcnLeitor,
   pcnCIOT, 
-  ACBrCIOTConversao;
+  ACBrCIOTConversao,
+  ACBrUtil.Base,
+  ACBrUtil.Strings;
 
 type
   { TCIOTW_Pamcard }
 
   TCIOTW_Pamcard = class(TCIOTWClass)
   private
+    FIndiceFavorecido: Integer;
+    FIndicePessoaFiscal: Integer;
     FVersaoDF: TVersaoCIOT;
   protected
-    procedure GerarViagem;
-    procedure GerarImpostos;
-    procedure GerarPagamentos;
-    procedure GerarContratado;
-    procedure GerarMotorista;
-    procedure GerarDestinatario;
-    procedure GerarContratante;
-    procedure GerarSubContratante;
-    procedure GerarConsignatario;
-    procedure GerarTomadorServico;
-    procedure GerarVeiculos;
+    procedure AddFieldNoXml( const Tipo: TpcnTipoCampo; ID, TAG: string; const min, max, ocorrencias: smallint; const valor: variant; const Descricao: string = ''; ParseTextoXML: Boolean = True; Atributo: String = '' );
+
+    procedure GerarAlterarContratoFrete;
+    procedure GerarAlterarStatusParcela;
+    procedure GerarAlterarStatusPedagio;
+    procedure GerarAlterarValoresViagem;
+    procedure GerarAlterarValoresContratoFrete;
+    procedure GerarCancelaViagem;//ok
+    procedure GerarConsultarTAG(Favorecido : TPessoa);
+    procedure GerarConsultarRNTRC(Favorecido : TPessoa);
+    procedure GerarConsultarFrota(Favorecido : TPessoa);
+    procedure GerarConsultarConta(Favorecido : TPessoa);
+    procedure GerarConsultarCartao;
+    procedure GerarConsultarContratoFrete;//ok
+    procedure GerarConsultarFavorecido(Favorecido : TPessoa);
+    procedure GerarConsultarViagem;
+    procedure GerarConsultaStatusParcela;
+    procedure GerarEncerrarContratoFrete;//ok
+    procedure GerarFavorecido;
+    procedure GerarIncluirCartaoPortadorFrete;//ok
+    procedure GerarConta(Favorecido : TPessoa);
+    procedure GerarPagamentoParcela;//ok
+    procedure GerarPagamentoPedagio;//ok
+    procedure GerarIncluirRota; //ok
+    procedure GerarRoteirizar; //ok
+
+    procedure FavorecidoContratoFrete( TipoFavorecido: Integer; Pessoa: TPessoa );//ok
+    procedure VeiculosContratoFrete;//ok
+    procedure DocumentosContratoFrete;//ok
+    procedure RotaOrigemDestinoPontosContratoFrete;//ok
+    procedure PedagioContratoFrete;//ok
+    procedure PostosContratoFrete;//ok
+    procedure FreteContratoFrete;//ok
+    procedure ParcelasContratoFrete;//ok
+    procedure QuitacaoContratoFrete;//ok
+    procedure GerarInserirContratoFrete;//ok
   public
     constructor Create(ACIOTW: TCIOTW); override;
 
@@ -82,844 +113,1319 @@ type
     function GerarXml: Boolean; override;
   end;
 
-const
-  DSC_USUARIO = 'login: nome do usuário';
-  DSC_SENHA = 'login: senha do usuário';
-  DSC_CODATM = 'login: codigo AT&M';
-  DSC_APLICACAO = 'Nome da Aplicação';
-  DSC_ASSUNTO = 'Assunto do e-mail';
-  DSC_REMETENTES = 'Remetentes do e-mail';
-  DSC_DESTINATARIOS = 'Destinatários do e-mail';
-  DSC_CORPO = 'Corpo do e-mail';
-  DSC_CHAVE = 'Chave';
-  DSC_CHAVERESP = 'Chave Resposta';
-
-  NAME_SPACE_BASE = 'xmlns="http://schemas.ipc.adm.br/efrete/pef"';
-
-  NAME_SPACE_EFRETE_OBJECTS = 'xmlns="http://schemas.ipc.adm.br/efrete/objects"';
-  NAME_SPACE_EFRETE_PEFOBTER_OBJECTS = 'xmlns="http://schemas.ipc.adm.br/efrete/pef/ObterOperacaoTransporteObjects"';
-  NAME_SPACE_EFRETE_PEFADICIONAR_OBJECTS = 'xmlns="http://schemas.ipc.adm.br/efrete/pef/AdicionarOperacaoTransporte"';
-  NAME_SPACE_EFRETE_PEFADICIONAR_VIAGEM = 'xmlns="http://schemas.ipc.adm.br/efrete/pef/AdicionarViagem"';
-  NAME_SPACE_EFRETE_PEFADICIONAR_PAGAMENTOS = 'xmlns="http://schemas.ipc.adm.br/efrete/pef/AdicionarPagamento"';
-  NAME_SPACE_EFRETE_PEFENCERRAR_OPERACAO = 'xmlns="http://schemas.ipc.adm.br/efrete/pef/EncerrarOperacaoTransporte"';
-
-  NAME_SPACE_EFRETE_PEFRETIFICAR_OBJECTS = 'xmlns="http://schemas.ipc.adm.br/efrete/pef/RetificarOperacaoTransporte"';
-  NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE = 'xmlns="http://schemas.ipc.adm.br/efrete/pef/objects"';
-
-  NAME_SPACE_EFRETE_VEICULOS_EFRETE = 'xmlns="http://schemas.ipc.adm.br/efrete/veiculos/objects"';
-  NAME_SPACE_EFRETE_MOTORISTAS_EFRETE = 'xmlns="http://schemas.ipc.adm.br/efrete/motoristas/objects"';
-  NAME_SPACE_EFRETE_PROPRIETARIOS_EFRETE = 'xmlns="http://schemas.ipc.adm.br/efrete/proprietarios/objects"';
-
 implementation
+
+procedure TCIOTW_Pamcard.AddFieldNoXml(const Tipo: TpcnTipoCampo; ID, TAG: string; const min, max, ocorrencias: smallint; const valor: variant; const Descricao: string; ParseTextoXML: Boolean; Atributo: String);
+
+  function IsEmptyDate(wAno, wMes, wDia: Word): Boolean;
+  begin
+    Result := ((wAno = 1899) and (wMes = 12) and (wDia = 30));
+  end;
+
+var
+  valorDbl : Double;
+  wAno, wMes, wDia : Word;
+  ConteudoProcessado : String;
+  EstaVazio : Boolean;
+begin
+  case Tipo of
+    tcInt, tcInt64 : begin
+      // Tipo Inteiro
+      try
+        if tipo = tcInt then
+          ConteudoProcessado := IntToStr( StrToInt( VarToStr( valor ) ) )
+        else
+          ConteudoProcessado := IntToStr( StrToInt64( VarToStr( valor ) ) );
+      except
+        ConteudoProcessado := '0';
+      end;
+
+      EstaVazio := ( ConteudoProcessado = '0' ) and ( ocorrencias = 0 );
+    end;
+
+    tcDe2, tcDe3, tcDe4, tcDe5, tcDe6, tcDe7, tcDe8, tcDe10 : begin
+      try
+        valorDbl := valor; // Converte Variant para Double
+      except
+        valorDbl := 0;
+      end;
+
+      EstaVazio := ( valorDbl = 0 ) and ( ocorrencias = 0 );
+    end;
+
+    tcDat, tcDatCFe, tcDatVcto: begin
+      DecodeDate(VarToDateTime(valor), wAno, wMes, wDia);
+      EstaVazio := IsEmptyDate(wAno, wMes, wDia);
+    end;
+  else
+    EstaVazio := VarToStrDef( valor, '' ) = '';
+  end;
+
+  if( ( ocorrencias > 0 ) or
+      ( not EstaVazio ) )then
+  begin
+    Gerador.wGrupo( 'fields' );
+    Gerador.wCampo( tcStr, ID, 'key', 01, 99, ocorrencias, TAG, Descricao, ParseTextoXML, Atributo );
+    Gerador.wCampo( Tipo, ID, 'value', min, max, ocorrencias, valor, Trim( TAG + ' ' + Descricao ), ParseTextoXML, Atributo );
+    Gerador.wGrupo( '/fields' );
+  end;
+end;
 
 constructor TCIOTW_Pamcard.Create(ACIOTW: TCIOTW);
 begin
   inherited Create(ACIOTW);
 end;
 
-procedure TCIOTW_Pamcard.GerarSubContratante;
-begin
-  //É o transportador que contratar outro transportador para realização do transporte de
-  //cargas para o qual fora anteriormente contratado, indicado no cadastramento da Operação de Transporte.
-  //Não esperado para TipoViagem Frota.
-  if Length(Trim(CIOT.AdicionarOperacao.Subcontratante.CpfOuCnpj)) > 0 then
-  begin
-    Gerador.wGrupo('Subcontratante', 'AP135');
-    Gerador.wCampo(tcStr, 'AP136', 'NomeOuRazaoSocial', 01, 01, 1, CIOT.AdicionarOperacao.Subcontratante.NomeOuRazaoSocial);
-    Gerador.wCampo(tcStr, 'AP137', 'CpfOuCnpj', 01, 01, 1, CIOT.AdicionarOperacao.Subcontratante.CpfOuCnpj);
-
-    with CIOT.AdicionarOperacao.Subcontratante do
-    begin
-      Gerador.wGrupo('Endereco', 'AP138');
-      Gerador.wCampo(tcStr, 'AP139', 'Bairro', 01, 01, 1, Endereco.Bairro);
-      Gerador.wCampo(tcStr, 'AP140', 'Rua', 01, 01, 1, Endereco.Rua);
-      Gerador.wCampo(tcStr, 'AP141', 'Numero', 01, 01, 1, Endereco.Numero);
-      Gerador.wCampo(tcStr, 'AP142', 'Complemento', 01, 01, 1, Endereco.Complemento);
-      Gerador.wCampo(tcStr, 'AP143', 'CEP', 01, 09, 1, Endereco.CEP);
-      Gerador.wCampo(tcInt, 'AP144', 'CodigoMunicipio', 01, 07, 1, Endereco.CodigoMunicipio);
-      Gerador.wGrupo('/Endereco');
-    end;
-
-    Gerador.wCampo(tcStr, 'AP145', 'EMail', 01, 01, 1, CIOT.AdicionarOperacao.Subcontratante.EMail);
-
-    with CIOT.AdicionarOperacao.Subcontratante.Telefones do
-    begin
-      Gerador.wGrupo('Telefones', 'AP146');
-
-      Gerador.wGrupo('Celular '+ NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP147');
-      Gerador.wCampo(tcInt, 'AP148', 'DDD', 01, 02, 1, Celular.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcInt, 'AP149', 'Numero', 08, 09, 1, Celular.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wGrupo('/Celular');
-
-      Gerador.wGrupo('Fixo '+ NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP150');
-      Gerador.wCampo(tcInt, 'AP151', 'DDD', 01, 02, 1, Fixo.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcInt, 'AP152', 'Numero', 08, 09, 1, Fixo.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wGrupo('/Fixo');
-
-      Gerador.wGrupo('Fax '+ NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP153');
-      Gerador.wCampo(tcInt, 'AP154', 'DDD', 01, 02, 1, Fax.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcInt, 'AP155', 'Numero', 08, 09, 1, Fax.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wGrupo('/Fax');
-
-      Gerador.wGrupo('/Telefones');
-    end;
-
-    Gerador.wCampo(tcStr, 'AP156', 'ResponsavelPeloPagamento', 01, 01, 1, LowerCase(BoolToStr(CIOT.AdicionarOperacao.Subcontratante.ResponsavelPeloPagamento, true)));
-
-    Gerador.wGrupo('/Subcontratante');
-  end
-  else
-    Gerador.wCampo(tcStr, 'AP135', 'Subcontratante', 01, 01, 1, '');
-end;
-
-procedure TCIOTW_Pamcard.GerarTomadorServico;
-begin
-  //Pessoa (física ou jurídica) que contratou o frete pela transportadora.
-  //Na emissão com TipoViagem Padrão seu preenchimento é obrigatório.
-  //Na emissão com TipoViagem TAC_Agregado o campo não deve ser preenchido.
-  if Length(Trim(CIOT.AdicionarOperacao.TomadorServico.CpfOuCnpj)) > 0 then
-  begin
-    Gerador.wGrupo('TomadorServico', 'AP179');
-    Gerador.wCampo(tcStr, 'AP180', 'NomeOuRazaoSocial', 01, 01, 1, CIOT.AdicionarOperacao.TomadorServico.NomeOuRazaoSocial);
-    Gerador.wCampo(tcStr, 'AP181', 'CpfOuCnpj', 01, 01, 1, CIOT.AdicionarOperacao.TomadorServico.CpfOuCnpj);
-
-    with CIOT.AdicionarOperacao.TomadorServico do
-    begin
-      Gerador.wGrupo('Endereco', 'AP182');
-      Gerador.wCampo(tcStr, 'AP183', 'Bairro', 01, 01, 1, Endereco.Bairro);
-      Gerador.wCampo(tcStr, 'AP184', 'Rua', 01, 01, 1, Endereco.Rua);
-      Gerador.wCampo(tcStr, 'AP185', 'Numero', 01, 01, 1, Endereco.Numero);
-      Gerador.wCampo(tcStr, 'AP186', 'Complemento', 01, 01, 1, Endereco.Complemento);
-      Gerador.wCampo(tcStr, 'AP187', 'CEP', 01, 09, 1, Endereco.CEP);
-      Gerador.wCampo(tcInt, 'AP188', 'CodigoMunicipio', 01, 07, 1, Endereco.CodigoMunicipio);
-      Gerador.wGrupo('/Endereco');
-    end;
-
-    Gerador.wCampo(tcStr, 'AP189', 'EMail', 01, 01, 1, CIOT.AdicionarOperacao.TomadorServico.EMail);
-
-    with CIOT.AdicionarOperacao.TomadorServico.Telefones do
-    begin
-      Gerador.wGrupo('Telefones', 'AP190');
-
-      Gerador.wGrupo('Celular '+ NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP191');
-      Gerador.wCampo(tcInt, 'AP192', 'DDD', 01, 02, 1, Celular.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcInt, 'AP193', 'Numero', 08, 09, 1, Celular.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wGrupo('/Celular');
-
-      Gerador.wGrupo('Fixo '+ NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP194');
-      Gerador.wCampo(tcInt, 'AP195', 'DDD', 01, 02, 1, Fixo.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcInt, 'AP196', 'Numero', 08, 09, 1, Fixo.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wGrupo('/Fixo');
-
-      Gerador.wGrupo('Fax '+ NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP197');
-      Gerador.wCampo(tcInt, 'AP198', 'DDD', 01, 02, 1, Fax.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcInt, 'AP199', 'Numero', 08, 09, 1, Fax.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wGrupo('/Fax');
-
-      Gerador.wGrupo('/Telefones');
-    end;
-
-    Gerador.wCampo(tcStr, 'AP200', 'ResponsavelPeloPagamento', 01, 01, 1, LowerCase(BoolToStr(CIOT.AdicionarOperacao.TomadorServico.ResponsavelPeloPagamento, true)));
-
-    Gerador.wGrupo('/TomadorServico');
-  end
-  else
-    Gerador.wCampo(tcStr, 'AP179', 'TomadorServico ', 01, 01, 1, '');
-end;
-
-procedure TCIOTW_Pamcard.GerarConsignatario;
-begin
-  //Aquele que receberá as mercadorias transportadas em consignação,
-  //indicado no cadastramento da Operação de Transporte ou nos respectivos documentos fiscais.
-  //Não esperado para TipoViagem Frota.
-  if Length(Trim(CIOT.AdicionarOperacao.Consignatario.CpfOuCnpj)) > 0 then
-  begin
-    Gerador.wGrupo('Consignatario', 'AP157');
-    Gerador.wCampo(tcStr, 'AP158', 'NomeOuRazaoSocial', 01, 01, 1, CIOT.AdicionarOperacao.Consignatario.NomeOuRazaoSocial);
-    Gerador.wCampo(tcStr, 'AP159', 'CpfOuCnpj', 01, 01, 1, CIOT.AdicionarOperacao.Consignatario.CpfOuCnpj);
-
-    with CIOT.AdicionarOperacao.Consignatario do
-    begin
-      Gerador.wGrupo('Endereco', 'AP160');
-      Gerador.wCampo(tcStr, 'AP161', 'Bairro', 01, 01, 1, Endereco.Bairro);
-      Gerador.wCampo(tcStr, 'AP162', 'Rua', 01, 01, 1, Endereco.Rua);
-      Gerador.wCampo(tcStr, 'AP163', 'Numero', 01, 01, 1, Endereco.Numero);
-      Gerador.wCampo(tcStr, 'AP164', 'Complemento', 01, 01, 1, Endereco.Complemento);
-      Gerador.wCampo(tcStr, 'AP165', 'CEP', 01, 09, 1, Endereco.CEP);
-      Gerador.wCampo(tcInt, 'AP166', 'CodigoMunicipio', 01, 07, 1, Endereco.CodigoMunicipio);
-      Gerador.wGrupo('/Endereco');
-    end;
-
-    Gerador.wCampo(tcStr, 'AP167', 'EMail', 01, 01, 1, CIOT.AdicionarOperacao.Consignatario.EMail);
-
-    with CIOT.AdicionarOperacao.Consignatario.Telefones do
-    begin
-      Gerador.wGrupo('Telefones', 'AP168');
-
-      Gerador.wGrupo('Celular '+ NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP169');
-      Gerador.wCampo(tcInt, 'AP170', 'DDD', 01, 02, 1, Celular.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcInt, 'AP171', 'Numero', 08, 09, 1, Celular.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wGrupo('/Celular');
-
-      Gerador.wGrupo('Fixo '+ NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP172');
-      Gerador.wCampo(tcInt, 'AP173', 'DDD', 01, 02, 1, Fixo.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcInt, 'AP174', 'Numero', 08, 09, 1, Fixo.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wGrupo('/Fixo');
-
-      Gerador.wGrupo('Fax '+ NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP175');
-      Gerador.wCampo(tcInt, 'AP176', 'DDD', 01, 02, 1, Fax.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcInt, 'AP177', 'Numero', 08, 09, 1, Fax.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wGrupo('/Fax');
-
-      Gerador.wGrupo('/Telefones');
-    end;
-
-    Gerador.wCampo(tcStr, 'AP178', 'ResponsavelPeloPagamento', 01, 01, 1, LowerCase(BoolToStr(CIOT.AdicionarOperacao.Consignatario.ResponsavelPeloPagamento, true)));
-
-    Gerador.wGrupo('/Consignatario');
-  end
-  else
-    Gerador.wCampo(tcStr, 'AP157', 'Consignatario', 01, 01, 1, '');
-end;
-
-procedure TCIOTW_Pamcard.GerarContratado;
-begin
-  //TAC ou seu Equiparado, que efetuar o transporte rodoviário de cargas por conta de terceiros e
-  //mediante remuneração, indicado no cadastramento da Operação de Transporte.
-  //Para o TipoViagem Frota o Contratado será a própria empresa que está declarando a operação.
-  Gerador.wGrupo('Contratado '+NAME_SPACE_EFRETE_PEFADICIONAR_OBJECTS, 'AP81');
-  Gerador.wCampo(tcStr, 'AP82', 'CpfOuCnpj', 01, 01, 1, CIOT.AdicionarOperacao.Contratado.CpfOuCnpj);
-  Gerador.wCampo(tcStr, 'AP83', 'RNTRC', 01, 01, 1, CIOT.AdicionarOperacao.Contratado.RNTRC);
-  Gerador.wGrupo('/Contratado');
-end;
-
-procedure TCIOTW_Pamcard.GerarContratante;
-begin
-  Gerador.wGrupo('Contratante', 'AP112');
-  Gerador.wCampo(tcStr, 'AP113', 'RNTRC', 01, 01, 1, CIOT.AdicionarOperacao.Contratante.RNTRC);
-  Gerador.wCampo(tcStr, 'AP114', 'NomeOuRazaoSocial', 01, 01, 1, CIOT.AdicionarOperacao.Contratante.NomeOuRazaoSocial);
-  Gerador.wCampo(tcStr, 'AP115', 'CpfOuCnpj', 11, 14, 1, CIOT.AdicionarOperacao.Contratante.CpfOuCnpj);
-
-  with CIOT.AdicionarOperacao.Contratante do
-  begin
-    Gerador.wGrupo('Endereco', 'AP116');
-    Gerador.wCampo(tcStr, 'AP117', 'Bairro', 01, 01, 1, Endereco.Bairro);
-    Gerador.wCampo(tcStr, 'AP118', 'Rua', 01, 01, 1, Endereco.Rua);
-    Gerador.wCampo(tcStr, 'AP119', 'Numero', 01, 01, 1, Endereco.Numero);
-    Gerador.wCampo(tcStr, 'AP120', 'Complemento', 01, 01, 1, Endereco.Complemento);
-    Gerador.wCampo(tcStr, 'AP121', 'CEP', 01, 09, 1, Endereco.CEP);
-    Gerador.wCampo(tcInt, 'AP122', 'CodigoMunicipio', 07, 07, 1, Endereco.CodigoMunicipio);
-    Gerador.wGrupo('/Endereco');
-  end;
-
-  Gerador.wCampo(tcStr, 'AP123', 'EMail', 01, 01, 1, CIOT.AdicionarOperacao.Contratante.EMail);
-
-  with CIOT.AdicionarOperacao.Contratante.Telefones do
-  begin
-    Gerador.wGrupo('Telefones', 'AP124');
-
-    Gerador.wGrupo('Celular '+ NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP125');
-    Gerador.wCampo(tcInt, 'AP126', 'DDD', 01, 02, 0, Celular.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-    Gerador.wCampo(tcInt, 'AP127', 'Numero', 08, 09, 0, Celular.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-    Gerador.wGrupo('/Celular');
-
-    Gerador.wGrupo('Fixo ' +NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP128');
-    Gerador.wCampo(tcInt, 'AP129', 'DDD', 01, 02, 0, Fixo.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-    Gerador.wCampo(tcInt, 'AP130', 'Numero', 08, 09, 0, Fixo.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-    Gerador.wGrupo('/Fixo');
-
-    Gerador.wGrupo('Fax '+NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP131');
-    Gerador.wCampo(tcInt, 'AP132', 'DDD', 01, 02, 0, Fax.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-    Gerador.wCampo(tcInt, 'AP133', 'Numero', 08, 09, 0, Fax.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-    Gerador.wGrupo('/Fax');
-
-    Gerador.wGrupo('/Telefones');
-  end;
-
-  Gerador.wCampo(tcStr, 'AP134', 'ResponsavelPeloPagamento', 01, 01, 1, LowerCase(BoolToStr(CIOT.AdicionarOperacao.Contratante.ResponsavelPeloPagamento, true)));
-
-  Gerador.wGrupo('/Contratante');
-end;
-
-procedure TCIOTW_Pamcard.GerarDestinatario;
-begin
-  //Destinatário da carga.
-  //Na emissão com TipoViagem Padrão seu preenchimento é obrigatório.
-  //Na emissão com TipoViagem TAC_Agregado o campo não deve ser preenchido.
-  //Não esperado para TipoViagem Frota.
-  if Length(Trim(CIOT.AdicionarOperacao.Destinatario.CpfOuCnpj)) > 0 then
-  begin
-    Gerador.wGrupo('Destinatario', 'AP90');
-    Gerador.wCampo(tcStr, 'AP91', 'NomeOuRazaoSocial', 01, 01, 1, CIOT.AdicionarOperacao.Destinatario.NomeOuRazaoSocial);
-    Gerador.wCampo(tcStr, 'AP92', 'CpfOuCnpj', 11, 14, 1, CIOT.AdicionarOperacao.Destinatario.CpfOuCnpj);
-
-    with CIOT.AdicionarOperacao.Destinatario do
-    begin
-      Gerador.wGrupo('Endereco', 'AP93');
-      Gerador.wCampo(tcStr, 'AP94', 'Bairro', 01, 01, 1, Endereco.Bairro);
-      Gerador.wCampo(tcStr, 'AP95', 'Rua', 01, 01, 1, Endereco.Rua);
-      Gerador.wCampo(tcStr, 'AP96', 'Numero', 01, 01, 1, Endereco.Numero);
-      Gerador.wCampo(tcStr, 'AP97', 'Complemento', 01, 01, 1, Endereco.Complemento);
-      Gerador.wCampo(tcStr, 'AP98', 'CEP', 08, 08, 1, Endereco.CEP);
-      Gerador.wCampo(tcInt, 'AP99', 'CodigoMunicipio', 07, 07, 1, Endereco.CodigoMunicipio);
-      Gerador.wGrupo('/Endereco');
-    end;
-
-    Gerador.wCampo(tcStr, 'AP100', 'EMail', 01, 01, 1, CIOT.AdicionarOperacao.Destinatario.EMail);
-
-    with CIOT.AdicionarOperacao.Destinatario.Telefones do
-    begin
-      Gerador.wGrupo('Telefones', 'AP101');
-
-      Gerador.wGrupo('Celular '+NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP102');
-      Gerador.wCampo(tcInt, 'AP103', 'DDD', 01, 02, 1, Celular.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcInt, 'AP104', 'Numero', 08, 09, 1, Celular.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wGrupo('/Celular');
-
-      Gerador.wGrupo('Fixo '+ NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP105');
-      Gerador.wCampo(tcInt, 'AP106', 'DDD', 01, 02, 1, Fixo.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcInt, 'AP107', 'Numero', 08, 09, 1, Fixo.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wGrupo('/Fixo');
-
-      Gerador.wGrupo('Fax ' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP108');
-      Gerador.wCampo(tcInt, 'AP109', 'DDD', 01, 02, 1, Fax.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcInt, 'AP110', 'Numero', 08, 09, 1, Fax.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wGrupo('/Fax');
-
-      Gerador.wGrupo('/Telefones');
-    end;
-    Gerador.wCampo(tcStr, 'AP111', 'ResponsavelPeloPagamento', 01, 01, 1, LowerCase(BoolToStr(CIOT.AdicionarOperacao.Destinatario.ResponsavelPeloPagamento, true)), 'Informar se é o responsável pelo pagamento da Operação de Transporte. True = Sim. False = Não');
-
-    Gerador.wGrupo('/Destinatario');
-  end
-  else
-    Gerador.wCampo(tcStr, 'AP90', 'Destinatario', 01, 01, 1, '');
-end;
-
-procedure TCIOTW_Pamcard.GerarImpostos;
-begin
-  Gerador.wGrupo('Impostos', 'AP61');
-  Gerador.wCampo(tcDe2, 'AP62', 'IRRF', 01, 01, 1, CIOT.AdicionarOperacao.Impostos.IRRF, 'Valor destinado ao IRRF');
-  Gerador.wCampo(tcDe2, 'AP63', 'SestSenat', 01, 01, 1, CIOT.AdicionarOperacao.Impostos.SestSenat, 'Valor destinado ao SEST / SENAT');
-  Gerador.wCampo(tcDe2, 'AP64', 'INSS', 01, 01, 1, CIOT.AdicionarOperacao.Impostos.INSS, 'Valor destinado ao INSS.');
-  Gerador.wCampo(tcDe2, 'AP65', 'ISSQN', 01, 01, 1, CIOT.AdicionarOperacao.Impostos.ISSQN, 'Valor destinado ao ISSQN.');
-  Gerador.wCampo(tcDe2, 'AP66', 'OutrosImpostos', 01, 01, 1, CIOT.AdicionarOperacao.Impostos.OutrosImpostos, 'Valor destinado a outros impostos não previstos.');
-  Gerador.wCampo(tcStr, 'AP67', 'DescricaoOutrosImpostos', 01, 01, 1, CIOT.AdicionarOperacao.Impostos.DescricaoOutrosImpostos);
-  Gerador.wGrupo('/Impostos');
-end;
-
-procedure TCIOTW_Pamcard.GerarMotorista;
-begin
-  //É o condutor do veículo que irá realizar a operação de transporte,
-  //pode ser o proprietário do veículo ou não.
-  Gerador.wGrupo('Motorista '+NAME_SPACE_EFRETE_PEFADICIONAR_OBJECTS, 'AP84');
-  Gerador.wCampo(tcStr, 'AP85', 'CpfOuCnpj', 01, 11, 1, CIOT.AdicionarOperacao.Motorista.CpfOuCnpj, 'CPF ou CNPJ do Motorista.');
-  Gerador.wCampo(tcStr, 'AP86', 'CNH', 01, 11, 1, CIOT.AdicionarOperacao.Motorista.CNH);
-
-  Gerador.wGrupo('Celular '+ NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP87');
-  with CIOT.AdicionarOperacao.Motorista do
-  begin
-    Gerador.wCampo(tcInt, 'AP88', 'DDD', 01, 02, 1, Celular.DDD, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-    Gerador.wCampo(tcInt, 'AP89', 'Numero', 08, 09, 1, Celular.Numero, '', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-  end;
-
-  Gerador.wGrupo('/Celular');
-  Gerador.wGrupo('/Motorista');
-end;
-
-procedure TCIOTW_Pamcard.GerarPagamentos;
-var
-  i: Integer;
-begin
-  //Pagamentos registrados.
-  //- Pode existir mais de 1 pagamento com uma mesma categoria (exceto para Quitacao).
-  //- A soma dos pagamentos c/ categoria Adiantamento, deverá ter o mesmo valor apontado na
-  //     tag TotalAdiantamento da tag Viagem/Valores, e neste caso, a tag Documento do pagamento
-  //     deverá conter o mesmo valor da tag DocumentoViagem da tag Viagem .
-  //- Se a viagem possuir a tag TotalQuitacao maior que zero, deverá ter um pagamento correspondente,
-  //     com Categoria Quitacao e com o Documento o mesmo valor apontado na tag DocumentoViagem .
-  for i := 0 to CIOT.AdicionarOperacao.Pagamentos.Count -1 do
-  begin
-    with CIOT.AdicionarOperacao.Pagamentos.Items[i] do
-    begin
-      Gerador.wGrupo('Pagamentos '+NAME_SPACE_EFRETE_PEFADICIONAR_OBJECTS, 'AP68');
-      Gerador.wCampo(tcStr, 'AP69', 'IdPagamentoCliente', 01, 01, 1, IdPagamentoCliente, 'Identificador do pagamento no sistema do Cliente.');
-      Gerador.wCampo(tcDat, 'AP70', 'DataDeLiberacao', 01, 01, 1, DataDeLiberacao, 'Data em que o pagamento será liberado para saque.');
-      Gerador.wCampo(tcDe2, 'AP71', 'Valor', 01, 01, 1, Valor, 'Valor do pagamento.');
-      Gerador.wCampo(tcStr, 'AP72', 'TipoPagamento', 01, 01, 1, TpPagamentoToStr(TipoPagamento), 'Tipo de pagamento que será usado pelo contratante. Restrito aos itens da enum: -TransferenciaBancaria -eFRETE', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcStr, 'AP73', 'Categoria', 01, 01, 1, TpCatPagToStr(Categoria), 'Categoria relacionada ao pagamento realizado. Restrita aos membros da ENUM: -Adiantamento, -Estadia, -Quitacao, -SemCategoria, -Frota ', True, NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-      Gerador.wCampo(tcStr, 'AP74', 'Documento', 01, 01, 1, Documento, 'Documento relacionado a viagem.');
-
-      //Preenchimento obrigatório para o TipoPagamento TransferenciaBancaria. Não deve ser preenchido para TipoPagamento eFRETE.
-      Gerador.wGrupo('InformacoesBancarias '+NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP75');
-      Gerador.wCampo(tcStr, 'AP76', 'InstituicaoBancaria', 01, 01, 1, InformacoesBancarias.InstituicaoBancaria, 'Código de compensação da instituição bancária que será realizado o pagamento. ');
-      Gerador.wCampo(tcStr, 'AP77', 'Agencia', 01, 01, 1, InformacoesBancarias.Agencia, 'Agência na qual o contratado possui conta com dígito (se houver).');
-      Gerador.wCampo(tcStr, 'AP78', 'Conta', 01, 01, 1, InformacoesBancarias.Conta, 'Conta do contratado com dígito. ');
-      Gerador.wGrupo('/InformacoesBancarias');
-
-      Gerador.wCampo(tcStr, 'AP79', 'InformacaoAdicional', 01, 01, 1, InformacaoAdicional);
-      if Categoria = tcpFrota then
-        Gerador.wCampo(tcStr, 'AP80', 'CnpjFilialAbastecimento', 01, 01, 1, CnpjFilialAbastecimento);
-
-      Gerador.wGrupo('/Pagamentos');
-    end;
-  end;
-end;
-
-procedure TCIOTW_Pamcard.GerarVeiculos;
-var
-  i: Integer;
-begin
-  //Registro dos veículos participantes da operação de transporte.
-  for i := 0 to CIOT.AdicionarOperacao.Veiculos.Count -1 do
-  begin
-    Gerador.wGrupo('Veiculos '+ NAME_SPACE_EFRETE_PEFADICIONAR_OBJECTS, 'AP201');
-    Gerador.wCampo(tcStr, 'AP202', 'Placa', 01, 07, 1, CIOT.AdicionarOperacao.Veiculos.Items[I].Placa);
-    Gerador.wGrupo('/Veiculos');
-  end;
-end;
-
-procedure TCIOTW_Pamcard.GerarViagem;
-var
-  i, j: Integer;
-  Item: TNotaFiscalCollectionItem;
-begin
-  Gerador.wGrupo('Viagens '+NAME_SPACE_EFRETE_PEFADICIONAR_OBJECTS, 'AP16');
-
-  for I := 0 to CIOT.AdicionarOperacao.Viagens.Count -1 do
-  begin
-    with CIOT.AdicionarOperacao.Viagens.Items[I] do
-    begin
-      Gerador.wCampo(tcStr, 'AP17', 'DocumentoViagem', 01, 01, 1, DocumentoViagem, 'Exemplo: CT-e / Serie, CTRC / Serie, Ordem de Serviço.');
-      Gerador.wCampo(tcInt, 'AP18', 'CodigoMunicipioOrigem', 01, 07, 1, CodigoMunicipioOrigem);
-      Gerador.wCampo(tcInt, 'AP19', 'CodigoMunicipioDestino', 01, 07, 1, CodigoMunicipioDestino);
-
-      Gerador.wGrupo('Valores '+NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP20');
-      Gerador.wCampo(tcDe2, 'AP21', 'TotalOperacao', 01, 01, 1, Valores.TotalOperacao);
-      Gerador.wCampo(tcDe2, 'AP22', 'TotalViagem', 01, 01, 1, Valores.TotalViagem);
-      Gerador.wCampo(tcDe2, 'AP23', 'TotalDeAdiantamento', 01, 01, 1, Valores.TotalDeAdiantamento);
-      Gerador.wCampo(tcDe2, 'AP24', 'TotalDeQuitacao', 01, 01, 1, Valores.TotalDeQuitacao);
-      Gerador.wCampo(tcDe2, 'AP25', 'Combustivel', 01, 01, 1, Valores.Combustivel);
-      Gerador.wCampo(tcDe2, 'AP26', 'Pedagio', 01, 01, 1, Valores.Pedagio);
-      Gerador.wCampo(tcDe2, 'AP27', 'OutrosCreditos', 01, 01, 1, Valores.OutrosCreditos);
-      Gerador.wCampo(tcStr, 'AP28', 'JustificativaOutrosCreditos', 01, 01, 1, Valores.JustificativaOutrosCreditos);
-      Gerador.wCampo(tcDe2, 'AP29', 'Seguro', 01, 01, 1, Valores.Seguro);
-      Gerador.wCampo(tcDe2, 'AP30', 'OutrosDebitos', 01, 01, 1, Valores.OutrosDebitos);
-      Gerador.wCampo(tcStr, 'AP31', 'JustificativaOutrosDebitos', 01, 01, 1, Valores.JustificativaOutrosDebitos);
-      Gerador.wGrupo('/Valores');
-
-      Gerador.wCampo(tcStr, 'AP32', 'TipoPagamento' +NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 001, 020, 1, TpPagamentoToStr(TipoPagamento), 'Tipo de pagamento que será usado pelo contratante. Restrito aos itens da enum: -TransferenciaBancaria -eFRETE');
-
-      Gerador.wGrupo('NotasFiscais', 'AP33');
-
-      for J := 0 to NotasFiscais.Count -1 do
-      begin
-        Item := NotasFiscais[J];
-        Gerador.wGrupo('NotaFiscal', 'AP34');
-        Gerador.wCampo(tcStr, 'AP35', 'Numero', 01, 01, 1, Item.Numero);
-        Gerador.wCampo(tcStr, 'AP36', 'Serie', 01, 01, 1, Item.Serie);
-        Gerador.wCampo(tcDat, 'AP37', 'Data', 01, 01, 1, Item.Data);
-        Gerador.wCampo(tcDe2, 'AP38', 'ValorTotal', 01, 01, 1, Item.ValorTotal);
-        Gerador.wCampo(tcDe4, 'AP39', 'ValorDaMercadoriaPorUnidade', 01, 01, 1, Item.ValorDaMercadoriaPorUnidade);
-        Gerador.wCampo(tcInt, 'AP40', 'CodigoNCMNaturezaCarga', 01, 04, 1, Item.CodigoNCMNaturezaCarga);
-        Gerador.wCampo(tcStr, 'AP41', 'DescricaoDaMercadoria', 01, 01, 1, Item.DescricaoDaMercadoria, 'Descrição adicional ao código NCM.');
-        Gerador.wCampo(tcStr, 'AP42', 'UnidadeDeMedidaDaMercadoria', 01, 01, 1, TpUnMedMercToStr(Item.UnidadeDeMedidaDaMercadoria));
-        Gerador.wCampo(tcStr, 'AP43', 'TipoDeCalculo', 01, 01, 1, TpVgTipoCalculoToStr(Item.TipoDeCalculo));
-        Gerador.wCampo(tcDe4, 'AP44', 'ValorDoFretePorUnidadeDeMercadoria', 01, 01, 1, Item.ValorDoFretePorUnidadeDeMercadoria);
-        Gerador.wCampo(tcDe4, 'AP45', 'QuantidadeDaMercadoriaNoEmbarque', 01, 01, 1, Item.QuantidadeDaMercadoriaNoEmbarque);
-
-        Gerador.wGrupo('ToleranciaDePerdaDeMercadoria', 'AP46');
-        Gerador.wCampo(tcStr, 'AP47', 'Tipo', 01, 01, 1, TpProporcaoToStr(Item.ToleranciaDePerdaDeMercadoria.Tipo));
-        Gerador.wCampo(tcDe2, 'AP48', 'Valor', 01, 01, 1, Item.ToleranciaDePerdaDeMercadoria.Valor);
-        Gerador.wGrupo('/ToleranciaDePerdaDeMercadoria');
-
-        if Item.DiferencaDeFrete.Tipo <> SemDiferenca then
-        begin
-          Gerador.wGrupo('DiferencaDeFrete', 'AP49');
-          Gerador.wCampo(tcStr, 'AP50', 'Tipo', 01, 01, 1, TpDifFreteToStr(Item.DiferencaDeFrete.Tipo));
-          Gerador.wCampo(tcStr, 'AP51', 'Base', 01, 01, 1, TpDiferencaFreteBCToStr(Item.DiferencaDeFrete.Base));
-
-          Gerador.wGrupo('Tolerancia', 'AP52');
-          Gerador.wCampo(tcStr, 'AP53', 'Tipo', 01, 01, 1, TpProporcaoToStr(Item.DiferencaDeFrete.Tolerancia.Tipo));
-          Gerador.wCampo(tcDe2, 'AP54', 'Valor', 01, 01, 1, Item.DiferencaDeFrete.Tolerancia.Valor);
-          Gerador.wGrupo('/Tolerancia');
-
-          Gerador.wGrupo('MargemGanho', 'AP55');
-          Gerador.wCampo(tcStr, 'AP56', 'Tipo', 01, 01, 1, TpProporcaoToStr(Item.DiferencaDeFrete.MargemGanho.Tipo));
-          Gerador.wCampo(tcDe2, 'AP57', 'Valor', 01, 01, 1, Item.DiferencaDeFrete.MargemGanho.Valor);
-          Gerador.wGrupo('/MargemGanho');
-
-          Gerador.wGrupo('MargemPerda', 'AP58');
-          Gerador.wCampo(tcStr, 'AP59', 'Tipo', 01, 01, 1, TpProporcaoToStr(Item.DiferencaDeFrete.MargemPerda.Tipo));
-          Gerador.wCampo(tcDe2, 'AP60', 'Valor', 01, 01, 1, Item.DiferencaDeFrete.MargemPerda.Valor);
-          Gerador.wGrupo('/MargemPerda');
-
-          Gerador.wGrupo('/DiferencaDeFrete');
-        end;
-        Gerador.wGrupo('/NotaFiscal');
-      end;
-      Gerador.wGrupo('/NotasFiscais');
-    end;
-  end;
-
-  Gerador.wGrupo('/Viagens');
-end;
-
 function TCIOTW_Pamcard.GerarXml: Boolean;
-var
+//var
 //  Prefixo, NameSpaceServico, NameSpaceBase: string;
 //  Ok: Boolean;
-  versao: Integer;
+//  versao: Integer;
 begin
   Gerador.ListaDeAlertas.Clear;
   Gerador.ArquivoFormatoXML := '';
   // Carrega Layout que sera utilizado para gera o txt
   Gerador.LayoutArquivoTXT.Clear;
   Gerador.ArquivoFormatoTXT := '';
-  versao := 1;
+  //versao := 1;
 //  VersaoDF := DblToVersaoCIOT(Ok, CIOT.OperacaoTransporte.Versao);
 //  versao := VersaoCIOTToInt(VersaoDF);
 
+  Gerador.wGrupo( 'arg0' );
+
   case CIOT.Integradora.Operacao of
-    opObterPdf:
-      begin
-//        Gerador.wGrupo('ObterOperacaoTransportePdfRequest ' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-//        Gerador.wCampo(tcStr, '', 'CodigoIdentificacaoOperacao', 01, 30, 1, CIOT.OperacaoTransporte.NumeroCIOT, '');
-////        Gerador.wTexto('<DocumentoViagem ' +   NAME_SPACE_EFRETE_OBJECTS + '>'++'</DocumentoViagem >');
-//        Gerador.wTexto('<Integrador ' +   NAME_SPACE_EFRETE_OBJECTS + '>' + CIOT.Integradora.HashIntegrador + '</Integrador>');
-////        Gerador.wTexto('<Token ' +   NAME_SPACE_EFRETE_OBJECTS + '>'++'</Token>');
-//        Gerador.wTexto('<Versao ' +   NAME_SPACE_EFRETE_OBJECTS + '>1</Versao>');
-//        Gerador.wGrupo('/ObterOperacaoTransportePdfRequest');
-      end;
-    opAdicionar:
-      begin
-        Gerador.wGrupo('AdicionarOperacaoTransporte ' + NAME_SPACE_BASE, '');
-
-        Gerador.wGrupo('AdicionarOperacaoTransporteRequest ' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP01');
-
-        Gerador.wCampo(tcStr, 'AP02', 'TipoViagem', 01, 01, 1, TipoViagemCIOTToStr(CIOT.AdicionarOperacao.TipoViagem));
-        Gerador.wCampo(tcStr, 'AP03', 'Integrador', 01, 01, 1, CIOT.Integradora.Integrador);
-        Gerador.wCampo(tcInt, 'AP04', 'Versao', 01, 01, 1, versao);
-//        Gerador.wCampo(tcStr, 'AP05', 'Token', 01, 01, 1, '');  //ver de que forma pegar o tocken em caso de não usar certificado
-//        Gerador.wCampo(tcBoolStr, 'AP06', 'EmissaoGratuita', 01, 01, 1, CIOT.AdicionarOperacao.EmissaoGratuita);
-        if CIOT.AdicionarOperacao.TipoViagem <> Frota then
-          Gerador.wCampo(tcStr, 'AP07', ' BloquearNaoEquiparado', 01, 01, 1, LowerCase(BoolToStr(CIOT.AdicionarOperacao.BloquearNaoEquiparado)));
-        Gerador.wCampo(tcStr, 'AP08', 'MatrizCNPJ', 01, 14, 1, CIOT.AdicionarOperacao.MatrizCNPJ);
-        Gerador.wCampo(tcStr, 'AP09', 'FilialCNPJ', 01, 01, 1, CIOT.AdicionarOperacao.FilialCNPJ);
-        Gerador.wCampo(tcStr, 'AP10', 'IdOperacaoCliente', 01, 01, 1, CIOT.AdicionarOperacao.IdOperacaoCliente, 'Id / Chave primária da operação de transporte no sistema do Cliente.');
-        if CIOT.AdicionarOperacao.TipoViagem <> TAC_Agregado then //Se TipoViagem for TAC_Agregado o campo não deve ser preenchido.
-          Gerador.wCampo(tcDat, 'AP11', 'DataInicioViagem', 01, 01, 1, CIOT.AdicionarOperacao.DataInicioViagem)
-        else
-          Gerador.wCampo(tcStr, 'AP11', 'DataInicioViagem', 01, 01, 1, '');
-        Gerador.wCampo(tcDat, 'AP12', 'DataFimViagem', 01, 01, 1, CIOT.AdicionarOperacao.DataFimViagem, 'Data prevista para o fim de viagem.');
-        case CIOT.AdicionarOperacao.TipoViagem of
-          Padrao: Gerador.wCampo(tcInt, 'AP13', 'CodigoNCMNaturezaCarga', 01, 04, 1, CIOT.AdicionarOperacao.CodigoNCMNaturezaCarga);
-          TAC_Agregado: Gerador.wCampo(tcStr, 'AP13', 'CodigoNCMNaturezaCarga', 01, 01, 1, '');
-        end;
-        if CIOT.AdicionarOperacao.TipoViagem <> Frota then
-          Gerador.wCampo(tcDe4, 'AP14', 'PesoCarga ', 01, 01, 1, CIOT.AdicionarOperacao.PesoCarga);
-
-        if CIOT.AdicionarOperacao.TipoViagem = Padrao then
-        begin
-          Gerador.wCampo(tcStr, 'AP15', 'TipoEmbalagem', 01, 01, 1, TipoEmbalagemToStr(CIOT.AdicionarOperacao.TipoEmbalagem));
-          //Adiciona a Viagem
-          GerarViagem;
-        end;
-
-        //Adiciona Impostos
-        if CIOT.AdicionarOperacao.TipoViagem <> Frota then
-          GerarImpostos;
-
-        //Adiciona os Pagamentos
-        GerarPagamentos;
-
-        //Adiciona Contratado
-        GerarContratado;
-
-        //Adiciona Motorista
-        GerarMotorista;
-
-        //Adiciona Destinatario
-        if CIOT.AdicionarOperacao.TipoViagem <> Frota then
-          GerarDestinatario;
-
-        //Adiciona Contratante
-        GerarContratante;
-
-        if CIOT.AdicionarOperacao.TipoViagem <> Frota then
-        begin
-          //Adiciona SubContratante
-          GerarSubContratante;
-
-          //Adiciona Consignatario
-          GerarConsignatario;
-
-          //Adiciona TomadorServico
-          GerarTomadorServico;
-        end;
-
-        //Adiciona Veículos
-        GerarVeiculos;
-
-        //Informar um CIOT (se existente) que esteja relacionado à operação de transporte.
-        //Por exemplo: No caso da presença de um Subcontratante na operação de transporte informar
-        //o CIOT onde o Subcontratante foi o Contratado.
-        Gerador.wCampo(tcStr, 'AP203', 'CodigoIdentificacaoOperacaoPrincipal', 01, 01, 1, CIOT.AdicionarOperacao.CodigoIdentificacaoOperacaoPrincipal);
-
-        Gerador.wGrupo('ObservacoesAoTransportador', 'AP204');
-     //   Gerador.wCampo(tcStr, 'AP205', 'String', 01, 01, 1, CIOT.AdicionarOperacao.ObservacoesAoTransportador);
-        Gerador.wGrupo('/ObservacoesAoTransportador');
-
-        Gerador.wGrupo('ObservacoesAoCredenciado', 'AP206');
-//        Gerador.wCampo(tcStr, 'AP207', 'String', 01, 01, 1, CIOT.AdicionarOperacao.ObservacoesAoCredenciado);
-        Gerador.wGrupo('/ObservacoesAoCredenciado');
-
-        Gerador.wCampo(tcStr, 'AP208', 'EntregaDocumentacao', 01, 01, 1, CIOT.AdicionarOperacao.EntregaDocumentacao);
-        Gerador.wCampo(tcInt, 'AP209', 'QuantidadeSaques', 01, 01, 1, CIOT.AdicionarOperacao.QuantidadeSaques);
-        Gerador.wCampo(tcInt, 'AP210', 'QuantidadeTransferencias', 01, 01, 1, CIOT.AdicionarOperacao.QuantidadeTransferencias);
-
-        Gerador.wGrupo('/AdicionarAdicionarOperacaoRequest');
-
-        Gerador.wGrupo('/AdicionarAdicionarOperacao');
-      end;
-    opRetificar:
-      begin
-//        Gerador.wGrupo('RetificarAdicionarOperacaoRequest ' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'WP01');
-//
-//        Gerador.wCampo(tcStr, 'WP02', 'CodigoIdentificacaoOperacao', 01, 01, 1, FOperacaoTransporte.NumeroCIOT, '');
-//        Gerador.wCampo(tcInt, 'WP03', 'CodigoMunicipioDestino', 01, 07, 1, FOperacaoTransporte.Viagens.Items[0].CodigoMunicipioDestino); //0001
-//        Gerador.wCampo(tcInt, 'WP04', 'CodigoMunicipioOrigem', 01, 07, 1, FOperacaoTransporte.Viagens.Items[0].CodigoMunicipioOrigem); //0001
-//        Gerador.wCampo(tcInt, 'WP05', 'CodigoNCMNaturezaCarga', 01, 04, 1, FOperacaoTransporte.CodigoNCMNaturezaCarga); //0001
-//        Gerador.wCampo(tcDat, 'WP06', 'DataFimViagem', 01, 01, 1, FOperacaoTransporte.DataFimViagem); //0001
-//        Gerador.wCampo(tcDat, 'WP07', 'DataInicioViagem', 01, 01, 1, FOperacaoTransporte.DataInicioViagem); //0001
-//        Gerador.wCampo(tcStr, 'WP08', 'Integrador', 01, 01, 1, TAmsCIOT( FOperacaoTransporte.Owner ).Configuracoes.Integradora.Identificacao, '', ' ' + NAME_SPACE_EFRETE_OBJECTS);
-//        Gerador.wCampo(tcDe4, 'WP09', 'PesoCarga', 01, 01, 1, FOperacaoTransporte.PesoCarga); //0001
-//        Gerador.wCampo(tcStr, 'WP10', 'Token', 01, 01, 1, '');
-//
-//        Gerador.wCampo(tcStr, 'WP13', 'Versao', 001, 001, 1, 1, '', ' ' + NAME_SPACE_EFRETE_OBJECTS);
-//
-//        Gerador.wGrupo('Veiculos ' + NAME_SPACE_EFRETE_PEFRETIFICAR_OBJECTS, 'WP11');
-//        for I := 0 to FOperacaoTransporte.Veiculos.Count -1 do
-//        begin
-//          with FOperacaoTransporte.Veiculos.Items[I] do
-//            Gerador.wCampo(tcStr, 'WP12', 'Placa', 001, 001, 1, Placa, 'Placa do veículo conforme exemplo: AAA1234.');
-//        end;
-//        Gerador.wGrupo('/Veiculos');
-//
-//        Gerador.wGrupo('/RetificarOperacaoTransporteRequest');
-      end;
-    opCancelar:
-      begin
-        Gerador.wGrupo('CancelarOperacaoTransporteRequest', 'KP01');
-//        Gerador.wCampo(tcStr, 'KP02', 'CodigoIdentificacaoOperacao', 01, 01, 1, CIOT.AdicionarOperacao.NumeroCIOT);
-        Gerador.wCampo(tcStr, 'KP03', 'Integrador', 01, 01, 1, CIOT.Integradora.Integrador);
-//        Gerador.wCampo(tcStr, 'KP04', 'Motivo', 01, 01, 1, CIOT.AdicionarOperacao.Cancelamento.Motivo, '');
-//        Gerador.wCampo(tcStr, 'KP05', 'Token ', 01, 01, 1, '');
-        Gerador.wCampo(tcInt, 'KP06', 'Versao', 01, 01, 1, 1);
-        Gerador.wGrupo('/CancelarOperacaoTransporteRequest');
-      end;
-    opAdicionarViagem:
-      begin
-//        if FOperacaoTransporte.TipoViagem = TAC_Agregado then
-//        begin
-//          Gerador.wGrupo('AdicionarViagemRequest' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-//          Gerador.wCampo(tcStr, '', 'Integrador', 001, 001, 1, TAmsCIOT( FOperacaoTransporte.Owner ).Configuracoes.Integradora.Identificacao, '', ' ' + NAME_SPACE_EFRETE_OBJECTS);
-//          Gerador.wCampo(tcStr, '', 'Versao', 001, 001, 1, 2, '', ' ' + NAME_SPACE_EFRETE_OBJECTS);
-//          Gerador.wCampo(tcStr, '', 'CodigoIdentificacaoOperacao', 001, 030, 1, FOperacaoTransporte.NumeroCIOT, '');
-//          Gerador.wGrupo('Viagens ' + NAME_SPACE_EFRETE_PEFADICIONAR_VIAGEM, '');
-//
-//          for I := 0 to FOperacaoTransporte.Viagens.Count -1 do
-//          begin
-//            Gerador.wGrupo('Viagem');
-//            with FOperacaoTransporte.Viagens.Items[I] do
-//            begin
-//              Gerador.wCampo(tcInt, 'AP133', 'CodigoMunicipioDestino', 001, 007, 1, CodigoMunicipioDestino);
-//              Gerador.wCampo(tcInt, 'AP134', 'CodigoMunicipioOrigem', 001, 007, 1, CodigoMunicipioOrigem);
-//              Gerador.wCampo(tcStr, 'AP135', 'DocumentoViagem', 001, 001, 1, DocumentoViagem, 'Exemplo: CT-e / Serie, CTRC / Serie, Ordem de Serviço.');
-//
-//              for J := 0 to NotasFiscais.Count -1 do
-//              begin
-//                with NotasFiscais.Items[J] do
-//                begin
-//                  Gerador.wGrupo('NotasFiscais');
-//                  Gerador.wCampo(tcInt, 'AP137', 'CodigoNCMNaturezaCarga', 001, 004, 1, CodigoNCMNaturezaCarga);
-//                  Gerador.wCampo(tcDat, 'AP138', 'Data', 001, 004, 1, Data);
-//                  Gerador.wCampo(tcStr, 'AP139', 'DescricaoDaMercadoria', 001, 060, 1, DescricaoDaMercadoria, 'Descrição adicional ao código NCM.');
-//                  Gerador.wCampo(tcStr, 'AP140', 'Numero', 001, 010, 1, Numero);
-//                  Gerador.wCampo(tcDe3, 'AP141', 'QuantidadeDaMercadoriaNoEmbarque', 001, 010, 1, QuantidadeDaMercadoriaNoEmbarque);
-//                  Gerador.wCampo(tcStr, 'AP142', 'Serie', 001, 001, 1, Serie);
-//                  Gerador.wCampo(tcStr, 'AP143', 'TipoDeCalculo', 001, 001, 1, TpVgTipoCalculoToStr(TipoDeCalculo));
-//                  Gerador.wGrupo('ToleranciaDePerdaDeMercadoria', 'AP144');
-//                  Gerador.wCampo(tcStr, 'AP145', 'Tipo', 001, 001, 1, TpProporcaoToStr(ToleranciaDePerdaDeMercadoria.Tipo));
-//                  Gerador.wCampo(tcDe2, 'AP146', 'Valor', 001, 001, 1, ToleranciaDePerdaDeMercadoria.Valor);
-//                  Gerador.wGrupo('/ToleranciaDePerdaDeMercadoria');
-//
-//                  if DiferencaDeFrete.Tipo <> SemDiferenca then
-//                  begin
-//                    Gerador.wGrupo('DiferencaDeFrete', 'AP147');
-//                    Gerador.wCampo(tcStr, 'AP148', 'Tipo', 001, 001, 1, TpDifFreteToStr(DiferencaDeFrete.Tipo));
-//                    Gerador.wCampo(tcStr, 'AP149', 'Base', 001, 001, 1, TpDiferencaFreteBCToStr(DiferencaDeFrete.Base));
-//                    Gerador.wGrupo('Tolerancia', 'AP150');
-//                    Gerador.wCampo(tcStr, 'AP151', 'Tipo', 001, 001, 1, TpProporcaoToStr(DiferencaDeFrete.Tolerancia.Tipo));
-//                    Gerador.wCampo(tcDe2, 'AP152', 'Valor', 001, 001, 1, DiferencaDeFrete.Tolerancia.Valor);
-//                    Gerador.wGrupo('/Tolerancia');
-//                    Gerador.wGrupo('MargemGanho', 'AP153');
-//                    Gerador.wCampo(tcStr, 'AP154', 'Tipo', 001, 001, 1, TpProporcaoToStr(DiferencaDeFrete.MargemGanho.Tipo));
-//                    Gerador.wCampo(tcDe2, 'AP155', 'Valor', 001, 001, 1, DiferencaDeFrete.MargemGanho.Valor);
-//                    Gerador.wGrupo('/MargemGanho');
-//                    Gerador.wGrupo('MargemPerda', 'AP156');
-//                    Gerador.wCampo(tcStr, 'AP157', 'Tipo', 001, 001, 1, TpProporcaoToStr(DiferencaDeFrete.MargemPerda.Tipo));
-//                    Gerador.wCampo(tcDe2, 'AP158', 'Valor', 001, 001, 1, DiferencaDeFrete.MargemPerda.Valor);
-//                    Gerador.wGrupo('/MargemPerda');
-//                    Gerador.wGrupo('/DiferencaDeFrete');
-//                  end;
-//
-//                  Gerador.wCampo(tcStr, 'AP159', 'UnidadeDeMedidaDaMercadoria', 001, 001, 1, TpUnMedMercToStr(UnidadeDeMedidaDaMercadoria));
-//                  Gerador.wCampo(tcDe2, 'AP159', 'ValorDaMercadoriaPorUnidade', 001, 001, 1, ValorDaMercadoriaPorUnidade);
-//                  Gerador.wCampo(tcDe2, 'AP159', 'ValorDoFretePorUnidadeDeMercadoria', 001, 001, 1, ValorDoFretePorUnidadeDeMercadoria);
-//                  Gerador.wCampo(tcDe2, 'AP159', 'ValorTotal', 001, 001, 1, ValorTotal);
-//
-//                  Gerador.wGrupo('/NotasFiscais');
-//                end;
-//              end;
-//
-//              Gerador.wGrupo('Valores ' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP163');
-//              with Valores do
-//              begin
-//                Gerador.wCampo(tcDe2, 'AP164', 'Combustivel', 001, 001, 1, Combustivel);
-//                Gerador.wCampo(tcStr, 'AP165', 'JustificativaOutrosCreditos', 001, 001, 1, JustificativaOutrosCreditos);
-//                Gerador.wCampo(tcStr, 'AP166', 'JustificativaOutrosDebitos', 001, 001, 1, JustificativaOutrosDebitos);
-//                Gerador.wCampo(tcDe2, 'AP167', 'OutrosCreditos', 001, 001, 1, OutrosCreditos);
-//                Gerador.wCampo(tcDe2, 'AP168', 'OutrosDebitos', 001, 001, 1, OutrosDebitos);
-//                Gerador.wCampo(tcDe2, 'AP169', 'Pedagio', 001, 001, 1, Pedagio);
-//                Gerador.wCampo(tcDe2, 'AP170', 'Seguro', 001, 001, 1, Seguro);
-//                Gerador.wCampo(tcDe2, 'AP171', 'TotalDeAdiantamento', 001, 001, 1, TotalDeAdiantamento);
-//                Gerador.wCampo(tcDe2, 'AP172', 'TotalDeQuitacao', 001, 001, 1, TotalDeQuitacao);
-//                Gerador.wCampo(tcDe2, 'AP173', 'TotalOperacao', 001, 001, 1, TotalOperacao);
-//                Gerador.wCampo(tcDe2, 'AP174', 'TotalViagem', 001, 001, 1, TotalViagem);
-//              end;
-//              Gerador.wGrupo('/Valores');
-//            end;
-//
-//            Gerador.wGrupo('/Viagem');
-//          end;
-//
-//          Gerador.wGrupo('/Viagens');
-//
-//          Gerador.wGrupo('Pagamentos ' + NAME_SPACE_EFRETE_PEFADICIONAR_VIAGEM, '');
-//
-//          for I := 0 to FOperacaoTransporte.Pagamentos.Count -1 do
-//          begin
-//            with FOperacaoTransporte.Pagamentos.Items[I] do
-//            begin
-//              Gerador.wGrupo('Pagamento');
-//              Gerador.wCampo(tcStr, 'AP92', 'Categoria', 001, 001, 1, TpCatPagToStr(Categoria), 'Categoria relacionada ao pagamento realizado. Restrita aos membros da ENUM: -Adiantamento, -Estadia, Quitacao, -SemCategoria ', ' ' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-//              Gerador.wCampo(tcDat, 'AP93', 'DataDeLiberacao', 001, 001, 1, DataDeLiberacao);
-//              Gerador.wCampo(tcStr, 'AP94', 'Documento', 001, 020, 1, Documento, 'Documento relacionado a viagem.');
-//              Gerador.wCampo(tcStr, 'AP94', 'IdPagamentoCliente', 001, 020, 1, IdPagamentoCliente, 'Identificador do pagamento no sistema do Cliente. ');
-//              Gerador.wCampo(tcStr, 'AP95', 'InformacaoAdicional', 001, 000, 0, InformacaoAdicional, '');
-//
-//              Gerador.wGrupo('InformacoesBancarias ' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP97');
-//              with InformacoesBancarias do
-//              begin
-//                Gerador.wCampo(tcStr, 'AP98', 'Agencia', 001, 001, 1, Agencia);
-//                Gerador.wCampo(tcStr, 'AP99', 'Conta', 001, 001, 1, Conta);
-//                Gerador.wCampo(tcStr, 'AP100', 'InstituicaoBancaria', 001, 001, 1, InstituicaoBancaria);
-//              end;
-//              Gerador.wGrupo('/InformacoesBancarias');
-//
-//              Gerador.wCampo(tcStr, 'AP101', 'TipoPagamento', 001, 020, 1, TpPagamentoToStr(TipoPagamento), 'Tipo de pagamento que será usado pelo contratante. Restrito aos itens da enum: -TransferenciaBancaria -eFRETE', ' ' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-//              Gerador.wCampo(tcDe2, 'AP102', 'Valor', 001, 020, 1, Valor, 'Valor do pagamento.');
-//              Gerador.wGrupo('/Pagamento');
-//            end;
-//          end;
-//
-//          Gerador.wGrupo('/Pagamentos');
-//
-//          Gerador.wCampo(tcStr, '', 'NaoAdicionarParcialmente', 001, 001, 1, 'false', '');
-//          Gerador.wGrupo('/AdicionarViagemRequest');
-//        end;
-      end;
-    opAdicionarPagamento:
-      begin
-//        if FOperacaoTransporte.TipoViagem = TAC_Agregado then
-//        begin
-//          Gerador.wGrupo('AdicionarPagamentoRequest ' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-//          Gerador.wCampo(tcStr, '', 'Integrador', 001, 001, 1, TAmsCIOT( FOperacaoTransporte.Owner ).Configuracoes.Integradora.Identificacao, '', ' ' + NAME_SPACE_EFRETE_OBJECTS);
-//          Gerador.wCampo(tcStr, '', 'Versao', 001, 001, 1, 2, '', ' ' + NAME_SPACE_EFRETE_OBJECTS);
-//          Gerador.wCampo(tcStr, '', 'CodigoIdentificacaoOperacao', 001, 030, 1, FOperacaoTransporte.NumeroCIOT, '');
-//          Gerador.wGrupo('Pagamentos ' + NAME_SPACE_EFRETE_PEFADICIONAR_PAGAMENTOS, '');
-//
-//          for I := 0 to FOperacaoTransporte.Pagamentos.Count -1 do
-//          begin
-//            with FOperacaoTransporte.Pagamentos.Items[I] do
-//            begin
-//              Gerador.wGrupo('Pagamento');
-//              Gerador.wCampo(tcStr, 'AP92', 'Categoria', 001, 001, 1, TpCatPagToStr(Categoria), 'Categoria relacionada ao pagamento realizado. Restrita aos membros da ENUM: -Adiantamento, -Estadia, Quitacao, -SemCategoria ', ' ' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-//              Gerador.wCampo(tcDat, 'AP93', 'DataDeLiberacao', 001, 001, 1, DataDeLiberacao);
-//              Gerador.wCampo(tcStr, 'AP94', 'Documento', 001, 020, 1, Documento, 'Documento relacionado a viagem.');
-//              Gerador.wCampo(tcStr, 'AP94', 'IdPagamentoCliente', 001, 020, 1, IdPagamentoCliente, 'Identificador do pagamento no sistema do Cliente. ');
-//              Gerador.wCampo(tcStr, 'AP95', 'InformacaoAdicional', 001, 000, 0, InformacaoAdicional, '');
-//
-//              Gerador.wGrupo('InformacoesBancarias ' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE, 'AP97');
-//              with InformacoesBancarias do
-//              begin
-//                Gerador.wCampo(tcStr, 'AP98', 'Agencia', 001, 001, 1, Agencia);
-//                Gerador.wCampo(tcStr, 'AP99', 'Conta', 001, 001, 1, Conta);
-//                Gerador.wCampo(tcStr, 'AP100', 'InstituicaoBancaria', 001, 001, 1, InstituicaoBancaria);
-//              end;
-//              Gerador.wGrupo('/InformacoesBancarias');
-//
-//              Gerador.wCampo(tcStr, 'AP101', 'TipoPagamento', 001, 020, 1, TpPagamentoToStr(TipoPagamento), 'Tipo de pagamento que será usado pelo contratante. Restrito aos itens da enum: -TransferenciaBancaria -eFRETE', ' ' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-//              Gerador.wCampo(tcDe2, 'AP102', 'Valor', 001, 020, 1, Valor, 'Valor do pagamento.');
-//              Gerador.wGrupo('/Pagamento');
-//            end;
-//          end;
-//
-//          Gerador.wGrupo('/Pagamentos');
-//          Gerador.wGrupo('/AdicionarPagamentoRequest');
-//        end;
-      end;
-    opCancelarPagamento:
-      begin
-//        if FOperacaoTransporte.TipoViagem = TAC_Agregado then
-//        begin
-//          Gerador.wGrupo('CancelarPagamentoRequest ' + NAME_SPACE_EFRETE_OPERACAOTRANSPORTE_EFRETE);
-//          Gerador.wCampo(tcStr, '', 'Integrador', 001, 001, 1, TAmsCIOT( FOperacaoTransporte.Owner ).Configuracoes.Integradora.Identificacao, '', ' ' + NAME_SPACE_EFRETE_OBJECTS);
-//          Gerador.wCampo(tcStr, '', 'Versao', 001, 001, 1, 1, '', ' ' + NAME_SPACE_EFRETE_OBJECTS);
-//          Gerador.wCampo(tcStr, '', 'CodigoIdentificacaoOperacao', 001, 030, 1, FOperacaoTransporte.NumeroCIOT, '');
-//          Gerador.wCampo(tcStr, '', 'IdPagamentoCliente', 001, 020, 1, FOperacaoTransporte.Cancelamento.IdPagamentoCliente, 'Identificador do pagamento no sistema do Cliente. ');
-//          Gerador.wCampo(tcStr, 'KP04', 'Motivo', 001, 001, 1, FOperacaoTransporte.Cancelamento.Motivo, '');
-//          Gerador.wGrupo('/CancelarPagamentoRequest');
-//        end;
-      end;
-    opEncerrar:
-      begin
-        Gerador.wGrupo('EncerrarOperacaoTransporteRequest', 'QP01');
-
-//        Gerador.wCampo(tcStr, 'QP02', 'CodigoIdentificacaoOperacao', 01, 01, 1, CIOT.AdicionarOperacao.NumeroCIOT);
-        Gerador.wCampo(tcDe6, 'QP03', 'PesoCarga', 01, 01, 1, CIOT.AdicionarOperacao.PesoCarga, 'Peso da carga que foi transportado.');
-
-        Gerador.wGrupo('Impostos', 'QP04');
-        Gerador.wCampo(tcStr, 'QP05', 'DescricaoOutrosImpostos', 01, 01, 1, CIOT.AdicionarOperacao.Impostos.DescricaoOutrosImpostos);
-        Gerador.wCampo(tcDe2, 'QP06', 'INSS', 01, 20, 1, CIOT.AdicionarOperacao.Impostos.INSS, 'Valor destinado ao INSS. Este valor deverá fazer parte do valor de Adiantamento ou do valor de Quitação.');
-        Gerador.wCampo(tcDe2, 'QP07', 'IRRF', 01, 20, 1, CIOT.AdicionarOperacao.Impostos.IRRF, 'Valor destinado ao IRRF. Este valor deverá fazer parte do valor de Adiantamento ou do valor de Quitação.');
-        Gerador.wCampo(tcDe2, 'QP08', 'ISSQN', 01, 20, 1, CIOT.AdicionarOperacao.Impostos.ISSQN, 'Valor destinado ao ISSQN. Este valor deverá fazer parte do valor de Adiantamento ou do valor de Quitação.');
-        Gerador.wCampo(tcDe2, 'QP09', 'OutrosImpostos', 01, 20, 1, CIOT.AdicionarOperacao.Impostos.OutrosImpostos, 'Valor destinado a outros impostos não previstos. Este valor deverá fazer parte do valor de Adiantamento ou do valor de Quitação.');
-        Gerador.wCampo(tcDe2, 'QP10', 'SestSenat', 01, 20, 1, CIOT.AdicionarOperacao.Impostos.SestSenat, 'Valor destinado ao SEST / SENAT. Este valor deverá fazer parte do valor de Adiantamento ou do valor de Quitação.');
-        Gerador.wGrupo('/Impostos');
-
-        Gerador.wCampo(tcStr, 'QP11', 'Integrador', 01, 01, 1, CIOT.Integradora.Integrador);
-//        Gerador.wCampo(tcStr, 'QP12', 'Token', 01, 01, 1, '');
-        Gerador.wCampo(tcInt, 'QP13', 'Versao', 01, 01, 1, 1);
-        Gerador.wCampo(tcStr, 'QP14', 'QuantidadeSaques', 01, 01, 1, CIOT.AdicionarOperacao.QuantidadeSaques);
-        Gerador.wCampo(tcStr, 'QP15', 'QuantidadeTransferencia', 01, 01, 1, CIOT.AdicionarOperacao.QuantidadeTransferencias);
-
-        Gerador.wGrupo('/EncerrarOperacaoTransporteRequest');
-      end;
+    opIncluirRota : GerarIncluirRota;
+    opRoteirizar : GerarRoteirizar;
+    opIncluirCartaoPortador : GerarIncluirCartaoPortadorFrete;
+    opAdicionar: GerarInserirContratoFrete;
+    opObterCodigoIOT: GerarConsultarContratoFrete;
+    opRetificar:;
+    opCancelar : GerarCancelaViagem;
+    opAdicionarViagem:;
+    opAdicionarPagamento: GerarPagamentoParcela;
+    opPagamentoPedagio: GerarPagamentoPedagio;
+    opCancelarPagamento:;
+    opEncerrar: GerarEncerrarContratoFrete;
   end;
 
+  Gerador.wGrupo( '/arg0' );
+
   Result := (Gerador.ListaDeAlertas.Count = 0);
+end;
+
+procedure TCIOTW_Pamcard.FavorecidoContratoFrete( TipoFavorecido: Integer; Pessoa: TPessoa );
+var
+  f: string;
+begin
+  if( OnlyNumber( Pessoa.CpfOuCnpj ) = '' )then
+    Exit;
+
+  Inc( FIndiceFavorecido );
+
+  f := IntToStr( FIndiceFavorecido );
+
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.tipo', 01, 01, 1, TipoFavorecido ); //1-Contratado, 2-Subcontratante, 3-Motorista
+
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento.qtde', 01, 01, 1, 1 + IfThen( OnlyNumber( Pessoa.RNTRC ) <> '', 1, 0 ) );
+
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento1.tipo', 01, 01, 1, IfThen( Length( OnlyNumber( Pessoa.CpfOuCnpj ) ) = 11, 2, 1 ) ); //1-CNPJ, 2-CPF
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento1.numero', 01, 30, 1, OnlyNumber( Pessoa.CpfOuCnpj ) );
+  AddFieldNoXml( tcDatVcto, '', 'viagem.favorecido'+f+'.documento1.emissao.data', 01, 10, 0, 0 );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento1.emissor.id', 01, 02, 0, 0 );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento1.uf', 01, 02, 0, '' );
+
+  if( OnlyNumber( Pessoa.RNTRC ) <> '' )then
+  begin
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento2.tipo', 01, 01, 0, IfThen( Length( OnlyNumber( Pessoa.CpfOuCnpj ) ) = 11, 5, 6 ) ); //6-RNTRC-CNPJ, 5-RNTRC-CPF
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento2.numero', 01, 30, 0, OnlyNumber( Pessoa.RNTRC ) );
+    AddFieldNoXml( tcDatVcto, '', 'viagem.favorecido'+f+'.documento1.emissao.data', 01, 10, 0, 0 );
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento1.emissor.id', 01, 02, 0, 0 );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento1.uf', 01, 02, 0, '' );
+  end;
+
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.nome', 01, 40, 1, Pessoa.NomeOuRazaoSocial );
+  AddFieldNoXml( tcDatVcto, '', 'viagem.favorecido'+f+'.data.nascimento', 01, 10, 0, Pessoa.DataNascimento );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.endereco.logradouro', 01, 40, 1, Pessoa.Endereco.Rua );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.endereco.numero', 01, 05, 1, Pessoa.Endereco.Numero );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.endereco.bairro', 01, 30, 1, Pessoa.Endereco.Bairro );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.endereco.complemento', 01, 15, 1, Pessoa.Endereco.Complemento );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.endereco.cep', 01, 08, 1, OnlyNumber( Pessoa.Endereco.CEP ) );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.endereco.cidade.ibge', 01, 07, 0, Pessoa.Endereco.CodigoMunicipio );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.endereco.pais', 01, 30, 0, Pessoa.Endereco.xPais );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.endereco.uf', 01, 02, 0, Pessoa.Endereco.Uf );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.endereco.cidade', 01, 30, 0, Pessoa.Endereco.xMunicipio );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.endereco.propriedade.tipo.id', 01, 02, 0, Pessoa.Endereco.PropriedadeTipoId );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.endereco.reside.desde', 01, 07, 0, Pessoa.Endereco.ResideDesde ); // MM/YYYY
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.telefone.ddd', 03, 03, 1, Pessoa.Telefones.Fixo.DDD );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.telefone.numero', 08, 08, 1, Pessoa.Telefones.Fixo.Numero );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.celular.operadora.id', 01, 02, 0, Pessoa.Telefones.Celular.OperadoraId );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.celular.ddd', 03, 03, 0, Pessoa.Telefones.Celular.DDD );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.celular.numero', 09, 09, 0, Pessoa.Telefones.Celular.Numero );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.email', 01, 40, 0, Pessoa.EMail );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.sexo', 01, 01, 0, Pessoa.Sexo );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.nacionalidade.id', 01, 01, 0, Pessoa.NacionalidadeId );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.naturalidade.ibge', 01, 09, 0, Pessoa.NaturalidadeIbge );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.meio.pagamento', 01, 01, 0, Pessoa.MeioPagamentoId );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.consumo.responsavel.cpf', 01, 11, 0, OnlyNumber( Pessoa.ConsumoResponsavelCpf ) );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.consumo.responsavel.nome', 01, 50, 0, Pessoa.ConsumoResponsavelNome );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.conta.banco', 01, 04, 0, Pessoa.InformacoesBancarias.InstituicaoBancaria );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.conta.agencia', 01, 10, 0, Pessoa.InformacoesBancarias.Agencia );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.conta.agencia.digito', 01, 01, 0, Pessoa.InformacoesBancarias.DigitoAgencia );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.conta.numero', 01, 20, 0, Pessoa.InformacoesBancarias.Conta );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.conta.tipo', 01, 02, 0, TipoContaToIndex( Pessoa.InformacoesBancarias.TipoConta ) );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.cartao.numero', 01, 16, 0, Pessoa.InformacoesBancarias.Cartao.Numero );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.empresa.nome', 01, 50, 0, Pessoa.InformacoesBancarias.Cartao.EmpresaNome );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.empresa.cnpj', 01, 14, 0, Pessoa.InformacoesBancarias.Cartao.EmpresaCNPJ );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.empresa.rntrc', 01, 08, 0, OnlyNumber( Pessoa.InformacoesBancarias.Cartao.EmpresaRNTRC ) );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.escolaridade', 01, 02, 0, Pessoa.Escolaridade );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.qualificacao', 01, 02, 0, Pessoa.Qualificacao );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.estado.civil', 01, 02, 0, Pessoa.EstadoCivil );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.nome.mae', 01, 60, 0, Pessoa.NomeMae );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.numDependentes', 01, 02, 0, Pessoa.NumDependentes );
+end;
+
+procedure TCIOTW_Pamcard.VeiculosContratoFrete;
+var
+  i : Integer;
+begin
+  with CIOT.AdicionarOperacao do
+  begin
+    AddFieldNoXml( tcStr, '', 'viagem.veiculo.categoria', 01, 03, 1, VeiculoCategoria );
+    AddFieldNoXml( tcStr, '', 'viagem.veiculo.categoria.eixo.suspenso', 01, 02, 0, VeiculoCategoriaEixoSuspenso );
+    AddFieldNoXml( tcStr, '', 'viagem.veiculo.altodesempenho.indicador', 01, 01, 1, IfThen( AltoDesempenho, 'S','N' ) );
+    AddFieldNoXml( tcInt, '', 'viagem.veiculo.qtde', 01, 01, 1, Veiculos.Count );
+
+    for i := 0 to Veiculos.Count - 1 do
+    begin
+      AddFieldNoXml( tcStr, '', Format( 'viagem.veiculo%d.placa', [i + 1] ), 01, 07, 1, OnlyAlphaNum( Veiculos.Items[i].Placa ) );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.veiculo%d.rntrc', [i + 1] ), 01, 08, 0, OnlyNumber( Veiculos.Items[i].RNTRC ) );
+    end;
+  end;
+end;
+
+procedure TCIOTW_Pamcard.DocumentosContratoFrete;
+
+  procedure PessoaFiscal( id, Tipo: Integer; Pessoa: TPessoa );
+  var
+    p : Integer;
+  begin
+    if( OnlyNumber( Pessoa.CpfOuCnpj ) = '' )then
+      Exit;
+
+    Inc( FIndicePessoaFiscal );
+    p := FIndicePessoaFiscal;
+
+    AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.tipo', [id+1, p] ), 01, 01, 1, Tipo ); //1-Remetente, 2-Destinatario, 3-Consignatario
+    AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.codigo', [id+1, p] ), 01, 10, 0, Pessoa.CodigoNaIntegradora );
+
+    if( Pessoa.CodigoNaIntegradora = 0 )then
+    begin
+      AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.documento.tipo', [id+1, p] ), 01, 01, 1, IfThen( Length( OnlyNumber( Pessoa.CpfOuCnpj ) ) = 11, 2, 1 ) ); //1-CNPJ 2-CPF
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.documento.numero', [id+1, p] ), 01, 20, 1, OnlyNumber( Pessoa.CpfOuCnpj ) );
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.nome', [id+1, p] ), 01, 40, 1, Pessoa.NomeOuRazaoSocial );
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.logradouro', [id+1, p]), 01, 40, 1, Pessoa.Endereco.Rua );
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.numero', [id+1, p] ), 01, 05, 1, Pessoa.Endereco.Numero );
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.complemento', [id+1, p] ), 01, 15, 0, Pessoa.Endereco.Complemento );
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.bairro', [id+1, p] ), 01, 30, 1, Pessoa.Endereco.Bairro );
+      AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.endereco.cidade.ibge', [id+1, p] ), 01, 07, 0, Pessoa.Endereco.CodigoMunicipio );
+      AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.endereco.cep', [id+1, p] ), 01, 08, 0, OnlyNumber( Pessoa.Endereco.CEP ) );
+    end;
+  end;
+
+var
+  i : Integer;
+  Item: TNotaFiscalCollectionItem;
+  PessoaFiscalQtd : Integer;
+begin
+  with CIOT.AdicionarOperacao do
+  begin
+    if( Viagens.Count = 0 )then
+      Exit;
+
+    AddFieldNoXml( tcInt, '', 'viagem.documento.qtde', 01, 10, 1, Viagens[0].NotasFiscais.Count );
+
+    for i := 0 to Viagens[0].NotasFiscais.Count -1 do
+    begin
+      Item := Viagens[0].NotasFiscais[i];
+
+      FIndicePessoaFiscal := 0;
+      PessoaFiscalQtd := 0;
+
+      if( OnlyNumber( Item.Remetente.CpfOuCnpj ) <> '' )then
+        Inc( PessoaFiscalQtd );
+
+      if( OnlyNumber( Item.Destinatario.CpfOuCnpj ) <> '' )then
+        Inc( PessoaFiscalQtd );
+
+      if( OnlyNumber( Item.Consignatario.CpfOuCnpj ) <> '' )then
+        Inc( PessoaFiscalQtd );
+
+      AddFieldNoXml( tcInt, '', Format( 'viagem.documento%d.tipo', [i+1] ), 01, 02, 1, TipoDocumentoPamcardToStr( Item.TipoDocumentoPamcard ) );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.documento%d.numero', [i+1] ), 01, 30, 01, Item.Numero );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.documento%d.serie', [i+1] ), 01, 05, 0, Item.Serie );
+      AddFieldNoXml( tcDe2, '', Format( 'viagem.documento%d.quantidade', [i+1] ), 01, 09, 0, Item.QuantidadeDaMercadoriaNoEmbarque );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.documento%d.especie', [i+1] ), 01, 15, 0, Item.Especie );
+      AddFieldNoXml( tcDe3, '', Format( 'viagem.documento%d.cubagem', [i+1] ), 01, 07, 0, Item.Cubagem );
+      AddFieldNoXml( tcInt, '', Format( 'viagem.documento%d.natureza', [i+1] ), 04, 04, 0, Item.CodigoNCMNaturezaCarga );
+      AddFieldNoXml( tcDe2, '', Format( 'viagem.documento%d.peso', [i+1] ), 01, 07, 0, Item.Peso );
+      AddFieldNoXml( tcDe2, '', Format( 'viagem.documento%d.mercadoria.valor', [i+1] ), 01, 19, 0, Item.ValorTotal );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.documento%d.chaveacesso', [i+1] ), 01, 46, 0, Item.ChaveAcesso );
+      AddFieldNoXml( tcInt, '', Format( 'viagem.documento%d.pessoafiscal.qtde', [i+1] ), 01, 02, 1, PessoaFiscalQtd );
+
+      PessoaFiscal( i, 1, Item.Remetente );
+      PessoaFiscal( i, 2, Item.Destinatario );
+      PessoaFiscal( i, 3, Item.Consignatario );
+    end;
+
+    //Implementar lista futuramente se necessario
+    {AddFieldNoXml( tcStr, '', 'viagem.documento.complementar.qtde', 01, 02, 0, 0 );
+
+    for i := 0 to Qtd do
+    begin
+      AddFieldNoXml( tcStr, '', Format('viagem.documento.complementar%d.tipo', [i+1] ), 01, 02, 0, 0 );
+    end;}
+  end;
+end;
+
+procedure TCIOTW_Pamcard.RotaOrigemDestinoPontosContratoFrete;
+var
+  i: Integer;
+begin
+  with CIOT.AdicionarOperacao do
+  begin
+    AddFieldNoXml( tcInt, '', 'viagem.rota.id', 01, 10, 0, Rota.Id );
+    AddFieldNoXml( tcStr, '', 'viagem.rota.nome', 01, 50, 0, Rota.Nome );
+
+    AddFieldNoXml( tcInt, '', 'viagem.origem.cidade.ibge', 01, 07, 0, Rota.OrigemCidadeIbge );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.latitude', 01, 10, 0, Rota.OrigemCidadeLatitude );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.longitude', 01, 10, 0, Rota.OrigemCidadeLongitude );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.cep', 01, 08, 0, OnlyNumber( Rota.OrigemCidadeCep ) );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.eixo.indicador', 01, 01, 1, IfThen( Rota.OrigemEixoSuspenso, 'S', 'N' ) );
+
+    AddFieldNoXml( tcInt, '', 'viagem.destino.cidade.ibge', 01, 07, 0, Rota.DestinoCidadeIbge );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.latitude', 01, 10, 0, Rota.DestinoCidadeLatitude );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.longitude', 01, 10, 0, Rota.DestinoCidadeLongitude );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.cep', 01, 08, 0, OnlyNumber( Rota.DestinoCidadeCep ) );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.eixo.indicador', 01, 01, 1, IfThen( Rota.DestinoEixoSuspenso, 'S', 'N' ) );
+
+    AddFieldNoXml( tcInt, '', 'viagem.ponto.qtde', 01, 10, 0, Rota.Pontos.Count );
+
+    for i := 0 to Rota.Pontos.Count - 1 do
+    begin
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.pais.nome', [i+1] ), 01, 50, 0, Rota.Pontos.Items[i].PaisNome );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.estado.nome', [i+1] ), 01, 50, 0, Rota.Pontos.Items[i].EstadoNome );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.cidade.nome', [i+1] ), 01, 50, 0, Rota.Pontos.Items[i].CidadeNome );
+      AddFieldNoXml( tcInt, '', Format( 'viagem.ponto%d.cidade.ibge', [i+1] ), 01, 07, 0, Rota.Pontos.Items[i].CidadeIbge );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.cidade.cep', [i+1] ), 01, 08, 0, OnlyNumber( Rota.Pontos.Items[i].CidadeCep ) );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.cidade.latitude', [i+1] ), 01, 10, 0, Rota.Pontos.Items[i].CidadeLatitude );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.cidade.longitude', [i+1] ), 01, 10, 0, Rota.Pontos.Items[i].CidadeLongitude );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.eixo.indicador', [i+1] ), 01, 01, 1, IfThen( Rota.Pontos.Items[i].EixoSuspenso, 'S', 'N' ) );
+    end;
+
+    AddFieldNoXml( tcStr, '', 'viagem.obter.postos', 01, 01, 0, IfThen( Rota.ObterPostos, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.obter.uf', 01, 01, 0, IfThen( Rota.ObterUf, 'S', 'N' ) );
+  end;
+end;
+
+
+procedure TCIOTW_Pamcard.PedagioContratoFrete;
+var
+  i: Integer;
+begin
+  with CIOT.AdicionarOperacao do
+  begin
+    AddFieldNoXml( tcStr, '', 'viagem.pedagio.cartao.numero', 01, 16, 0, Pedagio.CartaoNumero );
+    AddFieldNoXml( tcStr, '', 'viagem.pedagio.idavolta', 01, 01, 0, IfThen( Pedagio.IdaVolta, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.pedagio.obter.praca', 01, 01, 0, IfThen( Pedagio.ObterPraca, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.pedagio.roteirizar', 01, 01, 0, IfThen( Pedagio.Roteirizar, 'S', 'N' ) );
+    AddFieldNoXml( tcInt, '', 'viagem.pedagio.solucao.id', 01, 01, 0, Pedagio.SolucaoId );
+    AddFieldNoXml( tcInt, '', 'viagem.pedagio.status.id', 01, 02, 0, Pedagio.StatusId );
+    AddFieldNoXml( tcDe2, '', 'viagem.pedagio.valor', 01, 10, 0, Pedagio.Valor );
+    AddFieldNoXml( tcInt, '', 'viagem.pedagio.tag.emissor.id', 01, 04, 0, Pedagio.TagEmissorId );
+    AddFieldNoXml( tcInt, '', 'viagem.pedagio.roteirizar.tipo', 01, 01, 0, 1 );
+    AddFieldNoXml( tcInt, '', 'viagem.pedagio.caminho', 01, 01, 0, Pedagio.Caminho );
+
+    AddFieldNoXml( tcInt, '', 'viagem.pedagio.praca.qtde', 01, 02, 0, Pedagio.Pracas.Count );
+
+    for i := 0 to Pedagio.Pracas.Count - 1 do
+    begin
+      AddFieldNoXml( tcInt, '', Format( 'viagem.pedagio.praca%d.id', [i+1] ), 01, 05, 0, Pedagio.Pracas.Items[i].Id );
+      AddFieldNoXml( tcDe2, '', Format( 'viagem.pedagio.praca%d.valor', [i+1] ), 01, 10, 0, Pedagio.Pracas.Items[i].Valor );
+    end;
+  end;
+end;
+
+procedure TCIOTW_Pamcard.PostosContratoFrete;
+var
+  i: Integer;
+begin
+  with CIOT.AdicionarOperacao do
+  begin
+    AddFieldNoXml( tcInt, '', 'viagem.posto.qtde', 01, 02, 0, Postos.Count );
+
+    for i := 0 to Postos.Count - 1 do
+      AddFieldNoXml( tcStr, '', Format('viagem.posto%d.documento.numero', [i+1] ), 01, 20, 0, OnlyNumber( Postos.Items[i].DocumentoNumero ) );
+  end;
+end;
+
+procedure TCIOTW_Pamcard.FreteContratoFrete;
+var
+  i: Integer;
+begin
+  with CIOT.AdicionarOperacao do
+  begin
+    AddFieldNoXml( tcDe2, '', 'viagem.frete.valor.bruto', 01, 10, 1, Frete.ValorBruto );
+    AddFieldNoXml( tcInt, '', 'viagem.frete.item.qtde', 01, 02, 1, Frete.Itens.Count );
+
+    for i := 0 to Frete.Itens.Count - 1 do
+    begin
+      AddFieldNoXml( tcInt, '', Format( 'viagem.frete.item%d.tipo', [i+1] ), 01, 03, 1, Frete.Itens.Items[i].Tipo );
+      AddFieldNoXml( tcInt, '', Format( 'viagem.frete.item%d.tarifa.quantidade', [i+1] ), 01, 02, 1, Frete.Itens.Items[i].TarifaQuantidade );
+      AddFieldNoXml( tcDe2, '', Format( 'viagem.frete.item%d.valor', [i+1] ), 01, 19, 1, Frete.Itens.Items[i].Valor );
+    end;
+  end;
+end;
+
+procedure TCIOTW_Pamcard.ParcelasContratoFrete;
+var
+  i: Integer;
+begin
+  with CIOT.AdicionarOperacao do
+  begin
+    AddFieldNoXml( tcInt, '', 'viagem.parcela.qtde', 01, 10, 0, Parcelas.Count );
+
+    for i := 0 to Parcelas.Count - 1 do
+    begin
+      AddFieldNoXml( tcDatVcto, '', Format( 'viagem.parcela%d.data', [i+1] ), 01, 10, 1, Parcelas.Items[i].Data );
+      AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.efetivacao.tipo', [i+1] ), 01, 02, 1, Parcelas.Items[i].EfetivacaoTipo );
+      AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.favorecido.tipo.id', [i+1] ), 01, 02, 1, Parcelas.Items[i].FavorecidoTipoId );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.parcela%d.numero.cliente', [i+1] ), 01, 18, 1, Parcelas.Items[i].NumeroCliente );
+      AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.status.id', [i+1] ), 01, 02, 1, Parcelas.Items[i].StatusId );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.parcela%d.subtipo', [i+1] ), 01, 02, 1, Parcelas.Items[i].Subtipo );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.parcela%d.valor', [i+1] ), 01, 11, 1, Parcelas.Items[i].Valor );
+    end;
+  end;
+end;
+
+procedure TCIOTW_Pamcard.QuitacaoContratoFrete;
+var
+  i: Integer;
+begin
+  with CIOT.AdicionarOperacao do
+  begin
+    AddFieldNoXml( tcStr, '', 'viagem.quitacao.indicador', 01, 01, 0, IfThen( Quitacao.Indicador, 'S', '' ) );
+    AddFieldNoXml( tcInt, '', 'viagem.quitacao.origem.pagamento', 01, 02, 0,  Quitacao.OrigemPagamento );
+    AddFieldNoXml( tcInt, '', 'viagem.quitacao.prazo', 01, 02, 0, Quitacao.Prazo );
+    AddFieldNoXml( tcStr, '', 'viagem.quitacao.entrega.ressalva', 01, 01, 0, IfThen( Quitacao.EntregaRessalva, 'S', '' ) );
+    AddFieldNoXml( tcInt, '', 'viagem.quitacao.desconto.tipo', 01, 01, 0, Quitacao.DescontoTipo );
+    AddFieldNoXml( tcDe2, '', 'viagem.quitacao.desconto.tolerancia', 01, 03, 0,  Quitacao.DescontoTolerancia );
+    AddFieldNoXml( tcInt, '', 'viagem.quitacao.desconto.faixa.qtde', 01, 09, 0, Quitacao.DescontoFaixas.Count );
+
+    for i := 0 to Quitacao.DescontoFaixas.Count - 1 do
+    begin
+      AddFieldNoXml( tcDe3, '', Format( 'viagem.quitacao.desconto.faixa%d.ate', [i+1] ), 01, 09, 1, Quitacao.DescontoFaixas.Items[i].Ate );
+      AddFieldNoXml( tcDe2, '', Format( 'viagem.quitacao.desconto.faixa%d.percentual', [i+1] ), 01, 03, 1, Quitacao.DescontoFaixas.Items[i].Percentual );
+    end;
+  end;
+end;
+
+procedure TCIOTW_Pamcard.GerarInserirContratoFrete;
+var
+  FavorecidoQtd : Integer;
+begin
+  Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'InsertFreightContract' );
+
+  FIndiceFavorecido := 0;
+  FavorecidoQtd := 0;
+
+  with CIOT.AdicionarOperacao do
+  begin
+    if( OnlyNumber( Contratado.CpfOuCnpj ) <> '' )then
+      Inc( FavorecidoQtd );
+
+    if( OnlyNumber( Subcontratante.CpfOuCnpj ) <> '' )then
+      Inc( FavorecidoQtd );
+
+    if( OnlyNumber( Motorista.CpfOuCnpj ) <> '' )then
+      Inc( FavorecidoQtd );
+
+    AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( MatrizCNPJ ) );
+
+    if( OnlyNumber( FilialCNPJ ) <> '' )then
+    begin
+      AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 01, 2, 1 ); //CNPJ
+      AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( FilialCNPJ ) );
+    end;
+
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.qtde', 01, 02, 1, FavorecidoQtd );
+
+    FavorecidoContratoFrete( 1, Contratado );
+    FavorecidoContratoFrete( 2, Subcontratante );
+    FavorecidoContratoFrete( 3, Motorista );
+
+    AddFieldNoXml( tcStr, '', 'viagem.contrato.numero', 01, 30, 0, CodigoIdentificacaoOperacaoPrincipal );
+    AddFieldNoXml( tcInt, '', 'viagem.id.cliente', 01, 18, 1, IdOperacaoCliente );
+    AddFieldNoXml( tcDatVcto, '', 'viagem.data.partida', 01, 10, 1, DataInicioViagem );
+    AddFieldNoXml( tcDatVcto, '', 'viagem.data.termino', 01, 10, 1, DataFimViagem );
+
+    VeiculosContratoFrete;
+
+    if( Viagens.Count > 0 )then
+      AddFieldNoXml( tcInt, '', 'viagem.distancia.km', 01, 10, 1, Viagens[0].DistanciaPercorrida );
+
+    AddFieldNoXml( tcInt, '', 'viagem.carga.tipo', 01, 02, 1, TipoCargaToStr( CodigoTipoCarga ) );
+    AddFieldNoXml( tcInt, '', 'viagem.carga.natureza', 04, 04, 1, CodigoNCMNaturezaCarga );
+    AddFieldNoXml( tcDe2, '', 'viagem.carga.peso', 01, 07, 1, PesoCarga );
+    AddFieldNoXml( tcInt, '', 'viagem.carga.perfil.id', 01, 01, 0, CargaPerfilId );
+    AddFieldNoXml( tcDe2, '', 'viagem.carga.valorunitario', 01, 11, 0, CargaValorUnitario );
+    AddFieldNoXml( tcStr, '', 'viagem.carga.destinacaocomercial.indicador ', 01, 01, 0, IfThen( DestinacaoComercial, 'S', 'N' ) );
+
+    DocumentosContratoFrete;
+
+    RotaOrigemDestinoPontosContratoFrete;
+
+    PedagioContratoFrete;
+
+    FreteContratoFrete;
+
+    ParcelasContratoFrete;
+
+    QuitacaoContratoFrete;
+
+    AddFieldNoXml( tcInt, '', 'viagem.diferencafrete.credito', 01, 01, 0, IfThen( DiferencaFreteCredito, 1, 0 ) );
+    AddFieldNoXml( tcInt, '', 'viagem.diferencafrete.debito', 01, 01, 0, IfThen( DiferencaFreteDebito, 1, 0 ) );
+    AddFieldNoXml( tcDe2, '', 'viagem.diferencafrete.tarifamotorista', 01, 11, 0, DiferencaFreteTarifaMotorista );
+    AddFieldNoXml( tcStr, '', 'viagem.comprovacao.observacao', 01, 4000, 0, ComprovacaoObservacao );
+
+    AddFieldNoXml( tcStr, '', 'viagem.retorno.frete.indicador', 01, 01, 0, IfThen( FreteRetorno, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.retorno.cep', 01, 08, 0, OnlyNumber( CepRetorno ) );
+    AddFieldNoXml( tcInt, '', 'viagem.retorno.distancia.km', 01, 10, 0, DistanciaRetorno );
+
+    if( OnlyNumber( CiotEmissor.CpfOuCnpj ) <> '' )then
+    begin
+      AddFieldNoXml( tcStr, '', 'viagem.ciot.emissor.cliente.documento.tipo', 01, 01, 0, IfThen( Length( OnlyNumber( CiotEmissor.CpfOuCnpj ) ) = 11, 2, 1 ) );
+      AddFieldNoXml( tcStr, '', 'viagem.ciot.emissor.cliente.documento.numero', 01, 14, 0, CiotEmissor.CpfOuCnpj );
+      AddFieldNoXml( tcStr, '', 'viagem.ciot.emissor.cliente.nome', 01, 60, 0, CiotEmissor.NomeOuRazaoSocial );
+    end;
+
+    AddFieldNoXml( tcInt, '', 'viagem.contratacao.tipo', 01, 01, 0, ContratacaoTipo );
+  end;
+end;
+
+procedure TCIOTW_Pamcard.GerarAlterarContratoFrete;
+
+  {procedure PessoaFiscal( id, Tipo: Integer; Pessoa: TPessoa );
+  var
+    p : Integer;
+  begin
+    if( Trim( Pessoa.CpfOuCnpj ) = '' )then
+      Exit;
+
+    Inc( FIndicePessoaFiscal );
+    p := FIndicePessoaFiscal;
+
+    AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.tipo', [id+1, p] ), 01, 1, 1, Tipo ); //1-Remetente, 2-Destinatario, 3-Consignatario
+    AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.codigo', [id+1, p] ), 01, 10, 0, Pessoa.CodigoNaIntegradora );
+
+    if( Pessoa.CodigoNaIntegradora = 0 )then
+    begin
+      AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.documento.tipo', [id+1, p] ), 01, 2, 1, IfThen( Length( OnlyNumber( Pessoa.CpfOuCnpj ) ) = 11, 2, 1 ) ); //1-CNPJ 2-CPF
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.documento.numero', [id+1, p] ), 01, 20, 1, OnlyNumber( Pessoa.CpfOuCnpj ) );
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.nome', [id+1, p] ), 01, 40, 1, Pessoa.NomeOuRazaoSocial );
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.logradouro', [id+1, p]), 01, 40, 1, Pessoa.Endereco.Rua );
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.numero', [id+1, p] ), 01, 5, 1, Pessoa.Endereco.Numero );
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.complemento', [id+1, p] ), 01, 15, 1, Pessoa.Endereco.Complemento );
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.bairro', [id+1, p] ), 01, 30, 1, Pessoa.Endereco.Bairro );
+      AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.endereco.cidade.ibge', [id+1, p] ), 01, 7, 1, Pessoa.Endereco.CodigoMunicipio );
+      AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.endereco.cep', [id+1, p] ), 01, 8, 1, OnlyNumber( Pessoa.Endereco.CEP ) );
+    end;
+  end;}
+
+{var
+  I : Integer;
+  Favorecidos : array of TFavorecidoInfo;
+  PessoaFiscalQtd : Integer;}
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'UpdateFreightContract' );
+
+  if Trim( CIOT.AdicionarOperacao.Contratado.CpfOuCnpj ) <> '' then
+  begin
+    SetLength( Favorecidos, Length( Favorecidos ) + 1);
+    Favorecidos[High( Favorecidos )].Tipo := 1;
+    Favorecidos[High( Favorecidos )].Pessoa := CIOT.AdicionarOperacao.Contratado;
+  end;
+
+  if Trim( CIOT.AdicionarOperacao.Subcontratante.CpfOuCnpj ) <> '' then
+  begin
+    SetLength( Favorecidos, Length( Favorecidos ) + 1);
+    Favorecidos[High( Favorecidos )].Tipo := 2;
+    Favorecidos[High( Favorecidos )].Pessoa := CIOT.AdicionarOperacao.Subcontratante;
+  end;
+
+  if Trim( CIOT.AdicionarOperacao.Motorista.CpfOuCnpj ) <> '' then
+  begin
+    SetLength( Favorecidos, Length( Favorecidos ) + 1 );
+    Favorecidos[High( Favorecidos )].Tipo := 3;
+    Favorecidos[High( Favorecidos )].Pessoa := CIOT.AdicionarOperacao.Motorista;
+  end;
+
+  AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+  AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.FilialCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido.qtde', 01, 1, 1, Length( Favorecidos ) );
+
+  for i := 0 to High(Favorecidos) do
+  begin
+    AddFieldNoXml( tcInt, '', Format( 'viagem.favorecido%d.tipo', [i+1] ), 01, 1, 0, Favorecidos[I].Tipo );
+    AddFieldNoXml( tcStr, '', Format( 'viagem.favorecido%d.cartao.numero', [i+1] ), 01, 16, 0, OnlyNumber( Favorecidos[I].Pessoa.InformacoesBancarias.CartaoNumero ) );
+  end;
+
+  AddFieldNoXml( tcInt, '', 'viagem.id', 01, 10, 1, CIOT.AdicionarOperacao.Id );
+  AddFieldNoXml( tcInt, '', 'viagem.id.cliente', 01, 18, 1, CIOT.AdicionarOperacao.IdOperacaoCliente );
+  AddFieldNoXml( tcInt, '', 'viagem.antt.ciot.numero', 01, 12, 1, CIOT.AdicionarOperacao.CIOTNumero );
+  AddFieldNoXml( tcDatVcto, '', 'viagem.data.termino', 01, 10, 1, CIOT.AdicionarOperacao.DataFimViagem );
+  AddFieldNoXml( tcInt, '', 'viagem.carga.natureza', 01, 4, 1, CIOT.AdicionarOperacao.CodigoNCMNaturezaCarga );
+  AddFieldNoXml( tcInt, '', 'viagem.carga.tipo', 01, 2, 1, TipoCargaToStr( CIOT.AdicionarOperacao.CodigoTipoCarga ) );
+  AddFieldNoXml( tcDe2, '', 'viagem.carga.peso', 01, 5, 1, CIOT.AdicionarOperacao.PesoCarga );
+  AddFieldNoXml( tcStr, '', 'viagem.veiculo.categoria', 01, 3, 0, CIOT.AdicionarOperacao.VeiculoCategoria );
+  AddFieldNoXml( tcInt, '', 'viagem.veiculo.qtde', 01, 1, 1, CIOT.AdicionarOperacao.Veiculos.Count );
+
+  for i := 0 to CIOT.AdicionarOperacao.Veiculos.Count - 1 do
+  begin
+    AddFieldNoXml( tcStr, '', Format( 'viagem.veiculo%d.placa', [i+1] ), 01, 7, 1, CIOT.AdicionarOperacao.Veiculos.Items[i].Placa );
+    AddFieldNoXml( tcStr, '', Format( 'viagem.veiculo%d.rntrc', [i+1] ), 01, 8, 0, CIOT.AdicionarOperacao.Veiculos.Items[i].RNTRC );
+  end;
+
+  AddFieldNoXml( tcStr, '', 'viagem.pedagio.roteirizar', 01, 1, 0, IfThen( CIOT.AdicionarOperacao.Pedagio.Roteirizar, 'S', 'N' ) );
+  AddFieldNoXml( tcInt, '', 'viagem.documento.qtde', 01, 10, 1, CIOT.AdicionarOperacao.Viagens[0].NotasFiscais.Count );
+
+  for i := 0 to CIOT.AdicionarOperacao.Viagens[0].NotasFiscais.Count -1 do
+  begin
+    FIndicePessoaFiscal := 0;
+    PessoaFiscalQtd := 0;
+
+    if( Trim( CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].Remetente.CpfOuCnpj ) <> '' )then
+      Inc( PessoaFiscalQtd );
+
+    if( Trim( CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].Destinatario.CpfOuCnpj ) <> '' )then
+      Inc( PessoaFiscalQtd );
+
+    if( Trim( CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].Consignatario.CpfOuCnpj ) <> '' )then
+      Inc( PessoaFiscalQtd );
+
+    AddFieldNoXml( tcInt, '', Format( 'viagem.documento%d.tipo', [i+1] ), 01, 2, 1, TipoDocumentoPamcardToStr( CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].TipoDocumentoPamcard ) );
+    AddFieldNoXml( tcStr, '', Format( 'viagem.documento%d.numero', [i+1] ), 01, 30, 01, CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].Numero );
+    AddFieldNoXml( tcStr, '', Format( 'viagem.documento%d.serie', [i+1] ), 01, 5, 0, CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].Serie );
+    AddFieldNoXml( tcDe2, '', Format( 'viagem.documento%d.quantidade', [i+1] ), 01, 7, 0, CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].QuantidadeDaMercadoriaNoEmbarque );
+    AddFieldNoXml( tcStr, '', Format( 'viagem.documento%d.especie', [i+1] ), 01, 15, 0, CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].Especie );
+    AddFieldNoXml( tcDe3, '', Format( 'viagem.documento%d.cubagem', [i+1] ), 01, 8, 0, CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].Cubagem );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.documento%d.natureza', [i+1] ), 01, 4, 0, CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].CodigoNCMNaturezaCarga );
+    AddFieldNoXml( tcDe2, '', Format( 'viagem.documento%d.peso', [i+1] ), 01, 5, 0, CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].Peso );
+    AddFieldNoXml( tcDe2, '', Format( 'viagem.documento%d.mercadoria.valor', [i+1] ), 01, 17, 0, CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].ValorTotal );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.documento%d.pessoafiscal.qtde', [i+1] ), 01, 02, 1, PessoaFiscalQtd );
+
+    PessoaFiscal( i, 1, CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].Remetente );
+    PessoaFiscal( i, 2, CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].Destinatario );
+    PessoaFiscal( i, 3, CIOT.AdicionarOperacao.Viagens[0].NotasFiscais[i].Consignatario );
+  end;
+
+  AddFieldNoXml( tcStr, '', 'viagem.documento.complementar.qtde', 01, 2, 0, 0 );
+  AddFieldNoXml( tcStr, '', Format('viagem.documento.complementar%d.tipo', [1] ), 01, 2, 0, 0 );//Implementar lista futuramente se necessario
+
+  AddFieldNoXml( tcStr, '', 'viagem.pedagio.cartao.numero', 01, 16, 0, CIOT.AdicionarOperacao.Pedagio.CartaoNumero );
+  AddFieldNoXml( tcStr, '', 'viagem.pedagio.idavolta', 01, 1, 0, IfThen( CIOT.AdicionarOperacao.Pedagio.IdaVolta, 'S', 'N' ) );
+  AddFieldNoXml( tcStr, '', 'viagem.pedagio.obter.praca', 01, 1, 0, IfThen( CIOT.AdicionarOperacao.Pedagio.ObterPraca, 'S', 'N' ) );
+  AddFieldNoXml( tcStr, '', 'viagem.pedagio.roteirizar', 01, 1, 0, IfThen( CIOT.AdicionarOperacao.Pedagio.Roteirizar, 'S', 'N' ) );
+  AddFieldNoXml( tcInt, '', 'viagem.pedagio.solucao.id', 01, 1, 0, CIOT.AdicionarOperacao.Pedagio.SolucaoId );
+  AddFieldNoXml( tcInt, '', 'viagem.pedagio.status.id', 01, 2, 0, CIOT.AdicionarOperacao.Pedagio.StatusId );
+  AddFieldNoXml( tcDe2, '', 'viagem.pedagio.valor', 01, 9, 0, CIOT.AdicionarOperacao.Pedagio.Valor );
+  AddFieldNoXml( tcInt, '', 'viagem.pedagio.praca.qtde', 01, 3, 0, CIOT.AdicionarOperacao.Pedagio.Pracas.Count );
+
+  for i := 0 to CIOT.AdicionarOperacao.Pedagio.Pracas.Count - 1 do
+  begin
+    AddFieldNoXml( tcInt, '', Format( 'viagem.pedagio.praca%d.id', [i+1] ), 01, 5, 0, CIOT.AdicionarOperacao.Pedagio.Pracas.Items[i].Id );
+    AddFieldNoXml( tcDe2, '', Format( 'viagem.pedagio.praca%d.valor', [i+1] ), 01, 9, 0, CIOT.AdicionarOperacao.Pedagio.Pracas.Items[i].Valor );
+  end;
+
+  AddFieldNoXml( tcInt, '', 'viagem.rota.id', 01, 10, 0, CIOT.AdicionarOperacao.Rota.Id );
+  AddFieldNoXml( tcStr, '', 'viagem.rota.nome', 01, 50, 0, CIOT.AdicionarOperacao.Rota.Nome );
+  AddFieldNoXml( tcStr, '', 'viagem.origem.pais.nome', 01, 50, 0, CIOT.AdicionarOperacao.Rota.OrigemPaisNome );
+  AddFieldNoXml( tcStr, '', 'viagem.origem.estado.nome', 01, 50, 0, CIOT.AdicionarOperacao.Rota.OrigemEstadoNome );
+  AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.nome', 01, 50, 0, CIOT.AdicionarOperacao.Rota.OrigemCidadeNome );
+  AddFieldNoXml( tcInt, '', 'viagem.origem.cidade.ibge', 01, 7, 0, CIOT.AdicionarOperacao.Rota.OrigemCidadeIbge );
+  AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.latitude', 01, 10, 0, CIOT.AdicionarOperacao.Rota.OrigemCidadeLatitude );
+  AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.longitude', 01, 10, 0, CIOT.AdicionarOperacao.Rota.OrigemCidadeLongitude );
+  AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.cep', 01, 8, 0, OnlyNumber( CIOT.AdicionarOperacao.Rota.OrigemCidadeCep ) );
+  AddFieldNoXml( tcInt, '', 'viagem.destino.cidade.ibge', 01, 7, 0, CIOT.AdicionarOperacao.Rota.DestinoCidadeIbge );
+  AddFieldNoXml( tcStr, '', 'viagem.destino.pais.nome', 01, 50, 0, CIOT.AdicionarOperacao.Rota.DestinoPaisNome );
+  AddFieldNoXml( tcStr, '', 'viagem.destino.estado.nome', 01, 50, 0, CIOT.AdicionarOperacao.Rota.DestinoEstadoNome );
+  AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.nome', 01, 50, 0, CIOT.AdicionarOperacao.Rota.DestinoCidadeNome );
+  AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.latitude', 01, 10, 0, CIOT.AdicionarOperacao.Rota.DestinoCidadeLatitude );
+  AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.longitude', 01, 10, 0, CIOT.AdicionarOperacao.Rota.DestinoCidadeLongitude );
+  AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.cep', 01, 8, 0, CIOT.AdicionarOperacao.Rota.DestinoCidadeCep );
+  AddFieldNoXml( tcInt, '', 'viagem.ponto.qtde', 01, 10, 0, CIOT.AdicionarOperacao.Rota.Pontos.Count );
+
+  for i := 0 to CIOT.AdicionarOperacao.Rota.Pontos.Count - 1 do
+  begin
+    AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.pais.nome', [i+1] ), 01, 50, 0, CIOT.AdicionarOperacao.Rota.Pontos.Items[I].PaisNome );
+    AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.estado.nome', [i+1] ), 01, 50, 0, CIOT.AdicionarOperacao.Rota.Pontos.Items[I].EstadoNome );
+    AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.cidade.nome', [i+1] ), 01, 50, 0, CIOT.AdicionarOperacao.Rota.Pontos.Items[I].CidadeNome );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.ponto%d.cidade.ibge', [i+1] ), 01, 50, 0, CIOT.AdicionarOperacao.Rota.Pontos.Items[I].CidadeIbge );
+  end;
+
+  AddFieldNoXml( tcInt, '', 'viagem.posto.qtde', 01, 02, 0, CIOT.AdicionarOperacao.Postos.Count );
+
+  for i := 0 to CIOT.AdicionarOperacao.Postos.Count - 1 do
+    AddFieldNoXml( tcStr, '', Format('viagem.posto%d.documento.numero', [i+1] ), 01, 20, 0, OnlyNumber( CIOT.AdicionarOperacao.Postos.Items[i].CNPJ ) );
+
+  AddFieldNoXml( tcStr, '', 'viagem.quitacao.indicador', 01, 1, 0, IfThen( CIOT.AdicionarOperacao.Quitacao.Indicador, 'S', 'N' ) );
+  AddFieldNoXml( tcInt, '', 'viagem.carga.perfil.id', 01, 1, 0, CIOT.AdicionarOperacao.CargaPerfilId );
+  AddFieldNoXml( tcInt, '', 'viagem.quitacao.origem.pagamento', 01, 2, 0,  CIOT.AdicionarOperacao.Quitacao.OrigemPagamento );
+  AddFieldNoXml( tcInt, '', 'viagem.quitacao.prazo', 01, 2, 0, CIOT.AdicionarOperacao.Quitacao.Prazo );
+  AddFieldNoXml( tcStr, '', 'viagem.quitacao.entrega.ressalva', 01, 1, 0, IfThen( CIOT.AdicionarOperacao.Quitacao.EntregaRessalva, 'S', 'N' ) );
+  AddFieldNoXml( tcInt, '', 'viagem.quitacao.desconto.tipo', 01, 1, 0, CIOT.AdicionarOperacao.Quitacao.DescontoTipo );
+  AddFieldNoXml( tcDe2, '', 'viagem.carga.valorunitario', 01, 9, 0, CIOT.AdicionarOperacao.CargaValorUnitario );
+  AddFieldNoXml( tcDe2, '', 'viagem.quitacao.desconto.tolerancia', 01, 3, 0,  CIOT.AdicionarOperacao.Quitacao.DescontoTolerancia );
+  AddFieldNoXml( tcInt, '', 'viagem.quitacao.desconto.faixa.qtde', 01, 9, 0, CIOT.AdicionarOperacao.Quitacao.DescontoFaixas.Count );
+
+  for i := 0 to CIOT.AdicionarOperacao.Quitacao.DescontoFaixas.Count - 1 do
+  begin
+    AddFieldNoXml( tcDe3, '', Format( 'viagem.quitacao.desconto.faixa%d.ate', [i+1] ), 01, 9, 1, CIOT.AdicionarOperacao.Quitacao.DescontoFaixas.Items[i].Ate );
+    AddFieldNoXml( tcDe2, '', Format( 'viagem.quitacao.desconto.faixa%d.percentual', [i+1] ), 01, 3, 1, CIOT.AdicionarOperacao.Quitacao.DescontoFaixas.Items[i].Percentual );
+  end;
+
+  AddFieldNoXml( tcInt, '', 'viagem.diferencafrete.credito', 01, 1, 0, IfThen( CIOT.AdicionarOperacao.DiferencaFreteCredito, 1, 0 ) );
+  AddFieldNoXml( tcInt, '', 'viagem.diferencafrete.debito', 01, 1, 0, IfThen( CIOT.AdicionarOperacao.DiferencaFreteDebito, 1, 0 ) );
+  AddFieldNoXml( tcDe2, '', 'viagem.diferencafrete.tarifamotorista', 01, 9, 0, CIOT.AdicionarOperacao.DiferencaFreteTarifaMotorista );
+  AddFieldNoXml( tcStr, '', 'viagem.comprovacao.observacao', 01, 4000, 0, CIOT.AdicionarOperacao.ComprovacaoObservacao );}
+end;
+
+procedure TCIOTW_Pamcard.GerarAlterarStatusParcela;
+{var
+  I : Integer;}
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'UpdateParcelStatus' );
+
+  AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+  AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.FilialCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.id', 01, 10, 1, CIOT.AdicionarOperacao.Id );
+  AddFieldNoXml( tcInt, '', 'viagem.id.cliente', 01, 18, 1, CIOT.AdicionarOperacao.IdOperacaoCliente );
+  AddFieldNoXml( tcInt, '', 'viagem.antt.ciot.numero', 01, 12, 1, CIOT.AdicionarOperacao.CIOTNumero );
+  AddFieldNoXml( tcInt, '', 'viagem.parcela.qtde', 01, 10, 0, CIOT.AdicionarOperacao.Parcelas.Count );
+
+  for i := 0 to CIOT.AdicionarOperacao.Parcelas.Count - 1 do
+  begin
+    AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.numero', [i+1] ), 01, 2, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].Numero );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.status.id', [i+1] ), 01, 2, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].StatusId );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.numero.cliente', [i+1] ), 01, 18, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].NumeroCliente );
+  end;}
+end;
+
+procedure TCIOTW_Pamcard.GerarAlterarStatusPedagio;
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'UpdateTollStatus' );
+
+  AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+  AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.FilialCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.id', 01, 10, 1, CIOT.AdicionarOperacao.Id );
+  AddFieldNoXml( tcInt, '', 'viagem.id.cliente', 01, 18, 1, CIOT.AdicionarOperacao.IdOperacaoCliente );
+  AddFieldNoXml( tcInt, '', 'viagem.antt.ciot.numero', 01, 12, 1, CIOT.AdicionarOperacao.CIOTNumero );
+  AddFieldNoXml( tcInt, '', 'viagem.pedagio.status.id', 01, 10, 1, CIOT.AdicionarOperacao.Pedagio.StatusId );}
+end;
+
+procedure TCIOTW_Pamcard.GerarAlterarValoresContratoFrete;
+{var
+  I : Integer;}
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'UpdateValuesFreightContract' );
+
+  AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+  AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.FilialCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.id', 01, 10, 1, CIOT.AdicionarOperacao.Id );
+  AddFieldNoXml( tcInt, '', 'viagem.id.cliente', 01, 10, 1, CIOT.AdicionarOperacao.IdOperacaoCliente );
+  AddFieldNoXml( tcInt, '', 'viagem.antt.ciot.numero', 01, 12, 1, CIOT.AdicionarOperacao.CIOTNumero );
+  AddFieldNoXml( tcDe2, '', 'viagem.frete.valor.bruto', 01, 9, 1, CIOT.AdicionarOperacao.Frete.ValorBruto );
+  AddFieldNoXml( tcInt, '', 'viagem.frete.item.qtde', 01, 2, 1, CIOT.AdicionarOperacao.Frete.Itens.Count );
+
+  for i := 0 to CIOT.AdicionarOperacao.Frete.Itens.Count - 1 do
+  begin
+    AddFieldNoXml( tcInt, '', Format( 'viagem.frete.item%d.tipo', [i+1] ), 01, 3, 1, CIOT.AdicionarOperacao.Frete.Itens[I].Tipo );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.frete.item%d.tarifa.quantidade', [i+1] ), 01, 2, 1, CIOT.AdicionarOperacao.Frete.Itens[I].TarifaQuantidade );
+    AddFieldNoXml( tcDe2, '', Format( 'viagem.frete.item%d.valor', [i+1] ), 01, 17, 1, CIOT.AdicionarOperacao.Frete.Itens[I].Valor );
+  end;
+
+  AddFieldNoXml( tcInt, '', 'viagem.parcela.qtde', 01, 10, 0, CIOT.AdicionarOperacao.Parcelas.Count );
+
+  for i := 0 to CIOT.AdicionarOperacao.Parcelas.Count - 1 do
+  begin
+    AddFieldNoXml( tcDatVcto, '', Format( 'viagem.parcela%d.data', [i+1] ), 01, 10, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].Data );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.efetivacao.tipo', [i+1] ), 01, 02, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].EfetivacaoTipo );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.favorecido.tipo.id', [i+1] ), 01, 02, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].FavorecidoTipoId );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.numero.cliente', [i+1] ), 01, 18, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].NumeroCliente );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.status.id', [i+1] ), 01, 2, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].StatusId );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.tipo', [i+1] ), 01, 2, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].Tipo );
+    AddFieldNoXml( tcDe2, '', Format( 'viagem.parcela%d.valor', [i+1] ), 01, 9, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].Valor );
+  end;}
+end;
+
+procedure TCIOTW_Pamcard.GerarAlterarValoresViagem;
+{var
+  I : Integer;}
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'UpdateValuesTrip' );
+
+  AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+  AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.FilialCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.id', 01, 10, 1, CIOT.AdicionarOperacao.Id );
+  AddFieldNoXml( tcInt, '', 'viagem.id.cliente', 01, 10, 1, CIOT.AdicionarOperacao.IdOperacaoCliente );
+  AddFieldNoXml( tcInt, '', 'viagem.parcela.qtde', 01, 10, 0, CIOT.AdicionarOperacao.Parcelas.Count );
+
+  for i := 0 to CIOT.AdicionarOperacao.Parcelas.Count - 1 do
+  begin
+    AddFieldNoXml( tcDatVcto, '', Format( 'viagem.parcela%d.data', [i+1] ), 01, 10, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].Data );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.efetivacao.tipo', [i+1] ), 01, 02, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].EfetivacaoTipo );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.favorecido.tipo.id', [i+1] ), 01, 02, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].FavorecidoTipoId );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.numero.cliente', [i+1] ), 01, 18, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].NumeroCliente );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.status.id', [i+1] ), 01, 2, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].StatusId );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.tipo', [i+1] ), 01, 2, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].Tipo );
+    AddFieldNoXml( tcDe2, '', Format( 'viagem.parcela%d.valor', [i+1] ), 01, 9, 1, CIOT.AdicionarOperacao.Parcelas.Items[i].Valor );
+  end;}
+end;
+
+procedure TCIOTW_Pamcard.GerarCancelaViagem;
+begin
+  with CIOT.CancelarOperacao do
+  begin
+    Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'CancelTrip' );
+
+    AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.CancelarOperacao.MatrizCNPJ ) );
+
+    if( OnlyNumber( FilialCNPJ ) <> '' )then
+    begin
+      AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 01, 2, 1 ); //CNPJ
+      AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( FilialCNPJ ) );
+    end;
+
+    AddFieldNoXml( tcStr, '', 'viagem.id', 01, 10, 0, CIOT.CancelarOperacao.IdOperacaoIntegradora );
+    AddFieldNoXml( tcStr, '', 'viagem.id.cliente', 01, 18, 0, CIOT.CancelarOperacao.IdOperacaoCliente );
+    AddFieldNoXml( tcStr, '', 'viagem.antt.ciot.numero', 01, 12, 0, CIOT.CancelarOperacao.CodigoIdentificacaoOperacao );
+    AddFieldNoXml( tcStr, '', 'viagem.antt.cancelamento.motivo', 01, 500, 1, CIOT.CancelarOperacao.Motivo );
+  end;
+end;
+
+procedure TCIOTW_Pamcard.GerarConsultarContratoFrete;
+begin
+  with CIOT.ObterCodigoOperacaoTransporte do
+  begin
+    Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'FindFreightContract' );
+
+    AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.ObterCodigoOperacaoTransporte.MatrizCNPJ ) );
+
+    if( OnlyNumber( FilialCNPJ ) <> '' )then
+    begin
+      AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 01, 2, 1 ); //CNPJ
+      AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( FilialCNPJ ) );
+    end;
+
+    AddFieldNoXml( tcStr, '', 'viagem.id', 01, 10, 0, CIOT.ObterCodigoOperacaoTransporte.IdOperacaoIntegradora );
+    AddFieldNoXml( tcStr, '', 'viagem.id.cliente', 01, 18, 0, CIOT.ObterCodigoOperacaoTransporte.IdOperacaoCliente );
+    AddFieldNoXml( tcStr, '', 'viagem.antt.ciot.numero', 01, 12, 0, CIOT.ObterCodigoOperacaoTransporte.CodigoIdentificacaoOperacao );
+    AddFieldNoXml( tcStr, '', 'viagem.pedagio.obter.praca', 01, 01, 1, IfThen( CIOT.ObterCodigoOperacaoTransporte.PedagioObterPraca, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.pedagio.obter.rota', 01, 01, 1, IfThen( CIOT.ObterCodigoOperacaoTransporte.PedagioObterRota, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.obter.favorecido', 01, 01, 1, IfThen( CIOT.ObterCodigoOperacaoTransporte.ObterFavorecido, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.obter.documento', 01, 01, 1, IfThen( CIOT.ObterCodigoOperacaoTransporte.ObterDocumento, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.obter.valores', 01, 01, 1, IfThen( CIOT.ObterCodigoOperacaoTransporte.ObterValores, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.obter.veiculo', 01, 01, 1, IfThen( CIOT.ObterCodigoOperacaoTransporte.ObterVeiculo, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.obter.quitacao', 01, 01, 1, IfThen( CIOT.ObterCodigoOperacaoTransporte.ObterQuitacao, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.obter.uf', 01, 01, 1, IfThen( CIOT.ObterCodigoOperacaoTransporte.ObterUf, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.obter.postos', 01, 01, 1, IfThen( CIOT.ObterCodigoOperacaoTransporte.ObterPostos, 'S', 'N' ) );
+  end;
+end;
+
+procedure TCIOTW_Pamcard.GerarConsultarCartao;
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'FindCard' );
+
+  AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+  AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.FilialCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.cartao.numero', 01, 16, 1, CIOT.AdicionarOperacao.Cartao.Numero );}
+end;
+
+procedure TCIOTW_Pamcard.GerarConsultarConta(Favorecido: TPessoa);
+{var
+  i : Integer;}
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'FindFavoredAccount' );
+
+  AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+  AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.FilialCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido.documento.tipo', 01, 1, 1, IfThen( Length( OnlyNumber( Favorecido.CpfOuCnpj ) ) = 11, 2, 1) );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido.documento.numero', 01, 20, 1, OnlyNumber( Favorecido.CpfOuCnpj ) );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido.conta.banco', 01, 4, 1, Favorecido.InformacoesBancarias.InstituicaoBancaria );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido.conta.agencia', 01, 10, 1, Favorecido.InformacoesBancarias.Agencia );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido.conta.agencia.digito', 01, 1, 1, Favorecido.InformacoesBancarias.DigitoAgencia );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido.conta.numero', 01, 20, 1, Favorecido.InformacoesBancarias.Conta );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido.conta.tipo', 01, 2, 1, TipoContaToIndex( Favorecido.InformacoesBancarias.TipoConta ) );}
+end;
+
+procedure TCIOTW_Pamcard.GerarConsultarFavorecido(Favorecido: TPessoa);
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'FindFavored' );
+
+  AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+  AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.FilialCNPJ ) );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido.documento.numero', 01, 20, 1, OnlyNumber( Favorecido.CpfOuCnpj ) );
+
+  if( Length( OnlyNumber( Favorecido.CpfOuCnpj ) ) = 11 )then
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.documento.tipo', 01, 1, 1, 2 )
+  else
+  begin
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.documento.tipo', 01, 1, 1, 1 );
+
+    if( CIOT.AdicionarOperacao.ObterCartao )then
+    begin
+      AddFieldNoXml( tcStr, '', 'viagem.favorecido2.documento.numero', 01, 20, 1, OnlyNumber( Favorecido.CPF ) );
+      AddFieldNoXml( tcInt, '', 'viagem.favorecido2.documento.tipo', 01, 2, 1, 2 );
+    end;
+  end;
+
+  AddFieldNoXml( tcStr, '', 'viagem.obter.cartao', 01, 1, 1, IfThen( CIOT.AdicionarOperacao.ObterCartao, 'S', 'N' ) );
+  AddFieldNoXml( tcStr, '', 'viagem.obter.conta', 01, 1, 1, IfThen( CIOT.AdicionarOperacao.ObterConta, 'S', 'N' ) );
+  AddFieldNoXml( tcStr, '', 'viagem.obter.rntrc.complemento', 01, 1, 1, IfThen( CIOT.AdicionarOperacao.ObterRNTRCComplemento, 'S', 'N' ) );}
+end;
+
+procedure TCIOTW_Pamcard.GerarConsultarFrota(Favorecido: TPessoa);
+{var
+  i : Integer;}
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'FindFleet' );
+
+  AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+  AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.FilialCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido.documento.qtde', 01, 1, 1, 2 );
+
+  for i := 0 to 1 do
+  begin
+    AddFieldNoXml( tcInt, '', Format( 'viagem.favorecido.documento%d.tipo', [i+1] ), 01, 2, 0, IfThen( Length( OnlyNumber( Favorecido.CpfOuCnpj ) ) = 11, IfThen( i = 0, 2, 5 ), IfThen( i = 0, 1, 6 ) ) );
+    AddFieldNoXml( tcStr, '', Format( 'viagem.favorecido.documento%d.numero', [i+1] ), 01, 20, 0, IfThen( i = 0, OnlyNumber( Favorecido.CpfOuCnpj ), OnlyNumber( Favorecido.RNTRC ) ) );
+  end;
+
+  AddFieldNoXml( tcInt, '', 'viagem.veiculo.qtde', 01, 1, 1, CIOT.AdicionarOperacao.Veiculos.Count );
+
+  for i := 0 to CIOT.AdicionarOperacao.Veiculos.Count - 1 do
+  begin
+    AddFieldNoXml( tcStr, '', Format( 'viagem.veiculo%d.placa', [i + 1] ), 01, 07, 1, CIOT.AdicionarOperacao.Veiculos.Items[i].Placa );
+  end;
+
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido.obter.rntrc', 01, 1, 1, IfThen( Favorecido.ObterRNTRC, 'S', 'N' ) );}
+end;
+
+procedure TCIOTW_Pamcard.GerarConsultarRNTRC(Favorecido: TPessoa);
+{var
+  i : Integer;}
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'FindRNTRC' );
+
+  AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+  AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.FilialCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido.documento.qtde', 01, 1, 1, 2 );
+
+  for i := 0 to 1 do
+  begin
+    AddFieldNoXml( tcInt, '', Format( 'viagem.favorecido.documento%d.tipo', [i+1] ), 01, 2, 0, IfThen( Length( OnlyNumber( Favorecido.CpfOuCnpj ) ) = 11, IfThen( i = 0, 2, 5 ), IfThen( i = 0, 1, 6 ) ) );
+    AddFieldNoXml( tcInt, '', Format( 'viagem.favorecido.documento%d.numero', [i+1] ), 01, 20, 0, IfThen( i = 0, OnlyNumber( Favorecido.CpfOuCnpj ), OnlyNumber( Favorecido.RNTRC ) ) );
+  end;
+
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido.obter.rntrc', 01, 1, 1, IfThen( Favorecido.ObterRNTRC, 'S', 'N' ) );}
+end;
+
+procedure TCIOTW_Pamcard.GerarConsultarTAG(Favorecido : TPessoa);
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'FindTag' );
+
+  AddFieldNoXml( tcStr, '', 'tag.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  //AddFieldNoXml( tcStr, '', 'tag.placa', 01, 7, 1, OnlyNumber( CIOT.AdicionarOperacao. ) );   Campos so precisa ser preenchido em caso de nao haver favorecido ou numero
+  //AddFieldNoXml( tcStr, '', 'tag.numero', 01, 13, 1, OnlyNumber( CIOT.AdicionarOperacao. ) );  Campos so precisa ser preenchido em caso de nao haver favorecido ou placa
+  AddFieldNoXml( tcInt, '', 'favorecido.documento.tipo', 01, 2, 1, IfThen( Length( OnlyNumber( Favorecido.CpfOuCnpj ) ) = 11, 2, 1) );
+  AddFieldNoXml( tcStr, '', 'favorecido.documento.numero', 01, 20, 1, OnlyNumber( Favorecido.CpfOuCnpj ));
+  AddFieldNoXml( tcStr, '', 'tag.emissor.id', 01, 4, 1, OnlyNumber( CIOT.AdicionarOperacao.Pedagio.TagEmissorId ) );}
+end;
+
+procedure TCIOTW_Pamcard.GerarConsultarViagem;
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'FindTrip' );
+
+  AddFieldNoXml( tcInt, '', 'viagem.id', 01, 10, 1, CIOT.AdicionarOperacao.Id );
+  AddFieldNoXml( tcInt, '', 'viagem.id.cliente', 01, 18, 1, CIOT.AdicionarOperacao.IdOperacaoCliente );
+  AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+  AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.FilialCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.documento.qtde', 01, 2, 1, 1 );
+  AddFieldNoXml( tcInt, '', 'viagem.documento.tipo', 01, 2, 1, TipoDocumentoPamcardToStr( CIOT.AdicionarOperacao.TipoDocumentoPamCard ) );
+  AddFieldNoXml( tcStr, '', 'viagem.documento.numero', 01, 30, 1, CIOT.AdicionarOperacao.NumeroDocumentoPamCard );
+  AddFieldNoXml( tcInt, '', 'viagem.cartao.numero', 01, 16, 1, CIOT.AdicionarOperacao.Cartao.Numero );
+  AddFieldNoXml( tcStr, '', 'viagem.pedagio.obter.praca', 01, 1, 1, IfThen( CIOT.AdicionarOperacao.Pedagio.ObterPraca, 'S', 'N' ) );
+  AddFieldNoXml( tcStr, '', 'viagem.pedagio.obter.rota', 01, 1, 1, IfThen( CIOT.AdicionarOperacao.Pedagio.ObterRota, 'S', 'N' ) );
+  AddFieldNoXml( tcStr, '', 'viagem.obter.uf', 01, 1, 1, IfThen( CIOT.AdicionarOperacao.ObterUf, 'S', 'N' ) );
+  AddFieldNoXml( tcStr, '', 'viagem.obter.posto', 01, 1, 1, IfThen( CIOT.AdicionarOperacao.ObterPostos, 'S', 'N' ) );}
+end;
+
+procedure TCIOTW_Pamcard.GerarConsultaStatusParcela;
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'FindParcelStatus' );
+
+  AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+  AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.FilialCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.id', 01, 10, 1, CIOT.AdicionarOperacao.Id );
+  AddFieldNoXml( tcInt, '', 'viagem.id.cliente', 01, 18, 1, CIOT.AdicionarOperacao.IdOperacaoCliente );
+  AddFieldNoXml( tcInt, '', 'viagem.antt.ciot.numero', 01, 12, 1, CIOT.AdicionarOperacao.CIOTNumero );
+  AddFieldNoXml( tcInt, '', 'viagem.parcela.numero', 01, 2, 1, CIOT.AdicionarOperacao.Parcelas.Items[0].Numero );
+  AddFieldNoXml( tcInt, '', 'viagem.parcela.numero.cliente', 01, 18, 1, CIOT.AdicionarOperacao.Parcelas.Items[0].NumeroCliente );}
+end;
+
+procedure TCIOTW_Pamcard.GerarEncerrarContratoFrete;
+var
+  I : Integer;
+begin
+  with CIOT.EncerrarOperacao do
+  begin
+    Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'CloseFreightContract' );
+
+    AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( MatrizCNPJ ) );
+
+    if( OnlyNumber( FilialCNPJ ) <> '' )then
+    begin
+      AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 02, 1, 1 );
+      AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( FilialCNPJ ) );
+    end;
+
+    AddFieldNoXml( tcStr, '', 'viagem.id.cliente', 01, 18, 0, IdOperacaoCliente );
+    AddFieldNoXml( tcStr, '', 'viagem.id', 01, 10, 0, IdOperacaoIntegradora );
+    AddFieldNoXml( tcStr, '', 'viagem.antt.ciot.numero', 01, 12, 0, CodigoIdentificacaoOperacao );
+    AddFieldNoXml( tcDe2, '', 'viagem.frete.valor.bruto', 01, 11, 1, Frete.ValorBruto );
+    AddFieldNoXml( tcInt, '', 'viagem.frete.item.qtde', 01, 02, 1, Frete.Itens.Count );
+
+    for i := 0 to Frete.Itens.Count - 1 do
+    begin
+      AddFieldNoXml( tcInt, '', Format( 'viagem.frete.item%d.tipo', [i+1] ), 01, 03, 1, Frete.Itens[I].Tipo );
+      AddFieldNoXml( tcDe2, '', Format( 'viagem.frete.item%d.valor', [i+1] ), 01, 17, 1, Frete.Itens[I].Valor );
+    end;
+
+    AddFieldNoXml( tcDe2, '', 'viagem.carga.peso', 01, 05, 1, PesoCarga );
+  end;
+end;
+
+procedure TCIOTW_Pamcard.GerarConta(Favorecido : TPessoa);
+begin
+  {Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'InsertFavoredAccount' );
+
+  AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.MatrizCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+  AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( CIOT.AdicionarOperacao.FilialCNPJ ) );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido.documento.tipo', 01, 2, 1, IfThen( Length( OnlyNumber( Favorecido.CpfOuCnpj ) ) = 11, 2, 1 ) );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido.documento.numero', 01, 20, 1, Favorecido.CpfOuCnpj );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido.conta.banco', 01, 4, 1, Favorecido.InformacoesBancarias.InstituicaoBancaria );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido.conta.agencia', 01, 10, 1, Favorecido.InformacoesBancarias.Agencia );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido.conta.agencia.digito', 01, 1, 1, Favorecido.InformacoesBancarias.DigitoAgencia );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido.conta.numero', 01, 20, 1, Favorecido.InformacoesBancarias.Conta );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido.conta.tipo', 01, 2, 1, Favorecido.InformacoesBancarias.TipoConta );}
+end;
+
+procedure TCIOTW_Pamcard.GerarPagamentoParcela;
+var
+  I : Integer;
+begin
+  with CIOT.AdicionarPagamento do
+  begin
+    Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'PayParcel' );
+
+    AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( MatrizCNPJ ) );
+
+    if( OnlyNumber( FilialCNPJ ) <> '' )then
+    begin
+      AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 02, 1, 1 );
+      AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( FilialCNPJ ) );
+    end;
+
+    AddFieldNoXml( tcStr, '', 'viagem.id', 01, 10, 0, IdOperacaoIntegradora );
+    AddFieldNoXml( tcStr, '', 'viagem.id.cliente', 01, 18, 0, IdOperacaoCliente );
+    AddFieldNoXml( tcStr, '', 'viagem.antt.ciot.numero', 01, 12, 0, CodigoIdentificacaoOperacao );
+    AddFieldNoXml( tcInt, '', 'viagem.parcela.qtde', 01, 10, 0, Pagamentos.Count );
+
+    for i := 0 to Pagamentos.Count - 1 do
+    begin
+      AddFieldNoXml( tcStr, '', Format( 'viagem.parcela%d.numero', [i+1] ), 01, 02, 0, Pagamentos.Items[i].IdIntegradora );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.parcela%d.numero.cliente', [i+1] ), 01, 18, 0, Pagamentos.Items[i].IdPagamentoCliente );
+    end;
+  end;
+end;
+
+procedure TCIOTW_Pamcard.GerarPagamentoPedagio;
+begin
+  with CIOT.PagamentoPedagio do
+  begin
+    Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'PayToll' );
+
+    AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( MatrizCNPJ ) );
+
+    if( OnlyNumber( FilialCNPJ ) <> '' )then
+    begin
+      AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+      AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( FilialCNPJ ) );
+    end;
+
+    AddFieldNoXml( tcInt, '', 'viagem.id', 01, 10, 0, IdOperacaoIntegradora );
+    AddFieldNoXml( tcInt, '', 'viagem.id.cliente', 01, 18, 0, IdOperacaoCliente );
+    AddFieldNoXml( tcInt, '', 'viagem.antt.ciot.numero', 01, 12, 0, CodigoIdentificacaoOperacao );
+  end;
+end;
+
+procedure TCIOTW_Pamcard.GerarIncluirRota;
+var
+  I : Integer;
+begin
+  with CIOT.IncluirRota do
+  begin
+    Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'InsertRoute' );
+
+    AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( MatrizCNPJ ) );
+
+    if( OnlyNumber( FilialCNPJ ) <> '' )then
+    begin
+      AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+      AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( FilialCNPJ ) );
+    end;
+
+    AddFieldNoXml( tcInt, '', 'viagem.rota.id.cliente', 01, 10, 0, Rota.IdCliente );
+    AddFieldNoXml( tcStr, '', 'viagem.rota.nome', 01, 50, 0, Rota.Nome );
+
+    AddFieldNoXml( tcStr, '', 'viagem.origem.pais.nome', 01, 50, 0, Rota.OrigemPaisNome );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.estado.nome', 01, 50, 0, Rota.OrigemEstadoNome );
+    AddFieldNoXml( tcInt, '', 'viagem.origem.cidade.ibge', 01, 07, 0, Rota.OrigemCidadeIbge );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.nome', 01, 50, 0, Rota.OrigemCidadeNome );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.latitude', 01, 10, 0, Rota.OrigemCidadeLatitude );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.longitude', 01, 10, 0, Rota.OrigemCidadeLongitude );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.cep', 01, 08, 0, OnlyNumber( Rota.OrigemCidadeCep ) );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.eixo.indicador', 01, 01, 1, IfThen( Rota.OrigemEixoSuspenso, 'S', 'N' ) );
+
+    AddFieldNoXml( tcStr, '', 'viagem.destino.pais.nome', 01, 50, 0, Rota.DestinoPaisNome );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.estado.nome', 01, 50, 0, Rota.DestinoEstadoNome );
+    AddFieldNoXml( tcInt, '', 'viagem.destino.cidade.ibge', 01, 07, 0, Rota.DestinoCidadeIbge );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.nome', 01, 50, 0, Rota.DestinoCidadeNome );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.latitude', 01, 10, 0, Rota.DestinoCidadeLatitude );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.longitude', 01, 10, 0, Rota.DestinoCidadeLongitude );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.cep', 01, 08, 0, OnlyNumber( Rota.DestinoCidadeCep ) );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.eixo.indicador', 01, 01, 1, IfThen( Rota.DestinoEixoSuspenso, 'S', 'N' ) );
+
+    AddFieldNoXml( tcInt, '', 'viagem.ponto.qtde', 01, 10, 0, Rota.Pontos.Count );
+
+    for i := 0 to Rota.Pontos.Count - 1 do
+    begin
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.pais.nome', [i+1] ), 01, 50, 0, Rota.Pontos.Items[I].PaisNome );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.estado.nome', [i+1] ), 01, 50, 0, Rota.Pontos.Items[I].EstadoNome );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.cidade.nome', [i+1] ), 01, 50, 0, Rota.Pontos.Items[I].CidadeNome );
+      AddFieldNoXml( tcInt, '', Format( 'viagem.ponto%d.cidade.ibge', [i+1] ), 01, 50, 0, Rota.Pontos.Items[I].CidadeIbge );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.cidade.cep', [i+1] ), 01, 08, 0, OnlyNumber( Rota.Pontos.Items[I].CidadeCep ) );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.cidade.latitude', [i+1] ), 01, 10, 0, Rota.Pontos.Items[I].CidadeLatitude );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.cidade.longitude', [i+1] ), 01, 10, 0, Rota.Pontos.Items[I].CidadeLongitude );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.eixo.indicador', [i+1] ), 01, 01, 1, IfThen( Rota.Pontos.Items[I].EixoSuspenso, 'S', 'N' ) );
+    end;
+
+    AddFieldNoXml( tcStr, '', 'viagem.rota.idavolta', 01, 01, 0, IfThen( Pedagio.IdaVolta, 'S', 'N' ) );
+    AddFieldNoXml( tcInt, '', 'viagem.pedagio.caminho', 01, 1, 01, Pedagio.Caminho );
+  end;
+end;
+
+procedure TCIOTW_Pamcard.GerarRoteirizar;
+var
+  I : Integer;
+begin
+  with CIOT.Roterizar do
+  begin
+    Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'Router' );
+
+    AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( MatrizCNPJ ) );
+
+    if( OnlyNumber( FilialCNPJ ) <> '' )then
+    begin
+      AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+      AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( FilialCNPJ ) );
+    end;
+
+    AddFieldNoXml( tcStr, '', 'viagem.veiculo.categoria', 01, 3, 0, VeiculoCategoria );
+    AddFieldNoXml( tcStr, '', 'viagem.veiculo.categoria.eixo.suspenso', 01, 3, 1, VeiculoCategoriaEixoSuspenso );
+
+    AddFieldNoXml( tcInt, '', 'viagem.rota.id', 01, 10, 0, Rota.Id );
+    AddFieldNoXml( tcStr, '', 'viagem.rota.nome', 01, 50, 0, Rota.Nome );
+
+    AddFieldNoXml( tcStr, '', 'viagem.origem.pais.nome', 01, 50, 0, Rota.OrigemPaisNome );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.estado.nome', 01, 50, 0, Rota.OrigemEstadoNome );
+    AddFieldNoXml( tcInt, '', 'viagem.origem.cidade.ibge', 01, 07, 0, Rota.OrigemCidadeIbge );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.nome', 01, 50, 0, Rota.OrigemCidadeNome );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.latitude', 01, 10, 0, Rota.OrigemCidadeLatitude );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.longitude', 01, 10, 0, Rota.OrigemCidadeLongitude );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.cidade.cep', 01, 08, 0, OnlyNumber( Rota.OrigemCidadeCep ) );
+    AddFieldNoXml( tcStr, '', 'viagem.origem.eixo.indicador', 01, 01, 1, IfThen( Rota.OrigemEixoSuspenso, 'S', 'N' ) );
+
+    AddFieldNoXml( tcStr, '', 'viagem.destino.pais.nome', 01, 50, 0, Rota.DestinoPaisNome );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.estado.nome', 01, 50, 0, Rota.DestinoEstadoNome );
+    AddFieldNoXml( tcInt, '', 'viagem.destino.cidade.ibge', 01, 07, 0, Rota.DestinoCidadeIbge );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.nome', 01, 50, 0, Rota.DestinoCidadeNome );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.latitude', 01, 10, 0, Rota.DestinoCidadeLatitude );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.longitude', 01, 10, 0, Rota.DestinoCidadeLongitude );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.cidade.cep', 01, 08, 0, OnlyNumber( Rota.DestinoCidadeCep ) );
+    AddFieldNoXml( tcStr, '', 'viagem.destino.eixo.indicador', 01, 01, 1, IfThen( Rota.DestinoEixoSuspenso, 'S', 'N' ) );
+
+    AddFieldNoXml( tcInt, '', 'viagem.ponto.qtde', 01, 10, 0, Rota.Pontos.Count );
+
+    for i := 0 to Rota.Pontos.Count - 1 do
+    begin
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.pais.nome', [i+1] ), 01, 50, 0, Rota.Pontos.Items[I].PaisNome );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.estado.nome', [i+1] ), 01, 50, 0, Rota.Pontos.Items[I].EstadoNome );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.cidade.nome', [i+1] ), 01, 50, 0, Rota.Pontos.Items[I].CidadeNome );
+      AddFieldNoXml( tcInt, '', Format( 'viagem.ponto%d.cidade.ibge', [i+1] ), 01, 50, 0, Rota.Pontos.Items[I].CidadeIbge );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.cidade.cep', [i+1] ), 01, 08, 0, OnlyNumber( Rota.Pontos.Items[I].CidadeCep ) );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.cidade.latitude', [i+1] ), 01, 10, 0, Rota.Pontos.Items[I].CidadeLatitude );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.cidade.longitude', [i+1] ), 01, 10, 0, Rota.Pontos.Items[I].CidadeLongitude );
+      AddFieldNoXml( tcStr, '', Format( 'viagem.ponto%d.eixo.indicador', [i+1] ), 01, 01, 1, IfThen( Rota.Pontos.Items[I].EixoSuspenso, 'S', 'N' ) );
+    end;
+
+    AddFieldNoXml( tcStr, '', 'viagem.pedagio.obter.praca', 01, 01, 0, IfThen( Pedagio.ObterPraca, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.pedagio.obter.rota', 01, 01, 0, IfThen( Pedagio.ObterRota, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.pedagio.idavolta', 01, 01, 0, IfThen( Pedagio.IdaVolta, 'S', 'N' ) );
+    AddFieldNoXml( tcInt, '', 'viagem.pedagio.roteirizar.tipo', 01, 01, 0, 1 );
+    AddFieldNoXml( tcInt, '', 'viagem.pedagio.solucao.id', 01, 01, 0, Pedagio.SolucaoId );
+    AddFieldNoXml( tcInt, '', 'viagem.pedagio.caminho', 01, 1, 01, Pedagio.Caminho );
+
+    AddFieldNoXml( tcStr, '', 'viagem.obter.uf', 01, 01, 1, IfThen( Rota.ObterUf, 'S', 'N' ) );
+    AddFieldNoXml( tcStr, '', 'viagem.obter.posto', 01, 01, 1, IfThen( Rota.ObterPostos, 'S', 'N' ) );
+  end;
+end;
+
+procedure TCIOTW_Pamcard.GerarIncluirCartaoPortadorFrete;
+begin
+  Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'InsertCardFreight' );
+
+  with CIOT.IncluirCartaoPortador do
+  begin
+    AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( MatrizCNPJ ) );
+
+    if( OnlyNumber( FilialCNPJ ) <> '' )then
+    begin
+      AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 ); // 1-CNPJ
+      AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( FilialCNPJ ) );
+    end;
+
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.numero', 01, 16, 1, Portador.InformacoesBancarias.Cartao.Numero );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.numero.controle', 01, 10, 0, Portador.InformacoesBancarias.Cartao.NumeroControle );
+    AddFieldNoXml( tcInt, '', 'viagem.cartao.portador.documento.tipo', 01, 02, 1, IfThen( Length( OnlyNumber( Portador.CpfOuCnpj ) ) = 11, 2, 1 ) ); //1-CNPJ, 2-CPF
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.documento.numero', 01, 20, 1, OnlyNumber( Portador.CpfOuCnpj ) );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.rg', 01, 17, 1, OnlyNumber( Portador.Rg ) );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.uf.rg', 01, 02, 1, Portador.RgUf );
+    AddFieldNoXml( tcInt, '', 'viagem.cartao.portador.rg.emissor.id', 01, 02, 0, Portador.RgEmissorId );
+    AddFieldNoXml( tcDatVcto, '', 'viagem.cartao.portador.rg.emissao.data', 01, 10, 0, Portador.RgDataEmissao );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.rntrc', 01, 14, 0, OnlyNumber( Portador.RNTRC ) );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.nome', 01, 40, 1, Portador.NomeOuRazaoSocial );
+    AddFieldNoXml( tcDatVcto, '', 'viagem.cartao.portador.data.nascimento', 01, 10, 0, Portador.DataNascimento );
+    AddFieldNoXml( tcInt, '', 'viagem.cartao.portador.nacionalidade.id', 01, 01, 0, Portador.NacionalidadeId );
+    AddFieldNoXml( tcInt, '', 'viagem.cartao.portador.naturalidade.ibge', 01, 09, 0, Portador.NaturalidadeIbge );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.sexo', 01, 01, 0, Portador.Sexo );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.endereco.logradouro', 01, 40, 1, Portador.Endereco.Rua );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.endereco.numero', 01, 05, 1, Portador.Endereco.Numero );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.endereco.complemento', 01, 15, 0, Portador.Endereco.Complemento );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.endereco.bairro', 01, 30, 1, Portador.Endereco.Bairro );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.endereco.cidade', 01, 30, 1, Portador.Endereco.xMunicipio );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.endereco.uf', 01, 02, 1, Portador.Endereco.UF );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.endereco.pais', 01, 30, 1, Portador.Endereco.xPais );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.endereco.cep', 01, 08, 1, OnlyNumber( Portador.Endereco.CEP ) );
+    AddFieldNoXml( tcInt, '', 'viagem.cartao.portador.endereco.propriedade.tipo.id', 01, 2, 0, Portador.Endereco.PropriedadeTipoId );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.endereco.reside.desde', 01, 07, 0, Portador.Endereco.ResideDesde );
+    AddFieldNoXml( tcInt, '', 'viagem.cartao.portador.telefone.ddd', 03, 03, 1, Portador.Telefones.Fixo.DDD );
+    AddFieldNoXml( tcInt, '', 'viagem.cartao.portador.telefone.numero', 08, 08, 1, Portador.Telefones.Fixo.Numero );
+    AddFieldNoXml( tcInt, '', 'viagem.cartao.portador.celular.operadora.id', 01, 02, 0, Portador.Telefones.Celular.OperadoraID );
+    AddFieldNoXml( tcInt, '', 'viagem.cartao.portador.celular.ddd', 03, 03, 0, Portador.Telefones.Celular.DDD );
+    AddFieldNoXml( tcInt, '', 'viagem.cartao.portador.celular.numero', 09, 09, 0, Portador.Telefones.Celular.Numero );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.portador.email', 01, 40, 0, Portador.Email );
+    AddFieldNoXml( tcStr, '', 'viagem.cartao.empresa.nome', 01, 50, 0, Portador.InformacoesBancarias.Cartao.EmpresaNome );
+    AddFieldNoXml( tcInt, '', 'viagem.cartao.empresa.cnpj', 01, 14, 0, OnlyNumber( Portador.InformacoesBancarias.Cartao.EmpresaCNPJ ) );
+    AddFieldNoXml( tcInt, '', 'viagem.cartao.empresa.rntrc', 01, 08, 0, OnlyNumber( Portador.InformacoesBancarias.Cartao.EmpresaRNTRC ) );
+  end;
+end;
+
+procedure TCIOTW_Pamcard.GerarFavorecido;
+{var
+  PessoaFisica : Boolean;}
+begin
+  {PessoaFisica := Length( OnlyNumber( CIOT.AdicionarOperacao.Favorecido.CpfOuCnpj ) ) = 11;
+
+  Gerador.wCampo( tcStr, '', 'context', 01, 99, 1, 'InsertFavored' );
+
+  with CIOT do
+  begin
+    AddFieldNoXml( tcStr, '', 'viagem.contratante.documento.numero', 01, 20, 1, OnlyNumber( AdicionarOperacao.MatrizCNPJ ) );
+    AddFieldNoXml( tcInt, '', 'viagem.unidade.documento.tipo', 01, 2, 1, 1 );
+    AddFieldNoXml( tcStr, '', 'viagem.unidade.documento.numero', 01, 20, 1, OnlyNumber( AdicionarOperacao.FilialCNPJ ) );
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.documento.qtde', 01, 1, 1, 1 );
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.documento1.tipo', 01, 01, 2, IfThen( PessoaFisica, 2, 1) );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido.documento1.numero', 01, 20, 1, OnlyNumber( AdicionarOperacao.Favorecido.CpfOuCnpj ) );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido.documento1.uf', 01, 2, 1, AdicionarOperacao.Favorecido.UF );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido.documento1.emissor.id', 01, 2, 1, 'Não informado' );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido.documento1.emissao.data', 01, 10, 1, 'Não informado' );
+
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido.nome', 01, 60, 1, AdicionarOperacao.Favorecido.NomeOuRazaoSocial );
+
+    if( PessoaFisica )then
+      AddFieldNoXml( tcDatVcto, '', 'viagem.favorecido.data.nascimento', 01, 10, 1, AdicionarOperacao.Favorecido.DataNascimento )
+    else
+      AddFieldNoXml( tcStr, '', 'viagem.favorecido.data.nascimento', 01, 10, 1, 'Não informado' );
+
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.nacionalidade.id', 01, 1, 1, 0 ); //N Obrigatorio
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.naturalidade.ibge', 01, 9, 1, 0 ); //N Obrigatorio
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido.sexo', 01, 1, 1, AdicionarOperacao.Favorecido.Sexo );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido.endereco.logradouro', 01, 40, 1, AdicionarOperacao.Favorecido.Endereco.Rua );
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.endereco.numero', 01, 5, 1, AdicionarOperacao.Favorecido.Endereco.Numero );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido.endereco.complemento', 01, 15, 1, AdicionarOperacao.Favorecido.Endereco.Complemento ); //N Obrigatorio
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido.endereco.bairro', 01, 30, 1, AdicionarOperacao.Favorecido.Endereco.Bairro );
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.endereco.cidade.ibge', 01, 8, 1, AdicionarOperacao.Favorecido.Endereco.CodigoMunicipio );
+
+    if( AdicionarOperacao.Favorecido.Endereco.CodigoMunicipio > 0 )then
+    begin
+      AddFieldNoXml( tcStr, '', 'viagem.favorecido.endereco.cidade', 01, 30, 1, 'Não informado' );
+      AddFieldNoXml( tcStr, '', 'viagem.favorecido.endereco.uf', 01, 2, 1, 'Não informado' );
+      AddFieldNoXml( tcStr, '', 'viagem.favorecido.endereco.pais', 01, 30, 1, 'Não informado' );
+    end
+    else
+    begin
+      AddFieldNoXml( tcStr, '', 'viagem.favorecido.endereco.cidade', 01, 30, 1, AdicionarOperacao.Favorecido.Endereco.Cidade );
+      AddFieldNoXml( tcStr, '', 'viagem.favorecido.endereco.uf', 01, 2, 1, AdicionarOperacao.Favorecido.Endereco.CodigoMunicipio );
+      AddFieldNoXml( tcStr, '', 'viagem.favorecido.endereco.pais', 01, 30, 1, AdicionarOperacao.Favorecido.Endereco.CodigoMunicipio );
+    end;
+
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.endereco.cep', 01, 8, 1, AdicionarOperacao.Favorecido.Endereco.CEP );
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.endereco.propriedade.tipo.id', 01, 2, 1, 1 ); //N Obrigatorio
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido.endereco.reside.desde', 01, 7, 1, 'Não informado' );  //mm/yyyy
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido.telefone.ddd', 01, 3, 1, AdicionarOperacao.Favorecido.Telefones.Fixo.DDD );
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.telefone.numero', 01, 8, 1, AdicionarOperacao.Favorecido.Telefones.Fixo.Numero );
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.celular.operadora.id', 01, 2, 1, AdicionarOperacao.Favorecido.Telefones.Celular.OperadoraId );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido.celular.ddd', 01, 3, 1, AdicionarOperacao.Favorecido.Telefones.Celular.DDD );
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.celular.numero', 01, 8, 1, AdicionarOperacao.Favorecido.Telefones.Celular.Numero );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido.email', 01, 40, 1, AdicionarOperacao.Favorecido.Email );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido1.escolaridade', 01, 2, 1, 'Não informado' );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido1.qualificacao', 01, 2, 1, 'Não informado' );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido1.estado.civil', 01, 2, 1, 'Não informado' );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido1.nome.mae', 01, 60, 1, 'Não informado' );
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido.numDependentes', 01, 2, 1, 0 );
+  end;}
 end;
 
 end.

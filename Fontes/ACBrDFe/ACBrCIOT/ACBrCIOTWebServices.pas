@@ -43,9 +43,6 @@ uses
   ACBrConsts,
   ACBrCIOTConversao, pcnCIOT, pcnRetEnvCIOT;
 
-const
-  CURL_WSDL = 'http://schemas.ipc.adm.br/efrete/pef/';
-
 type
 
   { TCIOTWebService }
@@ -417,238 +414,369 @@ end;
 
 procedure TCIOTEnviar.DefinirServicoEAction;
 var
-  Servico, Acao: String;
+  URL_WSDL, Servico, Acao: String;
 begin
-  FPSoapEnvelopeAtributtes := 'xmlns:' + FPSoapVersion +
-                                '="http://schemas.xmlsoap.org/soap/envelope/" ';
+  case TACBrCIOT( FContratos.ACBrCIOT ).Configuracoes.Geral.Integradora of
+    iPamcard : begin
+      URL_WSDL := 'http://webservice.pamcard.jee.pamcary.com.br/WSTransacional/';
+      FPSoapVersion := 'soapenv';
+      FPSoapEnvelopeAtributtes := 'xmlns:' + FPSoapVersion + '="http://schemas.xmlsoap.org/soap/envelope/" ' +
+                                  'xmlns:web="http://webservice.pamcard.jee.pamcary.com.br"';
 
-  case FContratos.Items[0].CIOT.Integradora.Operacao of
-    opLogin,
-    opLogout:
-      begin
-        Servico := 'http://schemas.ipc.adm.br/efrete/logon/';
+      Servico := 'http://webservice.pamcard.jee.pamcary.com.br/WSTransacional/';
 
-        FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-                                    'xmlns:log="http://schemas.ipc.adm.br/efrete/logon" '+
-                                    'xmlns:obj="http://schemas.ipc.adm.br/efrete/logon/objects"';
+      Acao := 'executeRequest';
+
+      case FContratos.Items[0].CIOT.Integradora.Operacao of
+        opAdicionar:
+          begin
+            FPArqEnv  := 'ped-InserirContratoFrete';
+            FPArqResp := 'res-InserirContratoFrete';
+          end;
+
+        opObterCodigoIOT:
+          begin
+            FPArqEnv  := 'ped-FindFreightContract';
+            FPArqResp := 'res-FindFreightContract';
+          end;
+
+        opAdicionarViagem:
+          begin
+            FPArqEnv  := 'ped-InsertTrip';
+            FPArqResp := 'res-InsertTrip';
+          end;
+
+        opCancelar:
+          begin
+            FPArqEnv  := 'ped-CancelTrip';
+            FPArqResp := 'res-CancelTrip';
+          end;
+
+        opEncerrar:
+          begin
+            FPArqEnv  := 'ped-CloseFreightContract';
+            FPArqResp := 'res-CloseFreightContract';
+          end;
+
+        opIncluirRota:
+          begin
+            FPArqEnv  := 'ped-InsertRoute';
+            FPArqResp := 'res-InsertRoute';
+          end;
+
+        opRoteirizar:
+          begin
+            FPArqEnv  := 'ped-Router';
+            FPArqResp := 'res-Router';
+          end;
+
+        opIncluirCartaoPortador:
+          begin
+            FPArqEnv  := 'ped-InsertCardFreight';
+            FPArqResp := 'res-InsertCardFreight';
+          end;
+
+        opConsultaViagem:
+          begin
+            FPArqEnv  := 'ped-FindTrip';
+            FPArqResp := 'res-FindTrip';
+          end;
+
+        opConsultaParcela:
+          begin
+            FPArqEnv  := 'ped-FindParcelStatus';
+            FPArqResp := 'res-FindParcelStatus';
+          end;
+
+        opConsultarCartao:
+          begin
+            FPArqEnv  := 'ped-FindCard';
+            FPArqResp := 'res-FindCard';
+          end;
+
+        opConsultarConta:
+          begin
+            FPArqEnv  := 'ped-FindFavoredAccount';
+            FPArqResp := 'res-FindFavoredAccount';
+          end;
+
+        opConsultarFavorecido:
+          begin
+            FPArqEnv  := 'ped-FindFavored';
+            FPArqResp := 'res-FindFavored';
+          end;
+
+        opConsultarFrota:
+          begin
+            FPArqEnv  := 'ped-FindFleet';
+            FPArqResp := 'res-FindFleet';
+          end;
+
+        opConsultarRNTRC:
+          begin
+            FPArqEnv  := 'ped-FindRNTRC';
+            FPArqResp := 'res-FindRNTRC';
+          end;
+
+        opConsultarTAG:
+          begin
+            FPArqEnv  := 'ped-FindTag';
+            FPArqResp := 'res-FindTag';
+          end;
+
+        opPagamentoPedagio:
+          begin
+            FPArqEnv  := 'ped-PayToll';
+            FPArqResp := 'res-PayToll';
+          end;
+
+        opAdicionarPagamento:
+          begin
+            FPArqEnv  := 'ped-PayParcel';
+            FPArqResp := 'res-PayParcel';
+          end;
+      else
+        FPArqEnv  := 'ped-';
+        FPArqResp := 'res-';
       end;
+    end;
+  else //ieFrete
+    URL_WSDL := 'http://schemas.ipc.adm.br/efrete/pef/';
+    FPSoapEnvelopeAtributtes := 'xmlns:' + FPSoapVersion + '="http://schemas.xmlsoap.org/soap/envelope/" ';
 
-    opGravarProprietario:
+    case FContratos.Items[0].CIOT.Integradora.Operacao of
+      opLogin,
+      opLogout:
+        begin
+          Servico := 'http://schemas.ipc.adm.br/efrete/logon/';
+
+          FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
+                                      'xmlns:log="http://schemas.ipc.adm.br/efrete/logon" '+
+                                      'xmlns:obj="http://schemas.ipc.adm.br/efrete/logon/objects"';
+        end;
+
+      opGravarProprietario:
+        begin
+          Servico := 'http://schemas.ipc.adm.br/efrete/proprietarios/';
+
+          FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
+                                      'xmlns:prop="http://schemas.ipc.adm.br/efrete/proprietarios" '+
+                                      'xmlns:obj="http://schemas.ipc.adm.br/efrete/proprietarios/objects" ' +
+                                      'xmlns:obj1="http://schemas.ipc.adm.br/efrete/objects"';
+        end;
+
+      opGravarVeiculo:
+        begin
+          Servico := 'http://schemas.ipc.adm.br/efrete/veiculos/';
+
+          FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
+                                      'xmlns:veic="http://schemas.ipc.adm.br/efrete/veiculos" '+
+                                      'xmlns:obj="http://schemas.ipc.adm.br/efrete/veiculos/objects" ' +
+                                      'xmlns:obj1="http://schemas.ipc.adm.br/efrete/objects"';
+        end;
+
+      opGravarMotorista:
+        begin
+          Servico := 'http://schemas.ipc.adm.br/efrete/motoristas/';
+
+          FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
+                                      'xmlns:mot="http://schemas.ipc.adm.br/efrete/motoristas" '+
+                                      'xmlns:obj="http://schemas.ipc.adm.br/efrete/motoristas/objects" ' +
+                                      'xmlns:obj1="http://schemas.ipc.adm.br/efrete/objects"';
+        end;
+
+    else
       begin
-        Servico := 'http://schemas.ipc.adm.br/efrete/proprietarios/';
+        Servico  := 'http://schemas.ipc.adm.br/efrete/pef/';
 
         FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-                                    'xmlns:prop="http://schemas.ipc.adm.br/efrete/proprietarios" '+
-                                    'xmlns:obj="http://schemas.ipc.adm.br/efrete/proprietarios/objects" ' +
+                                    'xmlns:pef="http://schemas.ipc.adm.br/efrete/pef" ' +
+                                    'xmlns:obj="http://schemas.ipc.adm.br/efrete/pef/objects" ' +
                                     'xmlns:obj1="http://schemas.ipc.adm.br/efrete/objects"';
       end;
+    end;
 
-    opGravarVeiculo:
-      begin
-        Servico := 'http://schemas.ipc.adm.br/efrete/veiculos/';
+    case FContratos.Items[0].CIOT.Integradora.Operacao of
+      opLogin:
+        begin
+          FPArqEnv  := 'ped-Login';
+          FPArqResp := 'res-Login';
+          Acao      := 'Login';
+        end;
 
-        FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-                                    'xmlns:veic="http://schemas.ipc.adm.br/efrete/veiculos" '+
-                                    'xmlns:obj="http://schemas.ipc.adm.br/efrete/veiculos/objects" ' +
-                                    'xmlns:obj1="http://schemas.ipc.adm.br/efrete/objects"';
-      end;
+      opLogout:
+        begin
+          FPArqEnv  := 'ped-Logout';
+          FPArqResp := 'res-Logout';
+          Acao      := 'Logout';
+          FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
+                ' xmlns:obj1="http://schemas.ipc.adm.br/efrete/objects"';
+        end;
 
-    opGravarMotorista:
-      begin
-        Servico := 'http://schemas.ipc.adm.br/efrete/motoristas/';
+      opGravarProprietario:
+        begin
+          FPArqEnv  := 'ped-GravarProp';
+          FPArqResp := 'res-GravarProp';
+          Acao      := 'Gravar';
+        end;
 
-        FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-                                    'xmlns:mot="http://schemas.ipc.adm.br/efrete/motoristas" '+
-                                    'xmlns:obj="http://schemas.ipc.adm.br/efrete/motoristas/objects" ' +
-                                    'xmlns:obj1="http://schemas.ipc.adm.br/efrete/objects"';
-      end;
+      opGravarVeiculo:
+        begin
+          FPArqEnv  := 'ped-GravarVeic';
+          FPArqResp := 'res-GravarVeic';
+          Acao      := 'Gravar';
+        end;
 
-  else
-    begin
-      Servico  := 'http://schemas.ipc.adm.br/efrete/pef/';
+      opGravarMotorista:
+        begin
+          FPArqEnv  := 'ped-GravarMot';
+          FPArqResp := 'res-GravarMot';
+          Acao      := 'Gravar';
+        end;
 
-      FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-                                  'xmlns:pef="http://schemas.ipc.adm.br/efrete/pef" ' +
-                                  'xmlns:obj="http://schemas.ipc.adm.br/efrete/pef/objects" ' +
-                                  'xmlns:obj1="http://schemas.ipc.adm.br/efrete/objects"';
+      opObterCodigoIOT:
+        begin
+          FPArqEnv  := 'ped-ObterCodigoIOT';
+          FPArqResp := 'res-ObterCodigoIOT';
+          Acao      := 'ObterCodigoIdentificacaoOperacaoTransportePorIdOperacaoCliente';
+        end;
+
+      opObterPdf:
+        begin
+          FPArqEnv  := 'ped-ObterOperTranspPDF';
+          FPArqResp := 'res-ObterOperTranspPDF';
+          Acao      := 'ObterOperacaoTransportePdf';
+        end;
+
+      opAdicionar:
+        begin
+          FPArqEnv  := 'ped-AdicOperTransp';
+          FPArqResp := 'res-AdicOperTransp';
+          Acao      := 'AdicionarOperacaoTransporte';
+
+          FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
+                ' xmlns:adic="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
+        end;
+
+      opRetificar:
+        begin
+          FPArqEnv  := 'ped-RetifOperTransp';
+          FPArqResp := 'res-RetifOperTransp';
+          Acao      := 'RetificarOperacaoTransporte';
+
+          FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
+                ' xmlns:ret="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
+        end;
+
+      opCancelar:
+        begin
+          FPArqEnv  := 'ped-CancOperTransp';
+          FPArqResp := 'res-CancOperTransp';
+          Acao      := 'CancelarOperacaoTransporte';
+        end;
+
+      opAdicionarViagem:
+        begin
+          FPArqEnv  := 'ped-AdicViagem';
+          FPArqResp := 'res-AdicViagem';
+          Acao      := 'AdicionarViagem';
+
+          FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
+                ' xmlns:adic="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
+        end;
+
+      opAdicionarPagamento:
+        begin
+          FPArqEnv  := 'ped-AdicPag';
+          FPArqResp := 'res-AdicPag';
+          Acao      := 'AdicionarPagamento';
+
+          FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
+                ' xmlns:adic="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
+        end;
+
+      opCancelarPagamento:
+        begin
+          FPArqEnv  := 'ped-CancPag';
+          FPArqResp := 'res-CancPag';
+          Acao      := 'CancelarPagamento';
+        end;
+
+      opEncerrar:
+        begin
+          FPArqEnv  := 'ped-EncerOperTransp';
+          FPArqResp := 'res-EncerOperTransp';
+          Acao      := 'EncerrarOperacaoTransporte';
+
+          FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
+                ' xmlns:enc="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
+        end;
+
+      opConsultarTipoCarga:
+        begin
+          FPArqEnv  := 'ped-ConsultarTipoCarga';
+          FPArqResp := 'res-ConsultarTipoCarga';
+          Acao      := 'ConsultarTipoCarga';
+        end;
+
+      opAlterarDataLiberacaoPagamento:
+        begin
+          FPArqEnv  := 'ped-AlterarDataLiberacaoPagamento';
+          FPArqResp := 'res-AlterarDataLiberacaoPagamento';
+          Acao      := 'AlterarDataLiberacaoPagamento';
+        end;
+
+      opRegistrarQtdeMercadoriaDesembarque:
+        begin
+          FPArqEnv  := 'ped-RegistrarQtdeMercadoriaDesembarque';
+          FPArqResp := 'res-RegistrarQtdeMercadoriaDesembarque';
+          Acao      := 'RegistrarQuantidadeDaMercadoriaNoDesembarque';
+
+          FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
+                ' xmlns:reg="http://schemas.ipc.adm.br/efrete/pef/objects/' + Acao + '"';
+        end;
+
+      opRegistrarPagamentoQuitacao:
+        begin
+          FPArqEnv  := 'ped-RegistrarPagamentoQuitacao';
+          FPArqResp := 'res-RegistrarPagamentoQuitacao';
+          Acao      := 'RegistrarPagamentoQuitacao';
+
+          FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
+                ' xmlns:reg="http://schemas.ipc.adm.br/efrete/pef/objects/' + Acao + '"';
+        end;
     end;
   end;
 
-  case FContratos.Items[0].CIOT.Integradora.Operacao of
-    opLogin:
-      begin
-        FPArqEnv  := 'ped-Login';
-        FPArqResp := 'res-Login';
-        Acao      := 'Login';
-      end;
-
-    opLogout:
-      begin
-        FPArqEnv  := 'ped-Logout';
-        FPArqResp := 'res-Logout';
-        Acao      := 'Logout';
-        FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-              ' xmlns:obj1="http://schemas.ipc.adm.br/efrete/objects"';
-      end;
-
-    opGravarProprietario:
-      begin
-        FPArqEnv  := 'ped-GravarProp';
-        FPArqResp := 'res-GravarProp';
-        Acao      := 'Gravar';
-      end;
-
-    opGravarVeiculo:
-      begin
-        FPArqEnv  := 'ped-GravarVeic';
-        FPArqResp := 'res-GravarVeic';
-        Acao      := 'Gravar';
-      end;
-
-    opGravarMotorista:
-      begin
-        FPArqEnv  := 'ped-GravarMot';
-        FPArqResp := 'res-GravarMot';
-        Acao      := 'Gravar';
-      end;
-
-    opObterCodigoIOT:
-      begin
-        FPArqEnv  := 'ped-ObterCodigoIOT';
-        FPArqResp := 'res-ObterCodigoIOT';
-        Acao      := 'ObterCodigoIdentificacaoOperacaoTransportePorIdOperacaoCliente';
-      end;
-
-    opObterPdf:
-      begin
-        FPArqEnv  := 'ped-ObterOperTranspPDF';
-        FPArqResp := 'res-ObterOperTranspPDF';
-        Acao      := 'ObterOperacaoTransportePdf';
-      end;
-
-    opAdicionar:
-      begin
-        FPArqEnv  := 'ped-AdicOperTransp';
-        FPArqResp := 'res-AdicOperTransp';
-        Acao      := 'AdicionarOperacaoTransporte';
-
-        FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-              ' xmlns:adic="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
-      end;
-
-    opRetificar:
-      begin
-        FPArqEnv  := 'ped-RetifOperTransp';
-        FPArqResp := 'res-RetifOperTransp';
-        Acao      := 'RetificarOperacaoTransporte';
-
-        FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-              ' xmlns:ret="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
-      end;
-
-    opCancelar:
-      begin
-        FPArqEnv  := 'ped-CancOperTransp';
-        FPArqResp := 'res-CancOperTransp';
-        Acao      := 'CancelarOperacaoTransporte';
-      end;
-
-    opAdicionarViagem:
-      begin
-        FPArqEnv  := 'ped-AdicViagem';
-        FPArqResp := 'res-AdicViagem';
-        Acao      := 'AdicionarViagem';
-
-        FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-              ' xmlns:adic="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
-      end;
-
-    opAdicionarPagamento:
-      begin
-        FPArqEnv  := 'ped-AdicPag';
-        FPArqResp := 'res-AdicPag';
-        Acao      := 'AdicionarPagamento';
-
-        FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-              ' xmlns:adic="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
-      end;
-
-    opCancelarPagamento:
-      begin
-        FPArqEnv  := 'ped-CancPag';
-        FPArqResp := 'res-CancPag';
-        Acao      := 'CancelarPagamento';
-      end;
-
-    opEncerrar:
-      begin
-        FPArqEnv  := 'ped-EncerOperTransp';
-        FPArqResp := 'res-EncerOperTransp';
-        Acao      := 'EncerrarOperacaoTransporte';
-
-        FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-              ' xmlns:enc="http://schemas.ipc.adm.br/efrete/pef/' + Acao + '"';
-      end;
-
-    opConsultarTipoCarga:
-      begin
-        FPArqEnv  := 'ped-ConsultarTipoCarga';
-        FPArqResp := 'res-ConsultarTipoCarga';
-        Acao      := 'ConsultarTipoCarga';
-      end;
-
-    opAlterarDataLiberacaoPagamento:
-      begin
-        FPArqEnv  := 'ped-AlterarDataLiberacaoPagamento';
-        FPArqResp := 'res-AlterarDataLiberacaoPagamento';
-        Acao      := 'AlterarDataLiberacaoPagamento';
-      end;
-
-    opRegistrarQtdeMercadoriaDesembarque:
-      begin
-        FPArqEnv  := 'ped-RegistrarQtdeMercadoriaDesembarque';
-        FPArqResp := 'res-RegistrarQtdeMercadoriaDesembarque';
-        Acao      := 'RegistrarQuantidadeDaMercadoriaNoDesembarque';
-
-        FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-              ' xmlns:reg="http://schemas.ipc.adm.br/efrete/pef/objects/' + Acao + '"';
-      end;
-
-    opRegistrarPagamentoQuitacao:
-      begin
-        FPArqEnv  := 'ped-RegistrarPagamentoQuitacao';
-        FPArqResp := 'res-RegistrarPagamentoQuitacao';
-        Acao      := 'RegistrarPagamentoQuitacao';
-
-        FPSoapEnvelopeAtributtes := FPSoapEnvelopeAtributtes +
-              ' xmlns:reg="http://schemas.ipc.adm.br/efrete/pef/objects/' + Acao + '"';
-      end;
-  end;
-
-  FPServico := CURL_WSDL + Acao;
+  FPServico := URL_WSDL + Acao;
   FPSoapAction := Servico + Acao;
 end;
 
 procedure TCIOTEnviar.DefinirURL;
 begin
-  case FContratos.Items[0].CIOT.Integradora.Operacao of
-    opLogin,
-    opLogout:
-      FPLayout := LayeFreteLogon;
+  case TACBrCIOT( FContratos.ACBrCIOT ).Configuracoes.Geral.Integradora of
+    iPamcard:
+      FPLayout := LayPamcard;
+  else //ieFrete
+    case FContratos.Items[0].CIOT.Integradora.Operacao of
+      opLogin,
+      opLogout:
+        FPLayout := LayeFreteLogon;
 
-    opGravarProprietario:
-      FPLayout := layeFreteProprietarios;
+      opGravarProprietario:
+        FPLayout := layeFreteProprietarios;
 
-    opGravarVeiculo:
-      FPLayout := LayeFreteVeiculos;
+      opGravarVeiculo:
+        FPLayout := LayeFreteVeiculos;
 
-    opGravarMotorista:
-      FPLayout := LayeFreteMotoristas;
-(*
-    LayeFreteFaturamentoTransportadora
-*)
-  else
-    FPLayout := LayeFreteOperacaoTransporte;
+      opGravarMotorista:
+        FPLayout := LayeFreteMotoristas;
+      (*
+          LayeFreteFaturamentoTransportadora
+      *)
+    else
+      FPLayout := LayeFreteOperacaoTransporte;
+    end;
   end;
 
   inherited DefinirURL;
@@ -689,9 +817,18 @@ function TCIOTEnviar.TratarResposta: Boolean;
 var
   NomeArq: string;
 begin
-  FPRetWS := SeparaDados(FPRetornoWS, 'soap:Body');
+  case FPConfiguracoesCIOT.Geral.Integradora of
+    iPamcard:
+      FPRetWS := SeparaDados(FPRetornoWS, 'env:Body');
+  else
+    FPRetWS := SeparaDados(FPRetornoWS, 'soap:Body');
+  end;
 
   FRetornoEnvio.Integradora := FPConfiguracoesCIOT.Geral.Integradora;
+
+  if( FContratos.Count > 0 )then
+    FRetornoEnvio.Operacao := FContratos.Items[0].CIOT.Integradora.Operacao;
+
   FRetornoEnvio.Leitor.Arquivo := UTF8ToNativeString(ParseText(FPRetWS));
   FRetornoEnvio.LerXml;
 
@@ -709,12 +846,18 @@ begin
 
   FPMsg := '';
 
-  if FRetornoEnvio.RetEnvio.Mensagem <> '' then
-    FPMsg := FRetornoEnvio.RetEnvio.Mensagem + CRLF +
-             FRetornoEnvio.RetEnvio.Codigo
+  case FPConfiguracoesCIOT.Geral.Integradora of
+    iPamcard:
+      FPMsg := FRetornoEnvio.RetEnvio.Codigo + ' - ' +
+               FRetornoEnvio.RetEnvio.Mensagem;
   else
-    FPMsg := FRetornoEnvio.RetEnvio.Sucesso + CRLF +
-             FRetornoEnvio.RetEnvio.ProtocoloServico;
+    if FRetornoEnvio.RetEnvio.Mensagem <> '' then
+      FPMsg := FRetornoEnvio.RetEnvio.Mensagem + CRLF +
+               FRetornoEnvio.RetEnvio.Codigo
+    else
+      FPMsg := FRetornoEnvio.RetEnvio.Sucesso + CRLF +
+               FRetornoEnvio.RetEnvio.ProtocoloServico;
+  end;
 
   Result := (FRetornoEnvio.RetEnvio.Sucesso = 'true');
 end;

@@ -65,12 +65,14 @@ const
 type
   TLayOutCIOT = (LayeFreteLogon, layeFreteProprietarios, LayeFreteVeiculos,
                  LayeFreteMotoristas, LayeFreteOperacaoTransporte,
-                 LayeFreteFaturamentoTransportadora);
+                 LayeFreteFaturamentoTransportadora,
+                 LayPamcard);
 
 const
   TLayOutCIOTArrayStrings: array[TLayOutCIOT] of string = ('eFreteLogon',
     'eFreteProprietarios', 'eFreteVeiculos', 'eFreteMotoristas',
-    'eFreteOperacaoTransporte', 'eFreteFaturamentoTransportadora');
+    'eFreteOperacaoTransporte', 'eFreteFaturamentoTransportadora',
+    'Pamcard');
 
 type
   TpOperacao = (opLogin, opLogout,
@@ -80,7 +82,11 @@ type
                 opCancelarPagamento, opEncerrar, opConsultarTipoCarga,
                 opAlterarDataLiberacaoPagamento,
                 opRegistrarQtdeMercadoriaDesembarque,
-                opRegistrarPagamentoQuitacao);
+                opRegistrarPagamentoQuitacao,
+                opIncluirRota, opRoteirizar, opIncluirCartaoPortador,
+                opConsultaViagem, opConsultaParcela, opConsultarCartao,
+                opConsultarConta, opConsultarFavorecido, opConsultarFrota,
+                opConsultarRNTRC, opConsultarTAG, opPagamentoPedagio );
 
 const
   TpOperacaoArrayStrings: array[TpOperacao] of string = ('Login', 'Logout',
@@ -88,7 +94,11 @@ const
     'Adicionar Viagem', 'Adicionar Pagamento', 'Obter Codigo CIOT', 'Obter Pdf',
     'Retificar', 'Cancelar', 'Cancelar Pagamento', 'Encerrar',
     'ConsultarTipoCarga', 'AlterarDataLiberacaoPagamento',
-    'RegistrarQtdeMercadoriaDesembarque', 'RegistrarPagamentoQuitacao');
+    'RegistrarQtdeMercadoriaDesembarque', 'RegistrarPagamentoQuitacao',
+    'Incluir Rota', 'Roteirizar', 'Incluir Cartão Portador',
+    'Consultar Viagem', 'Consultar Parcela', 'Consultar Cartao',
+    'Consultar Conta', 'Consultar Favorecido', 'Consultar Frota',
+    'Consultar RNTRC', 'Consultar TAG', 'Pagamento Pedágio' );
 
 type
   tpTipoConta = (tcIndefinido, tcContaCorrente, tcContaPoupanca, tcContaPagamentos);
@@ -96,6 +106,9 @@ type
 const
   tpTipoContaArrayStrings: array[tpTipoConta] of string = ('Indefinido',
     'ContaCorrente', 'ContaPoupanca', 'ContaPagamentos');
+
+  tpTipoContaArrayIndex: array[tpTipoConta] of Integer = ( 0,
+     1, 2, 3);
 
 type
   tpTipoEmbalagem = (teIndefinido, teBigbag, tePallet, teGranel, teContainer,
@@ -231,17 +244,32 @@ type
   tpTipoCarga = (tpNaoAplicavel, tpGranelsolido, tpGranelLiquido, tpFrigorificada,
                  tpConteinerizada, tpCargaGeral, tpNeogranel, tpPerigosaGranelSolido,
                  tpPerigosaGranelLiquido, tpPerigosaCargaFrigorificada,
-                 tpPerigosaConteinerizada, tpPerigosaCargaGeral);
+                 tpPerigosaConteinerizada, tpPerigosaCargaGeral, tpGranelPressurizada );
 
 const
   tpTipoCargaArrayStrings: array[tpTipoCarga] of string = ('0', '1', '2', '3',
-    '4', '5', '6', '7', '8', '9', '10', '11');
+    '4', '5', '6', '7', '8', '9', '10', '11', '12');
+
   tpTipoCargaDescArrayStrings: array[tpTipoCarga] of string = ('',
     'Granel sólido - HML', 'Granel líquido - HML', 'Frigorificada - HML',
     'Conteinerizada - HML', 'Carga Geral - HML', 'Neogranel - HML',
     'Perigosa (granel sólido) - HML', 'Perigosa (granel líquido) - HML',
     'Perigosa (carga frigorificada) - HML', 'Perigosa (conteinerizada) - HML',
-    'Perigosa (carga geral) - HML');
+    'Perigosa (carga geral) - HML', 'Granel pressurizada - HML');
+
+type
+  tpTipoDocumentoPamcard = ( tdpNaoAplicavel, tdpManifesto, tdpRomaneio, tdpPlanoViagem, tdpAWB, tdpConhecimento,
+                             tdpNotaFiscal, tdpDocumentoProprioCliente, tdpNumeroPedido, tdpOrdemVenda, tdpNumeroLoad,
+                             tdpOrdemColeta, tdpAutorizacaoCarregamento, tdpAutorizacaoSaida );
+
+const
+  tpTipoDocumentoPamcardArrayStrings: array[tpTipoDocumentoPamcard] of string = ('0', '1', '2', '3',
+    '4', '5', '6', '7', '8', '9', '10', '11', '12', '13');
+
+  tpTipoDocumentoPamcardDescArrayStrings: array[tpTipoDocumentoPamcard] of string = ('',
+    'Manifesto', 'Romaneio', 'Plano de viagem', 'AWB', 'Conhecimento', 'Nota fiscal',
+    'Documento proprio do cliente', 'Numero pedido', 'Ordem de venda', 'Numero load',
+    'Ordem de coleta', 'Autorizacao de carregamento', 'Autorizacao de saida' );
 
 {
   Declaração das funções de conversão
@@ -263,6 +291,8 @@ function DblToVersaoCIOT(const d: Double): TVersaoCIOT;
 
 function TipoContaToStr(const t: tpTipoConta): string;
 function StrToTipoConta(const s: string): tpTipoConta;
+function TipoContaToIndex(const t: tpTipoConta): Integer;
+function IndexToTipoConta(const s: Integer): tpTipoConta;
 
 function TipoEmbalagemToStr(const t: tpTipoEmbalagem): string;
 function StrToTipoEmbalagem(const s: string): tpTipoEmbalagem;
@@ -324,6 +354,9 @@ function StrToTipoCarga(const s: string): tpTipoCarga;
 function IntegradoraToStr(const t: TCIOTIntegradora): string;
 function StrToIntegradora(const s: string): TCIOTIntegradora;
 
+function TipoDocumentoPamcardToStr(const t: tpTipoDocumentoPamcard): string;
+function StrToTipoDocumentoPamcard(const s: string): tpTipoDocumentoPamcard;
+
 implementation
 
 uses
@@ -338,7 +371,9 @@ begin
     LayeFreteVeiculos,
     LayeFreteMotoristas,
     LayeFreteOperacaoTransporte,
-    LayeFreteFaturamentoTransportadora: Result := schEnviar;
+    LayeFreteFaturamentoTransportadora,
+    LayPamcard:
+     Result := schEnviar;
   else
     Result := schErro;
   end;
@@ -452,6 +487,27 @@ begin
   for idx := Low(tpTipoContaArrayStrings) to High(tpTipoContaArrayStrings) do
   begin
     if (tpTipoContaArrayStrings[idx] = s) then
+    begin
+      result := idx;
+      exit;
+    end;
+  end;
+
+  raise EACBrException.CreateFmt('Valor string inválido para tpTipoConta: %s', [s]);
+end;
+
+function TipoContaToIndex(const t: tpTipoConta): Integer;
+begin
+  result := tpTipoContaArrayIndex[t];
+end;
+
+function IndexToTipoConta(const s: Integer): tpTipoConta;
+var
+  idx: tpTipoConta;
+begin
+  for idx := Low(tpTipoContaArrayIndex) to High(tpTipoContaArrayIndex) do
+  begin
+    if (tpTipoContaArrayIndex[idx] = s) then
     begin
       result := idx;
       exit;
@@ -879,6 +935,27 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para TCIOTIntegradora: %s', [s]);
+end;
+
+function TipoDocumentoPamcardToStr(const t: tpTipoDocumentoPamcard): string;
+begin
+  result := tpTipoDocumentoPamcardArrayStrings[t];
+end;
+
+function StrToTipoDocumentoPamcard(const s: string): tpTipoDocumentoPamcard;
+var
+  idx: tpTipoDocumentoPamcard;
+begin
+  for idx := Low(tpTipoDocumentoPamcardArrayStrings) to High(tpTipoDocumentoPamcardArrayStrings) do
+  begin
+    if (tpTipoDocumentoPamcardArrayStrings[idx] = s) then
+    begin
+      result := idx;
+      exit;
+    end;
+  end;
+
+  raise EACBrException.CreateFmt('Valor string inválido para tpTipoDocumentoPamcard: %s', [s]);
 end;
 
 end.
