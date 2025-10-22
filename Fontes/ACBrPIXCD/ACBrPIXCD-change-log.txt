@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/10/2025
+-- ACBrPIXPSPBradesco --
+[-] Correção do ResultCode (200 => 201) do Bradesco para POST /cob
+    por: Elias Cesar
+
 03/10/2025
 -- ACBrPIXCD --
 [-] Ajuste do parametro Validade para 'out' no momento de gerar o Token.

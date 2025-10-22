@@ -111,8 +111,12 @@ end;
 procedure TACBrPSPBradesco.QuandoReceberRespostaEndPoint(const aEndPoint, AURL,
   aMethod: String; var aResultCode: Integer; var aRespostaHttp: AnsiString);
 begin
-  // Bradesco responde OK ao EndPoint /cobv ou /pix, de forma diferente da especificada
+  // Bradesco responde OK(200) ao PUT: /cobv ou /pix, de forma diferente da especificada(201)
   if (UpperCase(AMethod) = ChttpMethodPUT) and ((AEndPoint = cEndPointCobV) or (aEndPoint = cEndPointPix)) and (AResultCode = HTTP_OK) then
+    AResultCode := HTTP_CREATED;
+
+  // Bradesco responde OK(200) ao POST: /cob de forma diferente da especificada(201)
+  if (UpperCase(AMethod) = ChttpMethodPOST) and (AEndPoint = cEndPointCob) and (AResultCode = HTTP_OK) then
     AResultCode := HTTP_CREATED;
 end;
 
