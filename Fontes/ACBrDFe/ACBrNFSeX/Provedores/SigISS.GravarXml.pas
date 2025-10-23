@@ -127,7 +127,7 @@ begin
                                                        NFSe.id_sis_legado, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'servico', 1, 15, 1,
-                       OnlyNumber(NFSe.Servico.CodigoTributacaoMunicipio), ''));
+                                OnlyNumber(NFSe.Servico.ItemListaServico), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'codigo_obra', 1, 15, 0,
                                    NFSe.ConstrucaoCivil.CodigoObra, DSC_COBRA));
@@ -353,7 +353,7 @@ begin
                                             NFSE.Servico.Valores.Aliquota, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'servico', 1, 15, 1,
-                       OnlyNumber(NFSe.Servico.CodigoTributacaoMunicipio), ''));
+                                OnlyNumber(NFSe.Servico.ItemListaServico), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'codigo_obra', 1, 15, 0,
                                    NFSe.ConstrucaoCivil.CodigoObra, DSC_COBRA));
