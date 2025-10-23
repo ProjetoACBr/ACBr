@@ -4611,7 +4611,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'UB133', 'tpCredPresIBSZFM', 1, 15, 1,
     TpCredPresIBSZFMToStr(gCredPresIBSZFM.tpCredPresIBSZFM), DSC_TPCREDPRESIBSZFM));
 
-  Result.AppendChild(AddNode(tcDe2, 'UB134', 'vCredPresIBSZFM', 1, 15, 0,
+  Result.AppendChild(AddNode(tcDe2, 'UB134', 'vCredPresIBSZFM', 1, 15, 1,
                          gCredPresIBSZFM.vCredPresIBSZFM, DSC_VCREDPRESIBSZFM));
 end;
 
