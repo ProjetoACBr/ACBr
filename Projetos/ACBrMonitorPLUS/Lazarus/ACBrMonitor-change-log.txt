@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/10/2025
+-- DoACBrNFSeUnit --
+[*] Melhora o comando NFSe.GerarLoteRPS para permitir lote com mais de um RPS.
+  Por: Diego Folieni
+
 29/09/2025
 -- DoACBrCTeUnit/DoACBrNFeUnit --
 [*] Ajustes para realizar a compilação.

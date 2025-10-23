@@ -1320,29 +1320,47 @@ var
   AIni: String;
   ALote: String;
   RespGerar: TGerarLoteResposta;
+  i: Integer;
 begin
   AIni := fpCmd.Params(0);
   ALote := fpCmd.Params(1);
 
   with TACBrObjetoNFSe(fpObjetoDono) do
   begin
-    ACBrNFSeX.NotasFiscais.Clear;
-    LerIniNFSe(AIni);
+    if Trim(AIni) <> EmptyStr then
+    begin
+      ACBrNFSeX.NotasFiscais.Clear;
+      LerIniNFSe(AIni);
+    end;
+
     ACBrNFSeX.NotasFiscais.NumeroLote:= ALote;
     ACBrNFSeX.NotasFiscais.Transacao:= True;
 
     try
       ACBrNFSeX.GerarLote(ALote);
 
-      RespGerar := TGerarLoteResposta.Create(TpResp, codUTF8);
-      try
-        RespGerar.Processar(ACBrNFSeX.WebService.Gerar);
-        fpCmd.Resposta := fpCmd.Resposta + sLineBreak + RespGerar.Gerar;
-      finally
-        RespGerar.Free;
+      if ACBrNFSeX.WebService.Gerar.Erros.Count > 0 then
+      begin
+        for i := 0 to ACBrNFSeX.WebService.Gerar.Erros.Count - 1 do
+        begin
+          fpCmd.Resposta := fpCmd.Resposta + sLineBreak +
+                            '[Erro'+ IntToStrZero(i+1, 2)+']' + sLineBreak +
+                            'Codigo=' + ACBrNFSeX.WebService.Gerar.Erros[i].Codigo + sLineBreak +
+                            'Descricao=' + ACBrNFSeX.WebService.Gerar.Erros[i].Descricao;
+        end;
+      end else
+      begin
+        RespGerar := TGerarLoteResposta.Create(TpResp, codUTF8);
+        try
+          RespGerar.Processar(ACBrNFSeX.WebService.Gerar);
+          fpCmd.Resposta := fpCmd.Resposta + sLineBreak + RespGerar.Gerar;
+        finally
+          RespGerar.Free;
+        end;
       end;
     finally
-      ACBrNFSeX.NotasFiscais.Clear;
+      if Trim(AIni) <> EmptyStr then
+        ACBrNFSeX.NotasFiscais.Clear;
     end;
   end;
 end;
