@@ -588,6 +588,12 @@ begin
         FPArqEnv := 'con-link';
         FPArqResp := 'link';
       end;
+
+    tmObterDANFSE:
+      begin
+        FPArqEnv := 'con-nfse-chv';
+        FPArqResp := 'lista-nfse-chv';
+      end;
   else
     begin
       FPArqEnv := 'request';

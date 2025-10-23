@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/10/2025
+-- ACBrNFSeXConsts/ACBrNFSeXWebserviceBase/PadraoNacional.Provider --
+[*] Melhorias ao executar o método ObterDANFSE mostrar mensagens claras no
+    retorno.
+   Por: Italo Giurizzato Junior
+
 22/10/2025
 -- SilTecnologia.Provider --
 [*] #ACBr-8186 Alterado o caracter de Quebra de Linha para \s\n.

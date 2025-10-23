@@ -1421,7 +1421,18 @@ begin
     Exit
   end;
 
-  SalvarPDFNfse(Response.ChaveNFSe, Response.ArquivoRetorno);
+  if Pos('"title":"Not Found","status":404', Response.ArquivoRetorno) > 0 then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod214;
+    AErro.Descricao := ACBrStr(Desc214);
+    Exit
+  end;
+
+  Response.Sucesso := (Response.Erros.Count = 0);
+
+  if Response.Sucesso then
+    SalvarPDFNfse(Response.ChaveNFSe, Response.ArquivoRetorno);
 end;
 
 procedure TACBrNFSeProviderPadraoNacional.ValidarSchema(

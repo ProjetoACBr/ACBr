@@ -273,6 +273,8 @@ resourcestring
   Desc212 = 'Não foi retornado nenhum JSON.';
   Cod213 = 'X213';
   Desc213 = 'Não foi retornado nenhum Token.';
+  Cod214 = 'X214';
+  Desc214 = 'Não foi retornado nenhum DANFSE, chave/ambiente pode estar errado.';
 
   Cod800 = 'X800';
   Desc800 = 'Erro de Validação: ';
