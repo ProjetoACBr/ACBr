@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/10/2025
+-- Actcon.Provider/fintelISS.Provider/ISSJoinville.Provider/VersaTecnologia.Provider --
+[*] #ACBr-8274: Possível solução para o separador de pastas que é diferente no Linux.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXConsts/ACBrNFSeXWebserviceBase/PadraoNacional.Provider --
 [*] Melhorias ao executar o método ObterDANFSE mostrar mensagens claras no
     retorno.

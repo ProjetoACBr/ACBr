@@ -116,6 +116,7 @@ implementation
 uses
   ACBrDFe.Conversao,
   ACBrUtil.XMLHTML,
+  ACBrUtil.FilesIO,
   ACBrDFeException, ACBrNFSeX, ACBrNFSeXConfiguracoes,
   ACBrNFSeXNotasFiscais, fintelISS.GravarXml, fintelISS.LerXml;
 
@@ -183,7 +184,7 @@ function TACBrNFSeProviderfintelISS200.GetSchemaPath: string;
 begin
   Result := inherited GetSchemaPath;
 
-  Result := Result + ConfigGeral.CodIBGE;
+  Result := PathWithDelim(Result + ConfigGeral.CodIBGE);
 end;
 
 { TACBrNFSeXWebservicefintelISS200 }

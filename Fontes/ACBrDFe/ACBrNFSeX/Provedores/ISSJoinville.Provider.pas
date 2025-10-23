@@ -78,6 +78,7 @@ implementation
 uses
   ACBrDFe.Conversao,
   ACBrDFeException, ACBrUtil.Strings,
+  ACBrUtil.FilesIO,
   ACBrXmlDocument, ACBrXmlReader,
   ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXNotasFiscais, ACBrNFSeXConsts,
   ISSJoinville.GravarXml, ISSJoinville.LerXml;
@@ -162,9 +163,9 @@ begin
   Result := inherited GetSchemaPath;
 
   if ConfigGeral.Ambiente = taProducao then
-    Result := Result + '\Producao\'
+    Result := PathWithDelim(Result + 'Producao')
   else
-    Result := Result + '\Homologacao\';
+    Result := PathWithDelim(Result + 'Homologacao');
 end;
 
 procedure TACBrNFSeProviderISSJoinville204.TratarRetornoConsultaLoteRps(
