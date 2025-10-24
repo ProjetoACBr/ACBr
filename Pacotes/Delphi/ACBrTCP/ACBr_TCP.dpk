@@ -73,7 +73,9 @@ contains
   ACBrFrenet in '..\..\..\Fontes\ACBrTCP\ACBrFrenet.pas',
   ACBr.Auth.JWT in '..\..\..\Fontes\ACBrTCP\ACBr.Auth.JWT.pas',
   ACBrCupomVerde in '..\..\..\Fontes\ACBrTCP\ACBrCupomVerde.pas',
-  ACBrIMendes in '..\..\..\Fontes\ACBrTCP\ACBrIMendes.pas';
+  ACBrIMendes in '..\..\..\Fontes\ACBrTCP\ACBrIMendes.pas',
+  ACBrCalculadoraConsumo in '..\..\..\Fontes\ACBrTCP\ACBrCalculadoraConsumo.pas',
+  ACBrCalculadoraConsumo.Schemas in '..\..\..\Fontes\ACBrTCP\ACBrCalculadoraConsumo.Schemas.pas';
 
 end.
 

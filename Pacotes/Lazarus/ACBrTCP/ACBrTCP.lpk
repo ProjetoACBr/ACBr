@@ -36,7 +36,7 @@
     <License Value="LGPL
 "/>
     <Version Minor="10"/>
-    <Files Count="32">
+    <Files Count="35">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrTCPReg.pas"/>
         <HasRegisterProc Value="True"/>
@@ -170,6 +170,14 @@
         <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrIMendes.pas"/>
         <UnitName Value="ACBrIMendes"/>
       </Item33>
+      <Item34>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrCalculadoraConsumo.pas"/>
+        <UnitName Value="ACBrCalculadoraConsumo"/>
+      </Item34>
+      <Item35>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrCalculadoraConsumo.Schemas.pas"/>
+        <UnitName Value="ACBrCalculadoraConsumo.Schemas"/>
+      </Item35>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">
