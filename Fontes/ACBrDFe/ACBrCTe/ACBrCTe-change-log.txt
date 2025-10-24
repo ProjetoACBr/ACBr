@@ -45,6 +45,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+24/10/2025
+-- ACBrCTe.IniReader --
+[*] Alterado a posição de algumas units em uses.
+   Por: Italo Giurizzato Junior
+
 15/10/2025
 -- ACBrCTeWebServices --
 [*] Possível solução para não gerar o XML com a tag procEventoCTe em duplicidade.

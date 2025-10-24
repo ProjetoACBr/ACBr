@@ -40,6 +40,8 @@ uses
   Classes, SysUtils,
   IniFiles,
   ACBrCTe.Classes,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcteProcCTe,
   pcnConversao,
   pcteConversaoCTe;
@@ -148,9 +150,7 @@ implementation
 
 uses
   StrUtils,
-  ACBrDFe.Conversao,
   ACBrCTe,
-  ACBrXmlBase,
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.FilesIO,
