@@ -42,6 +42,19 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/10/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8285 A cidade Lages/SC trocou a versão e as URLs o provedor continua o mesmo.
+   Por: Wesley Lamb
+[*] #ACBr-8280 A cidade Ronda Alta/RS trocou de provedor, agora é Digifred versaão 2.00
+   Por: Maurício Sareto
+[+] #ACBr-8279 Incluída a cidade Agua Boa/MG, provedor EL versão 2.04
+   Por: Facil Sistemas Ltda
+[*] #ACBr-8278 A cidade Paulo Afonso/BA trocou de provedor, agora é Fisco.
+   Por: jeffersonjunglaus
+[+] #ACBr-8095 Incluída a cidade Victor Graeff/RS, provedor Pronim.
+   Por: Leonardo Rocha
+
 23/10/2025
 -- SigISS.GravarXml --
 [-] #ACBr-8096: Correção, estava pegando o código de serviço de outro campo.
