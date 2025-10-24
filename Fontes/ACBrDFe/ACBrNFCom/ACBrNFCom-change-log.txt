@@ -42,6 +42,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/10/2025
+-- ACBrNFComServicos --
+[+] Adiciona as URLS para o estado do Mato Grosso
+  Por: Diego Folieni
 
 22/10/2025
 -- ACBrNFComXmlWriter --
