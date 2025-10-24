@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+24/10/2025
+-- ACBrBoletoW_Santander_API--
+[*] Adicionado as especies de documento disponibilidado na API, mantendo compatibilidade com o cnab
+   ACBr-8275 https://www.projetoacbr.com.br/forum/topic/86758-peculiaridade-boleto-santander-pagador-e-cobrador-mesma-ra%C3%ADz-cnpj
+   Por Daniel de Morais InfoCotidiano
+   
 22/10/2025
 -- ACBrBoleto --
 [*] Ajustado verificação do arquivo de retorno no header arquivo posição 143 conforme manual
