@@ -41,6 +41,7 @@ uses
 
 resourcestring
   sErroMetodoNaoImplementado = 'Método %s não implementado para Classe %s';
+  sErroParametroNaoPrenchido = 'Parametro %s não preenchido';
   sErroObjetoNaoPrenchido = 'Objeto %s não preenchido';
 
 type
@@ -310,8 +311,8 @@ begin
   Clear;
   if IsArray(AValue) then
   try
-  ja := TACBrJSONArray.Parse(AValue);
-  ReadFromJSonArray(ja);
+    ja := TACBrJSONArray.Parse(AValue);
+    ReadFromJSonArray(ja);
   finally
     if Assigned(ja) then
       ja.Free;
@@ -328,7 +329,7 @@ end;
 
 function TACBrAPISchemaArray.IsArray(const aValue: String): Boolean;
 var
-  s, r, u: String;
+  s: String;
   t: Integer;
 begin
   s := Trim(aValue);

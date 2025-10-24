@@ -67,6 +67,7 @@ const
 
   cContentTypeUTF8 = 'charset=utf-8';
   cContentTypeTextPlain = 'text/plain';
+  cContentTypeApplicationXml = 'application/xml';
   cContentTypeApplicationJSon = 'application/json';
   cContentTypeApplicationWwwFormUrlEncoded = 'application/x-www-form-urlencoded';
 

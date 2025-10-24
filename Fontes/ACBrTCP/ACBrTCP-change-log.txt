@@ -36,6 +36,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/10/2025
+-- ACBrSocket --
+[+] Inclusão de constante para envio de body padrão XML;
+
+-- ACBrAPIBase --
+[+] Inclusão de constante pra erro de parâmetro;
+[-] Remoção de variáveis não utilizadas
+
 22/10/2025
 -- ACBrSocket --
 [+] Inclusão do método SetHeaderValue.
