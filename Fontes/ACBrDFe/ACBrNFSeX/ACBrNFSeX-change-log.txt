@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/10/2025
+-- ISSSaoPaulo.Provider --
+[-] #ACBr-8290 Ajuste para que a consulta de NFSe por Serviço Prestado considere o CNPJ correto.
+   Por: Diego Folieni
 -- WebISS.Provider --
 [*] #ACBr-8134 Trocado o XmlToStr por IncluirCDATA nos envelopes de envio do RPS.
    Por: Italo Giurizzato Junior

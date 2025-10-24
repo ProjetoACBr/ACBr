@@ -1236,11 +1236,11 @@ var
   Emitente: TEmitenteConfNFSe;
   NameSpace, xCNPJCPF, xDoc, xCNPJCPFTomador, xDocTomador: string;
 begin
-  if EstaVazio(Response.InfConsultaNFSe.CNPJTomador) then
+  if EstaVazio(Response.InfConsultaNFSe.CNPJPrestador) then
   begin
     AErro := Response.Erros.New;
-    AErro.Codigo := Cod127;
-    AErro.Descricao := ACBrStr(Desc127);
+    AErro.Codigo := Cod137;
+    AErro.Descricao := ACBrStr(Desc137);
     Exit;
   end;
 

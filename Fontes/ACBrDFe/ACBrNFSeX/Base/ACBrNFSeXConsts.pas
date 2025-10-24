@@ -246,6 +246,8 @@ resourcestring
   Desc135 = 'Número da NFSe Substituta não informado.';
   Cod136 = 'X136';
   Desc136 =	'Data de Recibo não informada.';
+  Cod137 = 'X137';
+  Desc137 = 'CNPJ do Prestador não informado.';
 
   Cod201 = 'X201';
   Desc201 = 'WebService retornou um XML vazio.';
