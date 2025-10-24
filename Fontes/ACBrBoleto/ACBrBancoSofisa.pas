@@ -599,7 +599,7 @@ begin
   else
   begin
     case CodOcorrencia of
-      02: Result := toRetornoEntradaConfirmadaNaCip;              // Entrada Confirmada
+      01, 02: Result := toRetornoEntradaConfirmadaNaCip;              // Entrada Confirmada
       03: Result := toRetornoRemessaRejeitada;                    // Entrada Rejeitada
       // 05:                                                         Campo Livre Alterado
       06: Result :=  toRetornoLiquidado;                          // Liquidação Normal

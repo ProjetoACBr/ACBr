@@ -49,6 +49,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 24/10/2025
+-- ACBrBancoSofisa --
+[*] Adicionado codigo ocorrencia retorno 01, entrada confirmada cip
+   ACBr-8268 https://www.projetoacbr.com.br/forum/topic/86689-inclu%C3%ADdo-tratamento-para-novo-tipo-de-retorno-sofisa/
+   Por Lucas Pechebelok Hernandes
+
+24/10/2025
 -- ACBrBoletoW_Santander_API--
 [*] Adicionado as especies de documento disponibilidado na API, mantendo compatibilidade com o cnab
    ACBr-8275 https://www.projetoacbr.com.br/forum/topic/86758-peculiaridade-boleto-santander-pagador-e-cobrador-mesma-ra%C3%ADz-cnpj
