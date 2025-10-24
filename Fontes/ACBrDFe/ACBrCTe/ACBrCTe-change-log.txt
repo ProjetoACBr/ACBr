@@ -46,6 +46,9 @@ Símbolo : Significado
 
 
 24/10/2025
+-- ACBrCTe.XMLReader --
+[-] Ajuste visando sanar erro ao ler indIEToma para CTe Simplificado.
+  Por: Diego Folieni
 -- ACBrCTe.IniReader --
 [*] Alterado a posição de algumas units em uses.
    Por: Italo Giurizzato Junior

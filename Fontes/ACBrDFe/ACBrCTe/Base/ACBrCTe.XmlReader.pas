@@ -768,7 +768,9 @@ begin
   FCTe.Ide.dhCont := ObterConteudo(ANode.Childrens.FindAnyNs('dhCont'), tcDatHor);
   FCTe.Ide.xJust := ObterConteudo(ANode.Childrens.FindAnyNs('xJust'), tcStr);
 
-  FCTe.Ide.IndIEToma := StrToindIEDest(OK, ObterConteudo(ANode.Childrens.FindAnyNs('indIEToma'), tcStr));
+  sAux := ObterConteudo(ANode.Childrens.FindAnyNs('indIEToma'), tcStr);
+  if sAux <> '' then
+    FCTe.Ide.IndIEToma := StrToindIEDest(OK, sAux);
 
   FCTe.Ide.dhSaidaOrig := ObterConteudo(ANode.Childrens.FindAnyNs('dhSaidaOrig'), tcDatHor);
   FCTe.Ide.dhChegadaDest := ObterConteudo(ANode.Childrens.FindAnyNs('dhChegadaDest'), tcDatHor);
@@ -1775,6 +1777,9 @@ begin
 end;
 
 procedure TCTeXmlReader.Ler_Toma(ANode: TACBrXmlNode);
+var
+  lAux: String;
+  OK: Boolean;
 begin
   if not Assigned(ANode) then exit;
 
@@ -1784,6 +1789,10 @@ begin
   FCTe.toma.xFant := ObterConteudo(ANode.Childrens.FindAnyNs('xFant'), tcStr);
   FCTe.toma.fone := ObterConteudo(ANode.Childrens.FindAnyNs('fone'), tcStr);
   FCTe.toma.email := ObterConteudo(ANode.Childrens.FindAnyNs('email'), tcStr);
+
+  lAux := ObterConteudo(ANode.Childrens.FindAnyNs('indIEToma'), tcStr);
+  if lAux <> '' then
+    FCte.toma.indIEToma := StrToindIEDest(OK, lAux);
 
   Ler_TomaEnderToma(ANode.Childrens.FindAnyNs('enderToma'));
 end;
