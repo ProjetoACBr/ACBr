@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/10/2025
+-- WebISS.Provider --
+[*] #ACBr-8134 Trocado o XmlToStr por IncluirCDATA nos envelopes de envio do RPS.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] #ACBr-8285 A cidade Lages/SC trocou a versão e as URLs o provedor continua o mesmo.
    Por: Wesley Lamb
