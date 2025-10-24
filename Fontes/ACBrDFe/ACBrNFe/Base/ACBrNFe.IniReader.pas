@@ -39,6 +39,8 @@ interface
 uses
   Classes, SysUtils, IniFiles,
   ACBrNFe.Classes,
+  ACBrXmlBase,
+  ACBrDFe.Conversao,
   pcnConversao,
   pcnConversaoNFe;
 
@@ -172,8 +174,6 @@ implementation
 
 uses
   StrUtils,
-  ACBrDFe.Conversao,
-  ACBrXmlBase,
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.FilesIO,

@@ -46,6 +46,9 @@ Símbolo : Significado
 
 24/10/2025
 -- ACBrNFe.IniReader --
+[*] Alterado a posição de algumas units em uses.
+   Por: Italo Giurizzato Junior
+-- ACBrNFe.IniReader --
 [-] Correção na leitura do campo: cRegTrib.
   Por: Italo Giurizzato Junior
 
