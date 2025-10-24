@@ -1374,6 +1374,7 @@ procedure TNFeIniReader.Ler_TotalISSQNTot(AINIRec: TMemIniFile;
   ISSQNtot: TISSQNtot);
 var
   Ok: Boolean;
+  aValor: string;
 begin
   ISSQNtot.vServ  := StringToFloatDef(  AINIRec.ReadString('ISSQNtot','vServ',AINIRec.ReadString('ISSQNtot','ValorServicos','')) ,0) ;
   ISSQNTot.vBC    := StringToFloatDef(  AINIRec.ReadString('ISSQNtot','vBC'  ,AINIRec.ReadString('ISSQNtot','ValorBaseISS'  ,'')) ,0) ;
@@ -1386,7 +1387,11 @@ begin
   ISSQNtot.vDescIncond := StringToFloatDef( AINIRec.ReadString('ISSQNtot', 'vDescIncond', ''), 0);
   ISSQNtot.vDescCond   := StringToFloatDef( AINIRec.ReadString('ISSQNtot', 'vDescCond', ''), 0);
   ISSQNtot.vISSRet     := StringToFloatDef( AINIRec.ReadString('ISSQNtot', 'vISSRet', ''), 0);
-  ISSQNtot.cRegTrib    := StrToRegTribISSQN( OK,AINIRec.ReadString('ISSQNtot', 'cRegTrib', '0'));
+
+  aValor := AINIRec.ReadString('ISSQNtot', 'cRegTrib', '0');
+  if aValor = '' then
+    aValor := '0';
+  ISSQNtot.cRegTrib := StrToRegTribISSQN(OK, aValor);
 end;
 
 procedure TNFeIniReader.Ler_TotalRetTributavel(AINIRec: TMemIniFile;

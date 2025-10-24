@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/10/2025
+-- ACBrNFe.IniReader --
+[-] Correção na leitura do campo: cRegTrib.
+  Por: Italo Giurizzato Junior
+
 22/10/2025
 -- ACBrNFe.RetEnvEvento --
 [-] Algumas tags dos eventos e Pedido de Prorrogação e Cancelamento de Pedido 
