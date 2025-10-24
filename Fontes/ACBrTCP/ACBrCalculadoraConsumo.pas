@@ -1027,7 +1027,7 @@ begin
     Exit;
 
   fOwner.PrepararHTTP;
-  fOwner.URLQueryParams.AddPair('siglaUf', aSiglaUF);
+  fOwner.URLQueryParams.Values['siglaUf'] := aSiglaUF;
   fOwner.URLPathParams.Add(cACBrCalcEndpointCalculadora);
   fOwner.URLPathParams.Add(cACBrCalcEndpointDadosAbertos);
   fOwner.URLPathParams.Add(cACBrCalcEndpointUFs);
@@ -1061,8 +1061,8 @@ begin
     Exit;
 
   fOwner.PrepararHTTP;
-  fOwner.URLQueryParams.AddPair('ncm', aNCM);
-  fOwner.URLQueryParams.AddPair('data', FormatDateBr(aData, 'YYYY-MM-DD'));
+  fOwner.URLQueryParams.Values['ncm'] := aNCM;
+  fOwner.URLQueryParams.Values['data'] := FormatDateBr(aData, 'YYYY-MM-DD');
   fOwner.URLPathParams.Add(cACBrCalcEndpointCalculadora);
   fOwner.URLPathParams.Add(cACBrCalcEndpointDadosAbertos);
   fOwner.URLPathParams.Add(cACBrCalcEndpointNCM);
@@ -1095,8 +1095,8 @@ begin
     Exit;
 
   fOwner.PrepararHTTP;
-  fOwner.URLQueryParams.AddPair('nbs', aNBS);
-  fOwner.URLQueryParams.AddPair('data', FormatDateBr(aData, 'YYYY-MM-DD'));
+  fOwner.URLQueryParams.Values['nbs'] := aNBS;
+  fOwner.URLQueryParams.Values['data'] := FormatDateBr(aData, 'YYYY-MM-DD');
   fOwner.URLPathParams.Add(cACBrCalcEndpointCalculadora);
   fOwner.URLPathParams.Add(cACBrCalcEndpointDadosAbertos);
   fOwner.URLPathParams.Add(cACBrCalcEndpointNBS);
@@ -1127,7 +1127,7 @@ begin
     Exit;
 
   fOwner.PrepararHTTP;
-  fOwner.URLQueryParams.AddPair('data', FormatDateBr(aData, 'YYYY-MM-DD'));
+  fOwner.URLQueryParams.Values['data'] := FormatDateBr(aData, 'YYYY-MM-DD');
   fOwner.URLPathParams.Add(cACBrCalcEndpointCalculadora);
   fOwner.URLPathParams.Add(cACBrCalcEndpointDadosAbertos);
   fOwner.URLPathParams.Add(cACBrCalcEndpointFundamentLegais);
@@ -1160,7 +1160,7 @@ begin
     Exit;
 
   fOwner.PrepararHTTP;
-  fOwner.URLQueryParams.AddPair('data', FormatDateBr(aData, 'YYYY-MM-DD'));
+  fOwner.URLQueryParams.Values['data'] := FormatDateBr(aData, 'YYYY-MM-DD');
   fOwner.URLPathParams.Add(cACBrCalcEndpointCalculadora);
   fOwner.URLPathParams.Add(cACBrCalcEndpointDadosAbertos);
   fOwner.URLPathParams.Add(cACBrCalcEndpointClassificTribs);
@@ -1192,7 +1192,7 @@ begin
     Exit;
 
   fOwner.PrepararHTTP;
-  fOwner.URLQueryParams.AddPair('data', FormatDateBr(aData, 'YYYY-MM-DD'));
+  fOwner.URLQueryParams.Values['data'] := FormatDateBr(aData, 'YYYY-MM-DD');
   fOwner.URLPathParams.Add(cACBrCalcEndpointCalculadora);
   fOwner.URLPathParams.Add(cACBrCalcEndpointDadosAbertos);
   fOwner.URLPathParams.Add(cACBrCalcEndpointClassificTribs);
@@ -1224,7 +1224,7 @@ begin
     Exit;
 
   fOwner.PrepararHTTP;
-  fOwner.URLQueryParams.AddPair('data', FormatDateBr(aData, 'YYYY-MM-DD'));
+  fOwner.URLQueryParams.Values['data'] := FormatDateBr(aData, 'YYYY-MM-DD');
   fOwner.URLPathParams.Add(cACBrCalcEndpointCalculadora);
   fOwner.URLPathParams.Add(cACBrCalcEndpointDadosAbertos);
   fOwner.URLPathParams.Add(cACBrCalcEndpointClassificTribs);
@@ -1256,7 +1256,7 @@ begin
     Exit;
 
   fOwner.PrepararHTTP;
-  fOwner.URLQueryParams.AddPair('data', FormatDateBr(aData, 'YYYY-MM-DD'));
+  fOwner.URLQueryParams.Values['data'] := FormatDateBr(aData, 'YYYY-MM-DD');
   fOwner.URLPathParams.Add(cACBrCalcEndpointCalculadora);
   fOwner.URLPathParams.Add(cACBrCalcEndpointDadosAbertos);
   fOwner.URLPathParams.Add(cACBrCalcEndpointAliqUniao);
@@ -1289,8 +1289,8 @@ begin
     Exit;
 
   fOwner.PrepararHTTP;
-  fOwner.URLQueryParams.AddPair('data', FormatDateBr(aData, 'YYYY-MM-DD'));
-  fOwner.URLQueryParams.AddPair('codigoUf', IntToStr(aCodUF));
+  fOwner.URLQueryParams.Values['data'] := FormatDateBr(aData, 'YYYY-MM-DD');
+  fOwner.URLQueryParams.Values['codigoUf'] := IntToStr(aCodUF);
   fOwner.URLPathParams.Add(cACBrCalcEndpointCalculadora);
   fOwner.URLPathParams.Add(cACBrCalcEndpointDadosAbertos);
   fOwner.URLPathParams.Add(cACBrCalcEndpointAliqUF);
@@ -1323,8 +1323,8 @@ begin
     Exit;
 
   fOwner.PrepararHTTP;
-  fOwner.URLQueryParams.AddPair('data', FormatDateBr(aData, 'YYYY-MM-DD'));
-  fOwner.URLQueryParams.AddPair('codigoMunicipio', IntToStr(aCodMunicipio));
+  fOwner.URLQueryParams.Values['data'] := FormatDateBr(aData, 'YYYY-MM-DD');
+  fOwner.URLQueryParams.Values['codigoMunicipio'] := IntToStr(aCodMunicipio);
   fOwner.URLPathParams.Add(cACBrCalcEndpointCalculadora);
   fOwner.URLPathParams.Add(cACBrCalcEndpointDadosAbertos);
   fOwner.URLPathParams.Add(cACBrCalcEndpointAliqMun);
