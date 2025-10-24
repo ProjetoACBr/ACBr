@@ -659,10 +659,10 @@ begin
   Result.AppendChild(AddNode(tcStr, '#63', 'tpServUtil', 1, 1, 1,
                   tpServUtilToStr(NFCom.assinante.tpServUtil), DSC_TPSERVUTIL));
 
-  Result.AppendChild(AddNode(tcStr, '#64', 'nContrato', 1, 20, 1,
+  Result.AppendChild(AddNode(tcStr, '#64', 'nContrato', 1, 20, 0,
                                      NFCom.assinante.nContrato, DSC_NCONTRATO));
 
-  Result.AppendChild(AddNode(tcDat, '#65', 'dContratoIni', 10, 10, 1,
+  Result.AppendChild(AddNode(tcDat, '#65', 'dContratoIni', 10, 10, 0,
                                NFCom.assinante.dContratoIni, DSC_DCONTRATOINI));
 
   Result.AppendChild(AddNode(tcDat, '#66', 'dContratoFim', 10, 10, 0,
