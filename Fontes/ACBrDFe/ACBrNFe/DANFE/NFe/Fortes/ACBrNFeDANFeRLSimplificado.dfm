@@ -7,7 +7,6 @@ inherited frlDANFeRLSimplificado: TfrlDANFeRLSimplificado
   Font.Height = -8
   Font.Name = 'Arial'
   Font.Style = [fsBold]
-  StyleElements = [seFont, seClient, seBorder]
   inherited RLNFe: TRLReport
     Tag = 1
     Left = 10
