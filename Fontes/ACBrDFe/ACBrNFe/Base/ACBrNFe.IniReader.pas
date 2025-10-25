@@ -273,10 +273,7 @@ begin
   Ide.tpNFCredito := StrTotpNFCredito(AINIRec.ReadString(sSecao, 'tpNFCredito', ''));
 
   Ide.gCompraGov.pRedutor := StringToFloatDef(AINIRec.ReadString(sSecao, 'pRedutor', ''), 0);
-
-  if Ide.gCompraGov.pRedutor > 0 then
-    Ide.gCompraGov.tpEnteGov := StrTotpEnteGov(AINIRec.ReadString(sSecao, 'tpEnteGov', ''));
-
+  Ide.gCompraGov.tpEnteGov := StrTotpEnteGov(AINIRec.ReadString(sSecao, 'tpEnteGov', ''));
   Ide.gCompraGov.tpOperGov := StrTotpOperGov(AINIRec.ReadString(sSecao, 'tpOperGov', ''));
 
   Ler_gPagAntecipado(AINIRec);

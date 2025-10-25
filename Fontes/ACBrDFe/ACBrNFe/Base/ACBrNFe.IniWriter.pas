@@ -288,7 +288,7 @@ begin
   AINIRec.WriteString('Identificacao', 'tpNFDebito', tpNFDebitoToStr(Ide.tpNFDebito));
   AINIRec.WriteString('Identificacao', 'tpNFCredito', tpNFCreditoToStr(Ide.tpNFCredito));
 
-  if Ide.gCompraGov.pRedutor > 0 then
+  if Ide.gCompraGov.tpEnteGov <> tcgNenhum then
   begin
     AINIRec.WriteString('Identificacao', 'tpEnteGov', tpEnteGovToStr(Ide.gCompraGov.tpEnteGov));
     AINIRec.WriteFloat('Identificacao', 'pRedutor', Ide.gCompraGov.pRedutor);
@@ -1663,6 +1663,7 @@ begin
   sSecao := 'gIBSCBS' + IntToStrZero(Idx + 1, 3);
 
   AINIRec.WriteFloat(sSecao, 'vBC', IBSCBS.vBC);
+  AINIRec.WriteFloat(sSecao, 'vIBS', IBSCBS.vIBS);
 
   Gerar_IBSCBS_gIBSCBS_gIBSUF(AINIRec, IBSCBS.gIBSUF, Idx);
   Gerar_IBSCBS_gIBSCBS_gIBSMun(AINIRec, IBSCBS.gIBSMun, Idx);
@@ -1671,7 +1672,9 @@ begin
   if IBSCBS.gTribRegular.pAliqEfetRegIBSUF > 0 then
     Gerar_IBSCBS_gIBSCBS_gTribRegular(AINIRec, IBSCBS.gTribRegular, Idx);
 
-  if IBSCBS.gTribCompraGov.pAliqIBSUF > 0 then
+  if (IBSCBS.gTribCompraGov.pAliqIBSUF > 0) or
+     (IBSCBS.gTribCompraGov.pAliqIBSMun > 0) or
+     (IBSCBS.gTribCompraGov.pAliqCBS > 0) then
     Gerar_IBSCBS_gIBSCBS_gTribCompraGov(AINIRec, IBSCBS.gTribCompraGov, Idx);
 end;
 

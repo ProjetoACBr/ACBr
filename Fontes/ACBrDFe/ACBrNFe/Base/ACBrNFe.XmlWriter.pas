@@ -4105,8 +4105,7 @@ function TNFeXmlWriter.Gerar_Ide_CompraGov: TACBrXmlNode;
 begin
   Result := nil;
 
-  if (NFe.ide.gCompraGov.pRedutor > 0) and
-     (NFe.ide.gCompraGov.tpEnteGov <> tcgNenhum) and
+  if (NFe.ide.gCompraGov.tpEnteGov <> tcgNenhum) and
      (NFe.ide.gCompraGov.tpOperGov <> togNenhum) then
   begin
     Result := FDocument.CreateElement('gCompraGov');
@@ -4257,7 +4256,11 @@ begin
   if IBSCBS.gTribRegular.CSTReg <> cstNenhum then
     Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gTribRegular(IBSCBS.gTribRegular));
 
-  if (IBSCBS.gTribCompraGov.pAliqIBSUF > 0) and (NFe.Ide.gCompraGov.tpEnteGov <> tcgNenhum) then
+  if (
+    (IBSCBS.gTribCompraGov.pAliqIBSUF > 0) or
+    (IBSCBS.gTribCompraGov.pAliqIBSMun > 0) or
+    (IBSCBS.gTribCompraGov.pAliqCBS > 0)
+    ) and (NFe.Ide.gCompraGov.tpEnteGov <> tcgNenhum) then
     Result.AppendChild(Gerar_IBSCBS_gIBSCBS_gTribCompraGov(IBSCBS.gTribCompraGov));
 end;
 
