@@ -46,6 +46,7 @@ uses
   ACBrBase,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   ACBrDFeComum.Proc,
   ACBrNF3eRetEnvEvento;
 
@@ -189,7 +190,7 @@ begin
       begin
         versao := ObterConteudoTag(ANode.Attributes.Items['versao']);
         verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
-        tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+        tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
         cUF := ObterConteudoTag(ANode.Childrens.FindAnyNs('cUF'), tcInt);
         nRec := ObterConteudoTag(ANode.Childrens.FindAnyNs('nRec'), tcStr);
         cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
@@ -212,7 +213,7 @@ begin
 
                 if ANodeAux <> nil then
                 begin
-                  protNF3e.tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('tpAmb'), tcStr));
+                  protNF3e.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('tpAmb'), tcStr));
                   protNF3e.verAplic := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('verAplic'), tcStr);
                   protNF3e.chDFe := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('chNF3e'), tcStr);
                   protNF3e.dhRecbto := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('dhRecbto'), tcDatHor);

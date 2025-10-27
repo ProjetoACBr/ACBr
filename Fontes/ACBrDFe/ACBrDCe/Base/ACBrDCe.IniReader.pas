@@ -40,7 +40,9 @@ uses
   Classes, SysUtils,
   IniFiles,
   ACBrDCe.Classes,
-  ACBrDCe.Conversao;
+  ACBrDCe.Conversao,
+  ACBrDFe.Conversao,
+  pcnConversao;
 
 type
   { TDCeIniReader }
@@ -83,7 +85,6 @@ implementation
 
 uses
   ACBrXmlBase,
-  ACBrDFe.Conversao,
   ACBrDCe,
   ACBrUtil.Base,
   ACBrUtil.Strings,
@@ -141,13 +142,13 @@ var
   OK: Boolean;
 begin
   sSecao := 'ide';
-  Ide.tpAmb := StrToTipoAmbiente(OK, AINIRec.ReadString(sSecao, 'tpAmb', IntToStr(Ambiente)));
+  Ide.tpAmb := StrToTipoAmbiente(AINIRec.ReadString(sSecao, 'tpAmb', IntToStr(Ambiente)));
   Ide.modelo := AINIRec.ReadInteger(sSecao, 'Modelo', 99);
   Ide.serie := AINIRec.ReadInteger(sSecao, 'Serie', 1);
   Ide.nDC := AINIRec.ReadInteger(sSecao, 'nDC', 0);
   Ide.cDC := AINIRec.ReadInteger(sSecao, 'cDC', 0);
   Ide.dhEmi := StringToDateTime(AINIRec.ReadString(sSecao, 'dhEmi', '0'));
-  Ide.tpEmis := StrToTipoEmissao(OK, AINIRec.ReadString(sSecao, 'tpEmis', IntToStr(tpEmis)));
+  Ide.tpEmis := StrToTpEmis(OK, AINIRec.ReadString(sSecao, 'tpEmis', IntToStr(tpEmis)));
   Ide.tpEmit  := StrToEmitenteDCe(AINIRec.ReadString(sSecao, 'tpEmit', '1'));
   Ide.nSiteAutoriz := StrToSiteAutorizator(AINIRec.ReadString(sSecao, 'nSiteAutoriz', '0'));
   Ide.verProc := AINIRec.ReadString(sSecao, 'verProc', 'ACBrNFCom');

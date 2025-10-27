@@ -177,7 +177,7 @@ begin
 
   infEvento.Id := ObterConteudoTag(ANode.Attributes.Items['Id']);
   infEvento.cOrgao := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgao'), tcInt);
-  infEvento.tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+  infEvento.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
   infEvento.CNPJ := ObterConteudoTagCNPJCPF(ANode);
   infEvento.chNFCom := ObterConteudoTag(ANode.Childrens.FindAnyNs('chNFCom'), tcStr);
   infEvento.dhEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhEvento'), tcDatHor);
@@ -206,7 +206,7 @@ begin
   RetInfEvento.XML := ANode.OuterXml;
 
   RetInfEvento.Id := ObterConteudoTag(ANode.Attributes.Items['Id']);
-  RetInfEvento.tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+  RetInfEvento.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
   RetInfEvento.verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
   RetInfEvento.cOrgao := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgao'), tcInt);
   RetInfEvento.cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);

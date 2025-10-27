@@ -590,16 +590,20 @@ function EnumeradoToStr(const t: variant; const AString:
   array of string; const AEnumerados: array of variant): variant;
 
 function TpImpToStr(const t: TACBrTipoImpressao): string;
-function StrToTpImp(out ok: boolean; const s: string): TACBrTipoImpressao;
+function TryStrToTpImp(const s: string; out Value: TACBrTipoImpressao): Boolean;
+function StrToTpImp(const s: string): TACBrTipoImpressao;
 
 function TipoEmissaoToStr(const t: TACBrTipoEmissao): string;
-function StrToTipoEmissao(out ok: boolean; const s: string): TACBrTipoEmissao;
+function TryStrToTipoEmissao(const s: string; out Value: TACBrTipoEmissao): Boolean;
+function StrToTipoEmissao(const s: string): TACBrTipoEmissao;
 
 function TipoAmbienteToStr(const t: TACBrTipoAmbiente): string;
-function StrToTipoAmbiente(out ok: boolean; const s: string): TACBrTipoAmbiente;
+function TryStrToTipoAmbiente(const s: string; out Value: TACBrTipoAmbiente): Boolean;
+function StrToTipoAmbiente(const s: string): TACBrTipoAmbiente;
 
 function procEmiToStr(const t: TACBrProcessoEmissao): string;
-function StrToprocEmi(out ok: boolean; const s: string): TACBrProcessoEmissao;
+function TryStrToProcEmi(const s: string; out Value: TACBrProcessoEmissao): Boolean;
+function StrToprocEmi(const s: string): TACBrProcessoEmissao;
 
 function TpEventoToStr(const t: TACBrTipoEvento): string;
 function TpEventoToDescStr(const t: TACBrTipoEvento): string;
@@ -610,106 +614,136 @@ procedure RegisterStrToTpEventoDFe(AConvertProcedure: TStrToTpEvento; ADFe: stri
 
 function TpModalToStr(const t: TModal): string;
 function TpModalToStrText(const t: TModal): string;
-function StrToTpModal(out ok: boolean; const s: string): TModal;
+function TryStrToTpModal(const s: string; out Value: TModal): Boolean;
+function StrToTpModal(const s: string): TModal;
 
 function TIndicadorToStr(const t: TIndicador): string;
-function StrToTIndicador(out ok: boolean; const s: string): TIndicador;
+function TryStrToTIndicador(const S: string; out Value: TIndicador ):boolean;
+function StrToTIndicador(const s: string): TIndicador;
 
 function TIndicadorExToStr(const t: TIndicadorEx): string;
-function StrToTIndicadorEx(out ok: boolean; const s: string): TIndicadorEx;
+function TryStrToTIndicadorEx(const s: string; out Value: TIndicadorEx): Boolean;
+function StrToTIndicadorEx(const s: string): TIndicadorEx;
 
 function SituacaoDFeToStr(const t: TSituacaoDFe): String;
-function StrToSituacaoDFe(out ok: Boolean; const s: String): TSituacaoDFe;
+function TryStrToSituacaoDFe(const s: string; out Value: TSituacaoDFe): Boolean;
+function StrToSituacaoDFe(const s: String): TSituacaoDFe;
 
 function tpNFToStr(const t: TTipoNFe): String;
-function StrToTpNF(out ok: Boolean; const s: String): TTipoNFe;
+function TryStrToTpNF(const s: string; out Value: TTipoNFe): Boolean;
+function StrToTpNF(const s: String): TTipoNFe;
 
 function SchemaDFeToStr(const t: TSchemaDFe): String;
 function StrToSchemaDFe(const s: String): TSchemaDFe;
 
 function OrigToStr(const t: TOrigemMercadoria): string;
-function StrToOrig(out ok: boolean; const s: string): TOrigemMercadoria;
+function TryStrToOrig(const s: string; out Value: TOrigemMercadoria): Boolean;
+function StrToOrig(const s: string): TOrigemMercadoria;
 function OrigToStrTagPosText(const t: TOrigemMercadoria): string;
 
 function CSTICMSToStr(const t: TCSTIcms): string;
-function StrToCSTICMS(out ok: boolean; const s: string): TCSTIcms;
+function TryStrToCSTICMS(const s: string; out Value: TCSTIcms): Boolean;
+function StrToCSTICMS(const s: string): TCSTIcms;
 function CSTICMSToStrTagPos(const t: TCSTIcms): string;
 function CSTICMSToStrTagPosText(const t: TCSTIcms): string;
 
 function CSOSNIcmsToStr(const t: TCSOSNIcms): string;
-function StrToCSOSNIcms(out ok: boolean; const s: string): TCSOSNIcms;
+function TryStrToCSOSNIcms(const s: string; out Value: TCSOSNIcms): Boolean;
+function StrToCSOSNIcms(const s: string): TCSOSNIcms;
+
 function CSOSNToStrTagPos(const t: TCSOSNIcms): string;
 function CSOSNToStrID(const t: TCSOSNIcms): string;
 function CSOSNToStrTagPosText(const t: TCSOSNIcms): string;
 
 function CSTPISToStr(const t: TCSTPIS): string;
-function StrToCSTPIS(out ok: boolean; const s: string): TCSTPIS;
+function TryStrToCSTPIS(const s: string; out Value: TCSTPIS): Boolean;
+function StrToCSTPIS(const s: string): TCSTPIS;
 function CSTPISToStrTagPosText(const t: TCSTPIS): string;
 
 function CSTCOFINSToStr(const t: TCSTCofins): string;
-function StrToCSTCOFINS(out ok: boolean; const s: string): TCSTCofins;
+function TryStrToCSTCOFINS(const s: string; out Value: TCSTCofins): Boolean;
+function StrToCSTCOFINS(const s: string): TCSTCofins;
 function CSTCOFINSToStrTagPosText(const t: TCSTCofins): string;
 
 function TpRodadoToStr(const t: TTipoRodado): string;
-function StrToTpRodado(out ok: boolean; const s: string): TTipoRodado;
+function TryStrToTpRodado(const s: string; out Value: TTipoRodado): Boolean;
+function StrToTpRodado(const s: string): TTipoRodado;
 
 function TpCarroceriaToStr(const t: TTipoCarroceria): string;
-function StrToTpCarroceria(out ok: boolean; const s: string): TTipoCarroceria;
+function TryStrToTpCarroceria(const s: string; out Value: TTipoCarroceria): Boolean;
+function StrToTpCarroceria(const s: string): TTipoCarroceria;
 
 function tpIntegraToStr(const t: TtpIntegra): string;
-function StrTotpIntegra(out ok: boolean; const s: string): TtpIntegra;
+function TryStrTotpIntegra(const s: string; out Value: TtpIntegra): Boolean;
+function StrTotpIntegra(const s: string): TtpIntegra;
 
 function UnidTranspToStr(const t: TUnidTransp):string;
-function StrToUnidTransp(out ok: boolean; const s: string): TUnidTransp;
+function TryStrToUnidTransp(const s: string; out Value: TUnidTransp): Boolean;
+function StrToUnidTransp(const s: string): TUnidTransp;
 
 function UnidCargaToStr(const t: TUnidCarga): string;
-function StrToUnidCarga(out ok: boolean; const s: string): TUnidCarga;
+function TryStrToUnidCarga(const s: string; out Value: TUnidCarga): Boolean;
+function StrToUnidCarga(const s: string): TUnidCarga;
 
 function TpPropToStr(const t: TtpProp): string;
-function StrToTpProp(out ok: boolean; const s: string): TtpProp;
+function TryStrToTpProp(const s: string; out Value: TtpProp): Boolean;
+function StrToTpProp(const s: string): TtpProp;
 
 function UnidMedToStr(const t: TUnidMed): string;
-function StrToUnidMed(out ok: boolean; const s: String): TUnidMed;
+function TryStrToUnidMed(const s: string; out Value: TUnidMed): Boolean;
+function StrToUnidMed(const s: String): TUnidMed;
 function UnidMedToDescricaoStr(const t: TUnidMed): string;
 
 function TpNavegacaoToStr(const t: TTipoNavegacao): string;
-function StrToTpNavegacao(out ok: boolean; const s: string): TTipoNavegacao;
+function TryStrToTpNavegacao(const s: string; out Value: TTipoNavegacao): Boolean;
+function StrToTpNavegacao(const s: string): TTipoNavegacao;
 
 function indIEDestToStr(const t: TindIEDest): string;
-function StrToindIEDest(out ok: boolean; const s: string): TindIEDest;
+function TryStrToindIEDest(const s: string; out Value: TindIEDest): Boolean;
+function StrToindIEDest(const s: string): TindIEDest;
 
 function RegTribISSQNToStr(const t: TRegTribISSQN): string;
-function StrToRegTribISSQN(out ok: boolean; const s: string): TRegTribISSQN;
+function TryStrToRegTribISSQN(const s: string; out Value: TRegTribISSQN): Boolean;
+function StrToRegTribISSQN(const s: string): TRegTribISSQN;
 
 function indIncentivoToStr(const t: TindIncentivo): string;
-function StrToindIncentivo(out ok: boolean; const s: string): TindIncentivo;
+function TryStrToindIncentivo(const s: string; out Value: TindIncentivo): Boolean;
+function StrToindIncentivo(const s: string): TindIncentivo;
 function indIncentivoToStrTagPosText(const t: TindIncentivo): string;
 
 // SAT
 function RegTribToStr(const t: TRegTrib): string;
-function StrToRegTrib(out ok: boolean; const s: string): TRegTrib;
+function TryStrToRegTrib(const s: string; out Value: TRegTrib): Boolean;
+function StrToRegTrib(const s: string): TRegTrib;
 
 function indRatISSQNToStr(const t: TindRatISSQN): string;
-function StrToindRatISSQN(out ok: boolean; const s: string): TindRatISSQN ;
+function TryStrToindRatISSQN(const s: string; out Value: TindRatISSQN): Boolean;
+function StrToindRatISSQN(const s: string): TindRatISSQN ;
 
 function indRegraToStr(const t: TindRegra): string;
-function StrToindRegra(out ok: boolean; const s: string): TindRegra;
+function TryStrToindRegra(const s: string; out Value: TindRegra): Boolean;
+function StrToindRegra(const s: string): TindRegra;
 
 function CodigoMPToStr(const t: TCodigoMP): string;
-function StrToCodigoMP(out ok: boolean; const s: string): TCodigoMP;
+function TryStrToCodigoMP(const s: string; out Value: TCodigoMP): Boolean;
+function StrToCodigoMP(const s: string): TCodigoMP;
 function CodigoMPToDescricao(const t: TCodigoMP): string;
 
 // Reforma Tributária
 function tpEnteGovToStr(const t: TtpEnteGov): string;
+function TryStrTotpEnteGov(const s: string; out Value: TtpEnteGov): Boolean;
 function StrTotpEnteGov(const s: string): TtpEnteGov;
 
 function tpOperGovToStr(const t: TtpOperGov): string;
+function TryStrTotpOperGov(const s: string; out Value: TtpOperGov): Boolean;
 function StrTotpOperGov(const s: string): TtpOperGov;
 
 function CSTIBSCBSToStr(const t: TCSTIBSCBS): string;
+function TryStrToCSTIBSCBS(const s: string; out Value: TCSTIBSCBS): Boolean;
 function StrToCSTIBSCBS(const s: string): TCSTIBSCBS;
 
 function cCredPresToStr(const t: TcCredPres): string;
+function TryStrTocCredPres(const s: string; out Value: TcCredPres): Boolean;
 function StrTocCredPres(const s: string): TcCredPres;
 
 var
@@ -726,13 +760,16 @@ function StrToEnumerado(out ok: boolean; const s: string; const AString:
 var
   i: integer;
 begin
+  ok := False;
   result := -1;
   for i := Low(AString) to High(AString) do
     if AnsiSameText(s, AString[i]) then
+    begin
       result := AEnumerados[i];
-  ok := result <> -1;
-  if not ok then
-    result := AEnumerados[0];
+      ok := True;
+      exit;
+    end;
+ result := AEnumerados[0];
 end;
 
 function EnumeradoToStr(const t: variant; const AString:
@@ -751,19 +788,26 @@ begin
   Result := TACBrTipoImpressaoArrayStrings[t];
 end;
 
-function StrToTpImp(out ok: boolean; const s: string): TACBrTipoImpressao;
+function TryStrToTpImp(const s: string; out Value: TACBrTipoImpressao): Boolean;
 var
   idx: TACBrTipoImpressao;
 begin
+  Result := False;
   for idx := Low(TACBrTipoImpressaoArrayStrings) to High(TACBrTipoImpressaoArrayStrings) do
   begin
-    if (TACBrTipoImpressaoArrayStrings[idx] = s) then
+    if TACBrTipoImpressaoArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TACBrTipoImpressao: %s', [s]);
+end;
+
+function StrToTpImp(const s: string): TACBrTipoImpressao;
+begin
+  if not TryStrToTpImp(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TACBrTipoImpressao: %s', [s]);
 end;
 
 function TipoEmissaoToStr(const t: TACBrTipoEmissao): string;
@@ -771,19 +815,26 @@ begin
   Result := TACBrTipoEmissaoArrayStrings[t];
 end;
 
-function StrToTipoEmissao(out ok: boolean; const s: string): TACBrTipoEmissao;
+function TryStrToTipoEmissao(const s: string; out Value: TACBrTipoEmissao): Boolean;
 var
   idx: TACBrTipoEmissao;
 begin
+  Result := False;
   for idx := Low(TACBrTipoEmissaoArrayStrings) to High(TACBrTipoEmissaoArrayStrings) do
   begin
-    if (TACBrTipoEmissaoArrayStrings[idx] = s) then
+    if TACBrTipoEmissaoArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TACBrTipoEmissao: %s', [s]);
+end;
+
+function StrToTipoEmissao(const s: string): TACBrTipoEmissao;
+begin
+  if not TryStrToTipoEmissao(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TACBrTipoEmissao: %s', [s]);
 end;
 
 function TipoAmbienteToStr(const t: TACBrTipoAmbiente): string;
@@ -791,19 +842,26 @@ begin
   Result := TACBrTipoAmbienteArrayStrings[t];
 end;
 
-function StrToTipoAmbiente(out ok: boolean; const s: string): TACBrTipoAmbiente;
+function TryStrToTipoAmbiente(const s: string; out Value: TACBrTipoAmbiente): Boolean;
 var
   idx: TACBrTipoAmbiente;
 begin
+  Result := False;
   for idx := Low(TACBrTipoAmbienteArrayStrings) to High(TACBrTipoAmbienteArrayStrings) do
   begin
-    if (TACBrTipoAmbienteArrayStrings[idx] = s) then
+    if TACBrTipoAmbienteArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TACBrTipoAmbiente: %s', [s]);
+end;
+
+function StrToTipoAmbiente(const s: string): TACBrTipoAmbiente;
+begin
+  if not TryStrToTipoAmbiente(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TACBrTipoAmbiente: %s', [s]);
 end;
 
 function procEmiToStr(const t: TACBrProcessoEmissao): string;
@@ -811,19 +869,26 @@ begin
   Result := TACBrProcessoEmissaoArrayStrings[t];
 end;
 
-function StrToprocEmi(out ok: boolean; const s: string): TACBrProcessoEmissao;
+function TryStrToProcEmi(const s: string; out Value: TACBrProcessoEmissao): Boolean;
 var
   idx: TACBrProcessoEmissao;
 begin
+  Result := False;
   for idx := Low(TACBrProcessoEmissaoArrayStrings) to High(TACBrProcessoEmissaoArrayStrings) do
   begin
-    if (TACBrProcessoEmissaoArrayStrings[idx] = s) then
+    if TACBrProcessoEmissaoArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TACBrProcessoEmissao: %s', [s]);
+end;
+
+function StrToProcEmi(const s: string): TACBrProcessoEmissao;
+begin
+  if not TryStrToProcEmi(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TACBrProcessoEmissao: %s', [s]);
 end;
 
 function TpEventoToStr(const t: TACBrTipoEvento): string;
@@ -884,19 +949,26 @@ begin
   Result := TModalDescricaoArrayStrings[t];
 end;
 
-function StrToTpModal(out ok: boolean; const s: string): TModal;
+function TryStrToTpModal(const s: string; out Value: TModal): Boolean;
 var
   idx: TModal;
 begin
+  Result := False;
   for idx := Low(TModalArrayStrings) to High(TModalArrayStrings) do
   begin
-    if (TModalArrayStrings[idx] = s) then
+    if TModalArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TModal: %s', [s]);
+end;
+
+function StrToTpModal(const s: string): TModal;
+begin
+  if not TryStrToTpModal(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TModal: %s', [s]);
 end;
 
 function TIndicadorToStr(const t: TIndicador): string;
@@ -904,18 +976,25 @@ begin
   Result := TIndicadorArrayStrings[t];
 end;
 
-function StrToTIndicador(out ok: boolean; const s: string): TIndicador;
+function TryStrToTIndicador(const S: string; out Value: TIndicador ):boolean;
 var
   idx: TIndicador;
 begin
+  Result := False;
   for idx := Low(TIndicadorArrayStrings) to High(TIndicadorArrayStrings) do
   begin
-    if (TIndicadorArrayStrings[idx] = s) then
+    if (TIndicadorArrayStrings[idx] = S) then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
+end;
+
+function StrToTIndicador(const s: string): TIndicador;
+begin
+  if not TryStrToTIndicador(s, Result) then
   raise EACBrException.CreateFmt('Valor string inválido para TIndicador: %s', [s]);
 end;
 
@@ -924,19 +1003,26 @@ begin
   Result := TIndicadorExArrayStrings[t];
 end;
 
-function StrToTIndicadorEx(out ok: boolean; const s: string): TIndicadorEx;
+function TryStrToTIndicadorEx(const s: string; out Value: TIndicadorEx): Boolean;
 var
   idx: TIndicadorEx;
 begin
+  Result := False;
   for idx := Low(TIndicadorExArrayStrings) to High(TIndicadorExArrayStrings) do
   begin
-    if (TIndicadorExArrayStrings[idx] = s) then
+    if TIndicadorExArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TIndicadorEx: %s', [s]);
+end;
+
+function StrToTIndicadorEx(const s: string): TIndicadorEx;
+begin
+  if not TryStrToTIndicadorEx(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TIndicadorEx: %s', [s]);
 end;
 
 function SituacaoDFeToStr(const t: TSituacaoDFe): String;
@@ -944,19 +1030,26 @@ begin
   Result := TSituacaoDFeArrayStrings[t];
 end;
 
-function StrToSituacaoDFe(out ok: Boolean; const s: String): TSituacaoDFe;
+function TryStrToSituacaoDFe(const s: string; out Value: TSituacaoDFe): Boolean;
 var
   idx: TSituacaoDFe;
 begin
+  Result := False;
   for idx := Low(TSituacaoDFeArrayStrings) to High(TSituacaoDFeArrayStrings) do
   begin
-    if (TSituacaoDFeArrayStrings[idx] = s) then
+    if TSituacaoDFeArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TSituacaoDFe: %s', [s]);
+end;
+
+function StrToSituacaoDFe(const s: string): TSituacaoDFe;
+begin
+  if not TryStrToSituacaoDFe(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TSituacaoDFe: %s', [s]);
 end;
 
 function tpNFToStr(const t: TTipoNFe): String;
@@ -964,19 +1057,26 @@ begin
   Result := TTipoNFeArrayStrings[t];
 end;
 
-function StrToTpNF(out ok: Boolean; const s: String): TTipoNFe;
+function TryStrToTpNF(const s: string; out Value: TTipoNFe): Boolean;
 var
   idx: TTipoNFe;
 begin
+  Result := False;
   for idx := Low(TTipoNFeArrayStrings) to High(TTipoNFeArrayStrings) do
   begin
-    if (TTipoNFeArrayStrings[idx] = s) then
+    if TTipoNFeArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TTipoNFe: %s', [s]);
+end;
+
+function StrToTpNF(const s: string): TTipoNFe;
+begin
+  if not TryStrToTpNF(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TTipoNFe: %s', [s]);
 end;
 
 function SchemaDFeToStr(const t: TSchemaDFe): String;
@@ -1004,7 +1104,7 @@ begin
 
   if CodSchema = -1 then
   begin
-    raise Exception.Create(Format('"%s" não é um valor TSchemaDFe válido.',[SchemaStr]));
+    raise EACBrException.Create(Format('"%s" não é um valor TSchemaDFe válido.',[SchemaStr]));
   end;
 
   Result := TSchemaDFe( CodSchema );
@@ -1015,19 +1115,26 @@ begin
   Result := TOrigemMercadoriaArrayStrings[t];
 end;
 
-function StrToOrig(out ok: boolean; const s: string): TOrigemMercadoria;
+function TryStrToOrig(const s: string; out Value: TOrigemMercadoria): Boolean;
 var
   idx: TOrigemMercadoria;
 begin
+  Result := False;
   for idx := Low(TOrigemMercadoriaArrayStrings) to High(TOrigemMercadoriaArrayStrings) do
   begin
-    if (TOrigemMercadoriaArrayStrings[idx] = s) then
+    if TOrigemMercadoriaArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TOrigemMercadoria: %s', [s]);
+end;
+
+function StrToOrig(const s: string): TOrigemMercadoria;
+begin
+  if not TryStrToOrig(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TOrigemMercadoria: %s', [s]);
 end;
 
 function OrigToStrTagPosText(const t: TOrigemMercadoria): string;
@@ -1040,24 +1147,31 @@ begin
   Result := TCSTIcmsArrayStrings[t];
 end;
 
-function StrToCSTICMS(out ok: boolean; const s: string): TCSTIcms;
+function TryStrToCSTICMS(const s: string; out Value: TCSTIcms): Boolean;
 var
   idx: TCSTIcms;
 begin
+  Result := False;
   for idx := Low(TCSTIcmsArrayStrings) to High(TCSTIcmsArrayStrings) do
   begin
-    if (TCSTIcmsArrayStrings[idx] = s) then
+    if TCSTIcmsArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TCSTIcms: %s', [s]);
+end;
+
+function StrToCSTICMS(const s: string): TCSTIcms;
+begin
+  if not TryStrToCSTICMS(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TCSTIcms: %s', [s]);
 end;
 
 function CSTICMSToStrTagPos(const t: TCSTIcms): string;
 begin
-  result := EnumeradoToStr(t, ['02', '03', '04', '05', '06', '06', '06', '07',
+  Result := EnumeradoToStr(t, ['02', '03', '04', '05', '06', '06', '06', '07',
                      '08', '09', '10', '11', '12', '10a', '10a', '10b', '10b',
                      '13', '14', '15', '16'],
     [cst00, cst10, cst20, cst30, cst40, cst41, cst50, cst51, cst60, cst70,
@@ -1075,19 +1189,26 @@ begin
   Result := TCSOSNIcmsArrayStrings[t];
 end;
 
-function StrToCSOSNIcms(out ok: boolean; const s: string): TCSOSNIcms;
+function TryStrToCSOSNIcms(const s: string; out Value: TCSOSNIcms): Boolean;
 var
   idx: TCSOSNIcms;
 begin
+  Result := False;
   for idx := Low(TCSOSNIcmsArrayStrings) to High(TCSOSNIcmsArrayStrings) do
   begin
-    if (TCSOSNIcmsArrayStrings[idx] = s) then
+    if TCSOSNIcmsArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TCSOSNIcms: %s', [s]);
+end;
+
+function StrToCSOSNIcms(const s: string): TCSOSNIcms;
+begin
+  if not TryStrToCSOSNIcms(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TCSOSNIcms: %s', [s]);
 end;
 
 function CSOSNToStrTagPos(const t: TCSOSNIcms): string;
@@ -1124,19 +1245,26 @@ begin
   Result := TCSTPISArrayStrings[t];
 end;
 
-function StrToCSTPIS(out ok: boolean; const s: string): TCSTPIS;
+function TryStrToCSTPIS(const s: string; out Value: TCSTPIS): Boolean;
 var
   idx: TCSTPIS;
 begin
+  Result := False;
   for idx := Low(TCSTPISArrayStrings) to High(TCSTPISArrayStrings) do
   begin
-    if (TCSTPISArrayStrings[idx] = s) then
+    if TCSTPISArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TCSTPIS: %s', [s]);
+end;
+
+function StrToCSTPIS(const s: string): TCSTPIS;
+begin
+  if not TryStrToCSTPIS(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TCSTPIS: %s', [s]);
 end;
 
 function CSTPISToStrTagPosText(const t: TCSTPIS): string;
@@ -1149,19 +1277,26 @@ begin
   Result := TCSTCofinsArrayStrings[t];
 end;
 
-function StrToCSTCOFINS(out ok: boolean; const s: string): TCSTCofins;
+function TryStrToCSTCOFINS(const s: string; out Value: TCSTCofins): Boolean;
 var
   idx: TCSTCofins;
 begin
+  Result := False;
   for idx := Low(TCSTCofinsArrayStrings) to High(TCSTCofinsArrayStrings) do
   begin
-    if (TCSTCofinsArrayStrings[idx] = s) then
+    if TCSTCofinsArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TCSTCofins: %s', [s]);
+end;
+
+function StrToCSTCOFINS(const s: string): TCSTCofins;
+begin
+  if not TryStrToCSTCOFINS(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TCSTCofins: %s', [s]);
 end;
 
 function CSTCOFINSToStrTagPosText(const t: TCSTCofins): string;
@@ -1174,19 +1309,26 @@ begin
   Result := TTipoRodadoArrayStrings[t];
 end;
 
-function StrToTpRodado(out ok: boolean; const s: string): TTipoRodado;
+function TryStrToTpRodado(const s: string; out Value: TTipoRodado): Boolean;
 var
   idx: TTipoRodado;
 begin
+  Result := False;
   for idx := Low(TTipoRodadoArrayStrings) to High(TTipoRodadoArrayStrings) do
   begin
-    if (TTipoRodadoArrayStrings[idx] = s) then
+    if TTipoRodadoArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TTipoRodado: %s', [s]);
+end;
+
+function StrToTpRodado(const s: string): TTipoRodado;
+begin
+  if not TryStrToTpRodado(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TTipoRodado: %s', [s]);
 end;
 
 function TpCarroceriaToStr(const t: TTipoCarroceria): string;
@@ -1194,19 +1336,26 @@ begin
   Result := TTipoCarroceriaArrayStrings[t];
 end;
 
-function StrToTpCarroceria(out ok: boolean; const s: string): TTipoCarroceria;
+function TryStrToTpCarroceria(const s: string; out Value: TTipoCarroceria): Boolean;
 var
   idx: TTipoCarroceria;
 begin
+  Result := False;
   for idx := Low(TTipoCarroceriaArrayStrings) to High(TTipoCarroceriaArrayStrings) do
   begin
-    if (TTipoCarroceriaArrayStrings[idx] = s) then
+    if TTipoCarroceriaArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TTipoCarroceria: %s', [s]);
+end;
+
+function StrToTpCarroceria(const s: string): TTipoCarroceria;
+begin
+  if not TryStrToTpCarroceria(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TTipoCarroceria: %s', [s]);
 end;
 
 function tpIntegraToStr(const t: TtpIntegra): string;
@@ -1214,39 +1363,53 @@ begin
   Result := TtpIntegraArrayStrings[t];
 end;
 
-function StrTotpIntegra(out ok: boolean; const s: string): TtpIntegra;
+function TryStrTotpIntegra(const s: string; out Value: TtpIntegra): Boolean;
 var
   idx: TtpIntegra;
 begin
+  Result := False;
   for idx := Low(TtpIntegraArrayStrings) to High(TtpIntegraArrayStrings) do
   begin
-    if (TtpIntegraArrayStrings[idx] = s) then
+    if TtpIntegraArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TtpIntegra: %s', [s]);
 end;
 
-function UnidTranspToStr(const t: TUnidTransp):string;
+function StrTotpIntegra(const s: string): TtpIntegra;
+begin
+  if not TryStrTotpIntegra(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TtpIntegra: %s', [s]);
+end;
+
+function UnidTranspToStr(const t: TUnidTransp): string;
 begin
   Result := TUnidTranspArrayStrings[t];
 end;
 
-function StrToUnidTransp(out ok: boolean; const s: string): TUnidTransp;
+function TryStrToUnidTransp(const s: string; out Value: TUnidTransp): Boolean;
 var
   idx: TUnidTransp;
 begin
+  Result := False;
   for idx := Low(TUnidTranspArrayStrings) to High(TUnidTranspArrayStrings) do
   begin
-    if (TUnidTranspArrayStrings[idx] = s) then
+    if TUnidTranspArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TUnidTransp: %s', [s]);
+end;
+
+function StrToUnidTransp(const s: string): TUnidTransp;
+begin
+  if not TryStrToUnidTransp(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TUnidTransp: %s', [s]);
 end;
 
 function UnidCargaToStr(const t: TUnidCarga): string;
@@ -1254,19 +1417,26 @@ begin
   Result := TUnidCargaArrayStrings[t];
 end;
 
-function StrToUnidCarga(out ok: boolean; const s: string): TUnidCarga;
+function TryStrToUnidCarga(const s: string; out Value: TUnidCarga): Boolean;
 var
   idx: TUnidCarga;
 begin
+  Result := False;
   for idx := Low(TUnidCargaArrayStrings) to High(TUnidCargaArrayStrings) do
   begin
-    if (TUnidCargaArrayStrings[idx] = s) then
+    if TUnidCargaArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TUnidCarga: %s', [s]);
+end;
+
+function StrToUnidCarga(const s: string): TUnidCarga;
+begin
+  if not TryStrToUnidCarga(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TUnidCarga: %s', [s]);
 end;
 
 function TpPropToStr(const t: TtpProp): string;
@@ -1274,19 +1444,26 @@ begin
   Result := TtpPropArrayStrings[t];
 end;
 
-function StrToTpProp(out ok: boolean; const s: string): TtpProp;
+function TryStrToTpProp(const s: string; out Value: TtpProp): Boolean;
 var
   idx: TtpProp;
 begin
+  Result := False;
   for idx := Low(TtpPropArrayStrings) to High(TtpPropArrayStrings) do
   begin
-    if (TtpPropArrayStrings[idx] = s) then
+    if TtpPropArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TtpProp: %s', [s]);
+end;
+
+function StrToTpProp(const s: string): TtpProp;
+begin
+  if not TryStrToTpProp(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TtpProp: %s', [s]);
 end;
 
 function UnidMedToStr(const t: TUnidMed): string;
@@ -1294,19 +1471,26 @@ begin
   Result := TUnidMedArrayStrings[t];
 end;
 
-function StrToUnidMed(out ok: boolean; const s: String): TUnidMed;
+function TryStrToUnidMed(const s: string; out Value: TUnidMed): Boolean;
 var
   idx: TUnidMed;
 begin
+  Result := False;
   for idx := Low(TUnidMedArrayStrings) to High(TUnidMedArrayStrings) do
   begin
-    if (TUnidMedArrayStrings[idx] = s) then
+    if TUnidMedArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TUnidMed: %s', [s]);
+end;
+
+function StrToUnidMed(const s: string): TUnidMed;
+begin
+  if not TryStrToUnidMed(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TUnidMed: %s', [s]);
 end;
 
 function UnidMedToDescricaoStr(const t: TUnidMed): string;
@@ -1319,19 +1503,26 @@ begin
   Result := TTipoNavegacaoArrayStrings[t];
 end;
 
-function StrToTpNavegacao(out ok: boolean; const s: string): TTipoNavegacao;
+function TryStrToTpNavegacao(const s: string; out Value: TTipoNavegacao): Boolean;
 var
   idx: TTipoNavegacao;
 begin
+  Result := False;
   for idx := Low(TTipoNavegacaoArrayStrings) to High(TTipoNavegacaoArrayStrings) do
   begin
-    if (TTipoNavegacaoArrayStrings[idx] = s) then
+    if TTipoNavegacaoArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TTipoNavegacao: %s', [s]);
+end;
+
+function StrToTpNavegacao(const s: string): TTipoNavegacao;
+begin
+  if not TryStrToTpNavegacao(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TTipoNavegacao: %s', [s]);
 end;
 
 function indIEDestToStr(const t: TindIEDest): string;
@@ -1339,19 +1530,26 @@ begin
   Result := TindIEDestArrayStrings[t];
 end;
 
-function StrToindIEDest(out ok: boolean; const s: string): TindIEDest;
+function TryStrToindIEDest(const s: string; out Value: TindIEDest): Boolean;
 var
   idx: TindIEDest;
 begin
+  Result := False;
   for idx := Low(TindIEDestArrayStrings) to High(TindIEDestArrayStrings) do
   begin
-    if (TindIEDestArrayStrings[idx] = s) then
+    if TindIEDestArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TindIEDest: %s', [s]);
+end;
+
+function StrToindIEDest(const s: string): TindIEDest;
+begin
+  if not TryStrToindIEDest(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TindIEDest: %s', [s]);
 end;
 
 function RegTribISSQNToStr(const t: TRegTribISSQN): string;
@@ -1359,19 +1557,26 @@ begin
   Result := TRegTribISSQNArrayStrings[t];
 end;
 
-function StrToRegTribISSQN(out ok: boolean; const s: string): TRegTribISSQN;
+function TryStrToRegTribISSQN(const s: string; out Value: TRegTribISSQN): Boolean;
 var
   idx: TRegTribISSQN;
 begin
+  Result := False;
   for idx := Low(TRegTribISSQNArrayStrings) to High(TRegTribISSQNArrayStrings) do
   begin
-    if (TRegTribISSQNArrayStrings[idx] = s) then
+    if TRegTribISSQNArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TRegTribISSQN: %s', [s]);
+end;
+
+function StrToRegTribISSQN(const s: string): TRegTribISSQN;
+begin
+  if not TryStrToRegTribISSQN(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TRegTribISSQN: %s', [s]);
 end;
 
 function indIncentivoToStr(const t: TindIncentivo): string;
@@ -1379,19 +1584,26 @@ begin
   Result := TindIncentivoArrayStrings[t];
 end;
 
-function StrToindIncentivo(out ok: boolean; const s: string): TindIncentivo;
+function TryStrToindIncentivo(const s: string; out Value: TindIncentivo): Boolean;
 var
   idx: TindIncentivo;
 begin
+  Result := False;
   for idx := Low(TindIncentivoArrayStrings) to High(TindIncentivoArrayStrings) do
   begin
-    if (TindIncentivoArrayStrings[idx] = s) then
+    if TindIncentivoArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TindIncentivo: %s', [s]);
+end;
+
+function StrToindIncentivo(const s: string): TindIncentivo;
+begin
+  if not TryStrToindIncentivo(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TindIncentivo: %s', [s]);
 end;
 
 function indIncentivoToStrTagPosText(const t: TindIncentivo): string;
@@ -1404,19 +1616,26 @@ begin
   Result := TRegTribArrayStrings[t];
 end;
 
-function StrToRegTrib(out ok: boolean; const s: string): TRegTrib;
+function TryStrToRegTrib(const s: string; out Value: TRegTrib): Boolean;
 var
   idx: TRegTrib;
 begin
+  Result := False;
   for idx := Low(TRegTribArrayStrings) to High(TRegTribArrayStrings) do
   begin
-    if (TRegTribArrayStrings[idx] = s) then
+    if TRegTribArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TRegTrib: %s', [s]);
+end;
+
+function StrToRegTrib(const s: string): TRegTrib;
+begin
+  if not TryStrToRegTrib(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TRegTrib: %s', [s]);
 end;
 
 function indRatISSQNToStr(const t: TindRatISSQN): string;
@@ -1424,19 +1643,26 @@ begin
   Result := TindRatISSQNArrayStrings[t];
 end;
 
-function StrToindRatISSQN(out ok: boolean; const s: string): TindRatISSQN;
+function TryStrToindRatISSQN(const s: string; out Value: TindRatISSQN): Boolean;
 var
   idx: TindRatISSQN;
 begin
+  Result := False;
   for idx := Low(TindRatISSQNArrayStrings) to High(TindRatISSQNArrayStrings) do
   begin
-    if (TindRatISSQNArrayStrings[idx] = s) then
+    if TindRatISSQNArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TindRatISSQN: %s', [s]);
+end;
+
+function StrToindRatISSQN(const s: string): TindRatISSQN;
+begin
+  if not TryStrToindRatISSQN(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TindRatISSQN: %s', [s]);
 end;
 
 function indRegraToStr(const t: TindRegra): string;
@@ -1444,19 +1670,26 @@ begin
   Result := TindRegraArrayStrings[t];
 end;
 
-function StrToindRegra(out ok: boolean; const s: string): TindRegra;
+function TryStrToindRegra(const s: string; out Value: TindRegra): Boolean;
 var
   idx: TindRegra;
 begin
+  Result := False;
   for idx := Low(TindRegraArrayStrings) to High(TindRegraArrayStrings) do
   begin
-    if (TindRegraArrayStrings[idx] = s) then
+    if TindRegraArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TindRegra: %s', [s]);
+end;
+
+function StrToindRegra(const s: string): TindRegra;
+begin
+  if not TryStrToindRegra(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TindRegra: %s', [s]);
 end;
 
 function CodigoMPToStr(const t: TCodigoMP): string;
@@ -1464,19 +1697,26 @@ begin
   Result := TCodigoMPArrayStrings[t];
 end;
 
-function StrToCodigoMP(out ok: boolean; const s: string): TCodigoMP;
+function TryStrToCodigoMP(const s: string; out Value: TCodigoMP): Boolean;
 var
   idx: TCodigoMP;
 begin
+  Result := False;
   for idx := Low(TCodigoMPArrayStrings) to High(TCodigoMPArrayStrings) do
   begin
-    if (TCodigoMPArrayStrings[idx] = s) then
+    if TCodigoMPArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TCodigoMP: %s', [s]);
+end;
+
+function StrToCodigoMP(const s: string): TCodigoMP;
+begin
+  if not TryStrToCodigoMP(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TCodigoMP: %s', [s]);
 end;
 
 function CodigoMPToDescricao(const t: TCodigoMP): string;
@@ -1484,25 +1724,31 @@ begin
   Result := TCodigoMPDescricaoArrayStrings[t];
 end;
 
-// Reforma Tributária
 function tpEnteGovToStr(const t: TtpEnteGov): string;
 begin
   Result := TtpEnteGovArrayStrings[t];
 end;
 
-function StrTotpEnteGov(const s: string): TtpEnteGov;
+function TryStrTotpEnteGov(const s: string; out Value: TtpEnteGov): Boolean;
 var
   idx: TtpEnteGov;
 begin
+  Result := False;
   for idx := Low(TtpEnteGovArrayStrings) to High(TtpEnteGovArrayStrings) do
   begin
-    if (TtpEnteGovArrayStrings[idx] = s) then
+    if TtpEnteGovArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TtpEnteGov: %s', [s]);
+end;
+
+function StrTotpEnteGov(const s: string): TtpEnteGov;
+begin
+  if not TryStrTotpEnteGov(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TtpEnteGov: %s', [s]);
 end;
 
 function tpOperGovToStr(const t: TtpOperGov): string;
@@ -1510,19 +1756,26 @@ begin
   Result := TtpOperGovArrayStrings[t];
 end;
 
-function StrTotpOperGov(const s: string): TtpOperGov;
+function TryStrTotpOperGov(const s: string; out Value: TtpOperGov): Boolean;
 var
   idx: TtpOperGov;
 begin
+  Result := False;
   for idx := Low(TtpOperGovArrayStrings) to High(TtpOperGovArrayStrings) do
   begin
-    if (TtpOperGovArrayStrings[idx] = s) then
+    if TtpOperGovArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TtpOperGov: %s', [s]);
+end;
+
+function StrTotpOperGov(const s: string): TtpOperGov;
+begin
+  if not TryStrTotpOperGov(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TtpOperGov: %s', [s]);
 end;
 
 function CSTIBSCBSToStr(const t: TCSTIBSCBS): string;
@@ -1530,19 +1783,26 @@ begin
   Result := TCSTIBSCBSArrayStrings[t];
 end;
 
-function StrToCSTIBSCBS(const s: string): TCSTIBSCBS;
+function TryStrToCSTIBSCBS(const s: string; out Value: TCSTIBSCBS): Boolean;
 var
   idx: TCSTIBSCBS;
 begin
+  Result := False;
   for idx := Low(TCSTIBSCBSArrayStrings) to High(TCSTIBSCBSArrayStrings) do
   begin
-    if (TCSTIBSCBSArrayStrings[idx] = s) then
+    if TCSTIBSCBSArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TCSTIBSCBS: %s', [s]);
+end;
+
+function StrToCSTIBSCBS(const s: string): TCSTIBSCBS;
+begin
+  if not TryStrToCSTIBSCBS(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TCSTIBSCBS: %s', [s]);
 end;
 
 function cCredPresToStr(const t: TcCredPres): string;
@@ -1550,19 +1810,26 @@ begin
   Result := TcCredPresArrayStrings[t];
 end;
 
-function StrTocCredPres(const s: string): TcCredPres;
+function TryStrTocCredPres(const s: string; out Value: TcCredPres): Boolean;
 var
   idx: TcCredPres;
 begin
+  Result := False;
   for idx := Low(TcCredPresArrayStrings) to High(TcCredPresArrayStrings) do
   begin
-    if (TcCredPresArrayStrings[idx] = s) then
+    if TcCredPresArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TcCredPres: %s', [s]);
+end;
+
+function StrTocCredPres(const s: string): TcCredPres;
+begin
+  if not TryStrTocCredPres(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TcCredPres: %s', [s]);
 end;
 
 end.

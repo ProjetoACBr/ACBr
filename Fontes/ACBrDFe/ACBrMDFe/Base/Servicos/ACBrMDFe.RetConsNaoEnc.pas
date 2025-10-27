@@ -43,9 +43,9 @@ uses
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IFEND}
-  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   ACBrBase;
 
 type
@@ -143,7 +143,7 @@ begin
       begin
         versao := ObterConteudoTag(ANode.Attributes.Items['versao']);
         verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
-        tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+        tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
         cUF := ObterConteudoTag(ANode.Childrens.FindAnyNs('cUF'), tcInt);
         cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
         xMotivo := ObterConteudoTag(ANode.Childrens.FindAnyNs('xMotivo'), tcStr);

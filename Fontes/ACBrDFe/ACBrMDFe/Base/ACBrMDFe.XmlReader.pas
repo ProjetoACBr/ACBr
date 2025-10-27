@@ -40,9 +40,9 @@ uses
   Classes, SysUtils,
   ACBrXmlDocument, ACBrXmlReader,
   ACBrMDFe.Classes,
-  pcnConversao,
   ACBrXmlBase,
-  ACBrDFe.Conversao;
+  ACBrDFe.Conversao,
+  pcnConversao;
 
 type
   { TMDFeXmlReader }
@@ -226,12 +226,10 @@ begin
 end;
 
 procedure TMDFeXmlReader.Ler_ProtMDFe(const ANode: TACBrXmlNode);
-var
-  ok: Boolean;
 begin
   if not Assigned(ANode) then Exit;
 
-  MDFe.procMDFe.tpAmb := StrToTipoAmbiente(ok, ObterConteudo(ANode.Childrens.Find('tpAmb'), tcStr));
+  MDFe.procMDFe.tpAmb := StrToTipoAmbiente(ObterConteudo(ANode.Childrens.Find('tpAmb'), tcStr));
   MDFe.procMDFe.verAplic := ObterConteudo(ANode.Childrens.Find('verAplic'), tcStr);
   MDFe.procMDFe.chDFe := ObterConteudo(ANode.Childrens.Find('chMDFe'), tcStr);
   MDFe.procMDFe.dhRecbto := ObterConteudo(ANode.Childrens.Find('dhRecbto'), tcDatHor);

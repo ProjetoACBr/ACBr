@@ -193,13 +193,13 @@ var
   Ok: Boolean;
 begin
   sSecao := 'ide';
-  Ide.tpAmb   := StrToTipoAmbiente(OK, AINIRec.ReadString(sSecao, 'tpAmb', IntToStr(Ambiente)));
+  Ide.tpAmb   := StrToTipoAmbiente(AINIRec.ReadString(sSecao, 'tpAmb', IntToStr(Ambiente)));
   Ide.modelo := AINIRec.ReadInteger(sSecao, 'Modelo', 62);
   Ide.serie := AINIRec.ReadInteger(sSecao, 'Serie', 1);
   Ide.nNF := AINIRec.ReadInteger(sSecao, 'nNF', 0);
   Ide.cNF := AINIRec.ReadInteger(sSecao, 'cNF', 0);
   Ide.dhEmi := StringToDateTime(AINIRec.ReadString(sSecao, 'dhEmi', '0'));
-  Ide.tpEmis  := StrToTipoEmissao(OK, AINIRec.ReadString(sSecao, 'tpEmis', IntToStr(tpEmis)));
+  Ide.tpEmis  := StrToTipoEmissao(AINIRec.ReadString(sSecao, 'tpEmis', IntToStr(tpEmis)));
   Ide.nSiteAutoriz := StrToSiteAutorizator(AINIRec.ReadString(sSecao, 'nSiteAutoriz', '0'));
   Ide.finNF3e := StrToFinNF3e(AINIRec.ReadString(sSecao, 'finNF3e', '0'));
   Ide.verProc := AINIRec.ReadString(sSecao, 'verProc', 'ACBrNFCom');
@@ -1106,7 +1106,7 @@ begin
   sSecao := 'procNF3e';
   if AINIRec.SectionExists(sSecao) then
   begin
-    procNF3e.tpAmb := StrToTipoAmbiente(ok, AINIRec.ReadString(sSecao, 'tpAmb', ''));
+    procNF3e.tpAmb := StrToTipoAmbiente(AINIRec.ReadString(sSecao, 'tpAmb', ''));
     procNF3e.verAplic := AINIRec.ReadString(sSecao, 'verAplic', '');
     procNF3e.chDFe := AINIRec.ReadString(sSecao, 'chNF3e', '');
     procNF3e.dhRecbto := AINIRec.ReadDateTime(sSecao, 'dhRecbto', 0);

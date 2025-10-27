@@ -46,6 +46,7 @@ uses
   ACBrBase,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   pcnSignature,
 //  ACBrDFeComum.SignatureClass,
   ACBrNF3eEventoClass;
@@ -146,7 +147,7 @@ begin
         if ANodeAux <> nil then
         begin
           RetInfEvento.Id := ObterConteudoTag(ANodeAux.Attributes.Items['Id']);
-          RetInfEvento.tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('tpAmb'), tcStr));
+          RetInfEvento.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('tpAmb'), tcStr));
           RetInfEvento.verAplic := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('verAplic'), tcStr);
           retInfEvento.cOrgao := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('cOrgao'), tcInt);
           retInfEvento.cStat := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('cStat'), tcInt);

@@ -43,9 +43,9 @@ uses
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IfEnd}
-  pcnConversao,
   ACBrBase, ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   ACBrDFeComum.Proc,
   ACBrCTe.Consts,
   ACBrCTe.RetEnvEvento;
@@ -210,7 +210,7 @@ begin
 
                 if ANodeAux <> nil then
                 begin
-                  protCTe.tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('tpAmb'), tcStr));
+                  protCTe.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('tpAmb'), tcStr));
                   protCTe.verAplic := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('verAplic'), tcStr);
                   protCTe.chDFe := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('chCTe'), tcStr);
                   protCTe.dhRecbto := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('dhRecbto'), tcDatHor);

@@ -44,6 +44,7 @@ uses
    System.Contnrs,
   {$IfEnd}
   ACBrDFeConsts,
+  ACBrDFe.Conversao,
   pcnConversao,
   pcnSignature,
 //  ACBrDFeComum.SignatureClass,
@@ -53,7 +54,6 @@ uses
   ACBrBase,
   ACBrJSON,
   ACBrXmlBase,
-  ACBrDFe.Conversao,
   ACBrXmlWriter,
   ACBrXmlDocument;
 

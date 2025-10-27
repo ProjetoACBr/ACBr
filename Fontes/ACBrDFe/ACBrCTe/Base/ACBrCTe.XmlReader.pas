@@ -147,9 +147,9 @@ implementation
 
 uses
   ACBrUtil.Base, 
-  pcnConversao, 
-  ACBrXmlBase, 
+  ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   pcteConversaoCTe;
 
 { TCTeXmlReader }

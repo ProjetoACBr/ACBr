@@ -137,11 +137,11 @@ type
 implementation
 
 uses
-  pcnConversao,
   ACBrXmlBase,
   ACBrUtil.Base,
   ACBrUtil.DateTime,
   ACBrDFe.Conversao,
+  pcnConversao,
   pcnConversaoNFe;
 
 { TNFeXmlReader }

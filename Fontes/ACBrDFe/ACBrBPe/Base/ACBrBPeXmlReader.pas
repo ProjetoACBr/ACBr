@@ -38,9 +38,9 @@ interface
 
 uses
   Classes, SysUtils,
-  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   ACBrXmlDocument,
   ACBrXmlReader,
   ACBrBPeClass;
@@ -208,7 +208,7 @@ var
 begin
   if not Assigned(ANode) then Exit;
 
-  BPe.procBPe.tpAmb := StrToTipoAmbiente(ok, ObterConteudo(ANode.Childrens.Find('tpAmb'), tcStr));
+  BPe.procBPe.tpAmb := StrToTipoAmbiente(ObterConteudo(ANode.Childrens.Find('tpAmb'), tcStr));
   BPe.procBPe.verAplic := ObterConteudo(ANode.Childrens.Find('verAplic'), tcStr);
   BPe.procBPe.chDFe := ObterConteudo(ANode.Childrens.Find('chBPe'), tcStr);
   BPe.procBPe.dhRecbto := ObterConteudo(ANode.Childrens.Find('dhRecbto'), tcDatHor);
@@ -281,7 +281,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   BPe.ide.cUF := ObterConteudo(ANode.Childrens.Find('cUF'), tcInt);
-  BPe.Ide.tpAmb := StrToTipoAmbiente(ok, ObterConteudo(ANode.Childrens.Find('tpAmb'), tcStr));
+  BPe.Ide.tpAmb := StrToTipoAmbiente(ObterConteudo(ANode.Childrens.Find('tpAmb'), tcStr));
 
   BPe.ide.modelo := ObterConteudo(ANode.Childrens.Find('mod'), tcInt);
   BPe.ide.serie := ObterConteudo(ANode.Childrens.Find('serie'), tcInt);

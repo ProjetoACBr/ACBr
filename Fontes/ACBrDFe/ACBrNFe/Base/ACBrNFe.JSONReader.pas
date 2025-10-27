@@ -37,7 +37,7 @@ unit ACBrNFe.JSONReader;
 interface
 
 uses
-  Classes, SysUtils, ACBrJSON, ACBrNFe.Classes, pcnConversao, pcnConversaoNFe;
+  Classes, SysUtils, ACBrJSON, ACBrNFe.Classes;
 
 type
   { TNFeJSONReader }
@@ -161,7 +161,7 @@ uses
   ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrUtil.FilesIO,
-  ACBrDFe.Conversao;
+  ACBrDFe.Conversao, pcnConversao, pcnConversaoNFe;
 
 { TNFeJSONReader }
 

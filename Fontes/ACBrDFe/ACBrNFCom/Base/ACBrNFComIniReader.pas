@@ -168,13 +168,13 @@ var
   Ok: Boolean;
 begin
   sSecao := 'ide';
-  Ide.tpAmb := StrToTipoAmbiente(OK, AINIRec.ReadString(sSecao, 'tpAmb', IntToStr(Ambiente)));
+  Ide.tpAmb := StrToTipoAmbiente(AINIRec.ReadString(sSecao, 'tpAmb', IntToStr(Ambiente)));
   Ide.modelo := AINIRec.ReadInteger(sSecao, 'Modelo', 62);
   Ide.serie := AINIRec.ReadInteger(sSecao, 'Serie', 1);
   Ide.nNF := AINIRec.ReadInteger(sSecao, 'nNF', 0);
   Ide.cNF := AINIRec.ReadInteger(sSecao, 'cNF', 0);
   Ide.dhEmi := StringToDateTime(AINIRec.ReadString(sSecao, 'dhEmi', '0'));
-  Ide.tpEmis := StrToTipoEmissao(OK, AINIRec.ReadString(sSecao, 'tpEmis', IntToStr(tpEmis)));
+  Ide.tpEmis := StrToTipoEmissao(AINIRec.ReadString(sSecao, 'tpEmis', IntToStr(tpEmis)));
   Ide.nSiteAutoriz := StrToSiteAutorizator(AINIRec.ReadString(sSecao, 'nSiteAutoriz', '0'));
   Ide.finNFCom := StrToFinNFCom(AINIRec.ReadString(sSecao, 'finNFCom', '0'));
   Ide.tpFat := StrToTipoFaturamento(AINIRec.ReadString(sSecao, 'tpFat', '0'));

@@ -44,7 +44,6 @@ uses
    System.Contnrs,
   {$IfEnd}
   ACBrDFeConsts,
-  pcnConversao,
   pcteConversaoCTe,
   pcnSignature,
 //  ACBrDFeComum.SignatureClass,
@@ -53,6 +52,7 @@ uses
   ACBrBase,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   ACBrXmlWriter,
   ACBrXmlDocument;
 

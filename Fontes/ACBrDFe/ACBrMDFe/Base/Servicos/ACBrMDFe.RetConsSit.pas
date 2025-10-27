@@ -43,9 +43,9 @@ uses
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IfEnd}
-  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   ACBrBase,
   ACBrDFeComum.Proc,
   ACBrMDFe.Consts,
@@ -162,7 +162,7 @@ begin
       begin
         versao := ObterConteudoTag(ANode.Attributes.Items['versao']);
         verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
-        tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+        tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
         cUF := ObterConteudoTag(ANode.Childrens.FindAnyNs('cUF'), tcInt);
         cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
         xMotivo := ObterConteudoTag(ANode.Childrens.FindAnyNs('xMotivo'), tcStr);
@@ -183,7 +183,7 @@ begin
 
                 if ANodeAux2 <> nil then
                 begin
-                  protMDFe.tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANodeAux2.Childrens.FindAnyNs('tpAmb'), tcStr));
+                  protMDFe.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANodeAux2.Childrens.FindAnyNs('tpAmb'), tcStr));
                   protMDFe.verAplic := ObterConteudoTag(ANodeAux2.Childrens.FindAnyNs('verAplic'), tcStr);
                   protMDFe.chDFe := ObterConteudoTag(ANodeAux2.Childrens.FindAnyNs('chMDFe'), tcStr);
                   protMDFe.dhRecbto := ObterConteudoTag(ANodeAux2.Childrens.FindAnyNs('dhRecbto'), tcDatHor);

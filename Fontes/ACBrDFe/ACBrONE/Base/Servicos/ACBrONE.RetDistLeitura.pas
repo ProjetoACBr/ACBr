@@ -44,11 +44,11 @@ uses
    System.Contnrs,
   {$IFEND}
   ACBrBase,
-  pcnConversao,
   ACBrONE.Conversao,
   ACBrONE.EnvRecepcaoLeitura,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   ACBrXmlDocument;
 
 type
@@ -339,7 +339,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   Leitura[Idx].RecepcaoLeitura.Versao := ObterConteudoTag(ANode.Attributes.Items['versao']);
-  Leitura[Idx].RecepcaoLeitura.tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+  Leitura[Idx].RecepcaoLeitura.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
   Leitura[Idx].RecepcaoLeitura.verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
   Leitura[Idx].RecepcaoLeitura.tpTransm := StrtotpTransm(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpTransm'), tcStr));
   Leitura[Idx].RecepcaoLeitura.dhTransm := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhTransm'), tcDatHor);
@@ -538,7 +538,7 @@ begin
       XML := ANode.OuterXml;
 
       versao := ObterConteudoTag(ANode.Attributes.Items['versao']);
-      tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+      tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
       verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
       cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
       xMotivo := ObterConteudoTag(ANode.Childrens.FindAnyNs('xMotivo'), tcStr);

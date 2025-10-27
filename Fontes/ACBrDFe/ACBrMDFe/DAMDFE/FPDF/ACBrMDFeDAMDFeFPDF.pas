@@ -47,6 +47,7 @@ uses
   ACBr_fpdf_ext,
   ACBr_fpdf_report,
   ACBrMDFe.Classes,
+  ACBrDFe.Conversao,
   pcnConversao,
   pmdfeConversaoMDFe,
   ACBrValidador,

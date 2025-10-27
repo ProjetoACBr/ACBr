@@ -101,7 +101,7 @@ begin
     if ANode <> nil then
     begin
       versao := ObterConteudoTag(ANode.Attributes.Items['versao']);
-      tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+      tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
       verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
       cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);
       xMotivo := ObterConteudoTag(ANode.Childrens.FindAnyNs('xMotivo'), tcStr);

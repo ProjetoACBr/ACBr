@@ -209,7 +209,7 @@ begin
 
             if ANodeAux <> nil then
             begin
-              protNFe.tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('tpAmb'), tcStr));
+              protNFe.tpAmb := StrToTpAmb(ok, ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('tpAmb'), tcStr));
               protNFe.verAplic := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('verAplic'), tcStr);
               protNFe.chDFe := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('chNFe'), tcStr);
               protNFe.dhRecbto := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('dhRecbto'), tcDatHor);

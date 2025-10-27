@@ -83,6 +83,7 @@ uses
   ACBrUtil.Base,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   ACBrDCe.Conversao;
 
 { TDCeXmlReader }
@@ -228,11 +229,11 @@ begin
   DCe.ide.serie := ObterConteudo(ANode.Childrens.Find('serie'), tcInt);
   DCe.ide.nDC := ObterConteudo(ANode.Childrens.Find('nDC'), tcInt);
   DCe.ide.dhEmi := ObterConteudo(ANode.Childrens.Find('dhEmi'), tcDatHor);
-  DCe.Ide.tpEmis := StrToTipoEmissao(ok, ObterConteudo(ANode.Childrens.Find('tpEmis'), tcStr));
+  DCe.Ide.tpEmis := StrToTipoEmissao(ObterConteudo(ANode.Childrens.Find('tpEmis'), tcStr));
   DCe.Ide.tpEmit := StrToEmitenteDCe(ObterConteudo(ANode.Childrens.Find('tpEmit'), tcStr));
   DCe.ide.nSiteAutoriz := ObterConteudo(ANode.Childrens.Find('nSiteAutoriz'), tcInt);
   DCe.ide.cDV := ObterConteudo(ANode.Childrens.Find('cDV'), tcInt);
-  DCe.Ide.tpAmb := StrToTipoAmbiente(ok, ObterConteudo(ANode.Childrens.Find('tpAmb'), tcStr));
+  DCe.Ide.tpAmb := StrToTipoAmbiente(ObterConteudo(ANode.Childrens.Find('tpAmb'), tcStr));
   DCe.Ide.verProc := ObterConteudo(ANode.Childrens.Find('verProc'), tcStr);
 end;
 
@@ -364,7 +365,7 @@ begin
 
   if not Assigned(AuxNode) then Exit;
 
-  DCe.procDCe.tpAmb    := StrToTipoAmbiente(ok, ObterConteudo(AuxNode.Childrens.Find('tpAmb'), tcStr));
+  DCe.procDCe.tpAmb    := StrToTipoAmbiente(ObterConteudo(AuxNode.Childrens.Find('tpAmb'), tcStr));
   DCe.procDCe.verAplic := ObterConteudo(AuxNode.Childrens.Find('verAplic'), tcStr);
   DCe.procDCe.chDFe    := ObterConteudo(AuxNode.Childrens.Find('chDCe'), tcStr);
   DCe.procDCe.dhRecbto := ObterConteudo(AuxNode.Childrens.Find('dhRecbto'), tcDatHor);

@@ -43,9 +43,9 @@ uses
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IfEnd}
-  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   pcnSignature,
 //  ACBrDFeComum.SignatureClass,
   ACBrMDFe.EventoClass,
@@ -380,7 +380,7 @@ begin
 
   infEvento.Id := ObterConteudoTag(ANode.Attributes.Items['Id']);
   infEvento.cOrgao := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgao'), tcInt);
-  infEvento.tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+  infEvento.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
   infEvento.CNPJCPF := ObterConteudoTagCNPJCPF(ANode);
   infEvento.chMDFe := ObterConteudoTag(ANode.Childrens.FindAnyNs('chMDFe'), tcStr);
   infEvento.dhEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhEvento'), tcDatHor);
@@ -403,7 +403,7 @@ begin
   Item.RetInfEvento.XML := ANode.OuterXml;
 
   Item.RetInfEvento.Id := ObterConteudoTag(ANode.Attributes.Items['Id']);
-  Item.RetInfEvento.tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
+  Item.RetInfEvento.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpAmb'), tcStr));
   Item.RetInfEvento.verAplic := ObterConteudoTag(ANode.Childrens.FindAnyNs('verAplic'), tcStr);
   Item.RetInfEvento.cOrgao := ObterConteudoTag(ANode.Childrens.FindAnyNs('cOrgao'), tcInt);
   Item.RetInfEvento.cStat := ObterConteudoTag(ANode.Childrens.FindAnyNs('cStat'), tcInt);

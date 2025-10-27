@@ -43,10 +43,10 @@ uses
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IFEND}
-  pcnConversao,
   ACBrBase,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   pcnSignature,
 //  ACBrDFeComum.SignatureClass,
   ACBrBPeEventoClass;
@@ -123,7 +123,7 @@ begin
         if ANodeAux <> nil then
         begin
           retInfEvento.Id := ObterConteudoTag(ANodeAux.Attributes.Items['Id']);
-          retInfEvento.tpAmb := StrToTipoAmbiente(ok, ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('tpAmb'), tcStr));
+          retInfEvento.tpAmb := StrToTipoAmbiente(ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('tpAmb'), tcStr));
           retInfEvento.verAplic := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('verAplic'), tcStr);
           retInfEvento.cOrgao := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('cOrgao'), tcInt);
           retInfEvento.cStat := ObterConteudoTag(ANodeAux.Childrens.FindAnyNs('cStat'), tcInt);

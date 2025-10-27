@@ -1073,7 +1073,7 @@ begin
   (* Grupo da TAG <protMDFe> **************************************************)
   if Leitor.rExtrai(1, 'protMDFe') <> '' then
   begin
-    MDFe.procMDFe.tpAmb    := StrToTipoAmbiente(ok, Leitor.rCampo(tcStr, 'tpAmb'));
+    MDFe.procMDFe.tpAmb    := StrToTipoAmbiente(Leitor.rCampo(tcStr, 'tpAmb'));
     MDFe.procMDFe.verAplic := Leitor.rCampo(tcStr, 'verAplic');
     MDFe.procMDFe.chDFe   := Leitor.rCampo(tcStr, 'chMDFe');
     MDFe.procMDFe.dhRecbto := Leitor.rCampo(tcDatHor, 'dhRecbto');

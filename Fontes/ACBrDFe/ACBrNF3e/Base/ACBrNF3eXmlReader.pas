@@ -38,9 +38,9 @@ interface
 
 uses
   Classes, SysUtils,
-  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  pcnConversao,
   ACBrXmlDocument, ACBrXmlReader,
   ACBrNF3eClass;
 
@@ -443,14 +443,14 @@ begin
   if not Assigned(ANode) then Exit;
 
   NF3e.ide.cUF := ObterConteudo(ANode.Childrens.Find('cUF'), tcInt);
-  NF3e.Ide.tpAmb := StrToTipoAmbiente(ok, ObterConteudo(ANode.Childrens.Find('tpAmb'), tcStr));
+  NF3e.Ide.tpAmb := StrToTipoAmbiente(ObterConteudo(ANode.Childrens.Find('tpAmb'), tcStr));
   NF3e.ide.modelo := ObterConteudo(ANode.Childrens.Find('mod'), tcInt);
   NF3e.ide.serie := ObterConteudo(ANode.Childrens.Find('serie'), tcInt);
   NF3e.ide.nNF := ObterConteudo(ANode.Childrens.Find('nNF'), tcInt);
   NF3e.ide.cNF := ObterConteudo(ANode.Childrens.Find('cNF'), tcInt);
   NF3e.Ide.cDV := ObterConteudo(ANode.Childrens.Find('cDV'), tcInt);
   NF3e.ide.dhEmi := ObterConteudo(ANode.Childrens.Find('dhEmi'), tcDatHor);
-  NF3e.Ide.tpEmis := StrToTipoEmissao(ok, ObterConteudo(ANode.Childrens.Find('tpEmis'), tcStr));
+  NF3e.Ide.tpEmis := StrToTipoEmissao(ObterConteudo(ANode.Childrens.Find('tpEmis'), tcStr));
   NF3e.Ide.nSiteAutoriz := StrToSiteAutorizator(ObterConteudo(ANode.Childrens.Find('nSiteAutoriz'), tcStr));
   NF3e.ide.cMunFG := ObterConteudo(ANode.Childrens.Find('cMunFG'), tcInt);
   NF3e.Ide.finNF3e := StrToFinNF3e(ObterConteudo(ANode.Childrens.Find('finNF3e'), tcStr));
@@ -1060,7 +1060,7 @@ var
 begin
   if not Assigned(ANode) then Exit;
 
-  NF3e.procNF3e.tpAmb    := StrToTipoAmbiente(ok, ObterConteudo(ANode.Childrens.Find('tpAmb'), tcStr));
+  NF3e.procNF3e.tpAmb    := StrToTipoAmbiente(ObterConteudo(ANode.Childrens.Find('tpAmb'), tcStr));
   NF3e.procNF3e.verAplic := ObterConteudo(ANode.Childrens.Find('verAplic'), tcStr);
   NF3e.procNF3e.chDFe    := ObterConteudo(ANode.Childrens.Find('chNF3e'), tcStr);
   NF3e.procNF3e.dhRecbto := ObterConteudo(ANode.Childrens.Find('dhRecbto'), tcDatHor);
