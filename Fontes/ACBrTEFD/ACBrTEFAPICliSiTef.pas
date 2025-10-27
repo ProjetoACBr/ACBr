@@ -45,8 +45,25 @@ uses
   ACBrTEFAPIComum,
   ACBrTEFCliSiTefComum;
 
+resourcestring
+  sErroCliSiTef_SemLoja = 'Código de Loja não informado';
+  sErroCliSiTef_SemTerminal = 'Código de Terminal não informado';
+
 const
   CSUBDIRETORIO_PAYGOWEB = 'PGWeb';
+  CURL_LOCALHOST = 'localhost';
+  CURL_TLS_PROD_FISERV = 'tls-prod.fiservapp.com';
+  CVER_ACBR_SITEF = 'ACBR 10101';
+  CCNPJ_ACBR = '18760540000139';
+
+  CPARAM_PortaPinPad = 'PortaPinPad';
+  CPINPAD_AUTOUSB = 'AUTO_USB';
+  CPARAM_HabilitaTrace = 'HabilitaTrace';
+  CPARAM_MultiplosCupons = 'MultiplosCupons';
+  CPARAM_VersaoAutomacao = 'VersaoAutomacaoCielo';
+  CPARAM_ParmsClient = 'ParmsClient';
+  CPARAM_TipoComunicacaoExterna = 'TipoComunicacaoExterna';
+  CPARAM_TokenRegistro = 'TokenRegistro';
 
 // https://dev.softwareexpress.com.br/docs/clisitef/clisitef_documento_principal/
 
@@ -65,8 +82,6 @@ type
     fParamAdicFinalizacao: TACBrTEFParametros;
     fParamAdicFuncao: TACBrTEFParametros;
     fRespostasPorTipo: TACBrTEFParametros;
-    fPinPadChaveAcesso: AnsiString;
-    fPinPadIdentificador: AnsiString;
     fTEFCliSiTefAPI: TACBrTEFCliSiTefAPI;
     fOperacaoVenda: Integer;
     fOperacaoAdministrativa: Integer;
@@ -82,6 +97,7 @@ type
     procedure InterpretarRetornoCliSiTef(const Ret: Integer);
     function DadoPinPadToOperacao(ADadoPinPad: TACBrTEFAPIDadoPinPad): String;
 
+    function TokenFiservValido(const AString: String): Boolean;
   protected
     procedure InterpretarRespostaAPI; override;
     procedure CarregarRespostasPendentes(const AListaRespostasTEF: TACBrTEFAPIRespostas); override;
@@ -135,11 +151,6 @@ type
     property OperacaoCancelamento: Integer read fOperacaoCancelamento
       write fOperacaoCancelamento default CSITEF_OP_Cancelamento;
 
-    property PinPadChaveAcesso: AnsiString read fPinPadChaveAcesso
-      write fPinPadChaveAcesso;
-    property PinPadIdentificador: AnsiString read fPinPadIdentificador
-      write fPinPadIdentificador;
-
     property ParamAdicConfig: TACBrTEFParametros read fParamAdicConfig;
     property ParamAdicFuncao: TACBrTEFParametros read fParamAdicFuncao;
     property ParamAdicFinalizacao: TACBrTEFParametros read fParamAdicFinalizacao;
@@ -173,8 +184,6 @@ begin
   fOperacaoAdministrativa := CSITEF_OP_Administrativo;
   fOperacaoCancelamento := CSITEF_OP_Cancelamento;
 
-  fPinPadChaveAcesso := '';
-  fPinPadIdentificador := '';
   fIniciouRequisicao := False;
   fDocumentosFinalizados := '';
   fUltimoRetornoAPI := 0;
@@ -202,15 +211,13 @@ procedure TACBrTEFAPIClassCliSiTef.Inicializar;
 Var
   PortaPinPad, Sts: Integer ;
   ParamAdic, EnderecoIP, CodLoja, NumeroTerminal: AnsiString;
-  Erro, ParamComunicacao: String;
+  Erro, Aplicacao, ParmsClient, ParamComunicacao, s: String;
+  TEFParam: TACBrTEFParametros;
+  Ambiente: TACBrTEFAPIAmbiente;
 
-  procedure ApagarChaveSeExistir(Chave: String);
-  var
-    p: Integer;
+  function ParamTemChave(AParam: TACBrTEFParametros; const Chave: String): Boolean;
   begin
-    p := ParamAdicConfig.IndexOf(Chave);
-    if (p >= 0) then
-      ParamAdicConfig.Delete(p);
+    Result := (AParam.IndexOf(Chave) >= 0);
   end;
 
 begin
@@ -220,52 +227,118 @@ begin
   fTEFCliSiTefAPI.PathDLL := PathDLL;
   fTEFCliSiTefAPI.Inicializada := True;
 
-  PortaPinPad := StrToIntDef( OnlyNumber(fpACBrTEFAPI.DadosTerminal.PortaPinPad), 0);
-  // configuração da porta do pin-pad
-  if (PortaPinPad > 0) then
-    ParamAdicConfig.Values['PortaPinPad'] := IntToStr(PortaPinPad)
-  else
-    ApagarChaveSeExistir('PortaPinPad');
+  CodLoja := Trim(IfEmptyThen(fpACBrTEFAPI.DadosTerminal.CodEmpresa, fpACBrTEFAPI.DadosTerminal.CodFilial));
+  NumeroTerminal := Trim(fpACBrTEFAPI.DadosTerminal.CodTerminal);
+  EnderecoIP := Trim(fpACBrTEFAPI.DadosTerminal.EnderecoServidor);
+  Ambiente := fpACBrTEFAPI.DadosTerminal.Ambiente;
 
-  if fpACBrTEFAPI.DadosAutomacao.SuportaViasDiferenciadas then
-    ParamAdicConfig.Values['MultiplosCupons'] := '1'
-  else
-    ApagarChaveSeExistir('MultiplosCupons');
+  if (EnderecoIP = CURL_TLS_PROD_FISERV) then
+    Ambiente := ambProducao;
 
-  // cielo premia
-  if fpACBrTEFAPI.DadosAutomacao.SuportaDesconto then
-    ParamAdicConfig.Values['VersaoAutomacaoCielo'] := PadRight( fpACBrTEFAPI.DadosAutomacao.NomeSoftwareHouse, 8 ) + '10'
-  else
-    ApagarChaveSeExistir('VersaoAutomacaoCielo');
+  ParamComunicacao := Trim(fpACBrTEFAPI.DadosTerminal.ParamComunicacao);
+  if NaoEstaVazio(ParamComunicacao) then
+    Ambiente := ambProducao;
 
-  // acertar quebras de linhas e abertura e fechamento da lista de parametros
-  ParamAdic := StringReplace(Trim(ParamAdicConfig.Text), sLineBreak, ';', [rfReplaceAll]);
-  if NaoEstaVazio(ParamAdic) then
-    ParamAdic := '['+ ParamAdic + ']';
-
-  if NaoEstaVazio(fpACBrTEFAPI.DadosEstabelecimento.CNPJ) and
-    NaoEstaVazio(fpACBrTEFAPI.DadosAutomacao.CNPJSoftwareHouse) then
+  if (Ambiente = ambProducao) then
   begin
-    if NaoEstaVazio(ParamAdic) then
-      ParamAdic := ParamAdic + ';';
+    EnderecoIP := IfEmptyThen(EnderecoIP, CURL_TLS_PROD_FISERV);
+    if (CodLoja = '') then
+      fpACBrTEFAPI.DoException(ACBrStr(sErroCliSiTef_SemLoja));
+    if (NumeroTerminal = '') then
+      fpACBrTEFAPI.DoException(ACBrStr(sErroCliSiTef_SemTerminal));
+  end
+  else  // homologação
+  begin
+    EnderecoIP := IfEmptyThen(EnderecoIP, CURL_LOCALHOST);
+    CodLoja := IfEmptyThen(CodLoja, '00000000' );
+    NumeroTerminal := IfEmptyThen(NumeroTerminal, 'SE000001');
+  end;
 
-    ParamAdic := ParamAdic + '[ParmsClient=1='+fpACBrTEFAPI.DadosEstabelecimento.CNPJ+';'+
-                                          '2='+fpACBrTEFAPI.DadosAutomacao.CNPJSoftwareHouse+']';
+  // Poderiamos ajustar o Diretorio de trabalho na Clisitef.ini,
+  //   mas não na ConfiguraIntSiTefInterativo.. vale a pena fazer isso ?
+  // fpACBrTEFAPI.DiretorioTrabalho;
+
+  if not ParamTemChave(ParamAdicConfig, CPARAM_PortaPinPad) then
+  begin
+    s := Trim(fpACBrTEFAPI.DadosTerminal.PortaPinPad);
+    {$IfDef MSWINDOWS}
+     PortaPinPad := StrToIntDef( OnlyNumber(s), 0);
+     if (PortaPinPad > 0) then
+       s := IntToStr(PortaPinPad);
+    {$EndIf}
+    if EstaVazio(s) then
+      s := CPINPAD_AUTOUSB;
+
+    ParamAdicConfig.Values[CPARAM_PortaPinPad] := s;
+  end;
+
+  if not ParamTemChave(ParamAdicConfig, CPARAM_HabilitaTrace) then
+    if fpACBrTEFAPI.DadosTerminal.GravarLogTEF then
+      ParamAdicConfig.Values[CPARAM_HabilitaTrace] := '1';
+
+  if not ParamTemChave(ParamAdicConfig, CPARAM_MultiplosCupons) then
+    if fpACBrTEFAPI.DadosAutomacao.SuportaViasDiferenciadas then
+      ParamAdicConfig.Values[CPARAM_MultiplosCupons] := '1';
+
+  if not ParamTemChave(ParamAdicConfig, CPARAM_VersaoAutomacao) then
+  begin
+    Aplicacao := PadRight(fpACBrTEFAPI.DadosAutomacao.NomeAplicacao, 5) +
+                 PadRight(fpACBrTEFAPI.DadosAutomacao.VersaoAplicacao, 5);
+    if EstaVazio(Trim(Aplicacao)) then
+      Aplicacao := CVER_ACBR_SITEF;
+    ParamAdicConfig.Values[CPARAM_VersaoAutomacao] := Aplicacao;
+  end;
+
+  ParmsClient := '';
+  if not ParamTemChave(ParamAdicConfig, CPARAM_ParmsClient) then
+  begin
+    ParmsClient := '';
+    if NaoEstaVazio(fpACBrTEFAPI.DadosEstabelecimento.CNPJ) then
+      ParmsClient := ParmsClient + ';1='+fpACBrTEFAPI.DadosEstabelecimento.CNPJ;
+
+    if NaoEstaVazio(fpACBrTEFAPI.DadosAutomacao.CNPJSoftwareHouse) then
+      ParmsClient := ParmsClient + ';2='+fpACBrTEFAPI.DadosAutomacao.CNPJSoftwareHouse;
+
+    ParmsClient := ParmsClient + ';4='+CCNPJ_ACBR;
+    System.Delete(ParmsClient, 1, 1);   // remove ; inicial
   end;
 
   // https://dev.softwareexpress.com.br/en/docs/clisitef-interface-android/habilitando_comunicacao_tls_clisitef
-  // fpACBrTEFAPI.DadosTerminal.ParamComunicacao := 'TipoComunicacaoExterna=SSL';
-  ParamComunicacao := Trim(fpACBrTEFAPI.DadosTerminal.ParamComunicacao);
-  if (ParamComunicacao <> '') then
+  if (fpACBrTEFAPI.DadosTerminal.Ambiente = ambProducao) then
   begin
-    if NaoEstaVazio(ParamAdic) then
-      ParamAdic := ParamAdic + ';';
-    ParamAdic := ParamAdic + '['+ParamComunicacao+']';
+    TEFParam := TACBrTEFParametros.Create;
+    try
+      TEFParam.Text := StringReplace(ParamComunicacao, ';', sLineBreak, [rfReplaceAll]);
+      if not ParamTemChave(TEFParam, CPARAM_TipoComunicacaoExterna) then
+        TEFParam.Values[CPARAM_TipoComunicacaoExterna] := 'TLSGWP';
+
+      if (not ParamTemChave(TEFParam, CPARAM_TokenRegistro)) and
+         TokenFiservValido(ParamComunicacao) then
+        TEFParam.Values[CPARAM_TokenRegistro] := ParamComunicacao;
+
+      // acertar quebras de linhas e abertura e fechamento da lista de parametros
+      ParamComunicacao := StringReplace(Trim(TEFParam.Text), sLineBreak, ';', [rfReplaceAll]);
+    finally
+      TEFParam.Free;
+    end;
   end;
 
-  EnderecoIP := IfEmptyThen(fpACBrTEFAPI.DadosTerminal.EnderecoServidor, 'localhost');
-  CodLoja := IfEmptyThen(fpACBrTEFAPI.DadosTerminal.CodFilial, IfEmptyThen(fpACBrTEFAPI.DadosTerminal.CodEmpresa, '00000000' ));
-  NumeroTerminal := IfEmptyThen(fpACBrTEFAPI.DadosTerminal.CodTerminal, 'SE000001');
+  // acertar quebras de linhas e abertura e fechamento da lista de parametros
+  ParamAdic := StringReplace(Trim(ParamAdicConfig.Text), sLineBreak, ';', [rfReplaceAll]);
+
+  if NaoEstaVazio(ParamComunicacao) then
+    ParamAdic := ParamAdic + ';' + ParamComunicacao;
+
+  if NaoEstaVazio(ParmsClient) then
+    ParamAdic := ParamAdic + ';[' +CPARAM_ParmsClient + '=' + ParmsClient + ']';
+
+  if NaoEstaVazio(ParamAdic) then
+  begin
+    if (ParamAdic[1] = ';') then
+      System.Delete(ParamAdic, 1, 1);   // remove ; inicial
+
+    ParamAdic := '['+ ParamAdic + ']';
+  end;
 
   fpACBrTEFAPI.GravarLog( '*** ConfiguraIntSiTefInterativoEx. '+
                           ' EnderecoIP: ' + EnderecoIP +
@@ -273,19 +346,17 @@ begin
                           ' NumeroTerminal: ' + NumeroTerminal +
                           ' Resultado: 0' +
                           ' ParametrosAdicionais: '+ParamAdic ) ;
-
   Sts := fTEFCliSiTefAPI.ConfiguraIntSiTefInterativo(
            PAnsiChar(EnderecoIP),
            PAnsiChar(CodLoja),
            PAnsiChar(NumeroTerminal),
            0,
            PAnsiChar(ParamAdic) );
+  fpACBrTEFAPI.GravarLog('    Ret: '+IntToStr(Sts));
 
   Erro := fTEFCliSiTefAPI.TraduzirErroInicializacao(Sts);
   if (Erro <> '') then
     fpACBrTEFAPI.DoException(ACBrStr(Erro));
-
-  fpACBrTEFAPI.GravarLog( '   Inicializado CliSiTEF' );
 
   inherited;
 end;
@@ -352,7 +423,6 @@ begin
                            ' Hora: '+HoraStr+
                            ' Operador: '+OperadorStr+
                            ' ParamAdic: '+ParamAdicStr ) ;
-
    fUltimoRetornoAPI := fTEFCliSiTefAPI.IniciaFuncaoSiTefInterativo(
                           Funcao,
                           PAnsiChar(ValorStr),
@@ -361,6 +431,7 @@ begin
                           PAnsiChar(HoraStr),
                           PAnsiChar(OperadorStr),
                           PAnsiChar(ParamAdicStr) ) ;
+   fpACBrTEFAPI.GravarLog('    Ret: '+IntToStr(fUltimoRetornoAPI));
 
    fIniciouRequisicao := True;
    fCancelamento := False ;
@@ -407,13 +478,12 @@ begin
   RespCliSiTef := TACBrTEFRespCliSiTef(fpACBrTEFAPI.UltimaRespostaTEF);
   try
     repeat
-      fpACBrTEFAPI.GravarLog( 'ContinuaFuncaoSiTefInterativo, Chamando: Continua = '+
-                              IntToStr(Continua)+' Buffer = '+Resposta ) ;
-
       ProximoComando := 0;
       TipoCampo := 0;
       TamanhoMinimo := 0;
       TamanhoMaximo := 0;
+      fpACBrTEFAPI.GravarLog( 'ContinuaFuncaoSiTefInterativo, Chamando: Continua = '+
+                              IntToStr(Continua)+' Buffer = '+Resposta ) ;
       fUltimoRetornoAPI := fTEFCliSiTefAPI.ContinuaFuncaoSiTefInterativo(
                              ProximoComando,
                              TipoCampo,
@@ -425,13 +495,12 @@ begin
       Continua := 0;
       Resposta := '';
       Mensagem := TrimRight(Buffer);
-      fpACBrTEFAPI.GravarLog( 'ContinuaFuncaoSiTefInterativo, '+
-                              ' Retornos: STS = '+IntToStr(fUltimoRetornoAPI)+
-                              ' ProximoComando = '+IntToStr(ProximoComando)+
-                              ' TipoCampo = '+IntToStr(TipoCampo)+
-                              ' Buffer = '+Mensagem +
-                              ' Tam.Min = '+IntToStr(TamanhoMinimo) +
-                              ' Tam.Max = '+IntToStr(TamanhoMaximo)) ;
+      fpACBrTEFAPI.GravarLog( '    Ret: '+IntToStr(fUltimoRetornoAPI)+
+                              ', ProximoComando: '+IntToStr(ProximoComando)+
+                              ', TipoCampo: '+IntToStr(TipoCampo)+
+                              ', Buffer: '+Mensagem +
+                              ', Tam.Min: '+IntToStr(TamanhoMinimo) +
+                              ', Tam.Max: '+IntToStr(TamanhoMaximo)) ;
 
       Resposta := '';
       Voltar := False;
@@ -766,7 +835,6 @@ begin
                           ', Data: '      +DataStr+
                           ', Hora: '      +HoraStr+
                           ', ParametrosAdicionais: '+ParamAdic ) ;
-
   fTEFCliSiTefAPI.FinalizaFuncaoSiTefInterativo( Finalizacao,
                                                  PAnsiChar(DoctoStr),
                                                  PAnsiChar(DataStr),
@@ -842,6 +910,22 @@ begin
   else
     Result := '';
   end;
+end;
+
+function TACBrTEFAPIClassCliSiTef.TokenFiservValido(const AString: String): Boolean;
+var
+  s: String;
+begin
+  // Ex: TokenRegistro=1234-4567-8901-2345
+  s := Trim(AString);
+  Result := (Length(s) = 19) and
+            StrIsNumber(copy(s, 1,4)) and
+            (s[05] = '-') and
+            StrIsNumber(copy(s, 6,4)) and
+            (s[10] = '-') and
+            StrIsNumber(copy(s,11,4)) and
+            (s[15] = '-') and
+            StrIsNumber(copy(s,16,4));
 end;
 
 procedure TACBrTEFAPIClassCliSiTef.InterpretarRespostaAPI;
@@ -1220,4 +1304,11 @@ begin
 end;
 
 end.
+
+
+if fpACBrTEFAPI.DadosAutomacao.AutoAtendimento then
+  ParamAdicConfig.Values['ExibeMsgOperadorPinpad'] := '1'
+else
+  ApagarChaveSeExistir('ExibeMsgOperadorPinpad');
+
 

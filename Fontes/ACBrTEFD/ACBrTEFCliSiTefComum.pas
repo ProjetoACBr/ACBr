@@ -54,18 +54,16 @@ resourcestring
     'No caso da Cielo, utilize apenas os 6 últimos dígitos';
   CACBrTEFCliSiTef_NaoInicializado = 'CliSiTEF não inicializado';
   CACBrTEFCliSiTef_NaoConcluido = 'Requisição anterior não concluida';
-  CACBrTEFCliSiTef_Erro1 = 'Endereço IP inválido ou não resolvido';
-  CACBrTEFCliSiTef_Erro2 = 'Código da loja inválido';
-  CACBrTEFCliSiTef_Erro3 = 'Código de terminal inválido';
-  CACBrTEFCliSiTef_Erro6 = 'Erro na inicialização do TCP/IP';
-  CACBrTEFCliSiTef_Erro7 = 'Falta de memória';
-  CACBrTEFCliSiTef_Erro8 = 'Não encontrou a CliSiTef ou ela está com problemas';
-  CACBrTEFCliSiTef_Erro10 = 'Erro de acesso na pasta CliSiTef (possível falta de permissão para escrita) ' + sLineBreak +
-    'ou o PinPad não está devidamente configurado no arquivo CliSiTef.ini ' + sLineBreak +
-    'ou parâmetros IdLoja e IdTerminal inválidos';
-  CACBrTEFCliSiTef_Erro11 = 'Dados inválidos passados pela automação.';
-  CACBrTEFCliSiTef_Erro12 = 'Modo seguro não ativo (possível falta de configuração no servidor SiTef do arquivo .cha).';
-  CACBrTEFCliSiTef_Erro13 = 'Caminho da DLL inválido (o caminho completo das bibliotecas está muito grande).';
+  CACBrTEFCliSiTef_Erro_IP_Invalido = 'Endereço IP inválido ou não resolvido';
+  CACBrTEFCliSiTef_Erro_CodLoja_invalido = 'Código da loja inválido';
+  CACBrTEFCliSiTef_Erro_CodTerm_Invalido = 'Código de terminal inválido';
+  CACBrTEFCliSiTef_Erro_Init_TCP = 'Erro na inicialização do TCP/IP';
+  CACBrTEFCliSiTef_Erro_Falta_Memoria = 'Falta de memória';
+  CACBrTEFCliSiTef_Erro_CliSiTef_NaoEncontrada = 'Não encontrou a CliSiTef ou ela está com problemas na inicialização';
+  CACBrTEFCliSiTef_Erro_Acesso_Pasta_CliSiTef = 'Erro de acesso na pasta CliSiTef';
+  CACBrTEFCliSiTef_Erro_Dados_Invalidos = 'Dados inválidos passados pela automação.';
+  CACBrTEFCliSiTef_Erro_Modo_Seguro_Nao_Ativo = 'Modo seguro não ativo';
+  CACBrTEFCliSiTef_Erro_DLL_Path_Invalido = 'Caminho da Biblioteca é inválido';
 
 const
   CACBrTEFCliSiTef_ImprimeGerencialConcomitante = False;
@@ -95,6 +93,8 @@ const
   CSITEF_RestricoesParcelaAministradora = '28;3988';
 
 type
+  EACBrTEFCliSiTef = class(EACBrTEFErro);
+
   { TACBrTEFRespCliSiTef }
 
   TACBrTEFRespCliSiTef = class(TACBrTEFResp)
@@ -108,6 +108,7 @@ type
   TACBrTEFCliSiTefAPI = class
   private
     fInicializada: Boolean;
+    fOnGravarLog: TACBrGravarLog;
     fPathDLL: string;
 
     xConfiguraIntSiTefInterativoEx : function (
@@ -179,6 +180,9 @@ type
     xVerificaPresencaPinPad: function(): Integer
               {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
 
+    xKeepAlivePinPad: function(): Integer
+              {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
+
     xObtemDadoPinPadDiretoEx: function(ChaveAcesso: PAnsiChar;
               Identificador: PAnsiChar; Entrada: PAnsiChar; Saida: PAnsiChar): Integer;
               {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
@@ -192,8 +196,12 @@ type
 
     procedure SetInicializada(AValue: Boolean);
 
+    function LibFullName: String;
     procedure LoadDLLFunctions;
     procedure UnLoadDLLFunctions;
+    procedure ClearMethodPointers;
+    procedure DoException( const AErrorMsg: String );
+    procedure GravarLog(const AString: AnsiString; Traduz: Boolean = False);
   public
     constructor Create;
     destructor Destroy; override;
@@ -247,6 +255,8 @@ type
       Identificador: AnsiString): AnsiString;
     function LeDigitoPinPad(MensagemDisplay: AnsiString): AnsiString;
     function ObtemVersao(out VersaoCliSiTef: String; out VersaoCliSiTefI: String):Integer;
+
+    property OnGravarLog: TACBrGravarLog read fOnGravarLog write fOnGravarLog;
 
     property PathDLL: string read fPathDLL write fPathDLL;
     property Inicializada: Boolean read fInicializada write SetInicializada;
@@ -513,18 +523,8 @@ constructor TACBrTEFCliSiTefAPI.Create;
 begin
   inherited;
 
-  xConfiguraIntSiTefInterativoEx      := nil;
-  xIniciaFuncaoSiTefInterativo        := nil;
-  xContinuaFuncaoSiTefInterativo      := nil;
-  xFinalizaFuncaoSiTefInterativo      := nil;
-  xEscreveMensagemPermanentePinPad    := nil;
-  xObtemQuantidadeTransacoesPendentes := nil;
-  xValidaCampoCodigoEmBarras          := nil;
-  xEnviaRecebeSiTefDireto             := nil;
-  xVerificaPresencaPinPad             := nil;
-  xObtemDadoPinPadDiretoEx            := nil;
-  xLeDigitoPinPad                     := nil;
-  xObtemVersao                        := nil;
+  fOnGravarLog := Nil;
+  ClearMethodPointers;
 end;
 
 destructor TACBrTEFCliSiTefAPI.Destroy;
@@ -544,45 +544,54 @@ begin
     UnLoadDLLFunctions;
 end;
 
+function TACBrTEFCliSiTefAPI.LibFullName: String;
+begin
+  Result := CACBrTEFCliSiTef_Lib;
+  if NaoEstaVazio(PathDLL) then
+    Result := PathWithDelim(PathDLL) + Result;
+end;
+
 procedure TACBrTEFCliSiTefAPI.LoadDLLFunctions ;
- procedure CliSiTefFunctionDetect( FuncName: AnsiString; var LibPointer: Pointer ) ;
- var
-   sLibName: string;
+
+ procedure CliSiTefFunctionDetect(LibName, FuncName: AnsiString; var LibPointer: Pointer;
+   FuncIsRequired: Boolean = True) ;
  begin
    if not Assigned( LibPointer )  then
    begin
-     // Verifica se exite o caminho das DLLs
-     sLibName := '';
-     if Length(PathDLL) > 0 then
-       sLibName := PathWithDelim(PathDLL);
-
-     // Concatena o caminho se exitir mais o nome da DLL.
-     sLibName := sLibName + CACBrTEFCliSiTef_Lib;
-
-     if not FunctionDetect( sLibName, FuncName, LibPointer) then
+     GravarLog('   '+FuncName);
+     if not FunctionDetect(LibName, FuncName, LibPointer) then
      begin
        LibPointer := NIL ;
-       raise EACBrTEFErro.Create( ACBrStr( 'Erro ao carregar a função:'+FuncName+
-                                           ' de: '+CACBrTEFCliSiTef_Lib ) ) ;
-     end ;
+       if FuncIsRequired then
+         DoException(Format(ACBrStr('Erro ao carregar a função: %s de: %s'),[FuncName, LibName]))
+       else
+         GravarLog(Format(ACBrStr('     Função não requerida: %s não encontrada em: %s'),[FuncName, LibName]));
+       end ;
    end ;
- end ;
+ end;
+
+var
+ sLibName: string;
 begin
   if fInicializada then
     Exit;
 
-  CliSiTefFunctionDetect('ConfiguraIntSiTefInterativoEx', @xConfiguraIntSiTefInterativoEx);
-  CliSiTefFunctionDetect('IniciaFuncaoSiTefInterativo', @xIniciaFuncaoSiTefInterativo);
-  CliSiTefFunctionDetect('ContinuaFuncaoSiTefInterativo', @xContinuaFuncaoSiTefInterativo);
-  CliSiTefFunctionDetect('FinalizaFuncaoSiTefInterativo', @xFinalizaFuncaoSiTefInterativo);
-  CliSiTefFunctionDetect('EscreveMensagemPermanentePinPad',@xEscreveMensagemPermanentePinPad);
-  CliSiTefFunctionDetect('ObtemQuantidadeTransacoesPendentes',@xObtemQuantidadeTransacoesPendentes);
-  CliSiTefFunctionDetect('ValidaCampoCodigoEmBarras',@xValidaCampoCodigoEmBarras);
-  CliSiTefFunctionDetect('EnviaRecebeSiTefDireto',@xEnviaRecebeSiTefDireto);
-  CliSiTefFunctionDetect('VerificaPresencaPinPad',@xVerificaPresencaPinPad);
-  CliSiTefFunctionDetect('ObtemDadoPinPadDiretoEx', @xObtemDadoPinPadDiretoEx);
-  CliSiTefFunctionDetect('LeDigitoPinPad', @xLeDigitoPinPad);
-  CliSiTefFunctionDetect('ObtemVersao', @xObtemVersao);
+  sLibName := LibFullName;
+  GravarLog('TACBrTEFCliSiTefAPI.LoadDLLFunctions - '+sLibName);
+
+  CliSiTefFunctionDetect(sLibName, 'ConfiguraIntSiTefInterativoEx', @xConfiguraIntSiTefInterativoEx);
+  CliSiTefFunctionDetect(sLibName, 'IniciaFuncaoSiTefInterativo', @xIniciaFuncaoSiTefInterativo);
+  CliSiTefFunctionDetect(sLibName, 'ContinuaFuncaoSiTefInterativo', @xContinuaFuncaoSiTefInterativo);
+  CliSiTefFunctionDetect(sLibName, 'FinalizaFuncaoSiTefInterativo', @xFinalizaFuncaoSiTefInterativo);
+  CliSiTefFunctionDetect(sLibName, 'EscreveMensagemPermanentePinPad',@xEscreveMensagemPermanentePinPad);
+  CliSiTefFunctionDetect(sLibName, 'ObtemQuantidadeTransacoesPendentes',@xObtemQuantidadeTransacoesPendentes);
+  CliSiTefFunctionDetect(sLibName, 'ValidaCampoCodigoEmBarras',@xValidaCampoCodigoEmBarras);
+  CliSiTefFunctionDetect(sLibName, 'EnviaRecebeSiTefDireto',@xEnviaRecebeSiTefDireto);
+  CliSiTefFunctionDetect(sLibName, 'VerificaPresencaPinPad',@xVerificaPresencaPinPad);
+  CliSiTefFunctionDetect(sLibName, 'KeepAlivePinPad',@xKeepAlivePinPad, False);
+  CliSiTefFunctionDetect(sLibName, 'ObtemDadoPinPadDiretoEx', @xObtemDadoPinPadDiretoEx);
+  CliSiTefFunctionDetect(sLibName, 'LeDigitoPinPad', @xLeDigitoPinPad);
+  CliSiTefFunctionDetect(sLibName, 'ObtemVersao', @xObtemVersao);
 
   fInicializada := True;
 end ;
@@ -594,41 +603,72 @@ begin
   if not fInicializada then
     Exit;
 
-  sLibName := '';
-  if Length(PathDLL) > 0 then
-     sLibName := PathWithDelim(PathDLL);
+  GravarLog('TACBrTEFCliSiTefAPI.UnLoadDLLFunctions');
 
-  UnLoadLibrary( sLibName + CACBrTEFCliSiTef_Lib );
-
-  xConfiguraIntSiTefInterativoEx      := Nil;
-  xIniciaFuncaoSiTefInterativo        := Nil;
-  xContinuaFuncaoSiTefInterativo      := Nil;
-  xFinalizaFuncaoSiTefInterativo      := Nil;
-  xEscreveMensagemPermanentePinPad    := Nil;
-  xObtemQuantidadeTransacoesPendentes := Nil;
-  xValidaCampoCodigoEmBarras          := Nil;
-  xEnviaRecebeSiTefDireto             := Nil;
-  xVerificaPresencaPinPad             := Nil;
-  xObtemDadoPinPadDiretoEx            := Nil;
-  xLeDigitoPinPad                     := Nil;
-  @xObtemVersao                       := Nil;
+  sLibName := LibFullName;
+  UnLoadLibrary( sLibName );
+  ClearMethodPointers;
 
   fInicializada := False;
+end;
+
+procedure TACBrTEFCliSiTefAPI.ClearMethodPointers;
+begin
+  xConfiguraIntSiTefInterativoEx := nil;
+  xIniciaFuncaoSiTefInterativo := nil;
+  xContinuaFuncaoSiTefInterativo := nil;
+  xFinalizaFuncaoSiTefInterativo := nil;
+  xEscreveMensagemPermanentePinPad := nil;
+  xObtemQuantidadeTransacoesPendentes := nil;
+  xValidaCampoCodigoEmBarras := nil;
+  xEnviaRecebeSiTefDireto := nil;
+  xVerificaPresencaPinPad := nil;
+  xKeepAlivePinPad := nil;
+  xObtemDadoPinPadDiretoEx := nil;
+  xLeDigitoPinPad := nil;
+  xObtemVersao := nil;
+end;
+
+procedure TACBrTEFCliSiTefAPI.DoException(const AErrorMsg: String);
+begin
+  if (Trim(AErrorMsg) = '') then
+    Exit;
+
+  GravarLog('EACBrTEFCliSiTef: '+AErrorMsg);
+  raise EACBrTEFCliSiTef.Create(AErrorMsg);
+end;
+
+procedure TACBrTEFCliSiTefAPI.GravarLog(const AString: AnsiString;
+  Traduz: Boolean);
+Var
+  Tratado: Boolean;
+  AStringLog: AnsiString;
+begin
+  if not Assigned(fOnGravarLog) then
+    Exit;
+
+  if Traduz then
+    AStringLog := TranslateUnprintable(AString)
+  else
+    AStringLog := AString;
+
+  Tratado := False;
+  fOnGravarLog(AStringLog, Tratado);
 end;
 
 function TACBrTEFCliSiTefAPI.TraduzirErroInicializacao(Sts: Integer): String;
 begin
   Case Sts of
-     1 : Result := CACBrTEFCliSiTef_Erro1;
-     2 : Result := CACBrTEFCliSiTef_Erro2;
-     3 : Result := CACBrTEFCliSiTef_Erro3;
-     6 : Result := CACBrTEFCliSiTef_Erro6;
-     7 : Result := CACBrTEFCliSiTef_Erro7;
-     8 : Result := CACBrTEFCliSiTef_Erro8;
-    10 : Result := CACBrTEFCliSiTef_Erro10;
-    11 : Result := CACBrTEFCliSiTef_Erro11;
-    12 : Result := CACBrTEFCliSiTef_Erro12;
-    13 : Result := CACBrTEFCliSiTef_Erro13;
+     1 : Result := CACBrTEFCliSiTef_Erro_IP_Invalido;
+     2 : Result := CACBrTEFCliSiTef_Erro_CodLoja_invalido;
+     3 : Result := CACBrTEFCliSiTef_Erro_CodTerm_Invalido;
+     6 : Result := CACBrTEFCliSiTef_Erro_Init_TCP;
+     7 : Result := CACBrTEFCliSiTef_Erro_Falta_Memoria;
+     8 : Result := CACBrTEFCliSiTef_Erro_CliSiTef_NaoEncontrada;
+    10 : Result := CACBrTEFCliSiTef_Erro_Acesso_Pasta_CliSiTef;
+    11 : Result := CACBrTEFCliSiTef_Erro_Dados_Invalidos;
+    12 : Result := CACBrTEFCliSiTef_Erro_Modo_Seguro_Nao_Ativo;
+    13 : Result := CACBrTEFCliSiTef_Erro_DLL_Path_Invalido;
   else
     Result := '';
   end;
@@ -636,36 +676,36 @@ end;
 
 function TACBrTEFCliSiTefAPI.TraduzirErroTransacao(Sts: Integer): String;
 begin
-   Result := '' ;
-   Case Sts of
-      0 : Result := '';
-     -1 : Result := 'Módulo não inicializado' ;
-     -2 : Result := 'Operação cancelada pelo operador' ;
-     -3 : Result := 'Fornecido um código de função inválido' ;
-     -4 : Result := 'Falta de memória para rodar a função' ;
-     -5 : Result := 'Sem comunicação com o SiTef' ;
-     -6 : Result := 'Operação cancelada pelo usuário no PinPad' ;
-     -8 : Result := 'A CliSiTef não possui a implementação da função necessária, provavelmente está desatualizada';
-     -9 : Result := 'A automação chamou a rotina ContinuaFuncaoSiTefInterativo sem antes iniciar uma função iterativa';
-     -10: Result := 'Algum parâmetro obrigatório não foi passado pela automação comercial';
-     -12: Result := 'Erro na execução da rotina iterativa. Provavelmente o processo iterativo anterior não foi executado até o final';
-     -13: Result := 'Documento fiscal não encontrado nos registros da CliSiTef.';
-     -15: Result := 'Operação cancelada pela automação comercial';
-     -20: Result := 'Parâmetro inválido passado para a função';
-     -21: Result := 'Utilizada uma palavra proibida, por exemplo SENHA, para coletar dados em aberto no pinpad.';
-     -25: Result := 'Erro no Correspondente Bancário: Deve realizar sangria.';
-     -30: Result := 'Erro de acesso a arquivo';
-     -40: Result := 'Transação negada pelo SiTef';
-     -41: Result := 'Dados inválidos';
-     -43: Result := 'Problema na execução de alguma das rotinas no pinpad';
-     -50: Result := 'Transação não segura';
-     -100:Result := 'Result interno do módulo';
-   else
-     if Sts < 0 then
-       Result := 'Erros detectados internamente pela rotina ('+IntToStr(Sts)+')'
-     else
-       Result := 'Negada pelo autorizador ('+IntToStr(Sts)+')' ;
-   end;
+  Result := '' ;
+  Case Sts of
+    0 : Result := '';
+   -1 : Result := 'Módulo não inicializado' ;
+   -2 : Result := 'Operação cancelada pelo operador' ;
+   -3 : Result := 'Fornecido um código de função inválido' ;
+   -4 : Result := 'Falta de memória para rodar a função' ;
+   -5 : Result := 'Sem comunicação com o SiTef' ;
+   -6 : Result := 'Operação cancelada pelo usuário no PinPad' ;
+   -8 : Result := 'A CliSiTef não possui a implementação da função necessária, provavelmente está desatualizada';
+   -9 : Result := 'A automação chamou a rotina ContinuaFuncaoSiTefInterativo sem antes iniciar uma função iterativa';
+   -10: Result := 'Algum parâmetro obrigatório não foi passado pela automação comercial';
+   -12: Result := 'Erro na execução da rotina iterativa. Provavelmente o processo iterativo anterior não foi executado até o final';
+   -13: Result := 'Documento fiscal não encontrado nos registros da CliSiTef.';
+   -15: Result := 'Operação cancelada pela automação comercial';
+   -20: Result := 'Parâmetro inválido passado para a função';
+   -21: Result := 'Utilizada uma palavra proibida, por exemplo SENHA, para coletar dados em aberto no pinpad.';
+   -25: Result := 'Erro no Correspondente Bancário: Deve realizar sangria.';
+   -30: Result := 'Erro de acesso a arquivo';
+   -40: Result := 'Transação negada pelo SiTef';
+   -41: Result := 'Dados inválidos';
+   -43: Result := 'Problema na execução de alguma das rotinas no pinpad';
+   -50: Result := 'Transação não segura';
+   -100:Result := 'Result interno do módulo';
+  else
+    if Sts < 0 then
+      Result := 'Erros detectados internamente pela rotina ('+IntToStr(Sts)+')'
+    else
+      Result := 'Negada pelo autorizador ('+IntToStr(Sts)+')' ;
+  end;
 end ;
 
 function TACBrTEFCliSiTefAPI.ConfiguraIntSiTefInterativo(
@@ -673,11 +713,19 @@ function TACBrTEFCliSiTefAPI.ConfiguraIntSiTefInterativo(
   ConfiguraResultado: smallint; pParametrosAdicionais: PAnsiChar): integer;
 begin
   LoadDLLFunctions;
-  if Assigned(xConfiguraIntSiTefInterativoEx) then
-    Result := xConfiguraIntSiTefInterativoEx( pEnderecoIP, pCodigoLoja, pNumeroTerminal,
-                               ConfiguraResultado, pParametrosAdicionais)
-  else
-    Result := -1;
+  GravarLog('- ConfiguraIntSiTefInterativoEx'+
+            ' - EnderecoIP:'+String(pEnderecoIP)+
+            ', CodigoLoja:'+String(pCodigoLoja)+
+            ', NumeroTerminal:'+String(pNumeroTerminal)+
+            ', ConfiguraResultado:'+IntToStr(ConfiguraResultado)+
+            ', ParametrosAdicionais: '+String(pParametrosAdicionais) );
+
+  Result := xConfiguraIntSiTefInterativoEx( pEnderecoIP,
+                                            pCodigoLoja,
+                                            pNumeroTerminal,
+                                            ConfiguraResultado,
+                                            pParametrosAdicionais );
+  GravarLog('  Ret: '+IntToStr(Result));
 end;
 
 function TACBrTEFCliSiTefAPI.IniciaFuncaoSiTefInterativo(Modalidade: integer;
@@ -685,24 +733,53 @@ function TACBrTEFCliSiTefAPI.IniciaFuncaoSiTefInterativo(Modalidade: integer;
   pHorario: PAnsiChar; pOperador: PAnsiChar; pParamAdic: PAnsiChar): integer;
 begin
   LoadDLLFunctions;
-  if Assigned(xIniciaFuncaoSiTefInterativo) then
-    Result := xIniciaFuncaoSiTefInterativo( Modalidade, pValor, pNumeroCuponFiscal,
-                               pDataFiscal, pHorario, pOperador, pParamAdic)
-  else
-    Result := -1;
+  GravarLog('- IniciaFuncaoSiTefInterativo'+
+            ' - Modalidade:'+IntToStr(Modalidade)+
+            ', Valor:'+String(pValor)+
+            ', NumeroCuponFiscal:'+String(pNumeroCuponFiscal)+
+            ', DataFiscal:'+String(pDataFiscal)+
+            ', Horario: '+String(pHorario)+
+            ', Operador: '+String(pOperador)+
+            ', ParamAdic: '+String(pParamAdic) );
+  Result := xIniciaFuncaoSiTefInterativo( Modalidade,
+                                          pValor,
+                                          pNumeroCuponFiscal,
+                                          pDataFiscal,
+                                          pHorario,
+                                          pOperador,
+                                          pParamAdic );
+  GravarLog('  Ret: '+IntToStr(Result));
 end;
 
 function TACBrTEFCliSiTefAPI.ContinuaFuncaoSiTefInterativo(
   var ProximoComando: SmallInt; var TipoCampo: LongInt;
   var TamanhoMinimo: SmallInt; var TamanhoMaximo: SmallInt; pBuffer: PAnsiChar;
   TamMaxBuffer: Integer; ContinuaNavegacao: Integer): integer;
+
+  function LogParams: String;
+  begin
+    Result := 'ProximoComando:'+IntToStr(ProximoComando)+
+              ', TipoCampo:'+IntToStr(TipoCampo)+
+              ', TamanhoMinimo:'+IntToStr(TamanhoMinimo)+
+              ', TamanhoMaximo:'+IntToStr(TamanhoMaximo)+
+              ', Buffer: '+String(pBuffer);
+  end;
+
 begin
   LoadDLLFunctions;
-  if Assigned(xContinuaFuncaoSiTefInterativo) then
-    Result := xContinuaFuncaoSiTefInterativo( ProximoComando, TipoCampo, TamanhoMinimo,
-                               TamanhoMaximo, pBuffer, TamMaxBuffer, ContinuaNavegacao)
-  else
-    Result := -1;
+  GravarLog('- ContinuaFuncaoSiTefInterativo - ' +
+            LogParams +
+            ', TamMaxBuffer: '+IntToStr(TamMaxBuffer)+
+            ', ContinuaNavegacao: '+IntToStr(ContinuaNavegacao)   );
+
+  Result := xContinuaFuncaoSiTefInterativo( ProximoComando,
+                                            TipoCampo,
+                                            TamanhoMinimo,
+                                            TamanhoMaximo,
+                                            pBuffer,
+                                            TamMaxBuffer,
+                                            ContinuaNavegacao );
+  GravarLog('  Ret: '+IntToStr(Result)+' - '+LogParams );
 end;
 
 procedure TACBrTEFCliSiTefAPI.FinalizaFuncaoSiTefInterativo(
@@ -710,16 +787,29 @@ procedure TACBrTEFCliSiTefAPI.FinalizaFuncaoSiTefInterativo(
   pHoraFiscal: PAnsiChar; pParamAdic: PAnsiChar);
 begin
  LoadDLLFunctions;
- if Assigned(xFinalizaFuncaoSiTefInterativo) then
-   xFinalizaFuncaoSiTefInterativo( pConfirma, pCupomFiscal, pDataFiscal,
-                                   pHoraFiscal, pParamAdic);
+ GravarLog('- FinalizaFuncaoSiTefInterativo'+
+           ' - Confirma:'+IntToStr(pConfirma)+
+           ', CupomFiscal:'+String(pCupomFiscal)+
+           ', pDataFiscal:'+String(pDataFiscal)+
+           ', DataFiscal:'+String(pDataFiscal)+
+           ', HoraFiscal: '+String(pHoraFiscal)+
+           ', ParamAdic: '+String(pParamAdic) );
+  xFinalizaFuncaoSiTefInterativo( pConfirma,
+                                  pCupomFiscal,
+                                  pDataFiscal,
+                                  pHoraFiscal,
+                                  pParamAdic);
 end;
 
 function TACBrTEFCliSiTefAPI.DefineMensagemPermanentePinPad(Mensagem:AnsiString):Integer;
 begin
   LoadDLLFunctions;
   if Assigned(xEscreveMensagemPermanentePinPad) then
-    Result := xEscreveMensagemPermanentePinPad(PAnsiChar(Mensagem))
+  begin
+    GravarLog('- EscreveMensagemPermanentePinPad( '+Mensagem+' )');
+    Result := xEscreveMensagemPermanentePinPad(PAnsiChar(Mensagem));
+    GravarLog('  Ret: '+IntToStr(Result));
+  end
   else
     Result := -1;
 end;
@@ -731,9 +821,13 @@ var
   sDate:AnsiString;
 begin
   LoadDLLFunctions;
-  sDate:= FormatDateTime('yyyymmdd',Data);
   if Assigned(xObtemQuantidadeTransacoesPendentes) then
-    Result := xObtemQuantidadeTransacoesPendentes(sDate,CupomFiscal)
+  begin
+    sDate:= FormatDateTime('yyyymmdd',Data);
+    GravarLog('- ObtemQuantidadeTransacoesPendentes( '+sDate+', '+CupomFiscal+' )');
+    Result := xObtemQuantidadeTransacoesPendentes(sDate, CupomFiscal);
+    GravarLog('  Ret: '+IntToStr(Result));
+  end
   else
     Result := -1;
 end;
@@ -750,12 +844,18 @@ begin
 
   LoadDLLFunctions;
   if Assigned(xObtemVersao) then
-    Result := xObtemVersao(lVersaoCliSiTef, lVersaoCliSiTefI);
-
-  if (Result = 0) then
   begin
-    VersaoCliSiTef := TrimRight(lVersaoCliSiTef);
-    VersaoCliSiTefI := TrimRight(lVersaoCliSiTefI);
+    GravarLog('- ObtemVersao');
+    Result := xObtemVersao(lVersaoCliSiTef, lVersaoCliSiTefI);
+    GravarLog('  Ret: '+IntToStr(Result)+
+              ', VersaoCliSiTef:'+lVersaoCliSiTef+
+              ', VersaoCliSiTefI:'+lVersaoCliSiTefI);
+
+    if (Result = 0) then
+    begin
+      VersaoCliSiTef := TrimRight(lVersaoCliSiTef);
+      VersaoCliSiTefI := TrimRight(lVersaoCliSiTefI);
+    end;
   end;
 end;
 
@@ -815,6 +915,8 @@ begin
 end;
 
 function TACBrTEFCliSiTefAPI.VerificaPresencaPinPad: Boolean;
+var
+  ret: Integer;
 begin
   {
    Retornos:
@@ -823,8 +925,20 @@ begin
      -1: Biblioteca de acesso ao PinPad não encontrada }
 
   LoadDLLFunctions;
-  if Assigned(xVerificaPresencaPinPad) then
-    Result := ( xVerificaPresencaPinPad() = 1 )
+  if Assigned(xKeepAlivePinPad) then
+  begin
+    GravarLog('- KeepAlivePinPad');
+    ret := xKeepAlivePinPad();
+    GravarLog('  Ret: '+IntToStr(ret));
+    Result := (ret = 1)
+  end
+  else if Assigned(xVerificaPresencaPinPad) then
+  begin
+    GravarLog('- VerificaPresencaPinPad');
+    ret := xVerificaPresencaPinPad();
+    GravarLog('  Ret: '+IntToStr(ret));
+    Result := (ret = 1)
+  end
   else
     Result := False;
 end;
@@ -842,28 +956,28 @@ const
                      '0606CNPJ Entre os 6 digitos finais  Confirma os 6 ? |xxxx-xx         ';
 begin
   Result := '';
+  LoadDLLFunctions;
+  if not Assigned(xObtemDadoPinPadDiretoEx) then
+    Exit;
 
-  if Assigned(xObtemDadoPinPadDiretoEx) then
+  case TipoDocumento of
+    1: Retorno := xObtemDadoPinPadDiretoEx(PAnsiChar(ChaveAcesso), PAnsiChar(Identificador), PAnsiChar(EntradaCPF), Saida);
+    2: Retorno := xObtemDadoPinPadDiretoEx(PAnsiChar(ChaveAcesso), PAnsiChar(Identificador), PAnsiChar(EntradaCNPJ), Saida);
+    3: Retorno := xObtemDadoPinPadDiretoEx(PAnsiChar(ChaveAcesso), PAnsiChar(Identificador), PAnsiChar(EntradaCelular), Saida);
+  else
+    Retorno := -1;
+  end;
+
+  if Retorno = 0 then
   begin
-    case TipoDocumento of
-      1: Retorno := xObtemDadoPinPadDiretoEx(PAnsiChar(ChaveAcesso), PAnsiChar(Identificador), PAnsiChar(EntradaCPF), Saida);
-      2: Retorno := xObtemDadoPinPadDiretoEx(PAnsiChar(ChaveAcesso), PAnsiChar(Identificador), PAnsiChar(EntradaCNPJ), Saida);
-      3: Retorno := xObtemDadoPinPadDiretoEx(PAnsiChar(ChaveAcesso), PAnsiChar(Identificador), PAnsiChar(EntradaCelular), Saida);
+    if (TipoDocumento = 2) then
+      DocLen := 19
     else
-      Retorno := -1;
-    end;
+      DocLen := 14;
 
-    if Retorno = 0 then
-    begin
-      if (TipoDocumento = 2) then
-        DocLen := 19
-      else
-        DocLen := 14;
-
-      Result := copy(TrimRight(Saida), 5, DocLen);
-      if (TipoDocumento = 2) then
-        Delete(Result, 9, 2);
-    end;
+    Result := copy(TrimRight(Saida), 5, DocLen);
+    if (TipoDocumento = 2) then
+      Delete(Result, 9, 2);
   end;
 end;
 

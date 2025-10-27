@@ -46,6 +46,21 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/10/2025
+-- ACBrTEFAPICliSiTef --
+[+] Adicionado o método Privado
+    function TokenFiservValido(const AString: String): Boolean;
+    para validar se a String em ParamComunicacao é um Token TLS Fiserv
+[-] Removidas propriedades não utilizadas 'PinPadChaveAcesso' e 'PinPadIdentificador'
+[*] Refactoring em 'TACBrTEFAPIClassCliSiTef.Inicializar'
+    - Sempre priorizar os parâmetros existentes em 'TACBrTEFAPIClassCliSiTef.ParamAdicConfig'
+    - CodLoja e NumTerminal não podem ser vazios, se estiver em Produção
+    - Permite informar Parâmetros completos, ou apenas o Token em 'DadosTerminal.ParamComunicacao',
+      se não estiver vazio, assume que está em Produção
+
+-- ACBrTEFCliSiTefComum --
+[+] Adicionado suporte ao método 'KeepAlivePinPad', que detecta o PinPad mais rápido
+[+] Adicionado suporte a Logs, com o método: OnGravarLog: TACBrGravarLog
+
 -- ACBrTEFAPIPayGoWeb --
 [*] Método 'TACBrTEFAPIClassPayGoWeb.Inicializar', modificado para fazer uso de
     'DadosTerminal.Ambiente'
