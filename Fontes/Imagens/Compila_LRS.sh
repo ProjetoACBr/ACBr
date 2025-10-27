@@ -274,6 +274,16 @@ echo "* Arquivo    ACBrMDFe.lrs     gerado    *"
 echo "****************************************"
 echo
 
+:eSocial
+$LAZRES  ACBreSocial.lrs TACBreSocial.png 
+mv ACBreSocial.lrs ../ACBrDFe/ACBreSocial
+
+echo
+echo "****************************************"
+echo "* Arquivo    ACBreSocial.lrs     gerado    *"
+echo "****************************************"
+echo
+
 :LFD
 $LAZRES ACBrLFD.lrs TACBrLFD.png 
 mv ACBrLFD.lrs ../ACBrTXT/ACBrLFD
@@ -346,5 +356,14 @@ mv ACBrSEF2.lrs ../ACBrTXT/ACBrSEF2
 echo
 echo "****************************************"
 echo "*   Arquivo   ACBrSEF2.lrs   gerado     *"
+echo "****************************************"
+echo
+
+:BaaS
+$LAZRES ACBrBaaS.lrs TACBrExtratoAPI.png
+mv ACBrBaaS.lrs ../ACBrBaaS
+echo
+echo "****************************************"
+echo "* Arquivo   ACBrBaaS.lrs   gerado   *"
 echo "****************************************"
 echo
