@@ -211,6 +211,8 @@ begin
     IpStr := copy(IpStr, 1, p-1);
   end;
 
+  fTEFPayGoAPI.Ambiente := IfThen(fpACBrTEFAPI.DadosTerminal.Ambiente = ambHomologacao, 1,
+                             IfThen(fpACBrTEFAPI.DadosTerminal.Ambiente = ambProducao, 0, -1));
   fTEFPayGoAPI.EnderecoIP := IpStr;
   fTEFPayGoAPI.PortaTCP := PortaStr;
 

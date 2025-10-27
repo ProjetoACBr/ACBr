@@ -46,6 +46,17 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/10/2025
+-- ACBrTEFAPIPayGoWeb --
+[*] Método 'TACBrTEFAPIClassPayGoWeb.Inicializar', modificado para fazer uso de
+    'DadosTerminal.Ambiente'
+
+-- ACBrTEFPayGoWebComum --
+[+] Adicionado suporte ao método 'PW_iSetEnvironment', através do método Protected
+    procedure DefinirAmbiente(Ambiente: SmallInt);
+[+] Adicionada a Propriedade 'TACBrTEFPGWebAPI.Ambiente: SmallInt'
+[+] Adicionada a Properiedade 'TACBrTEFPGWebAPI.EstaInstalado: Boolean'
+    (Retorna True, quando o PDC já passou pelo processo de instalação)
+
 -- ACBrTEFAPIComum --
 [+] Adicionada a propriedade 'TACBrTEFAPIDadosTerminal.Ambiente: TACBrTEFAPIAmbiente'
     TACBrTEFAPIAmbiente = (ambNaoDefinido, ambHomologacao, ambProducao);

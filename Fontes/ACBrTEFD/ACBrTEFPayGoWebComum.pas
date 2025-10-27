@@ -47,6 +47,7 @@ resourcestring
   sInfoPGWebLibAtualizaFalse = 'PGWebLib sem atualização';
   sErrLibJaInicializada = 'Biblioteca PGWebLib já foi inicializada';
   sErrLibNaoInicializada = 'Biblioteca PGWebLib ainda NÃO foi carregada';
+  sErrLibJaInstalada = 'Biblioteca PGWebLib já foi Instalada';
   sErrLibNaoEncontrada = 'Biblioteca não encontrada: %s';
   sErrVarDef = 'Erro Definindo a valor: %s para variável %s ';
   sErrLibNaoPermiteMudarPath = 'Path da PGWebLib deve ser %s';
@@ -74,6 +75,7 @@ resourcestring
   sErrPWINF_INVALID = 'ParametrosAdicionais: Valor %s é inválido para %s';
 
 const
+  CACBrTEFPGWebMsgPadrao = 'PROJETO ACBr';
   CACBrTEFPGWebAPIName = 'ACBrTEFPGWebAPI';
   CACBrTEFPGWebAPIVersao = '1.0.1';
   CACBrTEFPGWebDir = 'PGWebLib';
@@ -90,6 +92,7 @@ const
   {$ENDIF}
 
   CACBrTEFPGWebLibMinVersion = '0004.0000.0082.0003';
+  CACBrTEFPGWebLibVersionSetEnvironment = '0004.0001.0043.0010';
 
   CSleepNothing = 300;
   CMilissegundosMensagem = 5000;  // 5 seg
@@ -562,6 +565,7 @@ type
     fDadosTransacao: TACBrTEFParametros;
     fDiretorioTrabalho: String;
     fEnderecoIP: String;
+    fAmbiente: SmallInt;
     fExibeMensagemCheckout: Boolean;
     fExibicaoQRCode: TACBrTEFPGWebAPIExibicaoQRCode;
     fImprimeViaClienteReduzida: Boolean;
@@ -693,6 +697,10 @@ type
     xPW_iPPEndMenu : function: SmallInt;
               {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
 
+    xPW_iSetEnvironment: function(iEnv: SmallInt): SmallInt
+       {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
+
+    function GetEstaInstalado: Boolean;
     function GetVersaoLib: String;
     function GetTemProtecao: Boolean;
 
@@ -733,6 +741,7 @@ type
     function ObterDadoCodBarra(AGetData: TPW_GetData): SmallInt;
     function ObterDadoCartao(AGetData: TPW_GetData; uiIndex: Word): SmallInt;
     function ObterDadoCartaoDigitado(AGetData: TPW_GetData): SmallInt;
+    procedure DefinirAmbiente(Ambiente: SmallInt);
 
     function RealizarOperacaoPinPad(AGetData: TPW_GetData; uiIndex: Word;
       OperacaoPinPad: TACBrTEFPGWebAPIOperacaoPinPad): SmallInt;
@@ -811,6 +820,7 @@ type
     property PortaTCP: String read fPortaTCP write SetPortaTCP;
     property PortaPinPad: Integer read fPortaPinPad write fPortaPinPad;
     property ParametrosAdicionais: TACBrTEFParametros read fParametrosAdicionais;
+    property Ambiente: SmallInt read fAmbiente write fAmbiente;
 
     Property SuportaSaque: Boolean read fSuportaSaque write fSuportaSaque;
     Property SuportaDesconto: Boolean read fSuportaDesconto write fSuportaDesconto;
@@ -851,6 +861,7 @@ type
 
     property VersaoLib: String read GetVersaoLib;
     property TemProtecao: Boolean read GetTemProtecao;
+    property EstaInstalado: Boolean read GetEstaInstalado;
   end;
 
 function PWRETToString(iRET: SmallInt): String;
@@ -1184,6 +1195,7 @@ begin
   fEnderecoIP := '';
   fPortaTCP := '';
   fPortaPinPad := 0;
+  fAmbiente := -1;
   fConfirmarTransacoesPendentesNoHost := True;
   fPerguntarCartaoDigitadoAposCancelarLeitura := False;
 
@@ -1283,18 +1295,6 @@ begin
   if (MsgError <> '') then
     DoException(ACBrStr(MsgError));
 
-  img := '';
-  msg := Trim(MensagemPinPad);
-  if (Length(msg) = 8) then
-  begin
-    img := msg;
-    msg := '';
-  end;
-
-  if (msg = '') then
-    msg := PadRight(SoftwareHouse, 16) +
-         PadRight(NomeAplicacao + ' ' + VersaoAplicacao, 16);
-
   fInicializada := True;
   SetEmTransacao(False);
 
@@ -1304,8 +1304,29 @@ begin
     DoException(Format( ACBrStr(sErrLibVersaoInvalida),
                         [LibFullName, VersaoLib, CACBrTEFPGWebLibMinVersion]) );
 
+  if (fAmbiente > -1) then
+    if Assigned(xPW_iSetEnvironment) then
+      if not EstaInstalado then
+        DefinirAmbiente(fAmbiente);
+
   if Assigned(xPW_iPPSetIdleImage) then
   try
+    img := '';
+    msg := Trim(MensagemPinPad);
+    if (Length(msg) = 8) then
+    begin
+      img := msg;
+      msg := '';
+    end;
+
+    if (msg = '') then
+      msg := PadRight(SoftwareHouse, 16) +
+           PadRight(NomeAplicacao + ' ' + VersaoAplicacao, 16);
+
+    if (msg = '') then
+      msg := PadCenter(CACBrTEFPGWebMsgPadrao, 16) +
+             PadCenter(CACBrTEFPGWebAPIName, 16);
+
     DefinirMensagemPinPad(msg, img);
   except
     { Ignora Exception, pois Pinpad pode ainda não estar pronto }
@@ -1370,6 +1391,7 @@ begin
   xPW_iPPAddMenuOption := Nil;
   xPW_iPPShowMenu := Nil;
   xPW_iPPEndMenu := Nil;
+  xPW_iSetEnvironment := Nil;
 end;
 
 procedure TACBrTEFPGWebAPI.DoException(const AErrorMsg: String);
@@ -1949,6 +1971,21 @@ begin
   end;
 
   Result := fVersaoLib
+end;
+
+function TACBrTEFPGWebAPI.GetEstaInstalado: Boolean;
+var
+  iRet: SmallInt;
+begin
+  GravarLog('GetEstaInstalado');
+  GravarLog('  PW_iNewTransac( '+PWOPERToString(PWOPER_NULL)+' )');
+  iRet := xPW_iNewTransac(PWOPER_NULL);
+  GravarLog('    '+PWRETToString(iRet));
+  Result := (iRet <> PWRET_NOTINST);
+
+  GravarLog('  PW_iPPAbort');
+  iRet := xPW_iPPAbort;
+  GravarLog('    '+PWRETToString(iRet));
 end;
 
 procedure TACBrTEFPGWebAPI.ObterOperacoes(TipoOperacao: Byte;
@@ -2801,6 +2838,33 @@ begin
     Result := PWRET_CANCEL;
 end;
 
+procedure TACBrTEFPGWebAPI.DefinirAmbiente(Ambiente: SmallInt);
+var
+  iRetPP: SmallInt;
+  MsgError: String;
+begin
+  if not Assigned(xPW_iSetEnvironment) then
+    DoException(Format(sErrBibliotecaNaoTemMetodo, ['PW_iSetEnvironment']));
+
+  GravarLog('PW_iSetEnvironment( '+IntToStr(Ambiente)+' )');
+  iRetPP := xPW_iSetEnvironment( Ambiente );
+  GravarLog('  '+PWRETToString(iRetPP));
+
+  MsgError := '';
+  if (iRetPP <> PWRET_OK) then
+  begin
+    case iRetPP of
+      PWRET_INVCALL: MsgError := sErrLibJaInstalada;
+      PWRET_NOTINST, PWRET_DLLNOTINIT : MsgError := sErrPWRET_DLLNOTINIT;
+    else
+      MsgError := PWRETToString(iRetPP);
+    end;
+  end;
+
+  if (MsgError <> '') then
+    DoException(ACBrStr(MsgError));
+end;
+
 procedure TACBrTEFPGWebAPI.ExibirMensagem(const AMsg: String;
   Terminal: TACBrTEFPGWebAPITerminalMensagem; TempoEspera: Integer);
 var
@@ -3311,7 +3375,7 @@ procedure TACBrTEFPGWebAPI.LoadLibFunctions;
    PGWebFunctionDetect(sLibName, 'PW_iPPAddMenuOption', @xPW_iPPAddMenuOption, False);
    PGWebFunctionDetect(sLibName, 'PW_iPPShowMenu', @xPW_iPPShowMenu, False);
    PGWebFunctionDetect(sLibName, 'PW_iPPEndMenu', @xPW_iPPEndMenu, False);
-
+   PGWebFunctionDetect(sLibName, 'PW_iSetEnvironment', @xPW_iSetEnvironment, False);
    fCarregada := True;
 end;
 
