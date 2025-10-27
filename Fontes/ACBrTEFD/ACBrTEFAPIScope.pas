@@ -468,6 +468,7 @@ begin
   fTEFScopeAPI.Empresa := fpACBrTEFAPI.DadosTerminal.CodEmpresa;
   fTEFScopeAPI.Filial := fpACBrTEFAPI.DadosTerminal.CodFilial;
   fTEFScopeAPI.PDV := fpACBrTEFAPI.DadosTerminal.CodTerminal;
+  fTEFScopeAPI.GravarLogScope := fpACBrTEFAPI.DadosTerminal.GravarLogTEF;
 
   s := fpACBrTEFAPI.DadosAutomacao.MensagemPinPad;
   if (s = '') then

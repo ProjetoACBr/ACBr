@@ -53,6 +53,9 @@ Símbolo : Significado
 
 -- ACBrTEFScopeAPI --
 [*] Ajuste em 'VerificarEAjustarScopeINI', para não gravar WKPAN
+
+-- ACBrTEFAPIScope --
+[*] Ajueste em 'TACBrTEFAPIClassScope.Inicializar', para utilizar 'DadosTerminal.GravarLogTEF'
     (por: DSA)
 
 15/10/2025
