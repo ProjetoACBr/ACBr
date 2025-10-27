@@ -2304,7 +2304,7 @@ begin
 
         AjustarParamSeNaoExistir(SecName, 'VersaoAutomacao', sName);
         AjustarParamSeNaoExistir(SecName, 'CupomReduzido', IfThen(fCupomReduzido, 's', 'n'));
-        AjustarParamSeNaoExistir(SecName, 'WKPAN', IfThen(fPinPadSeguro, 's', 'n'));
+        //AjustarParamSeNaoExistir(SecName, 'WKPAN', IfThen(fPinPadSeguro, 's', 'n'));
 
         // Configuração para PIX, sempre será em LocalHost
         if fUsarScopeClientConnector then

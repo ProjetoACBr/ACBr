@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/10/2025
+-- ACBrTEFScopeAPI --
+[*] Ajuste em 'VerificarEAjustarScopeINI', para não gravar WKPAN
+    (por: DSA)
+
 15/10/2025
 -- ACBrTEFDirectPinAPI --
 [*] Ajuste TDPPayLoadRequestReversal informando o tipo correto para estorno da transação.
