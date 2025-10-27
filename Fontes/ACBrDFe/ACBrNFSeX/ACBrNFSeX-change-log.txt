@@ -42,6 +42,17 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/10/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8295 A cidade Crissiumal/RS trocou a URL, o provedor continua o mesmo.
+   Por: Farol TI
+[*] #ACBr-8294 Incluido o Params GerarTag para a cidade Zortea/SC.
+   Por: lucasatz
+[*] #ACBr-8293 A cidade Vargeão/SC trocou a versão e as URLs, o provedor continua o mesmo.
+   Por: christian@adminfo.com.br
+[*] #ACBr-8292 A cidade Ibirite/MG trocou a URL, o provedor continua o mesmo.
+   Por: IMATECH
+
 24/10/2025
 -- ISSSaoPaulo.Provider --
 [-] #ACBr-8290 Ajuste para que a consulta de NFSe por Serviço Prestado considere o CNPJ correto.
