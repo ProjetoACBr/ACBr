@@ -1520,7 +1520,16 @@ begin
     15: result := '15-GÁS NATURAL VEICULAR';
     16: result := '16-ÁLCOOL/GASOLINA';
     17: result := '17-GASOLINA/ÁLCOOL/GNV';
-    18: result := '18-GASOLINA/ELÉTRICO'
+    18: result := '18-GASOLINA/ELÉTRICO';
+    19: result := '19-GASOLINA/ÁLCOOL/ELÉTRICO';
+    20: result := '20-GÁS/NATURAL/LIQUEFEITO';
+    21: result := '21-DIESEL/ELÉTRICO';
+    22: result := '22-HÍBRIDO';
+    23: result := '23-HÍBRIDO PLUG-IN';
+    24: result := '24-ELÉTRICO';
+    25: result := '25-CÉLULA COMBUSTÍVEL';
+    26: result := '26-HÍBRIDO/GÁS NATURAL VEICULAR';
+    27: result := '27-ETANOL/ELÉTRICO';
     else
       result := stpComb +'NÃO DEFINIDO' ;
     end;
