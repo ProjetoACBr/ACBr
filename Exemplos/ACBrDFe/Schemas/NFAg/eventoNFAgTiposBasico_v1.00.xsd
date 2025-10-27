@@ -83,6 +83,20 @@ Insira neste local o XML específico do tipo de evento (cancelamento, encerramen
 								</xs:attribute>
 							</xs:complexType>
 						</xs:element>
+						<xs:element name="infPAA" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Grupo de Informação do Provedor de Assinatura e Autorização</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="CNPJPAA" type="TCnpj">
+										<xs:annotation>
+											<xs:documentation>CNPJ da empresa que emitirá evento em nome de outra no caso do faturamento conjunto</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
 					</xs:sequence>
 					<xs:attribute name="Id" use="required">
 						<xs:annotation>
