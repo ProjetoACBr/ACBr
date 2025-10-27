@@ -1405,10 +1405,10 @@ begin
   if AMunicipio = '' then
      raise EACBrCEPException.Create( ACBrStr(ERROR_MUNICIPIO_OBRIGATORIO) );
 
-  LUF         := fOwner.AjustaParam(AUF);
-  LMunicipio  := fOwner.AjustaParam(AMunicipio);
-  LLogradouro := fOwner.AjustaParam(ALogradouro);
-  LBairro     := fOwner.AjustaParam(ABairro);
+  LUF         := fOwner.AjustaParam(TiraAcentos(AUF));
+  LMunicipio  := fOwner.AjustaParam(TiraAcentos(AMunicipio));
+  LLogradouro := fOwner.AjustaParam(TiraAcentos(ALogradouro));
+  LBairro     := fOwner.AjustaParam(TiraAcentos(ABairro));
 
   // estado e cidade são obrigatórios
   LParametros := 'estado=' + LUF + '&cidade=' + LMunicipio;
