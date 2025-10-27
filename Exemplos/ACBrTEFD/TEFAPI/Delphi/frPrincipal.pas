@@ -48,8 +48,6 @@ type
   { TFormPrincipal }
 
   TFormPrincipal = class(TForm)
-    ACBrPosPrinter1: TACBrPosPrinter;
-    ACBrTEFAPI1: TACBrTEFAPI;
     btAdministrativo: TBitBtn;
     btImprimir: TBitBtn;
     btIncluirPagamentos: TBitBtn;
@@ -175,11 +173,18 @@ type
     edCodEmpresa: TEdit;
     Label30: TLabel;
     edCodTerminal: TEdit;
-    ACBrAbecsPinPad1: TACBrAbecsPinPad;
     btExibirImagemPinPad: TButton;
     btMenuPinPad: TButton;
     btCancelarUltima: TBitBtn;
-    Button1: TButton;
+    ACBrPosPrinter1: TACBrPosPrinter;
+    ACBrAbecsPinPad1: TACBrAbecsPinPad;
+    ACBrTEFAPI1: TACBrTEFAPI;
+    Label31: TLabel;
+    cbxAmbiente: TComboBox;
+    Label32: TLabel;
+    edParamComunic: TEdit;
+    cbGravarLogTEF: TCheckBox;
+    btVerPinPad: TButton;
     procedure ACBrTEFAPI1QuandoDetectarTransacaoPendente(
       RespostaTEF: TACBrTEFResp; const MsgErro: String);
     procedure ACBrTEFAPI1QuandoExibirMensagem(const Mensagem: String;
@@ -229,7 +234,7 @@ type
     procedure seValorInicialVendaKeyPress(Sender: TObject; var Key: Char);
     procedure ACBrAbecsPinPad1WriteLog(const ALogLine: string;
       var Tratado: Boolean);
-    procedure Button1Click(Sender: TObject);
+    procedure btVerPinPadClick(Sender: TObject);
   private
     FVenda: TVenda;
     FTipoBotaoOperacao: TTipoBotaoOperacao;
@@ -302,7 +307,7 @@ uses
   //ACBrUtil,
   ACBrDelphiZXingQRCode,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime, ACBrUtil.FilesIO,
-  ACBrTEFPayGoComum, ACBrTEFAPIPayGoWeb, ACBrTEFAPIStoneAutoTEF, ACBrTEFAPIScope;
+  ACBrTEFPayGoComum, ACBrTEFAPIPayGoWeb, ACBrTEFAPIStoneAutoTEF, ACBrTEFAPIScope, ACBrTEFAPICliSiTef;
 
 {$R *.dfm}
 
@@ -313,6 +318,7 @@ var
   I: TACBrTEFAPITipo;
   N: TACBrPosPrinterModelo;
   O: TACBrPosPaginaCodigo;
+  P: TACBrTEFAPIAmbiente;
 begin
   FVenda := TVenda.Create(NomeArquivoVenda);
 
@@ -328,6 +334,10 @@ begin
   cbxPagCodigo.Items.Clear ;
   For O := Low(TACBrPosPaginaCodigo) to High(TACBrPosPaginaCodigo) do
      cbxPagCodigo.Items.Add( GetEnumName(TypeInfo(TACBrPosPaginaCodigo), integer(O) ) ) ;
+
+  cbxAmbiente.Items.Clear ;
+  For P := Low(TACBrTEFAPIAmbiente) to High(TACBrTEFAPIAmbiente) do
+     cbxAmbiente.Items.Add( GetEnumName(TypeInfo(TACBrTEFAPIAmbiente), integer(P) ) ) ;
 
   ImageList1.GetBitmap(1, btMudaPagina.Glyph);
   ImageList1.GetBitmap(1, btEfetuarPagamentos.Glyph);
@@ -1073,7 +1083,7 @@ begin
     FormObtemCampo.Resposta := DefinicaoCampo.ValorInicial;
     FormObtemCampo.Ocultar := DefinicaoCampo.OcultarDadosDigitados;
     FormObtemCampo.Mascara := DefinicaoCampo.MascaraDeCaptura;
-    FormObtemCampo.btVoltar.Visible := False;  // PayGoWeb não suporta Voltar;
+    FormObtemCampo.btVoltar.Visible := (ACBrTEFAPI1.TEF is TACBrTEFAPIClassCliSiTef);
 
     if (pos('R$', DefinicaoCampo.MascaraDeCaptura) > 0) or
        (pos('@.@@@,@@', DefinicaoCampo.MascaraDeCaptura) > 0) or
@@ -1197,11 +1207,14 @@ begin
     edRazaoSocialEstabelecimento.Text := INI.ReadString('Estabelecimento', 'RazaoSocial', edRazaoSocialEstabelecimento.Text);
     edCNPJEstabelecimento.Text := INI.ReadString('Estabelecimento', 'CNPJ', edCNPJEstabelecimento.Text);
 
+    edCodTerminal.Text := INI.ReadString('Terminal', 'CodTerminal', edCodTerminal.Text);
     edCodEmpresa.Text := INI.ReadString('Terminal', 'CodEmpresa', edCodEmpresa.Text);
     edCodFilial.Text := INI.ReadString('Terminal', 'CodFilial', edCodFilial.Text);
-    edCodTerminal.Text := INI.ReadString('Terminal', 'CodTerminal', edCodTerminal.Text);
     edPortaPinPad.Text := INI.ReadString('Terminal', 'PortaPinPad', edPortaPinPad.Text);
     edEnderecoServidor.Text := INI.ReadString('Terminal', 'EnderecoServidor', edEnderecoServidor.Text);
+    cbxAmbiente.ItemIndex := INI.ReadInteger('Terminal', 'Ambiente', cbxAmbiente.ItemIndex);
+    edParamComunic.Text := INI.ReadString('Terminal', 'ParamComunic', edParamComunic.Text);
+    cbGravarLogTEF.Checked := INI.ReadBool('Terminal', 'GravarLogTEF', cbGravarLogTEF.Checked);
 
     cbxModeloPosPrinter.ItemIndex := INI.ReadInteger('PosPrinter', 'Modelo', 1);
     cbxPorta.Text := INI.ReadString('PosPrinter','Porta',ACBrPosPrinter1.Porta);
@@ -1243,11 +1256,14 @@ begin
     INI.WriteString('Estabelecimento', 'RazaoSocial', edRazaoSocialEstabelecimento.Text);
     INI.WriteString('Estabelecimento', 'CNPJ', edCNPJEstabelecimento.Text);
 
+    INI.WriteString('Terminal', 'CodTerminal', edCodTerminal.Text);
     INI.WriteString('Terminal', 'CodEmpresa', edCodEmpresa.Text);
     INI.WriteString('Terminal', 'CodFilial', edCodFilial.Text);
-    INI.WriteString('Terminal', 'CodTerminal', edCodTerminal.Text);
     INI.WriteString('Terminal', 'PortaPinPad', edPortaPinPad.Text);
     INI.WriteString('Terminal', 'EnderecoServidor', edEnderecoServidor.Text);
+    INI.WriteInteger('Terminal', 'Ambiente', cbxAmbiente.ItemIndex);
+    INI.WriteString('Terminal', 'ParamComunic', edParamComunic.Text);
+    INI.WriteBool('Terminal', 'GravarLogTEF', cbGravarLogTEF.Checked);
 
     INI.WriteInteger('PosPrinter', 'Modelo', cbxModeloPosPrinter.ItemIndex);
     INI.WriteString('PosPrinter','Porta', cbxPorta.Text);
@@ -1491,13 +1507,6 @@ begin
       MessageDlg(Format('Falha ao ativar TEF %S' + sLineBreak + E.Message, [NomeTEF]), mtError, [mbOK], 0);
     end;
   end;
-end;
-
-procedure TFormPrincipal.Button1Click(Sender: TObject);
-begin
-  ACBrTEFAPI1.ExibirQRCodePinPad(
-  '00020101021226900014BR.GOV.BCB.PIX2568pix-qr.mercadopago.com/instore/p/v2/7edcf890b0de4f0689fe7aea52e447b843540016com.mercadolibre0130'+
-  'https://mpago.la/pos/1078225765204000053039865802BR5907GETCARD6009SAO PAULO62070503***6304424C', 'QRCODE');
 end;
 
 procedure TFormPrincipal.btObterCPFClick(Sender: TObject);
@@ -2055,11 +2064,14 @@ begin
   ACBrTEFAPI1.DadosEstabelecimento.RazaoSocial := edRazaoSocialEstabelecimento.Text;
   ACBrTEFAPI1.DadosEstabelecimento.CNPJ := edCNPJEstabelecimento.Text;
 
+  ACBrTEFAPI1.DadosTerminal.CodTerminal := edCodTerminal.Text;
   ACBrTEFAPI1.DadosTerminal.CodEmpresa := edCodEmpresa.Text;
   ACBrTEFAPI1.DadosTerminal.CodFilial  := edCodFilial.Text;
-  ACBrTEFAPI1.DadosTerminal.CodTerminal := edCodTerminal.Text;
   ACBrTEFAPI1.DadosTerminal.PortaPinPad := edPortaPinPad.Text;
   ACBrTEFAPI1.DadosTerminal.EnderecoServidor := edEnderecoServidor.Text;
+  ACBrTEFAPI1.DadosTerminal.Ambiente := TACBrTEFAPIAmbiente(cbxAmbiente.ItemIndex);
+  ACBrTEFAPI1.DadosTerminal.ParamComunicacao := edParamComunic.Text;
+  ACBrTEFAPI1.DadosTerminal.GravarLogTEF := cbGravarLogTEF.Checked;
 
   case cbxQRCode.ItemIndex of
     0: ACBrTEFAPI1.ExibicaoQRCode := qrapiNaoSuportado;
@@ -2154,6 +2166,17 @@ procedure TFormPrincipal.seValorInicialVendaKeyPress(Sender: TObject;
 begin
   if not( Key in ['0'..'9',#8,#13,#27])  then
     Key := #0;
+end;
+
+procedure TFormPrincipal.btVerPinPadClick(Sender: TObject);
+var
+  p: Byte;
+begin
+  p := ACBrTEFAPI1.VerificarPresencaPinPad;
+  if (p > 0) then
+    ShowMessage('PinPad encontrado')
+  else
+    ShowMessage('PinPad NÃO encontrado');        
 end;
 
 end.

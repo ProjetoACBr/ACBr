@@ -1,7 +1,7 @@
 object FormMenuTEF: TFormMenuTEF
-  Left = 353
+  Left = 236
   Height = 361
-  Top = 162
+  Top = 242
   Width = 608
   Caption = 'Selecione uma opção'
   ClientHeight = 361
@@ -9,7 +9,7 @@ object FormMenuTEF: TFormMenuTEF
   Font.Height = -19
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '2.0.8.0'
+  LCLVersion = '3.6.0.0'
   object lbOpcoes: TListBox
     Left = 0
     Height = 261
@@ -20,10 +20,10 @@ object FormMenuTEF: TFormMenuTEF
     Font.Height = -19
     Font.Style = [fsBold]
     ItemHeight = 0
-    OnClick = lbOpcoesClick
-    OnKeyPress = lbOpcoesKeyPress
     ParentFont = False
     TabOrder = 0
+    OnClick = lbOpcoesClick
+    OnKeyPress = lbOpcoesKeyPress
   end
   object pTitulo: TPanel
     Left = 0

@@ -203,6 +203,7 @@
     </CodeGeneration>
     <Linking>
       <Debugging>
+        <DebugInfoType Value="dsDwarf3"/>
         <UseHeaptrc Value="True"/>
         <TrashVariables Value="True"/>
       </Debugging>
@@ -216,38 +217,4 @@
       <CustomOptions Value="-dDEBUG"/>
     </Other>
   </CompilerOptions>
-  <Debugging>
-    <Exceptions Count="10">
-      <Item1>
-        <Name Value="EAbort"/>
-      </Item1>
-      <Item2>
-        <Name Value="ECodetoolError"/>
-      </Item2>
-      <Item3>
-        <Name Value="Exception"/>
-      </Item3>
-      <Item4>
-        <Name Value="EConvertError"/>
-      </Item4>
-      <Item5>
-        <Name Value="EACBrTEFPayGoWeb"/>
-      </Item5>
-      <Item6>
-        <Name Value="EACBrTEFDGPNaoResponde"/>
-      </Item6>
-      <Item7>
-        <Name Value="EPosPrinterException"/>
-      </Item7>
-      <Item8>
-        <Name Value="EACBrTEFDErro"/>
-      </Item8>
-      <Item9>
-        <Name Value="ESynaSerError"/>
-      </Item9>
-      <Item10>
-        <Name Value="EACBrTEFAPIErro"/>
-      </Item10>
-    </Exceptions>
-  </Debugging>
 </CONFIG>
