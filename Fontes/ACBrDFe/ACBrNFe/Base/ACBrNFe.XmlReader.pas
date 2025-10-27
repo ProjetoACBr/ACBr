@@ -1321,6 +1321,7 @@ procedure TNFeXmlReader.LerTotal(const ANode: TACBrXmlNode);
 var
   ok: Boolean;
   AuxNode: TACBrXmlNode;
+  aValor: string;
 begin
   if not Assigned(ANode) then Exit;
 
@@ -1377,7 +1378,11 @@ begin
       NFe.Total.ISSQNtot.vDescIncond := ObterConteudo(AuxNode.Childrens.Find('vDescIncond'), tcDe2);
       NFe.Total.ISSQNtot.vDescCond   := ObterConteudo(AuxNode.Childrens.Find('vDescCond'), tcDe2);
       NFe.Total.ISSQNtot.vISSRet     := ObterConteudo(AuxNode.Childrens.Find('vISSRet'), tcDe2);
-      NFe.Total.ISSQNtot.cRegTrib    := StrToRegTribISSQN(Ok, ObterConteudo(AuxNode.Childrens.Find('cRegTrib'), tcStr));
+
+      aValor := ObterConteudo(AuxNode.Childrens.Find('cRegTrib'), tcStr);
+      if aValor = '' then
+        aValor := '0';
+      NFe.Total.ISSQNtot.cRegTrib := StrToRegTribISSQN(Ok, aValor);
     end;
   end;
 

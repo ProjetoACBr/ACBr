@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/10/2025
+-- ACBrNFe.XmlReader --
+[-] Correção na leitura do campo: cRegTrib.
+  Por: Italo Giurizzato Junior
+
 24/10/2025
 -- ACBrNFe.IniReader --
 [*] Alterado a posição de algumas units em uses.
