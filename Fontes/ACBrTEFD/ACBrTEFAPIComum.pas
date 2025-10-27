@@ -145,16 +145,18 @@ type
     property RazaoSocial: String read fRazaoSocial write SetRazaoSocial;
   end;
 
-  { TACBrTEFDadosTerminal }
+  TACBrTEFAPIAmbiente = (ambNaoDefinido, ambHomologacao, ambProducao);
 
   { TACBrTEFAPIDadosTerminal }
 
   TACBrTEFAPIDadosTerminal = class(TPersistent)
   private
+    fAmbiente: TACBrTEFAPIAmbiente;
     fCodEmpresa: String;
     fCodFilial: String;
     fCodTerminal: String;
     fEnderecoServidor: String;
+    fGravarLogTEF: Boolean;
     fOperador: String;
     fParamComunicacao: String;
     fPortaPinPad: String;
@@ -171,6 +173,8 @@ type
     property Operador: String read fOperador write fOperador;
     property PortaPinPad: String read fPortaPinPad write fPortaPinPad;
     property ParamComunicacao: String read fParamComunicacao write fParamComunicacao;
+    property Ambiente: TACBrTEFAPIAmbiente read fAmbiente write fAmbiente;
+    property GravarLogTEF: Boolean read fGravarLogTEF write fGravarLogTEF;
   end;
 
   TACBrTEFAPIMetodo = (tefmtdNenhuma, tefmtdPagamento, tefmtdCancelamento, tefmtdAdministrativa);
@@ -564,6 +568,8 @@ begin
   fPortaPinPad := '';
   fEnderecoServidor := '';
   fParamComunicacao := '';
+  fAmbiente := ambNaoDefinido;
+  fGravarLogTEF := False;
 end;
 
 procedure TACBrTEFAPIDadosTerminal.Assign(Source: TPersistent);
@@ -581,6 +587,8 @@ begin
     fPortaPinPad := DadosTerminal.PortaPinPad;
     fEnderecoServidor := DadosTerminal.EnderecoServidor;
     fParamComunicacao := DadosTerminal.ParamComunicacao;
+    fAmbiente := DadosTerminal.Ambiente;
+    fGravarLogTEF := DadosTerminal.GravarLogTEF;
   end;
 end;
 
