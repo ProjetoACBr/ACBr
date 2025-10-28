@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/10/2025
+-- pcnConversao --
+[+] Inclusão dos novos eventos referente a Reforma Tributária.
+   Por: Italo Giurizzato Junior
+
 17/10/2025
 -- pcnConversao --
 [*] Os tipos e funções agora estão definidos na unit ACBrDFe.Conversao
