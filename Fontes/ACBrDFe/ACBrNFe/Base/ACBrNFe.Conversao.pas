@@ -1131,7 +1131,10 @@ begin
              '210240', '610600', '610614', '790700', '990900', '990910',
              '110180', '610554', '610510', '610615', '610610', '110130',
              '110131', '110150', '610130', '610131', '610601', '110192',
-             '110193', '610514', '610500', '110750', '110751', '510630'],
+             '110193', '610514', '610500', '110750', '110751', '510630',
+             '110001', '112110', '112120', '112130', '112140', '211110',
+             '211120', '211124', '211128', '211130', '211140', '211150',
+             '212110', '212120'],
             [teNaoMapeado, teCCe, teCancelamento, teCancSubst, teEPECNFe,
              tePedProrrog1, tePedProrrog2, teCanPedProrrog1, teCanPedProrrog2,
              teManifDestConfirmacao, teManifDestCiencia,
@@ -1144,7 +1147,14 @@ begin
              teComprEntregaCTe, teCancComprEntregaCTe, teCTeCancelado,
              teInsucessoEntregaNFe, teCancInsucessoEntregaNFe,
              teRegPasNfeProMDFeCte, teRegistroPassagemNFe, teConcFinanceira,
-             teCancConcFinanceira, teRegistroPassagemMDFe]);
+             teCancConcFinanceira, teRegistroPassagemMDFe, teCancGenerico,
+             tePagIntegLibCredPresAdq, teImporALCZFM,
+             tePerecPerdaRouboFurtoTranspContratFornec, teFornecNaoRealizPagAntec,
+             teSolicApropCredPres, teDestItemConsPessoal,
+             tePerecPerdaRouboFurtoTranspContratAqu,
+             teAceiteDebitoApuracaoNotaCredito, teImobilizacaoItem,
+             teSolicApropCredCombustivel, teSolicApropCredBensServicos,
+             teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao]);
 end;
 
 function LayOutToServico(const t: TLayOut): String;

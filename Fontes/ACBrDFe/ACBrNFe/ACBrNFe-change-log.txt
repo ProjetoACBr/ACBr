@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/10/2025
+-- ACBrNFe.Conversao/pcnConversaoNFe --
+[+] ACBR-8283 - Adicionado os novos tipos de eventos referente a Reforma Tributária.
+  Por: Italo Giurizzato Junior
+
 27/10/2025
 -- pcnConversaoNFe, ACBrNFe.Conversao --
 [*] ACBR-8201 - Adiciona novos tipos de combustível VeiculosCombustivelStr conforme tabela atualizada.
