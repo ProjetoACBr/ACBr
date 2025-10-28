@@ -38,6 +38,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/10/2025
+-- ACBrDIS, ACBrDISGertecTEC55lib --
+{+] Adicionado modelo GertecTEC55 aos displays
+   Por: Igor Faria - Rev. Daniel Simões e Alexandre de Paula
+
 06/06/2025
 -- ACBrEscPosEpson, ACBrEscBematech, ACBrEscCustomPos, ACBrEscDaruma, ACBrEscDatecs,
    ACBrEscPosStar, ACBrEscSunmi --
