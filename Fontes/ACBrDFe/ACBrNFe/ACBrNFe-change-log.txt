@@ -46,6 +46,10 @@ Símbolo : Significado
 
 28/10/2025
 -- ACBrNFe.Conversao/pcnConversaoNFe --
+[*] ACBR-8304 - A função de conversão StrToFormaPagamento não contemplava o enumerado:
+    fpPagamentoPosterior.
+  Por: Ao3 Tech/Italo Giurizzato Junior
+-- ACBrNFe.Conversao/pcnConversaoNFe --
 [+] ACBR-8283 - Adicionado os novos tipos de eventos referente a Reforma Tributária.
   Por: Italo Giurizzato Junior
 
