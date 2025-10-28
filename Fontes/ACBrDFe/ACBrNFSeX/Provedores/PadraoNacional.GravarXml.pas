@@ -243,9 +243,8 @@ begin
   // Reforma Tributária
   if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
      (NFSe.IBSCBS.imovel.ender.CEP <> '') or
-     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '')
-     { or
-     (NFSe.IBSCBS.valores.trib.gIBSCBS.gIBSCredPres.pCredPresIBS > 0)} then
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
     Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 end;
 
@@ -1403,8 +1402,14 @@ begin
   GerarINIValoresTotalTrib(AINIRec);
 
   // Reforma Tributária
-  GerarINIIBSCBS(AINIRec, NFSe.IBSCBS);
-  GerarINIIBSCBSNFSe(AINIRec, NFSe.infNFSe.IBSCBS);
+  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+     (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
+  begin
+    GerarINIIBSCBS(AINIRec, NFSe.IBSCBS);
+    GerarINIIBSCBSNFSe(AINIRec, NFSe.infNFSe.IBSCBS);
+  end;
 end;
 
 procedure TNFSeW_PadraoNacional.GerarIniRps(AINIRec: TMemIniFile);
@@ -1429,7 +1434,11 @@ begin
   GerarINIValoresTotalTrib(AINIRec);
 
   // Reforma Tributária
-  GerarINIIBSCBS(AINIRec, NFSe.IBSCBS);
+  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+     (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
+    GerarINIIBSCBS(AINIRec, NFSe.IBSCBS);
 end;
 
 procedure TNFSeW_PadraoNacional.GerarINIIdentificacaoNFSe(

@@ -171,9 +171,8 @@ begin
   // Reforma Tributária
   if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
      (NFSe.IBSCBS.imovel.ender.CEP <> '') or
-     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '')
-     { or
-     (NFSe.IBSCBS.valores.trib.gIBSCBS.gIBSCredPres.pCredPresIBS > 0)} then
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
   begin
     xmlNode := GerarXMLIBSCBS(NFSe.IBSCBS);
     NFSeNode.AppendChild(xmlNode);
@@ -651,9 +650,8 @@ begin
   // Reforma Tributária
   if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
      (NFSe.IBSCBS.imovel.ender.CEP <> '') or
-     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '')
-     { or
-     (NFSe.IBSCBS.valores.trib.gIBSCBS.gIBSCredPres.pCredPresIBS > 0)} then
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
     NFSeNode.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 
   Result := True;

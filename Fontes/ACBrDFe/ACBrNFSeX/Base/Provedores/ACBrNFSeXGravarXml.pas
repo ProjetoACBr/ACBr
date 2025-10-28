@@ -1353,6 +1353,13 @@ begin
           INIRec.WriteString(sSecao, 'Condicao', FpAOwner.CondicaoPagToStr(CondicaoPagamento.Parcelas.Items[I].Condicao));
 
         end;
+
+        // Reforma Tributária
+        if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+           (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+           (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+           (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
+          GerarINIIBSCBS(INIRec, NFSe.IBSCBS);
       end;
     end;
   finally
