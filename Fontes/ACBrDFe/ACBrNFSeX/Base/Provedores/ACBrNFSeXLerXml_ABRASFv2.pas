@@ -1102,6 +1102,9 @@ begin
   if AuxNode <> nil then
   begin
     NFSe.NfseSubstituidora := ObterConteudo(AuxNode.Childrens.FindAnyNs('NfseSubstituidora'), tcStr);
+
+    if NFSe.NfseSubstituidora <> '' then
+      NFSe.SituacaoNfse := snSubstituido;
   end;
 end;
 
