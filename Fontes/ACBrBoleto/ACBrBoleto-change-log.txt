@@ -49,6 +49,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 29/10/2025
+-- ACBrBoletoRet_BancoBrasil_API --
+[-] Correção do nossoNumero API devolvendo dv entre convenio e nossonumero.
+   ACBr-8296 https://discord.com/channels/798697718800318484/800736352420364320/1432315134692294716
+   Por Ederson Selvati
+   
+29/10/2025
 -- ACBrBancoSicoob, ACBrBoletoW_Sicoob_V3.pas --
 [*] Se Informado CodTransmissao (NumeroContrato), vai ser alimentado com ele na LinhaDigitvel e Barras 
    ACBr-8307 https://www.projetoacbr.com.br/forum/topic/86792-erro-c%C3%B3d-barrasdv-do-nosso-n%C3%BAmero-na-emiss%C3%A3o-via-sicoob-api-v3-para-carteira-9

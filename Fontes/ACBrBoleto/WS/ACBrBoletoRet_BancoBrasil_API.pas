@@ -198,10 +198,8 @@ begin
             ARetornoWS.DadosRet.IDBoleto.LinhaDig       := LJsonObject.AsString['codigoLinhaDigitavel'];
             ARetornoWS.DadosRet.IDBoleto.NossoNum       := LJsonObject.AsString['id'];
 
-            if EstaVazio(ARetornoWS.DadosRet.IDBoleto.NossoNum) and NaoEstaVazio(ARetornoWS.DadosRet.IDBoleto.LinhaDig) then
-              ARetornoWS.DadosRet.IDBoleto.NossoNum := '000'
-                                                      + Copy(ARetornoWS.DadosRet.IDBoleto.LinhaDig,12,7)
-                                                      + Copy(ARetornoWS.DadosRet.IDBoleto.LinhaDig,20,10);
+            if EstaVazio(ARetornoWS.DadosRet.IDBoleto.NossoNum) and NaoEstaVazio(ARetornoWS.DadosRet.IDBoleto.CodBarras) then
+              ARetornoWS.DadosRet.IDBoleto.NossoNum := '000'+Copy(ARetornoWS.DadosRet.IDBoleto.CodBarras,26,17);
 
             ARetornoWS.DadosRet.TituloRet.CodBarras     := ARetornoWS.DadosRet.IDBoleto.CodBarras;
             ARetornoWS.DadosRet.TituloRet.LinhaDig      := ARetornoWS.DadosRet.IDBoleto.LinhaDig;
