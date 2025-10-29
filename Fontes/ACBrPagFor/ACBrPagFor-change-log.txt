@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+29/10/2025
+-- ACBrPagForConversao.pas --
+[+] ACBR-5763 e 8311: Adicionado Celcoin e Money Plus
+  Por: Roberto Krug / Rev. Alexandre de Paula
+
 31/07/2025
 -- ACBrPagForClass/CNAB240.LerTxtRetorno/PagFor.Bradesco.LerTxtRetorno --
 [*] TK-7439: Alterações visando a leitura correta do Segmento Z.
