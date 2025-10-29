@@ -176,6 +176,7 @@ function TACBrBancoSicoob.MontarCodigoBarras(const ACBrTitulo : TACBrTitulo): St
 var
   CodigoBarras, FatorVencimento, DigitoCodBarras, ANossoNumero,ACarteira :String;
   CampoLivre : String;
+  LCodigoTransmissao : String;
 begin
 
     FatorVencimento := CalcularFatorVencimento(ACBrTitulo.Vencimento);
@@ -190,7 +191,13 @@ begin
     if ACarteira = '9' then
     begin
       {Montando Campo Livre - Nova Carteira}
-      CampoLivre    := PadLeft(trim(ACBrTitulo.ACBrBoleto.Cedente.CodigoCedente), 9, '0') +
+      LCodigoTransmissao := ACBrTitulo.ACBrBoleto.Cedente.CodigoTransmissao;
+      if EstaVazio(LCodigoTransmissao) then
+        LCodigoTransmissao := ACBrTitulo.ACBrBoleto.Cedente.CodigoCedente;
+
+      LCodigoTransmissao := PadLeft(Trim(LCodigoTransmissao), 9, '0');
+
+      CampoLivre    := LCodigoTransmissao +
                        PadLeft(Copy(ANossoNumero,1,9), 9, '0') +
                        PadLeft(trim(ACBrTitulo.ACBrBoleto.Cedente.Modalidade), 2, '0');
     end else

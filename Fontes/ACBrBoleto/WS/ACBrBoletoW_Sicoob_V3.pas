@@ -472,9 +472,9 @@ begin
 
     LJson.AddPair('gerarPdf',false);
     LJson.AddPair('codigoCadastrarPIX',StrToInt(IfThen(Boleto.Cedente.CedenteWS.IndicadorPix,'1','0')));
-    //LNumContrato := StrToIntDef(aTitulo.ACBrBoleto.Cedente.CodigoCedente, 0);
-    //if LNumContrato > 0 then
-    //  LJson.AddPair('numeroContratoCobranca',LNumContrato);
+    LNumContrato := StrToIntDef(aTitulo.ACBrBoleto.Cedente.CodigoTransmissao, 0);
+    if LNumContrato > 0 then
+      LJson.AddPair('numeroContratoCobranca',LNumContrato);
     FPDadosMsg := LJson.ToJSON;
   finally
     LJson.Free;
