@@ -5,7 +5,7 @@ const dotenv = require('dotenv')
 
 const ACBrLibPixCDMT = require('@projetoacbr/acbrlib-pixcd-node/dist/src').default
 const { PSP } = require('@projetoacbr/acbrlib-pixcd-node/dist/src')
-const acbrlibName = os.platform() === 'win32' ? 'ACBrLibPixCD64.dll' : 'libacbrpixcd64.so'
+const acbrlibName = os.platform() === 'win32' ? 'ACBrPIXCD64.dll' : 'libacbrpixcd64.so'
 
 const acbrLibPath = path.resolve(__dirname, 'libs', acbrlibName)
 const dataPath = path.resolve(__dirname, 'data')
@@ -28,7 +28,7 @@ function configuraSessaoPrincipal(pixcd) {
  * Cria as pastas necessárias para o funcionamento do app
  * Pastas: logs, data, libs
  */
-function inicializaPastasDoApp(){
+function inicializaPastasDoApp() {
     let dirs = [logPath, dataPath, path.resolve(__dirname, 'libs')]
     dirs.forEach(dir => {
         if (!fs.existsSync(dir)) {
@@ -72,6 +72,12 @@ function configuraSessaoPIXCD(pixcd) {
     pixcd.configGravarValor(psp, "ClientSecret", process.env.SECRET)
     pixcd.configGravarValor(psp, "DeveloperApplicationKey", process.env.APP_KEY)
     pixcd.configGravarValor(psp, "ChavePIX", process.env.CHAVE_PIX)
+
+
+    // novas aplicações usam A versão da api 2.0
+    // no acbrlib.ini a propriedade é BBAPIVersao (padrão 0 = v1.0 e 1 = v2.0)
+    pixcd.configGravarValor(psp, "BBAPIVersao", "1")
+
 
 }
 
@@ -117,25 +123,30 @@ function exemploCobrancaImediata() {
     let txId = ''
     let result = ''
     let pixcd = new ACBrLibPixCDMT(acbrLibPath, acbrlibIni, '')
-    
+
     console.log('Iniciando exemplo de cobrança imediata PIXCD')
     try {
         pixcd.inicializar()
         aplicarConfiguracoes(pixcd)
 
-        token = pixcd.informarToken(process.env.TOKEN, new Date()),// pixcd.gerarToken() 
-     //   token = pixcd.gerarToken()
+        // agora é possivel gerar token e informar token manualente (opcional)
+        // lembrar de guardar em local seguro o token e a data de expiração
+        //token = pixcd.gerarToken()
+
+        //use o metodo abaixo para informar um token já existente
+        //lembre-se de carregar seu token de um local seguro 
+        //token = pixcd.informarToken(process.env.TOKEN, new Date()),// pixcd.gerarToken() 
         txId = gerarTxId(26)
-        
+
         result = pixcd.criarCobrancaImediata(pathCobrancaImediadatIni, txId)
-        
+
         console.log('Token Gerado: ', token)
         console.log('Resultado Criação Cobranca: ', result)
         console.log('txId Gerado: ', txId)
 
         // consultar o status da cobrança
         result = pixcd.consultarCobrancaImediata(txId, 0)
-        console.log('Status da Cobranca: ',result)
+        console.log('Status da Cobranca: ', result)
 
     } catch (err) {
         console.error('Erro : ', err)
