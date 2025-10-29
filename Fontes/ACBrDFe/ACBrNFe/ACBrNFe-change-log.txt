@@ -44,6 +44,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+29/10/2025
+-- ACBrNFeWebServices/ACBrNFe.Conversao/pcnConversaoNFe --
+[*] Alguns eventos não estavam mapeados e quem vai recepcionar os eventos da 
+    Reforma Tributária é a SVRS.
+  Por: Microsys Sistemas
+
 28/10/2025
 -- ACBrNFe.Conversao/pcnConversaoNFe --
 [*] ACBR-8304 - A função de conversão StrToFormaPagamento não contemplava o enumerado:

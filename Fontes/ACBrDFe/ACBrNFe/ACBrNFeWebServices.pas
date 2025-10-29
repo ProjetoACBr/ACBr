@@ -3146,6 +3146,16 @@ begin
           else
             UF := CUFtoUF(ExtrairUFChaveAcesso(FEvento.Evento.Items[0].InfEvento.chNFe));
         end;
+
+      teCancGenerico, tePagIntegLibCredPresAdq, teImporALCZFM,
+        tePerecPerdaRouboFurtoTranspContratFornec, teFornecNaoRealizPagAntec,
+        teSolicApropCredPres, teDestItemConsPessoal, tePerecPerdaRouboFurtoTranspContratAqu,
+        teAceiteDebitoApuracaoNotaCredito, teImobilizacaoItem, teSolicApropCredCombustivel,
+        teSolicApropCredBensServicos, teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao:
+        begin
+          FPLayout := LayNFeEvento;
+          UF := 'SVRS';
+        end;
     end;
   end;
 

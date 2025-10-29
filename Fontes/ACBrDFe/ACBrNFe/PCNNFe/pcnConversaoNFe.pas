@@ -1624,19 +1624,21 @@ begin
                                'e111500', 'e111501', 'e111502', 'e111503',
                                'e210200', 'e210210', 'e210220', 'e210240',
                                'e110130', 'e110131', 'e110150', 'e110192',
-                               'e110193', 'e110750', 'e110751',
-                               'e211110', 'e211120', 'e211124',
-                               'e211128', 'e211130', 'e211140',
-                               'e211150'],
+                               'e110193', 'e110750', 'e110751', 'e112110',
+                               'e112120', 'e112130', 'e112140', 'e211110',
+                               'e211120', 'e211124', 'e211128', 'e211130',
+                               'e211140', 'e211150', 'e212110', 'e212120'],
     [schEnvCCe, schcancNFe, schCancSubst, schEnvEPEC,
      schPedProrrog1, schPedProrrog2, schCanPedProrrog1, schCanPedProrrog2,
      schManifDestConfirmacao, schManifDestCiencia, schManifDestDesconhecimento,
      schManifDestOperNaoRealizada, schCompEntrega, schCancCompEntrega,
      schAtorInteressadoNFe, schInsucessoEntregaNFe, schCancInsucessoEntregaNFe,
-     schConcFinanceira, schCancConcFinanceira,
-     schSolicApropCredPres, schDestItemConsPessoal, schPerecPerdaRouboFurtoTranspContratAqu,
-     schAceiteDebitoApuracaoNotaCredito, schImobilizacaoItem, schSolicApropCredCombustivel,
-     schSolicApropCredBensServicos]);
+     schConcFinanceira, schCancConcFinanceira, schPagIntegLibCredPresAdq,
+     schImporALCZFM, schPerecPerdaRouboFurtoTranspContratFornec,
+     schFornecNaoRealizPagAntec, schSolicApropCredPres, schDestItemConsPessoal,
+     schPerecPerdaRouboFurtoTranspContratAqu, schAceiteDebitoApuracaoNotaCredito,
+     schImobilizacaoItem, schSolicApropCredCombustivel, schSolicApropCredBensServicos,
+     schManifPedTransfCredIBSSucessao, schManifPedTransfCredCBSSucessao]);
 end;
 
 function AutorizacaoToStr(const t: TAutorizacao): string;
