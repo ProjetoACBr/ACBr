@@ -44,6 +44,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+29/10/2025
+-- ACBrCTe.IniReader, ACBrCTe.IniWriter --
+[-] ACBR-7997 - Ajuste visando corrigir problema na leitura de seção InfNFe com mais de 999 ocorrências
+  Por: Diego Folieni
 
 24/10/2025
 -- ACBrCTe.XMLReader --
