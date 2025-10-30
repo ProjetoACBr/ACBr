@@ -45,6 +45,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+30/10/2025
+-- ACBrNFe.EnvEvento --
+[*] Alguns eventos não funcionam sem acentos, alterado a condição que define que 
+    não deve remover os acentos.
+  Por: Italo Giurizzato Junior
+
 29/10/2025
 -- ACBrNFeWebServices/ACBrNFe.Conversao/pcnConversaoNFe --
 [*] Alguns eventos não estavam mapeados e quem vai recepcionar os eventos da 

@@ -938,7 +938,13 @@ begin
   Result.AppendChild(AddNode(tcStr, 'HP16', 'verEvento', 1, 4, 1, Versao));
 
 
-  if Evento[Idx].InfEvento.tpEvento in [teAtorInteressadoNFe, teCancConcFinanceira] then
+  if Evento[Idx].InfEvento.tpEvento in [teAtorInteressadoNFe, teCancConcFinanceira,
+       tePagIntegLibCredPresAdq, teImporALCZFM,
+       tePerecPerdaRouboFurtoTranspContratFornec, teFornecNaoRealizPagAntec,
+       teSolicApropCredPres, teDestItemConsPessoal,
+       tePerecPerdaRouboFurtoTranspContratAqu, teAceiteDebitoApuracaoNotaCredito,
+       teImobilizacaoItem, teSolicApropCredCombustivel,
+       teSolicApropCredBensServicos] then
     FOpcoes.RetirarAcentos := False;  // Não funciona sem acentos
 
   case Evento[Idx].InfEvento.tpEvento of
