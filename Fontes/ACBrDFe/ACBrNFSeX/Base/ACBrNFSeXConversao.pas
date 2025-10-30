@@ -594,10 +594,10 @@ const
     'Beneficios');
 
 type
-  TLayoutNFSe = (lnfsProvedor, lnfsPadraoNacionalv1);
+  TLayoutNFSe = (lnfsProvedor, lnfsPadraoNacionalv1, lnfsPadraoNacionalv101);
 
 const
-  TLayoutNFSeArrayStrings: array[TLayoutNFSe] of string = ('0', '1');
+  TLayoutNFSeArrayStrings: array[TLayoutNFSe] of string = ('0', '1', '2');
 
 type
   TNaoNIF = (tnnNaoInformado, tnnDispensado, tnnNaoExigencia);
@@ -13334,13 +13334,16 @@ end;
 function StrToLayoutNFSe(out ok: boolean; const s: string): TLayoutNFSe;
 begin
   Result := StrToEnumerado(OK, s,
-                           ['0', '1'],
-                           [lnfsProvedor, lnfsPadraoNacionalv1]);
+                           ['0', '1', '2'],
+                           [lnfsProvedor, lnfsPadraoNacionalv1,
+                            lnfsPadraoNacionalv101]);
 end;
 
 function LayoutNFSeToStr(const t: TLayoutNFSe): string;
 begin
-  Result := EnumeradoToStr(t, ['0', '1'], [lnfsProvedor, lnfsPadraoNacionalv1]);
+  Result := EnumeradoToStr(t, ['0', '1', '2'],
+                              [lnfsProvedor, lnfsPadraoNacionalv1,
+                               lnfsPadraoNacionalv101]);
 end;
 
 function StrToNaoNIF(out ok: boolean; const s: string): TNaoNIF;

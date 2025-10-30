@@ -885,6 +885,7 @@ procedure TACBrNFSeXProvider.CarregarURL;
 var
   IniParams: TMemIniFile;
   Sessao: String;
+  APIPropria: Boolean;
 begin
   IniParams := TMemIniFile.Create('');
 
@@ -898,6 +899,8 @@ begin
     begin
       // Primeiro verifica as URLs definidas para a cidade
       Sessao := IntToStr(Configuracoes.Geral.CodigoMunicipio);
+      APIPropria := IniParams.ReadString(Sessao, 'Params', '') = 'APIPropria:';
+
       ConfigWebServices.LoadUrlProducao(IniParams, Sessao);
       ConfigWebServices.LoadUrlHomologacao(IniParams, Sessao);
       ConfigWebServices.LoadLinkUrlProducao(IniParams, Sessao);
@@ -913,28 +916,28 @@ begin
 
       // Depois verifica as URLs definidas para o provedor
       if (ConfigWebServices.Producao.Recepcionar = '') or
-         (Configuracoes.Geral.Provedor = proPadraoNacional) then
+         ((Configuracoes.Geral.Provedor = proPadraoNacional) and not APIPropria) then
       begin
         Sessao := Configuracoes.Geral.xProvedor;
         ConfigWebServices.LoadUrlProducao(IniParams, Sessao);
       end;
 
       if (ConfigWebServices.Homologacao.Recepcionar = '') or
-         (Configuracoes.Geral.Provedor = proPadraoNacional) then
+         ((Configuracoes.Geral.Provedor = proPadraoNacional) and not APIPropria) then
       begin
         Sessao := Configuracoes.Geral.xProvedor;
         ConfigWebServices.LoadUrlHomologacao(IniParams, Sessao);
       end;
 
       if (ConfigWebServices.Producao.LinkURL = '') or
-         (Configuracoes.Geral.Provedor = proPadraoNacional) then
+         ((Configuracoes.Geral.Provedor = proPadraoNacional) and not APIPropria) then
       begin
         Sessao := Configuracoes.Geral.xProvedor;
         ConfigWebServices.LoadlinkUrlProducao(IniParams, Sessao);
       end;
 
       if (ConfigWebServices.Homologacao.LinkURL = '') or
-         (Configuracoes.Geral.Provedor = proPadraoNacional) then
+         ((Configuracoes.Geral.Provedor = proPadraoNacional) and not APIPropria) then
       begin
         Sessao := Configuracoes.Geral.xProvedor;
         ConfigWebServices.LoadLinkUrlHomologacao(IniParams, Sessao);

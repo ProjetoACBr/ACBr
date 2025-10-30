@@ -529,7 +529,7 @@ end;
 
 procedure TGeralConfNFSe.LerParamsMunicipio;
 var
-  Ok: Boolean;
+  Ok, APIProp: Boolean;
   CodIBGE: string;
   ACBrNFSeXLocal: TACBrNFSeX;
 begin
@@ -555,6 +555,8 @@ begin
   FxUF := FPIniParams.ReadString(CodIBGE, 'UF', '');
   FxProvedor := FPIniParams.ReadString(CodIBGE, 'Provedor', '');
   FVersao := StrToVersaoNFSe(Ok, FPIniParams.ReadString(CodIBGE, 'Versao', '1.00'));
+  APIProp := (FPIniParams.ReadString(CodIBGE, 'Params', '') = 'APIPropria:');
+
 
   if (FxMunicipio <> '') and (FxProvedor = '') and (FLayoutNFSe = lnfsProvedor) then
     raise EACBrNFSeException.Create('CodIBGE/Município: [' + CodIBGE +'/'+FxMunicipio +
@@ -566,6 +568,13 @@ begin
   begin
     FxProvedor := 'PadraoNacional';
     FVersao := ve100;
+    FProvedor := proPadraoNacional;
+  end;
+
+  if (FLayoutNFSe = lnfsPadraoNacionalv101) or APIProp then
+  begin
+    FxProvedor := 'PadraoNacional';
+    FVersao := ve101;
     FProvedor := proPadraoNacional;
   end;
 
