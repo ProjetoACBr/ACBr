@@ -43,7 +43,9 @@ uses
   ACBrDFe, ACBrDFeConfiguracoes, ACBrBase,
   ACBrCTeConfiguracoes, ACBrCTeWebServices, ACBrCTeConhecimentos,
   ACBrCTeDACTEClass, ACBrDFeException,
-  ACBrCTe.Classes, pcnConversao, pcteConversaoCTe,
+  ACBrCTe.Classes,
+  ACBrDFe.Conversao,
+  pcteConversaoCTe,
   ACBrCTe.EnvEvento, pcteInutCTe,
   ACBrDFeUtil;
 
@@ -96,10 +98,10 @@ type
     function LerVersaoDeParams(LayOutServico: TLayOutCTe): String; reintroduce; overload;
 
     function GetURLConsulta(const CUF: integer;
-      const TipoAmbiente: TpcnTipoAmbiente;
+      const TipoAmbiente: TACBrTipoAmbiente;
       const Versao: Double): String;
-    function GetURLQRCode(const CUF: integer; const TipoAmbiente: TpcnTipoAmbiente;
-      const TipoEmissao: TpcnTipoEmissao; const AChaveCTe: String;
+    function GetURLQRCode(const CUF: integer; const TipoAmbiente: TACBrTipoAmbiente;
+      const TipoEmissao: TACBrTipoEmissao; const AChaveCTe: String;
       const Versao: Double): String; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Utilize a função que recebe apenas um parâmetro' {$ENDIF};
     function GetURLQRCode(FCTe: TCTe): string; overload;
 
@@ -296,7 +298,7 @@ begin
 end;
 
 function TACBrCTe.GetURLConsulta(const CUF: integer;
-  const TipoAmbiente: TpcnTipoAmbiente; const Versao: Double): String;
+  const TipoAmbiente: TACBrTipoAmbiente; const Versao: Double): String;
 //var
 //  VersaoDFe: TVersaoCTe;
 //  ok: Boolean;
@@ -305,11 +307,11 @@ begin
   // devemos descomentar as linhas e trocar o zero da função abaixo pela variável
   // VersaoDFe
 //  VersaoDFe := DblToVersaoCTe(ok, Versao);
-  Result := LerURLDeParams('CTe', CUFtoUF(CUF), TipoAmbiente, 'URL-ConsultaCTe', 0);
+  Result := LerURLDeParams('CTe', CodigoUFparaUF(CUF), TipoAmbiente, 'URL-ConsultaCTe', 0);
 end;
 
 function TACBrCTe.GetURLQRCode(const CUF: integer;
-  const TipoAmbiente: TpcnTipoAmbiente; const TipoEmissao: TpcnTipoEmissao;
+  const TipoAmbiente: TACBrTipoAmbiente; const TipoEmissao: TACBrTipoEmissao;
   const AChaveCTe: String; const Versao: Double): String;
 var
   idCTe, sEntrada, urlUF, Passo2, sign: String;
@@ -318,7 +320,7 @@ begin
 //  VersaoDFe := DblToVersaoCTe(ok, Versao);  // Deixado para usu futuro
 
 
-  urlUF := LerURLDeParams('CTe', CUFtoUF(CUF), TipoAmbiente, 'URL-QRCode', 0);
+  urlUF := LerURLDeParams('CTe', CodigoUFparaUF(CUF), TipoAmbiente, 'URL-QRCode', 0);
 
   if Pos('?', urlUF) <= 0 then
     urlUF := urlUF + '?';
@@ -326,7 +328,7 @@ begin
   idCTe := OnlyNumber(AChaveCTe);
 
   // Passo 1
-  sEntrada := 'chCTe=' + idCTe + '&tpAmb=' + TpAmbToStr(TipoAmbiente);
+  sEntrada := 'chCTe=' + idCTe + '&tpAmb=' + TipoAmbienteToStr(TipoAmbiente);
 
   // Passo 2 calcular o SHA-1 da string idCTe se o Tipo de Emissão for EPEC ou FSDA
   if TipoEmissao in [teDPEC, teFSDA] then
@@ -350,7 +352,7 @@ begin
 //  VersaoDFe := DblToVersaoCTe(ok, FCTe.infCTe.Versao);  // Deixado para usu futuro
 
 
-  urlUF := LerURLDeParams('CTe', CUFtoUF(FCTe.Ide.cUF), FCTe.Ide.tpAmb, 'URL-QRCode', 0);
+  urlUF := LerURLDeParams('CTe', CodigoUFparaUF(FCTe.Ide.cUF), FCTe.Ide.tpAmb, 'URL-QRCode', 0);
 
   if Pos('?', urlUF) <= 0 then
     urlUF := urlUF + '?';
@@ -358,7 +360,7 @@ begin
   idCTe := OnlyNumber(FCTe.infCTe.ID);
 
   // Passo 1
-  sEntrada := 'chCTe=' + idCTe + '&tpAmb=' + TpAmbToStr(FCTe.Ide.tpAmb);
+  sEntrada := 'chCTe=' + idCTe + '&tpAmb=' + TipoAmbienteToStr(FCTe.Ide.tpAmb);
 
   // Passo 2 calcular o SHA-1 da string idCTe se o Tipo de Emissão for EPEC ou FSDA
   if FCTe.ide.tpEmis in [teDPEC, teFSDA] then
@@ -451,7 +453,7 @@ end;
 
 function TACBrCTe.IdentificaSchema(const AXML: String): TSchemaCTe;
 var
- lTipoEvento: TpcnTpEvento;
+ lTipoEvento: TACBrTipoEvento;
  I: Integer;
  Ok: Boolean;
 begin

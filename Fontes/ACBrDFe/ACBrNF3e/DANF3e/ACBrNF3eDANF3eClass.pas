@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes, ACBrBase,
-  ACBrNF3eClass, pcnConversao, ACBrDFeReport;
+  ACBrDFe.Conversao,
+  ACBrNF3eClass, ACBrDFeReport;
 
 type
 
@@ -56,7 +57,7 @@ type
 
   protected
     FACBrNF3e: TComponent;
-    FTipoDANF3e: TpcnTipoImpressao;
+    FTipoDANF3e: TACBrTipoImpressao;
     FProtocolo: String;
     FCancelada: Boolean;
     FViaConsumidor: Boolean;
@@ -78,12 +79,12 @@ type
     function CaractereQuebraDeLinha: String;
 
   published
-    property ACBrNF3e: TComponent          read FACBrNF3e            write SetACBrNF3e;
-    property TipoDANF3e: TpcnTipoImpressao read FTipoDANF3e          write FTipoDANF3e;
-    property Protocolo: String             read FProtocolo           write FProtocolo;
-    property Cancelada: Boolean            read FCancelada           write FCancelada;
-    property ViaConsumidor: Boolean        read FViaConsumidor       write FViaConsumidor;
-    property ImprimeNomeFantasia: Boolean  read FImprimeNomeFantasia write FImprimeNomeFantasia;
+    property ACBrNF3e: TComponent           read FACBrNF3e            write SetACBrNF3e;
+    property TipoDANF3e: TACBrTipoImpressao read FTipoDANF3e          write FTipoDANF3e;
+    property Protocolo: String              read FProtocolo           write FProtocolo;
+    property Cancelada: Boolean             read FCancelada           write FCancelada;
+    property ViaConsumidor: Boolean         read FViaConsumidor       write FViaConsumidor;
+    property ImprimeNomeFantasia: Boolean   read FImprimeNomeFantasia write FImprimeNomeFantasia;
   end;
 
 implementation

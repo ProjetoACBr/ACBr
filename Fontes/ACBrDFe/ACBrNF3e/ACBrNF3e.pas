@@ -43,7 +43,6 @@ uses
   ACBrDFe.Conversao,
   ACBrNF3eConfiguracoes, ACBrNF3eWebServices, ACBrNF3eNotasFiscais,
   ACBrNF3eDANF3eClass,
-  pcnConversao,
   ACBrNF3eClass, ACBrNF3eConversao, ACBrNF3eEnvEvento;
 
 const
@@ -395,7 +394,7 @@ begin
   VersaoDFe := DblToVersaoNF3e(Versao);
   VersaoQrCode := AjustarVersaoQRCode(Configuracoes.Geral.VersaoQRCode, VersaoDFe);
 
-  Result := LerURLDeParams('NF3e', CUFtoUF(CUF), TpcnTipoAmbiente(TipoAmbiente),
+  Result := LerURLDeParams('NF3e', CodigoUFparaUF(CUF), TipoAmbiente,
     'URL-ConsultaNF3e', VersaoQrCodeToDbl(VersaoQrCode));
 end;
 
@@ -408,7 +407,7 @@ begin
   VersaoDFe := DblToVersaoNF3e(FNF3e.infNF3e.Versao);
   VersaoQrCode := AjustarVersaoQRCode(Configuracoes.Geral.VersaoQRCode, VersaoDFe);
 
-  urlUF := LerURLDeParams('NF3e', CUFtoUF(FNF3e.Ide.cUF), TpcnTipoAmbiente(FNF3e.Ide.tpAmb),
+  urlUF := LerURLDeParams('NF3e', CodigoUFparaUF(FNF3e.Ide.cUF), FNF3e.Ide.tpAmb,
     'URL-QRCode', VersaoQrCodeToDbl(VersaoQrCode));
 
   if Pos('?', urlUF) <= 0 then
@@ -420,7 +419,7 @@ begin
   sEntrada := 'chNF3e=' + idNF3e + '&tpAmb=' + TipoAmbienteToStr(FNF3e.Ide.tpAmb);
 
   // Passo 2 calcular o SHA-1 da string idCTe se o Tipo de Emissão for EPEC ou FSDA
-  if TpcnTipoEmissao(FNF3e.Ide.tpEmis) = teOffLine then
+  if FNF3e.Ide.tpEmis = teOffLine then
   begin
     // Tipo de Emissão em Contingência
     SSL.CarregarCertificadoSeNecessario;
@@ -575,7 +574,7 @@ begin
     if EventoNF3e.Evento.Items[i].infEvento.nSeqEvento = 0 then
       EventoNF3e.Evento.Items[i].infEvento.nSeqEvento := 1;
 
-    FEventoNF3e.Evento.Items[i].InfEvento.tpAmb := TACBrTipoAmbiente(Configuracoes.WebServices.Ambiente);
+    FEventoNF3e.Evento.Items[i].InfEvento.tpAmb := Configuracoes.WebServices.Ambiente;
 
     if NotasFiscais.Count > 0 then
     begin

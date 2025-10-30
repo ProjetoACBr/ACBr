@@ -38,7 +38,6 @@ interface
 
 uses
   Classes, SysUtils, synacode,
-  pcnConversao,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrDFe, ACBrDFeWebService,
@@ -88,7 +87,7 @@ type
   TCTeStatusServico = Class(TCTeWebService)
   private
     Fversao: String;
-    FtpAmb: TpcnTipoAmbiente;
+    FtpAmb: TACBrTipoAmbiente;
     FverAplic: String;
     FcStat: Integer;
     FxMotivo: String;
@@ -108,16 +107,16 @@ type
   public
     procedure Clear; override;
 
-    property versao: String          read Fversao;
-    property tpAmb: TpcnTipoAmbiente read FtpAmb;
-    property verAplic: String        read FverAplic;
-    property cStat: Integer          read FcStat;
-    property xMotivo: String         read FxMotivo;
-    property cUF: Integer            read FcUF;
-    property dhRecbto: TDateTime     read FdhRecbto;
-    property TMed: Integer           read FTMed;
-    property dhRetorno: TDateTime    read FdhRetorno;
-    property xObs: String            read FxObs;
+    property versao: String           read Fversao;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb;
+    property verAplic: String         read FverAplic;
+    property cStat: Integer           read FcStat;
+    property xMotivo: String          read FxMotivo;
+    property cUF: Integer             read FcUF;
+    property dhRecbto: TDateTime      read FdhRecbto;
+    property TMed: Integer            read FTMed;
+    property dhRetorno: TDateTime     read FdhRetorno;
+    property xObs: String             read FxObs;
   end;
 
   { TCTeRecepcao }
@@ -128,7 +127,7 @@ type
     FRecibo: String;
     FConhecimentos: TConhecimentos;
     Fversao: String;
-    FTpAmb: TpcnTipoAmbiente;
+    FTpAmb: TACBrTipoAmbiente;
     FverAplic: String;
     FcStat: Integer;
     FcUF: Integer;
@@ -163,7 +162,7 @@ type
 
     property Recibo: String read GetRecibo;
     property versao: String read Fversao;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property TpAmb: TACBrTipoAmbiente read FTpAmb;
     property verAplic: String read FverAplic;
     property cStat: Integer read FcStat;
     property cUF: Integer read FcUF;
@@ -187,7 +186,7 @@ type
     FChaveCTe: String;
     FConhecimentos: TConhecimentos;
     Fversao: String;
-    FTpAmb: TpcnTipoAmbiente;
+    FTpAmb: TACBrTipoAmbiente;
     FverAplic: String;
     FcStat: Integer;
     FcUF: Integer;
@@ -219,7 +218,7 @@ type
     function Executar: Boolean; override;
 
     property versao: String read Fversao;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property TpAmb: TACBrTipoAmbiente read FTpAmb;
     property verAplic: String read FverAplic;
     property cStat: Integer read FcStat;
     property cUF: Integer read FcUF;
@@ -240,7 +239,7 @@ type
     FConhecimentos: TConhecimentos;
     FRecibo: String;
     Fversao: String;
-    FTpAmb: TpcnTipoAmbiente;
+    FTpAmb: TACBrTipoAmbiente;
     FverAplic: String;
     FcStat: Integer;
     FxMotivo: String;
@@ -265,7 +264,7 @@ type
     procedure Clear; override;
 
     property versao: String read Fversao;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property TpAmb: TACBrTipoAmbiente read FTpAmb;
     property verAplic: String read FverAplic;
     property cStat: Integer read FcStat;
     property xMotivo: String read FxMotivo;
@@ -289,7 +288,7 @@ type
     FDhRecbto: TDateTime;
     FXMotivo: String;
     Fversao: String;
-    FTpAmb: TpcnTipoAmbiente;
+    FTpAmb: TACBrTipoAmbiente;
     FverAplic: String;
     FcStat: Integer;
     FcUF: Integer;
@@ -321,7 +320,7 @@ type
     property DhRecbto: TDateTime read FDhRecbto;
     property XMotivo: String read FXMotivo;
     property versao: String read Fversao;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property TpAmb: TACBrTipoAmbiente read FTpAmb;
     property verAplic: String read FverAplic;
     property cStat: Integer read FcStat;
     property cUF: Integer read FcUF;
@@ -346,7 +345,7 @@ type
     FNumeroFinal: Integer;
     FJustificativa: String;
     Fversao: String;
-    FTpAmb: TpcnTipoAmbiente;
+    FTpAmb: TACBrTipoAmbiente;
     FverAplic: String;
     FcStat: Integer;
     FxMotivo: String;
@@ -379,7 +378,7 @@ type
     property NumeroFinal: Integer read FNumeroFinal write FNumeroFinal;
     property Justificativa: String read FJustificativa write SetJustificativa;
     property versao: String read Fversao;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property TpAmb: TACBrTipoAmbiente read FTpAmb;
     property verAplic: String read FverAplic;
     property cStat: Integer read FcStat;
     property xMotivo: String read FxMotivo;
@@ -450,7 +449,7 @@ type
     FEvento: TEventoCTe;
     FcStat: Integer;
     FxMotivo: String;
-    FTpAmb: TpcnTipoAmbiente;
+    FTpAmb: TACBrTipoAmbiente;
     FCNPJ: String;
     FIE: String;
 
@@ -475,7 +474,7 @@ type
     property idLote: Int64 read FidLote write FidLote;
     property cStat: Integer read FcStat;
     property xMotivo: String read FxMotivo;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property TpAmb: TACBrTipoAmbiente read FTpAmb;
 
     property EventoRetorno: TRetEventoCTe read FEventoRetorno;
   end;
@@ -755,7 +754,7 @@ begin
     CTeRetorno.LerXml;
 
     Fversao := CTeRetorno.versao;
-    FtpAmb := TpcnTipoAmbiente(CTeRetorno.tpAmb);
+    FtpAmb := CTeRetorno.tpAmb;
     FverAplic := CTeRetorno.verAplic;
     FcStat := CTeRetorno.cStat;
     FxMotivo := CTeRetorno.xMotivo;
@@ -764,7 +763,7 @@ begin
     FTMed := CTeRetorno.TMed;
     FdhRetorno := CTeRetorno.dhRetorno;
     FxObs := CTeRetorno.xObs;
-    FPMsg := FxMotivo + LineBreak + FxObs;
+    FPMsg := FxMotivo + sLineBreak + FxObs;
 
     if FPConfiguracoesCTe.WebServices.AjustaAguardaConsultaRet then
       FPConfiguracoesCTe.WebServices.AguardarConsultaRet := FTMed * 1000;
@@ -778,17 +777,17 @@ end;
 
 function TCTeStatusServico.GerarMsgLog: String;
 begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s' + LineBreak +
-                           'Status Descrição: %s' + LineBreak +
-                           'UF: %s' + LineBreak +
-                           'Recebimento: %s' + LineBreak +
-                           'Tempo Médio: %s' + LineBreak +
-                           'Retorno: %s' + LineBreak +
-                           'Observação: %s' + LineBreak),
-                   [Fversao, TpAmbToStr(FtpAmb), FverAplic, IntToStr(FcStat),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s' + sLineBreak +
+                           'Status Descrição: %s' + sLineBreak +
+                           'UF: %s' + sLineBreak +
+                           'Recebimento: %s' + sLineBreak +
+                           'Tempo Médio: %s' + sLineBreak +
+                           'Retorno: %s' + sLineBreak +
+                           'Observação: %s' + sLineBreak),
+                   [Fversao, TipoAmbienteToStr(FtpAmb), FverAplic, IntToStr(FcStat),
                     FxMotivo, CodigoUFparaUF(FcUF),
                     IfThen(FdhRecbto = 0, '', FormatDateTimeBr(FdhRecbto)),
                     IntToStr(FTMed),
@@ -798,7 +797,7 @@ end;
 
 function TCTeStatusServico.GerarMsgErro(E: Exception): String;
 begin
-  Result := ACBrStr('WebService Consulta Status serviço:' + LineBreak +
+  Result := ACBrStr('WebService Consulta Status serviço:' + sLineBreak +
                     '- Inativo ou Inoperante tente novamente.');
 end;
 
@@ -961,7 +960,7 @@ begin
     teSVCRS: xUF := 'SVC-RS';
     teSVCSP: xUF := 'SVC-SP';
   else
-    xUF := CUFtoUF(FcUF);
+    xUF := CodigoUFparaUF(FcUF);
   end;
 
   TACBrCTe(FPDFeOwner).LerServicoDeParams(
@@ -1266,7 +1265,7 @@ begin
           FCTeRetorno.LerXml;
 
           Fversao := FCTeRetorno.versao;
-          FTpAmb := TpcnTipoAmbiente(FCTeRetorno.TpAmb);
+          FTpAmb := FCTeRetorno.TpAmb;
           FverAplic := FCTeRetorno.verAplic;
           FcStat := FCTeRetorno.cStat;
           FxMotivo := FCTeRetorno.xMotivo;
@@ -1422,16 +1421,16 @@ begin
   if FPConfiguracoesCTe.Geral.ModeloDF = moCTe then
   begin
     if Sincrono then
-      Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                             'Ambiente: %s ' + LineBreak +
-                             'Versão Aplicativo: %s ' + LineBreak +
-                             'Status Código: %s ' + LineBreak +
-                             'Status Descrição: %s ' + LineBreak +
+      Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                             'Ambiente: %s ' + sLineBreak +
+                             'Versão Aplicativo: %s ' + sLineBreak +
+                             'Status Código: %s ' + sLineBreak +
+                             'Status Descrição: %s ' + sLineBreak +
                              'UF: %s ' + sLineBreak +
                              'dhRecbto: %s ' + sLineBreak +
-                             'chCTe: %s ' + LineBreak),
+                             'chCTe: %s ' + sLineBreak),
                        [FCTeRetornoSincrono.versao,
-                        TpAmbToStr(FCTeRetornoSincrono.TpAmb),
+                        TipoAmbienteToStr(FCTeRetornoSincrono.TpAmb),
                         FCTeRetornoSincrono.verAplic,
                         IntToStr(IfThen(FCTeRetornoSincrono.protCTe.cStat = 0,
                                         FCTeRetornoSincrono.cStat,
@@ -1441,15 +1440,15 @@ begin
                         FormatDateTimeBr(FCTeRetornoSincrono.protCTe.dhRecbto),
                         FCTeRetornoSincrono.chCTe])
     else
-      Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                               'Ambiente: %s ' + LineBreak +
-                               'Versão Aplicativo: %s ' + LineBreak +
-                               'Status Código: %s ' + LineBreak +
-                               'Status Descrição: %s ' + LineBreak +
+      Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                               'Ambiente: %s ' + sLineBreak +
+                               'Versão Aplicativo: %s ' + sLineBreak +
+                               'Status Código: %s ' + sLineBreak +
+                               'Status Descrição: %s ' + sLineBreak +
                                'UF: %s ' + sLineBreak +
-                               'Recibo: %s ' + LineBreak +
-                               'Recebimento: %s ' + LineBreak +
-                               'Tempo Médio: %s ' + LineBreak),
+                               'Recibo: %s ' + sLineBreak +
+                               'Recebimento: %s ' + sLineBreak +
+                               'Tempo Médio: %s ' + sLineBreak),
                        [FCTeRetorno.versao,
                         TipoAmbienteToStr(FCTeRetorno.TpAmb),
                         FCTeRetorno.verAplic,
@@ -1462,16 +1461,16 @@ begin
                         IntToStr(FCTeRetorno.InfRec.TMed)])
   end
   else
-    Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                             'Ambiente: %s ' + LineBreak +
-                             'Versão Aplicativo: %s ' + LineBreak +
-                             'Status Código: %s ' + LineBreak +
-                             'Status Descrição: %s ' + LineBreak +
+    Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                             'Ambiente: %s ' + sLineBreak +
+                             'Versão Aplicativo: %s ' + sLineBreak +
+                             'Status Código: %s ' + sLineBreak +
+                             'Status Descrição: %s ' + sLineBreak +
                              'UF: %s ' + sLineBreak +
                              'dhRecbto: %s ' + sLineBreak +
-                             'chCTe: %s ' + LineBreak),
+                             'chCTe: %s ' + sLineBreak),
                      [FCTeRetornoSincrono.versao,
-                      TpAmbToStr(FCTeRetornoSincrono.TpAmb),
+                      TipoAmbienteToStr(FCTeRetornoSincrono.TpAmb),
                       FCTeRetornoSincrono.verAplic,
                       IntToStr(FCTeRetornoSincrono.cStat),
                       FCTeRetornoSincrono.xMotivo,
@@ -1655,7 +1654,7 @@ begin
     teSVCRS: xUF := 'SVC-RS';
     teSVCSP: xUF := 'SVC-SP';
   else
-    xUF := CUFtoUF(FcUF);
+    xUF := CodigoUFparaUF(FcUF);
   end;
 
   TACBrCTe(FPDFeOwner).LerServicoDeParams(
@@ -1822,7 +1821,7 @@ begin
   begin
     if not FConhecimentos.Items[I].Confirmado then
     begin
-      FPMsg := ACBrStr('Conhecimento(s) não confirmados:') + LineBreak;
+      FPMsg := ACBrStr('Conhecimento(s) não confirmados:') + sLineBreak;
       break;
     end;
   end;
@@ -1832,7 +1831,7 @@ begin
   begin
     if not FConhecimentos.Items[I].Confirmado then
       FPMsg := FPMsg + IntToStr(FConhecimentos.Items[I].CTe.Ide.nCT) +
-        '->' + IntToStr(FConhecimentos.Items[I].cStat) + '-' + FConhecimentos.Items[I].Msg + LineBreak;
+        '->' + IntToStr(FConhecimentos.Items[I].cStat) + '-' + FConhecimentos.Items[I].Msg + sLineBreak;
   end;
 
   if AInfProt.Count > 0 then
@@ -1850,16 +1849,16 @@ end;
 
 function TCTeRetRecepcao.GerarMsgLog: String;
 begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Recibo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'UF: %s ' + LineBreak +
-                           'cMsg: %s ' + LineBreak +
-                           'xMsg: %s ' + LineBreak),
-                   [FCTeRetorno.versao, TpAmbToStr(FCTeRetorno.tpAmb),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Recibo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'UF: %s ' + sLineBreak +
+                           'cMsg: %s ' + sLineBreak +
+                           'xMsg: %s ' + sLineBreak),
+                   [FCTeRetorno.versao, TipoAmbienteToStr(FCTeRetorno.tpAmb),
                     FCTeRetorno.verAplic, FCTeRetorno.nRec,
                     IntToStr(FCTeRetorno.cStat), FCTeRetorno.xMotivo,
                     CodigoUFparaUF(FCTeRetorno.cUF), IntToStr(FCTeRetorno.cMsg),
@@ -1976,7 +1975,7 @@ begin
     teSVCRS: xUF := 'SVC-RS';
     teSVCSP: xUF := 'SVC-SP';
   else
-    xUF := CUFtoUF(FcUF);
+    xUF := CodigoUFparaUF(FcUF);
   end;
 
   TACBrCTe(FPDFeOwner).LerServicoDeParams(
@@ -2034,14 +2033,14 @@ end;
 
 function TCTeRecibo.GerarMsgLog: String;
 begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Recibo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'UF: %s ' + LineBreak),
-                   [FCTeRetorno.versao, TpAmbToStr(FCTeRetorno.TpAmb),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Recibo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'UF: %s ' + sLineBreak),
+                   [FCTeRetorno.versao, TipoAmbienteToStr(FCTeRetorno.TpAmb),
                    FCTeRetorno.verAplic, FCTeRetorno.nRec,
                    IntToStr(FCTeRetorno.cStat),
                    FCTeRetorno.xMotivo,
@@ -2145,7 +2144,7 @@ begin
     teSVCRS: xUF := 'SVC-RS';
     teSVCSP: xUF := 'SVC-SP';
   else
-    xUF := CUFtoUF(FcUF);
+    xUF := CodigoUFparaUF(FcUF);
   end;
 
   TACBrCTe(FPDFeOwner).LerServicoDeParams(
@@ -2200,7 +2199,7 @@ var
   aIDEvento, sPathEvento, sCNPJCPF: string;
   DhEvt: TDateTime;
   i, Inicio, Fim: Integer;
-  TipoEvento: TpcnTpEvento;
+  TipoEvento: TACBrTipoEvento;
   Ok: Boolean;
 begin
   for i := 0 to Retorno.procEventoCTe.Count - 1 do
@@ -2297,7 +2296,7 @@ begin
     FprotCTe.PathCTe := CTeRetorno.protCTe.PathDFe;
     FprotCTe.PathRetConsReciCTe := CTeRetorno.protCTe.PathRetConsReciDFe;
     FprotCTe.PathRetConsSitCTe := CTeRetorno.protCTe.PathRetConsSitDFe;
-    FprotCTe.tpAmb := TpcnTipoAmbiente(CTeRetorno.protCTe.tpAmb);
+    FprotCTe.tpAmb := CTeRetorno.protCTe.tpAmb;
     FprotCTe.verAplic := CTeRetorno.protCTe.verAplic;
     FprotCTe.chCTe := CTeRetorno.protCTe.chDFe;
     FprotCTe.dhRecbto := CTeRetorno.protCTe.dhRecbto;
@@ -2315,9 +2314,9 @@ begin
     if Assigned(CTeRetorno.procEventoCTe) and (CTeRetorno.procEventoCTe.Count > 0) then
     begin
       aEventos := '=====================================================' +
-        LineBreak + '================== Eventos da CT-e ==================' +
-        LineBreak + '=====================================================' +
-        LineBreak + '' + LineBreak + 'Quantidade total de eventos: ' +
+        sLineBreak + '================== Eventos da CT-e ==================' +
+        sLineBreak + '=====================================================' +
+        sLineBreak + '' + sLineBreak + 'Quantidade total de eventos: ' +
         IntToStr(CTeRetorno.procEventoCTe.Count);
 
       FprocEventoCTe.Clear;
@@ -2383,13 +2382,13 @@ begin
         begin
           for j := 0 to retEvento.Count -1 do
           begin
-            aEventos := aEventos + LineBreak + LineBreak +
-              Format(ACBrStr('Número de sequência: %s ' + LineBreak +
-                             'Código do evento: %s ' + LineBreak +
-                             'Descrição do evento: %s ' + LineBreak +
-                             'Status do evento: %s ' + LineBreak +
-                             'Descrição do status: %s ' + LineBreak +
-                             'Protocolo: %s ' + LineBreak +
+            aEventos := aEventos + sLineBreak + sLineBreak +
+              Format(ACBrStr('Número de sequência: %s ' + sLineBreak +
+                             'Código do evento: %s ' + sLineBreak +
+                             'Descrição do evento: %s ' + sLineBreak +
+                             'Status do evento: %s ' + sLineBreak +
+                             'Descrição do status: %s ' + sLineBreak +
+                             'Protocolo: %s ' + sLineBreak +
                              'Data/Hora do registro: %s '),
                      [IntToStr(retEvento.Items[J].RetInfEvento.nSeqEvento),
                       TpEventoToStr(retEvento.Items[J].RetInfEvento.TpEvento),
@@ -2555,18 +2554,18 @@ end;
 
 function TCTeConsulta.GerarMsgLog: String;
 begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Identificador: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'UF: %s ' + LineBreak +
-                           'Chave Acesso: %s ' + LineBreak +
-                           'Recebimento: %s ' + LineBreak +
-                           'Protocolo: %s ' + LineBreak +
-                           'Digest Value: %s ' + LineBreak),
-                   [Fversao, FCTeChave, TpAmbToStr(FTpAmb), FverAplic,
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Identificador: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'UF: %s ' + sLineBreak +
+                           'Chave Acesso: %s ' + sLineBreak +
+                           'Recebimento: %s ' + sLineBreak +
+                           'Protocolo: %s ' + sLineBreak +
+                           'Digest Value: %s ' + sLineBreak),
+                   [Fversao, FCTeChave, TipoAmbienteToStr(FTpAmb), FverAplic,
                     IntToStr(FcStat), FXMotivo, CodigoUFparaUF(FcUF), FCTeChave,
                     FormatDateTimeBr(FDhRecbto), FProtocolo, FprotCTe.digVal]);
 end;
@@ -2747,14 +2746,14 @@ end;
 
 function TCTeInutilizacao.GerarMsgLog: String;
 begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'UF: %s ' + LineBreak +
-                           'Recebimento: %s ' + LineBreak),
-                   [Fversao, TpAmbToStr(FTpAmb), FverAplic, IntToStr(FcStat),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'UF: %s ' + sLineBreak +
+                           'Recebimento: %s ' + sLineBreak),
+                   [Fversao, TipoAmbienteToStr(FTpAmb), FverAplic, IntToStr(FcStat),
                     FxMotivo, CodigoUFparaUF(FcUF),
                     IfThen(FdhRecbto = 0, '', FormatDateTimeBr(FdhRecbto))]);
 end;
@@ -2964,11 +2963,11 @@ end;
 
 function TCTeConsultaCadastro.GerarMsgLog: String;
 begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'UF: %s ' + LineBreak +
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'UF: %s ' + sLineBreak +
                            'Consulta: %s ' + sLineBreak),
                    [FRetConsCad.versao, FRetConsCad.verAplic,
                    IntToStr(FRetConsCad.cStat), FRetConsCad.xMotivo,
@@ -3062,7 +3061,7 @@ begin
     teSVCRS: UF := 'SVC-RS';
     teSVCSP: UF := 'SVC-SP';
   else
-    UF := CUFtoUF(ExtrairUFChaveAcesso(FEvento.Evento.Items[0].InfEvento.chCTe));
+    UF := CodigoUFparaUF(ExtrairUFChaveAcesso(FEvento.Evento.Items[0].InfEvento.chCTe));
   end;
 
   { Verificação necessária pois somente os eventos de CCe, Cancelamento,
@@ -3576,17 +3575,17 @@ function TCTeEnvEvento.GerarMsgLog: String;
 var
   aMsg: String;
 begin
-  aMsg := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                         'Ambiente: %s ' + LineBreak +
-                         'Versão Aplicativo: %s ' + LineBreak +
-                         'Status Código: %s ' + LineBreak +
-                         'Status Descrição: %s ' + LineBreak),
-                 [FEventoRetorno.versao, TpAmbToStr(FEventoRetorno.tpAmb),
+  aMsg := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                         'Ambiente: %s ' + sLineBreak +
+                         'Versão Aplicativo: %s ' + sLineBreak +
+                         'Status Código: %s ' + sLineBreak +
+                         'Status Descrição: %s ' + sLineBreak),
+                 [FEventoRetorno.versao, TipoAmbienteToStr(FEventoRetorno.tpAmb),
                   FEventoRetorno.verAplic, IntToStr(FEventoRetorno.cStat),
                   FEventoRetorno.xMotivo]);
 
   if FEventoRetorno.retEvento.Count > 0 then
-    aMsg := aMsg + Format(ACBrStr('Recebimento: %s ' + LineBreak),
+    aMsg := aMsg + Format(ACBrStr('Recebimento: %s ' + sLineBreak),
        [IfThen(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento = 0, '',
                FormatDateTimeBr(FEventoRetorno.retEvento.Items[0].RetInfEvento.dhRegEvento))]);
 
@@ -3774,15 +3773,15 @@ end;
 
 function TDistribuicaoDFe.GerarMsgLog: String;
 begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'Resposta: %s ' + LineBreak +
-                           'Último NSU: %s ' + LineBreak +
-                           'Máximo NSU: %s ' + LineBreak),
-                   [FretDistDFeInt.versao, TpAmbToStr(FretDistDFeInt.tpAmb),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'Resposta: %s ' + sLineBreak +
+                           'Último NSU: %s ' + sLineBreak +
+                           'Máximo NSU: %s ' + sLineBreak),
+                   [FretDistDFeInt.versao, TipoAmbienteToStr(FretDistDFeInt.tpAmb),
                     FretDistDFeInt.verAplic, IntToStr(FretDistDFeInt.cStat),
                     FretDistDFeInt.xMotivo,
                     IfThen(FretDistDFeInt.dhResp = 0, '',
@@ -3792,7 +3791,7 @@ end;
 
 function TDistribuicaoDFe.GerarMsgErro(E: Exception): String;
 begin
-  Result := ACBrStr('WebService Distribuição de DFe:' + LineBreak +
+  Result := ACBrStr('WebService Distribuição de DFe:' + sLineBreak +
                     '- Inativo ou Inoperante tente novamente.');
 end;
 
@@ -3888,7 +3887,7 @@ end;
 
 function TCTeEnvioWebService.GerarMsgErro(E: Exception): String;
 begin
-  Result := ACBrStr('WebService: '+FPServico + LineBreak +
+  Result := ACBrStr('WebService: '+FPServico + sLineBreak +
                     '- Inativo ou Inoperante tente novamente.');
 end;
 

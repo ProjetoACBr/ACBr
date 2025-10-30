@@ -44,7 +44,7 @@ unit ACBrDFeReport;
 interface
 
 uses
-  Classes, SysUtils, ACBrBase, ACBrDFe.Conversao, pcnConversao;
+  Classes, SysUtils, ACBrBase, ACBrDFe.Conversao;
 
 type
 

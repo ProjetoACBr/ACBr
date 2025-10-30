@@ -45,7 +45,7 @@ uses
   {$ELSE}
   Graphics, Controls, Forms, Dialogs, ExtCtrls,
   {$ENDIF}
-  ACBrCTe.Classes, pcnConversao, ACBrCTe, ACBrCTeDAInutRL,
+  ACBrCTe.Classes, ACBrDFe.Conversao, ACBrCTe, ACBrCTeDAInutRL,
   RLReport, RLFilters, RLPrinters, RLPDFFilter, RLConsts,
   {$IFDEF BORLAND} DBClient, {$ELSE} BufDataset, {$ENDIF} DB;
 

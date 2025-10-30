@@ -41,7 +41,6 @@ uses
   blcksock, synacode,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversao,
   ACBrDFe, ACBrDFeWebService,
   ACBrDFeComum.RetConsReciDFe,
   ACBrDFeComum.Proc,
@@ -86,7 +85,7 @@ type
   TNF3eStatusServico = class(TNF3eWebService)
   private
     Fversao: String;
-    FtpAmb: TpcnTipoAmbiente;
+    FtpAmb: TACBrTipoAmbiente;
     FverAplic: String;
     FcStat: integer;
     FxMotivo: String;
@@ -106,7 +105,7 @@ type
     procedure Clear; override;
 
     property versao: String read Fversao;
-    property tpAmb: TpcnTipoAmbiente read FtpAmb;
+    property tpAmb: TACBrTipoAmbiente read FtpAmb;
     property verAplic: String read FverAplic;
     property cStat: integer read FcStat;
     property xMotivo: String read FxMotivo;
@@ -125,7 +124,7 @@ type
     FRecibo: String;
     FNotasFiscais: TNotasFiscais;
     Fversao: String;
-    FTpAmb: TpcnTipoAmbiente;
+    FTpAmb: TACBrTipoAmbiente;
     FverAplic: String;
     FcStat: integer;
     FcUF: integer;
@@ -158,7 +157,7 @@ type
 
     property Recibo: String read GetRecibo;
     property versao: String read Fversao;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property TpAmb: TACBrTipoAmbiente read FTpAmb;
     property verAplic: String read FverAplic;
     property cStat: integer read FcStat;
     property cUF: integer read FcUF;
@@ -234,7 +233,7 @@ type
     FNotasFiscais: TNotasFiscais;
     FRecibo: String;
     Fversao: String;
-    FTpAmb: TpcnTipoAmbiente;
+    FTpAmb: TACBrTipoAmbiente;
     FverAplic: String;
     FcStat: integer;
     FxMotivo: String;
@@ -259,7 +258,7 @@ type
     procedure Clear; override;
 
     property versao: String read Fversao;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property TpAmb: TACBrTipoAmbiente read FTpAmb;
     property verAplic: String read FverAplic;
     property cStat: integer read FcStat;
     property xMotivo: String read FxMotivo;
@@ -283,7 +282,7 @@ type
     FDhRecbto: TDateTime;
     FXMotivo: String;
     Fversao: String;
-    FTpAmb: TpcnTipoAmbiente;
+    FTpAmb: TACBrTipoAmbiente;
     FverAplic: String;
     FcStat: integer;
     FcUF: integer;
@@ -314,7 +313,7 @@ type
     property DhRecbto: TDateTime read FDhRecbto;
     property XMotivo: String read FXMotivo;
     property versao: String read Fversao;
-    property TpAmb: TpcnTipoAmbiente read FTpAmb;
+    property TpAmb: TACBrTipoAmbiente read FTpAmb;
     property verAplic: String read FverAplic;
     property cStat: integer read FcStat;
     property cUF: integer read FcUF;
@@ -640,7 +639,7 @@ begin
     NF3eRetorno.LerXml;
 
     Fversao := NF3eRetorno.versao;
-    FtpAmb := TpcnTipoAmbiente(NF3eRetorno.tpAmb);
+    FtpAmb := NF3eRetorno.tpAmb;
     FverAplic := NF3eRetorno.verAplic;
     FcStat := NF3eRetorno.cStat;
     FxMotivo := NF3eRetorno.xMotivo;
@@ -659,7 +658,7 @@ begin
     FTMed := NF3eRetorno.TMed;
     FdhRetorno := NF3eRetorno.dhRetorno;
     FxObs := NF3eRetorno.xObs;
-    FPMsg := FxMotivo + LineBreak + FxObs;
+    FPMsg := FxMotivo + sLineBreak + FxObs;
 
     if Assigned(FPConfiguracoesNF3e) and
        Assigned(FPConfiguracoesNF3e.WebServices) and
@@ -676,17 +675,17 @@ end;
 function TNF3eStatusServico.GerarMsgLog: String;
 begin
   {(*}
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s' + LineBreak +
-                           'Status Descrição: %s' + LineBreak +
-                           'UF: %s' + LineBreak +
-                           'Recebimento: %s' + LineBreak +
-                           'Tempo Médio: %s' + LineBreak +
-                           'Retorno: %s' + LineBreak +
-                           'Observação: %s' + LineBreak),
-                   [Fversao, TpAmbToStr(FtpAmb), FverAplic, IntToStr(FcStat),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s' + sLineBreak +
+                           'Status Descrição: %s' + sLineBreak +
+                           'UF: %s' + sLineBreak +
+                           'Recebimento: %s' + sLineBreak +
+                           'Tempo Médio: %s' + sLineBreak +
+                           'Retorno: %s' + sLineBreak +
+                           'Observação: %s' + sLineBreak),
+                   [Fversao, TipoAmbienteToStr(FtpAmb), FverAplic, IntToStr(FcStat),
                     FxMotivo, CodigoUFparaUF(FcUF),
                     IfThen(FdhRecbto = 0, '', FormatDateTimeBr(FdhRecbto)),
                     IntToStr(FTMed),
@@ -697,7 +696,7 @@ end;
 
 function TNF3eStatusServico.GerarMsgErro(E: Exception): String;
 begin
-  Result := ACBrStr('WebService Consulta Status serviço:' + LineBreak +
+  Result := ACBrStr('WebService Consulta Status serviço:' + sLineBreak +
                     '- Inativo ou Inoperante tente novamente.');
 end;
 
@@ -929,7 +928,7 @@ begin
     FNF3eRetornoSincrono.LerXml;
 
     Fversao := FNF3eRetornoSincrono.versao;
-    FTpAmb := TpcnTipoAmbiente(FNF3eRetornoSincrono.TpAmb);
+    FTpAmb := FNF3eRetornoSincrono.TpAmb;
     FverAplic := FNF3eRetornoSincrono.verAplic;
 
     // Consta no Retorno da NFC-e
@@ -1022,7 +1021,7 @@ begin
     FNF3eRetorno.LerXml;
 
     Fversao := FNF3eRetorno.versao;
-    FTpAmb := TpcnTipoAmbiente(FNF3eRetorno.TpAmb);
+    FTpAmb := FNF3eRetorno.TpAmb;
     FverAplic := FNF3eRetorno.verAplic;
     FcStat := FNF3eRetorno.cStat;
     FxMotivo := FNF3eRetorno.xMotivo;
@@ -1039,14 +1038,14 @@ end;
 
 function TNF3eRecepcao.GerarMsgLog: String;
 begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                         'Ambiente: %s ' + LineBreak +
-                         'Versão Aplicativo: %s ' + LineBreak +
-                         'Status Código: %s ' + LineBreak +
-                         'Status Descrição: %s ' + LineBreak +
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                         'Ambiente: %s ' + sLineBreak +
+                         'Versão Aplicativo: %s ' + sLineBreak +
+                         'Status Código: %s ' + sLineBreak +
+                         'Status Descrição: %s ' + sLineBreak +
                          'UF: %s ' + sLineBreak +
                          'dhRecbto: %s ' + sLineBreak +
-                         'chNF3e: %s ' + LineBreak),
+                         'chNF3e: %s ' + sLineBreak),
                    [FNF3eRetornoSincrono.versao,
                     TipoAmbienteToStr(FNF3eRetornoSincrono.TpAmb),
                     FNF3eRetornoSincrono.verAplic,
@@ -1275,7 +1274,7 @@ begin
   TACBrNF3e(FPDFeOwner).LerServicoDeParams(
     'NF3e',
     xUF,
-    TpcnTipoAmbiente(FTpAmb),
+    FTpAmb,
     LayOutToServico(FPLayout),
     VerServ,
     FPURL,
@@ -1307,7 +1306,7 @@ var
 begin
   ConsReciNF3e := TConsReciDFe.Create(FPVersaoServico, NAME_SPACE_NF3e, 'NF3e');
   try
-    ConsReciNF3e.tpAmb := TpcnTipoAmbiente(FTpAmb);
+    ConsReciNF3e.tpAmb := FTpAmb;
     ConsReciNF3e.nRec := FRecibo;
 
 //    AjustarOpcoes( ConsReciNF3e.Gerador.Opcoes );
@@ -1442,7 +1441,7 @@ begin
   begin
     if not FNotasFiscais.Items[I].Confirmada then
     begin
-      FPMsg := ACBrStr('Nota(s) não confirmadas:') + LineBreak;
+      FPMsg := ACBrStr('Nota(s) não confirmadas:') + sLineBreak;
       break;
     end;
   end;
@@ -1452,7 +1451,7 @@ begin
   begin
     if not FNotasFiscais.Items[I].Confirmada then
       FPMsg := FPMsg + IntToStr(FNotasFiscais.Items[I].NF3e.Ide.nNF) +
-        '->' + IntToStr(FNotasFiscais.Items[I].cStat)+'-'+ FNotasFiscais.Items[I].Msg + LineBreak;
+        '->' + IntToStr(FNotasFiscais.Items[I].cStat)+'-'+ FNotasFiscais.Items[I].Msg + sLineBreak;
   end;
 
   if AInfProt.Count > 0 then
@@ -1475,15 +1474,15 @@ end;
 function TNF3eRetRecepcao.GerarMsgLog: String;
 begin
   {(*}
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Recibo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'UF: %s ' + LineBreak +
-                           'cMsg: %s ' + LineBreak +
-                           'xMsg: %s ' + LineBreak),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Recibo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'UF: %s ' + sLineBreak +
+                           'cMsg: %s ' + sLineBreak +
+                           'xMsg: %s ' + sLineBreak),
                    [FNF3eRetorno.versao, TipoAmbienteToStr(FNF3eRetorno.tpAmb),
                     FNF3eRetorno.verAplic, FNF3eRetorno.nRec,
                     IntToStr(FNF3eRetorno.cStat), FNF3eRetorno.xMotivo,
@@ -1643,7 +1642,7 @@ begin
   FNF3eRetorno.LerXML;
 
   Fversao := FNF3eRetorno.versao;
-  FTpAmb := TpcnTipoAmbiente(FNF3eRetorno.TpAmb);
+  FTpAmb := FNF3eRetorno.TpAmb;
   FverAplic := FNF3eRetorno.verAplic;
   FcStat := FNF3eRetorno.cStat;
   FxMotivo := FNF3eRetorno.xMotivo;
@@ -1658,13 +1657,13 @@ end;
 function TNF3eRecibo.GerarMsgLog: String;
 begin
   {(*}
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Recibo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'UF: %s ' + LineBreak),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Recibo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'UF: %s ' + sLineBreak),
                    [FNF3eRetorno.versao, TipoAmbienteToStr(FNF3eRetorno.TpAmb),
                    FNF3eRetorno.verAplic, FNF3eRetorno.nRec,
                    IntToStr(FNF3eRetorno.cStat),
@@ -1750,7 +1749,7 @@ begin
   VerServ := VersaoNF3eToDbl(FPConfiguracoesNF3e.Geral.VersaoDF);
 
   if FNotasFiscais.Count > 0 then
-    FTpAmb := TpcnTipoAmbiente(FNotasFiscais.Items[0].NF3e.Ide.tpAmb)
+    FTpAmb := FNotasFiscais.Items[0].NF3e.Ide.tpAmb
   else
     FTpAmb := FPConfiguracoesNF3e.WebServices.Ambiente;
 
@@ -1812,7 +1811,7 @@ var
   aEvento, aProcEvento, aIDEvento, sPathEvento, sCNPJCPF: string;
   DhEvt: TDateTime;
   Inicio, Fim: Integer;
-  TipoEvento: TpcnTpEvento;
+  TipoEvento: TACBrTipoEvento;
   Ok: Boolean;
 begin
   while Retorno <> '' do
@@ -1876,7 +1875,7 @@ begin
     // <retConsSitNF3e> - Retorno da consulta da situação da NF3-e
     // Este é o status oficial da NF3-e
     Fversao := NF3eRetorno.versao;
-    FTpAmb := TpcnTipoAmbiente(NF3eRetorno.tpAmb);
+    FTpAmb := NF3eRetorno.tpAmb;
     FverAplic := NF3eRetorno.verAplic;
     FcStat := NF3eRetorno.cStat;
     FXMotivo := NF3eRetorno.xMotivo;
@@ -1902,9 +1901,9 @@ begin
     if Assigned(NF3eRetorno.procEventoNF3e) and (NF3eRetorno.procEventoNF3e.Count > 0) then
     begin
       aEventos := '=====================================================' +
-        LineBreak + '================== Eventos da NF3-e ==================' +
-        LineBreak + '=====================================================' +
-        LineBreak + '' + LineBreak + 'Quantidade total de eventos: ' +
+        sLineBreak + '================== Eventos da NF3-e ==================' +
+        sLineBreak + '=====================================================' +
+        sLineBreak + '' + sLineBreak + 'Quantidade total de eventos: ' +
         IntToStr(NF3eRetorno.procEventoNF3e.Count);
 
       FprocEventoNF3e.Clear;
@@ -2168,18 +2167,18 @@ end;
 function TNF3eConsulta.GerarMsgLog: String;
 begin
   {(*}
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Identificador: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'UF: %s ' + LineBreak +
-                           'Chave Acesso: %s ' + LineBreak +
-                           'Recebimento: %s ' + LineBreak +
-                           'Protocolo: %s ' + LineBreak +
-                           'Digest Value: %s ' + LineBreak),
-                   [Fversao, FNF3eChave, TpAmbToStr(FTpAmb), FverAplic,
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Identificador: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'UF: %s ' + sLineBreak +
+                           'Chave Acesso: %s ' + sLineBreak +
+                           'Recebimento: %s ' + sLineBreak +
+                           'Protocolo: %s ' + sLineBreak +
+                           'Digest Value: %s ' + sLineBreak),
+                   [Fversao, FNF3eChave, TipoAmbienteToStr(FTpAmb), FverAplic,
                     IntToStr(FcStat), FXMotivo, CodigoUFparaUF(FcUF), FNF3eChave,
                     FormatDateTimeBr(FDhRecbto), FProtocolo, FprotNF3e.digVal]);
   {*)}
@@ -2276,7 +2275,7 @@ begin
   TACBrNF3e(FPDFeOwner).LerServicoDeParams(
     'NF3e',
     UF,
-    TpcnTipoAmbiente(FTpAmb),
+    FTpAmb,
     LayOutToServico(FPLayout),
     VerServ,
     FPURL,
@@ -2475,11 +2474,11 @@ var
   aMsg: String;
 begin
   {(*}
-  aMsg := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                         'Ambiente: %s ' + LineBreak +
-                         'Versão Aplicativo: %s ' + LineBreak +
-                         'Status Código: %s ' + LineBreak +
-                         'Status Descrição: %s ' + LineBreak),
+  aMsg := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                         'Ambiente: %s ' + sLineBreak +
+                         'Versão Aplicativo: %s ' + sLineBreak +
+                         'Status Código: %s ' + sLineBreak +
+                         'Status Descrição: %s ' + sLineBreak),
                  [FEventoRetorno.versao, TipoAmbienteToStr(FEventoRetorno.retInfEvento.tpAmb),
                   FEventoRetorno.retInfEvento.verAplic, IntToStr(FEventoRetorno.retInfEvento.cStat),
                   FEventoRetorno.retInfEvento.xMotivo]);
@@ -2654,15 +2653,15 @@ end;
 
 function TDistribuicaoDFe.GerarMsgLog: String;
 begin
-  Result := Format(ACBrStr('Versão Layout: %s ' + LineBreak +
-                           'Ambiente: %s ' + LineBreak +
-                           'Versão Aplicativo: %s ' + LineBreak +
-                           'Status Código: %s ' + LineBreak +
-                           'Status Descrição: %s ' + LineBreak +
-                           'Resposta: %s ' + LineBreak +
-                           'Último NSU: %s ' + LineBreak +
-                           'Máximo NSU: %s ' + LineBreak),
-                   [FretDistDFeInt.versao, TpAmbToStr(FretDistDFeInt.tpAmb),
+  Result := Format(ACBrStr('Versão Layout: %s ' + sLineBreak +
+                           'Ambiente: %s ' + sLineBreak +
+                           'Versão Aplicativo: %s ' + sLineBreak +
+                           'Status Código: %s ' + sLineBreak +
+                           'Status Descrição: %s ' + sLineBreak +
+                           'Resposta: %s ' + sLineBreak +
+                           'Último NSU: %s ' + sLineBreak +
+                           'Máximo NSU: %s ' + sLineBreak),
+                   [FretDistDFeInt.versao, TipoAmbienteToStr(FretDistDFeInt.tpAmb),
                     FretDistDFeInt.verAplic, IntToStr(FretDistDFeInt.cStat),
                     FretDistDFeInt.xMotivo,
                     IfThen(FretDistDFeInt.dhResp = 0, '',
@@ -2672,7 +2671,7 @@ end;
 
 function TDistribuicaoDFe.GerarMsgErro(E: Exception): String;
 begin
-  Result := ACBrStr('WebService Distribuição de DFe:' + LineBreak +
+  Result := ACBrStr('WebService Distribuição de DFe:' + sLineBreak +
                     '- Inativo ou Inoperante tente novamente.');
 end;
 
@@ -2783,7 +2782,7 @@ end;
 
 function TNF3eEnvioWebService.GerarMsgErro(E: Exception): String;
 begin
-  Result := ACBrStr('WebService: '+FPServico + LineBreak +
+  Result := ACBrStr('WebService: '+FPServico + sLineBreak +
                     '- Inativo ou Inoperante tente novamente.');
 end;
 
