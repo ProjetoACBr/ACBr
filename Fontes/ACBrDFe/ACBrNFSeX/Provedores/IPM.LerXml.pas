@@ -260,6 +260,9 @@ begin
 
       Competencia := ObterConteudo(AuxNode.Childrens.FindAnyNs('data_fato_gerador'), tcDatVcto);
 
+      if Competencia = 0 then
+        Competencia := ObterConteudo(AuxNode.Childrens.FindAnyNs('data_fato'), tcDatVcto);
+
       // campos presentes ao baixar do site da prefeitura
       if Numero = '' then
       begin

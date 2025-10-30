@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 30/10/2025
+-- IPM.LerXml --
+[*] #ACBr-8320 Ajuste para ler corretamente a data de competência.
+   Por: Italo Giurizzato Junior
 -- SigISS.LerXml --
 [*] Corrigido a leitura do campo serviço que contem o código do item de serviço.
    Por: Tiago Tecchio
@@ -51,7 +54,7 @@ Símbolo : Significado
     os novos campos do IBSCBS.
    Por: Tiago Tecchio
 -- ACBrNFSeXServicos --
-[*] #ACBr-8391 A cidade Feliz Natal/MT trocou de provedor, agora é Coplan.
+[*] #ACBr-8310 A cidade Feliz Natal/MT trocou de provedor, agora é Coplan.
    Por: Ricardo Machado MT
 [*] #ACBr-8309 A cidade Anchieta/SC trocou a versão e as URLs, o provedor continua o mesmo.
    Por: Wesley Lamb
