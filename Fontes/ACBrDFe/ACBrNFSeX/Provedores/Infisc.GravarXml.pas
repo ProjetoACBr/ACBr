@@ -309,6 +309,13 @@ begin
       xmlNode := GerarISSST(i);
       Result[i].AppendChild(xmlNode);
     end;
+
+    // Reforma Tributária
+    if (NFSe.IBSCBS.dest.xNome <> '')
+    or (NFSe.IBSCBS.imovel.cCIB <> '')
+    or (NFSe.IBSCBS.imovel.ender.CEP <> '')
+    or (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') then
+      Result[i].AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
   end;
 
   if NFSe.Servico.ItemServico.Count > 999 then
@@ -593,6 +600,13 @@ begin
 
     Result.AppendChild(AddNode(tcStr, '#1', 'empreitadaGlobal', 1, 1, 1,
                              EmpreitadaGlobalToStr(NFSe.EmpreitadaGlobal), ''));
+
+    if NFSe.Prestador.Endereco.CodigoMunicipio <> '' then
+       Result.AppendChild(AddNode(tcStr, '#1', 'cLocPrestacao', 1, 15, 1,
+                                  NFSe.Prestador.Endereco.CodigoMunicipio, ''));
+
+    Result.AppendChild(AddNode(tcInt, '#1', 'cPaisPrestacao', 1, 4, 1,
+                                       NFSe.Prestador.Endereco.CodigoPais, ''));
   end;
 end;
 
@@ -1012,6 +1026,8 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'totalAproxTribServ', 1, 15, 1,
                         NFSe.Servico.ItemServico[Item].totalAproxTribServ, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cNBS', 9, 9, 0, NFSe.Servico.CodigoNBS, ''));
 end;
 
 function TNFSeW_Infisc.GerarTomador: TACBrXmlNode;

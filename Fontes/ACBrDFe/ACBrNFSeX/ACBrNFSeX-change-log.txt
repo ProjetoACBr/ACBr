@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 30/10/2025
+-- Infisc.GravarXml/Infisc.LerXml --
+[*] Ajustes visando gerar o XML do RPS segundo o layout próprio do provedor com 
+    os novos campos do IBSCBS.
+   Por: Tiago Tecchio
 -- ACBrNFSeXServicos --
 [*] #ACBr-8391 A cidade Feliz Natal/MT trocou de provedor, agora é Coplan.
    Por: Ricardo Machado MT
