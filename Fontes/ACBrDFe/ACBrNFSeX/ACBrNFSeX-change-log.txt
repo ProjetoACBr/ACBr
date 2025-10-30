@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 30/10/2025
+-- SigISS.LerXml --
+[*] Corrigido a leitura do campo serviço que contem o código do item de serviço.
+   Por: Tiago Tecchio
 -- Infisc.GravarXml/Infisc.LerXml --
 [*] Ajustes visando gerar o XML do RPS segundo o layout próprio do provedor com 
     os novos campos do IBSCBS.

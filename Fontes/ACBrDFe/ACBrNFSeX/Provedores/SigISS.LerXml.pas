@@ -138,7 +138,7 @@ begin
 
       VerificarSeConteudoEhLista(Servico.Discriminacao);
 
-      Servico.CodigoTributacaoMunicipio := ObterConteudo(AuxNode.Childrens.FindAnyNs('servico'), tcInt);
+      Servico.ItemListaServico := ObterConteudo(AuxNode.Childrens.FindAnyNs('servico'), tcInt);
       Servico.MunicipioIncidencia := ObterConteudo(AuxNode.Childrens.FindAnyNs('codigo_cidade_local_servico'), tcInt);
       Servico.CodigoMunicipio := ObterConteudo(AuxNode.Childrens.FindAnyNs('cod_outro_municipio'), tcStr);
 
