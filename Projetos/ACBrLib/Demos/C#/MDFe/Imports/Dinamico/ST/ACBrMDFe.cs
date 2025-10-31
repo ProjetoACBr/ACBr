@@ -440,13 +440,13 @@ namespace ACBrLib.MDFe
             return NaoEncerradosResposta.LerResposta(ProcessResult(buffer, bufferLen));
         }
 
-        public DistribuicaoDFeResposta<TipoEventoMDFe> DistribuicaoDFePorUltNSU(int acUFAutor, string eCnpjcpf, string eultNsu)
+        public DistribuicaoDFeResposta<TipoEventoMDFe> DistribuicaoDFePorUltNSU(string eCnpjcpf, string eultNsu)
         {
             var bufferLen = BUFFER_LEN;
             var buffer = new StringBuilder(bufferLen);
 
             var method = GetMethod<MDFE_DistribuicaoDFePorUltNSU>();
-            var ret = ExecuteMethod(() => method(acUFAutor, ToUTF8(eCnpjcpf), ToUTF8(eultNsu), buffer, ref bufferLen));
+            var ret = ExecuteMethod(() => method(ToUTF8(eCnpjcpf), ToUTF8(eultNsu), buffer, ref bufferLen));
 
             CheckResult(ret);
 
