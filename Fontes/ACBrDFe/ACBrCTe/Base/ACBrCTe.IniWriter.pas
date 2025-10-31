@@ -879,7 +879,7 @@ begin
   for i := 0 to infNFe.Count -1 do
   begin
     //Pode ter até 2000 ocorrências, mas só mudar o índice de 3 para 4 causaria problemas indesejados...
-    if I > 999 then
+    if I >= 999 then
       sSecao := 'infNFe' +  IntToStrZero(I+1, 4)
     else
       sSecao := 'infNFe' + IntToStrZero(I+1, 3);
