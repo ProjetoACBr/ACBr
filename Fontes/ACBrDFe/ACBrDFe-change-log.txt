@@ -39,6 +39,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+31/10/2025
+-- ACBrDFe.Conversao --
+[*] Correção no Array de Strings do TCSTIcms e a criação de um novo Array Strings para
+    o mesmo tipo, pois a string de saída é diferente da string de entrada.
+   Por: Italo Giurizzato Junior/Elton Barbosa
+
 17/10/2025
 -- ACBrDFe.Conversao/ACBrDFeConsts/ACBrXmlBase/ACBrXmlReader--
 [*] Migração dos tipos e funções de conversão para a unit ACBrDFe.Conversao
