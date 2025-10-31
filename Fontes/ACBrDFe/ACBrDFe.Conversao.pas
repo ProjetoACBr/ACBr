@@ -252,10 +252,15 @@ type
     cst12, cst13, cst14, cst21, cst72, cst73, cst74); //80 e 81 apenas para CTe
 
 const
-  TCSTIcmsArrayStrings: array[TCSTIcms] of string = ('', '00', '10', '20', '30',
-    '40', '41', '45', '50', '51', '60', '70', '80', '81', '90', '90', 'SN', '10',
-    '90', '41', '60', '02', '15', '53', '61', '01', '12', '13', '14', '21', '72',
-    '73', '74');
+  TCSTIcmsArrayStringsEnt: array[TCSTIcms] of string = ('', '00', '10', '20', '30',
+    '40', '41', '45', '50', '51', '60', '70', '80', '81', '90', '91', 'SN',
+    '10part', '90part', '41rep', '60rep', '02', '15', '53', '61', '01', '12',
+    '13', '14', '21', '72', '73', '74');
+
+  TCSTIcmsArrayStringsSai: array[TCSTIcms] of string = ('', '00', '10', '20', '30',
+    '40', '41', '45', '50', '51', '60', '70', '80', '81', '90', '90', 'SN',
+    '10', '90', '41', '60', '02', '15', '53', '61', '01', '12', '13', '14', '21',
+    '72', '73', '74');
 
   TCSTIcmsDescricaoArrayStrings: array[TCSTIcms] of string = ('VAZIO',
     '00 - TRIBUTAÇÃO NORMAL DO ICMS',
@@ -294,7 +299,7 @@ const
 type
   // NFe e SAT
   TCSOSNIcms = (csosnVazio, csosn101, csosn102, csosn103, csosn201, csosn202,
-                csosn203, csosn300, csosn400, csosn500,csosn900);
+                csosn203, csosn300, csosn400, csosn500, csosn900);
 
 const
   TCSOSNIcmsArrayStrings: array[TCSOSNIcms] of string = ('','101', '102', '103',
@@ -1144,7 +1149,7 @@ end;
 
 function CSTICMSToStr(const t: TCSTIcms): string;
 begin
-  Result := TCSTIcmsArrayStrings[t];
+  Result := TCSTIcmsArrayStringsSai[t];
 end;
 
 function TryStrToCSTICMS(const s: string; out Value: TCSTIcms): Boolean;
@@ -1152,9 +1157,9 @@ var
   idx: TCSTIcms;
 begin
   Result := False;
-  for idx := Low(TCSTIcmsArrayStrings) to High(TCSTIcmsArrayStrings) do
+  for idx := Low(TCSTIcmsArrayStringsEnt) to High(TCSTIcmsArrayStringsEnt) do
   begin
-    if TCSTIcmsArrayStrings[idx] = s then
+    if TCSTIcmsArrayStringsEnt[idx] = s then
     begin
       Value := idx;
       Result := True;
