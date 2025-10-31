@@ -202,9 +202,15 @@ begin
   Texto := Texto + '<' + FPSoapVersion + ':Envelope ' + FPSoapEnvelopeAtributtes + '>';
   Texto := Texto + '<' + FPSoapVersion + ':Header/>';
   Texto := Texto + '<' + FPSoapVersion + ':Body>';
-//  Texto := Texto + '<' + FPBodyElement + '>';
+
+  if FPConfiguracoesCIOT.Geral.Integradora = iPamcard then
+    Texto := Texto + '<web:execute>';
+
   Texto := Texto + FPDadosMsg;
-//  Texto := Texto + '</' + FPBodyElement + '>';
+
+  if FPConfiguracoesCIOT.Geral.Integradora = iPamcard then
+    Texto := Texto + '</web:execute>';
+
   Texto := Texto + '</' + FPSoapVersion + ':Body>';
   Texto := Texto + '</' + FPSoapVersion + ':Envelope>';
 
@@ -264,7 +270,8 @@ begin
     Tratado := False;
 
     // Tem Certificado carregado ?
-    if (FPConfiguracoes.Certificados.NumeroSerie <> '') then
+    if (FPConfiguracoes.Certificados.NumeroSerie <> '') or
+       (FPConfiguracoes.Certificados.ArquivoPFX <> '') then
       if FPConfiguracoes.Certificados.VerificarValidade then
         if (FPDFeOwner.SSL.CertDataVenc < Now) then
           GerarException(ACBrStr('Data de Validade do Certificado já expirou: ' +
@@ -417,129 +424,130 @@ var
   URL_WSDL, Servico, Acao: String;
 begin
   case TACBrCIOT( FContratos.ACBrCIOT ).Configuracoes.Geral.Integradora of
-    iPamcard : begin
-      URL_WSDL := 'http://webservice.pamcard.jee.pamcary.com.br/WSTransacional/';
-      FPSoapVersion := 'soapenv';
-      FPSoapEnvelopeAtributtes := 'xmlns:' + FPSoapVersion + '="http://schemas.xmlsoap.org/soap/envelope/" ' +
-                                  'xmlns:web="http://webservice.pamcard.jee.pamcary.com.br"';
+    iPamcard:
+      begin
+        URL_WSDL := 'http://webservice.pamcard.jee.pamcary.com.br/WSTransacional/';
+        FPSoapVersion := 'soapenv';
+        FPSoapEnvelopeAtributtes := 'xmlns:' + FPSoapVersion + '="http://schemas.xmlsoap.org/soap/envelope/" ' +
+                                    'xmlns:web="http://webservice.pamcard.jee.pamcary.com.br"';
 
-      Servico := 'http://webservice.pamcard.jee.pamcary.com.br/WSTransacional/';
+        Servico := 'http://webservice.pamcard.jee.pamcary.com.br/WSTransacional/';
 
-      Acao := 'executeRequest';
+        Acao := 'executeRequest';
 
-      case FContratos.Items[0].CIOT.Integradora.Operacao of
-        opAdicionar:
-          begin
-            FPArqEnv  := 'ped-InserirContratoFrete';
-            FPArqResp := 'res-InserirContratoFrete';
-          end;
+        case FContratos.Items[0].CIOT.Integradora.Operacao of
+          opAdicionar:
+            begin
+              FPArqEnv  := 'ped-InserirContratoFrete';
+              FPArqResp := 'res-InserirContratoFrete';
+            end;
 
-        opObterCodigoIOT:
-          begin
-            FPArqEnv  := 'ped-FindFreightContract';
-            FPArqResp := 'res-FindFreightContract';
-          end;
+          opObterCodigoIOT:
+            begin
+              FPArqEnv  := 'ped-FindFreightContract';
+              FPArqResp := 'res-FindFreightContract';
+            end;
 
-        opAdicionarViagem:
-          begin
-            FPArqEnv  := 'ped-InsertTrip';
-            FPArqResp := 'res-InsertTrip';
-          end;
+          opAdicionarViagem:
+            begin
+              FPArqEnv  := 'ped-InsertTrip';
+              FPArqResp := 'res-InsertTrip';
+            end;
 
-        opCancelar:
-          begin
-            FPArqEnv  := 'ped-CancelTrip';
-            FPArqResp := 'res-CancelTrip';
-          end;
+          opCancelar:
+            begin
+              FPArqEnv  := 'ped-CancelTrip';
+              FPArqResp := 'res-CancelTrip';
+            end;
 
-        opEncerrar:
-          begin
-            FPArqEnv  := 'ped-CloseFreightContract';
-            FPArqResp := 'res-CloseFreightContract';
-          end;
+          opEncerrar:
+            begin
+              FPArqEnv  := 'ped-CloseFreightContract';
+              FPArqResp := 'res-CloseFreightContract';
+            end;
 
-        opIncluirRota:
-          begin
-            FPArqEnv  := 'ped-InsertRoute';
-            FPArqResp := 'res-InsertRoute';
-          end;
+          opIncluirRota:
+            begin
+              FPArqEnv  := 'ped-InsertRoute';
+              FPArqResp := 'res-InsertRoute';
+            end;
 
-        opRoteirizar:
-          begin
-            FPArqEnv  := 'ped-Router';
-            FPArqResp := 'res-Router';
-          end;
+          opRoteirizar:
+            begin
+              FPArqEnv  := 'ped-Router';
+              FPArqResp := 'res-Router';
+            end;
 
-        opIncluirCartaoPortador:
-          begin
-            FPArqEnv  := 'ped-InsertCardFreight';
-            FPArqResp := 'res-InsertCardFreight';
-          end;
+          opIncluirCartaoPortador:
+            begin
+              FPArqEnv  := 'ped-InsertCardFreight';
+              FPArqResp := 'res-InsertCardFreight';
+            end;
 
-        opConsultaViagem:
-          begin
-            FPArqEnv  := 'ped-FindTrip';
-            FPArqResp := 'res-FindTrip';
-          end;
+          opConsultaViagem:
+            begin
+              FPArqEnv  := 'ped-FindTrip';
+              FPArqResp := 'res-FindTrip';
+            end;
 
-        opConsultaParcela:
-          begin
-            FPArqEnv  := 'ped-FindParcelStatus';
-            FPArqResp := 'res-FindParcelStatus';
-          end;
+          opConsultaParcela:
+            begin
+              FPArqEnv  := 'ped-FindParcelStatus';
+              FPArqResp := 'res-FindParcelStatus';
+            end;
 
-        opConsultarCartao:
-          begin
-            FPArqEnv  := 'ped-FindCard';
-            FPArqResp := 'res-FindCard';
-          end;
+          opConsultarCartao:
+            begin
+              FPArqEnv  := 'ped-FindCard';
+              FPArqResp := 'res-FindCard';
+            end;
 
-        opConsultarConta:
-          begin
-            FPArqEnv  := 'ped-FindFavoredAccount';
-            FPArqResp := 'res-FindFavoredAccount';
-          end;
+          opConsultarConta:
+            begin
+              FPArqEnv  := 'ped-FindFavoredAccount';
+              FPArqResp := 'res-FindFavoredAccount';
+            end;
 
-        opConsultarFavorecido:
-          begin
-            FPArqEnv  := 'ped-FindFavored';
-            FPArqResp := 'res-FindFavored';
-          end;
+          opConsultarFavorecido:
+            begin
+              FPArqEnv  := 'ped-FindFavored';
+              FPArqResp := 'res-FindFavored';
+            end;
 
-        opConsultarFrota:
-          begin
-            FPArqEnv  := 'ped-FindFleet';
-            FPArqResp := 'res-FindFleet';
-          end;
+          opConsultarFrota:
+            begin
+              FPArqEnv  := 'ped-FindFleet';
+              FPArqResp := 'res-FindFleet';
+            end;
 
-        opConsultarRNTRC:
-          begin
-            FPArqEnv  := 'ped-FindRNTRC';
-            FPArqResp := 'res-FindRNTRC';
-          end;
+          opConsultarRNTRC:
+            begin
+              FPArqEnv  := 'ped-FindRNTRC';
+              FPArqResp := 'res-FindRNTRC';
+            end;
 
-        opConsultarTAG:
-          begin
-            FPArqEnv  := 'ped-FindTag';
-            FPArqResp := 'res-FindTag';
-          end;
+          opConsultarTAG:
+            begin
+              FPArqEnv  := 'ped-FindTag';
+              FPArqResp := 'res-FindTag';
+            end;
 
-        opPagamentoPedagio:
-          begin
-            FPArqEnv  := 'ped-PayToll';
-            FPArqResp := 'res-PayToll';
-          end;
+          opPagamentoPedagio:
+            begin
+              FPArqEnv  := 'ped-PayToll';
+              FPArqResp := 'res-PayToll';
+            end;
 
-        opAdicionarPagamento:
-          begin
-            FPArqEnv  := 'ped-PayParcel';
-            FPArqResp := 'res-PayParcel';
-          end;
-      else
-        FPArqEnv  := 'ped-';
-        FPArqResp := 'res-';
+          opAdicionarPagamento:
+            begin
+              FPArqEnv  := 'ped-PayParcel';
+              FPArqResp := 'res-PayParcel';
+            end;
+        else
+          FPArqEnv  := 'ped-';
+          FPArqResp := 'res-';
+        end;
       end;
-    end;
   else //ieFrete
     URL_WSDL := 'http://schemas.ipc.adm.br/efrete/pef/';
     FPSoapEnvelopeAtributtes := 'xmlns:' + FPSoapVersion + '="http://schemas.xmlsoap.org/soap/envelope/" ';

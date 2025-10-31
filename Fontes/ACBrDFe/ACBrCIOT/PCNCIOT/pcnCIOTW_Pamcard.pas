@@ -194,13 +194,13 @@ begin
   Gerador.wGrupo( 'arg0' );
 
   case CIOT.Integradora.Operacao of
-    opIncluirRota : GerarIncluirRota;
-    opRoteirizar : GerarRoteirizar;
+    opIncluirRota: GerarIncluirRota;
+    opRoteirizar: GerarRoteirizar;
     opIncluirCartaoPortador : GerarIncluirCartaoPortadorFrete;
     opAdicionar: GerarInserirContratoFrete;
     opObterCodigoIOT: GerarConsultarContratoFrete;
     opRetificar:;
-    opCancelar : GerarCancelaViagem;
+    opCancelar: GerarCancelaViagem;
     opAdicionarViagem:;
     opAdicionarPagamento: GerarPagamentoParcela;
     opPagamentoPedagio: GerarPagamentoPedagio;
@@ -328,7 +328,7 @@ procedure TCIOTW_Pamcard.DocumentosContratoFrete;
       AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.complemento', [id+1, p] ), 01, 15, 0, Pessoa.Endereco.Complemento );
       AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.bairro', [id+1, p] ), 01, 30, 1, Pessoa.Endereco.Bairro );
       AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.endereco.cidade.ibge', [id+1, p] ), 01, 07, 0, Pessoa.Endereco.CodigoMunicipio );
-      AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.endereco.cep', [id+1, p] ), 01, 08, 0, OnlyNumber( Pessoa.Endereco.CEP ) );
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.cep', [id+1, p] ), 01, 08, 0, OnlyNumber( Pessoa.Endereco.CEP ) );
     end;
   end;
 
@@ -637,7 +637,7 @@ procedure TCIOTW_Pamcard.GerarAlterarContratoFrete;
       AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.complemento', [id+1, p] ), 01, 15, 1, Pessoa.Endereco.Complemento );
       AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.bairro', [id+1, p] ), 01, 30, 1, Pessoa.Endereco.Bairro );
       AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.endereco.cidade.ibge', [id+1, p] ), 01, 7, 1, Pessoa.Endereco.CodigoMunicipio );
-      AddFieldNoXml( tcInt, '', Format('viagem.documento%d.pessoafiscal%d.endereco.cep', [id+1, p] ), 01, 8, 1, OnlyNumber( Pessoa.Endereco.CEP ) );
+      AddFieldNoXml( tcStr, '', Format('viagem.documento%d.pessoafiscal%d.endereco.cep', [id+1, p] ), 01, 8, 1, OnlyNumber( Pessoa.Endereco.CEP ) );
     end;
   end;}
 
