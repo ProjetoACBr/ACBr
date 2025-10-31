@@ -281,7 +281,13 @@ namespace ACBrLib.CTe
             for (var i = 0; i < GrupoInformacoesNormalSubstituto.infDoc.infNFe.Count; i++)
             {
                 var chaveNFe = GrupoInformacoesNormalSubstituto.infDoc.infNFe[i];
-                iniData.WriteToIni(chaveNFe, $"infNFe{i + 1:000}");
+                if (i > 999){
+                    iniData.WriteToIni(chaveNFe, $"infNFe{i + 1:0000}");
+                }
+                else
+                {
+                    iniData.WriteToIni(chaveNFe, $"infNFe{i + 1:000}");
+                }                    
 
                 for (var j = 0; j < chaveNFe.infUnidCarga.Count; j++)
                 {
@@ -653,7 +659,14 @@ namespace ACBrLib.CTe
             do
             {
                 j++;
-                infNFe = iniData.ReadFromIni<InfNFeCTe>($"infNFe{j:000}");
+                if (j > 999)
+                {
+                    infNFe = iniData.ReadFromIni<InfNFeCTe>($"infNFe{j:0000}");
+                }
+                else
+                {
+                    infNFe = iniData.ReadFromIni<InfNFeCTe>($"infNFe{j:000}");
+                }                    
 
                 if (infNFe != null)
                 {
