@@ -97,8 +97,12 @@ type
     // Reforma Tributária
     FNrOcorrtpOper: Integer;
     FNrOcorrindDest: Integer;
+    FNrOcorrCST: Integer;
+    FNrOcorrcCredPres: Integer;
+    FNrOcorrCSTReg: Integer;
     FGerarDest: Boolean;
     FGerargReeRepRes: Boolean;
+    FGerargDif: Boolean;
 
     function GetOpcoes: TACBrXmlWriterOptions;
     procedure SetOpcoes(AValue: TACBrXmlWriterOptions);
@@ -220,8 +224,13 @@ type
     // Reforma Tributária NFSe
     property NrOcorrtpOper: Integer read FNrOcorrtpOper write FNrOcorrtpOper;
     property NrOcorrindDest: Integer read FNrOcorrindDest write FNrOcorrindDest;
+    property NrOcorrCST: Integer read FNrOcorrCST write FNrOcorrCST;
+    property NrOcorrcCredPres: Integer read FNrOcorrcCredPres write FNrOcorrcCredPres;
+    property NrOcorrCSTReg: Integer read FNrOcorrCSTReg write FNrOcorrCSTReg;
+
     property GerarDest: Boolean read FGerarDest write FGerarDest;
     property GerargReeRepRes: Boolean read FGerargReeRepRes write FGerargReeRepRes;
+    property GerargDif: Boolean read FGerargDif write FGerargDif;
   end;
 
 implementation
@@ -299,8 +308,13 @@ begin
   // Reforma Tributária
   FNrOcorrtpOper := 0;
   FNrOcorrindDest := 1;
+  FNrOcorrCST := 1;
+  FNrOcorrcCredPres := 0;
+  FNrOcorrCSTReg := 1;
+
   FGerarDest := True;
   FGerargReeRepRes := True;
+  FGerargDif := True;
 end;
 
 procedure TNFSeWClass.ConsolidarVariosItensServicosEmUmSo;
@@ -1717,20 +1731,20 @@ function TNFSeWClass.GerarXMLgIBSCBS(
 begin
   Result := CreateElement('gIBSCBS');
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'CST', 3, 3, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'CST', 3, 3, NrOcorrCST,
                                               CSTIBSCBSToStr(gIBSCBS.CST), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'cClassTrib', 6, 6, 1,
                                                        gIBSCBS.cClassTrib, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'cCredPres', 2, 2, 0,
+  Result.AppendChild(AddNode(tcStr, '#1', 'cCredPres', 2, 2, NrOcorrcCredPres,
                                         cCredPresToStr(gIBSCBS.cCredPres), ''));
 
   if gIBSCBS.gTribRegular.CSTReg <> cstNenhum then
     Result.AppendChild(GerarXMLgTribRegular(gIBSCBS.gTribRegular));
 
-  if (gIBSCBS.gDif.pDifUF > 0) or (gIBSCBS.gDif.pDifMun > 0) or
-     (gIBSCBS.gDif.pDifCBS > 0) then
+  if ((gIBSCBS.gDif.pDifUF > 0) or (gIBSCBS.gDif.pDifMun > 0) or
+     (gIBSCBS.gDif.pDifCBS > 0)) and GerargDif then
     Result.AppendChild(GerarXMLgDif(gIBSCBS.gDif));
 end;
 
@@ -1739,7 +1753,7 @@ function TNFSeWClass.GerarXMLgTribRegular(
 begin
   Result := CreateElement('gTribRegular');
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'CSTReg', 3, 3, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'CSTReg', 3, 3, NrOcorrCSTReg,
                                       CSTIBSCBSToStr(gTribRegular.CSTReg), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'cClassTribReg', 6, 6, 1,

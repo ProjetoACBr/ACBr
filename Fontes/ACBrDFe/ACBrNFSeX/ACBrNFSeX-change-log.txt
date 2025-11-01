@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+01/11/2025
+-- Diversos --
+[*] Realizado alterações visando a versão 2.00 dos Schemas do provedor ISSSaoPaulo
+    que contempla a Reforma Tributária.
+   Por: Italo Giurizzato Junior
+
 30/10/2025
 -- IPM.LerXml --
 [*] #ACBr-8320 Ajuste para ler corretamente a data de competência.

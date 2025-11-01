@@ -64,6 +64,8 @@ type
   end;
 
   TACBrNFSeProviderISSSaoPaulo = class(TACBrNFSeProviderProprio)
+  private
+    FPVersaoDFe: string;
   protected
     procedure Configuracao; override;
 
@@ -186,6 +188,11 @@ procedure TACBrNFSeProviderISSSaoPaulo.Configuracao;
 begin
   inherited Configuracao;
 
+  FPVersaoDFe := '1';
+
+  if TACBrNFSeX(FAOwner).Configuracoes.Geral.Versao = ve200 then
+    FPVersaoDFe := '2';
+
   with ConfigGeral do
   begin
     Identificador := '';
@@ -255,23 +262,23 @@ begin
     CancelarNFSe.InfElemento := '';
     CancelarNFSe.DocElemento := 'PedidoCancelamentoNFe';
 
-    DadosCabecalho := '1';
+    DadosCabecalho := FPVersaoDFe;
   end;
 
   SetNomeXSD('***');
 
   with ConfigSchemas do
   begin
-    Teste := 'PedidoEnvioLoteRPS_v01.xsd';
-    Recepcionar := 'PedidoEnvioLoteRPS_v01.xsd';
-    GerarNFSe := 'PedidoEnvioRPS_v01.xsd';
-    ConsultarSituacao := 'PedidoInformacoesLote_v01.xsd';
-    ConsultarLote := 'PedidoConsultaLote_v01.xsd';
-    ConsultarNFSeRps := 'PedidoConsultaNFe_v01.xsd';
-    ConsultarNFSe := 'PedidoConsultaNFe_v01.xsd';
-    ConsultarNFSeServicoPrestado := 'PedidoConsultaNFePeriodo_v01.xsd';
-    ConsultarNFSeServicoTomado := 'PedidoConsultaNFePeriodo_v01.xsd';
-    CancelarNFSe := 'PedidoCancelamentoNFe_v01.xsd';
+    Teste := 'PedidoEnvioLoteRPS_v0' + FPVersaoDFe + '.xsd';
+    Recepcionar := 'PedidoEnvioLoteRPS_v0' + FPVersaoDFe + '.xsd';
+    GerarNFSe := 'PedidoEnvioRPS_v0' + FPVersaoDFe + '.xsd';
+    ConsultarSituacao := 'PedidoInformacoesLote_v0' + FPVersaoDFe + '.xsd';
+    ConsultarLote := 'PedidoConsultaLote_v0' + FPVersaoDFe + '.xsd';
+    ConsultarNFSeRps := 'PedidoConsultaNFe_v0' + FPVersaoDFe + '.xsd';
+    ConsultarNFSe := 'PedidoConsultaNFe_v0' + FPVersaoDFe + '.xsd';
+    ConsultarNFSeServicoPrestado := 'PedidoConsultaNFePeriodo_v0' + FPVersaoDFe + '.xsd';
+    ConsultarNFSeServicoTomado := 'PedidoConsultaNFePeriodo_v0' + FPVersaoDFe + '.xsd';
+    CancelarNFSe := 'PedidoCancelamentoNFe_v0' + FPVersaoDFe + '.xsd';
   end;
 end;
 
@@ -525,7 +532,7 @@ begin
       begin
         TagEnvio := 'PedidoEnvioRPS';
 
-        xCabecalho := '<Cabecalho xmlns="" Versao="1">' +
+        xCabecalho := '<Cabecalho xmlns="" Versao="' + FPVersaoDFe + '">' +
                         '<CPFCNPJRemetente>' +
                           xCNPJCPF +
                         '</CPFCNPJRemetente>' +
@@ -565,7 +572,7 @@ begin
       xTotDeducoes := FloatToString(vTotDeducoes, '.', FloatMask(2, False));
       xTotDeducoes := StringReplace(xTotDeducoes, '.00', '', []);
 
-      xCabecalho := '<Cabecalho xmlns="" Versao="1">' +
+      xCabecalho := '<Cabecalho xmlns="" Versao="' + FPVersaoDFe + '">' +
                       '<CPFCNPJRemetente>' +
                         xCNPJCPF +
                       '</CPFCNPJRemetente>' +
@@ -735,7 +742,7 @@ begin
     xCNPJCPF := '<CPF>' + xDoc + '</CPF>';
 
   Response.ArquivoEnvio := '<PedidoInformacoesLote' + NameSpace + '>' +
-                             '<Cabecalho xmlns="" Versao="1">' +
+                             '<Cabecalho xmlns="" Versao="' + FPVersaoDFe + '">' +
                                '<CPFCNPJRemetente>' +
                                  xCNPJCPF +
                                '</CPFCNPJRemetente>' +
@@ -861,7 +868,7 @@ begin
     xCNPJCPF := '<CPF>' + xDoc + '</CPF>';
 
   Response.ArquivoEnvio := '<PedidoConsultaLote' + NameSpace + '>' +
-                             '<Cabecalho xmlns="" Versao="1">' +
+                             '<Cabecalho xmlns="" Versao="' + FPVersaoDFe + '">' +
                                '<CPFCNPJRemetente>' +
                                  xCNPJCPF +
                                '</CPFCNPJRemetente>' +
@@ -988,7 +995,7 @@ begin
     xCNPJCPF := '<CPF>' + xDoc + '</CPF>';
 
   Response.ArquivoEnvio := '<PedidoConsultaNFe' + NameSpace + '>' +
-                             '<Cabecalho xmlns="" Versao="1">' +
+                             '<Cabecalho xmlns="" Versao="' + FPVersaoDFe + '">' +
                                '<CPFCNPJRemetente>' +
                                  xCNPJCPF +
                                '</CPFCNPJRemetente>' +
@@ -1131,7 +1138,7 @@ begin
     xCNPJCPF := '<CPF>' + xDoc + '</CPF>';
 
   Response.ArquivoEnvio := '<PedidoConsultaNFe' + NameSpace + '>' +
-                             '<Cabecalho xmlns="" Versao="1">' +
+                             '<Cabecalho xmlns="" Versao="' + FPVersaoDFe + '">' +
                                '<CPFCNPJRemetente>' +
                                  xCNPJCPF +
                                '</CPFCNPJRemetente>' +
@@ -1284,7 +1291,7 @@ begin
     xCNPJCPFTomador := '<CPF>' + xDocTomador + '</CPF>';
 
   Response.ArquivoEnvio := '<PedidoConsultaNFePeriodo' + NameSpace + '>' +
-                              '<Cabecalho xmlns="" Versao="1">' +
+                              '<Cabecalho xmlns="" Versao="' + FPVersaoDFe + '">' +
                                 '<CPFCNPJRemetente>' +
                                   xCNPJCPF +
                                 '</CPFCNPJRemetente>' +
@@ -1439,7 +1446,7 @@ begin
     xCNPJCPFTomador := '<CPF>' + xDocTomador + '</CPF>';
 
   Response.ArquivoEnvio := '<PedidoConsultaNFePeriodo' + NameSpace + '>' +
-                              '<Cabecalho xmlns="" Versao="1">' +
+                              '<Cabecalho xmlns="" Versao="' + FPVersaoDFe + '">' +
                                 '<CPFCNPJRemetente>' +
                                   xCNPJCPF +
                                 '</CPFCNPJRemetente>' +
@@ -1589,7 +1596,7 @@ begin
     xCNPJCPF := '<CPF>' + xDoc + '</CPF>';
 
   Response.ArquivoEnvio := '<PedidoCancelamentoNFe' + NameSpace + '>' +
-                             '<Cabecalho xmlns="" Versao="1">' +
+                             '<Cabecalho xmlns="" Versao="' + FPVersaoDFe + '">' +
                                '<CPFCNPJRemetente>' +
                                  xCNPJCPF +
                                '</CPFCNPJRemetente>' +
