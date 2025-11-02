@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_comandos"
+        android:icon="@drawable/ic_comandos_24"
+        android:title="Comandos NFe" />
+    <item
+        android:id="@+id/nav_configuracoes"
+        android:icon="@drawable/ic_configuracoes_24"
+        android:title="Configurações NFe" />
+    <item
+        android:id="@+id/nav_ini"
+        android:icon="@drawable/ic_arquivo_24"
+        android:title="ACBrLib.ini" />
+</menu>
