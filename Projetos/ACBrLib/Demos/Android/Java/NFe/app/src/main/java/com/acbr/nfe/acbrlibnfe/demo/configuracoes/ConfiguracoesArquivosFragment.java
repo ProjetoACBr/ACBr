@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
@@ -20,13 +20,13 @@ public class ConfiguracoesArquivosFragment extends Fragment {
 
     private ACBrLibNFe ACBrNFe;
 
-    private CheckBox ckbSalvarArqs;
-    private CheckBox ckbPastaMensal;
-    private CheckBox ckbAdicionaLiteral;
-    private CheckBox ckbEmissaoPathNFe;
-    private CheckBox ckbSalvaPathEvento;
-    private CheckBox ckbSepararPorCNPJ;
-    private CheckBox ckbSepararPorModelo;
+    private MaterialSwitch ckbSalvarArqs;
+    private MaterialSwitch ckbPastaMensal;
+    private MaterialSwitch ckbAdicionaLiteral;
+    private MaterialSwitch ckbEmissaoPathNFe;
+    private MaterialSwitch ckbSalvaPathEvento;
+    private MaterialSwitch ckbSepararPorCNPJ;
+    private MaterialSwitch ckbSepararPorModelo;
     private EditText txtArqNFe;
     private EditText txtArqInu;
     private EditText txtArqEvento;

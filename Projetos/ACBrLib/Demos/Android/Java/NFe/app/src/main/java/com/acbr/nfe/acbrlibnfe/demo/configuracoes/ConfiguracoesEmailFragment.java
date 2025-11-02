@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
@@ -25,8 +25,8 @@ public class ConfiguracoesEmailFragment extends Fragment {
     private EditText txtSenha;
     private EditText txtHost;
     private EditText txtPorta;
-    private CheckBox ckbSSL;
-    private CheckBox ckbTLS;
+    private MaterialSwitch ckbSSL;
+    private MaterialSwitch ckbTLS;
     private Button btnSalvarConfiguracoesEmail;
     private Button btnCarregarConfiguracoesEmail;
 

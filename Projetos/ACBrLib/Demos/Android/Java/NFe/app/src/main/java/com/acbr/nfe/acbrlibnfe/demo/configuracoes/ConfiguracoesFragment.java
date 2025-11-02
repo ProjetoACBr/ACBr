@@ -35,28 +35,21 @@ public class ConfiguracoesFragment extends Fragment {
         ACBrNFe = application.getAcBrLibNFe();
 
         binding.btnExportarConfig.setOnClickListener(v -> {
-            try {
-                verConfiguracoesAtuais();
-            } catch (Exception ex) {
-                Log.e("onClickButtonExportarConfig", "Erro ao visualizar as configurações", ex);
-            }
+            binding.editExportedConfig.setText("Atualizando configurações...");
+            verConfiguracoesAtuais();
         });
 
         verConfiguracoesAtuais();
     }
 
     public void verConfiguracoesAtuais() {
-        String config = binding.editExportedConfig.getText().toString();
-        String result = "";
         try {
-            Log.i("verConfiguracoesAtuais", config);
-            result = ACBrNFe.configExportar();
+            String result = ACBrNFe.configExportar();
             binding.editExportedConfig.setText(result);
+            Log.i("verConfiguracoesAtuais", "Configurações carregadas com sucesso");
         } catch (Exception e) {
             Log.e("verConfiguracoesAtuais", "Erro ao exportar configurações", e);
-            result = e.getMessage();
-        } finally {
-            binding.editExportedConfig.setText(result);
+            binding.editExportedConfig.setText("Erro ao carregar configurações:\n" + e.getMessage());
         }
     }
 

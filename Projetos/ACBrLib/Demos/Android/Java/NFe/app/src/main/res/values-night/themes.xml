@@ -1,22 +1,28 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme for dark mode. -->
     <style name="Base.Theme.ACBrLibNFeDemo" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Primary colors for dark mode -->
+        <!-- Material 3 Primary colors for dark mode -->
         <item name="colorPrimary">@color/primary_blue_light</item>
-        <item name="colorPrimaryVariant">@color/primary_blue</item>
         <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimaryContainer">@color/primary_blue_dark</item>
+        <item name="colorOnPrimaryContainer">@color/primary_blue_light</item>
         
         <!-- Secondary colors -->
         <item name="colorSecondary">@color/accent_orange</item>
         <item name="colorOnSecondary">@color/black</item>
         
         <!-- Background colors for dark mode -->
-        <item name="android:colorBackground">@color/black</item>
+        <item name="android:colorBackground">#121212</item>
         <item name="colorSurface">#1E1E1E</item>
         <item name="colorOnSurface">@color/white</item>
+        <item name="android:windowBackground">#121212</item>
         
-        <!-- Status bar for dark mode -->
-        <item name="android:statusBarColor">@color/black</item>
+        <!-- Status bar para modo escuro -->
+        <item name="android:statusBarColor">@color/primary_blue_dark</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">#1E1E1E</item>
+        
+        <!-- Button styling for dark mode -->
+        <item name="materialButtonStyle">@style/AppButton</item>
     </style>
 </resources>

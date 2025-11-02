@@ -91,88 +91,103 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Porta" />
+                android:layout_marginTop="16dp"
+                android:hint="Porta"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtPortas"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtPortas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:layout_marginTop="16dp"
+                android:hint="Colunas"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <TextView
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtColunas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Colunas" />
+                android:layout_marginTop="16dp"
+                android:hint="Espaços"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtColunas"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtEspacos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:layout_marginTop="16dp"
+                android:hint="Buffer"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <TextView
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtBuffer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Espaços" />
+                android:layout_marginTop="16dp"
+                android:hint="Linhas Pular"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtEspacos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtLinhasPular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Buffer" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txtBuffer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Linhas Pular" />
-
-            <EditText
-                android:id="@+id/txtLinhasPular"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
-
-            <CheckBox
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/chkControlePorta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Controle Porta" />
 
-            <CheckBox
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/chkCortarPapel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Cortar Papel" />
 
-            <CheckBox
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/chkTraduzirTags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Traduzir Tags" />
 
-            <CheckBox
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/chkIgnorarTags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -185,9 +200,11 @@
 
                 <Button
                     android:id="@+id/btnSalvarConfiguracoesDocumentoAuxiliar"
+                    style="@style/AppButton"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:text="Salvar Configurações"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:text="Salvar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btnCarregarConfiguracoesDocumentoAuxiliar"
                     app:layout_constraintStart_toStartOf="parent"
@@ -195,9 +212,11 @@
 
                 <Button
                     android:id="@+id/btnCarregarConfiguracoesDocumentoAuxiliar"
+                    style="@style/AppButtonSecondary"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:text="Carregar Configurações"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:text="Carregar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/btnSalvarConfiguracoesDocumentoAuxiliar"

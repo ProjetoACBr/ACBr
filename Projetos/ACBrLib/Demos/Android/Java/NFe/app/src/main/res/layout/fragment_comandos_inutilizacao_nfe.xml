@@ -113,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:onClick="onClick"
+                
                 android:text="Inutilizar Numeração" />
 
             <TextView
@@ -134,7 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:onClick="onClick"
+                
                 android:text="Limpar Resposta" />
 
         </LinearLayout>

@@ -23,12 +23,19 @@ public class MainActivity extends AppCompatActivity {
     private ACBrLibNFe ACBrNFe;
     private NfeApplication application;
     private NavController navController;
+    
+    // Cache para otimizar navegação
+    private int currentSelectedItemId = -1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("MainActivity", "Carregando layout activity_main");
+        
+        // Configurar edge-to-edge e status bar para Material 3
+        setupEdgeToEdge();
+        
         setContentView(R.layout.activity_main);
         Log.d("MainActivity", "Layout carregado, configurando navegação");
         
@@ -43,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
         configurarACBrNFe();
         
         Log.d("MainActivity", "MainActivity configurada com Navigation Component");
+    }
+
+    private void setupEdgeToEdge() {
+        // Configurar status bar com cor azul escura
+        getWindow().setStatusBarColor(getColor(R.color.primary_blue_dark));
+        getWindow().setNavigationBarColor(getColor(R.color.white));
+        
+        // Ícones da status bar em branco para contraste com azul escuro
+        getWindow().getDecorView().setSystemUiVisibility(0);
     }
 
     private void setupAppBar() {
@@ -85,41 +101,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupBottomNavigation(com.google.android.material.bottomnavigation.BottomNavigationView bottomNav) {
-        // Configurar cores do BottomNavigationView
-        int selectedColor = getColor(R.color.bottom_nav_selected);
-        int unselectedColor = getColor(R.color.bottom_nav_unselected);
-        
-        android.content.res.ColorStateList colorStateList = new android.content.res.ColorStateList(
-            new int[][] {
-                new int[] { android.R.attr.state_checked },
-                new int[] { }
-            },
-            new int[] {
-                selectedColor,
-                unselectedColor
-            }
-        );
-        
-        bottomNav.setItemIconTintList(colorStateList);
-        bottomNav.setItemTextColor(colorStateList);
+        // Otimizações para performance
+        bottomNav.setItemHorizontalTranslationEnabled(false);
         
         bottomNav.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
-            if (itemId == R.id.nav_comandos) {
-                navController.navigate(R.id.comandosNFeFragment);
-                updateAppBarTitle("Comandos NFe");
-                return true;
-            } else if (itemId == R.id.nav_configuracoes) {
-                navController.navigate(R.id.configuracoesNFeFragment);
-                updateAppBarTitle("Configurações NFe");
-                return true;
-            } else if (itemId == R.id.nav_ini) {
-                navController.navigate(R.id.configuracoesIniFragment);
-                updateAppBarTitle("ACBrLib.ini");
+            
+            // Evita navegação desnecessária se o item já está selecionado
+            if (currentSelectedItemId == itemId) {
                 return true;
             }
+            
+            // Atualiza o cache antes da navegação
+            currentSelectedItemId = itemId;
+            
+            // Navegação otimizada com tratamento de exceções
+            try {
+                if (itemId == R.id.nav_comandos) {
+                    navController.navigate(R.id.comandosNFeFragment);
+                    updateAppBarTitle("Comandos NFe");
+                    return true;
+                } else if (itemId == R.id.nav_configuracoes) {
+                    navController.navigate(R.id.configuracoesNFeFragment);
+                    updateAppBarTitle("Configurações NFe");
+                    return true;
+                } else if (itemId == R.id.nav_ini) {
+                    navController.navigate(R.id.configuracoesIniFragment);
+                    updateAppBarTitle("ACBrLib.ini");
+                    return true;
+                }
+            } catch (Exception e) {
+                Log.e("MainActivity", "Erro na navegação: " + e.getMessage());
+                // Reverte o cache em caso de erro
+                currentSelectedItemId = -1;
+                return false;
+            }
+            
             return false;
         });
+        
+        // Define o item inicial selecionado
+        bottomNav.setSelectedItemId(R.id.nav_comandos);
+        currentSelectedItemId = R.id.nav_comandos;
     }
 
     private void updateAppBarTitle(String title) {
@@ -149,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
             ACBrNFe.configGravarValor("DFe", "SSLHttpLib", Integer.toString(SSLHttpLib.httpOpenSSL.ordinal()));
             ACBrNFe.configGravarValor("DFe", "SSLXmlSignLib", Integer.toString(SSLXmlSignLib.xsLibXml2.ordinal()));
             ACBrNFe.configGravar();
-            ACBrNFe.configLer(application.getArqConfigPath());
         } catch (Exception e) {
             Log.e("MainActivity", e.getMessage());
         }
