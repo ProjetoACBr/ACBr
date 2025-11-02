@@ -45,7 +45,7 @@ public class NfeApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        appDir = getExternalFilesDir(null);
+        appDir = getFilesDir();
         arqConfigPath = appDir.getAbsolutePath() + "/" + ARQCONFIG_PADRAO;
         pfxPath = appDir.getAbsolutePath() + "/" + PFX_PADRAO;
         schemasPath = appDir.getAbsolutePath() + "/" + SCHEMAS_PADRAO + "/" + "NFe";
