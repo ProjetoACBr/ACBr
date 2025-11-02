@@ -2,40 +2,45 @@ package com.acbr.nfe.acbrlibnfe.demo.comandos;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
+import com.acbr.nfe.acbrlibnfe.demo.databinding.FragmentComandosNfeBinding;
 import com.acbr.nfe.acbrlibnfe.demo.utils.ACBrLibHelper;
-import com.acbr.nfe.acbrlibnfe.demo.R;
 import com.acbr.nfe.acbrlibnfe.demo.utils.ViewPagerAdapter;
-import com.acbr.nfe.acbrlibnfe.demo.databinding.ActivityComandosNfeBinding;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import br.com.acbr.lib.nfe.ACBrLibNFe;
 
-public class ComandosNFeActivity extends AppCompatActivity {
+public class ComandosNFeFragment extends Fragment {
 
-    private ActivityComandosNfeBinding binding;
-
+    private FragmentComandosNfeBinding binding;
     private ACBrLibNFe ACBrNFe;
 
     @SuppressLint("MissingInflatedId")
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comandos_nfe);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentComandosNfeBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
-        binding = ActivityComandosNfeBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        
         configTabLayout();
-
         ACBrNFe = ACBrLibHelper.getInstance("");
     }
 
     private void configTabLayout(){
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity());
         binding.viewPager.setAdapter(adapter);
 
         adapter.addFragment(new ComandosEnvioNFeFragment(), "Envio");
@@ -51,6 +56,11 @@ public class ComandosNFeActivity extends AppCompatActivity {
         });
 
         mediator.attach();
-        Toast.makeText(this, "Clique na aba para ver os comandos disponíveis", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

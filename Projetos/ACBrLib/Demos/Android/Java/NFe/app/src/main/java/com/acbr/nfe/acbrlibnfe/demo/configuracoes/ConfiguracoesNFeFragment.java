@@ -1,0 +1,74 @@
+package com.acbr.nfe.acbrlibnfe.demo.configuracoes;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.acbr.nfe.acbrlibnfe.demo.databinding.FragmentConfiguracoesNfeBinding;
+import com.acbr.nfe.acbrlibnfe.demo.utils.ACBrLibHelper;
+import com.acbr.nfe.acbrlibnfe.demo.utils.NfeApplication;
+import com.acbr.nfe.acbrlibnfe.demo.utils.ViewPagerAdapter;
+import com.google.android.material.tabs.TabLayoutMediator;
+
+import br.com.acbr.lib.nfe.ACBrLibNFe;
+
+public class ConfiguracoesNFeFragment extends Fragment {
+
+    private FragmentConfiguracoesNfeBinding binding;
+    private ACBrLibNFe ACBrNFe;
+    private NfeApplication application;
+
+    @SuppressLint("MissingInflatedId")
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentConfiguracoesNfeBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        
+        configTabLayout();
+
+        application = (NfeApplication) requireActivity().getApplicationContext();
+        ACBrNFe = ACBrLibHelper.getInstance("");
+    }
+
+
+
+    private void configTabLayout() {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity());
+        binding.viewPager.setAdapter(adapter);
+
+        adapter.addFragment(new ConfiguracoesGeraisFragment(), "Geral");
+        adapter.addFragment(new ConfiguracoesWebServicesFragment(), "WebServices");
+        adapter.addFragment(new ConfiguracoesCertificadosFragment(), "Certificados");
+        adapter.addFragment(new ConfiguracoesArquivosFragment(), "Arquivos");
+        adapter.addFragment(new ConfiguracoesEmailFragment(), "Email");
+        adapter.addFragment(new ConfiguracoesDocumentoAuxiliarFragment(), "Documento Auxiliar");
+
+        binding.viewPager.setOffscreenPageLimit(adapter.getItemCount());
+
+        TabLayoutMediator mediator = new TabLayoutMediator(binding.tabs, binding.viewPager, (tab, position) -> {
+            tab.setText(adapter.getTitle(position));
+        });
+
+        mediator.attach();
+    }
+
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+}

@@ -31,15 +31,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ACBrLibNFeDemo"
         tools:targetApi="31">
-        <activity
-            android:name=".configuracoes.ConfiguracoesNFeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".comandos.ComandosNFeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".configuracoes.ConfiguracoesActivity"
-            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

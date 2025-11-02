@@ -6,19 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-    tools:context=".configuracoes.ConfiguracoesActivity">
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ACBrLib.ini"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".configuracoes.ConfiguracoesFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -52,25 +40,12 @@
 
     <Button
         android:id="@+id/btnExportarConfig"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:minHeight="60dp"
-        android:onClick="onClickButtonExportarConfig"
         android:text="Atualizar Configurações ACBrLib.ini"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnAbrirConfigNFe"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.5" />
-
-    <Button
-        android:id="@+id/btnAbrirConfigNFe"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="60dp"
-        android:onClick="onClickButton"
-        android:text="Abrir Configurações ACBrLibNFe"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnExportarConfig"
-        app:layout_constraintWidth_percent="0.5" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
