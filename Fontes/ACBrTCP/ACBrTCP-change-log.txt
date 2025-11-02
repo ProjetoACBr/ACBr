@@ -36,6 +36,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/11/2025
+-- ACBrCalculadoraConsumo --
+[+] Tratamento das respostas dos comandos da calculadora com UTF8ToNativeString().
+    por: Elias Cesar
+
 24/10/2025
 -- ACBrCalculadoraConsumo --
 [+] Inclusão do componente ACBrCalculadoraConsumo.

@@ -388,6 +388,7 @@ type
     function GetGerarXMLRequest: TACBrCalcROC;
     function GetRegimeGeralRequest: TACBrCalcOperacao;
     function GetRespostaErro: TACBrCalcErro;
+    function GetRespostaTratada: AnsiString;
     function GetURL: String;
   protected
     procedure PrepararHTTP;
@@ -404,6 +405,7 @@ type
 
     property GerarXMLRequest: TACBrCalcROC read GetGerarXMLRequest;
     property RegimeGeralRequest: TACBrCalcOperacao read GetRegimeGeralRequest;
+    property RespostaTratada: AnsiString read GetRespostaTratada;
     property RespostaErro: TACBrCalcErro read GetRespostaErro;
   published
     property URL: String read GetURL write fURL;
@@ -884,16 +886,16 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodPOST, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
 
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 function TACBrCalcBaseCalculo.CalcularPorCIBS(out aResponse: IACBrCalcBaseCalculoResponse): Boolean;
@@ -916,16 +918,16 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodPOST, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
 
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 { TACBrCalcDadosAbertos }
@@ -978,16 +980,16 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodGET, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
 
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 function TACBrCalcDadosAbertos.ConsultarUFs(out aResponse: IACBrCalcUFsResponse): Boolean;
@@ -1005,16 +1007,16 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodGET, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
 
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 function TACBrCalcDadosAbertos.ConsultarMunicipios(aSiglaUF: String; out aResponse: IACBrCalcMunicipiosResponse): Boolean;
@@ -1036,7 +1038,7 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodGET, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
@@ -1044,9 +1046,9 @@ begin
   aResponse := TACBrCalcMunicipiosResponse.Create;
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 function TACBrCalcDadosAbertos.ConsultarNCM(aNCM: String; aData: TDateTime; out aResponse: IACBrCalcNCMResponse): Boolean;
@@ -1070,7 +1072,7 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodGET, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
@@ -1078,9 +1080,9 @@ begin
   aResponse := TACBrCalcNCMResponse.Create;
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 function TACBrCalcDadosAbertos.ConsultarNBS(aNBS: String; aData: TDateTime; out aResponse: IACBrCalcNBSResponse): Boolean;
@@ -1104,7 +1106,7 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodGET, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
@@ -1112,9 +1114,9 @@ begin
   aResponse := TACBrCalcNBSResponse.Create;
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 function TACBrCalcDadosAbertos.ConsultarFundamentacoes(aData: TDateTime; out aResponse: IACBrCalcFundamentacoesResponse): Boolean;
@@ -1135,7 +1137,7 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodGET, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
@@ -1143,9 +1145,9 @@ begin
   aResponse := TACBrCalcFundamentacoesResponse.Create;
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 function TACBrCalcDadosAbertos.ConsultarClassTrib(aIdST: Integer; aData: TDateTime; out aResponse: IACBrCalcClassifTributariasResponse): Boolean;
@@ -1169,7 +1171,7 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodGET, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
@@ -1177,9 +1179,9 @@ begin
   aResponse := TACBrCalcClassifTributariasResponse.Create;
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 function TACBrCalcDadosAbertos.ConsultarClassTribImpostoSeletivo(aData: TDateTime; out aResponse: IACBrCalcClassifTributariasResponse): Boolean;
@@ -1201,7 +1203,7 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodGET, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
@@ -1209,9 +1211,9 @@ begin
   aResponse := TACBrCalcClassifTributariasResponse.Create;
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 function TACBrCalcDadosAbertos.ConsultarClassTribCbsIbs(aData: TDateTime; out aResponse: IACBrCalcClassifTributariasResponse): Boolean;
@@ -1233,7 +1235,7 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodGET, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
@@ -1241,9 +1243,9 @@ begin
   aResponse := TACBrCalcClassifTributariasResponse.Create;
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 function TACBrCalcDadosAbertos.ConsultarAliquotaUniao(aData: TDateTime; out aResponse: IACBrCalcAliquotaResponse): Boolean;
@@ -1264,7 +1266,7 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodGET, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
@@ -1272,9 +1274,9 @@ begin
   aResponse := TACBrCalcAliquotaResponse.Create;
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 function TACBrCalcDadosAbertos.ConsultarAliquotaUF(aCodUF: Integer; aData: TDateTime; out aResponse: IACBrCalcAliquotaResponse): Boolean;
@@ -1298,7 +1300,7 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodGET, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
@@ -1306,9 +1308,9 @@ begin
   aResponse := TACBrCalcAliquotaResponse.Create;
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 function TACBrCalcDadosAbertos.ConsultarAliquotaMunicipio(aCodMunicipio: Integer; aData: TDateTime; out aResponse: IACBrCalcAliquotaResponse): Boolean;
@@ -1332,7 +1334,7 @@ begin
   try
     fOwner.HTTPMethod(cHTTPMethodGET, fOwner.URL);
   except
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
     if RespostaErro.IsEmpty then
       raise;
   end;
@@ -1340,9 +1342,9 @@ begin
   aResponse := TACBrCalcAliquotaResponse.Create;
   Result := (fOwner.HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(fOwner.HTTPResponse)
+    aResponse.LoadJson(fOwner.RespostaTratada)
   else
-    SetRespostaErro(fOwner.HTTPResponse);
+    SetRespostaErro(fOwner.RespostaTratada);
 end;
 
 { TACBrCalculadoraConsumo }
@@ -1352,6 +1354,11 @@ begin
   if (not Assigned(fRespostaErro)) then
     fRespostaErro := TACBrCalcErro.Create;
   Result := fRespostaErro;
+end;
+
+function TACBrCalculadoraConsumo.GetRespostaTratada: AnsiString;
+begin
+  Result := UTF8ToNativeString(HTTPResponse);
 end;
 
 function TACBrCalculadoraConsumo.GetGerarXMLRequest: TACBrCalcROC;
@@ -1443,16 +1450,16 @@ begin
   try
     HTTPMethod(cHTTPMethodPOST, URL);
   except
-    RespostaErro.AsJSON := HTTPResponse;
+    RespostaErro.AsJSON := RespostaTratada;
     if RespostaErro.IsEmpty then
       raise;
   end;
 
   Result := (HTTPResultCode = HTTP_OK);
   if Result then
-    aXMLResponse := HTTPResponse
+    aXMLResponse := RespostaTratada
   else
-    RespostaErro.AsJSON := HTTPResponse;
+    RespostaErro.AsJSON := RespostaTratada;
 end;
 
 function TACBrCalculadoraConsumo.ValidarXML(const aTipo, aSubTipo: String; const aXML: AnsiString): Boolean;
@@ -1473,14 +1480,14 @@ begin
   try
     HTTPMethod(cHTTPMethodPOST, URL);
   except
-    RespostaErro.AsJSON := HTTPResponse;
+    RespostaErro.AsJSON := RespostaTratada;
     if RespostaErro.IsEmpty then
       raise;
   end;
 
   Result := (HTTPResultCode = HTTP_OK);
   if not Result then
-    RespostaErro.AsJSON := HTTPResponse;
+    RespostaErro.AsJSON := RespostaTratada;
 end;
 
 function TACBrCalculadoraConsumo.RegimeGeral(out aResponse: IACBrCalcRegimeGeralResponse): Boolean;
@@ -1499,16 +1506,16 @@ begin
   try
     HTTPMethod(cHTTPMethodPOST, URL);
   except
-    RespostaErro.AsJSON := HTTPResponse;
+    RespostaErro.AsJSON := RespostaTratada;
     if RespostaErro.IsEmpty then
       raise;
   end;
 
   Result := (HTTPResultCode = HTTP_OK);
   if Result then
-    aResponse.LoadJson(HTTPResponse)
+    aResponse.LoadJson(RespostaTratada)
   else
-    RespostaErro.AsJSON := HTTPResponse;
+    RespostaErro.AsJSON := RespostaTratada;
 end;
 
 end. 
