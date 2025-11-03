@@ -31,10 +31,9 @@ Para colocar o programa exemplo em funcionamento, siga os passos abaixo:
 
 2. **Configuração da ACBrLibNFe no Projeto Android:**
 
-    - **Arquivo ``.aar``:** Pegue o arquivo ``ACBrLibNFe-release.aar`` (localizado em ``Android`` na pasta que você descompactou) e copie-o para a pasta ``app/libs`` do demo. Se a pasta ``libs`` não existir dentro de ``app``, crie-a.
-    - **Pasta ``Schemas``:**
+    - **Arquivo ``.aar``:** Pegue o arquivo ``ACBrLibNFe-release.aar`` (localizado em ``Android`` na pasta que você descompactou) e copie-o para a pasta ``app/libs`` do demo. Se a pasta ``libs`` não existir dentro de ``app``, crie-a.    - **Pasta ``Schemas``:**
         - Copie a pasta ``Schemas`` (encontrada dentro da pasta ``dep`` que você descompactou) diretamente para ``app/src/main/assets/`` do projeto.
-        - Alternativamente, você pode compactar a pasta ``Schemas`` em um arquivo ZIP com o nome ``schemas.zip`` e colocá-lo em ``app/src/main/res/assets``.
+        - Alternativamente, você pode compactar a pasta ``Schemas`` em um arquivo ZIP com o nome ``schemas.zip`` e colocá-lo em ``app/src/main/assets/``.
 
 3. **Configuração do Certificado Digital:**
 
