@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/11/2025
+-- ACBrCTe.XmlWriter --
+[-] ACBR-8326 - Ajuste visando a correta geração da tag CNPJ quando se tratar de Estrangeiro.
+  Por: Evandro Santos
+
 31/10/2025
 -- ACBrCTe.IniWriter --
 [-] ACBR-7997 - Ajuste visando correta geração das seções infNFe para índice com mais de 3 casas.

@@ -1095,7 +1095,8 @@ begin
     if CTe.Ide.Toma4.EnderToma.cPais = 1058 then
       Result.AppendChild(AddNodeCNPJCPF('#039', '#040', CTe.ide.Toma4.CNPJCPF))
     else
-      Result.AppendChild(AddNodeCNPJ('#039', '00000000000000', CODIGO_BRASIL, True));
+      Result.AppendChild(AddNode(tcStr, '#039', 'CNPJ', 14, 14, 1,
+                                                   '00000000000000', DSC_CNPJ));
 
     Result.AppendChild(Gerar_IE(CTe.Ide.Toma4.IE, CTe.Ide.Toma4.EnderToma.UF));
 
@@ -1351,7 +1352,8 @@ begin
     if CTe.Toma.EnderToma.cPais = 1058 then
       Result.AppendChild(AddNodeCNPJCPF('#064', '#065', CTe.Toma.CNPJCPF))
     else
-      Result.AppendChild(AddNodeCNPJ('#064', '00000000000000', CODIGO_BRASIL, True));
+      Result.AppendChild(AddNode(tcStr, '#064', 'CNPJ', 14, 14, 1,
+                                                   '00000000000000', DSC_CNPJ));
 
     Result.AppendChild(Gerar_IE(CTe.Toma.IE, CTe.Toma.EnderToma.UF));
 
@@ -2720,7 +2722,8 @@ begin
     if CTe.Rem.enderReme.cPais = 1058 then
       Result.AppendChild(AddNodeCNPJCPF('#039', '#040', CTe.Rem.CNPJCPF))
     else
-      Result.AppendChild(AddNodeCNPJ('#039', '00000000000000', CODIGO_BRASIL, True));
+      Result.AppendChild(AddNode(tcStr, '#039', 'CNPJ', 14, 14, 1,
+                                                   '00000000000000', DSC_CNPJ));
 
     Result.AppendChild(Gerar_IE(CTe.Rem.IE, CTe.Rem.enderReme.UF));
 
@@ -2765,7 +2768,8 @@ begin
     if CTe.Dest.EnderDest.cPais = 1058 then
       Result.AppendChild(AddNodeCNPJCPF('#039', '#040', CTe.Dest.CNPJCPF))
     else
-      Result.AppendChild(AddNodeCNPJ('#039', '00000000000000', CODIGO_BRASIL, True));
+      Result.AppendChild(AddNode(tcStr, '#039', 'CNPJ', 14, 14, 1,
+                                                   '00000000000000', DSC_CNPJ));
 
     Result.AppendChild(Gerar_IE(CTe.Dest.IE, CTe.Dest.EnderDest.UF));
 
@@ -2814,7 +2818,8 @@ begin
     if CTe.Exped.EnderExped.cPais = 1058 then
       Result.AppendChild(AddNodeCNPJCPF('#039', '#040', CTe.Exped.CNPJCPF))
     else
-      Result.AppendChild(AddNodeCNPJ('#039', '00000000000000', CODIGO_BRASIL, True));
+      Result.AppendChild(AddNode(tcStr, '#039', 'CNPJ', 14, 14, 1,
+                                                   '00000000000000', DSC_CNPJ));
 
     Result.AppendChild(Gerar_IE(CTe.Exped.IE, CTe.Exped.EnderExped.UF));
 
@@ -2856,7 +2861,8 @@ begin
     if CTe.Receb.EnderReceb.cPais = 1058 then
       Result.AppendChild(AddNodeCNPJCPF('#039', '#040', CTe.Receb.CNPJCPF))
     else
-      Result.AppendChild(AddNodeCNPJ('#039', '00000000000000', CODIGO_BRASIL, True));
+      Result.AppendChild(AddNode(tcStr, '#039', 'CNPJ', 14, 14, 1,
+                                                   '00000000000000', DSC_CNPJ));
 
     Result.AppendChild(Gerar_IE(CTe.Receb.IE, CTe.Receb.EnderReceb.UF));
 
