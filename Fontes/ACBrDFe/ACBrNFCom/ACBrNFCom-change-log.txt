@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+03/11/2025
+-- ACBrNFComWebServices --
+[-] No Xml Soap de retorno do evento a SEFAZ esta gerando indevidamente com o prefixo ns0.
+    Feito uma alteração para remoção do prefixo antes de realizar a leitura do retorno.
+  Por: Italo Giurizzato Junior
+
 24/10/2025
 -- ACBrNFComXmlWriter --
 [*] #ACBr-8284: Ajuste para deixar os campos nContrato e dContratoIni como opcionais.

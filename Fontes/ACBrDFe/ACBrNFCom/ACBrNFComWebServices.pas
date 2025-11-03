@@ -1987,7 +1987,8 @@ var
 begin
   FEvento.idLote := idLote;
 
-  FPRetWS := SeparaDadosArray(['nfComResultMsg'], FPRetornoWS );
+  FPRetornoWS := StringReplace(FPRetornoWS, 'ns0:', '', [rfReplaceAll]);
+  FPRetWS := SeparaDadosArray(['nfComResultMsg'], FPRetornoWS);
 
   VerificarSemResposta;
 
