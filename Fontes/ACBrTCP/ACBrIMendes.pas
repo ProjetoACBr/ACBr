@@ -48,6 +48,7 @@ const
   cIMendesAPI = 'api';
   cIMendesV1 = 'v1';
   cIMendesV3 = 'v3';
+  cIMendesACBr = 'acbr';
   cIMendesPublic = 'public';
   cIMendesAPIRegimeEspecial = 'regime_especial';
   cIMendesEndPointLogin = 'api/auth';
@@ -3972,9 +3973,7 @@ begin
   end;
 
   try
-    URLPathParams.Add(cIMendesAPI);
-    URLPathParams.Add(cIMendesV3);
-    URLPathParams.Add(cIMendesPublic);
+    URLPathParams.Add(cIMendesACBr);
     URLPathParams.Add(cIMendesEndpointSaneamentoGrades);
     HTTPMethod(cHTTPMethodPOST, CalcularURL);
     Result := (HTTPResultCode = HTTP_OK);

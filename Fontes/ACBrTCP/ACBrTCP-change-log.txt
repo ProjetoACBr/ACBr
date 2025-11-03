@@ -36,6 +36,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+03/11/2025
+-- ACBrIMendes --
+[*] Alteração da URL enviada para o endpoint SaneamentoGrades.
+    por: Elias Cesar
+
 02/11/2025
 -- ACBrCalculadoraConsumo --
 [+] Tratamento das respostas dos comandos da calculadora com UTF8ToNativeString().
