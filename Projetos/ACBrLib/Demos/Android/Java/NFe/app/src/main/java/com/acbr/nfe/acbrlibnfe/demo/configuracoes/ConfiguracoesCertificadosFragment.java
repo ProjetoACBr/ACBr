@@ -1,5 +1,14 @@
 package com.acbr.nfe.acbrlibnfe.demo.configuracoes;
 
+/**
+ * Fragment para configuração de certificados digitais.
+ * 
+ * Permite seleção de certificados via SAF (sem permissões especiais),
+ * configuração de SSL e obtenção da lista de certificados instalados.
+ * 
+ * @author ACBr Team
+ */
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -204,7 +213,6 @@ public class ConfiguracoesCertificadosFragment extends Fragment {
         String[] mimeTypes = {
             "application/x-pkcs12",      // .p12, .pfx
             "application/pkcs12",        // .p12, .pfx
-            "*/*"                        // Fallback para outros tipos
         };
 
         intent.setType("*/*");

@@ -1,5 +1,14 @@
 package com.acbr.nfe.acbrlibnfe.demo.comandos;
 
+/**
+ * Fragment para inutilização de numeração de NFe na SEFAZ.
+ * 
+ * Permite inutilizar número único ou sequência. Requer CNPJ, série,
+ * numeração e justificativa (min. 15 caracteres).
+ * 
+ * @author ACBr Team
+ */
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;

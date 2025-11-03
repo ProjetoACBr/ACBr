@@ -1,5 +1,14 @@
 package com.acbr.nfe.acbrlibnfe.demo.comandos;
 
+/**
+ * Fragment para eventos de NFe (cancelamento, CCe, manifestação, EPEC).
+ * 
+ * Permite vincular eventos a NFe autorizadas. Inclui validação
+ * de regras de negócio e assinatura digital.
+ * 
+ * @author ACBr Team
+ */
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;

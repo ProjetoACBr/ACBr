@@ -1,5 +1,14 @@
 package com.acbr.nfe.acbrlibnfe.demo.comandos;
 
+/**
+ * Fragment para consulta e download de documentos via Distribuição DFe.
+ * 
+ * Permite baixar NFe/CTe por CNPJ/CPF ou consultar por último NSU.
+ * Processa documentos compactados e extrai XMLs.
+ * 
+ * @author ACBr Team
+ */
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 

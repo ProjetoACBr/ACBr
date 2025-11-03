@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_comandos"
+        android:id="@+id/comandosNFeFragment"
         android:icon="@drawable/ic_comandos_24"
-        android:title="Comandos NFe" />
+        android:title="Demo ACBrLibNFe" />
     <item
-        android:id="@+id/nav_configuracoes"
+        android:id="@+id/configuracoesNFeFragment"
         android:icon="@drawable/ic_configuracoes_24"
-        android:title="Configurações NFe" />
+        android:title="Configurações" />
     <item
-        android:id="@+id/nav_ini"
+        android:id="@+id/configuracoesIniFragment"
         android:icon="@drawable/ic_arquivo_24"
         android:title="ACBrLib.ini" />
 </menu>

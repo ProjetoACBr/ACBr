@@ -10,7 +10,8 @@
         android:layout_height="match_parent"
         android:layout_margin="15dp"
         android:fillViewport="true"
-        tools:context=".ConfiguracoesCertificadosFragment">
+        tools:context=".ConfiguracoesCertificadosFragment"
+        tools:layout_editor_absoluteY="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,45 +63,38 @@
                 android:layout_marginTop="10dp"
                 android:text="Caminho" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/txtCertPath"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btnSelecionarCertificado"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:focusableInTouchMode="false" />
 
                 <Button
                     android:id="@+id/btnSelecionarCertificado"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
                     android:gravity="center"
                     app:icon="@drawable/icone_certificado_24"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
-                    app:iconSize="24dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/txtCertPath"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:layout_constraintWidth_percent="0.1" />
+                    app:iconSize="24dp" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Dados PFX"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                android:hint="Dados PFX">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtDadosPFX"
@@ -110,11 +104,11 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="Senha"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -126,11 +120,11 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Número de Série"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                android:hint="Número de Série">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtCertNumero"
@@ -145,15 +139,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="10dp"
-                
+
                 android:text="ObterCertificados" />
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Retorno"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                android:hint="Retorno">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtRespostaCertificado"
@@ -164,10 +158,10 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnSalvarConfiguracoesCertificados"
@@ -175,11 +169,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:text="Salvar"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btnCarregarConfiguracoesCertificados"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintWidth_percent="0.5" />
+                    android:layout_weight="1"
+                    android:text="Salvar" />
 
                 <Button
                     android:id="@+id/btnCarregarConfiguracoesCertificados"
@@ -187,13 +178,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:text="Carregar"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/btnSalvarConfiguracoesCertificados"
-                    app:layout_constraintWidth_percent="0.5" />
+                    android:layout_weight="1"
+                    android:text="Carregar" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </LinearLayout>
 

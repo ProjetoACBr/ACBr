@@ -18,6 +18,14 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import br.com.acbr.lib.nfe.ACBrLibNFe;
 
+/**
+ * Container principal para comandos NFe organizados em abas.
+ * 
+ * Utiliza ViewPager2 com TabLayout para navegação entre:
+ * Envio, Consulta, Inutilização, Eventos e Distribuição DFe.
+ * 
+ * @author ACBr Team
+ */
 public class ComandosNFeFragment extends Fragment {
 
     private FragmentComandosNfeBinding binding;

@@ -1,5 +1,14 @@
 package com.acbr.nfe.acbrlibnfe.demo.comandos;
 
+/**
+ * Fragment para criação, validação, assinatura e transmissão de NFe.
+ * 
+ * Inclui formulário completo, geração de DANFE PDF e visualização integrada.
+ * Suporta impressão via Bluetooth.
+ * 
+ * @author ACBr Team
+ */
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;

@@ -1,5 +1,14 @@
 package com.acbr.nfe.acbrlibnfe.demo.comandos;
 
+/**
+ * Fragment para consulta de status e situação de NFe na SEFAZ.
+ * 
+ * Consulta por chave de acesso, cadastro de contribuintes e status do serviço.
+ * Exibe protocolo de autorização e eventos vinculados.
+ * 
+ * @author ACBr Team
+ */
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;

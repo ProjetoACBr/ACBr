@@ -1,5 +1,14 @@
 package com.acbr.nfe.acbrlibnfe.demo.configuracoes;
 
+/**
+ * Container principal para configurações NFe organizadas em abas.
+ * 
+ * Utiliza ViewPager2 com TabLayout para navegação entre:
+ * Geral, Certificados, WebServices, Email, Arquivos e DANFE.
+ * 
+ * @author ACBr Team
+ */
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -16,16 +16,20 @@ import br.com.acbr.lib.comum.dfe.SSLHttpLib;
 import br.com.acbr.lib.comum.dfe.SSLXmlSignLib;
 import br.com.acbr.lib.nfe.ACBrLibNFe;
 
-
-
+/**
+ * Activity principal do ACBrLibNFe Demo.
+ * 
+ * Container para navegação entre fragments de comandos e configurações NFe.
+ * Inicializa a biblioteca ACBrLibNFe e gerencia o ciclo de vida da aplicação.
+ * 
+ * @author ACBr Team
+ * @version 1.0
+ */
 public class MainActivity extends AppCompatActivity {
 
     private ACBrLibNFe ACBrNFe;
     private NfeApplication application;
     private NavController navController;
-    
-    // Cache para otimizar navegação
-    private int currentSelectedItemId = -1;
 
 
     @Override
@@ -86,7 +90,14 @@ public class MainActivity extends AppCompatActivity {
                     findViewById(R.id.bottom_navigation);
                 
                 if (bottomNavigationView != null) {
-                    setupBottomNavigation(bottomNavigationView);
+                    // Usar integração padrão do Navigation Component com BottomNavigationView
+                    NavigationUI.setupWithNavController(bottomNavigationView, navController);
+                    
+                    // Configurar listener para atualizar o título da AppBar
+                    navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+                        updateAppBarTitle(destination.getId());
+                    });
+                    
                     Log.d("MainActivity", "Navigation Controller e BottomNavigation configurados com sucesso");
                 } else {
                     Log.e("MainActivity", "BottomNavigationView não encontrada!");
@@ -100,56 +111,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setupBottomNavigation(com.google.android.material.bottomnavigation.BottomNavigationView bottomNav) {
-        // Otimizações para performance
-        bottomNav.setItemHorizontalTranslationEnabled(false);
+    private void updateAppBarTitle(int destinationId) {
+        String title = "ACBr NFe Demo"; // Título padrão
         
-        bottomNav.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            
-            // Evita navegação desnecessária se o item já está selecionado
-            if (currentSelectedItemId == itemId) {
-                return true;
-            }
-            
-            // Atualiza o cache antes da navegação
-            currentSelectedItemId = itemId;
-            
-            // Navegação otimizada com tratamento de exceções
-            try {
-                if (itemId == R.id.nav_comandos) {
-                    navController.navigate(R.id.comandosNFeFragment);
-                    updateAppBarTitle("Comandos NFe");
-                    return true;
-                } else if (itemId == R.id.nav_configuracoes) {
-                    navController.navigate(R.id.configuracoesNFeFragment);
-                    updateAppBarTitle("Configurações NFe");
-                    return true;
-                } else if (itemId == R.id.nav_ini) {
-                    navController.navigate(R.id.configuracoesIniFragment);
-                    updateAppBarTitle("ACBrLib.ini");
-                    return true;
-                }
-            } catch (Exception e) {
-                Log.e("MainActivity", "Erro na navegação: " + e.getMessage());
-                // Reverte o cache em caso de erro
-                currentSelectedItemId = -1;
-                return false;
-            }
-            
-            return false;
-        });
+        if (destinationId == R.id.comandosNFeFragment) {
+            title = "Demo ACBrLibNFe";
+        } else if (destinationId == R.id.configuracoesNFeFragment) {
+            title = "Configurações";
+        } else if (destinationId == R.id.configuracoesIniFragment) {
+            title = "ACBrLib.ini";
+        }
         
-        // Define o item inicial selecionado
-        bottomNav.setSelectedItemId(R.id.nav_comandos);
-        currentSelectedItemId = R.id.nav_comandos;
-    }
-
-    private void updateAppBarTitle(String title) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }
     }
+
+
 
     private void configurarACBrNFe() {
         try {
