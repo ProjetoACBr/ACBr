@@ -194,9 +194,10 @@
                 android:layout_marginTop="10dp"
                 android:text="Ignorar Tags" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnSalvarConfiguracoesDocumentoAuxiliar"
@@ -204,11 +205,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:text="Salvar"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btnCarregarConfiguracoesDocumentoAuxiliar"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintWidth_percent="0.5" />
+                    android:layout_weight="1"
+                    android:text="Salvar" />
 
                 <Button
                     android:id="@+id/btnCarregarConfiguracoesDocumentoAuxiliar"
@@ -216,13 +214,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:text="Carregar"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/btnSalvarConfiguracoesDocumentoAuxiliar"
-                    app:layout_constraintWidth_percent="0.5" />
+                    android:layout_weight="1"
+                    android:text="Carregar" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
