@@ -12,7 +12,6 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/primary_blue"
-        android:elevation="4dp"
         android:fitsSystemWindows="true"
         app:title="ACBr NFe Demo"
         app:titleTextColor="@color/white"

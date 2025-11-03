@@ -10,31 +10,30 @@ import java.util.List;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
-    private List<Fragment> fragmentsList = new ArrayList<>();
-
-    private List<String> titleList = new ArrayList<>();
+    private final List<Fragment> fragmentList = new ArrayList<>();
+    private final List<String> titleList = new ArrayList<>();
 
     public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
 
-    public String getTitle(int position){
+    public String getTitle(int position) {
         return titleList.get(position);
     }
 
-    public void addFragment(Fragment fragment, String title){
-        fragmentsList.add(fragment);
+    public void addFragment(Fragment fragment, String title) {
+        fragmentList.add(fragment);
         titleList.add(title);
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return fragmentsList.get(position);
+        return fragmentList.get(position);
     }
 
     @Override
     public int getItemCount() {
-        return fragmentsList.size();
+        return fragmentList.size();
     }
 }

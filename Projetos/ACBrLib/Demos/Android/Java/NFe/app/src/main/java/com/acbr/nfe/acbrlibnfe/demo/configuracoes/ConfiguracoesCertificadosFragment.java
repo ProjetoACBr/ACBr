@@ -1,7 +1,6 @@
 package com.acbr.nfe.acbrlibnfe.demo.configuracoes;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,10 +14,6 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.acbr.nfe.acbrlibnfe.demo.R;
@@ -42,9 +37,8 @@ public class ConfiguracoesCertificadosFragment extends Fragment {
     private ACBrLibNFe ACBrNFe;
     private NfeApplication application;
     
-    // ActivityResultLauncher para selecionar arquivos
+    // ActivityResultLauncher simples para selecionar arquivos usando SAF (sem permissões)
     private ActivityResultLauncher<Intent> filePickerLauncher;
-    private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE = 2;
     private EditText txtCertPath;
     private EditText txtDadosPFX;
     private EditText txtCertPassword;
@@ -67,8 +61,8 @@ public class ConfiguracoesCertificadosFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_configuracoes_certificados, container, false);
 
-        // Configurar ActivityResultLauncher
-        setupActivityResultLaunchers();
+        // Configurar ActivityResultLauncher simples para SAF
+        setupFilePickerLauncher();
 
         ACBrNFe = ACBrLibHelper.getInstance("");
 
@@ -116,13 +110,17 @@ public class ConfiguracoesCertificadosFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d("ConfiguracoesCertificadosFragment", "Botão Selecionar Certificado clicado");
-                getCertificate();
+                openFilePicker();
             }
         });
 
-        carregarConfiguracoesCertificados();
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        carregarConfiguracoesCertificados();
     }
 
     private void salvarConfiguracoesCertificados() {
@@ -167,8 +165,11 @@ public class ConfiguracoesCertificadosFragment extends Fragment {
         }
     }
 
-    private void setupActivityResultLaunchers() {
-        // Configurar launcher para seleção de arquivos
+    /**
+     * Configura o launcher simples para seleção de arquivos usando SAF (Storage Access Framework)
+     * Não requer permissões especiais - funciona em todas as versões do Android
+     */
+    private void setupFilePickerLauncher() {
         filePickerLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -180,70 +181,91 @@ public class ConfiguracoesCertificadosFragment extends Fragment {
                         copyCertificateToApp(uri);
                     } else {
                         Log.e("ConfiguracoesCertificadosFragment", "URI é nulo");
+                        Toast.makeText(requireContext(), "Erro: Arquivo não selecionado", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Log.e("ConfiguracoesCertificadosFragment", "Resultado cancelado ou dados nulos");
+                    Log.d("ConfiguracoesCertificadosFragment", "Seleção de arquivo cancelada pelo usuário");
                 }
             }
         );
     }
 
-    public void getCertificate() {
-        Log.d("ConfiguracoesCertificadosFragment", "getCertificate() chamado");
-        checkAndRequestPermissions();
-    }
+    /**
+     * Abre o file picker usando SAF (Storage Access Framework)
+     * Não requer permissões especiais e funciona em todas as versões do Android
+     */
+    private void openFilePicker() {
+        Log.d("ConfiguracoesCertificadosFragment", "Abrindo file picker para seleção de certificado");
+        
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        
+        // Aceitar arquivos de certificado comuns
+        String[] mimeTypes = {
+            "application/x-pkcs12",      // .p12, .pfx
+            "application/pkcs12",        // .p12, .pfx
+            "*/*"                        // Fallback para outros tipos
+        };
 
-    private void checkAndRequestPermissions() {
-        // Check if the READ_EXTERNAL_STORAGE permission is already granted
-        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            // If not, request it
-            ActivityCompat.requestPermissions(requireActivity(),
-                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_CODE_READ_EXTERNAL_STORAGE);
-        } else {
-            openFilePicker();
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        
+        try {
+            filePickerLauncher.launch(intent);
+        } catch (Exception e) {
+            Log.e("ConfiguracoesCertificadosFragment", "Erro ao abrir file picker: " + e.getMessage());
+            Toast.makeText(requireContext(), "Erro ao abrir seletor de arquivos", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // Open file picker to let the user choose a file
-    protected void openFilePicker() {
-        Log.d("ConfiguracoesCertificadosFragment", "Abrindo file picker para seleção de certificado");
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.setType("application/x-pkcs12");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        
-        filePickerLauncher.launch(intent);
-    }
-
+    /**
+     * Copia o certificado selecionado para o diretório da aplicação
+     * @param sourceUri URI do arquivo selecionado pelo usuário via SAF
+     */
     private void copyCertificateToApp(Uri sourceUri) {
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        
         try {
-            // Abrir InputStream do arquivo de origem
-            InputStream inputStream = requireActivity().getContentResolver().openInputStream(sourceUri);
-
-            // Definir o destino para o arquivo na pasta do app (getExternalFilesDir())
-            File destFile = new File(application.getAppDir(), application.PFX_PADRAO);
-            OutputStream outputStream = new FileOutputStream(destFile);
-
-            // Fazer a cópia do arquivo
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
+            // Abrir InputStream do arquivo de origem usando Content Resolver
+            inputStream = requireActivity().getContentResolver().openInputStream(sourceUri);
+            if (inputStream == null) {
+                throw new IOException("Não foi possível abrir o arquivo selecionado");
             }
 
-            // Fechar os streams
-            inputStream.close();
-            outputStream.close();
+            // Definir o destino na pasta privada da aplicação
+            File destFile = new File(application.getAppDir(), application.PFX_PADRAO);
+            outputStream = new FileOutputStream(destFile);
 
-            // Atualizar o campo txtCertPath com o caminho do arquivo copiado
+            // Copiar o arquivo usando buffer
+            byte[] buffer = new byte[4096]; // Buffer maior para melhor performance
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            // Atualizar o campo de texto com o caminho do certificado
             txtCertPath.setText(destFile.getAbsolutePath());
 
-            Toast.makeText(requireContext(), "Certificado selecionado: " + destFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-            Log.d("ConfiguracoesCertificadosFragment", "Arquivo copiado para: " + destFile.getAbsolutePath());
+            Toast.makeText(requireContext(), 
+                "Certificado importado com sucesso", 
+                Toast.LENGTH_SHORT).show();
+            Log.d("ConfiguracoesCertificadosFragment", 
+                "Certificado copiado para: " + destFile.getAbsolutePath());
+                
         } catch (IOException e) {
-            Toast.makeText(requireContext(), "Erro ao copiar o arquivo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.e("ConfiguracoesCertificadosFragment", "Erro ao copiar arquivo: " + e.getMessage());
+            Log.e("ConfiguracoesCertificadosFragment", "Erro ao copiar certificado: " + e.getMessage());
+            Toast.makeText(requireContext(), 
+                "Erro ao importar certificado: " + e.getMessage(), 
+                Toast.LENGTH_LONG).show();
+        } finally {
+            // Fechar streams de forma segura
+            try {
+                if (inputStream != null) inputStream.close();
+                if (outputStream != null) outputStream.close();
+            } catch (IOException e) {
+                Log.e("ConfiguracoesCertificadosFragment", "Erro ao fechar streams: " + e.getMessage());
+            }
         }
     }
 }

@@ -23,6 +23,8 @@ public class ConfiguracoesNFeFragment extends Fragment {
     private FragmentConfiguracoesNfeBinding binding;
     private ACBrLibNFe ACBrNFe;
     private NfeApplication application;
+    private ViewPagerAdapter adapter;
+    private TabLayoutMediator mediator;
 
     @SuppressLint("MissingInflatedId")
     @Nullable
@@ -45,22 +47,26 @@ public class ConfiguracoesNFeFragment extends Fragment {
 
 
     private void configTabLayout() {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity());
-        binding.viewPager.setAdapter(adapter);
-
+        // Configuração tradicional do ViewPager2
+        adapter = new ViewPagerAdapter(requireActivity());
+        
+        // Adiciona os fragments
         adapter.addFragment(new ConfiguracoesGeraisFragment(), "Geral");
         adapter.addFragment(new ConfiguracoesWebServicesFragment(), "WebServices");
         adapter.addFragment(new ConfiguracoesCertificadosFragment(), "Certificados");
         adapter.addFragment(new ConfiguracoesArquivosFragment(), "Arquivos");
         adapter.addFragment(new ConfiguracoesEmailFragment(), "Email");
         adapter.addFragment(new ConfiguracoesDocumentoAuxiliarFragment(), "Documento Auxiliar");
-
-        binding.viewPager.setOffscreenPageLimit(adapter.getItemCount());
-
-        TabLayoutMediator mediator = new TabLayoutMediator(binding.tabs, binding.viewPager, (tab, position) -> {
-            tab.setText(adapter.getTitle(position));
-        });
-
+        
+        // Configura o ViewPager2
+        binding.viewPager.setAdapter(adapter);
+        
+        // Otimização simples: mantém 2 páginas adjacentes em memória
+        binding.viewPager.setOffscreenPageLimit(2);
+        
+        // Conecta as abas ao ViewPager2
+        mediator = new TabLayoutMediator(binding.tabs, binding.viewPager, 
+                (tab, position) -> tab.setText(adapter.getTitle(position)));
         mediator.attach();
     }
 
@@ -69,6 +75,13 @@ public class ConfiguracoesNFeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        
+        // Limpa recursos do ViewPager
+        if (mediator != null) {
+            mediator.detach();
+            mediator = null;
+        }
+        
         binding = null;
     }
 }

@@ -68,9 +68,13 @@ public class ConfiguracoesArquivosFragment extends Fragment {
             }
         });
 
-        carregarConfiguracoesArquivos();
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        carregarConfiguracoesArquivos();
     }
 
     private void salvarConfiguracoesArquivos() {

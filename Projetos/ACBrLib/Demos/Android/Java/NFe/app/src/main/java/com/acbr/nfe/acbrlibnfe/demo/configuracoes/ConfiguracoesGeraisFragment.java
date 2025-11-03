@@ -88,9 +88,13 @@ public class ConfiguracoesGeraisFragment extends Fragment {
             }
         });
 
-        carregarConfiguracoesGerais();
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        carregarConfiguracoesGerais();
     }
 
     private void salvarConfiguracoesGerais() {

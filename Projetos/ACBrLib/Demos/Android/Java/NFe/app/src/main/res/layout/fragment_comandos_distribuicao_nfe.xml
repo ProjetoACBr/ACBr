@@ -23,44 +23,56 @@
                 android:layout_marginTop="8dp"
                 android:text="Por Chave" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="UF:" />
+                android:layout_marginTop="16dp"
+                android:hint="UF"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtUFDFePorChave"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtUFDFePorChave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="2" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="CNPJ:" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txtCNPJDFePorChave"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                android:layout_marginTop="16dp"
+                android:hint="CNPJ"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Chave:" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtCNPJDFePorChave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:maxLength="14" />
 
-            <EditText
-                android:id="@+id/txtChaveDFePorChave"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                android:layout_marginTop="16dp"
+                android:hint="Chave NFe"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtChaveDFePorChave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:maxLength="44" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnDFePorChave"
@@ -76,44 +88,55 @@
                 android:layout_marginTop="8dp"
                 android:text="Por NSU" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="UF:" />
+                android:layout_marginTop="16dp"
+                android:hint="UF"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtUFDFePorNSU"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtUFDFePorNSU"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="2" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="CNPJ:" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txtCNPJDFePorNSU"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                android:layout_marginTop="16dp"
+                android:hint="CNPJ"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="NSU:" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtCNPJDFePorNSU"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:maxLength="14" />
 
-            <EditText
-                android:id="@+id/txtNSUDFePorNSU"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                android:layout_marginTop="16dp"
+                android:hint="NSU"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtNSUDFePorNSU"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnDFePorNSU"
@@ -129,44 +152,55 @@
                 android:layout_marginTop="8dp"
                 android:text="Por Ult. NSU" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="UF:" />
+                android:layout_marginTop="16dp"
+                android:hint="UF"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtUFDFePorUltNSU"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtUFDFePorUltNSU"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="2" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="CNPJ:" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txtCNPJDFePorUltNSU"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                android:layout_marginTop="16dp"
+                android:hint="CNPJ"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Ult. NSU:" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtCNPJDFePorUltNSU"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:maxLength="14" />
 
-            <EditText
-                android:id="@+id/txtUltNSUDFePorUltNSU"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                android:layout_marginTop="16dp"
+                android:hint="Último NSU"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtUltNSUDFePorUltNSU"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnDFePorUltNSU"
@@ -176,18 +210,24 @@
                 
                 android:text="Por Ult. NSU" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Resposta:" />
+                android:layout_marginTop="16dp"
+                android:hint="Resposta"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtRespostaDistribuicaoDFe"
-                android:layout_width="match_parent"
-                android:layout_height="353dp"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtRespostaDistribuicaoDFe"
+                    android:layout_width="match_parent"
+                    android:layout_height="353dp"
+                    android:textSize="12sp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:editable="false"
+                    android:focusable="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnLimparRespostaDistribuicaoDFe"

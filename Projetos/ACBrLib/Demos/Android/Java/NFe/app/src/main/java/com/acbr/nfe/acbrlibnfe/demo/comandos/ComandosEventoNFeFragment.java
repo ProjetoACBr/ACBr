@@ -6,7 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.fragment.app.Fragment;
 
@@ -19,11 +20,11 @@ public class ComandosEventoNFeFragment extends Fragment {
 
     private ACBrLibNFe ACBrNFe;
 
-    private EditText txtRespostaEvento;
-    private EditText txtEventoNFeINI;
-    private EditText txtJustificativaCancelarNFe;
-    private EditText txtChaveCancelarNFe;
-    private EditText txtCNPJCancelarNFe;
+    private TextInputEditText txtRespostaEvento;
+    private TextInputEditText txtEventoNFeINI;
+    private TextInputEditText txtJustificativaCancelarNFe;
+    private TextInputEditText txtChaveCancelarNFe;
+    private TextInputEditText txtCNPJCancelarNFe;
     private Button btnCancelarNFe;
     private Button btnCarregarEvento;
     private Button btnEnviarEvento;
@@ -34,8 +35,6 @@ public class ComandosEventoNFeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comandos_evento_nfe, container, false);
-
-        ACBrNFe = ACBrLibHelper.getInstance("");
 
         txtEventoNFeINI = view.findViewById(R.id.txtEventoNFeINI);
         txtRespostaEvento = view.findViewById(R.id.txtRespostaEvento);
@@ -84,6 +83,12 @@ public class ComandosEventoNFeFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ACBrNFe = ACBrLibHelper.getInstance("");
     }
 
     public void cancelarNFe() {

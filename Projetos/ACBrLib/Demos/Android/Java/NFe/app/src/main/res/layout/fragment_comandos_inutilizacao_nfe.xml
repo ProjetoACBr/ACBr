@@ -17,96 +17,121 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="CNPJ:" />
+                android:layout_marginTop="16dp"
+                android:hint="CNPJ"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtCNPJInutilizarNumeracao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtCNPJInutilizarNumeracao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:maxLength="14" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Justificativa:" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txtJustificativaInutilizarNumeracao"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                android:layout_marginTop="16dp"
+                android:hint="Justificativa para Inutilização"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Ano:" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtJustificativaInutilizarNumeracao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="textCapSentences" />
 
-            <EditText
-                android:id="@+id/txtAnoInutilizarNumeracao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Modelo:" />
+                android:layout_marginTop="16dp"
+                android:hint="Ano"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtModeloInutilizarNumeracao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtAnoInutilizarNumeracao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:maxLength="4" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Série:" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txtSerieInutilizarNumeracao"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                android:layout_marginTop="16dp"
+                android:hint="Modelo"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Número Inicial:" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtModeloInutilizarNumeracao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:maxLength="2" />
 
-            <EditText
-                android:id="@+id/txtNumeroInicialInutilizarNumeracao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Número Final:" />
+                android:layout_marginTop="16dp"
+                android:hint="Série"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtNumeroFinalInutilizarNumeracao"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtSerieInutilizarNumeracao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:maxLength="3" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                android:layout_marginTop="16dp"
+                android:hint="Número Inicial"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtNumeroInicialInutilizarNumeracao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Número Final"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtNumeroFinalInutilizarNumeracao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnInutilizarNumeracao"
@@ -116,18 +141,24 @@
                 
                 android:text="Inutilizar Numeração" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Resposta:" />
+                android:layout_marginTop="16dp"
+                android:hint="Resposta"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtRespostaInutilizacao"
-                android:layout_width="match_parent"
-                android:layout_height="444dp"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtRespostaInutilizacao"
+                    android:layout_width="match_parent"
+                    android:layout_height="444dp"
+                    android:textSize="12sp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:editable="false"
+                    android:focusable="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnLimparRespostaInutilizacao"

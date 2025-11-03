@@ -62,9 +62,13 @@ public class ConfiguracoesEmailFragment extends Fragment {
             }
         });
 
-        carregarConfiguracoesEmail();
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        carregarConfiguracoesEmail();
     }
 
     private void salvarConfiguracoesEmail() {

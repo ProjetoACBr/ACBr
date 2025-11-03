@@ -17,44 +17,55 @@
             android:orientation="vertical"
             android:padding="32dp">
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Justificativa:" />
+                android:layout_marginTop="16dp"
+                android:hint="Justificativa para Cancelamento"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtJustificativaCancelarNFe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtJustificativaCancelarNFe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="textCapSentences" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Chave:" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txtChaveCancelarNFe"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                android:layout_marginTop="16dp"
+                android:hint="Chave NFe"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="CNPJ:" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtChaveCancelarNFe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:maxLength="44" />
 
-            <EditText
-                android:id="@+id/txtCNPJCancelarNFe"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                android:layout_marginTop="16dp"
+                android:hint="CNPJ"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtCNPJCancelarNFe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:maxLength="14" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnCancelarNFe"
@@ -64,18 +75,22 @@
                 
                 android:text="Cancelar NFe" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Evento NFe INI:" />
+                android:layout_marginTop="16dp"
+                android:hint="Evento NFe INI"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtEventoNFeINI"
-                android:layout_width="match_parent"
-                android:layout_height="276dp"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtEventoNFeINI"
+                    android:layout_width="match_parent"
+                    android:layout_height="276dp"
+                    android:textSize="12sp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnCarregarEvento"
@@ -101,18 +116,24 @@
                 
                 android:text="Limpar Lista Eventos" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Resposta:" />
+                android:layout_marginTop="16dp"
+                android:hint="Resposta"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtRespostaEvento"
-                android:layout_width="match_parent"
-                android:layout_height="355dp"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtRespostaEvento"
+                    android:layout_width="match_parent"
+                    android:layout_height="355dp"
+                    android:textSize="12sp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:editable="false"
+                    android:focusable="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnLimparRespostaEvento"

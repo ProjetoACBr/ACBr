@@ -10,7 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import com.acbr.nfe.acbrlibnfe.demo.utils.ACBrLibHelper;
 import com.acbr.nfe.acbrlibnfe.demo.R;
@@ -21,17 +22,15 @@ public class ComandosDistribuicaoNFeFragment extends Fragment {
 
     private ACBrLibNFe ACBrNFe;
 
-    private EditText txtRespostaDistribuicaoDFe, txtUFDFePorChave, txtCNPJDFePorChave, txtChaveDFePorChave,
+    private TextInputEditText txtRespostaDistribuicaoDFe, txtUFDFePorChave, txtCNPJDFePorChave, txtChaveDFePorChave,
             txtNSUDFePorNSU, txtUFDFePorNSU, txtCNPJDFePorNSU,
             txtUFDFePorUltNSU, txtCNPJDFePorUltNSU, txtUltNSUDFePorUltNSU;
 
     private Button btnDFePorChave, btnDFePorNSU, btnDFePorUltNSU, btnLimparRespostaDistribuicaoDFe;
 
-    @SuppressLint("MissingInflatedId")
     @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-
+    public void onResume() {
+        super.onResume();
         // Instância da biblioteca
         ACBrNFe = ACBrLibHelper.getInstance("");
     }

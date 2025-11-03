@@ -94,9 +94,13 @@ public class ConfiguracoesDocumentoAuxiliarFragment extends Fragment {
             }
         });
 
-        carregarConfiguracoesDocumentoAuxiliar();
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        carregarConfiguracoesDocumentoAuxiliar();
     }
 
     private void salvarConfiguracoesDocumentoAuxiliar() {

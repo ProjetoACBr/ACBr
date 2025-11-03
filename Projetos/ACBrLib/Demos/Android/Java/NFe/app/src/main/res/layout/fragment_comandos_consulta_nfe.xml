@@ -25,18 +25,21 @@
                 
                 android:text="Status Serviço" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Número Recibo:" />
+                android:layout_marginTop="16dp"
+                android:hint="Número Recibo"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtNumeroRecibo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtNumeroRecibo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnConsultarRecibo"
@@ -46,18 +49,22 @@
                 
                 android:text="Consultar Recibo" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="XML NFe:" />
+                android:layout_marginTop="16dp"
+                android:hint="XML NFe"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtXMLNFe"
-                android:layout_width="match_parent"
-                android:layout_height="276dp"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtXMLNFe"
+                    android:layout_width="match_parent"
+                    android:layout_height="276dp"
+                    android:textSize="12sp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnConsultaXml"
@@ -73,31 +80,38 @@
                 android:layout_marginTop="8dp"
                 android:text="Consultar Cadastro" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="UF:" />
+                android:layout_marginTop="16dp"
+                android:hint="UF"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtUFConsultarCadastro"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtUFConsultarCadastro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="2" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Documento:" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txtDocumentoConsultarCadastro"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                android:layout_marginTop="16dp"
+                android:hint="Documento (CPF/CNPJ)"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtDocumentoConsultarCadastro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnConsultarCadastro"
@@ -113,18 +127,22 @@
                 android:layout_marginTop="8dp"
                 android:text="Consultar com Chave" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Chave:" />
+                android:layout_marginTop="16dp"
+                android:hint="Chave NFe"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtConsultarChave"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtConsultarChave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:maxLength="44" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnConsultaChave"
@@ -134,18 +152,24 @@
                 
                 android:text="Consultar com Chave" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Resposta:" />
+                android:layout_marginTop="16dp"
+                android:hint="Resposta"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/txtRespostaConsulta"
-                android:layout_width="match_parent"
-                android:layout_height="276dp"
-                android:layout_marginTop="10dp"
-                android:textSize="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtRespostaConsulta"
+                    android:layout_width="match_parent"
+                    android:layout_height="276dp"
+                    android:textSize="12sp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:editable="false"
+                    android:focusable="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnLimparRespostaConsulta"

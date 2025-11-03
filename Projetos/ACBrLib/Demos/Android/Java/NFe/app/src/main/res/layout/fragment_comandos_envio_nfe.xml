@@ -20,18 +20,22 @@
             
             android:text="Limpar Lista NFe" />
 
-        <TextView
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="NFe INI:" />
+            android:layout_marginTop="16dp"
+            android:hint="NFe INI"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-        <EditText
-            android:id="@+id/txtNFeINI"
-            android:layout_width="match_parent"
-            android:layout_height="224dp"
-            android:layout_marginTop="10dp"
-            android:textSize="12dp" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtNFeINI"
+                android:layout_width="match_parent"
+                android:layout_height="224dp"
+                android:textSize="12sp"
+                android:gravity="top|start"
+                android:inputType="textMultiLine" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnEnviarNFe"
@@ -49,31 +53,38 @@
             
             android:text="Enviar NFe - Classe Alto Nível" />
 
-        <TextView
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="NFe XML:" />
+            android:layout_marginTop="16dp"
+            android:hint="NFe XML"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-        <EditText
-            android:id="@+id/txtNFeXML"
-            android:layout_width="match_parent"
-            android:layout_height="224dp"
-            android:layout_marginTop="10dp"
-            android:textSize="12dp" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtNFeXML"
+                android:layout_width="match_parent"
+                android:layout_height="224dp"
+                android:textSize="12sp"
+                android:gravity="top|start"
+                android:inputType="textMultiLine" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Destinatário:" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/txtDestinatario"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="12dp" />
+            android:layout_marginTop="16dp"
+            android:hint="Destinatário"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtDestinatario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:inputType="textEmailAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnEnviarEmailNFCe"
@@ -113,12 +124,24 @@
             android:layout_marginTop="8dp"
             android:text="Resposta:" />
 
-        <EditText
-            android:id="@+id/txtRespostaEnvio"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="215dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textSize="12dp" />
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:hint="Resposta">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtRespostaEnvio"
+                android:layout_width="match_parent"
+                android:layout_height="215dp"
+                android:textSize="12sp"
+                android:inputType="textMultiLine"
+                android:gravity="top|start"
+                android:editable="false"
+                android:focusable="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnLimparRespostaEnvio"

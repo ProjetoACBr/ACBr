@@ -88,9 +88,13 @@ public class ConfiguracoesWebServicesFragment extends Fragment {
             }
         });
 
-        carregarConfiguracoesWebServices();
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        carregarConfiguracoesWebServices();
     }
 
     private void salvarConfiguracoesWebServices() {
