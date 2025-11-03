@@ -42,6 +42,18 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+03/11/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8333 A cidade Iomere/SC trocou a versão e as URLs, o provedor continua o mesmo.
+   Por: Raianne Gottschalk
+[*] #ACBr-8328 A cidade Rio os Cedros/SC trocou a versão e as URLs, o provedor continua o mesmo.
+   Por: Charlles Lopes
+[*] #ACBr-8327 A cidade Joao Neiva/ES trocou a versão e as URLs, o provedor continua o mesmo.
+   Por: Data Lider
+[*] #ACBr-8238 A cidade Recife/PE trocou de provedor, agora é PadraoNacional.
+   Por: Og1Systems
+
 01/11/2025
 -- Diversos --
 [*] Realizado alterações visando a versão 2.00 dos Schemas do provedor ISSSaoPaulo
