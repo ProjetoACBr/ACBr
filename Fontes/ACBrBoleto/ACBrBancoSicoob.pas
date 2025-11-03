@@ -532,7 +532,6 @@ begin
        Cedente.AgenciaDigito:= '0';
        Cedente.Conta   := rConta;
        Cedente.ContaDigito:= rDigitoConta;
-       Cedente.CodigoCedente:= rConta+rDigitoConta;
      end;
      Cedente.Conta := RemoveZerosEsquerda(Cedente.Conta);
 

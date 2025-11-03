@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+03/11/2025
+-- ACBrBancoSicoob.pas --
+[*] Removido  a linha Cedente.CodigoCedente:= rConta+rDigitoConta quando lerCedenteRetorno, pois o codigo cedente não é este montado.
+   ACBr-8296 https://www.projetoacbr.com.br/forum/topic/86876-propriedade-tamanhoconta-banco-sicoob/?&_rid=1706#findComment-564244
+   Por EasySoft Sistemas
+
 29/10/2025
 -- ACBrBoletoRet_BancoBrasil_API --
 [-] Correção do nossoNumero API devolvendo dv entre convenio e nossonumero.
