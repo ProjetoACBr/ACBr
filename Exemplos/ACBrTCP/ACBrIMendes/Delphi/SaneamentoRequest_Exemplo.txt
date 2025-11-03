@@ -1,0 +1,47 @@
+{
+    "emit": {
+        "amb": 2,
+        "cnpj": "18760540000139",
+        "crt": 3,
+        "regimeTrib": "LR",
+        "uf": "SP",
+        "municipio": 3523909,
+        "cnae": "4639701",
+        "substICMS": "N",
+        "interdependente": "N",
+        "cnaeSecundario": "471701",
+        "dia": 0,
+        "mes": 0,
+        "ano": 0,
+        "dataLimite": "1899-12-30",
+        "regimeEspecial": ""
+    },
+    "perfil": {
+        "cfop": "6403",
+        "finalidade": 0,
+        "simplesN": "N",
+        "origem": 0,
+        "substICMS": "N",
+        "regimeTrib": "",
+        "prodZFM": "N",
+        "regimeEspecial": "",
+        "fabricacaoPropria": false,
+        "caracTrib": [
+            3
+        ],
+        "uf": [
+            "PR"
+        ]
+    },
+    "produtos": [
+        {
+            "descricao": "MORTADELA (Concatenar todoas as descrições)",
+            "ncm": "16010000",
+            "codigo": "07898278710058",
+            "codInterno": "N",
+            "encontrado": false,
+            "dtultcons": "1899-12-30",
+            "dtrev": "1899-12-30"
+        }
+    ]
+}

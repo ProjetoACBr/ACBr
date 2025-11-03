@@ -1,15 +1,18 @@
 unit Principal;
 
-{$mode objfpc}{$H+}
+{$I ACBr.inc}
 
 interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls, StdCtrls,
-  ExtCtrls, Buttons, Spin, ACBrIMendes, ACBrSocket;
+  ExtCtrls, Buttons, Spin,
+  {$IfNDef FPC}ACBrBase,{$EndIf}
+  ACBrIMendes, ACBrSocket;
 
 const
   CURL_ACBR = 'https://projetoacbr.com.br';
+  cRequestExample = 'SaneamentoRequest_Exemplo.txt';
 
 type
 
@@ -21,13 +24,14 @@ type
     btConfigLogArq: TSpeedButton;
     btConfigProxySenha: TSpeedButton;
     btConfigSalvar: TSpeedButton;
+    btSaneamentoPreencher: TSpeedButton;
+    btSaneamentoEnviar: TSpeedButton;
     btConsultarAlterados: TButton;
     btConsultarDescricao: TButton;
     btConsultarRegimesEspeciais: TButton;
     btEndpointsLimparLog: TSpeedButton;
     btConfigSenha: TSpeedButton;
     btHistoricoAcessoConsultar: TButton;
-    btSaneamentoEnviar: TButton;
     cbConfigAmbiente: TComboBox;
     cbConfigLogNivel: TComboBox;
     edConfigCNPJ: TEdit;
@@ -71,7 +75,7 @@ type
     pnConsultarAlterados: TPanel;
     pnRegimesEspeciais: TPanel;
     pnHistoricoAcesso: TPanel;
-    pnConsultarDescricao: TPanel;
+    pnConsultas: TPanel;
     pgEndpoints: TPageControl;
     pgImendes: TPageControl;
     pnConfig: TPanel;
@@ -81,7 +85,7 @@ type
     pnConfigRodape: TPanel;
     pnEndpointsLog: TPanel;
     tsSaneamentoGrades: TTabSheet;
-    tsConsultarDescricao: TTabSheet;
+    tsConsultas: TTabSheet;
     tsEndpoints: TTabSheet;
     tsConfig: TTabSheet;
     procedure btConfigCancelarClick(Sender: TObject);
@@ -95,6 +99,7 @@ type
     procedure btConfigSenhaClick(Sender: TObject);
     procedure btSaneamentoEnviarClick(Sender: TObject);
     procedure btHistoricoAcessoConsultarClick(Sender: TObject);
+    procedure btSaneamentoPreencherClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     function NomeArquivoConfiguracao: String;
@@ -106,6 +111,7 @@ type
     procedure AplicarConfiguracao;
     procedure SolicitarConfiguracao;
 
+    procedure InicializarBitmaps;
     procedure InicializarComponentesDefault;
     procedure RegistrarLogTela(aMensagem: String);
   public
@@ -176,10 +182,28 @@ begin
     RegistrarLogTela(FormatarJSON(ACBrIMendes1.RespostaErro.AsJSON))
 end;
 
+procedure TfrPrincipal.btSaneamentoPreencherClick(Sender: TObject);
+var
+  sl: TStringList;
+begin
+  if not FilesExists(cRequestExample) then
+    Exit;
+
+  sl := TStringList.Create;
+  try
+    sl.LoadFromFile(cRequestExample);
+    if NaoEstaVazio(sl.Text) then
+      mmSaneamentoGrades.Lines.Text := sl.Text;
+  finally
+    sl.Free;
+  end;
+end;
+
 procedure TfrPrincipal.FormCreate(Sender: TObject);
 begin
-  InicializarComponentesDefault;
   LerConfiguracao;
+  InicializarBitmaps;
+  InicializarComponentesDefault;
   if ConfiguracaoValida then
     pgImendes.ActivePage := tsEndpoints
   else
@@ -268,6 +292,19 @@ begin
   Abort;
 end;
 
+procedure TfrPrincipal.InicializarBitmaps;
+begin
+  ImageList1.GetBitmap(7, btConfigSenha.Glyph);
+  ImageList1.GetBitmap(7, btConfigProxySenha.Glyph);
+  ImageList1.GetBitmap(9, btConfigLogArq.Glyph);
+  ImageList1.GetBitmap(10, btConfigSalvar.Glyph);
+  ImageList1.GetBitmap(12, btConfigCancelar.Glyph);
+  ImageList1.GetBitmap(18, btEndpointsLimparLog.Glyph);
+
+  ImageList1.GetBitmap(29, btSaneamentoPreencher.Glyph);
+  ImageList1.GetBitmap(11, btSaneamentoEnviar.Glyph);
+end;
+
 function TfrPrincipal.ConfiguracaoValida: Boolean;
 begin
   Result :=
@@ -331,6 +368,14 @@ begin
   cbConfigAmbiente.Items.Clear;
   for i := Low(TACBrIMendesAmbiente) to High(TACBrIMendesAmbiente) do
     cbConfigAmbiente.Items.Add(GetEnumName(TypeInfo(TACBrIMendesAmbiente), Integer(i)));
+
+  if EstaVazio(edConfigCNPJ.Text) or EstaVazio(edConfigSenha.Text) then
+    pgImendes.ActivePage := tsConfig
+  else
+  begin
+    pgImendes.ActivePage := tsEndpoints;
+    pgEndpoints.ActivePage := tsConsultas;
+  end;
 end;
 
 procedure TfrPrincipal.RegistrarLogTela(aMensagem: String);

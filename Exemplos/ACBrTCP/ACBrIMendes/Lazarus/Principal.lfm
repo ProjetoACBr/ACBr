@@ -154,19 +154,19 @@ object frPrincipal: TfrPrincipal
         Height = 552
         Top = 0
         Width = 488
-        ActivePage = tsConsultarDescricao
+        ActivePage = tsConsultas
         Align = alClient
         Images = ImageList1
         TabHeight = 30
         TabIndex = 0
         TabOrder = 1
         TabWidth = 150
-        object tsConsultarDescricao: TTabSheet
+        object tsConsultas: TTabSheet
           Caption = 'Consultas'
           ClientHeight = 514
           ClientWidth = 480
           ImageIndex = 8
-          object pnConsultarDescricao: TPanel
+          object pnConsultas: TPanel
             Left = 0
             Height = 514
             Top = 0
@@ -366,19 +366,36 @@ object frPrincipal: TfrPrincipal
               TabOrder = 0
               object mmSaneamentoGrades: TMemo
                 Left = 8
-                Height = 362
+                Height = 368
                 Top = 8
                 Width = 432
                 TabOrder = 0
               end
-              object btSaneamentoEnviar: TButton
-                Left = 152
-                Height = 25
+              object btSaneamentoPreencher: TSpeedButton
+                Left = 8
+                Height = 27
                 Top = 392
-                Width = 134
+                Width = 192
+                Caption = 'Preencher(Dados Ficticios)'
+                Images = ImageList1
+                ImageIndex = 29
+                OnClick = btSaneamentoPreencherClick
+                ShowHint = True
+                ParentFont = False
+                ParentShowHint = False
+              end
+              object btSaneamentoEnviar: TSpeedButton
+                Left = 213
+                Height = 27
+                Top = 392
+                Width = 115
                 Caption = 'Enviar'
-                TabOrder = 1
+                Images = ImageList1
+                ImageIndex = 11
                 OnClick = btSaneamentoEnviarClick
+                ShowHint = True
+                ParentFont = False
+                ParentShowHint = False
               end
             end
           end
@@ -727,7 +744,7 @@ object frPrincipal: TfrPrincipal
     ContentsEncodingCompress = []
     NivelLog = 0
     Ambiente = imaNenhum
-    Left = 648
+    Left = 624
     Top = 48
   end
   object ImageList1: TImageList

@@ -154,16 +154,16 @@ object frPrincipal: TfrPrincipal
         Top = 0
         Width = 488
         Height = 550
-        ActivePage = tsConsultarDescricao
+        ActivePage = tsConsultas
         Align = alClient
         Images = ImageList1
         TabHeight = 30
         TabOrder = 1
         TabWidth = 150
-        object tsConsultarDescricao: TTabSheet
+        object tsConsultas: TTabSheet
           Caption = 'Consultas'
           ImageIndex = 8
-          object pnConsultarDescricao: TPanel
+          object pnConsultas: TPanel
             Left = 0
             Top = 0
             Width = 480
@@ -330,28 +330,51 @@ object frPrincipal: TfrPrincipal
             Caption = 'Saneamento Grades (Request JSON)'
             TabOrder = 0
             object pnSaneamentoGrades: TPanel
-              Left = 2
-              Top = 15
+              Left = 0
+              Top = 0
               Width = 452
-              Height = 432
+              Height = 429
               Align = alClient
               BevelOuter = bvNone
               TabOrder = 0
+              object btSaneamentoPreencher: TSpeedButton
+                Left = 8
+                Top = 392
+                Width = 192
+                Height = 27
+                Caption = 'Preencher(Dados Ficticios)'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'MS Sans Serif'
+                Font.Style = []
+                ParentFont = False
+                ParentShowHint = False
+                ShowHint = True
+                OnClick = btSaneamentoPreencherClick
+              end
+              object btSaneamentoEnviar: TSpeedButton
+                Left = 213
+                Top = 392
+                Width = 115
+                Height = 27
+                Caption = 'Enviar'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'MS Sans Serif'
+                Font.Style = []
+                ParentFont = False
+                ParentShowHint = False
+                ShowHint = True
+                OnClick = btSaneamentoEnviarClick
+              end
               object mmSaneamentoGrades: TMemo
                 Left = 8
                 Top = 8
                 Width = 432
-                Height = 362
+                Height = 368
                 TabOrder = 0
-              end
-              object btSaneamentoEnviar: TButton
-                Left = 152
-                Top = 392
-                Width = 134
-                Height = 25
-                Caption = 'Enviar'
-                TabOrder = 1
-                OnClick = btSaneamentoEnviarClick
               end
             end
           end
@@ -601,7 +624,7 @@ object frPrincipal: TfrPrincipal
             end
             object btConfigSenha: TSpeedButton
               Left = 396
-              Top = 18
+              Top = 20
               Width = 23
               Height = 23
               AllowAllUp = True
