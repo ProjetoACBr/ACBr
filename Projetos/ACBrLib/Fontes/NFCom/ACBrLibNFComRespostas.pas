@@ -417,7 +417,7 @@ begin
     nSeqEvento := RetInfEvento.nSeqEvento;
     CNPJDest   := RetInfEvento.CNPJDest;
     emailDest  := RetInfEvento.emailDest;
-    XML        := RetInfEvento.XML;
+    Self.XML   := RetInfEvento.XML;
   end;
 end;
 

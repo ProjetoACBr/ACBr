@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+04/11/2025
+-- ACBrLibNFComRespostas --
+[-] Ajuste visando correto preenchimento da propriedade XML em TCancelamentoResposta
+  Por: Diego Folieni
+
 21/10/2025
 -- ACBrLibNFComRespostas --
 [-] Ajuste visando corrigir problema na leitura das informações em TCancelamentoResposta
