@@ -170,96 +170,6 @@ namespace ACBrLib.CTe.Demo
                 CarregarCTeIni();
         }
 
-        public bool validacaoEmail()
-        {
-            if (txtHost.Text == "")
-            {
-                errorProvider.SetError(txtHost, "Informe Host SMTP");
-                return false;
-            }
-            else if (txtUsuario.Text == "")
-            {
-                errorProvider.SetError(txtUsuario, "Informe Usuário");
-                return false;
-            }
-            else if (txtSenha.Text == "")
-            {
-                errorProvider.SetError(txtSenha, "Informe Senha");
-                return false;
-            }
-            else if (txtNome.Text == "")
-            {
-                errorProvider.SetError(txtNome, "Informe Nome do Proprietario do e-mail");
-                return false;
-            }
-            else if (txtEmail.Text == "")
-            {
-                errorProvider.SetError(txtEmail, "Informe e-mail do Proprietario");
-                return false;
-            }
-            else if (nudPorta.Value == 0)
-            {
-                errorProvider.SetError(nudPorta, "Informe porta de conexão");
-                return false;
-            }
-            else if (ckbSSL.Checked == false && ckbTLS.Checked == false)
-            {
-                errorProvider.SetError(ckbSSL, "Informe o certificado SSL");
-                errorProvider.SetError(ckbTLS, "Informe o certificado TLS");
-                return false;
-            }
-            {
-                return true;
-            }
-        }
-
-        public bool validacao()
-        {
-            if (txtSchemaPath.Text == "")
-            {
-                errorProvider.SetError(txtSchemaPath, "Informe Path com Schema");
-                return false;
-            }
-            else if (txtCertPath.Text == "")
-            {
-                errorProvider.SetError(txtCertPath, "Informe o certificado");
-                return false;
-            }
-            else if (txtCertPassword.Text == "")
-            {
-                errorProvider.SetError(txtCertPassword, "Informe a senha");
-                return false;
-            }
-            else if ((txtCertNumero.Text == "") && (txtCertPath.Text == ""))
-            {
-                errorProvider.SetError(txtCertNumero, "Informe o número de série");
-                return false;
-            }
-            else if (cmbCrypt.Text == "cryNone")
-            {
-                errorProvider.SetError(cmbCrypt, "Informe Criptografia");
-                return false;
-            }
-            else if (cmbHttp.Text == "httpNone")
-            {
-                errorProvider.SetError(cmbHttp, "Informe o tipo SSL");
-                return false;
-            }
-            else if (cmbXmlSign.Text == "xsNone")
-            {
-                errorProvider.SetError(cmbXmlSign, "Informe assinatura do XML");
-                return false;
-            }
-            else if (cmbSSlType.Text == "LT_all")
-            {
-                errorProvider.SetError(cmbSSlType, "Informe o tipo SSL");
-                return false;
-            }
-            {
-                return true;
-            }
-        }
-
         private void CarregarCTeIni()
         {
             var arquivoIni = Helpers.OpenFile("Arquivo Ini CTe (*.ini)|*.ini|Todos os Arquivos (*.*)|*.*");
@@ -344,12 +254,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnGerarXml_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             try
             {
                 ACBrCTe.LimparLista();
@@ -367,12 +271,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnEnviarSincrono_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             try
             {
                 CheckCTeLista();
@@ -391,12 +289,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnEnviarAssincrono_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             try
             {
                 CheckCTeLista();
@@ -486,12 +378,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnEnviarEmail_Click(object sender, EventArgs e)
         {
-            if (!validacaoEmail())
-            {
-                MessageBox.Show("Erro - Verifique as configurações de E - mail");
-                return;
-            }
-
             try
             {
                 var arquivoXml = Helpers.OpenFile("Arquivo Xmnl CTe (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*");
@@ -511,12 +397,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnAssinar_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             try
             {
                 CheckCTeLista(true);
@@ -545,12 +425,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnStatusServ_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             try
             {
                 rtbRespostas.AppendText(ACBrCTe.StatusServico());
@@ -563,12 +437,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnConsultaXml_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             try
             {
                 var chaveOuNFe = Helpers.OpenFile("Arquivo Xmnl CTe (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*");
@@ -587,12 +455,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnConsultaChave_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             try
             {
                 var chaveOuNFe = "";
@@ -611,12 +473,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnConsultarRecibo_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             try
             {
                 var aRecibo = "";
@@ -633,12 +489,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnConsultarCadastro_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             try
             {
                 var uf = "SP";
@@ -659,12 +509,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             try
             {
                 var idLote = 1;
@@ -687,12 +531,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnEnviarEvento_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             try
             {
                 var idLote = 1;
@@ -773,12 +611,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnEnviarEmailEvento_Click(object sender, EventArgs e)
         {
-            if (!validacaoEmail())
-            {
-                MessageBox.Show("Erro - Verifique as configurações de E - mail");
-                return;
-            }
-
             try
             {
                 var arquivoXmlEvento = Helpers.OpenFile("Arquivo Xml Evento (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*");
@@ -801,12 +633,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnInutilizar_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             try
             {
                 var ano = 1;
@@ -865,12 +691,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnDFePorChave_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             try
             {
                 var codUf = 35;
@@ -892,12 +712,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnDFePorNSU_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             var codUf = 35;
             var cnpj = "";
             var eNsu = "";
@@ -912,12 +726,6 @@ namespace ACBrLib.CTe.Demo
 
         private void btnDFePorUltNSU_Click(object sender, EventArgs e)
         {
-            if (!validacao())
-            {
-                MessageBox.Show("Erro Verifique as configurações do certificado");
-                return;
-            }
-
             var codUf = 35;
             var cnpj = "";
             var eNsu = "";
