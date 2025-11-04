@@ -709,7 +709,8 @@ function TNFSeW_PadraoNacional.GerarXMLEnderecoObra: TACBrXmlNode;
 begin
   Result := CreateElement('end');
 
-  if (NFSe.ConstrucaoCivil.Endereco.UF = '') then
+  if (NFSe.ConstrucaoCivil.Endereco.CodigoPais = 0) or
+     (NFSe.ConstrucaoCivil.Endereco.CodigoPais = 1058) then
     Result.AppendChild(AddNode(tcStr, '#1', 'CEP', 8, 8, 1,
                                          NFSe.ConstrucaoCivil.Endereco.CEP, ''))
   else
