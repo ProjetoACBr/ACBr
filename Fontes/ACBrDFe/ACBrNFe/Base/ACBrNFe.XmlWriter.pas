@@ -1356,9 +1356,9 @@ begin
     Result[j].AppendChild(AddNode(tcStr, 'I19', 'nDI', 01, 15, 1,
       NFe.Det[i].Prod.DI[j].nDI, DSC_NDI));
 
-    if not ValidaDIRE(NFe.Det[i].Prod.DI[j].nDI) and not
-      ValidaDIDSI(NFe.Det[i].Prod.DI[j].nDI) then
-      wAlerta('I19', 'nDI', DSC_NDI, ERR_MSG_INVALIDO);
+    // RV I19-10 consta como implementação futura
+    // if not ValidaDIRE(NFe.Det[i].Prod.DI[j].nDI) and not ValidaDIDSI(NFe.Det[i].Prod.DI[j].nDI) then
+    //   wAlerta('I19', 'nDI', DSC_NDI, ERR_MSG_INVALIDO);
 
     Result[j].AppendChild(AddNode(tcDat, 'I20', 'dDI', 10,
       10, 1, NFe.Det[i].Prod.DI[j].dDI, DSC_DDi));
