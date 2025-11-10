@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+10/11/2025
+-- ACBrBancoBrasil.pas --
+[*] Quando convenio for maior que 6, colocado a condição se TipoPagamento for igual tpNao_Aceita_Valor_Divergente, gera "N" posição 394
+   ACBr-8358 https://www.projetoacbr.com.br/forum/topic/87136-erro-na-remessa-do-boleto-banco-do-brasil-cnab400/#comment-565536
+   Por Daniel de Morais, Eric Bortoleto 
+
 03/11/2025
 -- ACBrBancoSicoob.pas --
 [*] Removido  a linha Cedente.CodigoCedente:= rConta+rDigitoConta quando lerCedenteRetorno, pois o codigo cedente não é este montado.
