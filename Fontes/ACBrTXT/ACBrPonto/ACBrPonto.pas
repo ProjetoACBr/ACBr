@@ -70,7 +70,8 @@ type
     FPonto_AFD: TPonto_AFD;
     FPonto_AFDT: TPonto_AFDT;
     FPonto_ACJEF: TPonto_ACJEF;
-    FAEJ: TAEJ;
+    FAEJ: TPonto_AEJ;
+    FFusoHorario : string;
 
     function GetDelimitador: String;
     function GetReplaceDelimitador: Boolean;
@@ -82,7 +83,8 @@ type
     procedure SetCurMascara(const Value: String);
 
     function GetOnError: TErrorEvent; // Método do evento OnError
-    procedure SetOnError(const Value: TErrorEvent); // Método SetError
+    procedure SetOnError(const Value: TErrorEvent);
+    procedure SetFusoHorario(const Value: string); // Método SetError
 
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
@@ -101,7 +103,7 @@ type
     property Ponto_AFD: TPonto_AFD read FPonto_AFD write FPonto_AFD;
     property Ponto_AFDT: TPonto_AFDT read FPonto_AFDT write FPonto_AFDT;
     property Ponto_ACJEF: TPonto_ACJEF read FPonto_ACJEF write FPonto_ACJEF;
-    property AEJ: TAEJ read FAEJ write FAEJ;
+    property AEJ: TPonto_AEJ read FAEJ write FAEJ;
 
   published
     property Path: String read FPath write FPath;
@@ -110,7 +112,7 @@ type
     property ReplaceDelimitador: Boolean read GetReplaceDelimitador write SetReplaceDelimitador;
     property TrimString: boolean read GetTrimString write SetTrimString default True;
     property CurMascara: String read GetCurMascara write SetCurMascara;
-
+    property FusoHorario : string read FFusoHorario write setFusoHorario;
     property OnError: TErrorEvent read GetOnError write SetOnError;
   end;
 
@@ -126,11 +128,10 @@ constructor TACBrPonto.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FPonto_AFD := TPonto_AFD.Create;
-  FPonto_AFDT := TPonto_AFDT.Create;
+  FPonto_AFD   := TPonto_AFD.Create;
+  FPonto_AFDT  := TPonto_AFDT.Create;
   FPonto_ACJEF := TPonto_ACJEF.Create;
-  FAEJ := TAEJ.Create;
-
+  FAEJ         := TPonto_AEJ.Create(Self);
 
   FPath := ExtractFilePath(ParamStr(0));
 
@@ -163,6 +164,11 @@ begin
   FPonto_AFDT.Delimitador  := Value;
   FPonto_ACJEF.Delimitador := Value;
   FAEJ.Delimitador := Value;
+end;
+
+procedure TACBrPonto.SetFusoHorario(const Value: string);
+begin
+  FFusoHorario := Value;
 end;
 
 function TACBrPonto.GetCurMascara: String;
@@ -356,7 +362,9 @@ begin
       Rewrite(txtFile);
 
       if FAEJ.Cabecalho.Count > 0 then
+      begin
         Write(txtFile, FAEJ.Cabecalho.GetStr);
+      end;
 
       if FAEJ.Registro02.Count > 0 then
         Write(txtFile, FAEJ.Registro02.GetStr);

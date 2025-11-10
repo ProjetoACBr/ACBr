@@ -45,21 +45,69 @@ uses
   DateUtils,
   ACBrUtil.Base;
 
+
 type
+  TCabecalho = class;
+  TCabecalhoList = class;
+  TRegistro02List = class;
+  TRegistro03List = class;
+  TRegistro04List = class;
+  TRegistro05List = class;
+  TRegistro06List = class;
+  TRegistro07List = class;
+  TRegistro08List = class;
+  TTrailer        = class;
+  TAssinaturaDigital = class;
+
+  TPonto_AEJ = class(TACBrTXTClass)
+  private
+
+    FCabecalho  : TCabecalhoList;
+    FRegistro02 : TRegistro02List;
+    FRegistro03 : TRegistro03List;
+    FRegistro04 : TRegistro04List;
+    FRegistro05 : TRegistro05List;
+    FRegistro06 : TRegistro06List;
+    FRegistro07 : TRegistro07List;
+    FRegistro08 : TRegistro08List;
+    FTrailer    : TTrailer;
+    FAssinaturaDigital : TAssinaturaDigital;
+    FOwner      : TObject;
+    procedure CriaRegistros;
+    procedure LiberaRegistros;
+  public
+    constructor Create(AOwner : TObject);
+    destructor Destroy; override;
+    procedure LimpaRegistros;
+    procedure SaveToFile(sFileName: String);
+
+    property Cabecalho : TCabecalhoList  read FCabecalho write FCabecalho;
+    property Registro02: TRegistro02List read FRegistro02 write FRegistro02;
+    property Registro03: TRegistro03List read FRegistro03 write FRegistro03;
+    property Registro04: TRegistro04List read FRegistro04 write FRegistro04;
+    property Registro05: TRegistro05List read FRegistro05 write FRegistro05;
+    property Registro06: TRegistro06List read FRegistro06 write FRegistro06;
+    property Registro07: TRegistro07List read FRegistro07 write FRegistro07;
+    property Registro08: TRegistro08List read FRegistro08 write FRegistro08;
+    property Trailer: TTrailer           read FTrailer    write FTrailer;
+    property AssinaturaDigital: TAssinaturaDigital  read FAssinaturaDigital write FAssinaturaDigital;
+  end;
+
   TCabecalho = class(TACBrTXTClass)
   private
-    FtipoReg: String;
+    FOwner : TObject;
+    FtipoReg: string;
     FtpIdtEmpregador: TtpIdtEmpregador;
-    FidtEmpregador: String;
-    Fcaepf: String;
-    Fcno: String;
-    FrazaoOuNome: String;
+    FidtEmpregador: string;
+    Fcaepf: string;
+    Fcno: string;
+    FrazaoOuNome: string;
     FdataInicialAej: TDateTime;
     FdataFinalAej: TDateTime;
     FdataHoraGerAej: TDateTime;
-    FversaoAej: String;
+    FversaoAej: string;
   public
-    constructor Create;
+    constructor Create(AOwner : TObject);
     function GetStr: String;
 
     property tipoReg        : String           read FtipoReg;
@@ -76,9 +124,11 @@ type
 
   TCabecalhoList = class(TObjectList)
   private
+    FOwner : TObject;
     function GetItem(Index: Integer): TCabecalho;
     procedure SetItem(Index: Integer; const Value: TCabecalho);
   public
+    constructor Create(AOwner : TObject);
     function New: TCabecalho;
     property Items[Index: Integer]: TCabecalho read GetItem write SetItem;
     function GetStr: String;
@@ -170,6 +220,7 @@ type
 
   TRegistro05 = class(TACBrTXTClass)
   private
+    FOwner : TObject;
     FtipoReg: String;
     FidtVinculoAej: String;
     FdataHoraMarc: TDateTime;
@@ -180,7 +231,7 @@ type
     FcodHorContratual: String;
     Fmotivo: String;
   public
-    constructor Create;
+    constructor Create(AOwner : TObject);
     function GetStr: String;
 
     property tipoReg: String read FtipoReg;
@@ -196,9 +247,11 @@ type
 
   TRegistro05List = class(TObjectList)
   private
+    FOwner : TObject;
     function GetItem(Index: Integer): TRegistro05;
     procedure SetItem(Index: Integer; const Value: TRegistro05);
   public
+    constructor Create(AOwner : TObject);
     function New: TRegistro05;
     property Items[Index: Integer]: TRegistro05 read GetItem write SetItem;
     function GetStr: String;
@@ -329,50 +382,32 @@ type
     property tipoReg: String read FtipoReg;
   end;
 
-  TAEJ = class(TACBrTXTClass)
-  private
-    FCabecalho  : TCabecalhoList;
-    FRegistro02 : TRegistro02List;
-    FRegistro03 : TRegistro03List;
-    FRegistro04 : TRegistro04List;
-    FRegistro05 : TRegistro05List;
-    FRegistro06 : TRegistro06List;
-    FRegistro07 : TRegistro07List;
-    FRegistro08 : TRegistro08List;
-    FTrailer    : TTrailer;
-    FAssinaturaDigital : TAssinaturaDigital;
-
-    procedure CriaRegistros;
-    procedure LiberaRegistros;
-  public
-    constructor Create;
-    destructor Destroy; override;
-    procedure LimpaRegistros;
-    procedure SaveToFile(sFileName: String);
-
-    property Cabecalho : TCabecalhoList  read FCabecalho write FCabecalho;
-    property Registro02: TRegistro02List read FRegistro02 write FRegistro02;
-    property Registro03: TRegistro03List read FRegistro03 write FRegistro03;
-    property Registro04: TRegistro04List read FRegistro04 write FRegistro04;
-    property Registro05: TRegistro05List read FRegistro05 write FRegistro05;
-    property Registro06: TRegistro06List read FRegistro06 write FRegistro06;
-    property Registro07: TRegistro07List read FRegistro07 write FRegistro07;
-    property Registro08: TRegistro08List read FRegistro08 write FRegistro08;
-    property Trailer: TTrailer           read FTrailer write FTrailer;
-    property AssinaturaDigital: TAssinaturaDigital  read FAssinaturaDigital write FAssinaturaDigital;
-  end;
 
 implementation
 
 uses
-  ACBrUtil.DateTime;
+  ACBrUtil.DateTime,
+  ACBrPonto;
 
 { TCabecalho }
+function DataHoraFormatada(const ADateTime : TDateTime; const AFusoHorario : string = ''): string;
+var
+  TZ: string;
+begin
+  // Define fuso horário manualmente (para o padrão do Brasil (DF) -03:00)
+  TZ := AFusoHorario;
 
-constructor TCabecalho.Create;
+  // Monta string no formato requerido
+  if NaoEstaVazio(TZ) then
+    Result := FormatDateTime('yyyy"-"mm"-"dd"T"hh":"nn":00', ADateTime) + TZ
+  else
+    Result := DateTimeToIso8601(ADateTime);
+end;
+constructor TCabecalho.Create(AOwner : TObject);
 begin
   FtipoReg   := '01';
   FversaoAej := '001';
+  FOwner := AOwner;
 end;
 
 function TCabecalho.GetStr: String;
@@ -386,12 +421,17 @@ begin
     RFill(razaoOuNome, 150) +
     LFill(FormatDateTime('yyyy-mm-dd', dataInicialAej ), 10) +
     LFill(FormatDateTime('yyyy-mm-dd', dataFinalAej), 10) +
-    LFill(DateTimeToIso8601(dataHoraGerAej), 24) +
+    LFill(DataHoraFormatada(dataHoraGerAej, TACBrPonto(FOwner).FusoHorario), 24) +
     LFill(versaoAej) +
     sLineBreak;
 end;
 
 { TCabecalhoList }
+
+constructor TCabecalhoList.Create(AOwner: TObject);
+begin
+  FOwner := AOwner;
+end;
 
 function TCabecalhoList.GetItem(Index: Integer): TCabecalho;
 begin
@@ -408,7 +448,7 @@ end;
 
 function TCabecalhoList.New: TCabecalho;
 begin
-  Result := TCabecalho.Create;
+  Result := TCabecalho.Create(FOwner);
   Add(Result);
 end;
 
@@ -553,15 +593,17 @@ end;
 
 constructor TRegistro05.Create;
 begin
+  FOwner := AOwner;
   FtipoReg := '05';
 end;
 
 function TRegistro05.GetStr: String;
 begin
+
   Result :=
     LFill(tipoReg) +
     RFill(idtVinculoAej,9) +
-    LFill(DateTimeToIso8601(dataHoraMarc),24) +
+    LFill(DataHoraFormatada(dataHoraMarc, TACBrPonto(FOwner).FusoHorario),24) +
     RFill(idRepAej, 9) +
     LFill(tpMarcToStr(tpMarc)) +
     LFill(IntToStr(seqEntSaida), 3) +
@@ -572,6 +614,11 @@ begin
 end;
 
 { TRegistro05List }
+
+constructor TRegistro05List.Create(AOwner: TObject);
+begin
+  FOwner := AOwner;
+end;
 
 function TRegistro05List.GetItem(Index: Integer): TRegistro05;
 begin
@@ -588,7 +635,7 @@ end;
 
 function TRegistro05List.New: TRegistro05;
 begin
-  Result := TRegistro05.Create;
+  Result := TRegistro05.Create(FOwner);
   Add(Result);
 end;
 
@@ -769,21 +816,22 @@ begin
     sLineBreak;
 end;
 
-{ TAEJ }
+{ TPonto_AEJ }
 
-constructor TAEJ.Create;
+constructor TPonto_AEJ.Create(AOwner : TObject);
 begin
+  FOwner := AOwner;
   inherited Create;
   CriaRegistros;
 end;
 
-procedure TAEJ.CriaRegistros;
+procedure TPonto_AEJ.CriaRegistros;
 begin
-  FCabecalho  := TCabecalhoList.Create;
+  FCabecalho  := TCabecalhoList.Create(FOwner);
   FRegistro02 := TRegistro02List.Create;
   FRegistro03 := TRegistro03List.Create;
   FRegistro04 := TRegistro04List.Create;
-  FRegistro05 := TRegistro05List.Create;
+  FRegistro05 := TRegistro05List.Create(FOwner);
   FRegistro06 := TRegistro06List.Create;
   FRegistro07 := TRegistro07List.Create;
   FRegistro08 := TRegistro08List.Create;
@@ -802,13 +850,13 @@ begin
   FAssinaturaDigital := TAssinaturaDigital.Create;
 end;
 
-destructor TAEJ.Destroy;
+destructor TPonto_AEJ.Destroy;
 begin
   LiberaRegistros;
   inherited;
 end;
 
-procedure TAEJ.LiberaRegistros;
+procedure TPonto_AEJ.LiberaRegistros;
 begin
   FCabecalho.Free;
   FRegistro02.Free;
@@ -822,13 +870,13 @@ begin
   FAssinaturaDigital.Free;
 end;
 
-procedure TAEJ.LimpaRegistros;
+procedure TPonto_AEJ.LimpaRegistros;
 begin
   LiberaRegistros;
   CriaRegistros;
 end;
 
-procedure TAEJ.SaveToFile(sFileName: String);
+procedure TPonto_AEJ.SaveToFile(sFileName: String);
 var
   txtFile: TextFile;
 begin
