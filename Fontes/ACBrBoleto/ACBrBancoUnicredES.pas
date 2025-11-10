@@ -139,7 +139,12 @@ begin
     if PercentualMulta > 0 then
     begin
       case StrToIntDef(sTipoMulta,3) of
-        1: sValorMulta := FloatToStr(TruncTo((ValorDocumento*( 1 + PercentualMulta/100)-ValorDocumento),2)*100);
+        1:begin
+            if MultaValorFixo then
+              sValorMulta := IntToStrZero(Round(PercentualMulta * 100), 10)
+            else
+              sValorMulta := FloatToStr(TruncTo((ValorDocumento*( 1 + PercentualMulta/100)-ValorDocumento),2)*100);
+          end;
         2: sValorMulta := IntToStrZero(Round(PercentualMulta * 100), 10);
         else
           sValorMulta  := PadRight('', 10, '0');
