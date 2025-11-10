@@ -43,6 +43,15 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+10/11/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8342 A cidade Osório/RS trocou a URL, o provedor continua o mesmo.
+   Por: IgorAcertSoft
+[*] #ACBr-8340 A cidade Mantenópolis/ES trocou a versão e as URLs, o provedor continua o mesmo.
+   Por: Desenvolvimento Objetiva
+[*] #ACBr-8337 A cidade Paulista/PE trocou de provedor, agora é Giss.
+   Por: billbarsch
+
 03/11/2025
 -- ACBrNFSeXServicos --
 [*] #ACBr-8333 A cidade Iomere/SC trocou a versão e as URLs, o provedor continua o mesmo.
