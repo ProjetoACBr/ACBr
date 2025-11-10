@@ -569,7 +569,7 @@ begin
           Gerador.wGrupo('DESCONTO');
           Gerador.wCampo(tcDat, '#33', 'DATA', 10, 10, 1, DataDesconto, DSC_DATA_DESCONTO);
 
-          if ( Integer(TipoDesconto) <> 1) then
+          if ( Integer(TipoDesconto) = 1) then
             Gerador.wCampo(tcDe2, '#34', 'VALOR     ', 01, 15, 1, ValorDesconto, DSC_VALOR_DESCONTO)
           else
             Gerador.wCampo(tcDe4, '#35', 'PERCENTUAL', 01, 15, 1, ValorDesconto, DSC_VALOR_DESCONTO);
@@ -581,7 +581,7 @@ begin
            Gerador.wGrupo('DESCONTO');
           Gerador.wCampo(tcDat, '#33', 'DATA', 10, 10, 1, DataDesconto2, DSC_DATA_DESCONTO2);
 
-          if ( Integer(TipoDesconto2) <> 1) then
+          if ( Integer(TipoDesconto2) = 1) then
             Gerador.wCampo(tcDe2, '#34', 'VALOR     ', 01, 15, 1, ValorDesconto2, DSC_VALOR_DESCONTO2)
           else
             Gerador.wCampo(tcDe4, '#35', 'PERCENTUAL', 01, 15, 1, ValorDesconto2, DSC_VALOR_DESCONTO2);
