@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+10/11/2025
+-- ACBrTEFScopeAPI --
+[*] Ajuste na procedure PerguntarSimNao em relação ao cancelamento da operação de Reimpressão (ACBR - 8240)
+   Por: Antonio Carlos Junior, Elton Barbosa
+
 27/10/2025
 -- ACBrTEFAPICliSiTef --
 [+] Adicionado o método Privado

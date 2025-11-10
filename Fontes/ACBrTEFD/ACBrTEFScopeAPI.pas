@@ -3858,7 +3858,9 @@ begin
     else if (item = -1) then
       Acao := ACAO_CANCELAR
     else if (item = 0) then  // Sim
-      Resposta := '1';
+      Resposta := '1'
+    else if (item = 1) then
+      Acao := ACAO_CANCELAR;
   finally
     op.Free;
   end;
