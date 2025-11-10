@@ -3222,9 +3222,16 @@ begin
           TC_INFO_RET_FLUXO:            // apenas mostra informacao e deve retornar ao scope //
             Acao := ACAO_PROXIMO_ESTADO;
 
-          TC_DECIDE_AVISTA, TC_COLETA_CANCELA_TRANSACAO, TC_DECIDE_ULTIMO, TC_DECISAO_CONT:
+          TC_DECIDE_AVISTA, TC_COLETA_CANCELA_TRANSACAO, TC_DECISAO_CONT:
             begin
               PerguntarSimNao(rColetaEx, Resposta, Acao);
+            end;
+
+          TC_DECIDE_ULTIMO:
+            begin
+              PerguntarSimNao(rColetaEx, Resposta, Acao);
+              if (Acao = ACAO_PROXIMO_ESTADO) and (Resposta = '0') then
+              Acao := ACAO_CANCELAR;
             end;
 
           TC_CARTAO_DIGITADO:
@@ -3858,9 +3865,7 @@ begin
     else if (item = -1) then
       Acao := ACAO_CANCELAR
     else if (item = 0) then  // Sim
-      Resposta := '1'
-    else if (item = 1) then
-      Acao := ACAO_CANCELAR;
+      Resposta := '1';
   finally
     op.Free;
   end;

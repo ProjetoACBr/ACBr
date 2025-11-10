@@ -47,6 +47,11 @@ Símbolo : Significado
 
 10/11/2025
 -- ACBrTEFScopeAPI --
+[*] Ajuste na função ExecutarTransacao em relação ao cancelamento da operação de Reimpressão.
+   Por: Antonio Carlos Junior, Elton Barbosa
+
+10/11/2025
+-- ACBrTEFScopeAPI --
 [*] Ajuste na procedure PerguntarSimNao em relação ao cancelamento da operação de Reimpressão (ACBR - 8240)
    Por: Antonio Carlos Junior, Elton Barbosa
 
