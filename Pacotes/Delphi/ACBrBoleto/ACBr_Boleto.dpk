@@ -145,6 +145,8 @@ contains
   ACBrBancoCredisan in '..\..\..\Fontes\ACBrBoleto\ACBrBancoCredisan.pas',
   ACBrBoletoWS.URL in '..\..\..\Fontes\ACBrBoleto\ACBrBoletoWS.URL.pas',
   ACBrBancoSofisa in '..\..\..\Fontes\ACBrBoleto\ACBrBancoSofisa.pas',
-  ACBrBancoVortx in '..\..\..\Fontes\ACBrBoleto\ACBrBancoVortx.pas';
+  ACBrBancoVortx in '..\..\..\Fontes\ACBrBoleto\ACBrBancoVortx.pas',
+  ACBrBoletoW_Asaas in '..\..\..\Fontes\ACBrBoleto\WS\ACBrBoletoW_Asaas.pas',
+  ACBrBoletoRet_Asaas in '..\..\..\Fontes\ACBrBoleto\WS\ACBrBoletoRet_Asaas.pas';
 
 end.

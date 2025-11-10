@@ -262,7 +262,7 @@ type
     FPercentualMinPagamento    : Currency;
     FPercentualMaxPagamento    : Currency;
     FModalidade                : Integer;
-    FCodigoCliente             : Extended;
+    FCodigoCliente             : String;
     FDataRegistro              : TDateTime;
     FValorAtual                : Extended;
     FContrato                  : String;
@@ -351,7 +351,7 @@ type
     property PercentualMinPagamento: Currency read FPercentualMinPagamento write FPercentualMinPagamento;
     property PercentualMaxPagamento: Currency read FPercentualMaxPagamento write FPercentualMaxPagamento;
     property Modalidade: Integer read FModalidade write FModalidade;
-    property CodigoCliente: Extended read FCodigoCliente write FCodigoCliente;
+    property CodigoCliente: String read FCodigoCliente write FCodigoCliente;
     property DataRegistro: TDateTime read FDataRegistro write FDataRegistro;
     property ValorAtual: Extended read FValorAtual write FValorAtual;
     property Contrato: String read FContrato write FContrato;

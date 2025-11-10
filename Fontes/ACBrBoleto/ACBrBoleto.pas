@@ -150,8 +150,8 @@ type
     cobBancoSulcredi,
     cobBancoCredisan,
     cobBancoSofisa,
-    cobBancoVortx//,
-    //cobBancoAsaas
+    cobBancoVortx,
+    cobBancoAsaas
     );
 
   TACBrTitulo = class;
@@ -2160,8 +2160,8 @@ Uses {$IFNDEF NOGUI}Forms,{$ENDIF}
      ACBrBancoSulcredi,
      ACBrBancoCredisan,
      ACBrBancoSofisa,
-     ACBrBancoVortx;//,
-     //ACBrBancoAsaas;
+     ACBrBancoVortx,
+     ACBrBancoAsaas;
 
 {$IFNDEF FPC}
    {$R ACBrBoleto.dcr}
@@ -3969,7 +3969,7 @@ begin
     403: Result := cobBancoCora;
     422: Result := cobBancoSafra;
     457: Result := cobBancoUY3;
-    //461: Result := cobBancoAsaas;
+    461: Result := cobBancoAsaas;
     604: Result := cobBancoIndustrialBrasil;
     633: Result := cobBancoRendimento;
     637: begin
@@ -4941,7 +4941,7 @@ begin
      cobBancoCredisan        : fBancoClass := TACBrBancoCredisan.create(Self);          {089}
      cobBancoSofisa          : fBancoClass := TACBRBancoSofisa.create(self);            {637}
      cobBancoVortx           : fBancoClass := TACBRBancoVortx.create(self);             {310}
-     //cobBancoAsaas           : fBancoClass := TACBrBancoAsaas.Create(Self);             {461}
+     cobBancoAsaas           : fBancoClass := TACBrBancoAsaas.Create(Self);             {461}
    else
      fBancoClass := TACBrBancoClass.create(Self);
    end;

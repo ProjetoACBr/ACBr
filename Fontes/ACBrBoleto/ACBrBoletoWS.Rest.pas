@@ -341,7 +341,7 @@ begin
         FRetornoWS       := ReadStrFromStream(LStream, LStream.Size);
     end;
 
-    FRetornoWS                       := String(UTF8ToNativeString(FRetornoWS));
+    FRetornoWS                       := String(UTF8ToNativeString(Trim(FRetornoWS)));
     BoletoWS.RetornoBanco.CodRetorno := httpsend.Sock.LastError;
     try
       BoletoWS.RetornoBanco.Msg            := Trim('HTTP_Code=' + IntToStr(httpsend.ResultCode) + ' ' + httpsend.ResultString + ' ' + FRetornoWS);
