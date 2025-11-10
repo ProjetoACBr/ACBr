@@ -44,6 +44,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+10/11/2025
+-- ACBrCTe.IniWriter/ACBrCTe.XmlWriter --
+[-] Correção para emitir CTe Simplificado com os novos campos do IBS CBS.
+  Por: Italo Giurizzato Junior
+
+
 03/11/2025
 -- ACBrCTe.XmlWriter --
 [-] ACBR-8326 - Ajuste visando a correta geração da tag CNPJ quando se tratar de Estrangeiro.
