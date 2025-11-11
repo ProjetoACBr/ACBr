@@ -43,6 +43,25 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+11/11/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8367 A cidade Porto Alegre/RS trocou de provedor, agora é PadraoNacional.
+   Por: Anderson Grolli
+[*] #ACBr-8366 A cidade Ouro Verde de Goias/GO trocou de provedor, agora é MegaSoft.
+   Por: billbarsch
+[*] #ACBr-8364 Correção na URL da cidade Munhuaçu/MG.
+   Por: Heber Germano
+[*] #ACBr-8360 A cidade Curitiba/PR trocou de provedor, agora é PadraoNacional.
+    Incluída a cidade Ivai/PR, o provedor é Equiplano.
+    Corrigido a URL de produção da cidade Campo Ere/SC.
+    A cidade Itapiranga/SC trocou de provedor, agora é PadraoNacional.
+    A cidade Nova Itaberaba/SC trocou de provedor, agora é PadraoNacional.
+   Por: VEXCOM Sistemas - Valtair
+[*] #ACBr-8356 Correção na URL da cidade Virgem da Lapa/MG.
+   Por: Wesley Santos
+[*] #ACBr-8350 A cidade São Bento do Sul/SC trocou as URLs, o provedor continua o mesmo.
+   Por: Maiquel
+
 10/11/2025
 -- ACBrNFSeXServicos --
 [*] #ACBr-8342 A cidade Osório/RS trocou a URL, o provedor continua o mesmo.
