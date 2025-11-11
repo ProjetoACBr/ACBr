@@ -304,11 +304,11 @@ begin
     if (ACBrTitulo.CodigoMulta <> cmIsento) and (ACBrTitulo.CodigoMulta <> cmPercentual) then
       raise Exception.Create('Permitido somente Taxa (Percentual) Multa Mensal');
 
-    LValorTaxaMoraMes := FloatToStr(ACBrTitulo.ValorMoraJuros * 1000);
+    LValorTaxaMoraMes := FloatToStr(ACBrTitulo.ValorMoraJuros * 10000);
     if ACBrTitulo.MultaValorFixo then
       raise Exception.Create('Permitido somente Taxa Multa Mensal')
     else
-      LValorTaxaMulta   := FloatToStr(ACBrTitulo.PercentualMulta * 1000);
+      LValorTaxaMulta   := FloatToStr(ACBrTitulo.PercentualMulta * 10000);
 
 
 
@@ -339,7 +339,7 @@ begin
               PadRight(LBeneficiario.AgenciaDigito, 1)                 + // 022 - 022 DV Agencia
               LConta                                                   + // 023 - 030 conta corrente da empresa
               PadRight(LBeneficiario.ContaDigito, 1)                   + // 031 - 031 DV código do cedente
-              PadLeft(Trim(LBeneficiario.Convenio), 6)                 + // 032 - 037 Número do convenio
+              PadLeft(Trim(LBeneficiario.Convenio), 6, '0')            + // 032 - 037 Número do convenio
               PadRight(ACBrTitulo.SeuNumero, 25)                       + // 038 - 062 Numero de Controle do Participante
               PadLeft(LNossoNumero, 11, '0')                           + // 063 - 073 Nosso Numero
               LDigitoNossoNumero                                       + // 074 - 074 DV Nosso Numero
