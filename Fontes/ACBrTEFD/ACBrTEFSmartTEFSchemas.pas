@@ -264,6 +264,7 @@ type
     fnsu_host: String;
     fnsu_sitef: String;
     facquirer: String;
+    facquirer_cnpj: String;
     fserial_pos: String;
     fuser_id: Integer;
     fextras: TACBrSmartTEFOrderExtras;
@@ -306,6 +307,7 @@ type
     property nsu_host: String read fnsu_host write fnsu_host;
     property nsu_sitef: String read fnsu_sitef write fnsu_sitef;
     property acquirer: String read facquirer write facquirer;
+    property acquirer_cnpj: String read facquirer_cnpj write facquirer_cnpj;
     property serial_pos: String read fserial_pos write fserial_pos;
     property user_id: Integer read fuser_id write fuser_id;
     property extras: TACBrSmartTEFOrderExtras read GetExtras;
@@ -350,6 +352,7 @@ type
     property nsu_host;
     property nsu_sitef;
     property acquirer;
+    property acquirer_cnpj;
     property serial_pos;
     property user_id;
     property extras;
@@ -783,6 +786,7 @@ type
     property nsu_host;
     property nsu_sitef;
     property acquirer;
+    property acquirer_cnpj;
     property serial_pos;
     property user_id;
     property extras;
@@ -2096,6 +2100,7 @@ begin
   fnsu_host := Source.nsu_host;
   fnsu_sitef := Source.nsu_sitef;
   facquirer := Source.acquirer;
+  facquirer_cnpj := Source.acquirer_cnpj;
   fserial_pos := Source.serial_pos;
   fuser_id := Source.user_id;
   extras.Assign(Source.extras);
@@ -2139,6 +2144,7 @@ begin
   fnsu_host := EmptyStr;
   fnsu_sitef := EmptyStr;
   facquirer := EmptyStr;
+  facquirer_cnpj := EmptyStr;
   fserial_pos := EmptyStr;
   fuser_id := 0;
   if Assigned(fextras) then
@@ -2207,6 +2213,7 @@ begin
     .Value('nsu_host', fnsu_host)
     .Value('nsu_sitef', fnsu_sitef)
     .Value('acquirer', facquirer)
+    .Value('acquirer_cnpj', facquirer_cnpj)
     .Value('serial_pos', fserial_pos)
     .Value('user_id', fuser_id)
     .Value('has_details', fhas_details)
@@ -2265,6 +2272,7 @@ begin
     .AddPair('nsu_host', fnsu_host, False)
     .AddPair('nsu_sitef', fnsu_sitef, False)
     .AddPair('acquirer', facquirer, False)
+    .AddPair('acquirer_cnpj', facquirer_cnpj, False)
     .AddPair('serial_pos', fserial_pos, False)
     .AddPair('user_id', fuser_id, False)
     .AddPair('has_details', fhas_details)
@@ -2337,6 +2345,7 @@ begin
     EstaVazio(fnsu_host) and
     EstaVazio(fnsu_sitef) and
     EstaVazio(facquirer) and
+    EstaVazio(facquirer_cnpj) and
     EstaVazio(fserial_pos) and
     EstaZerado(fuser_id) and
     (not Assigned(fextras) or fextras.IsEmpty) and

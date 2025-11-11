@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/11/2025
+-- ACBrTEFSmartTEFSchemas --
+[+] Inclusão da propriedade acquirer_cnpj na classe TACBrSmartTEFCardClass.
+    por: Felipe Lavor
+
 10/11/2025
 -- ACBrTEFScopeAPI --
 [*] Ajuste na função ExecutarTransacao em relação ao cancelamento da operação de Reimpressão.
