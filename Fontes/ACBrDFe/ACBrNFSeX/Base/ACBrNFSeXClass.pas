@@ -2026,6 +2026,7 @@ type
     FRegimeApuracaoSN: TRegimeApuracaoSN;
     Fsubst: TSubstituicao;
     FcMotivoEmisTI: TcMotivoEmisTI;
+    FcLocEmi: string;
     // Reforma Tributaria
     FIBSCBS: TIBSCBSDPS;
 
@@ -2154,6 +2155,7 @@ type
     property RegimeApuracaoSN: TRegimeApuracaoSN read FRegimeApuracaoSN write FRegimeApuracaoSN;
     property subst: TSubstituicao read Fsubst write Fsubst;
     property cMotivoEmisTI: TcMotivoEmisTI read FcMotivoEmisTI write FcMotivoEmisTI;
+    property cLocEmi: string read FcLocEmi write FcLocEmi;
     // Reforma Tributaria
     property IBSCBS: TIBSCBSDPS read FIBSCBS write FIBSCBS;
 

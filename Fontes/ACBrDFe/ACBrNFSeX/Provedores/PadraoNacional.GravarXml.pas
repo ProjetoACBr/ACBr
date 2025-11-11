@@ -1483,6 +1483,7 @@ begin
   AINIRec.WriteString(LSecao, 'verAplic', NFSe.verAplic);
   AINIRec.WriteString(LSecao, 'tpEmit', tpEmitToStr(NFSe.tpEmit));
   AINIRec.WriteString(LSecao, 'cMotivoEmisTI', cMotivoEmisTIToStr(NFSe.cMotivoEmisTI));
+  AINIRec.WriteString(LSecao, 'cLocEmi', NFSe.cLocEmi);
 end;
 
 procedure TNFSeW_PadraoNacional.GerarININFSeSubstituicao(AINIRec: TMemIniFile);

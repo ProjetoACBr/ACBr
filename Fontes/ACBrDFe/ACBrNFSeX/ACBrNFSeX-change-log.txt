@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 11/11/2025
+-- ACBrNFSeXClass/PadraoNacional.GravarXml/PadraoNacional.LerXml --
+[*] #ACBr-8365 Implementado a leitura a tag cLocEmi.
+   Por: Daniel - PiraByte/Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] #ACBr-8367 A cidade Porto Alegre/RS trocou de provedor, agora é PadraoNacional.
    Por: Anderson Grolli
