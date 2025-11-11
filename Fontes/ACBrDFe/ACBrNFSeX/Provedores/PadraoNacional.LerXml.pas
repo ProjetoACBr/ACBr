@@ -945,6 +945,10 @@ begin
       idDocTec := ObterConteudo(AuxNode.Childrens.FindAnyNs('idDocTec'), tcStr);
       docRef := ObterConteudo(AuxNode.Childrens.FindAnyNs('docRef'), tcStr);
       xInfComp := ObterConteudo(AuxNode.Childrens.FindAnyNs('xInfComp'), tcStr);
+      xInfComp := StringReplace(xInfComp, FpQuebradeLinha,
+                                                    sLineBreak, [rfReplaceAll]);
+
+      NFSe.OutrasInformacoes := NFSe.OutrasInformacoes + sLineBreak + xInfComp;
     end;
   end;
 end;

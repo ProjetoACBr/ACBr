@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 11/11/2025
+-- PadraoNacional.LerXml --
+[*] #ACBr-8349 A leitura do campo xInfComp esta alimentando agora o campo OutrasInformacoes,
+    para constar na impressão do DANFSE.
+   Por: Wesley Lamb/Italo Giurizzato Junior
 -- ACBrNFSeXClass/PadraoNacional.GravarXml/PadraoNacional.LerXml --
 [*] #ACBr-8365 Implementado a leitura a tag cLocEmi.
    Por: Daniel - PiraByte/Italo Giurizzato Junior
