@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2014 rel. 2 (http://www.altova.com) by private (private) -->
+<!-- edited with XMLSpy v2025 rel. 2 (x64) (https://www.altova.com) by PROCERGS (Procergs - Centro de Tecnologia da Informação e Comunicação do Estado do Rio Grande do Sul S.A.) -->
 <xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.portalfiscal.inf.br/nfag" targetNamespace="http://www.portalfiscal.inf.br/nfag" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema_v1.01.xsd"/>
 	<xs:include schemaLocation="tiposGeralNFAg_v1.00.xsd"/>
@@ -111,7 +111,7 @@ Observação: O ambiente autorizador que trabalhar com mais de um Site deverá d
 									<xs:element name="finNFAg" type="TFinNFAg">
 										<xs:annotation>
 											<xs:documentation>Finalidade de emissão da NFAg</xs:documentation>
-											<xs:documentation>1 - NFAg normal; 
+											<xs:documentation>0 - NFAg normal; 
 3 - NFAg substituição; 
 </xs:documentation>
 										</xs:annotation>
@@ -1666,8 +1666,7 @@ CNPJ da empresa que emitirá a nota do tipo faturamento 1 em nome de outra empre
 									<xs:whiteSpace value="preserve"/>
 									<xs:minLength value="50"/>
 									<xs:maxLength value="1000"/>
-									<xs:pattern value="((HTTPS?|https?)://.*\?chNFAg=[0-9]{6}[A-Z0-9]{12}[0-9]{26}&amp;tpAmb=[1-2](&amp;sign=[!-ÿ]{1}[ -ÿ]{0,}[!-ÿ]{1}|[!-ÿ]{1})?)
-"/>
+									<xs:pattern value="((HTTPS?|https?)://.*\?chNFAg=[0-9]{6}[A-Z0-9]{12}[0-9]{26}&amp;tpAmb=[1-2](&amp;sign=[!-ÿ]{1}[ -ÿ]{0,}[!-ÿ]{1}|[!-ÿ]{1})?)"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:element>
@@ -2278,7 +2277,7 @@ Observação: 28 caracteres são representados no schema como 20 bytes do tipo b
 			<xs:whiteSpace value="preserve"/>
 			<xs:minLength value="1"/>
 			<xs:maxLength value="1"/>
-			<xs:enumeration value="1"/>
+			<xs:enumeration value="0"/>
 			<xs:enumeration value="3"/>
 		</xs:restriction>
 	</xs:simpleType>
