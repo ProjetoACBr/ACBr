@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+11/11/2025
+-- ACBrBoleto.pas --
+[-] Adicionado a propriedade boletoVencido (filtro) na leitura do arquivo ini de consulta que não estava implementado.
+   ACBr-8371 https://www.projetoacbr.com.br/forum/topic/87196-erro-na-consulta-movimenta%C3%A7%C3%A3o-sicoob-api
+   Por Daniel de Morais
+
 10/11/2025
 -- ACBrBancoBrasil.pas --
 [*] Quando convenio for maior que 6, colocado a condição se TipoPagamento for igual tpNao_Aceita_Valor_Divergente, gera "N" posição 394

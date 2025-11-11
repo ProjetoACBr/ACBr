@@ -4399,6 +4399,8 @@ begin
       Configuracoes.WebService.Filtro.indicadorSituacao := TACBrIndicadorSituacaoBoleto(StrToInt64Def(sFim,0));
       NaoPermiteFiltroWSNenhum;
 
+      Configuracoes.WebService.Filtro.boletoVencido := TACBrIndicadorBoletoVencido(StrToInt64Def(IniBoletos.ReadString(Sessao,'boletoVencido','0'),0));
+
       DtMovimento  := Trim(IniBoletos.ReadString(Sessao,'DataInicioMovimento','0'));
       DtVencimento := Trim(IniBoletos.ReadString(Sessao,'DataInicioVencimento','0'));
       DtRegistro   := Trim(IniBoletos.ReadString(Sessao,'DataInicioRegistro','0'));
