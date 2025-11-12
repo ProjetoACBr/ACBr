@@ -502,7 +502,7 @@ begin
       AddFieldNoXml( tcStr, '', Format( 'viagem.parcela%d.numero.cliente', [i+1] ), 01, 18, 1, Parcelas.Items[i].NumeroCliente );
       AddFieldNoXml( tcInt, '', Format( 'viagem.parcela%d.status.id', [i+1] ), 01, 02, 1, Parcelas.Items[i].StatusId );
       AddFieldNoXml( tcStr, '', Format( 'viagem.parcela%d.subtipo', [i+1] ), 01, 02, 1, Parcelas.Items[i].Subtipo );
-      AddFieldNoXml( tcStr, '', Format( 'viagem.parcela%d.valor', [i+1] ), 01, 11, 1, Parcelas.Items[i].Valor );
+      AddFieldNoXml( tcDe2, '', Format( 'viagem.parcela%d.valor', [i+1] ), 01, 11, 1, Parcelas.Items[i].Valor );
     end;
   end;
 end;
