@@ -781,8 +781,37 @@ type
     FoneEmitente: string;
   end;
 
+  TExtratoAPIBB = record
+    ArquivoCertificado: string;
+    ArquivoChavePrivada: string;
+    ClientID: string;
+    ClientSecret: string;
+    DeveloperApplicationKey: string;
+    xMCITeste: string;
+  end;
 
+  TExtratoAPIInter = record
+    ArquivoCertificado: string;
+    ArquivoChavePrivada: string;
+    ClientID: string;
+    ClientSecret: string;
+  end;
 
+  TExtratoAPISicoob = record
+    ArquivoCertificado: string;
+    ArquivoChavePrivada: string;
+    ClientID: string;
+  end;
+
+  TExtratoAPI = record
+    Ambiente: Integer;
+    ArqLOG: string;
+    NivelLog: Integer;
+    BancoConsulta: Integer;
+    ExtratoAPIBB: TExtratoAPIBB;
+    ExtratoAPIInter: TExtratoAPIInter;
+    ExtratoAPISicoob: TExtratoAPISicoob;
+  end;
 
   EDFeException = class(Exception);
   EDFeConfigException = class(EDFeException);
@@ -817,6 +846,7 @@ type
     FFonteLinha: TFont;
     FNFSE: TNFSe;
     FConsultaCNPJ :TConsultaCNPJ;
+    FExtratoAPI: TExtratoAPI;
 
     FOnGravarConfig: TACBrOnGravarConfig;
     procedure DefinirValoresPadrao;
@@ -858,6 +888,7 @@ type
     property FonteLinha: TFont               read FFonteLinha;
     property NFSE: TNFSe                     read FNFSE;
     property ConsultaCNPJ :TConsultaCNPJ     read FConsultaCNPJ;
+    property ExtratoAPI: TExtratoAPI         read FExtratoAPI;
 
     property OnGravarConfig: TACBrOnGravarConfig read FOnGravarConfig write FOnGravarConfig;
   end;
@@ -1648,6 +1679,31 @@ begin
       Ini.WriteString( CSecNFSe, CKeyNFSeFoneEmitente, FoneEmitente );
 
     end;
+
+    // ExtratoAPI
+    Ini.WriteInteger( CSecExtratoAPIConfig, CKeyExtratoAPIAmbiente, ExtratoAPI.Ambiente );
+    Ini.WriteString( CSecExtratoAPIConfig, CKeyExtratoAPIArqLog, ExtratoAPI.ArqLOG );
+    Ini.WriteInteger( CSecExtratoAPIConfig, CKeyExtratoAPINivelLog, ExtratoAPI.NivelLog );
+    Ini.WriteInteger( CSecExtratoAPIConfig, CKeyExtratoAPIBancoConsulta, ExtratoAPI.BancoConsulta );
+
+    // ExtratoAPIBB
+    Ini.WriteString( CSecExtratoAPIBBConfig, CKeyExtratoAPIArquivoCertificado, ExtratoAPI.ExtratoAPIBB.ArquivoCertificado );
+    Ini.WriteString( CSecExtratoAPIBBConfig, CKeyExtratoAPIArquivoChavePrivada, ExtratoAPI.ExtratoAPIBB.ArquivoChavePrivada );
+    GravaINICrypt( Ini, CSecExtratoAPIBBConfig, CKeyExtratoAPIClientID, ExtratoAPI.ExtratoAPIBB.ClientID, _C);
+    GravaINICrypt( Ini, CSecExtratoAPIBBConfig, CKeyExtratoAPIClientSecret, ExtratoAPI.ExtratoAPIBB.ClientSecret, _C);
+    Ini.WriteString( CSecExtratoAPIBBConfig, CKeyExtratoAPIDeveloperApplicationKey, ExtratoAPI.ExtratoAPIBB.DeveloperApplicationKey );
+    Ini.WriteString( CSecExtratoAPIBBConfig, CKeyExtratoAPIxMCITeste, ExtratoAPI.ExtratoAPIBB.xMCITeste );
+
+    // ExtratoAPIInter
+    Ini.WriteString( CSecExtratoAPIInterConfig, CKeyExtratoAPIArquivoCertificado, ExtratoAPI.ExtratoAPIInter.ArquivoCertificado );
+    Ini.WriteString( CSecExtratoAPIInterConfig, CKeyExtratoAPIArquivoChavePrivada, ExtratoAPI.ExtratoAPIInter.ArquivoChavePrivada );
+    GravaINICrypt( Ini, CSecExtratoAPIInterConfig, CKeyExtratoAPIClientID, ExtratoAPI.ExtratoAPIInter.ClientID, _C);
+    GravaINICrypt( Ini, CSecExtratoAPIInterConfig, CKeyExtratoAPIClientSecret, ExtratoAPI.ExtratoAPIInter.ClientSecret, _C);
+
+    // ExtratoAPISicoob
+    Ini.WriteString( CSecExtratoAPISicoobConfig, CKeyExtratoAPIArquivoCertificado, ExtratoAPI.ExtratoAPISicoob.ArquivoCertificado );
+    Ini.WriteString( CSecExtratoAPISicoobConfig, CKeyExtratoAPIArquivoChavePrivada, ExtratoAPI.ExtratoAPISicoob.ArquivoChavePrivada );
+    GravaINICrypt( Ini, CSecExtratoAPISicoobConfig, CKeyExtratoAPIClientID, ExtratoAPI.ExtratoAPISicoob.ClientID, _C);
 
     SL := TStringList.Create;
     try
@@ -2464,6 +2520,33 @@ begin
       FoneEmitente:= Ini.ReadString( CSecNFSe, CKeyNFSeFoneEmitente, FoneEmitente );
     end;
 
+    // ExtratoAPI
+    with ExtratoAPI do
+    begin
+      Ambiente := Ini.ReadInteger( CSecExtratoAPIConfig, CKeyExtratoAPIAmbiente, Ambiente);
+      ArqLOG := Ini.ReadString( CSecExtratoAPIConfig, CKeyExtratoAPIArqLog, ArqLOG );
+      NivelLog := Ini.ReadInteger( CSecExtratoAPIConfig, CKeyExtratoAPINivelLog, NivelLog);
+      BancoConsulta := Ini.ReadInteger( CSecExtratoAPIConfig, CKeyExtratoAPIBancoConsulta, BancoConsulta);
+
+      // ExtratoAPIBB
+      ExtratoAPIBB.ArquivoCertificado := Ini.ReadString( CSecExtratoAPIBBConfig, CKeyExtratoAPIArquivoCertificado, ExtratoAPIBB.ArquivoCertificado );
+      ExtratoAPIBB.ArquivoChavePrivada := Ini.ReadString( CSecExtratoAPIBBConfig, CKeyExtratoAPIArquivoChavePrivada, ExtratoAPIBB.ArquivoChavePrivada );
+      ExtratoAPIBB.ClientID := LeINICrypt(Ini, CSecExtratoAPIBBConfig, CKeyExtratoAPIClientID, _C );
+      ExtratoAPIBB.ClientSecret := LeINICrypt(Ini, CSecExtratoAPIBBConfig, CKeyExtratoAPIClientSecret, _C );
+      ExtratoAPIBB.DeveloperApplicationKey := Ini.ReadString( CSecExtratoAPIBBConfig, CKeyExtratoAPIDeveloperApplicationKey, ExtratoAPIBB.DeveloperApplicationKey );
+      ExtratoAPIBB.xMCITeste := Ini.ReadString( CSecExtratoAPIBBConfig, CKeyExtratoAPIxMCITeste, ExtratoAPIBB.xMCITeste );
+
+      // ExtratoAPIInter
+      ExtratoAPIInter.ArquivoCertificado := Ini.ReadString( CSecExtratoAPIInterConfig, CKeyExtratoAPIArquivoCertificado, ExtratoAPIInter.ArquivoCertificado );
+      ExtratoAPIInter.ArquivoChavePrivada := Ini.ReadString( CSecExtratoAPIInterConfig, CKeyExtratoAPIArquivoChavePrivada, ExtratoAPIInter.ArquivoChavePrivada );
+      ExtratoAPIInter.ClientID := LeINICrypt(Ini, CSecExtratoAPIInterConfig, CKeyExtratoAPIClientID, _C );
+      ExtratoAPIInter.ClientSecret := LeINICrypt(Ini, CSecExtratoAPIInterConfig, CKeyExtratoAPIClientSecret, _C );
+
+      // ExtratoAPISicoob
+      ExtratoAPISicoob.ArquivoCertificado := Ini.ReadString( CSecExtratoAPISicoobConfig, CKeyExtratoAPIArquivoCertificado, ExtratoAPISicoob.ArquivoCertificado );
+      ExtratoAPISicoob.ArquivoChavePrivada := Ini.ReadString( CSecExtratoAPISicoobConfig, CKeyExtratoAPIArquivoChavePrivada, ExtratoAPISicoob.ArquivoChavePrivada );
+      ExtratoAPISicoob.ClientID := LeINICrypt(Ini, CSecExtratoAPISicoobConfig, CKeyExtratoAPIClientID, _C );
+    end;
   finally
     Ini.Free;
 
@@ -3229,6 +3312,33 @@ begin
     NomePrefeitura := '';
     CNPJPrefeitura := '';
     NomeLongoNFSe := True;
+  end;
+
+  with ExtratoAPI do
+  begin
+    Ambiente := 0;
+    ArqLOG := '';
+    NivelLog := 1;
+    BancoConsulta := 0;
+
+    // ExtratoAPIBB
+    ExtratoAPIBB.ArquivoCertificado := '';
+    ExtratoAPIBB.ArquivoChavePrivada := '';
+    ExtratoAPIBB.ClientID := '';
+    ExtratoAPIBB.ClientSecret := '';
+    ExtratoAPIBB.DeveloperApplicationKey := '';
+    ExtratoAPIBB.xMCITeste := '';
+
+    // ExtratoAPIInter
+    ExtratoAPIInter.ArquivoCertificado := '';
+    ExtratoAPIInter.ArquivoChavePrivada := '';
+    ExtratoAPIInter.ClientID := '';
+    ExtratoAPIInter.ClientSecret := '';
+
+    // ExtratoAPISicoob
+    ExtratoAPISicoob.ArquivoCertificado := '';
+    ExtratoAPISicoob.ArquivoChavePrivada := '';
+    ExtratoAPISicoob.ClientID := '';
   end;
 end;
 

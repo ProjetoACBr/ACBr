@@ -37,7 +37,7 @@ Uses
   SysUtils, Classes, Math, ACBrMonitorConfig, ACBrLibResposta, ACBrMonitorConsts, DateUtils, ACBrLibConfig;
 
 Const
-   Objetos = '"ECF","CHQ","GAV","DIS","LCB","ACBR","BAL","ETQ","BOLETO","CEP","IBGE","EMAIL","SEDEX","NCM","NFE","CTE","MDFE","SAT","ESCPOS","GNRE","ESOCIAL","REINF","BPE","CNPJ","CPF","GTIN","NFSE"';
+   Objetos = '"ECF","CHQ","GAV","DIS","LCB","ACBR","BAL","ETQ","BOLETO","CEP","IBGE","EMAIL","SEDEX","NCM","NFE","CTE","MDFE","SAT","ESCPOS","GNRE","ESOCIAL","REINF","BPE","CNPJ","CPF","GTIN","NFSE","EXTRATOAPI"';
    TIME_EXPIRES = 60;
 type
 

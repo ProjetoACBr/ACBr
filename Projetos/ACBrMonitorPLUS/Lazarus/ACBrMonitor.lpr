@@ -25,7 +25,7 @@ uses
   ACBrLibCertUtils, ACBrLibDeviceUtils, ACBrLibConsultaCNPJConsts,
   ACBrLibConsultaCPFRespostas, DoCNPJUnit, DoCPFUnit, ACBrLibBoletoRespostas,
   DoACBrGTINUnit, DoACBrNFSeUnit, ACBrLibNCMsRespostas, ACBrLibNFSeRespostas,
-  ACBrLibNFSeConsts, ACBrLibNFSeConfig;
+  ACBrLibNFSeConsts, ACBrLibNFSeConfig, DoACBrExtratoAPIUnit;
 
 {$R *.res}
 var

@@ -788,6 +788,8 @@ const
   CMetodoAcharPortasRAW         = 'acharportasraw';
   CMetodoLerStatusImpressoraFormatado    = 'lerstatusimpressoraformatado';
 
+  CMetodoConsultarExtrato = 'ConsultarExtrato';
+
   CExtensaoXML =                     '.xml';
 
   CExtensaoXmlNFe =                  '-nfe.xml';
@@ -1461,6 +1463,27 @@ const
   CKeyNFSeCEPEmitente =                     'CEPEmitente';
   CKeyNFSeEmailEmitente =                   'EmailEmitente';
   CKeyNFSeFoneEmitente =                    'FoneEmitente';
+
+  CSecExtratoAPIConfig =                    'ExtratoAPI';
+  CSecExtratoLancamento =                   'ExtratoLancamento';
+  CSecExtratoAPIBBConfig =                  'ExtratoAPIBB';
+  CSecExtratoAPIInterConfig =               'ExtratoAPIInter';
+  CSecExtratoAPISicoobConfig =              'ExtratoAPISicoob';
+
+  CSecExtratoAPIRespConsulta =              'Lancamento';
+
+  CKeyExtratoAPIAmbiente =                  'Ambiente';
+  CKeyExtratoAPIArqLog =                    'ArqLog';
+  CKeyExtratoAPINivelLog =                  'NivelLog';
+
+  CKeyExtratoAPIArquivoCertificado =        'ArquivoCertificado';
+  CKeyExtratoAPIArquivoChavePrivada =       'ArquivoChavePrivada';
+  CKeyExtratoAPIClientID =                  'ClientID';
+  CKeyExtratoAPIClientSecret =              'ClientSecret';
+  CKeyExtratoAPIDeveloperApplicationKey =   'DeveloperApplicationKey';
+  CKeyExtratoAPIxMCITeste =                 'xMCITeste';
+
+  CKeyExtratoAPIBancoConsulta =             'BancoConsulta';
 
   CSessaoRetorno =                          'Retorno';
 

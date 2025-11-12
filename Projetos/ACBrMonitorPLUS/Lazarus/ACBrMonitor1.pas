@@ -63,7 +63,8 @@ uses
   ACBrLibResposta, DoACBrUnit, DoCNPJUnit, DoCPFUnit, ACBrBoletoConversao,
   ACBrBoletoFPDF, FormConsultaCNPJ, ACBrMonitorMenu, ACBrDFeReport, ACBrNFSeX,
   ACBrNFSeXDANFSeRLClass, DoACBrNFSeUnit, ACBrGTIN, DoACBrGTINUnit, ACBrPIXBase,
-  ACBrLibConfig;
+  ACBrLibConfig, ACBrExtratoAPI, ACBrExtratoAPIBB, ACBrExtratoAPIInter,
+  ACBrExtratoAPISicoob, DoACBrExtratoAPIUnit;
 
 const
   CEstados: array[TACBrECFEstado] of string =
@@ -123,6 +124,7 @@ type
     ACBrEAD1: TACBrEAD;
     ACBrECF1: TACBrECF;
     ACBreSocial1: TACBreSocial;
+    ACBrExtratoAPI1: TACBrExtratoAPI;
     ACBrGIF1: TACBrGIF;
     ACBrGNRE1: TACBrGNRE;
     ACBrGNREGuiaRL1: TACBrGNREGuiaRL;
@@ -367,6 +369,8 @@ type
     cbxAdicionaLiteral: TCheckBox;
     cbxAjustarAut: TCheckBox;
     cbxBolMotorRelatorio: TComboBox;
+    cbxExtratoAPIBanco: TComboBox;
+    cbxExtratoAPILogNivel: TComboBox;
     cbxImprimeNNFFormatadoNFCe: TCheckBox;
     cbxImprimeNNFFormatadoNFe: TCheckBox;
     cbxNomeLongoNFSe: TCheckBox;
@@ -499,8 +503,20 @@ type
     deUSUDataCadastro: TDateEdit;
     dlgSave: TSaveDialog;
     eAvanco: TEdit;
+    edtExtratoAPIInterCertificado: TEdit;
+    edtExtratoAPISicoobCertificado: TEdit;
+    edtExtratoAPIInterChavePrivada: TEdit;
+    edtExtratoAPISicoobChavePrivada: TEdit;
+    edtExtratoAPIInterClientID: TEdit;
+    edtExtratoAPIInterClientSecret: TEdit;
+    edtExtratoAPIBBDevAppKey: TEdit;
     eCopias: TEdit;
     edBALLog: TEdit;
+    edtExtratoAPIBBCertificado: TEdit;
+    edtExtratoAPIBBChavePrivada: TEdit;
+    edtExtratoAPIBBClientID: TEdit;
+    edtExtratoAPIBBClientSecret: TEdit;
+    edtExtratoAPIBBMCITeste: TEdit;
     edCEPChaveBuscarCEP: TEdit;
     edCEPTestar: TEdit;
     edCHQBemafiINI: TEdit;
@@ -521,6 +537,8 @@ type
     edIBGECodNome: TEdit;
     edConsultarGTIN: TEdit;
     edtEnderecoEmitenteNFSe: TEdit;
+    edtExtratoAPISicoobClientID: TEdit;
+    edtExtratoAPILogArquivo: TEdit;
     edtNumeroEmitenteNFSe: TEdit;
     edtBairroEmitenteNFSe: TEdit;
     edtComplementoEmitenteNFSe: TEdit;
@@ -764,6 +782,10 @@ type
     gbxWSNFe: TGroupBox;
     gbxWSReinf: TTabSheet;
     grbConfigArqs: TGroupBox;
+    GrbExtratoAPIConfig: TGroupBox;
+    GrbExtratoAPIBancos: TGroupBox;
+    GrbExtratoAPIGeral: TGroupBox;
+    GrbExtratoAPILog: TGroupBox;
     grbPathSchemas: TGroupBox;
     GroupBox1: TGroupBox;
     GroupBox10: TGroupBox;
@@ -892,6 +914,18 @@ type
     Label293: TLabel;
     Label294: TLabel;
     Label295: TLabel;
+    lblExtratoAPIBBCertificado: TLabel;
+    lblExtratoAPIInterCertificado: TLabel;
+    lblExtratoAPIBBChavePrivada: TLabel;
+    lblExtratoAPISicoobCertificado: TLabel;
+    lblExtratoAPIInterChavePrivada: TLabel;
+    lblExtratoAPIBBClientID: TLabel;
+    lblExtratoAPISicoobChavePrivada: TLabel;
+    lblExtratoAPIInterClientID: TLabel;
+    lblExtratoAPIBBClientSecret: TLabel;
+    lblExtratoAPIBBClientSecret1: TLabel;
+    lblExtratoAPIBBDevAppKey: TLabel;
+    lblExtratoAPIBBMCITeste: TLabel;
     lblConsCNPJ: TLabel;
     lblConsCNPJProvedor: TLabel;
     lblConCNPJSenha: TLabel;
@@ -901,6 +935,10 @@ type
     lblBolMotorRelatorio: TLabel;
     lblBOLTipoChavePix: TLabel;
     lblConCNPJUsuario: TLabel;
+    lblExtratoAPIBanco: TLabel;
+    lblExtratoAPISicoobClientID: TLabel;
+    lblExtratoAPILogArquivo: TLabel;
+    lblExtratoAPILogNivel: TLabel;
     lblPathLogBoleto1: TLabel;
     lblPrefixRemessa: TLabel;
     Label255: TLabel;
@@ -1251,6 +1289,8 @@ type
     mRFDINI: TMemo;
     mRSAKey: TMemo;
     mTCConexoes: TMemo;
+    pgBaaS: TPageControl;
+    pgExtratoAPIBancos: TPageControl;
     pnTestesDFe: TPanel;
     pnTestesResposta: TPanel;
     Panel3: TPanel;
@@ -1286,6 +1326,7 @@ type
     rbTCP: TRadioButton;
     rbTXT: TRadioButton;
     rdgImprimeChave1LinhaSAT: TRadioGroup;
+    rgExtratoAPIAmbiente: TRadioGroup;
     rgImprimeDescAcrescItemNFe: TRadioGroup;
     rgImprimeTributos: TRadioGroup;
     rgInfAdicProduto: TRadioGroup;
@@ -1329,6 +1370,13 @@ type
     sbDirRFD: TSpeedButton;
     sbECFLog: TSpeedButton;
     sbECFSerial: TSpeedButton;
+    sbExtratoAPIBBCertificado: TSpeedButton;
+    sbExtratoAPIInterCertificado: TSpeedButton;
+    sbExtratoAPISicoobCertificado: TSpeedButton;
+    sbExtratoAPIInterChavePrivada: TSpeedButton;
+    sbExtratoAPISicoobChavePrivada: TSpeedButton;
+    sbExtratoAPILogArquivo: TSpeedButton;
+    sbExtratoAPIBBChavePrivada: TSpeedButton;
     sbLog: TSpeedButton;
     sbLogoMarca: TSpeedButton;
     sbLogoMarca1: TSpeedButton;
@@ -1446,7 +1494,12 @@ type
     SynXMLSyn1: TSynXMLSyn;
     TabControl1: TTabControl;
     TabSheet1: TTabSheet;
+    tsExtratoAPIBancosSicoob: TTabSheet;
+    tsExtratoAPIBancosInter: TTabSheet;
+    tsBaaS: TTabSheet;
+    tsExtratoAPI: TTabSheet;
     tsEmailNFSe: TTabSheet;
+    tsExtratoAPIBancosBB: TTabSheet;
     tsImpNFSe: TTabSheet;
     tsWSNFSe: TTabSheet;
     tsTesteGTIN: TTabSheet;
@@ -1781,6 +1834,8 @@ type
     procedure sbConsCNPJVerUsuarioClick(Sender: TObject);
     procedure sbConsultaCEPClick(Sender: TObject);
     procedure sbConsultaCNPJBoletoClick(Sender: TObject);
+    procedure sbExtratoAPIBBChavePrivadaClick(Sender: TObject);
+    procedure sbExtratoAPILogArquivoClick(Sender: TObject);
     procedure sbLogoMarca1Click(Sender: TObject);
     procedure sbLogoMarcaNFCeSATClick(Sender: TObject);
     procedure sbBALLogClick(Sender: TObject);
@@ -1991,6 +2046,7 @@ type
     FDoCPF: TACBrObjetoConsultaCPF;
     FDoGTIN: TACBrObjetoGTIN;
     FDoNFSe: TACBrObjetoNFSe;
+    FDoExtratoAPI: TACBrObjetoExtratoAPI;
 
     FMenuTreeView: TMenu;
 
@@ -2292,6 +2348,8 @@ begin
   FDoNFSe.OnDepoisDeImprimir := @DepoisDeImprimir;
   FDoNFSe.OnConfiguraDANFSe   := @ConfiguraDANFSe;
   FDoNFSe.OnSubstituirVariaveis  := @SubstituirVariaveis;
+
+  FDoExtratoAPI := TACBrObjetoExtratoAPI.Create(MonitorConfig, ACBrExtratoAPI1);
 
 // Seta as definições iniciais para navegação
   SetColorButtons(btnMonitor);
@@ -2739,6 +2797,11 @@ begin
     rgInfFormaPagNFe.Items.Add(copy( GetEnumName(TypeInfo(TpcnInformacoesDePagamento), integer(IInformacoesDePagamento)), 4, 10) );
   rgInfFormaPagNFe.ItemIndex := 0;
 
+  // ExtratoAPI
+  cbxExtratoAPIBanco.Items.Clear;
+  for M := Integer(Low(TACBrExtratoAPIBancoConsulta)) to Integer(High(TACBrExtratoAPIBancoConsulta)) do
+    cbxExtratoAPIBanco.Items.Add(GetEnumName(TypeInfo(TACBrExtratoAPIBancoConsulta), M));
+
   FileVerInfo:=TFileVersionInfo.Create(nil);
   try
     FileVerInfo.FileName:=paramstr(0);
@@ -2792,6 +2855,8 @@ begin
   pgSwHouse.ActivePageIndex := 0;
   pgTipoWebService.ActivePageIndex := 0;
   pgEmailDFe.ActivePageIndex := 0;
+  pgBaaS.ActivePageIndex := 0;
+  pgExtratoAPIBancos.ActivePageIndex := 0;
 
   Application.Title := Caption;
 
@@ -5223,6 +5288,7 @@ begin
   FDoBPe.Free;
   FDoGTIN.Free;
   FDoNFSe.Free;
+  FDoExtratoAPI.Free;
 
   FMenuTreeView.Free;
 
@@ -6577,6 +6643,28 @@ begin
   if FileExists(PathWithDelim(ExtractFilePath(Application.ExeName)) + 'swh.ini') then;
      LerSW;
 
+  // Parâmetros Extrato API
+  rgExtratoAPIAmbiente.ItemIndex := MonitorConfig.ExtratoAPI.Ambiente;
+  edtExtratoAPILogArquivo.Text := MonitorConfig.ExtratoAPI.ArqLOG;
+  cbxExtratoAPILogNivel.ItemIndex := MonitorConfig.ExtratoAPI.NivelLog;
+  cbxExtratoAPIBanco.ItemIndex := MonitorConfig.ExtratoAPI.BancoConsulta;
+
+  edtExtratoAPIBBCertificado.Text := MonitorConfig.ExtratoAPI.ExtratoAPIBB.ArquivoCertificado;
+  edtExtratoAPIBBChavePrivada.Text := MonitorConfig.ExtratoAPI.ExtratoAPIBB.ArquivoChavePrivada;
+  edtExtratoAPIBBClientID.Text := MonitorConfig.ExtratoAPI.ExtratoAPIBB.ClientID;
+  edtExtratoAPIBBClientSecret.Text := MonitorConfig.ExtratoAPI.ExtratoAPIBB.ClientSecret;
+  edtExtratoAPIBBDevAppKey.Text := MonitorConfig.ExtratoAPI.ExtratoAPIBB.DeveloperApplicationKey;
+  edtExtratoAPIBBMCITeste.Text := MonitorConfig.ExtratoAPI.ExtratoAPIBB.xMCITeste;
+
+  edtExtratoAPIInterCertificado.Text := MonitorConfig.ExtratoAPI.ExtratoAPIInter.ArquivoCertificado;
+  edtExtratoAPIInterChavePrivada.Text := MonitorConfig.ExtratoAPI.ExtratoAPIInter.ArquivoChavePrivada;
+  edtExtratoAPIInterClientID.Text := MonitorConfig.ExtratoAPI.ExtratoAPIInter.ClientID;
+  edtExtratoAPIInterClientSecret.Text := MonitorConfig.ExtratoAPI.ExtratoAPIInter.ClientSecret;
+
+  edtExtratoAPISicoobCertificado.Text := MonitorConfig.ExtratoAPI.ExtratoAPISicoob.ArquivoCertificado;
+  edtExtratoAPISicoobChavePrivada.Text := MonitorConfig.ExtratoAPI.ExtratoAPISicoob.ArquivoChavePrivada;
+  edtExtratoAPISicoobClientID.Text := MonitorConfig.ExtratoAPI.ExtratoAPISicoob.ClientID;
+
   with ACBrECF1 do
   begin
     Desativar;
@@ -6883,6 +6971,46 @@ begin
     else
       NomeArquivo := wPathArquivo + '.pdf';
     
+  end;
+
+  // Parâmetros ExtratoAPI
+  ACBrExtratoAPI1.Ambiente := TACBrExtratoAPIAmbiente(rgExtratoAPIAmbiente.ItemIndex);
+  ACBrExtratoAPI1.LogArquivo := edtExtratoAPILogArquivo.Text;
+  ACBrExtratoAPI1.LogNivel := cbxExtratoAPILogNivel.ItemIndex;
+  if ((cbxExtratoAPIBanco.ItemIndex >= 0) and (cbxExtratoAPIBanco.ItemIndex <= Integer(High(TACBrExtratoAPIBancoConsulta)))) then
+    ACBrExtratoAPI1.BancoConsulta := TACBrExtratoAPIBancoConsulta(cbxExtratoAPIBanco.ItemIndex);
+
+  case ACBrExtratoAPI1.BancoConsulta of
+    bccBancoDoBrasil:
+      begin
+        TACBrExtratoAPIBB(ACBrExtratoAPI1.Banco).ArquivoCertificado := edtExtratoAPIBBCertificado.Text;
+        TACBrExtratoAPIBB(ACBrExtratoAPI1.Banco).ArquivoChavePrivada := edtExtratoAPIBBChavePrivada.Text;
+        TACBrExtratoAPIBB(ACBrExtratoAPI1.Banco).ClientID := edtExtratoAPIBBClientID.Text;
+        TACBrExtratoAPIBB(ACBrExtratoAPI1.Banco).ClientSecret := edtExtratoAPIBBClientSecret.Text;
+        TACBrExtratoAPIBB(ACBrExtratoAPI1.Banco).DeveloperApplicationKey := edtExtratoAPIBBDevAppKey.Text;
+        TACBrExtratoAPIBB(ACBrExtratoAPI1.Banco).xMCITeste := edtExtratoAPIBBMCITeste.Text;
+      end;
+    bccInter:
+      begin
+        TACBrExtratoAPIInter(ACBrExtratoAPI1.Banco).ArquivoCertificado := edtExtratoAPIInterCertificado.Text;
+        TACBrExtratoAPIInter(ACBrExtratoAPI1.Banco).ArquivoChavePrivada := edtExtratoAPIInterChavePrivada.Text;
+        TACBrExtratoAPIInter(ACBrExtratoAPI1.Banco).ClientID := edtExtratoAPIInterClientID.Text;
+        TACBrExtratoAPIInter(ACBrExtratoAPI1.Banco).ClientSecret := edtExtratoAPIInterClientSecret.Text;
+      end;
+    bccSicoob:
+      begin
+        TACBrExtratoAPISicoob(ACBrExtratoAPI1.Banco).ArquivoCertificado := edtExtratoAPISicoobCertificado.Text;
+        TACBrExtratoAPISicoob(ACBrExtratoAPI1.Banco).ArquivoChavePrivada := edtExtratoAPISicoobChavePrivada.Text;
+        TACBrExtratoAPISicoob(ACBrExtratoAPI1.Banco).ClientID := edtExtratoAPISicoobClientID.Text;
+      end;
+  end;
+
+  ACBrExtratoAPI1.Banco.ProxyPort := edCONProxyPort.Text;
+  if ACBrExtratoAPI1.Banco.ProxyPort <> '0' then
+  begin
+    ACBrExtratoAPI1.Banco.ProxyHost := edCONProxyHost.Text;
+    ACBrExtratoAPI1.Banco.ProxyUser := edCONProxyUser.Text;
+    ACBrExtratoAPI1.Banco.ProxyPass := edCONProxyPass.Text;
   end;
 
   LigarAlertasdeErrosDeConfiguracao;
@@ -7706,6 +7834,30 @@ begin
     {Parâmetros Boleto}
     SalvarConfBoletos;
 
+    // Parâmetros Extrato API
+    with MonitorConfig.ExtratoAPI do
+    begin
+      Ambiente := rgExtratoAPIAmbiente.ItemIndex;
+      ArqLOG := edtExtratoAPILogArquivo.Text;
+      NivelLog := cbxExtratoAPILogNivel.ItemIndex;
+      BancoConsulta := cbxExtratoAPIBanco.ItemIndex;
+
+      ExtratoAPIBB.ArquivoCertificado := edtExtratoAPIBBCertificado.Text;
+      ExtratoAPIBB.ArquivoChavePrivada := edtExtratoAPIBBChavePrivada.Text;
+      ExtratoAPIBB.ClientID := edtExtratoAPIBBClientID.Text;
+      ExtratoAPIBB.ClientSecret := edtExtratoAPIBBClientSecret.Text;
+      ExtratoAPIBB.DeveloperApplicationKey := edtExtratoAPIBBDevAppKey.Text;
+      ExtratoAPIBB.xMCITeste := edtExtratoAPIBBMCITeste.Text;
+
+      ExtratoAPIInter.ArquivoCertificado := edtExtratoAPIInterCertificado.Text;
+      ExtratoAPIInter.ArquivoChavePrivada := edtExtratoAPIInterChavePrivada.Text;
+      ExtratoAPIInter.ClientID := edtExtratoAPIInterClientID.Text;
+      ExtratoAPIInter.ClientSecret := edtExtratoAPIInterClientSecret.Text;
+
+      ExtratoAPISicoob.ArquivoCertificado := edtExtratoAPISicoobCertificado.Text;
+      ExtratoAPISicoob.ArquivoChavePrivada := edtExtratoAPISicoobChavePrivada.Text;
+      ExtratoAPISicoob.ClientID := edtExtratoAPISicoobClientID.Text;
+    end;
   finally
     FMonitorConfig.SalvarArquivo;
   end;
@@ -8168,7 +8320,9 @@ begin
         else if fsCmd.Objeto = 'GTIN' then
           FDoGTIN.Executar(fsCmd)
         else if fsCmd.Objeto = 'NFSE' then
-          FDoNFSe.Executar(fsCmd);
+          FDoNFSe.Executar(fsCmd)
+        else if fsCmd.Objeto = 'EXTRATOAPI' then
+          FDoExtratoAPI.Executar(fsCmd);
 
         // Atualiza Memo de Entrada //
         mCmd.Lines.Assign(fsProcessar);
@@ -9003,6 +9157,55 @@ begin
       cbxEmitCidade.ItemIndex := fcMunList.IndexOf(edtBOLCodCidade.Caption);
       cbxEmitCidadeChange(nil);
     end;
+end;
+
+procedure TFrmACBrMonitor.sbExtratoAPIBBChavePrivadaClick(Sender: TObject);
+var
+  LEdit: TEdit;
+begin
+  if Sender = sbExtratoAPIBBChavePrivada then
+    LEdit := edtExtratoAPIBBChavePrivada
+  else if Sender = sbExtratoAPIBBCertificado then
+    LEdit := edtExtratoAPIBBCertificado
+  else if Sender = sbExtratoAPIInterChavePrivada then
+    LEdit := edtExtratoAPIInterChavePrivada
+  else if Sender = sbExtratoAPIInterCertificado then
+    LEdit := edtExtratoAPIInterCertificado
+  else if Sender = sbExtratoAPISicoobChavePrivada then
+    LEdit := edtExtratoAPISicoobChavePrivada
+  else if Sender = sbExtratoAPISicoobCertificado then
+    LEdit := edtExtratoAPISicoobCertificado
+  else
+    exit;
+
+  if Pos('ChavePrivada', LEdit.Name) > 0 then
+  begin
+    OpenDialog1.Title := 'Selecione o Arquivo Chave Privada';
+    OpenDialog1.DefaultExt := '*.key';
+    OpenDialog1.Filter := 'Arquivos KEY (*.key)|*.key|Todos os Arquivos (*.*)|*.*';
+  end
+  else
+  begin
+    OpenDialog1.Title := 'Selecione o Arquivo Certificado PEM';
+    OpenDialog1.DefaultExt := '*.crt';
+    OpenDialog1.Filter := 'Arquivos CRT (*.crt)|*.crt|Todos os Arquivos (*.*)|*.*';
+  end;
+
+  if LEdit.Text <> '' then
+    OpenDialog1.InitialDir := ExtractFileDir(LEdit.Text)
+  else
+    OpenDialog1.InitialDir := ExtractFileDir(application.ExeName);
+
+  if OpenDialog1.Execute then
+    LEdit.Text := OpenDialog1.FileName;
+end;
+
+procedure TFrmACBrMonitor.sbExtratoAPILogArquivoClick(Sender: TObject);
+begin
+  if dlgSave.Execute then
+  begin
+    edtExtratoAPILogArquivo.Text := dlgSave.FileName;
+  end;
 end;
 
 procedure TFrmACBrMonitor.sbLogoMarca1Click(Sender: TObject);
