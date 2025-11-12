@@ -585,6 +585,12 @@ const
   DFeUFCodigo: array[0..26] of Integer =
   (12,27,16,13,29,23,53,32,52,21,51,50,31,15,25,41,26,22,33,24,43,11,14,42,35,28,17);
 
+type
+  TIndAceitacao = (iaNaoAceite, iaAceite);
+
+const
+  TIndAceitacaoArrayStrings: array[TIndAceitacao] of string = ('0', '1');
+
 {
   Declaração das funções de conversão
 }
@@ -750,6 +756,10 @@ function StrToCSTIBSCBS(const s: string): TCSTIBSCBS;
 function cCredPresToStr(const t: TcCredPres): string;
 function TryStrTocCredPres(const s: string; out Value: TcCredPres): Boolean;
 function StrTocCredPres(const s: string): TcCredPres;
+
+function indAceitacaoToStr(const t: TIndAceitacao): string;
+function TryStrToIndAceitacao(const s: string; out Value: TIndAceitacao): Boolean;
+function StrToIndAceitacao(const s: string): TIndAceitacao;
 
 var
   StrToTpEventoDFeList: array of TStrToTpEventoDFe;
@@ -1835,6 +1845,33 @@ function StrTocCredPres(const s: string): TcCredPres;
 begin
   if not TryStrTocCredPres(s, Result) then
     raise EACBrException.CreateFmt('Valor string inválido para TcCredPres: %s', [s]);
+end;
+
+function indAceitacaoToStr(const t: TIndAceitacao): string;
+begin
+  Result := TIndAceitacaoArrayStrings[t];
+end;
+
+function TryStrToIndAceitacao(const s: string; out Value: TIndAceitacao): Boolean;
+var
+  idx: TIndAceitacao;
+begin
+  Result := False;
+  for idx := Low(TIndAceitacaoArrayStrings) to High(TIndAceitacaoArrayStrings) do
+  begin
+    if TIndAceitacaoArrayStrings[idx] = s then
+    begin
+      Value := idx;
+      Result := True;
+      Exit;
+    end;
+  end;
+end;
+
+function StrToIndAceitacao(const s: string): TIndAceitacao;
+begin
+  if not TryStrToIndAceitacao(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TIndAceitacao: %s', [s]);
 end;
 
 end.

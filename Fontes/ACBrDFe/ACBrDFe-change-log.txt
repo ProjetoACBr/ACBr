@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/11/2025
+-- ACBrDFe.Conversao --
+[+] #ACBR-8338: Incluído o tipo TIndAceitacao e as funções de conversão.
+   Por: SG Sistemas
+
 31/10/2025
 -- ACBrDFe.Conversao --
 [*] Correção no Array de Strings do TCSTIcms e a criação de um novo Array Strings para
