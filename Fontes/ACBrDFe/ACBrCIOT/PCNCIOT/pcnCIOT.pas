@@ -186,6 +186,7 @@ type
     FEstadoCivil: Integer;
     FNomeMae: string;
     FNumDependentes: Integer;
+    FPISPASEP: string;
 
     procedure SetCpfOuCnpj(const Value: string);
   public
@@ -217,6 +218,7 @@ type
     property EstadoCivil: Integer read FEstadoCivil write FEstadoCivil;
     property NomeMae: string read FNomeMae write FNomeMae;
     property NumDependentes: Integer read FNumDependentes write FNumDependentes;
+    property PISPASEP: string read FPISPASEP write FPISPASEP;
   end;
 
   TMotorista = class(TPessoa)

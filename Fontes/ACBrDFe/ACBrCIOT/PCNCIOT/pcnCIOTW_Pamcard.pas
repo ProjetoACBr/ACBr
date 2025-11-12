@@ -226,7 +226,7 @@ begin
 
   AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.tipo', 01, 01, 1, TipoFavorecido ); //1-Contratado, 2-Subcontratante, 3-Motorista
 
-  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento.qtde', 01, 01, 1, 1 + IfThen( OnlyNumber( Pessoa.RNTRC ) <> '', 1, 0 ) );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento.qtde', 01, 01, 1, IfThen( Length( OnlyNumber( Pessoa.CpfOuCnpj ) ) = 11, 4, 2 ) );
 
   AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento1.tipo', 01, 01, 1, IfThen( Length( OnlyNumber( Pessoa.CpfOuCnpj ) ) = 11, 2, 1 ) ); //1-CNPJ, 2-CPF
   AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento1.numero', 01, 30, 1, OnlyNumber( Pessoa.CpfOuCnpj ) );
@@ -234,13 +234,28 @@ begin
   AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento1.emissor.id', 01, 02, 0, 0 );
   AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento1.uf', 01, 02, 0, '' );
 
-  if( OnlyNumber( Pessoa.RNTRC ) <> '' )then
+  //RNTRC
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento2.tipo', 01, 01, 0, IfThen( Length( OnlyNumber( Pessoa.CpfOuCnpj ) ) = 11, 5, 6 ) ); //6-RNTRC-CNPJ, 5-RNTRC-CPF
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento2.numero', 01, 30, 0, OnlyNumber( Pessoa.RNTRC ) );
+  AddFieldNoXml( tcDatVcto, '', 'viagem.favorecido'+f+'.documento2.emissao.data', 01, 10, 0, 0 );
+  AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento2.emissor.id', 01, 02, 0, 0 );
+  AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento2.uf', 01, 02, 0, '' );
+
+  if( Length( OnlyNumber( Pessoa.CpfOuCnpj ) ) = 11 )then
   begin
-    AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento2.tipo', 01, 01, 0, IfThen( Length( OnlyNumber( Pessoa.CpfOuCnpj ) ) = 11, 5, 6 ) ); //6-RNTRC-CNPJ, 5-RNTRC-CPF
-    AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento2.numero', 01, 30, 0, OnlyNumber( Pessoa.RNTRC ) );
-    AddFieldNoXml( tcDatVcto, '', 'viagem.favorecido'+f+'.documento1.emissao.data', 01, 10, 0, 0 );
-    AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento1.emissor.id', 01, 02, 0, 0 );
-    AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento1.uf', 01, 02, 0, '' );
+    //RG
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento3.tipo', 01, 01, 0, 3 );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento3.numero', 01, 30, 0, OnlyNumber( Pessoa.Rg ) );
+    AddFieldNoXml( tcDatVcto, '', 'viagem.favorecido'+f+'.documento3.emissao.data', 01, 10, 0, 0 );
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento3.emissor.id', 01, 02, 0, 0 );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento3.uf', 01, 02, 0, Pessoa.RgUf );
+
+    //PIS
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento4.tipo', 01, 01, 0, 7 );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento4.numero', 01, 30, 0, OnlyNumber( Pessoa.PISPASEP ) );
+    AddFieldNoXml( tcDatVcto, '', 'viagem.favorecido'+f+'.documento4.emissao.data', 01, 10, 0, 0 );
+    AddFieldNoXml( tcInt, '', 'viagem.favorecido'+f+'.documento4.emissor.id', 01, 02, 0, 0 );
+    AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.documento4.uf', 01, 02, 0, '' );
   end;
 
   AddFieldNoXml( tcStr, '', 'viagem.favorecido'+f+'.nome', 01, 40, 1, Pessoa.NomeOuRazaoSocial );

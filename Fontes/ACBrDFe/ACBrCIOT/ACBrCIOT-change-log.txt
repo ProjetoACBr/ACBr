@@ -39,6 +39,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/11/2020
+-- pcnCIOT/pcnCIOTW_Pamcard --
+[*] Mais alguns ajustes para funcionar o integrador Pamcard.
+  Por: Centrodata Sistemas
 -- pcnCIOTW_Pamcard --
 [-] Correção no tipo da tag viagem.parcelaxx.valor.
   Por: Centrodata Sistemas
