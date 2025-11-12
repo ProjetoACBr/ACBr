@@ -197,8 +197,10 @@
 -dMT
 -Xd
 -XPaarch64-linux-android-
--k-z&quot; common-page-size=16384&quot;
--k-z&quot; max-page-size=16384&quot;"/>
+-k-z
+-kcommon-page-size=16384
+-k-z
+-kmax-page-size=16384"/>
           </Other>
         </CompilerOptions>
       </Item5>

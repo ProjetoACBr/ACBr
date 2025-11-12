@@ -200,8 +200,10 @@
 -dMT
 -Xd
 -XPaarch64-linux-android-
--k-z&quot; common-page-size=16384&quot;
--k-z&quot; max-page-size=16384&quot;"/>
+-k-z
+-kcommon-page-size=16384
+-k-z
+-kmax-page-size=16384"/>
           </Other>
         </CompilerOptions>
       </Item5>
@@ -238,28 +240,28 @@
       <Unit0>
         <Filename Value="ACBrLibBoleto.lpr"/>
         <IsPartOfProject Value="True"/>
-      </Unit0>
-      <Unit1>
+      </Unit1>
+      <Unit2>
         <Filename Value="ACBrLibBoletoDataModule.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-      </Unit1>
-      <Unit2>
-        <Filename Value="ACBrLibBoletoBase.pas"/>
-        <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="ACBrLibBoletoConfig.pas"/>
+        <Filename Value="ACBrLibBoletoBase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="ACBrLibBoletoConsts.pas"/>
+        <Filename Value="ACBrLibBoletoConfig.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="ACBrLibBoletoMT.pas"/>
+        <Filename Value="ACBrLibBoletoConsts.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="ACBrLibBoletoMT.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
