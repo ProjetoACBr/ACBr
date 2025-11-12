@@ -38,7 +38,7 @@ unit DoACBrExtratoAPIUnit;
 interface
 
 uses
-  Classes, SysUtils, CmdUnit, ACBrExtratoAPI, ACBrMonitorConfig;
+  Classes, SysUtils, CmdUnit, ACBrExtratoAPI, ACBrMonitorConfig, TypInfo;
 
 type
   { TACBrObjetoExtratoAPI }
@@ -52,14 +52,20 @@ type
     property ACBrExtratoAPI: TACBrExtratoAPI read fACBrExtratoAPI;
   end;
 
-  { TMetodoEXTRATOAPIConsultarExtrato}
+  { TMetodoEXTRATOAPIConsultarExtrato }
   TMetodoEXTRATOAPIConsultarExtrato = class(TACBrMetodo)
   public
     procedure Executar; override;
   end;
 
-  { TMetodoEXTRATOAPISelecionaBanco}
+  { TMetodoEXTRATOAPISelecionaBanco }
   TMetodoEXTRATOAPISelecionaBanco = class(TACBrMetodo)
+  public
+    procedure Executar; override;
+  end;
+
+  { TMetodoEXTRATOAPIListaBancos }
+  TMetodoEXTRATOAPIListaBancos = class(TACBrMetodo)
   public
     procedure Executar; override;
   end;
@@ -128,6 +134,21 @@ begin
   end;
 end;
 
+{ TMetodoEXTRATOAPIListaBancos }
+
+procedure TMetodoEXTRATOAPIListaBancos.Executar;
+var
+  I: Integer;
+  LListaBancos: String;
+begin
+  LListaBancos := '';
+  for I := Integer(Low(TACBrExtratoAPIBancoConsulta)) to Integer(High(TACBrExtratoAPIBancoConsulta)) do
+    LListaBancos := LListaBancos + IntToStr(I) + '-' + GetEnumName(TypeInfo(TACBrExtratoAPIBancoConsulta), I) + '|';
+
+  with TACBrObjetoExtratoAPI(fpObjetoDono) do
+    fpCmd.Resposta := LListaBancos;
+end;
+
 { TACBrObjetoExtratoAPI }
 constructor TACBrObjetoExtratoAPI.Create(AConfig: TMonitorConfig; AACBrExtratoAPI: TACBrExtratoAPI);
 begin
@@ -137,6 +158,7 @@ begin
 
   ListaDeMetodos.Add(CMetodoConsultarExtrato);
   ListaDeMetodos.Add(CMetodoSelecionaBanco);
+  ListaDeMetodos.Add(CMetodoListaBancos);
 end;
 
 procedure TACBrObjetoExtratoAPI.Executar(ACmd: TACBrCmd);
@@ -154,6 +176,7 @@ begin
   case CmdNum of
     0: wMetodoClass := TMetodoExtratoAPIConsultarExtrato;
     1: wMetodoClass := TMetodoEXTRATOAPISelecionaBanco;
+    2: wMetodoClass := TMetodoEXTRATOAPIListaBancos;
   else
     wACBrUnit := TACBrObjetoACBr.Create(nil); //Instancia DoACBrUnit para validar métodos padrão para todos os objetos
     try

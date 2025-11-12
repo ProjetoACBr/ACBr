@@ -48,6 +48,9 @@ Símbolo : Significado
 --- ExtratoAPI ---
 [+] ACBR-8222 - Implementação do ExtratoAPI
     Por: Renato Rubinho
+--- DoACBrExtratoAPIUnit ---
+[+] ACBR-8222 - Implementado método para listar os bancos implementados para consulta
+    Por: Renato Rubinho
 
 23/10/2025
 -- DoACBrNFSeUnit --
