@@ -1092,6 +1092,29 @@ begin
 
   end;
 
+  //varrendo documento vinculado a cte multimodal
+  for I := 0 to (fpCTe.infCTeNorm.infServVinc.infCTeMultimodal.Count - 1) do
+  begin
+    with fpCTe.infCTeNorm.infServVinc.infCTeMultimodal.Items[I] do
+    begin
+      if (Item mod 2) = 0 then
+      begin
+        cdsDocumentos.Append;
+        cdsDocumentos.FieldByName('TIPO_1').AsString := 'CTE-E';
+        cdsDocumentos.FieldByName('CNPJCPF_1').AsString := FormatarChaveAcesso(chCTeMultimodal);
+        cdsDocumentos.FieldByName('DOCUMENTO_1').AsString := '';
+      end
+      else
+      begin
+        cdsDocumentos.FieldByName('TIPO_2').AsString := 'CT-E';
+        cdsDocumentos.FieldByName('CNPJCPF_2').AsString := FormatarChaveAcesso(chCTeMultimodal);
+        cdsDocumentos.FieldByName('DOCUMENTO_2').AsString := '';
+        cdsDocumentos.Post;
+      end;
+      Inc(Item);
+    end;
+  end;
+
   cdsDocumentos.First;
 end;
 
