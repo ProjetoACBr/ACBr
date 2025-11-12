@@ -3522,6 +3522,7 @@ begin
           begin
             SchemaEventoNFe := schAceiteDebitoApuracaoNotaCredito;
 
+            InfEvento.detEvento.indAceitacao := FEvento.Evento[I].InfEvento.detEvento.indAceitacao;
           end;
 
           teImobilizacaoItem:

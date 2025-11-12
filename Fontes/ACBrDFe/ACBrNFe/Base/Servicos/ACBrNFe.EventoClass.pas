@@ -397,6 +397,7 @@ type
     FgImobilizacao: TgImobilizacaoCollection;
     FgConsumoComb: TgConsumoCombCollection;
     FgCredito: TgCreditoCollection;
+    FIndAceitacao: TIndAceitacao;
 
     procedure setxCondUso(const Value: string);
     procedure SetitemPedido(const Value: TitemPedidoCollection);
@@ -408,6 +409,7 @@ type
     procedure SetgImobilizacao(const Value: TgImobilizacaoCollection);
     procedure SetgConsumoComb(const Value: TgConsumoCombCollection);
     procedure SetgCredito(const Value: TgCreditoCollection);
+    procedure SetIndAceitacao(const Value: TIndAceitacao);
   public
     constructor Create;
     destructor Destroy; override;
@@ -429,6 +431,7 @@ type
     property vNF: Currency          read FvNF         write FvNF;
     property vICMS: Currency        read FvICMS       write FvICMS;
     property vST: Currency          read FvST         write FvST;
+
 
     property itemPedido: TitemPedidoCollection read FitemPedido        write SetitemPedido;
     property idPedidoCancelado: string         read FidPedidoCancelado write FidPedidoCancelado;
@@ -453,6 +456,7 @@ type
     property dhHashTentativaEntrega: TDateTime read FdhHashTentativaEntrega write FdhHashTentativaEntrega;
     property UF: string read FUF write FUF;
     property detPag: TdetPagCollection read FdetPag write SetdetPag;
+
     // Reforma Tributária
     property tpEventoAut: string read FtpEventoAut write FtpEventoAut;
     property gCredPres: TgCredPresCollection read FgCredPres write SetgCredPres;
@@ -461,6 +465,7 @@ type
     property gImobilizacao: TgImobilizacaoCollection read FgImobilizacao write SetgImobilizacao;
     property gConsumoComb: TgConsumoCombCollection read FgConsumoComb write SetgConsumoComb;
     property gCredito: TgCreditoCollection read FgCredito write SetgCredito;
+    property indAceitacao: TIndAceitacao read  FIndAceitacao write SetIndAceitacao;
   end;
 
   TInfEvento = class
@@ -636,7 +641,7 @@ begin
     teConcFinanceira           : Result := 'ECONF';
     teCancConcFinanceira       : Result := ACBrStr('Cancelamento Conciliação Financeira');
     // Reforma Tributária
-    teCancGenerico             : Result := 'Evento de Cancelamento';
+    teCancGenerico             : Result := 'Cancelamento de Evento';
     tePagIntegLibCredPresAdq   : Result := ACBrStr('Informação de efetivo pagamento integral para liberar crédito presumido do adquirente');
     teImporALCZFM              : Result := ACBrStr('Importação em ALC/ZFM não convertida em isenção');
     tePerecPerdaRouboFurtoTranspContratFornec : Result := ACBrStr('Perecimento, perda, roubo ou furto durante o transporte contratado pelo fornecedor');
@@ -824,6 +829,11 @@ end;
 procedure TDetEvento.SetitemPedido(const Value: TitemPedidoCollection);
 begin
   FitemPedido := Value;
+end;
+
+procedure TDetEvento.SetIndAceitacao(const Value: TIndAceitacao);
+begin
+  FIndAceitacao := Value;
 end;
 
 { TRetchNFePendCollection }

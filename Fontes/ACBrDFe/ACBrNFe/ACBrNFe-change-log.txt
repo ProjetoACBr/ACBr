@@ -45,6 +45,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+12/11/2025
+-- ACBrNFeWebServices/ACBrNFe.Conversao/ACBrNFe.EnvEvento/ACBrNFe.EventoClass/pcnConversaoNFe --
+[+] Implementado o evento: Aceite de Débito na apuração por emissão de nota de Crédito.
+  Por: SG Sistemas
+
 30/10/2025
 -- ACBrNFe.EnvEvento --
 [*] Alguns eventos não funcionam sem acentos, alterado a condição que define que 

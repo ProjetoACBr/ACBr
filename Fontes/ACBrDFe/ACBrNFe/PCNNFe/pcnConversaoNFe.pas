@@ -1620,7 +1620,8 @@ end;
 
 function SchemaEventoToStr(const t: TSchemaNFe): String;
 begin
-  result := EnumeradoToStr(t, ['e110110', 'e110111', 'e110112', 'e110140',
+  result := EnumeradoToStr(t, ['e110001',
+                               'e110110', 'e110111', 'e110112', 'e110140',
                                'e111500', 'e111501', 'e111502', 'e111503',
                                'e210200', 'e210210', 'e210220', 'e210240',
                                'e110130', 'e110131', 'e110150', 'e110192',
@@ -1628,7 +1629,8 @@ begin
                                'e112120', 'e112130', 'e112140', 'e211110',
                                'e211120', 'e211124', 'e211128', 'e211130',
                                'e211140', 'e211150', 'e212110', 'e212120'],
-    [schEnvCCe, schcancNFe, schCancSubst, schEnvEPEC,
+    [schCancGenerico,
+     schEnvCCe, schcancNFe, schCancSubst, schEnvEPEC,
      schPedProrrog1, schPedProrrog2, schCanPedProrrog1, schCanPedProrrog2,
      schManifDestConfirmacao, schManifDestCiencia, schManifDestDesconhecimento,
      schManifDestOperNaoRealizada, schCompEntrega, schCancCompEntrega,

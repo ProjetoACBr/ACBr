@@ -138,6 +138,7 @@ type
     function Gerar_DFeReferenciado(DFeReferenciado: TDFeReferenciado): TACBrXmlNode;
     function Gerar_gCredito(Idx: Integer): TACBrXmlNodeArray;
     function Gerar_Evento_ImobilizacaoItem(Idx: Integer): TACBrXmlNode;
+    function Gerar_Evento_AceiteDebitoApuracaoNotaCredito(Idx: Integer): TACBrXmlNode; //211128
     function Gerar_gImobilizacao(Idx: Integer): TACBrXmlNodeArray;
     function Gerar_gControleEstoque(gControleEstoque: TgControleEstoqueImobilizacao): TACBrXmlNode; overload;
     function Gerar_Evento_SolicApropCredCombustivel(Idx: Integer): TACBrXmlNode;
@@ -1001,7 +1002,7 @@ begin
 
     tePerecPerdaRouboFurtoTranspContratAqu: Result.AppendChild(Gerar_Evento_PerecPerdaRouboTranspContrAdq(Idx));
 
-    teAceiteDebitoApuracaoNotaCredito: Result := nil;
+    teAceiteDebitoApuracaoNotaCredito: Result.AppendChild(Gerar_Evento_AceiteDebitoApuracaoNotaCredito(Idx));
 
     teImobilizacaoItem: Result.AppendChild(Gerar_Evento_ImobilizacaoItem(Idx));
 
@@ -2019,6 +2020,30 @@ begin
       Result.AppendChild(nodeArray[i]);
     end;
   end;
+end;
+
+function TEventoNFe.Gerar_Evento_AceiteDebitoApuracaoNotaCredito(Idx: Integer): TACBrXmlNode; //211128
+var
+  nodeArray: TACBrXmlNodeArray;
+  i: Integer;
+begin
+  Result := CreateElement('detEvento');
+  Result.SetAttribute('versao', Versao);
+
+  Result.AppendChild(AddNode(tcStr, 'P19', 'descEvento', 4, 60, 1,
+                                            Evento[Idx].FInfEvento.DescEvento));
+
+  Result.AppendChild(AddNode(tcInt, 'HP20', 'cOrgaoAutor', 1, 2, 1,
+                                 Evento[Idx].FInfEvento.detEvento.cOrgaoAutor));
+
+  Result.AppendChild(AddNode(tcStr, 'HP21', 'tpAutor', 1, 1, 1,
+                     TipoAutorToStr(Evento[Idx].FInfEvento.detEvento.tpAutor)));
+
+  Result.AppendChild(AddNode(tcStr, 'P22', 'verAplic', 1, 20, 1,
+                                    Evento[Idx].FInfEvento.detEvento.verAplic));
+
+  Result.AppendChild(AddNode(tcInt, 'P23', 'indAceitacao', 1, 2, 1,
+                                    Evento[Idx].FInfEvento.detEvento.indAceitacao));
 end;
 
 function TEventoNFe.Gerar_gConsumoComb(Idx: Integer): TACBrXmlNodeArray;
