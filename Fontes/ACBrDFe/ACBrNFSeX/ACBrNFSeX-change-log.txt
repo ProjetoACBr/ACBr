@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+12/11/2025
+-- ISSBarueri.Provider --
+[-] #ACBr-8376 Correção a totalização de linhas não estava computando os registros 3.
+   Por: samdella/Italo Giurizzato Junior
+
 11/11/2025
 -- PadraoNacional.LerXml --
 [*] #ACBr-8349 A leitura do campo xInfComp esta alimentando agora o campo OutrasInformacoes,
