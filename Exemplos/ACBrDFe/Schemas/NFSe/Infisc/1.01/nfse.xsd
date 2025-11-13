@@ -573,6 +573,14 @@
                  <xs:element name="serierps" type="TSerie" minOccurs="0"  maxOccurs="1"/>
                  <!-- Data de emissao do RPS papel que originou a nota  -->
                  <xs:element name="dataEmissaoRpsPapel" type="TData" minOccurs="0"  maxOccurs="1"/>
+                 <!--  Indica se o sistema deve ou não enviar um e-mail para o tomador   -->
+                 <xs:element name="enviarEmail" type="TSimNao" minOccurs="0" maxOccurs="1"/>
+                 <!--  Chave de Acesso da nota fiscal substituida -->
+                 <xs:element name="chaveAcessoSubstituida" type="TChaveAcesso" minOccurs="0" maxOccurs="1"/>
+                 <!--  Municipio do local de prestacao  -->
+                 <xs:element name="cLocPrestacao" type="TCodMunIBGE" minOccurs="0" maxOccurs="1"/>
+                 <!--  Municipio do local de prestacao  -->
+                 <xs:element name="cPaisPrestacao" type="tsCodigoPaisIbge" minOccurs="0" maxOccurs="1"/>             
              </xs:sequence>
          </xs:complexType>
       </xs:element>
