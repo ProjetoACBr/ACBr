@@ -48,6 +48,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+13/11/2025
+-- ACBrBoleto,ACBrBancoBradescoMoneyPlus  --
+[*] Criado metodo para definir posições agencia, agenciadv, conta e contadv nos retornos
+   TK-7463/ACBr-478 https://www.projetoacbr.com.br/forum/topic/84729-extra%C3%A7%C3%A3o-incorreta-de-ag%C3%AAncia-e-conta-no-retorno-cnab-400-do-banco-274-moneyplus-gera-erro-na-valida%C3%A7%C3%A3o/
+   Por Daniel Sonda, Daniel de Morais InfoCotidiano.
+
 11/11/2025
 -- ACBrBoletoRet_Inter_API.pas --
 [*] Ajustado DataBaixa qdo status igual a Recebido, Cancelado, Pago

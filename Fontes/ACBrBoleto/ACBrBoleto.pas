@@ -637,6 +637,11 @@ type
     function DefineSeuNumeroRetorno(const ALinha: String): String; virtual;         //Define o Seu Numero
     function DefinerCnpjCPFRetorno240(const ALinha: String): String; virtual;       //Define retorno rCnpjCPF
     function DefineNumeroDocumentoRetorno(const ALinha: String): String; virtual;   //Define o Numero Documento do Retorno
+    function DefinePosicaoAgenciaRetorno:Integer; virtual;                          //Define posição para leitura de Retorno campo: Agencia
+    function DefinePosicaoAgenciaDigitoRetorno:Integer; virtual;                    //Define posição para leitura de Retorno campo: Agencia DV
+    function DefinePosicaoContaRetorno:Integer; virtual;                            //Define posição para leitura de Retorno campo: Conta
+    function DefinePosicaoContaDigitoRetorno:Integer; virtual;                      //Define posição para leitura de Retorno campo: Conta DV
+
     procedure DefineRejeicaoComplementoRetorno(const ALinha: String; out ATitulo : TACBrTitulo); virtual;   //Define o Motivo da Rejeição ou Complemento no Retorno
     procedure DefineCanalLiquidacaoRetorno240(const ALinha: String; out ATitulo : TACBrTitulo); virtual;   //Define o Canal de Liquidacao Retorno CNAB 240
 
@@ -5378,10 +5383,11 @@ begin
   rCedente   := trim(Copy(ARetorno[0],47,30));
 
   // A leitura deverá ser feita a partir da posição 26 devido ao fato de não existirem agências bancárias com mais de 4 (quatro) algarismos.
-  rAgencia := trim(Copy(ARetorno[1], 26, ACBrBanco.TamanhoAgencia));
-  rConta   := trim(Copy(ARetorno[1], 30, DefineTamanhoContaRemessa));
+  rAgencia := trim(Copy(ARetorno[1], DefinePosicaoAgenciaRetorno, ACBrBanco.TamanhoAgencia));
+  rConta   := trim(Copy(ARetorno[1], DefinePosicaoContaRetorno, DefineTamanhoContaRemessa));
 
-  rDigitoConta := Copy(ARetorno[1], 30 + DefineTamanhoContaRemessa ,1);
+  //rDigitoConta := Copy(ARetorno[1], 30 + DefineTamanhoContaRemessa ,1);
+  rDigitoConta := Copy(ARetorno[1], DefinePosicaoContaRetorno + DefineTamanhoContaRemessa ,1);
 
   ACBrBanco.ACBrBoleto.NumeroArquivo := StrToIntDef(Copy(ARetorno[0],109,5),0);
 
@@ -5608,14 +5614,14 @@ begin
        Cedente.Nome     := rCedente;
        Cedente.CNPJCPF  := rCNPJCPF;
        Cedente.Convenio := rConvenioCedente;
-       Cedente.Agencia       := trim(copy(ARetorno[0], 53, 5));
-       Cedente.AgenciaDigito := trim(copy(ARetorno[0], 58, 1));
+       Cedente.Agencia       := trim(copy(ARetorno[0], DefinePosicaoAgenciaRetorno, 5));
+       Cedente.AgenciaDigito := trim(copy(ARetorno[0], DefinePosicaoAgenciaDigitoRetorno, 1));
        if (ACodBeneficiario <> '') then
          Cedente.CodigoCedente := trim(copy(ARetorno[0], 59, 14))
        else
        begin
-         Cedente.Conta         := trim(copy(ARetorno[0], 59, 12));
-         Cedente.ContaDigito   := trim(copy(ARetorno[0], 71, 1));
+         Cedente.Conta         := trim(copy(ARetorno[0], DefinePosicaoContaRetorno, 12));
+         Cedente.ContaDigito   := trim(copy(ARetorno[0], DefinePosicaoContaDigitoRetorno, 1));
        end;
 
        if (StrToIntDef(copy(ARetorno[0], 18, 1), 0) = 1) then
@@ -6456,6 +6462,40 @@ end;
 function TACBrBancoClass.DefineTamanhoNossoNumeroRetorno: Integer;
 begin
   Result := TamanhoMaximoNossoNum;
+end;
+
+function TACBrBancoClass.DefinePosicaoAgenciaDigitoRetorno: Integer;
+begin
+  if ACBrBanco.ACBrBoleto.LayoutRemessa = c240 then
+    Result := 58
+  else
+  Raise EACBrBoleto.Create(ACBrStr('Método DefinePosicaoAgenciaDigiretorno ' +
+            ' não implementado CNAB400!'));
+end;
+
+function TACBrBancoClass.DefinePosicaoAgenciaRetorno: Integer;
+begin
+  if ACBrBanco.ACBrBoleto.LayoutRemessa = c240 then
+    Result := 53
+  else
+    Result := 26;
+end;
+
+function TACBrBancoClass.DefinePosicaoContaDigitoRetorno: Integer;
+begin
+  if ACBrBanco.ACBrBoleto.LayoutRemessa = c240 then
+    Result := 71
+  else
+    Raise EACBrBoleto.Create(ACBrStr('Método DefinePosicaoContaDigitoRetorno ' +
+            ' não implementado CNAB400!'));
+end;
+
+function TACBrBancoClass.DefinePosicaoContaRetorno: Integer;
+begin
+  if ACBrBanco.ACBrBoleto.LayoutRemessa = c240 then
+    Result := 59
+  else
+    Result := 30;
 end;
 
 function TACBrBancoClass.DefinePosicaoCarteiraRetorno: Integer;
