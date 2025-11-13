@@ -18,4 +18,4 @@ extra["jniLibsFolder_x86"] = "${extra["jniLibsFolder"]}/x86"
 extra["jniLibsFolder_x86_64"] = "${extra["jniLibsFolder"]}/x86_64"
 //extra["isRequiredLibXML2"] = true
 // use esse flag para incluir libs 32 do bit intel
-extra["isRequiredLibsX86Family"] = true
+//extra["isRequiredLibsX86Family"] = true
