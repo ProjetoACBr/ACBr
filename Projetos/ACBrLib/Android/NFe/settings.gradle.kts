@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ACBrLibPIXCD"
-include(':ACBrLibPIXCD')
+rootProject.name = "ACBrLibNFe"
+include(":ACBrLibNFe")

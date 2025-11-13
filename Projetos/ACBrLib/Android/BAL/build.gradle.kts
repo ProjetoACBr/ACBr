@@ -11,3 +11,8 @@ extra["ACBrLibFolder"] = "${extra["ACBrFolder"]}/Projetos/ACBrLib"
 extra["jniLibsFolder"] = "${rootProject.projectDir}/ACBrLibBAL/src/main/jniLibs"
 extra["jniLibsFolder_arm64"] = "${extra["jniLibsFolder"]}/arm64-v8a"
 extra["jniLibsFolder_armeabi"] = "${extra["jniLibsFolder"]}/armeabi-v7a"
+extra["jniLibsFolder_x86"] = "${extra["jniLibsFolder"]}/x86"
+extra["jniLibsFolder_x86_64"] = "${extra["jniLibsFolder"]}/x86_64"
+//extra["isRequiredLibXML2"] = true
+// use esse flag para incluir libs 32 do bit intel
+//extra["isRequiredLibsX86Family"] = true

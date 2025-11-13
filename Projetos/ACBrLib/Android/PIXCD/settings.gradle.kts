@@ -18,6 +18,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
-rootProject.name = "ACBrLibNFe"
-include(':ACBrLibNFe')
+rootProject.name = "ACBrLibPIXCD"
+include(":ACBrLibPIXCD")
