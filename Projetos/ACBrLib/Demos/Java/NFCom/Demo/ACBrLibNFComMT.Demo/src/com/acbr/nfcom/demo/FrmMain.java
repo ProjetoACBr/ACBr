@@ -1900,6 +1900,8 @@ public class FrmMain extends javax.swing.JFrame {
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         final Loading loadingDialog = new Loading(this);
+        
+        btnSalvar.setEnabled(false);
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
@@ -1909,15 +1911,17 @@ public class FrmMain extends javax.swing.JFrame {
             @Override
             protected void done() {
                 loadingDialog.stop();
+				btnSalvar.setEnabled(true);                
             }
         };
         worker.execute();
-        loadingDialog.start();
+        loadingDialog.start(this);        
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnStatusServActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStatusServActionPerformed
         final Loading loadingDialog = new Loading(this);
 
+        btnStatusServ.setEnabled(false);
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
@@ -1937,10 +1941,11 @@ public class FrmMain extends javax.swing.JFrame {
             @Override
             protected void done() {
                 loadingDialog.stop();
+                btnStatusServ.setEnabled(true);
             }
         };
 
-        loadingDialog.start();
+        loadingDialog.start(this);
         worker.execute();
     }//GEN-LAST:event_btnStatusServActionPerformed
 
@@ -2073,7 +2078,7 @@ public class FrmMain extends javax.swing.JFrame {
             }
         };
 
-        loadingDialog.start();
+        loadingDialog.start(this);
         worker.execute();
     }//GEN-LAST:event_btnCancelarNFComActionPerformed
 
@@ -2147,6 +2152,8 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void btnCarregarConfiguracoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarConfiguracoesActionPerformed
         final Loading loadingDialog = new Loading(this);
+        
+        btnCarregarConfiguracoes.setEnabled(false);
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
@@ -2156,10 +2163,11 @@ public class FrmMain extends javax.swing.JFrame {
             @Override
             protected void done() {
                 loadingDialog.stop();
+                btnCarregarConfiguracoes.setEnabled(true);
             }
         };
         worker.execute();
-        loadingDialog.start();
+        loadingDialog.start(this);
     }//GEN-LAST:event_btnCarregarConfiguracoesActionPerformed
 
     private void btnLogomarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogomarcaActionPerformed
@@ -2452,6 +2460,8 @@ public class FrmMain extends javax.swing.JFrame {
 
     private void btnValidarRegraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarRegraActionPerformed
         final Loading loadingDialog = new Loading(this);
+        
+        btnValidarRegra.setEnabled(false);
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
@@ -2466,10 +2476,11 @@ public class FrmMain extends javax.swing.JFrame {
             @Override
             protected void done() {
                 loadingDialog.stop();
+                btnValidarRegra.setEnabled(true);
             }
         };
         worker.execute();
-        loadingDialog.start();
+        loadingDialog.start(this);
         
     }//GEN-LAST:event_btnValidarRegraActionPerformed
 

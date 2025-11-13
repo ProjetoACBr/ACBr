@@ -22,37 +22,41 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 public class Loading extends JDialog {
+    
+    private static Loading instance;
+    
+    // Singleton: garante uma única instância
+    synchronized void start(Window owner) {
+        if (instance == null) {
+            instance = new Loading(owner);
+        }
+        SwingUtilities.invokeLater(() -> instance.setVisible(true));
+    }
+
+    synchronized void stop() {
+        if (instance != null) {
+            SwingUtilities.invokeLater(() -> instance.setVisible(false));
+        }
+    }
 
     public Loading(Window owner) {
-        // 'super(owner)' torna este diálogo dependente da janela principal
-        // 'true' como terceiro parâmetro o torna MODAL
-        super(owner, "Aguarde...", ModalityType.APPLICATION_MODAL);
-
+        super(owner, "Aguarde...", ModalityType.MODELESS);
+        setUndecorated(true);
+        setBackground(new Color(0, 0, 0, 0));
+        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        setResizable(false);
+        
         // Cria o painel de animação
         LoadingAnimation animationPanel = new LoadingAnimation();
-        animationPanel.setBorder(new EmptyBorder(20, 20, 20, 20)); // Adiciona um respiro
-
-        // Configurações do diálogo
-        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Impede o usuário de fechar
-        setResizable(false);
+        animationPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(animationPanel, BorderLayout.CENTER);
         pack();
-        setLocationRelativeTo(owner); // Centraliza em relação à janela principal
-    }
-
-    public void start() {
-        SwingUtilities.invokeLater(() -> setVisible(true));
-    }
-
-    /**
-     * Fecha e libera os recursos do diálogo.
-     */
-    public void stop() {
-        SwingUtilities.invokeLater(() -> {
-            setVisible(false);
-            dispose();
-        });
+        if (owner != null) {
+            int x = owner.getX() + owner.getWidth() - getWidth() - 20;  // margem de 20px da borda
+            int y = owner.getY() + owner.getHeight() - getHeight() - 20;
+            setLocation(x, y);
+        }
     }
 }
 
@@ -66,7 +70,7 @@ public class Loading extends JDialog {
     // O construtor agora inicia a animação
     public LoadingAnimation() {
         setPreferredSize(new Dimension(200, 200)); // Um tamanho mais razoável
-        setBackground(Color.WHITE);
+        setOpaque(false);
         Timer timer = new Timer(DELAY, e -> {
             angle += Math.toRadians(10); // Avança 10° por frame
             repaint();
