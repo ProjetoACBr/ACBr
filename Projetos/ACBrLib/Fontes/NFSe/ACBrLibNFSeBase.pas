@@ -1664,7 +1664,7 @@ begin
           Resposta:= Resp.Gerar;
           MoverStringParaPChar(Resposta, sResposta, esTamanho);
 
-          Result := SetRetorno(ErrOK, sResposta);
+          Result := SetRetorno(ErrOK, Resposta);
         finally
           Resp.Free;
         end;
