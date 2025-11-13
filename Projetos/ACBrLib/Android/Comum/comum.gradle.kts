@@ -27,12 +27,15 @@ fun getProjectFromFolder(arch: String) : String {
 
 tasks.register<Copy>("copyLibs_x86"){
 
-    val ProjectFromFolder = getProjectFromFolder("x86")
-
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-
     if (isRequiredLibsX86Family) {
+        val ProjectFromFolder = getProjectFromFolder("x86")
+
+        from(ProjectFromFolder) {
+            include("**/*.so")
+        }
+
         from(Paths.get(ACBrDependenciesFolder, "OpenSSL", "openssl-1.1.1w", "i686-linux-android", "Dynamic").toString()) {
             include("**/*.so")
         }
@@ -44,25 +47,21 @@ tasks.register<Copy>("copyLibs_x86"){
         }
     }
 
-    from(ProjectFromFolder) {
-        include("**/*.so")
-    }
-
     into(jniLibsFolder_x86)
 
 }
 
 tasks.register<Copy>("copyLibs_x86_64"){
 
-    val ProjectFromFolder = getProjectFromFolder("x86_64")
-
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-    from(ProjectFromFolder) {
-        include("**/*.so")
-    }
-
     if (isRequiredLibsX86Family) {
+        val ProjectFromFolder = getProjectFromFolder("x86_64")
+
+        from(ProjectFromFolder) {
+            include("**/*.so")
+        }
+
         from(Paths.get(ACBrDependenciesFolder, "OpenSSL", "openssl-1.1.1w", "x86_64-linux-android", "Dynamic").toString()) {
             include("**/*.so")
         }
