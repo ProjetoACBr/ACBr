@@ -40,7 +40,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls, StdCtrls,
   ExtCtrls, Buttons, Spin, Grids, ACBrCEP, ACBrPIXCD, ACBrPIXPSPItau,
   ACBrPIXPSPBancoDoBrasil, ACBrPIXPSPSantander, ACBrPIXBase, ACBrPIXSchemasPix,
-  ACBrPIXSchemasDevolucao, ACBrPIXSchemasCob, ACBrPIXPSPShipay, ShellAPI,
+  ACBrPIXSchemasDevolucao, ACBrPIXSchemasCob, ACBrPIXPSPShipay,
   ACBrOpenSSLUtils, ACBrPIXPSPSicredi, ACBrPIXBRCode, ACBrSocket, ACBrBase,
   ImgList, ACBrPIXPSPSicoob, ACBrPIXPSPPagSeguro, ACBrPIXPSPGerenciaNet,
   ACBrPIXPSPBradesco, ACBrPIXPSPPixPDV, ACBrPIXPSPInter, ACBrPIXPSPAilos,
@@ -1254,7 +1254,6 @@ type
     procedure btFluxoItemIncluirClick(Sender: TObject);
     procedure btFluxoNovaVendaClick(Sender: TObject);
     procedure btFluxoPagarClick(Sender: TObject);
-    procedure btGerenciaNetBaixarConversorClick(Sender: TObject);
     procedure btItauGerarChavePrivadaClick(Sender: TObject);
     procedure btItauRenovarCertificadoClick(Sender: TObject);
     procedure btItauSolicitarCertificadoClick(Sender: TObject);
@@ -3263,10 +3262,6 @@ begin
   end;
 end;
 
-procedure TForm1.btGerenciaNetBaixarConversorClick(Sender: TObject);
-begin
-  shellexecute(0, 'open', 'https://pix.gerencianet.com.br/ferramentas/conversorGerencianet.exe', '', '', 1);
-end;
 
 procedure TForm1.btItauGerarChavePrivadaClick(Sender: TObject);
 var
