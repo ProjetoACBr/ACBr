@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 13/11/2025
+-- PadraoNacional.GravarXml --
+[-] #ACBr-8375 Alterações visando gerar corretamente o grupo tribFed e o piscofins.
+   Por: marcos villatore
+
 -- ACBrNFSeXServicos --
 [*] #ACBr-8396 Incluído o Params GerarTag CodigoAtividade para cidade São Bento do Sul/SC.
    Por: VEXCOM Sistemas - Valtair

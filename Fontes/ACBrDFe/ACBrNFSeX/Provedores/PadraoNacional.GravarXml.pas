@@ -1205,19 +1205,14 @@ function TNFSeW_PadraoNacional.GerarXMLTributacaoFederal: TACBrXmlNode;
 begin
   Result := nil;
 
+  Result := CreateElement('tribFed');
+
+  Result.AppendChild(GerarXMLTributacaoOutrosPisCofins);
+
   if (NFSe.Servico.Valores.tribFed.vRetCP > 0) or
      (NFSe.Servico.Valores.tribFed.vRetIRRF > 0) or
-     (NFSe.Servico.Valores.tribFed.vRetCSLL > 0) or
-     (NFSe.Servico.Valores.tribFed.vBCPisCofins > 0) or
-     (NFSe.Servico.Valores.tribFed.pAliqPis > 0) or
-     (NFSe.Servico.Valores.tribFed.pAliqCofins > 0) or
-     (NFSe.Servico.Valores.tribFed.vPis > 0) or
-     (NFSe.Servico.Valores.tribFed.vCofins > 0) then
+     (NFSe.Servico.Valores.tribFed.vRetCSLL > 0) then
   begin
-    Result := CreateElement('tribFed');
-
-    Result.AppendChild(GerarXMLTributacaoOutrosPisCofins);
-
     Result.AppendChild(AddNode(tcDe2, '#1', 'vRetCP', 1, 15, 0,
                                       NFSe.Servico.Valores.tribFed.vRetCP, ''));
 
@@ -1233,17 +1228,17 @@ function TNFSeW_PadraoNacional.GerarXMLTributacaoOutrosPisCofins: TACBrXmlNode;
 begin
   Result := nil;
 
+  Result := CreateElement('piscofins');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CST', 2, 2, 1,
+                               CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
+
   if (NFSe.Servico.Valores.tribFed.vBCPisCofins > 0) or
      (NFSe.Servico.Valores.tribFed.pAliqPis > 0) or
      (NFSe.Servico.Valores.tribFed.pAliqCofins > 0) or
      (NFSe.Servico.Valores.tribFed.vPis > 0) or
      (NFSe.Servico.Valores.tribFed.vCofins > 0) then
   begin
-    Result := CreateElement('piscofins');
-
-    Result.AppendChild(AddNode(tcStr, '#1', 'CST', 2, 2, 1,
-                               CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
-
     Result.AppendChild(AddNode(tcDe2, '#1', 'vBCPisCofins', 1, 15, 0,
                                 NFSe.Servico.Valores.tribFed.vBCPisCofins, ''));
 
