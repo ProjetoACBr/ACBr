@@ -43,6 +43,17 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+13/11/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8396 Incluído o Params GerarTag CodigoAtividade para cidade São Bento do Sul/SC.
+   Por: VEXCOM Sistemas - Valtair
+[*] #ACBr-8395 Incluído as URLs da API própria do provedor Tiplan da cidade Americana/SP.
+   Por: NW Software/Italo Giurizzato Junior
+[*] #ACBr-8391 A cidade Itaituba/PA mudou as URLs, o provedor continua o mesmo.
+   Por: Diego Reckziegel
+[*] #ACBr-8390 A cidade Sapezal/MT mudou as URLs, o provedor continua o mesmo.
+   Por: Diego Reckziegel
+
 12/11/2025
 -- ISSBarueri.Provider --
 [-] #ACBr-8376 Correção a totalização de linhas não estava computando os registros 3.
