@@ -1169,6 +1169,8 @@ begin
 
           if AuxNode <> nil then
           begin
+            Response.Status := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Status'), tcInt);
+
             AuxNode := AuxNode.Childrens.FindAnyNs('IdentificacaoRps');
             if not Assigned(AuxNode) then Exit;
 
