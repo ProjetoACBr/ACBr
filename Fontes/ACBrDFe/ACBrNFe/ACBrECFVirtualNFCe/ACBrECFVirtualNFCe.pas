@@ -69,6 +69,7 @@ type
     function GetACBrNFCe: TACBrNFe;
     function GetImprimir2ViaOffLine: Boolean;
     function GetTratarDescontoNoItem: Boolean;
+    function GetIgnorarPagamentoVinculado: Boolean;
     function GetQuandoAbrirDocumento: TACBrECFVirtualNFCeQuandoAbrirDocumento;
     function GetQuandoEfetuarPagamento: TACBrECFVirtualNFCeQuandoEfetuarPagamento;
     function GetQuandoVenderItem: TACBrECFVirtualNFCeQuandoVenderItem;
@@ -88,6 +89,7 @@ type
     procedure SetACBrNFCe(AValue: TACBrNFe);
     procedure SetImprimir2ViaOffLine(AValue: Boolean);
     procedure SetTratarDescontoNoItem(AValue: Boolean);
+    procedure SetIgnorarPagamentoVinculado(AValue: Boolean);
     procedure SetQuandoImprimirDocumento(const AValue: TACBrECFVirtualNFCeQuandoImprimirDocumento);
   protected
     procedure CreateVirtualClass; override;
@@ -97,6 +99,7 @@ type
     property ACBrNFCe: TACBrNFe read GetACBrNFCe write SetACBrNFCe;
     property Imprimir2ViaOffLine : Boolean read GetImprimir2ViaOffLine write SetImprimir2ViaOffLine default True;
     property TratarDescontoNoItem : Boolean read GetTratarDescontoNoItem write SetTratarDescontoNoItem default false;
+    property IgnorarPagamentoVinculado : Boolean read GetIgnorarPagamentoVinculado write SetIgnorarPagamentoVinculado default false;
     property QuandoAbrirDocumento: TACBrECFVirtualNFCeQuandoAbrirDocumento
       read GetQuandoAbrirDocumento write SetQuandoAbrirDocumento;
     property QuandoVenderItem: TACBrECFVirtualNFCeQuandoVenderItem
@@ -134,6 +137,7 @@ type
     fsQuandoImprimirDocumento: TACBrECFVirtualNFCeQuandoImprimirDocumento;
     fsImprimir2ViaOffLine : Boolean;
     fsTratarDescontoNoItem : Boolean;
+    fsIgnorarPagamentoVinculado : Boolean;
     fsEhVenda: Boolean;
     fsDestCNPJ: string;
     fsDestNome: string;
@@ -168,6 +172,7 @@ type
     property ACBrNFCe: TACBrNFe read fsACBrNFCe write fsACBrNFCe;
     property Imprimir2ViaOffLine : Boolean read fsImprimir2ViaOffLine write fsImprimir2ViaOffLine;
     property TratarDescontoNoItem : Boolean read fsTratarDescontoNoItem write fsTratarDescontoNoItem;
+    property IgnorarPagamentoVinculado : Boolean read fsIgnorarPagamentoVinculado write fsIgnorarPagamentoVinculado;
     property QuandoAbrirDocumento: TACBrECFVirtualNFCeQuandoAbrirDocumento
       read fsQuandoAbrirDocumento write fsQuandoAbrirDocumento;
     property QuandoVenderItem: TACBrECFVirtualNFCeQuandoVenderItem
@@ -221,6 +226,11 @@ begin
   Result := TACBrECFVirtualNFCeClass(fpECFVirtualClass).fsTratarDescontoNoItem;
 end;
 
+function TACBrECFVirtualNFCe.GetIgnorarPagamentoVinculado: Boolean;
+begin
+  Result := TACBrECFVirtualNFCeClass(fpECFVirtualClass).fsIgnorarPagamentoVinculado;
+end;
+
 procedure TACBrECFVirtualNFCe.SetACBrNFCe(AValue: TACBrNFe);
 begin
   if AValue <> ACBrNFCe then
@@ -243,6 +253,11 @@ end;
 procedure TACBrECFVirtualNFCe.SetTratarDescontoNoItem(AValue: Boolean);
 begin
   TACBrECFVirtualNFCeClass(fpECFVirtualClass).fsTratarDescontoNoItem := AValue;
+end;
+
+procedure TACBrECFVirtualNFCe.SetIgnorarPagamentoVinculado(AValue: Boolean);
+begin
+  TACBrECFVirtualNFCeClass(fpECFVirtualClass).fsIgnorarPagamentoVinculado := AValue;
 end;
 
 function TACBrECFVirtualNFCe.GetQuandoAbrirDocumento: TACBrECFVirtualNFCeQuandoAbrirDocumento;
@@ -331,6 +346,7 @@ begin
   fsEhVenda := False;
   fsImprimir2ViaOffLine := True;
   fsTratarDescontoNoItem:= False;
+  fsIgnorarPagamentoVinculado:= False;
 end;
 
 procedure TACBrECFVirtualNFCeClass.FazerImpressaoDocumento;
@@ -779,7 +795,7 @@ procedure TACBrECFVirtualNFCeClass.EfetuaPagamentoVirtual(
 var
   NFCePagto: TpagCollectionItem;
 begin
-  if fsEhVenda then
+  if (fsEhVenda) and (not(fsIgnorarPagamentoVinculado)) then
   begin
     with fsACBrNFCe do
     begin
@@ -798,7 +814,6 @@ begin
       if Assigned(fsQuandoEfetuarPagamento) then
         fsQuandoEfetuarPagamento(NFCePagto);
     end;
-
   end;
 end;
 
