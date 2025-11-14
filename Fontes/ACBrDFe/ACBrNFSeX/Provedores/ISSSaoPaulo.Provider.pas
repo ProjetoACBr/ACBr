@@ -1241,7 +1241,7 @@ procedure TACBrNFSeProviderISSSaoPaulo.PrepararConsultaNFSeServicoPrestado(
 var
   AErro: TNFSeEventoCollectionItem;
   Emitente: TEmitenteConfNFSe;
-  NameSpace, xCNPJCPF, xDoc, xCNPJCPFTomador, xDocTomador: string;
+  NameSpace, xCNPJCPF, xDoc, xCNPJCPFPrestador, xDocPrestador: string;
 begin
   if EstaVazio(Response.InfConsultaNFSe.CNPJPrestador) then
   begin
@@ -1283,12 +1283,12 @@ begin
   else
     xCNPJCPF := '<CPF>' + xDoc + '</CPF>';
 
-  xDocTomador := OnlyNumber(Response.InfConsultaNFSe.CNPJTomador);
+  xDocPrestador := OnlyNumber(Response.InfConsultaNFSe.CNPJPrestador);
 
-  if Length(xDocTomador) = 14 then
-    xCNPJCPFTomador := '<CNPJ>' + xDocTomador + '</CNPJ>'
+  if Length(xDocPrestador) = 14 then
+    xCNPJCPFPrestador := '<CNPJ>' + xDocPrestador + '</CNPJ>'
   else
-    xCNPJCPFTomador := '<CPF>' + xDocTomador + '</CPF>';
+    xCNPJCPFPrestador := '<CPF>' + xDocPrestador + '</CPF>';
 
   Response.ArquivoEnvio := '<PedidoConsultaNFePeriodo' + NameSpace + '>' +
                               '<Cabecalho xmlns="" Versao="' + FPVersaoDFe + '">' +
@@ -1296,7 +1296,7 @@ begin
                                   xCNPJCPF +
                                 '</CPFCNPJRemetente>' +
                                 '<CPFCNPJ>' +
-                                  xCNPJCPFTomador +
+                                  xCNPJCPFPrestador +
                                 '</CPFCNPJ>' +
                                 '<dtInicio>' +
                                   FormatDateTime('yyyy-mm-dd', Response.InfConsultaNFSe.DataInicial) +

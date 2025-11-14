@@ -42,6 +42,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/11/2025
+-- ISSSaoPaulo.Provider --
+[-] #ACBr-8290 Ajuste visando correta consulta de NFSe por serviço prestado.
+   Por: Diego Folieni
 
 13/11/2025
 -- ACBrNFSeXProviderABRASFv2/ACBrNFSeXWebservicesResponse --
