@@ -877,7 +877,10 @@ var
   P: Integer;
 begin
   if Length(Texto) <= Tamanho then
-    Exit(Texto);
+  begin
+    Result := Texto;
+    Exit;
+  end;
 
   S := Copy(Texto, 1, Tamanho);
   P := LastDelimiter(' ', S);
@@ -1238,7 +1241,7 @@ begin
   result:=0;
   Vl:=0;
   if Length(xStr)<1 then
-    exit;
+    Exit;
   for I:=1 to Length(xStr) do
   begin
     Vl:=Vl+Ord(xStr[I]);
