@@ -555,7 +555,7 @@ begin
   FxUF := FPIniParams.ReadString(CodIBGE, 'UF', '');
   FxProvedor := FPIniParams.ReadString(CodIBGE, 'Provedor', '');
   FVersao := StrToVersaoNFSe(Ok, FPIniParams.ReadString(CodIBGE, 'Versao', '1.00'));
-  APIProp := (FPIniParams.ReadString(CodIBGE, 'Params', '') = 'APIPropria:');
+  APIProp := (Pos('APIPropria:', FPIniParams.ReadString(CodIBGE, 'Params', '')) > 0);
 
 
   if (FxMunicipio <> '') and (FxProvedor = '') and (FLayoutNFSe = lnfsProvedor) then

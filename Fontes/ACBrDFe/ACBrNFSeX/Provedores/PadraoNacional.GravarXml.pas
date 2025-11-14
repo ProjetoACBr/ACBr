@@ -221,16 +221,22 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'cMotivoEmisTI', 1, 1, 0,
                                    cMotivoEmisTIToStr(NFSe.cMotivoEmisTI), ''));
 
-  case NFSe.tpEmit of
-    teTomador:
-      Result.AppendChild(AddNode(tcStr, '#1', 'cLocEmi', 7, 7, 1,
-                                    NFSe.Tomador.Endereco.CodigoMunicipio, ''));
-    teIntermediario:
-      Result.AppendChild(AddNode(tcStr, '#1', 'cLocEmi', 7, 7, 1,
-                              NFSe.Intermediario.Endereco.CodigoMunicipio, ''));
-  else
+  if NFSe.cLocEmi <> '' then
     Result.AppendChild(AddNode(tcStr, '#1', 'cLocEmi', 7, 7, 1,
+                                                              NFSe.cLocEmi, ''))
+  else
+  begin
+    case NFSe.tpEmit of
+      teTomador:
+        Result.AppendChild(AddNode(tcStr, '#1', 'cLocEmi', 7, 7, 1,
+                                    NFSe.Tomador.Endereco.CodigoMunicipio, ''));
+      teIntermediario:
+        Result.AppendChild(AddNode(tcStr, '#1', 'cLocEmi', 7, 7, 1,
+                              NFSe.Intermediario.Endereco.CodigoMunicipio, ''));
+    else
+      Result.AppendChild(AddNode(tcStr, '#1', 'cLocEmi', 7, 7, 1,
                                   NFSe.Prestador.Endereco.CodigoMunicipio, ''));
+    end;
   end;
 
   Result.AppendChild(GerarXMLSubstituicao);

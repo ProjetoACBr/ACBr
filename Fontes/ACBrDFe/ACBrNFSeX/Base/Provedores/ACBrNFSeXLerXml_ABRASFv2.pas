@@ -60,7 +60,7 @@ type
     function LerCodigoPaisServico(const ANode: TACBrXmlNode): Integer; virtual;
     function LerCodigoPaisTomador(const ANode: TACBrXmlNode): Integer; virtual;
 
-    procedure LerInfNfse(const ANode: TACBrXmlNode);
+    procedure LerInfNfse(const ANode: TACBrXmlNode); virtual;
 
     procedure LerValoresNfse(const ANode: TACBrXmlNode);
 

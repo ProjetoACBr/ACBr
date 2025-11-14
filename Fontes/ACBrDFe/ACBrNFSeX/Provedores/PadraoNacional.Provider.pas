@@ -39,6 +39,7 @@ interface
 uses
   SysUtils, Classes, Variants,
   ACBrJSON, ACBrDFeSSL,
+  ACBrBase,
   ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXNotasFiscais,
@@ -51,6 +52,8 @@ uses
 
 type
   TACBrNFSeXWebservicePadraoNacional = class(TACBrNFSeXWebserviceRest)
+  protected
+    procedure SetHeaders(aHeaderReq: THTTPHeader); override;
   public
     function GerarNFSe(const ACabecalho, AMSG: string): string; override;
     function ConsultarNFSePorRps(const ACabecalho, AMSG: string): string; override;
@@ -141,6 +144,7 @@ begin
     FormatoArqRetorno := tfaJson;
     FormatoArqEnvioSoap := tfaJson;
     FormatoArqRetornoSoap := tfaJson;
+    UseAuthorizationHeader := ConfigGeral.Params.TemParametro('UseToken');
 
     ServicosDisponibilizados.EnviarUnitario := True;
     ServicosDisponibilizados.ConsultarNfseChave := True;
@@ -1600,6 +1604,19 @@ begin
   Request := AMSG;
 
   Result := Executar('', Request, [], []);
+end;
+
+procedure TACBrNFSeXWebservicePadraoNacional.SetHeaders(
+  aHeaderReq: THTTPHeader);
+var
+  Auth: string;
+begin
+  if TACBrNFSeX(FPDFeOwner).Provider.ConfigGeral.UseAuthorizationHeader then
+  begin
+    Auth := TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.WSChaveAcesso;
+
+    aHeaderReq.AddHeader('token', Auth);
+  end;
 end;
 
 function TACBrNFSeXWebservicePadraoNacional.TratarXmlRetornado(

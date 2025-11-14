@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 14/11/2025
+-- ACBrNFSeXConfiguracoes/ACBrNFSeXLerXml_ABRASFv2/PadraoNacional.GravarXml/PadraoNacional.Provider --
+[*] Alterações visando os provedores que estão implementando API própria para atender o Padrão Nacional.
+   Por: Italo Giurizzato Junior
 -- ISSSaoPaulo.Provider --
 [-] #ACBr-8290 Ajuste visando correta consulta de NFSe por serviço prestado.
    Por: Diego Folieni
