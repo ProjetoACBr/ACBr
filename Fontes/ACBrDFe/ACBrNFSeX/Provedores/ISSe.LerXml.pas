@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
+  ACBrXmlDocument,
   ACBrNFSeXLerXml_ABRASFv2;
 
 type
@@ -45,6 +46,7 @@ type
 
   TNFSeR_ISSe201 = class(TNFSeR_ABRASFv2)
   protected
+    procedure LerInfNfse(const ANode: TACBrXmlNode); override;
 
   public
 
@@ -56,5 +58,15 @@ implementation
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:
 //     ISSe
 //==============================================================================
+
+{ TNFSeR_ISSe201 }
+
+procedure TNFSeR_ISSe201.LerInfNfse(const ANode: TACBrXmlNode);
+begin
+  inherited LerInfNfse(ANode);
+
+  // Reforma Tributária
+  LerXMLIBSCBSNFSe(ANode.Childrens.FindAnyNs('IBSCBS'), NFSe.infNFSe.IBSCBS);
+end;
 
 end.

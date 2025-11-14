@@ -42,6 +42,7 @@ interface
 uses
   SysUtils, Classes,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrNFSeXClass, ACBrNFSeXConversao,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
   ACBrNFSeXProviderABRASFv1, ACBrNFSeXWebserviceBase;

@@ -39,7 +39,9 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrNFSeXGravarXml_ABRASFv2,
-  ACBrNFSeXConversao;
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao,
+  ACBrXmlDocument;
 
 type
   { TNFSeW_ISSe201 }
@@ -47,6 +49,7 @@ type
   TNFSeW_ISSe201 = class(TNFSeW_ABRASFv2)
   protected
     procedure Configuracao; override;
+    function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
 
   end;
 
@@ -63,6 +66,8 @@ procedure TNFSeW_ISSe201.Configuracao;
 begin
   inherited Configuracao;
 
+  NrOcorrCodigoNBS := 0;
+  NrOcorrDataPagamento := 0;
   NrOcorrValorPis := 1;
   NrOcorrValorCofins := 1;
   NrOcorrValorInss := 1;
@@ -73,6 +78,18 @@ begin
   NrOcorrAliquota := 1;
 
   FormatoItemListaServico := filsSemFormatacao;
+end;
+
+function TNFSeW_ISSe201.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
+begin
+  Result := inherited GerarInfDeclaracaoPrestacaoServico;
+
+  // Reforma Tributária
+  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+     (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
+    Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 end;
 
 end.
