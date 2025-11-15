@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+15/11/2025
+-- DeISS.Provider --
+[*] Ajuste para gerar na consulta por faixa o Numero Final da NFS-e.
+   Por: Italo Giurizzato Junior
+
 14/11/2025
 -- ISSe.GravarXml/ISSe.LerXml/ISSe.Provider --
 [*] Alterações visando gerar e ler o XML do RPS/NFSe com os novos campos da Reforma Tributária.
