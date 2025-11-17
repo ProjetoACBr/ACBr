@@ -44,6 +44,11 @@ Símbolo : Significado
 
 
 17/11/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8400 A cidade de Foz do Iguaçu/PR mudou as URLs, o provedor continua o mesmo.
+   Por: Edrian
+[*] #ACBr-8405 Atualizado as URLs da seção [Betha].
+   Por: Arthur Haupt Pacheco
 -- IPM.GravarXml --
 [*] #ACBr-8347 Acrescentado a geração das tags do IBSCBS que estão dentro do grupo nfse.
    Por: andremuriae
@@ -72,7 +77,6 @@ Símbolo : Significado
 -- PadraoNacional.GravarXml --
 [-] #ACBr-8375 Alterações visando gerar corretamente o grupo tribFed e o piscofins.
    Por: marcos villatore
-
 -- ACBrNFSeXServicos --
 [*] #ACBr-8396 Incluído o Params GerarTag CodigoAtividade para cidade São Bento do Sul/SC.
    Por: VEXCOM Sistemas - Valtair
