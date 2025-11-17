@@ -236,8 +236,7 @@ para tpEmis diferente de 1</xs:documentation>
 										<xs:element name="CNPJ" type="TCnpjOpc">
 											<xs:annotation>
 												<xs:documentation>Número do CNPJ</xs:documentation>
-												<xs:documentation>Em caso de empresa não estabelecida no Brasil, será informado o CNPJ com zeros.
-							Informar os zeros não significativos.</xs:documentation>
+												<xs:documentation>Informar os zeros não significativos.</xs:documentation>
 											</xs:annotation>
 										</xs:element>
 										<xs:element name="CPF" type="TCpf">
@@ -752,7 +751,7 @@ Obrigatoriamente > 1.
 										</xs:annotation>
 										<xs:complexType>
 											<xs:sequence>
-												<xs:element name="IBSCBS" type="TTribNFAg">
+												<xs:element name="IBSCBS" type="TTribNF3e">
 													<xs:annotation>
 														<xs:documentation>Grupo de informações do IBS e CBS</xs:documentation>
 													</xs:annotation>
@@ -1378,7 +1377,7 @@ Não obrigatória, conforme item 2.3.2 da Seção 11.1 do Módulo 11 do PRODIST.
 																<xs:simpleType>
 																	<xs:restriction base="xs:string">
 																		<xs:whiteSpace value="preserve"/>
-																		<xs:pattern value="[0-9]{2}"/>
+																		<xs:pattern value="[0-9]{5}"/>
 																	</xs:restriction>
 																</xs:simpleType>
 															</xs:element>
