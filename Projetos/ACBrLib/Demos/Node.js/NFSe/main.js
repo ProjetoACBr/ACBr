@@ -28,7 +28,7 @@ const ACBrLibNFSeMT = require("@projetoacbr/acbrlib-nfse-node/dist/src").default
 // copie a pasta Schemas para a pasta data/Schemas
 
 
-const pathACBrLibNFSe = path.resolve(__dirname, 'lib', os.platform() === 'win32' ? 'ACBrLibNFSe64.dll' : 'libacbrnfse64.so');
+const pathACBrLibNFSe = path.resolve(__dirname, 'lib', os.platform() === 'win32' ? 'ACBrNFSe64.dll' : 'libacbrnfse64.so');
 const eArqConfig = path.resolve(__dirname, "data", "config", "acbrlib.ini");
 const eChaveCrypt = "";
 const pathCert = path.resolve(__dirname, "data", "cert", "cert.pfx");
