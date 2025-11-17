@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+17/11/2025
+-- IPM.GravarXml --
+[*] #ACBr-8347 Acrescentado a geração das tags do IBSCBS que estão dentro do grupo nfse.
+   Por: andremuriae
+
 15/11/2025
 -- DeISS.Provider --
 [*] Ajuste para gerar na consulta por faixa o Numero Final da NFS-e.

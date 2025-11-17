@@ -44,7 +44,8 @@ uses
   ACBrNFSeXGravarXml,
   ACBrNFSeXGravarXml_ABRASFv2,
   ACBrNFSeXConversao,
-  ACBrNFSeXConsts;
+  ACBrNFSeXConsts,
+  ACBrNFSeXClass;
 
 type
   { TNFSeW_IPM }
@@ -70,6 +71,20 @@ type
     function GerarParcela: TACBrXmlNodeArray;
     function GerarGenericos: TACBrXmlNode;
     function GerarLinha: TACBrXmlNodeArray;
+
+    //reforma tributária - especifíco provedor IPM
+    function GerarXMLIBSCBSNFSe: TACBrXmlNode;
+    function GerarValoresBrutosIbsCbs: TACBrXmlNode;
+    function GerarValoresIbsEstadual: TACBrXmlNode;
+    function GerarValoresIbsMunicipal: TACBrXmlNode;
+    function GerarValoresCbsFederal: TACBrXmlNode;
+    function GerarTotalizadores: TACBrXmlNode;
+    function GerarGrupoValoresIbs: TACBrXmlNode;
+    function GerarGrupoValoresIbsCreditoPresumido: TACBrXmlNode;
+    function GerarGrupoValoresIbsEstadual: TACBrXmlNode;
+    function GerarGrupoValoresIbsMunicipal: TACBrXmlNode;
+    function GerarGrupoValoresCbs: TACBrXmlNode;
+    function GerarGrupoValoresCbsCreditoPresumido: TACBrXmlNode;
   public
     function GerarXml: Boolean; override;
 
@@ -569,6 +584,9 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'observacao', 1, 1000, 0,
                                         NFSe.OutrasInformacoes, DSC_OUTRASINF));
+
+  //reforma tributária - especifíco provedor IPM
+  Result.AppendChild(GerarXMLIBSCBSNFSe);
 end;
 
 { TNFSeW_IPM101 }
@@ -655,6 +673,151 @@ begin
     NFSeNode.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 
   Result := True;
+end;
+
+function TNFSeW_IPM.GerarXMLIBSCBSNFSe: TACBrXmlNode;
+begin
+  Result := CreateElement('IBSCBS');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedutor', 1, 2, 1,
+                                                 NFSe.infNFSe.IBSCBS.pRedutor));
+
+  Result.AppendChild(GerarValoresBrutosIbsCbs);
+  Result.AppendChild(GerarTotalizadores);
+end;
+
+function TNFSeW_IPM.GerarValoresBrutosIbsCbs: TACBrXmlNode;
+begin
+  Result := CreateElement('valores');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vBC', 1, 15, 1,
+                                              NFSe.infNFSe.IBSCBS.valores.vBC));
+
+  Result.AppendChild(GerarValoresIbsEstadual);
+  Result.AppendChild(GerarValoresIbsMunicipal);
+  Result.AppendChild(GerarValoresCbsFederal);
+end;
+
+function TNFSeW_IPM.GerarValoresIbsEstadual: TACBrXmlNode;
+begin
+  Result := CreateElement('uf');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pIBSUF', 1, 2, 1,
+                                        NFSe.infNFSe.IBSCBS.valores.uf.pIBSUF));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedAliqUF', 1, 3, 1,
+                                    NFSe.infNFSe.IBSCBS.valores.uf.pRedAliqUF));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqEfetUF', 1, 2, 1,
+                                   NFSe.infNFSe.IBSCBS.valores.uf.pAliqEfetUF));
+end;
+
+function TNFSeW_IPM.GerarValoresIbsMunicipal: TACBrXmlNode;
+begin
+  Result := CreateElement('mun');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pIBSMun', 1, 2, 1,
+                                      NFSe.infNFSe.IBSCBS.valores.mun.pIBSMun));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedAliqMun', 1, 3, 1,
+                                  NFSe.infNFSe.IBSCBS.valores.mun.pRedAliqMun));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqEfetMun', 1, 2, 1,
+                                 NFSe.infNFSe.IBSCBS.valores.mun.pAliqEfetMun));
+end;
+
+function TNFSeW_IPM.GerarValoresCbsFederal: TACBrXmlNode;
+begin
+  Result := CreateElement('fed');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pCBS', 1, 2, 1,
+                                         NFSe.infNFSe.IBSCBS.valores.fed.pCBS));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedAliqCBS', 1, 3, 1,
+                                  NFSe.infNFSe.IBSCBS.valores.fed.pRedAliqCBS));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqEfetCBS', 1, 2, 1,
+                                 NFSe.infNFSe.IBSCBS.valores.fed.pAliqEfetCBS));
+end;
+
+function TNFSeW_IPM.GerarTotalizadores: TACBrXmlNode;
+begin
+  Result := CreateElement('totCIBS');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vTotNF', 1, 15, 1,
+                                           NFSe.infNFSe.IBSCBS.totCIBS.vTotNF));
+
+  Result.AppendChild(GerarGrupoValoresIbs);
+  Result.AppendChild(GerarGrupoValoresCbs);
+end;
+
+function TNFSeW_IPM.GerarGrupoValoresIbs: TACBrXmlNode;
+begin
+  Result := CreateElement('gIBS');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vIBSTot', 1, 15, 1,
+                                     NFSe.infNFSe.IBSCBS.totCIBS.gIBS.vIBSTot));
+
+  Result.AppendChild(GerarGrupoValoresIbsCreditoPresumido);
+  Result.AppendChild(GerarGrupoValoresIbsEstadual);
+  Result.AppendChild(GerarGrupoValoresIbsMunicipal);
+end;
+
+function TNFSeW_IPM.GerarGrupoValoresIbsCreditoPresumido: TACBrXmlNode;
+begin
+  Result := CreateElement('gIBSCredPres');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pCredPresIBS', 1, 2, 1,
+                   NFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSCredPres.pCredPresIBS));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vCredPresIBS', 1, 15, 1,
+                   NFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSCredPres.vCredPresIBS));
+end;
+
+function TNFSeW_IPM.GerarGrupoValoresIbsEstadual: TACBrXmlNode;
+begin
+  Result := CreateElement('gIBSUFTot');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vDifUF', 1, 15, 1,
+                            NFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSUFTot.vDifUF));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vIBSUF', 1, 15, 1,
+                            NFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSUFTot.vIBSUF));
+end;
+
+function TNFSeW_IPM.GerarGrupoValoresIbsMunicipal: TACBrXmlNode;
+begin
+  Result := CreateElement('gIBSMunTot');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vDifMun', 1, 15, 1,
+                          NFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSMunTot.vDifMun));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vIBSMun', 1, 15, 1,
+                          NFSe.infNFSe.IBSCBS.totCIBS.gIBS.gIBSMunTot.vIBSMun));
+end;
+
+function TNFSeW_IPM.GerarGrupoValoresCbs: TACBrXmlNode;
+begin
+  Result := CreateElement('gCBS');
+
+  Result.AppendChild(GerarGrupoValoresCbsCreditoPresumido);
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vDifCBS', 1, 15, 1,
+                                     NFSe.infNFSe.IBSCBS.totCIBS.gCBS.vDifCBS));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vCBS', 1, 15, 1,
+                                        NFSe.infNFSe.IBSCBS.totCIBS.gCBS.vCBS));
+end;
+
+function TNFSeW_IPM.GerarGrupoValoresCbsCreditoPresumido: TACBrXmlNode;
+begin
+  Result := CreateElement('gCBSCredPres');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pCredPresCBS', 1, 2, 1,
+                   NFSe.infNFSe.IBSCBS.totCIBS.gCBS.gCBSCredPres.pCredPresCBS));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vCredPresCBS', 1, 15, 1,
+                   NFSe.infNFSe.IBSCBS.totCIBS.gCBS.gCBSCredPres.vCredPresCBS));
 end;
 
 end.
