@@ -117,6 +117,10 @@ contains
   ACBrNFe.RetInut in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos\ACBrNFe.RetInut.pas',
 
   ACBrDFeDANFeReport in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrDFeDANFeReport.pas',
-  ACBrNFeDANFEClass in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrNFeDANFEClass.pas';
+  ACBrNFeDANFEClass in '..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE\ACBrNFeDANFEClass.pas',
+  {ACBrDI}
+  ACBrDIDeclaracaoImportacao in '..\..\..\Fontes\ACBrDFe\ACBrDI\ACBrDIDeclaracaoImportacao.pas',
+  pcnDI in '..\..\..\Fontes\ACBrDFe\ACBrDI\PCNDI\pcnDI.pas',
+  pcnDIR in '..\..\..\Fontes\ACBrDFe\ACBrDI\PCNDI\pcnDIR.pas';
 
 end.

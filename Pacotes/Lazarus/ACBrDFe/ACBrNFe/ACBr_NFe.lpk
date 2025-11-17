@@ -9,7 +9,7 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe;..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE;..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base;..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos"/>
+        <OtherUnitFiles Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe;..\..\..\..\Fontes\ACBrDFe\ACBrNFe\DANFE;..\..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base;..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\Servicos;..\..\..\..\Fontes\ACBrDFe\ACBrDI\PCNDI;..\..\..\..\Fontes\ACBrDFe\ACBrDI"/>
         <UnitOutputDirectory Value="..\..\..\..\Lib\Lazarus\ACBrDFe\ACBrNFe\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Other>
@@ -20,7 +20,7 @@
     </CompilerOptions>
     <Description Value="ACBr - Nota Fiscal Eletrônica - (http://www.projetoacbr.com.br/)"/>
     <License Value="LGPL"/>
-    <Files Count="32">
+    <Files Count="35">
       <Item1>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\ACBrNFe.pas"/>
         <UnitName Value="ACBrNFe"/>
@@ -149,7 +149,20 @@
       <Item32>
         <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrNFe\Base\ACBrNFe.ValidarRegrasdeNegocio.pas"/>
         <UnitName Value="ACBrNFe.ValidarRegrasdeNegocio"/>
-      </Item32>    </Files>
+      </Item32>
+      <Item33>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDI\PCNDI\pcnDI.pas"/>
+        <UnitName Value="pcnDI"/>
+      </Item33>
+      <Item34>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDI\PCNDI\pcnDIR.pas"/>
+        <UnitName Value="pcnDIR"/>
+      </Item34>
+      <Item35>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDI\ACBrDIDeclaracaoImportacao.pas"/>
+        <UnitName Value="ACBrDIDeclaracaoImportacao"/>
+      </Item35>
+    </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">
       <Item1>
