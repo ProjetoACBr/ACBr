@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/11/2025
+-- ACBrPIXPSPPagSeguro --
+[+] Inclusão dos métodos SolicitarCredenciais, SolicitarDesafioCertificado e SolicitarCertificado.
+    por: Elias Cesar 
+
 22/10/2025
 -- ACBrPIXPSPBradesco --
 [-] Correção do ResultCode (200 => 201) do Bradesco para POST /cob
