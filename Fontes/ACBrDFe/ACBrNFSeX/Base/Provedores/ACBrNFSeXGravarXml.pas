@@ -101,7 +101,9 @@ type
     FNrOcorrcCredPres: Integer;
     FNrOcorrCSTReg: Integer;
     FGerarDest: Boolean;
+    FGerarImovel: Boolean;
     FGerargReeRepRes: Boolean;
+    FGerarTribRegular: Boolean;
     FGerargDif: Boolean;
 
     function GetOpcoes: TACBrXmlWriterOptions;
@@ -147,7 +149,7 @@ type
     function GerarXMLEnderecoNacionalImovel(ender: TenderImovel): TACBrXmlNode;
     function GerarXMLEnderecoExteriorImovel(endExt: TendExt): TACBrXmlNode;
 
-    function GerarXMLIBSCBSValores(valores: Tvalorestrib): TACBrXmlNode;
+    function GerarXMLIBSCBSValores(valores: Tvalorestrib): TACBrXmlNode; virtual;
     function GerarXMLgReeRepRes(gReeRepRes: TgReeRepRes): TACBrXmlNode;
     function GerarXMLDocumentos: TACBrXmlNodeArray;
     function GerarXMLdFeNacional(dFeNacional: TdFeNacional): TACBrXmlNode;
@@ -229,7 +231,9 @@ type
     property NrOcorrCSTReg: Integer read FNrOcorrCSTReg write FNrOcorrCSTReg;
 
     property GerarDest: Boolean read FGerarDest write FGerarDest;
+    property GerarImovel: Boolean read FGerarImovel write FGerarImovel;
     property GerargReeRepRes: Boolean read FGerargReeRepRes write FGerargReeRepRes;
+    property GerarTribRegular: Boolean read FGerarTribRegular write FGerarTribRegular;
     property GerargDif: Boolean read FGerargDif write FGerargDif;
   end;
 
@@ -313,7 +317,9 @@ begin
   FNrOcorrCSTReg := 1;
 
   FGerarDest := True;
+  FGerarImovel := True;
   FGerargReeRepRes := True;
+  FGerarTribRegular := True;
   FGerargDif := True;
 end;
 
@@ -1418,7 +1424,8 @@ begin
   if (IBSCBS.dest.xNome <> '') and GerarDest then
     Result.AppendChild(GerarXMLDestinatario(IBSCBS.dest));
 
-  if (IBSCBS.imovel.cCIB <> '') or (IBSCBS.imovel.ender.xLgr <> '') then
+  if ((IBSCBS.imovel.cCIB <> '') or (IBSCBS.imovel.ender.xLgr <> '')) and
+     GerarImovel then
     Result.AppendChild(GerarXMLImovel(IBSCBS.imovel));
 
   Result.AppendChild(GerarXMLIBSCBSValores(IBSCBS.valores));
@@ -1740,7 +1747,7 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'cCredPres', 2, 2, NrOcorrcCredPres,
                                         cCredPresToStr(gIBSCBS.cCredPres), ''));
 
-  if gIBSCBS.gTribRegular.CSTReg <> cstNenhum then
+  if (gIBSCBS.gTribRegular.CSTReg <> cstNenhum) and GerarTribRegular then
     Result.AppendChild(GerarXMLgTribRegular(gIBSCBS.gTribRegular));
 
   if ((gIBSCBS.gDif.pDifUF > 0) or (gIBSCBS.gDif.pDifMun > 0) or

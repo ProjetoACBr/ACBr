@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+18/11/2025
+-- ACBrNFSeXGravarXml/ACBrNFSeXProviderManager --
+-- Tinus.GravarXml/Tinus.LerXml/Tinus.Provider --
+[+] Implementado a versão 2.03 do layout da ABRASF alterado para contemplar a Reforma Tributária
+    no provedor Tinus. 
+   Por: Italo Giurizzato Junior
+
 17/11/2025
 -- ACBrNFSeXServicos --
 [*] #ACBr-8400 A cidade de Foz do Iguaçu/PR mudou as URLs, o provedor continua o mesmo.

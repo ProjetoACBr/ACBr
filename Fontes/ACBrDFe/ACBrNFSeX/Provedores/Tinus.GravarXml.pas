@@ -39,7 +39,10 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrNFSeXGravarXml_ABRASFv1,
-  ACBrNFSeXConversao;
+  ACBrNFSeXGravarXml_ABRASFv2,
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao,
+  ACBrXmlDocument;
 
 type
   { TNFSeW_Tinus }
@@ -50,6 +53,16 @@ type
 
   public
     function GerarXml: Boolean; Override;
+
+  end;
+
+  { TNFSeW_Tinus203 }
+
+  TNFSeW_Tinus203 = class(TNFSeW_ABRASFv2)
+  protected
+    procedure Configuracao; override;
+
+    function GerarServico: TACBrXmlNode; override;
 
   end;
 
@@ -83,6 +96,26 @@ begin
   end;
 
   Result := inherited GerarXml;
+end;
+
+{ TNFSeW_Tinus203 }
+
+procedure TNFSeW_Tinus203.Configuracao;
+begin
+  inherited Configuracao;
+
+end;
+
+function TNFSeW_Tinus203.GerarServico: TACBrXmlNode;
+begin
+  Result := inherited GerarServico;
+
+  // Reforma Tributária
+  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+     (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
+    Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 end;
 
 end.

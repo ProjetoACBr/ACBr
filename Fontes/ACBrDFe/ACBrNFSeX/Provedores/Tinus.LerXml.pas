@@ -38,12 +38,22 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXLerXml_ABRASFv1;
+  ACBrNFSeXLerXml_ABRASFv1,
+  ACBrNFSeXLerXml_ABRASFv2;
 
 type
   { TNFSeR_Tinus }
 
   TNFSeR_Tinus = class(TNFSeR_ABRASFv1)
+  protected
+
+  public
+
+  end;
+
+  { TNFSeR_Tinus203 }
+
+  TNFSeR_Tinus203 = class(TNFSeR_ABRASFv2)
   protected
 
   public
