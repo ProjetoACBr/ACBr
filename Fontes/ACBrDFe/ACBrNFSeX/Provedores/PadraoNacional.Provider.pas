@@ -687,7 +687,7 @@ begin
                          '<xMotivo>' + xMotivo + '</xMotivo>';
 
       teCancelamentoSubstituicao:
-        xCamposEvento := '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
+        xCamposEvento := '<cMotivo>' + Formatfloat('00', cMotivo) + '</cMotivo>' +
                          '<xMotivo>' + xMotivo + '</xMotivo>' +
                          '<chSubstituta>' + chSubstituta + '</chSubstituta>';
 

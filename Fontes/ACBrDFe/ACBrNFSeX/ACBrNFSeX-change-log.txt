@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 18/11/2025
+-- PadraoNacional.Provider --
+[-] O código do motivo do cancelamento por substituição tem que ter 2 dígitos em vez de 1.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXGravarXml/ACBrNFSeXProviderManager --
 -- Tinus.GravarXml/Tinus.LerXml/Tinus.Provider --
 [+] Implementado a versão 2.03 do layout da ABRASF alterado para contemplar a Reforma Tributária
