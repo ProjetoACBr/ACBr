@@ -170,8 +170,8 @@ Type
   PInteger =^Integer;
 var
   len, lenSub: Integer;
-  ch: char;
-  p, pSub, pStart, pStop: pchar;
+  ch: Char;
+  p, pSub, pStart, pStop: PChar;
 label
   Loop0, Loop4,
   TestT, Test0, Test1, Test2, Test3, Test4,
@@ -187,8 +187,19 @@ begin;
     goto Exit;
   end;
 
+{$IFOPT R+}
+  {$DEFINE RANGEON}
+  {$R-}
+{$ELSE}
+  {$UNDEF RANGEON}
+{$ENDIF}
   lenSub := PLongInt(PByte(pSub) - 4)^ - 1; // <- Modified
   len := PLongInt(PByte(p) - 4)^; // <- Modified
+{$IFDEF RANGEON}
+  {$R+}
+  {$UNDEF RANGEON}
+{$ENDIF}
+
   if (len < lenSub + Offset) or (lenSub < 0) then
   begin;
     Result := 0;
