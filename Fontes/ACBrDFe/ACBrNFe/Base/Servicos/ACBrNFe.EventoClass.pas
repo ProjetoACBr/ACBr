@@ -218,6 +218,41 @@ type
     property Items[Index: Integer]: TgConsumoCollectionItem read GetItem write SetItem; default;
   end;
 
+  TgControleEstoqueZFM = class
+  private
+    Fqtde: Double;
+    Funidade: string;
+  public
+    property qtde: Double read Fqtde write Fqtde;
+    property unidade: string read Funidade write Funidade;
+  end;
+
+  TgConsumoZFMCollectionItem = class
+  private
+    FnItem: Integer;
+    FvIBS: Double;
+    FvCBS: Double;
+    FgControleEstoqueZFM: TgControleEstoqueZFM;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    property nItem: Integer read FnItem write FnItem;
+    property vIBS: Double read FvIBS write FvIBS;
+    property vCBS: Double read FvCBS write FvCBS;
+    property gControleEstoque: TgControleEstoqueZFM read FgControleEstoqueZFM;
+  end;
+
+  TgConsumoZFMCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TgConsumoZFMCollectionItem;
+    procedure SetItem(Index: Integer; Value: TgConsumoZFMCollectionItem);
+  public
+    function Add: TgConsumoZFMCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
+    function New: TgConsumoZFMCollectionItem;
+    property Items[Index: Integer]: TgConsumoZFMCollectionItem read GetItem write SetItem; default;
+  end;
+
   //perecimento
   TgControleEstoquePerecimento = class
   private
@@ -398,6 +433,7 @@ type
     FgConsumoComb: TgConsumoCombCollection;
     FgCredito: TgCreditoCollection;
     FIndAceitacao: TIndAceitacao;
+    FgConsumoZFM: TgConsumoZFMCollection;
 
     procedure setxCondUso(const Value: string);
     procedure SetitemPedido(const Value: TitemPedidoCollection);
@@ -461,6 +497,7 @@ type
     property tpEventoAut: string read FtpEventoAut write FtpEventoAut;
     property gCredPres: TgCredPresCollection read FgCredPres write SetgCredPres;
     property gConsumo: TgConsumoCollection read FgConsumo write SetgConsumo;
+    property gConsumoZFM: TgConsumoZFMCollection read FgConsumoZFM;
     property gPerecimento: TgPerecimentoCollection read FgPerecimento write SetgPerecimento;
     property gImobilizacao: TgImobilizacaoCollection read FgImobilizacao write SetgImobilizacao;
     property gConsumoComb: TgConsumoCombCollection read FgConsumoComb write SetgConsumoComb;
@@ -751,6 +788,7 @@ begin
   FgImobilizacao := TgImobilizacaoCollection.Create;
   FgConsumoComb := TgConsumoCombCollection.Create;
   FgCredito := TgCreditoCollection.Create;
+  FgConsumoZFM := TgConsumoZFMCollection.Create;
 end;
 
 destructor TDetEvento.Destroy;
@@ -765,6 +803,7 @@ begin
   FgImobilizacao.Free;
   FgConsumoComb.Free;
   FgCredito.Free;
+  FgConsumoZFM.Free;
 
   inherited;
 end;
@@ -1177,6 +1216,44 @@ procedure TgCreditoCollection.SetItem(Index: Integer;
   Value: TgCreditoCollectionItem);
 begin
  inherited Items[Index] := Value;
+end;
+
+{ TgConsumoZFMCollectionItem }
+
+constructor TgConsumoZFMCollectionItem.Create;
+begin
+  FgControleEstoqueZFM := TgControleEstoqueZFM.Create;
+end;
+
+destructor TgConsumoZFMCollectionItem.Destroy;
+begin
+  FgControleEstoqueZFM.Free;
+  inherited;
+end;
+
+{ TgConsumoZFMCollection }
+
+function TgConsumoZFMCollection.Add: TgConsumoZFMCollectionItem;
+begin
+  Result := Self.New;
+end;
+
+function TgConsumoZFMCollection.GetItem(
+  Index: Integer): TgConsumoZFMCollectionItem;
+begin
+  Result := TgConsumoZFMCollectionItem(inherited Items[Index]);
+end;
+
+function TgConsumoZFMCollection.New: TgConsumoZFMCollectionItem;
+begin
+  Result := TgConsumoZFMCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TgConsumoZFMCollection.SetItem(Index: Integer;
+  Value: TgConsumoZFMCollectionItem);
+begin
+  inherited Items[Index] := Value;
 end;
 
 end.

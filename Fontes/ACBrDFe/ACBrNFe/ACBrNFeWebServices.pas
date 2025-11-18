@@ -3442,6 +3442,16 @@ begin
           begin
             SchemaEventoNFe := schImporALCZFM;
 
+            for J := 0 to FEvento.Evento[I].InfEvento.detEvento.gConsumoZFM.Count-1 do
+            begin
+              infEvento.detEvento.gConsumoZFM.New;
+              infEvento.detEvento.gConsumoZFM[J].nItem := FEvento.Evento[I].InfEvento.detEvento.gConsumoZFM[J].nItem;
+              infEvento.detEvento.gConsumoZFM[J].vIBS := FEvento.Evento[I].InfEvento.detEvento.gConsumoZFM[J].vIBS;
+              infEvento.detEvento.gConsumoZFM[J].vCBS := FEvento.Evento[I].InfEvento.detEvento.gConsumoZFM[J].vCBS;
+
+              infEvento.detEvento.gConsumoZFM[J].gControleEstoque.qtde := FEvento.Evento[I].InfEvento.detEvento.gConsumoZFM[J].gControleEstoque.qtde;
+              infEvento.detEvento.gConsumoZFM[J].gControleEstoque.unidade := FEvento.Evento[I].InfEvento.detEvento.gConsumoZFM[J].gControleEstoque.unidade;
+            end;
           end;
 
           tePerecPerdaRouboFurtoTranspContratFornec:
