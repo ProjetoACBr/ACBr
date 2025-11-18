@@ -229,7 +229,7 @@ procedure TACBrBancoUnicredES.LerRetorno400(ARetorno: TStringList);
 var
   Titulo : TACBrTitulo;
   ContLinha, MotivoLinha, i : Integer;
-  rAgencia    :String;
+  rAgencia, rDigitoAgencia  :String;
   rConta, rDigitoConta      :String;
   Linha, rCedente, rCNPJCPF :String;
   rCodEmpresa               :String;
@@ -253,6 +253,7 @@ begin
                                                             Copy(ARetorno[0],99,2),0, 'DD/MM/YY' );
 
   rAgencia := trim(Copy(ARetorno[1], 18, ACBrBanco.TamanhoAgencia));
+  rDigitoAgencia := Copy(ARetorno[1], 22 ,1);
   rConta   := trim(Copy(ARetorno[1], 23, 8));
   rDigitoConta := Copy(ARetorno[1], 31 ,1);
 
@@ -287,7 +288,7 @@ begin
        Cedente.CodigoCedente:= rCodEmpresa;
        Cedente.Nome         := rCedente;
        Cedente.Agencia      := rAgencia;
-       Cedente.AgenciaDigito:= '0';
+       Cedente.AgenciaDigito:= rDigitoAgencia;  //'0';
        Cedente.Conta        := rConta;
        Cedente.ContaDigito  := rDigitoConta;
     end;
@@ -345,7 +346,10 @@ begin
           ValorMoraJuros       := StrToFloatDef(Copy(Linha,267,13),0)/100;
           ValorRecebido        := StrToFloatDef(Copy(Linha,306,13),0)/100;
           ValorPago            := StrToFloatDef(Copy(Linha,254,13),0)/100;
-          NossoNumero          := Copy(Linha,46, fpTamanhoMaximoNossoNum);
+          if ACBrBanco.ACBrBoleto.LerNossoNumeroCompleto then
+            NossoNumero          := Copy(Linha,46, fpTamanhoMaximoNossoNum)
+          else
+            NossoNumero          := Copy(Linha,46, fpTamanhoMaximoNossoNum-1);
           ValorDespesaCobranca := StrToFloatDef(Copy(Linha,182,7),0)/100;
 
           // informações do local de pagamento
