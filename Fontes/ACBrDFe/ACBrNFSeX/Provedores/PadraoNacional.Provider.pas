@@ -648,7 +648,7 @@ procedure TACBrNFSeProviderPadraoNacional.PrepararEnviarEvento(
   Response: TNFSeEnviarEventoResponse);
 var
   AErro: TNFSeEventoCollectionItem;
-  xEvento, xUF, xAutorEvento, IdAttr, xCamposEvento, nomeArq: string;
+  xEvento, xUF, xAutorEvento, IdAttr, xCamposEvento, nomeArq, CnpjCpf: string;
 begin
   with Response.InfEvento.pedRegEvento do
   begin
@@ -663,16 +663,17 @@ begin
 
     xUF := TACBrNFSeX(FAOwner).Configuracoes.WebServices.UF;
 
-    if Length(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ) < 14 then
+    CnpjCpf := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+    if Length(CnpjCpf) < 14 then
     begin
       xAutorEvento := '<CPFAutor>' +
-                        TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ +
+                        CnpjCpf +
                       '</CPFAutor>';
     end
     else
     begin
       xAutorEvento := '<CNPJAutor>' +
-                        TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ +
+                        CnpjCpf +
                       '</CNPJAutor>';
     end;
 

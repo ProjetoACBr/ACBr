@@ -45,6 +45,10 @@ Símbolo : Significado
 
 18/11/2025
 -- PadraoNacional.Provider --
+[-] #ACBr-8398 Incluída a função para deixar somente as letras/dígitos do CNPJ/CPF na montagem
+    do XML do evento.
+   Por: marcelo.hgv
+-- PadraoNacional.Provider --
 [-] O código do motivo do cancelamento por substituição tem que ter 2 dígitos em vez de 1.
    Por: Italo Giurizzato Junior
 -- ACBrNFSeXGravarXml/ACBrNFSeXProviderManager --
