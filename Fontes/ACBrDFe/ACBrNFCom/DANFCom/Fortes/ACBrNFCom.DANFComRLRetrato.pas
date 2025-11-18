@@ -473,24 +473,10 @@ begin
   end;
 
   sTemp := fpNFCom.gFat.codBarras;
-  if (sTemp <> '') and (StrToIntDef(OnlyNumber(sTemp), 0) > 0) then
-  begin
-    rllLinhaDig.Caption :=
-      Copy(sTemp, 01, 12) + ' ' +
-      Copy(sTemp, 13, 12) + ' ' +
-      Copy(sTemp, 25, 12) + ' ' +
-      Copy(sTemp, 37, 12);
-
-    rlbCodBarLinhaDig.Visible := True;
-    rlbCodBarLinhaDig.Caption := OnlyNumber(sTemp);
-  end
-  else
-  begin
-    // Se for "0" ou zeros, esconde os componentes
-    rlbCodBarLinhaDig.Visible := False;
-    rllLinhaDig.Caption := '';
-    rlbCodBarLinhaDig.Caption := '';
-  end;
+  rllLinhaDig.Caption := Copy(sTemp, 01, 12) + ' ' + Copy(sTemp, 13, 12) + ' ' +
+                         Copy(sTemp, 25, 12) + ' ' + Copy(sTemp, 37, 12);
+  rlbCodBarLinhaDig.Visible := True;
+  rlbCodBarLinhaDig.Caption := OnlyNumber(fpNFCom.gFat.codBarras);
 end;
 
 procedure TfrlDANFComRLRetrato.rlbDivisao07BeforePrint(Sender: TObject;
