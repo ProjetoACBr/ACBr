@@ -65,8 +65,30 @@ uses
 { TNFSeR_Tecnos201 }
 
 function TNFSeR_Tecnos201.LerXmlNfse(const ANode: TACBrXmlNode): Boolean;
+var
+  AuxNode: TACBrXmlNode;
 begin
-  Result := inherited LerXmlNfse(ANode);
+  Result := True;
+
+  if not Assigned(ANode) then Exit;
+
+  // O provedor Tecnos tem essa tag entre as tag CompNfse e Nfse.
+  AuxNode := ANode.Childrens.FindAnyNs('tcCompNfse');
+
+  if AuxNode = nil then
+    AuxNode := ANode;
+
+  AuxNode := AuxNode.Childrens.FindAnyNs('Nfse');
+
+  if AuxNode = nil then
+    AuxNode := ANode;
+
+  LerInfNfse(AuxNode);
+
+  LerNfseCancelamento(ANode);
+  LerNfseSubstituicao(ANode);
+
+  LerCampoLink;
 
   if NFSe.OptanteSimplesNacional = snSim then
     NFSe.OptanteSimplesNacional := snNao

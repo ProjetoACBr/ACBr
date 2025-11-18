@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 18/11/2025
+-- ACBrNFSeXLerXml_ABRASFv2/Tecnos.LerXml --
+[*] #ACBr-8399 O tratamento para a correta leitura do XML de uma NFS-e do provedor Tecnos,
+    agora se encontra na unit do provedor e não mais na unit ACBrNFSeXLerXml_ABRASFv2.
+   Por: thi4182
 -- PadraoNacional.Provider --
 [-] #ACBr-8398 Incluída a função para deixar somente as letras/dígitos do CNPJ/CPF na montagem
     do XML do evento.
