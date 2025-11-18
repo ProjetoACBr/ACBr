@@ -105,6 +105,11 @@ type
     btConsultarLocationRecLimpar: TBitBtn;
     btCriarLocationRec: TBitBtn;
     btLocationRecLimpar: TBitBtn;
+    btPagSeguroGerarChaves: TBitBtn;
+    btPagSeguroChallengeSolic: TBitBtn;
+    btPagSeguroChallengeDecript: TBitBtn;
+    btPagSeguroCertificadoGerar: TBitBtn;
+    btPagSeguroGerarClients: TBitBtn;
     btSolicitarRetentativaCobR: TBitBtn;
     btCancelarCobRLimpar: TBitBtn;
     btSolicitarRetentativaLimpar: TBitBtn;
@@ -202,6 +207,7 @@ type
     cbBanrisulTipoChave: TComboBox;
     cbBBVersaoAPI: TComboBox;
     cbBradescoAPIVersao: TComboBox;
+    cbPagSeguroTipoChave: TComboBox;
     cbPIXPDVVersaoAPI: TComboBox;
     cbC6BankTipoChave: TComboBox;
     cbConsultarCobsRStatus: TComboBox;
@@ -219,7 +225,6 @@ type
     cbBradescoTipoChave: TComboBox;
     cbInterTipoChave: TComboBox;
     cbCieloTipoChave: TComboBox;
-    cbPagSeguroTipoChave: TComboBox;
     cbSicoobTipoChave: TComboBox;
     cbSicrediTipoChave: TComboBox;
     cbxAmbiente: TComboBox;
@@ -253,6 +258,22 @@ type
     edConsultarLocationsRecItensPorPagina: TSpinEdit;
     edConsultarLocationsRecPagina: TSpinEdit;
     edConsultarLocationRecId: TEdit;
+    edPagSeguroArqCertificado: TEdit;
+    edPagSeguroArqChavePrivada: TEdit;
+    edPagSeguroChavePIX: TEdit;
+    edPagSeguroClientID1: TEdit;
+    edPagSeguroClientID2: TEdit;
+    edPagSeguroClientSecret1: TEdit;
+    edPagSeguroClientSecret2: TEdit;
+    edPagSeguroNomeApp1: TEdit;
+    edPagSeguroNomeApp2: TEdit;
+    edPagSeguroPrivateKey: TEdit;
+    edPagSeguroChallengePrivateKey: TEdit;
+    edPagSeguroCertificadoChallenge: TEdit;
+    edPagSeguroPublicKey: TEdit;
+    edPagSeguroCertificadoToken: TEdit;
+    edPagSeguroToken1: TEdit;
+    edPagSeguroToken2: TEdit;
     edSolicitarRetentativaTxID: TEdit;
     edConsultarCobRTxID: TEdit;
     edConsultarCobsRIdRec: TEdit;
@@ -390,17 +411,12 @@ type
     edSicoobExtrairChaveCertificadoSenhaPFX: TEdit;
     edSicoobExtrairChavePrivada: TEdit;
     edSicrediArqCertificado: TEdit;
-    edPagSeguroArqCertificado: TEdit;
     edCieloArqCertificado: TEdit;
     edSicrediArqChavePrivada: TEdit;
-    edPagSeguroArqChavePrivada: TEdit;
     edCieloArqChavePrivada: TEdit;
     edSicrediChavePIX: TEdit;
-    edPagSeguroChavePIX: TEdit;
     edSicrediClientID: TEdit;
-    edPagSeguroClientID: TEdit;
     edSicrediClientSecret: TEdit;
-    edPagSeguroClientSecret: TEdit;
     edSicrediGerarCSR: TEdit;
     edSicrediGerarChavePrivada: TEdit;
     edSicrediGerarCSREmail: TEdit;
@@ -513,18 +529,18 @@ type
     imgQRD: TImage;
     imInterErroCertificado: TImage;
     imInterErroChavePrivada: TImage;
+    imPagSeguroErroCertificado: TImage;
+    imPagSeguroErroChavePix: TImage;
+    imPagSeguroErroChavePrivada: TImage;
     imSantanderErroChavePIX: TImage;
     imSantanderErroCertificadoPFX: TImage;
     imSicoobErroCertificado: TImage;
     imSicoobErroChavePIX: TImage;
     imSicoobErroChavePrivada: TImage;
     imSicrediErroCertificado: TImage;
-    imPagSeguroErroCertificado: TImage;
     imCieloErroCertificado: TImage;
     imSicrediErroChavePix: TImage;
-    imPagSeguroErroChavePix: TImage;
     imSicrediErroChavePrivada: TImage;
-    imPagSeguroErroChavePrivada: TImage;
     imCieloErroChavePrivada: TImage;
     Label1: TLabel;
     Label10: TLabel;
@@ -552,6 +568,25 @@ type
     lbBBSenhaPFX: TLabel;
     lbBBVersaoAPI: TLabel;
     lbBradescoAPIVersao: TLabel;
+    lbPagSeguroArqCertificado: TLabel;
+    lbPagSeguroArqChavePrivada: TLabel;
+    lbPagSeguroChavePIX: TLabel;
+    lbPagSeguroClientID1: TLabel;
+    lbPagSeguroClientID2: TLabel;
+    lbPagSeguroClientSecret1: TLabel;
+    lbPagSeguroClientSecret2: TLabel;
+    lbPagSeguroErroCertificado: TLabel;
+    lbPagSeguroErroChavePrivada: TLabel;
+    lbPagSeguroNomeApp: TLabel;
+    lbPagSeguroNomeApp1: TLabel;
+    lbPagSeguroPrivateKey: TLabel;
+    lbPagSeguroChallengePrivateKey: TLabel;
+    lbPagSeguroCertificadoChallenge: TLabel;
+    lbPagSeguroPublicKey: TLabel;
+    lbPagSeguroCertificadoToken: TLabel;
+    lbPagSeguroTipoChave: TLabel;
+    lbPagSeguroTokenPay1: TLabel;
+    lbPagSeguroTokenPay2: TLabel;
     lbSicrediSenhaChavePrivada: TLabel;
     lbConsultarRecorrenciatxId: TLabel;
     lbPIXPDVVersaoAPI: TLabel;
@@ -756,28 +791,20 @@ type
     lbSicoobExtrairChaveCertificadoSenhaPFX: TLabel;
     lbSicoobTipoChave: TLabel;
     lbSicrediArqCertificado: TLabel;
-    lbPagSeguroArqCertificado: TLabel;
     lbCieloArqCertificado: TLabel;
     lbSicrediArqChavePrivada: TLabel;
-    lbPagSeguroArqChavePrivada: TLabel;
     lbCieloArqChavePrivada: TLabel;
     lbSicrediChavePIX: TLabel;
-    lbPagSeguroChavePIX: TLabel;
     lbSicrediClientID: TLabel;
-    lbPagSeguroClientID: TLabel;
     lbSicrediClientSecret: TLabel;
-    lbPagSeguroClientSecret: TLabel;
     lbSicrediErroCertificado: TLabel;
-    lbPagSeguroErroCertificado: TLabel;
     lbCieloErroCertificado: TLabel;
     lbSicrediErroChavePrivada: TLabel;
-    lbPagSeguroErroChavePrivada: TLabel;
     lbCieloErroChavePrivada: TLabel;
     lbSicrediGerarCSR: TLabel;
     lbSicrediGerarChavePrivada: TLabel;
     lbSicrediGerarCSREmail: TLabel;
     lbSicrediTipoChave: TLabel;
-    lbPagSeguroTipoChave: TLabel;
     lbCriarRecorrenciaNomeDevedor: TLabel;
     lbCriarRecorrenciaObjeto: TLabel;
     lbCriarRecorrenciaTxID: TLabel;
@@ -832,6 +859,11 @@ type
     mmConsultarLocationsRec: TMemo;
     mmConsultarLocationRec: TMemo;
     mmCriarLocationRec: TMemo;
+    mmPagSeguroPrivateKey: TMemo;
+    mmPagSeguroChallenge: TMemo;
+    mmPagSeguroPublicKey: TMemo;
+    mmPagSeguroChallengeCript: TMemo;
+    mmPagSeguroCertificado: TMemo;
     mmSolicitarRetentativa: TMemo;
     mmConsultarRecorrencia: TMemo;
     mmConsultarCobR: TMemo;
@@ -866,6 +898,8 @@ type
     mConsultarDevolucaoPix: TMemo;
     mCriarCobrancaImediata: TMemo;
     OpenDialog1: TOpenDialog;
+    pgPagSeguro: TPageControl;
+    pgPagSeguroGerarCredenciais: TPageControl;
     pnBBConfigTokenManual: TPanel;
     pcBBCertificados: TPageControl;
     pnBBConfig: TPanel;
@@ -886,6 +920,12 @@ type
     pnConsultarLocationRecRodape: TPanel;
     pnCriarLocationRec: TPanel;
     pnLocationRecRodape: TPanel;
+    pnPagSeguroConfigCredenciais: TPanel;
+    pnPagSeguroGerarChaves: TPanel;
+    pnPagSeguroChallenge: TPanel;
+    pnPagSeguroCertificado: TPanel;
+    pnPagSeguroGerarCredenciais: TPanel;
+    pnPagSeguroGerarCredenciaisClients: TPanel;
     pnSolicitarRetentativa: TPanel;
     pnCancelarCobRRodape: TPanel;
     pnSolicitarRetentativaRodape: TPanel;
@@ -1004,7 +1044,6 @@ type
     pnFluxoTotalStr: TPanel;
     pnSicoobExtrairChaveCertificado: TPanel;
     pnSicrediCredenciais: TPanel;
-    pnPagSeguroCredenciais: TPanel;
     pnSicrediGerarChaveCSR: TPanel;
     pQREDados: TPanel;
     pQRDDados: TPanel;
@@ -1039,6 +1078,8 @@ type
     sbItauAcharArqChavePrivada: TSpeedButton;
     btInterAcharCertificado: TSpeedButton;
     btInterAcharChavePrivada: TSpeedButton;
+    sbPagSeguroAcharArqCertificado: TSpeedButton;
+    sbPagSeguroAcharChavePrivada: TSpeedButton;
     sbSantanderAcharCertificadoPFX: TSpeedButton;
     sbSantanderExtrairCertificadoPFX: TSpeedButton;
     sbSantanderExtrairCertificadoInfo: TSpeedButton;
@@ -1047,10 +1088,8 @@ type
     sbSicoobAcharArqCertificado: TSpeedButton;
     sbSicoobAcharChavePrivada: TSpeedButton;
     sbSicrediAcharArqCertificado: TSpeedButton;
-    sbPagSeguroAcharArqCertificado: TSpeedButton;
     sbCieloAcharArqCertificado: TSpeedButton;
     sbSicrediAcharChavePrivada: TSpeedButton;
-    sbPagSeguroAcharChavePrivada: TSpeedButton;
     sbCieloAcharChavePrivada: TSpeedButton;
     sbSicrediAcharChavePrivada2: TSpeedButton;
     sbVerSenhaProxy: TSpeedButton;
@@ -1088,6 +1127,8 @@ type
     Splitter4: TSplitter;
     spCriarCobR: TSplitter;
     spLocationRec: TSplitter;
+    tsPagSeguroChallenge: TTabSheet;
+    tsPagSeguroCertificado: TTabSheet;
     tsBBChaveECertificado: TTabSheet;
     tsBBConfigGeral: TTabSheet;
     tsBBConfigTokenManual: TTabSheet;
@@ -1097,6 +1138,10 @@ type
     tsDesvincularLocRec: TTabSheet;
     tsConsultarLocationRec: TTabSheet;
     tsCriarLocationRec: TTabSheet;
+    tsPagSeguroConfigCredenciais: TTabSheet;
+    tsPagSeguroGerarChaves: TTabSheet;
+    tsPagSeguroGerarCredenciais: TTabSheet;
+    tsPagSeguroGerarCredenciaisClients: TTabSheet;
     tsSolicitarRetentativa: TTabSheet;
     tsEndPointCobR: TTabSheet;
     tsConsultarCobR: TTabSheet;
@@ -1222,6 +1267,11 @@ type
     procedure btConsultarLocationRecClick(Sender: TObject);
     procedure btMateraAcharArqCertificadoClick(Sender: TObject);
     procedure btMateraAcharChavePrivadaClick(Sender: TObject);
+    procedure btPagSeguroCertificadoGerarClick(Sender: TObject);
+    procedure btPagSeguroChallengeDecriptClick(Sender: TObject);
+    procedure btPagSeguroChallengeSolicClick(Sender: TObject);
+    procedure btPagSeguroGerarChavesClick(Sender: TObject);
+    procedure btPagSeguroGerarClientsClick(Sender: TObject);
     procedure btPagSeguroLimparClick(Sender: TObject);
     procedure btPagSeguroPagarClick(Sender: TObject);
     procedure btPixPDVSimularPagtoClick(Sender: TObject);
@@ -1524,19 +1574,26 @@ uses
   {$IfDef FPC}
    fpjson, jsonparser, jsonscanner,
   {$Else}
-    {$IFDEF DELPHIXE6_UP}JSON,{$ENDIF}
+    {$IFDEF DELPHIXE6_UP}JSON,
+    {$IFNDEF DELPHIRIO_UP}REST.Json,{$ENDIF}
+    {$ENDIF}
   {$EndIf}
-  TypInfo, Clipbrd, IniFiles, DateUtils, synacode, synautil, pcnConversao,
+  TypInfo, Clipbrd, IniFiles, DateUtils, synacode, synautil,
   ACBrDelphiZXingQRCode, ACBrImage, ACBrValidador, ACBrPIXUtil, ACBrConsts,
   ACBrPIXSchemasCobV, ACBrPIXSchemasCobR, OpenSSLExt,
   ACBrJSON,
+  ACBrDFe.Conversao,
   ACBrUtil.Base,
   ACBrUtil.FilesIO,
   ACBrUtil.Strings,
   ACBrUtil.DateTime,
   ACBrUtil.Compatibilidade;
 
-{$R *.lfm}
+{$IfDef FPC}
+  {$R *.lfm}
+{$Else}
+  {$R *.dfm}
+{$EndIf}
 
 { TForm1 }
 
@@ -2522,6 +2579,129 @@ begin
   ValidarChavePSPMatera;
 end;
 
+procedure TForm1.btPagSeguroCertificadoGerarClick(Sender: TObject);
+var
+  wErros: TStringList;
+begin
+  wErros := TStringList.Create;
+  try
+    wErros.Clear;
+    if EstaVazio(edPagSeguroCertificadoToken.Text) then
+      wErros.Add('- Token não informado');
+    if EstaVazio(edPagSeguroCertificadoChallenge.Text) then
+      wErros.Add('- Desafio não informado');
+    if NaoEstaZerado(wErros.Count) then
+      raise Exception.Create('Erros ao Gerar Certificado:' + sLineBreak + wErros.Text);
+  finally
+    wErros.Free;
+  end;
+
+  mmPagSeguroCertificado.Lines.Text := ACBrPSPPagSeguro1.SolicitarCertificado(
+                                         edPagSeguroCertificadoToken.Text,
+                                         edPagSeguroCertificadoChallenge.Text);
+end;
+
+procedure TForm1.btPagSeguroChallengeDecriptClick(Sender: TObject);
+var
+  wErros: TStringList;
+  wPathPrivate: String;
+  wPrivateKey: AnsiString;
+begin
+  wErros := TStringList.Create;
+  try
+    wErros.Clear;
+    wPathPrivate := AdicionarPathAplicacao(edPagSeguroPrivateKey.Text);
+    if not FilesExists(wPathPrivate) then
+      wErros.Add('- Chave Privada não encontrada');
+    if EstaVazio(mmPagSeguroChallengeCript.Lines.Text) then
+      wErros.Add('- Desafio não encontrado');
+    if NaoEstaZerado(wErros.Count) then
+      raise Exception.Create('Erros ao descriptografar:' + sLineBreak + wErros.Text);
+  finally
+    wErros.Free;
+  end;
+
+  wPrivateKey := LerArquivoOuString(wPathPrivate);
+  mmPagSeguroChallenge.Lines.Text := ACBrOpenSSLUtils1.DecryptFromString(
+                                       mmPagSeguroChallengeCript.Lines.Text,
+                                       wPrivateKey,
+                                       chpAES_256_ECB);
+end;
+
+procedure TForm1.btPagSeguroChallengeSolicClick(Sender: TObject);
+begin
+  mmPagSeguroChallengeCript.Text := ACBrPSPPagSeguro1.SolicitarDesafioCertificado;
+end;
+
+procedure TForm1.btPagSeguroGerarChavesClick(Sender: TObject);
+var
+  wErros: TStringList;
+  wPathPublic, wPathPrivate: String;
+  wPublicKey, wPrivateKey: AnsiString;
+begin
+  wErros := TStringList.Create;
+  try
+    wErros.Clear;
+    wPathPublic := AdicionarPathAplicacao(edPagSeguroPublicKey.Text);
+    wPathPrivate := AdicionarPathAplicacao(edPagSeguroPrivateKey.Text);
+    if FilesExists(wPathPublic) then
+      wErros.Add('- Chave Pública já existe!');
+    if FilesExists(wPathPrivate) then
+      wErros.Add('- Chave Privada já existe!');
+    if NaoEstaZerado(wErros.Count) then
+      raise Exception.Create('Erros ao gerar chaves:' + sLineBreak + wErros.Text);
+  finally
+    wErros.Free;
+  end;
+
+  wPublicKey := EmptyStr;
+  wPrivateKey := EmptyStr;
+  ACBrOpenSSLUtils.GenerateKeyPair(wPrivateKey, wPublicKey, EmptyStr, bit2048);
+  mmPagSeguroPublicKey.Lines.Text := ChangeLineBreak(wPublicKey, sLineBreak);
+  mmPagSeguroPublicKey.Lines.SaveToFile(wPathPublic);
+  mmPagSeguroPrivateKey.Lines.Text := ChangeLineBreak(wPrivateKey, sLineBreak);
+  mmPagSeguroPrivateKey.Lines.SaveToFile(wPathPrivate);
+  edPagSeguroArqChavePrivada.Text := edPagSeguroPrivateKey.Text;
+  edPagSeguroChallengePrivateKey.Text := edPagSeguroPrivateKey.Text;
+  GravarConfiguracao;
+end;
+
+procedure TForm1.btPagSeguroGerarClientsClick(Sender: TObject);
+var
+  wClientID, wClientSecret: String;
+begin
+  if EstaVazio(edPagSeguroToken2.Text) or EstaVazio(edPagSeguroNomeApp2.Text) then
+    raise Exception.Create(ACBrStr('Informe o Token e Nome da Aplicação'));
+
+  if EstaVazio(ACBrPSPPagSeguro1.TokenPay) then
+    ACBrPSPPagSeguro1.TokenPay := edPagSeguroToken2.Text;
+
+  wClientID := EmptyStr;
+  wClientSecret := EmptyStr;
+  if ACBrPSPPagSeguro1.SolicitarCredenciais(edPagSeguroNomeApp2.Text, wClientID, wClientSecret) then
+  begin
+    if NaoEstaVazio(wClientID) then
+    begin
+      edPagSeguroClientID1.Text := wClientID;
+      edPagSeguroClientID2.Text := wClientID;
+    end;
+    if NaoEstaVazio(wClientSecret) then
+    begin
+      edPagSeguroClientSecret1.Text := wClientSecret;
+      edPagSeguroClientSecret2.Text := wClientSecret;
+    end;
+
+    if EstaVazio(edPagSeguroNomeApp1.Text) then
+      edPagSeguroNomeApp1.Text := edPagSeguroNomeApp2.Text;
+
+    if EstaVazio(edPagSeguroToken1.Text) then
+      edPagSeguroToken1.Text := edPagSeguroToken2.Text;
+
+    GravarConfiguracao;
+    ShowMessage('Credenciais geradas com Sucesso!');
+  end;
+end;
+
 procedure TForm1.btPagSeguroLimparClick(Sender: TObject);
 begin
   mmPagSeguroResp.Lines.Clear;
@@ -2823,7 +3003,6 @@ begin
   begin
     Clear;
     chave := ACBrPixCD1.PSP.ChavePIX;
-
     with calendario do
     begin
       dataDeVencimento := edCobVVencimento.DateTime;
@@ -3261,7 +3440,6 @@ begin
     HabilitarInterface(True);
   end;
 end;
-
 
 procedure TForm1.btItauGerarChavePrivadaClick(Sender: TObject);
 var
@@ -5102,8 +5280,10 @@ begin
     edSicoobArqCertificado.Text := Ini.ReadString('Sicoob', 'ArqCertificado', edSicoobArqCertificado.Text);
 
     edPagSeguroChavePIX.Text := Ini.ReadString('PagSeguro', 'ChavePIX', '');
-    edPagSeguroClientID.Text := Ini.ReadString('PagSeguro', 'ClientID', '');
-    edPagSeguroClientSecret.Text := Ini.ReadString('PagSeguro', 'ClientSecret', '');
+    edPagSeguroToken1.Text := Ini.ReadString('PagSeguro', 'Token', '');
+    edPagSeguroNomeApp1.Text := Ini.ReadString('PagSeguro', 'NomeApp', '');
+    edPagSeguroClientID1.Text := Ini.ReadString('PagSeguro', 'ClientID', '');
+    edPagSeguroClientSecret1.Text := Ini.ReadString('PagSeguro', 'ClientSecret', '');
     edPagSeguroArqChavePrivada.Text := Ini.ReadString('PagSeguro', 'ArqChavePrivada', edPagSeguroArqChavePrivada.Text);
     edPagSeguroArqCertificado.Text := Ini.ReadString('PagSeguro', 'ArqCertificado', edPagSeguroArqCertificado.Text);
 
@@ -5265,8 +5445,10 @@ begin
     Ini.WriteString('Sicoob', 'ArqCertificado', edSicoobArqCertificado.Text);
 
     Ini.WriteString('PagSeguro', 'ChavePIX', edPagSeguroChavePIX.Text);
-    Ini.WriteString('PagSeguro', 'ClientID', edPagSeguroClientID.Text);
-    Ini.WriteString('PagSeguro', 'ClientSecret', edPagSeguroClientSecret.Text);
+    Ini.WriteString('PagSeguro', 'ClientID', edPagSeguroToken1.Text);
+    Ini.WriteString('PagSeguro', 'ClientID', edPagSeguroNomeApp1.Text);
+    Ini.WriteString('PagSeguro', 'ClientSecret', edPagSeguroClientID1.Text);
+    Ini.WriteString('PagSeguro', 'ClientSecret', edPagSeguroClientSecret1.Text);
     Ini.WriteString('PagSeguro', 'ArqChavePrivada', edPagSeguroArqChavePrivada.Text);
     Ini.WriteString('PagSeguro', 'ArqCertificado', edPagSeguroArqCertificado.Text);
 
@@ -5537,6 +5719,8 @@ begin
   pgPSPItau.ActivePageIndex := 0;
   pgPSPItauChaveCertificado.ActivePageIndex := 0;
   pgPSPItauGerarChaveCertificado.ActivePageIndex := 0;
+  pgPagSeguro.ActivePageIndex := 0;
+  pgPagSeguroGerarCredenciais.ActivePageIndex := 0;
 end;
 
 procedure TForm1.InicializarComponentesDefault;
@@ -5681,7 +5865,7 @@ begin
   pnBradescoPFX.Parent := pnBradescoCertificados;
   pnBradescoChaveECert.Parent := pnBradescoCertificados;
   {$IfNDef FPC}cbBBConfigTokenManual.Top := -2;{$EndIf}
-  {$IfNDef DELPHI7}edBBConfigTokenValidade.Kind := dtkDateTime;{$Else}
+  {$IfDef DELPHIX_ALEXANDRIA_UP}edBBConfigTokenValidade.Kind := dtkDateTime;{$Else}
   {$IfDef FPC}edBBConfigTokenValidade.Kind := dtkDateTime;{$EndIf}{$EndIf}
 
   fTokenBB := EmptyStr;
@@ -5802,8 +5986,9 @@ begin
   ACBrPSPSicoob1.ArquivoCertificado := edSicoobArqCertificado.Text;
 
   ACBrPSPPagSeguro1.ChavePIX := edPagSeguroChavePIX.Text;
-  ACBrPSPPagSeguro1.ClientID := edPagSeguroClientID.Text;
-  ACBrPSPPagSeguro1.ClientSecret := edPagSeguroClientSecret.Text;
+  ACBrPSPPagSeguro1.ClientID := edPagSeguroClientID1.Text;
+  ACBrPSPPagSeguro1.TokenPay := edPagSeguroToken1.Text;
+  ACBrPSPPagSeguro1.ClientSecret := edPagSeguroClientSecret1.Text;
   ACBrPSPPagSeguro1.ArquivoChavePrivada := edPagSeguroArqChavePrivada.Text;
   ACBrPSPPagSeguro1.ArquivoCertificado := edPagSeguroArqCertificado.Text;
 
@@ -6066,7 +6251,11 @@ begin
       try
         if Assigned(wJsonValue) then
         begin
+          {$IFDEF DELPHIRIO_UP}
           Result := wJsonValue.Format(2);
+          {$ELSE}
+          Result := TJson.Format(wJsonValue);
+          {$ENDIF}
         end;
       finally
         wJsonValue.Free;
