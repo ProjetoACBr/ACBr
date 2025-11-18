@@ -262,6 +262,10 @@ begin
                           if EstaVazio(ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca) then
                            ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca := LJSONObject.AsString['status'];
                           ARetornoWS.DadosRet.TituloRet.ValorTarifa :=  LJSONObject.AsFloat['settlementDutyValue'];
+
+                          ARetornoWS.DadosRet.TituloRet.ValorDesconto   := LJSONObject.AsFloat['discountValue'];
+                          ARetornoWS.DadosRet.TituloRet.ValorMoraJuros  := LJSONObject.AsFloat['interestValue'];
+                          ARetornoWS.DadosRet.TituloRet.ValorAbatimento := LJSONObject.AsFloat['deductionValue'];
                         end;
                       end;
                       if LJsonArray.ItemAsJSONObject[nIndiceOBJ].ValueExists('writeOffData') then
