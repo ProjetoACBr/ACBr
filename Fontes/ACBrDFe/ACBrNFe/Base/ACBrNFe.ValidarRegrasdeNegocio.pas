@@ -1283,7 +1283,7 @@ end;
 procedure TNFeValidarRegras.ValidarRegra703;
 begin
   GravaLog('Validar: 703-Data hora');
-  if (NFe.Ide.dEmi > FpAgora) then  //B09-10
+  if (NFe.Ide.dEmi > IncMinute(FpAgora, 5)) then  //B09-10
     AdicionaErro('703-Rejeição: Data-Hora de Emissão posterior ao horário de recebimento');
 end;
 
