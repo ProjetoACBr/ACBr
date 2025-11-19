@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/11/2025
+-- ACBrNFe.XmlWriter --
+[*] #ACBR-8424 - Ajuste para gerar corretamente o grupo ICMS tendo em vista a regra B25-80.
+  Por: C4Dev
+
 18/11/2025
 -- ACBrNFeWebServices/ACBrNFe.EnvEvento/ACBrNFe.EventoClass --
 [+] #ACBR-5451 - Implementado o evento: Importação em ALC/ZFM não convertida em isenção.

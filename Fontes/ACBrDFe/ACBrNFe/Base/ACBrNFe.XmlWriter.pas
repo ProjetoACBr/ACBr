@@ -78,6 +78,7 @@ type
     FpUsar_tcDe4: Boolean;
     FormatoValor4ou2: TACBrTipoCampo;
     FormatoValor10ou4: TACBrTipoCampo;
+    FormatoAliq4ou2: TACBrTipoCampo;
     FpChaveNFe: string;
 
     FIdCSRT: integer;
@@ -1870,7 +1871,7 @@ begin
   Result.AppendChild(AddNode(tcDe2, 'M02', 'vTotTrib', 01, 15, 0,
     NFe.Det[i].Imposto.vTotTrib, DSC_VTOTTRIB));
 
-  if not (nfe.Ide.finNFe in [fnCredito, fnDebito]) then
+  if (not (nfe.Ide.finNFe in [fnCredito, fnDebito])) or (nfe.ide.tpNFCredito = tcRetorno) then
   begin
 
     if ((NFe.Det[i].Imposto.ISSQN.cSitTrib <> ISSQNcSitTribVazio) or
@@ -2020,8 +2021,15 @@ begin
             01, 5, 0, NFe.Det[i].Imposto.ICMS.adRemICMS, DSC_ADREMICMS));
           xmlNode.AppendChild(AddNode(tcDe2, 'N15', 'vICMSMonoOp',
             01, 15, 0, NFe.Det[i].Imposto.ICMS.vICMSMonoOp, DSC_VICMSMONOOP));
-          xmlNode.AppendChild(AddNode(tcDe4, 'N15', 'pDif',
-            01, 5, 0, NFe.Det[i].Imposto.ICMS.pDif, DSC_PDIF));
+
+          if NFe.Det[i].Imposto.ICMS.pDif = 100 then
+            FormatoAliq4ou2 := tcDe2
+          else
+            FormatoAliq4ou2 := tcDe4;
+
+          xmlNode.AppendChild(AddNode(FormatoAliq4ou2, 'N15', 'pDif', 1, 5, 0,
+                                       NFe.Det[i].Imposto.ICMS.pDif, DSC_PDIF));
+
           xmlNode.AppendChild(AddNode(tcDe2, 'N43', 'vICMSMonoDif',
             01, 15, 0, NFe.Det[i].Imposto.ICMS.vICMSMonoDif, DSC_VICMSMONODIF));
           xmlNode.AppendChild(AddNode(tcDe2, 'N39', 'vICMSMono',
