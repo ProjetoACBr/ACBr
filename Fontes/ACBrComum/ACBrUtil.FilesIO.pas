@@ -1406,26 +1406,30 @@ end;
 
 function StringIsJSONObject(const AString: String): Boolean;
 var
-  lTrimStr: String;
+  LJsonTrimming: String;
 begin
   Result := False;
-  if Length(AString) = 0 then
-    exit;
 
-  lTrimStr := Trim(AString);
-  Result := (lTrimStr[1] = '{') and (lTrimStr[Length(lTrimStr)] = '}');
+  LJsonTrimming := Trim(AString);
+
+  if Length(LJsonTrimming) = 0 then
+    Exit;
+
+  Result := (LJsonTrimming[1] = '{') and (LJsonTrimming[Length(LJsonTrimming)] = '}');
 end;
 
 function StringIsJSONArray(const AString: String): Boolean;
 var
-  lTrimStr: String;
+  LJsonTrimming: String;
 begin
   Result := False;
-  if Length(AString) = 0 then
-    exit;
 
-  lTrimStr := Trim(AString);
-  Result := (lTrimStr[1] = '[') and (lTrimStr[Length(lTrimStr)] = ']');
+  LJsonTrimming := Trim(AString);
+
+  if Length(LJsonTrimming) = 0 then
+    Exit;
+
+  Result := (LJsonTrimming[1] = '[') and (LJsonTrimming[Length(LJsonTrimming)] = ']');
 end;
 
 {------------------------------------------------------------------------------
@@ -1433,7 +1437,7 @@ end;
  ------------------------------------------------------------------------------}
 function StringIsJSON(const AString: String): Boolean;
 begin
-  Result := StringIsJSONObject(AString) or  StringIsJSONArray(AString);
+  Result := StringIsJSONObject(AString) or StringIsJSONArray(AString);
 end;
 
 {-----------------------------------------------------------------------------
