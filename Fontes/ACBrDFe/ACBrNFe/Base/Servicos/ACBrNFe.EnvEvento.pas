@@ -150,7 +150,9 @@ type
     function Gerar_Evento_ImportALCZFM(Idx: Integer): TACBrXmlNode;
     function Gerar_gConsumoZFM(Idx: Integer): TACBrXmlNodeArray;
     function Gerar_gControleEstoque(gControleEstoque: TgControleEstoqueZFM): TACBrXMLNode; overload;
-
+    function Gerar_Evento_PerecPerdaRouboTranspContrForn(Idx: Integer): TACBrXMLNode;
+    function Gerar_gPerecimentoForn(Idx: Integer): TACBrXMLNodeArray;
+    function Gerar_gControleEstoque(gControleEstoque: TgControleEstoquePerecimentoForn): TACBrXMLNode; overload;
 
   public
     constructor Create;
@@ -995,7 +997,7 @@ begin
 
     teImporALCZFM: Result.AppendChild(Gerar_Evento_ImportALCZFM(Idx));
 
-    tePerecPerdaRouboFurtoTranspContratFornec: Result :=nil;
+    tePerecPerdaRouboFurtoTranspContratFornec: Result.AppendChild(Gerar_Evento_PerecPerdaRouboTranspContrForn(Idx));
 
     teFornecNaoRealizPagAntec: Result := nil;
 
@@ -1426,6 +1428,32 @@ begin
                 Inc(J);
               end;
             end;
+
+            tePerecPerdaRouboFurtoTranspContratFornec:
+            begin
+              infEvento.detEvento.tpAutor := StrToTipoAutor(ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
+
+              J := 0;
+              while True do
+              begin
+                sSecao := 'gPerecimento' + IntToStrZero(J+1, 3);
+                sFim := INIRec.ReadString(sSecao, 'nItem', 'FIM');
+                if (sFim = 'FIM') or (Length(sFIM) <= 0) then
+                  break;
+
+                infEvento.detEvento.gPerecimentoForn.New;
+                infEvento.detEvento.gPerecimentoForn[J].nItem := StrToIntDef(sFim, 0);
+                infEvento.detEvento.gPerecimentoForn[J].vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
+                infEvento.detEvento.gPerecimentoForn[J].vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+
+                sSecao := 'gControleEstoque' + IntToStrZero(J+1, 3);
+                infEvento.detEvento.gPerecimentoForn[J].gControleEstoque.qPerecimento := INIRec.ReadFloat(sSecao, 'qPerecimento', 0);
+                infEvento.detEvento.gPerecimentoForn[J].gControleEstoque.uPerecimento := INIRec.ReadString(sSecao, 'uPerecimento', '');
+                infEvento.detEvento.gPerecimentoForn[J].gControleEstoque.vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
+                infEvento.detEvento.gPerecimentoForn[J].gControleEstoque.vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+                Inc(J);
+              end;            
+            end;
         end;
       end;
 
@@ -1688,7 +1716,34 @@ begin
                 Evento[i].InfEvento.detEvento.gConsumoZFM[j].gControleEstoque.unidade := lAuxJSONObj02.AsString['unidade'];
               end;
             end;
+          end;
+        tePerecPerdaRouboFurtoTranspContratFornec:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
 
+            lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['gPerecimento'];
+            if not Assigned(lAuxJSONArray) then
+              continue;
+            for j := 0 to lAuxJSONArray.Count-1 do
+            begin
+              lAuxJSONObj := lAuxJSONArray.ItemAsJSONObject[j];
+              if not Assigned(lAuxJSONObj) then
+                continue;
+              Evento[i].InfEvento.detEvento.gPerecimentoForn.New;
+              Evento[i].InfEvento.detEvento.gPerecimentoForn[j].nItem := lAuxJSONObj.AsInteger['nItem'];
+              Evento[i].InfEvento.detEvento.gPerecimentoForn[j].vIBS := lAuxJSONObj.AsFloat['vIBS'];
+              Evento[i].InfEvento.detEvento.gPerecimentoForn[j].vCBS := lAuxJSONObj.AsFloat['vCBS'];
+
+              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['gControleEstoque'];
+              if Assigned(lAuxJSONObj02) then
+              begin
+                Evento[i].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.qPerecimento := lAuxJSONObj02.AsFloat['qPerecimento'];
+                Evento[i].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.uPerecimento := lAuxJSONObj02.AsString['uPerecimento'];
+                Evento[i].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.vIBS := lAuxJSONObj02.AsFloat['vIBS'];
+                Evento[i].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.vCBS := lAuxJSONObj02.AsFloat['vCBS'];
+              end;
+            end;        
           end;
       end;
     end;
@@ -1709,6 +1764,22 @@ begin
 
   Result.AppendChild(AddNode(tcStr, 'P29', 'unidade', 1, 6, 1,
                                                 gControleEstoque.unidade));
+end;
+
+function TEventoNFe.Gerar_gControleEstoque(
+  gControleEstoque: TgControleEstoquePerecimentoForn): TACBrXMLNode;
+begin
+  Result := CreateElement('gControleEstoque');
+
+  Result.AppendChild(AddNode(tcDe4, 'P28', 'qPerecimento', 1, 15, 1,
+                                                gControleEstoque.qPerecimento));
+
+  Result.AppendChild(AddNode(tcStr, 'P29', 'uPerecimento', 1, 6, 1,
+                                                gControleEstoque.uPerecimento));
+
+  Result.AppendChild(AddNode(tcDe2, 'P31', 'vIBS', 1, 15, 1, gControleEstoque.vIBS));
+
+  Result.AppendChild(AddNode(tcDe2, 'P32', 'vCBS', 1, 15, 1, gControleEstoque.vCBS));
 end;
 
 { TInfEventoCollection }
@@ -2111,10 +2182,10 @@ begin
   Result.AppendChild(AddNode(tcStr, 'P19', 'descEvento', 4, 60, 1,
                                             Evento[Idx].FInfEvento.DescEvento));
 
-  Result.AppendChild(AddNode(tcInt, 'HP20', 'cOrgaoAutor', 1, 2, 1,
+  Result.AppendChild(AddNode(tcInt, 'P20', 'cOrgaoAutor', 1, 2, 1,
                                  Evento[Idx].FInfEvento.detEvento.cOrgaoAutor));
 
-  Result.AppendChild(AddNode(tcStr, 'HP21', 'tpAutor', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, 'P21', 'tpAutor', 1, 1, 1,
                      TipoAutorToStr(Evento[Idx].FInfEvento.detEvento.tpAutor)));
 
   Result.AppendChild(AddNode(tcStr, 'P22', 'verAplic', 1, 20, 1,
@@ -2194,10 +2265,10 @@ begin
     Result[i].SetAttribute('nItem',
      intToStr(Evento[Idx].InfEvento.detEvento.gConsumoZFM[i].nItem));
 
-    Result[i].AppendChild(AddNode(tcDe2, 'HP25', 'vIBS', 1, 15, 1,
+    Result[i].AppendChild(AddNode(tcDe2, 'P25', 'vIBS', 1, 15, 1,
                              Evento[Idx].InfEvento.detEvento.gConsumoZFM[i].vIBS));
 
-    Result[i].AppendChild(AddNode(tcDe2, 'HP26', 'vCBS', 1, 15, 1,
+    Result[i].AppendChild(AddNode(tcDe2, 'P26', 'vCBS', 1, 15, 1,
                              Evento[Idx].InfEvento.detEvento.gConsumoZFM[i].vCBS));
 
     Result[i].AppendChild(Gerar_gControleEstoque(Evento[Idx].InfEvento.detEvento.gConsumoZFM[i].gControleEstoque));
@@ -2268,6 +2339,37 @@ begin
   end;
 end;
 
+function TEventoNFe.Gerar_Evento_PerecPerdaRouboTranspContrForn(
+  Idx: Integer): TACBrXMLNode;
+var
+  nodeArray: TACBrXmlNodeArray;
+  i: Integer;
+begin
+  Result := CreateElement('detEvento');
+  Result.SetAttribute('versao', Versao);
+
+  Result.AppendChild(AddNode(tcStr, 'P19', 'descEvento', 4, 60, 1,
+                                            Evento[Idx].FInfEvento.DescEvento));
+
+  Result.AppendChild(AddNode(tcInt, 'P20', 'cOrgaoAutor', 1, 2, 1,
+                                 Evento[Idx].FInfEvento.detEvento.cOrgaoAutor));
+
+  Result.AppendChild(AddNode(tcStr, 'P21', 'tpAutor', 1, 1, 1,
+                     TipoAutorToStr(Evento[Idx].FInfEvento.detEvento.tpAutor)));
+
+  Result.AppendChild(AddNode(tcStr, 'P22', 'verAplic', 1, 20, 1,
+                                    Evento[Idx].FInfEvento.detEvento.verAplic));
+
+  nodeArray := Gerar_gPerecimentoForn(Idx);
+  if nodeArray <> nil then
+  begin
+    for i := 0 to Length(nodeArray) - 1 do
+    begin
+      Result.AppendChild(nodeArray[i]);
+    end;
+  end;
+end;
+
 function TEventoNFe.Gerar_gPerecimento(Idx: Integer): TACBrXmlNodeArray;
 var
   i: integer;
@@ -2291,6 +2393,32 @@ begin
   end;
 
   if Evento[Idx].FInfEvento.detEvento.gPerecimento.Count > 990 then
+    wAlerta('#1', 'gPerecimento', '', ERR_MSG_MAIOR_MAXIMO + '990');
+end;
+
+function TEventoNFe.Gerar_gPerecimentoForn(Idx: Integer): TACBrXMLNodeArray;
+var
+  i: integer;
+begin
+  Result := nil;
+  SetLength(Result, Evento[Idx].FInfEvento.detEvento.gPerecimentoForn.Count);
+
+  for i := 0 to Evento[Idx].FInfEvento.detEvento.gPerecimentoForn.Count - 1 do
+  begin
+    Result[i] := CreateElement('gPerecimento');
+    Result[i].SetAttribute('nItem',
+     intToStr(Evento[Idx].InfEvento.detEvento.gPerecimentoForn[i].nItem));
+
+    Result[i].AppendChild(AddNode(tcDe2, 'P25', 'vIBS', 1, 15, 1,
+                             Evento[Idx].InfEvento.detEvento.gPerecimentoForn[i].vIBS));
+
+    Result[i].AppendChild(AddNode(tcDe2, 'P26', 'vCBS', 1, 15, 1,
+                             Evento[Idx].InfEvento.detEvento.gPerecimentoForn[i].vCBS));
+
+    Result[i].AppendChild(Gerar_gControleEstoque(Evento[Idx].InfEvento.detEvento.gPerecimentoForn[i].gControleEstoque));
+  end;
+
+  if Evento[Idx].FInfEvento.detEvento.gPerecimentoForn.Count > 990 then
     wAlerta('#1', 'gPerecimento', '', ERR_MSG_MAIOR_MAXIMO + '990');
 end;
 

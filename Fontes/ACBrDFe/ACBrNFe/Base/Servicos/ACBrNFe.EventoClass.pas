@@ -383,6 +383,45 @@ type
     property Items[Index: Integer]: TgCreditoCollectionItem read GetItem write SetItem; default;
   end;
 
+  TgControleEstoquePerecimentoForn = class
+  private
+    FqPerecimento: Double;
+    FuPerecimento: string;
+    FvCBS: Double;
+    FvIBS: Double;
+  public
+    property qPerecimento: Double read FqPerecimento write FqPerecimento;
+    property uPerecimento: string read FuPerecimento write FuPerecimento;
+    property vIBS: Double read FvIBS write FvIBS;
+    property vCBS: Double read FvCBS write FvCBS;
+  end;
+
+  TgPerecimentoFornCollectionItem = class
+  private
+    FnItem: Integer;
+    FvIBS: Double;
+    FvCBS: Double;
+    FgControleEstoque: TgControleEstoquePerecimentoForn;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    property nItem: Integer read FnItem write FnItem;
+    property vIBS: Double read FvIBS write FvIBS;
+    property vCBS: Double read FvCBS write FvCBS;
+    property gControleEstoque: TgControleEstoquePerecimentoForn read FgControleEstoque;
+  end;
+
+  TgPerecimentoFornCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TgPerecimentoFornCollectionItem;
+    procedure SetItem(Index: Integer; Value: TgPerecimentoFornCollectionItem);
+  public
+    function Add: TgPerecimentoFornCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
+    function New: TgPerecimentoFornCollectionItem;
+    property Items[Index: Integer]: TgPerecimentoFornCollectionItem read GetItem write SetItem; default;
+  end;
+
 
   TDetEvento = class
   private
@@ -434,6 +473,7 @@ type
     FgCredito: TgCreditoCollection;
     FIndAceitacao: TIndAceitacao;
     FgConsumoZFM: TgConsumoZFMCollection;
+    FgPerecimentoForn: TgPerecimentoFornCollection;
 
     procedure setxCondUso(const Value: string);
     procedure SetitemPedido(const Value: TitemPedidoCollection);
@@ -499,6 +539,7 @@ type
     property gConsumo: TgConsumoCollection read FgConsumo write SetgConsumo;
     property gConsumoZFM: TgConsumoZFMCollection read FgConsumoZFM;
     property gPerecimento: TgPerecimentoCollection read FgPerecimento write SetgPerecimento;
+    property gPerecimentoForn: TgPerecimentoFornCollection read FgPerecimentoForn;
     property gImobilizacao: TgImobilizacaoCollection read FgImobilizacao write SetgImobilizacao;
     property gConsumoComb: TgConsumoCombCollection read FgConsumoComb write SetgConsumoComb;
     property gCredito: TgCreditoCollection read FgCredito write SetgCredito;
@@ -789,6 +830,7 @@ begin
   FgConsumoComb := TgConsumoCombCollection.Create;
   FgCredito := TgCreditoCollection.Create;
   FgConsumoZFM := TgConsumoZFMCollection.Create;
+  FgPerecimentoForn := TgPerecimentoFornCollection.Create;
 end;
 
 destructor TDetEvento.Destroy;
@@ -804,6 +846,7 @@ begin
   FgConsumoComb.Free;
   FgCredito.Free;
   FgConsumoZFM.Free;
+  FgPerecimentoForn.Free;
 
   inherited;
 end;
@@ -1252,6 +1295,44 @@ end;
 
 procedure TgConsumoZFMCollection.SetItem(Index: Integer;
   Value: TgConsumoZFMCollectionItem);
+begin
+  inherited Items[Index] := Value;
+end;
+
+{ TgPerecimentoFornCollectionItem }
+
+constructor TgPerecimentoFornCollectionItem.Create;
+begin
+  FgControleEstoque := TgControleEstoquePerecimentoForn.Create;
+end;
+
+destructor TgPerecimentoFornCollectionItem.Destroy;
+begin
+  FgControleEstoque.Free;
+  inherited;
+end;
+
+{ TgPerecimentoFornCollection }
+
+function TgPerecimentoFornCollection.Add: TgPerecimentoFornCollectionItem;
+begin
+  Result := Self.New;
+end;
+
+function TgPerecimentoFornCollection.GetItem(
+  Index: Integer): TgPerecimentoFornCollectionItem;
+begin
+  Result := TgPerecimentoFornCollectionItem(inherited Items[Index]);
+end;
+
+function TgPerecimentoFornCollection.New: TgPerecimentoFornCollectionItem;
+begin
+  Result := TgPerecimentoFornCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TgPerecimentoFornCollection.SetItem(Index: Integer;
+  Value: TgPerecimentoFornCollectionItem);
 begin
   inherited Items[Index] := Value;
 end;

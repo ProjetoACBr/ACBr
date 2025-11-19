@@ -45,6 +45,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/11/2025
+-- ACBrNFeWebServices/ACBrNFe.EnvEvento/ACBrNFe.EventoClass --
+[+] #ACBR-5451 - Implementado o evento: Perecimento, perda, roubo ou furto durante o transporte contratado pelo fornecedor
+  Por: Bruno Siqueira / Diego Folieni
 -- ACBrNFe.XmlWriter --
 [*] #ACBR-8424 - Ajuste para gerar corretamente o grupo ICMS tendo em vista a regra B25-80.
   Por: C4Dev

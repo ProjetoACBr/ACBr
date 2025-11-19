@@ -3458,6 +3458,21 @@ begin
           begin
             SchemaEventoNFe := schPerecPerdaRouboFurtoTranspContratFornec;
 
+            for j := 0 to FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn.count - 1 do
+            begin
+              with infEvento.detEvento.gPerecimentoForn.New do
+              begin
+                nItem := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].nItem;
+                vIBS := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].vIBS;
+                vCBS := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].vCBS;
+
+                gControleEstoque.qPerecimento := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.qPerecimento;
+                gControleEstoque.uPerecimento := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.uPerecimento;
+
+                gControleEstoque.vIBS := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.vIBS;
+                gControleEstoque.vCBS := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.vCBS;
+              end;
+            end;
           end;
 
           teFornecNaoRealizPagAntec:
