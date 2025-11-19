@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/11/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8357 A cidade de Jales/SP trocou de provedor, agora é RLZ.
+   Por: mregiani
+[*] #ACBr-8363 A cidade de Renascenca/PR trocou de provedor, agora é EloTech.
+   Por: binotto
 
 18/11/2025
 -- ACBrNFSeXLerXml_ABRASFv2/Tecnos.LerXml --
