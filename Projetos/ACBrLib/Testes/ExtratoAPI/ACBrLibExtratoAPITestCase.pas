@@ -44,11 +44,14 @@ const
   CExtratoAPIConta = '1348';
   CExtratoAPIPagina = 1;
   CExtratoAPIRegistrosPorPag = 50;
+  CChaveTeste = '1234';
 
 type
   { TTestACBrExtratoAPILib }
 
   TTestACBrExtratoAPILib= class(TTestCase)
+  private
+    procedure Test_Cryp(ASecao, AChave, AValor: String);
   published
     procedure Test_ExtratoAPI_Inicializar_Com_DiretorioInvalido;
     procedure Test_ExtratoAPI_Inicializar;
@@ -62,6 +65,11 @@ type
     procedure Test_ExtratoAPI_Versao;
     procedure Test_ExtratoAPI_ConfigLerValor;
     procedure Test_ExtratoAPI_ConfigGravarValor;
+    procedure Test_ExtratoAPI_ConfigGravarValorClientID_BB;
+    procedure Test_ExtratoAPI_ConfigGravarValorClientSecret_BB;
+    procedure Test_ExtratoAPI_ConfigGravarValorClientID_Inter;
+    procedure Test_ExtratoAPI_ConfigGravarValorClientSecret_Inter;
+    procedure Test_ExtratoAPI_ConfigGravarValorClientID_Sicoob;
     procedure Test_ExtratoAPI_OpenSSLInfo;
 
     procedure Test_ExtratoAPI_ConsultarExtrato;
@@ -71,6 +79,25 @@ implementation
 
 uses
   ACBrLibExtratoAPIStaticImportMT, ACBrLibExtratoAPIConsts, ACBrLibConsts;
+
+procedure TTestACBrExtratoAPILib.Test_Cryp(ASecao, AChave, AValor: String);
+var
+  Bufflen: Integer;
+  AStr: String;
+  Handle: THandle;
+begin
+  // Gravando o valor
+  AssertEquals(ErrOK, ExtratoAPI_Inicializar(Handle, '', ''));
+  AssertEquals('Erro ao Mudar configuração', ErrOk, ExtratoAPI_ConfigGravarValor(Handle, PChar(ASecao), PChar(AChave), PChar(AValor)));
+
+  // Checando se o valor foi atualizado //
+  Bufflen := 255;
+  AStr := Space(Bufflen);
+  AssertEquals(ErrOk, ExtratoAPI_ConfigLerValor(Handle, PChar(ASecao), PChar(AChave), PChar(AStr), Bufflen));
+  AStr := Copy(AStr,1,Bufflen);
+  AssertEquals('Erro ao Mudar configuração', CChaveTeste, AStr);
+  AssertEquals(ErrOK, ExtratoAPI_Finalizar(Handle));
+end;
 
 procedure TTestACBrExtratoAPILib.Test_ExtratoAPI_Inicializar_Com_DiretorioInvalido;
 var
@@ -249,6 +276,31 @@ begin
   AStr := Copy(AStr,1,Bufflen);
   AssertEquals('Erro ao Mudar configuração', '4', AStr);
   AssertEquals(ErrOK, ExtratoAPI_Finalizar(Handle));
+end;
+
+procedure TTestACBrExtratoAPILib.Test_ExtratoAPI_ConfigGravarValorClientID_BB;
+begin
+  Test_Cryp(CSessaoExtratoAPIBBConfig, CClientID, CChaveTeste);
+end;
+
+procedure TTestACBrExtratoAPILib.Test_ExtratoAPI_ConfigGravarValorClientSecret_BB;
+begin
+  Test_Cryp(CSessaoExtratoAPIBBConfig, CClientSecret, CChaveTeste);
+end;
+
+procedure TTestACBrExtratoAPILib.Test_ExtratoAPI_ConfigGravarValorClientID_Inter;
+begin
+  Test_Cryp(CSessaoExtratoAPIInterConfig, CClientID, CChaveTeste);
+end;
+
+procedure TTestACBrExtratoAPILib.Test_ExtratoAPI_ConfigGravarValorClientSecret_Inter;
+begin
+  Test_Cryp(CSessaoExtratoAPIInterConfig, CClientSecret, CChaveTeste);
+end;
+
+procedure TTestACBrExtratoAPILib.Test_ExtratoAPI_ConfigGravarValorClientID_Sicoob;
+begin
+  Test_Cryp(CSessaoExtratoAPISicoobConfig, CClientID, CChaveTeste);
 end;
 
 procedure TTestACBrExtratoAPILib.Test_ExtratoAPI_OpenSSLInfo;
