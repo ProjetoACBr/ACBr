@@ -266,7 +266,8 @@ begin
           LPath := PATH_CONSULTA_LEGADO;
       end;
 
-    tpBaixa:
+    tpBaixa,
+    tpCancelar:
       begin
         if LUseCert then
           LPath := PATH_BAIXAR_PORTAL
