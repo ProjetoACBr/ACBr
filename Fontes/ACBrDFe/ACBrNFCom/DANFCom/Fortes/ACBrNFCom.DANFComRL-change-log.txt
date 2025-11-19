@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/11/2025
+-- ACBrNFCom.DANFComRLRetrato --
+[*] Ajuste para imprimir o Valor Desconto em vez de Valor Isento.
+   Por: Marco Prodata/Italo Giurizzato Junior
+
 17/10/2025
 -- ACBrNFCom.DANFComRLRetrato --
 [*] Ajuste para imprimir o periodo de competencia correto.

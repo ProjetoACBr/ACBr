@@ -460,7 +460,7 @@ begin
   if (fpNFCom.gFat.dVencFat > 0) then
     rllVencimento2.Caption := FormatDateBr(fpNFCom.gFat.dVencFat)
   else
-    rllVencimento2.Caption := '';  
+    rllVencimento2.Caption := ACBrStr('CONTRA APRESENTAÇÃO');
 
   rllTotPagar.Caption := 'R$ ' + FormatFloatBr(fpNFCom.Total.vNF);
   rllNumFat.Caption := ACBrStr('Número da Fatura: ') +

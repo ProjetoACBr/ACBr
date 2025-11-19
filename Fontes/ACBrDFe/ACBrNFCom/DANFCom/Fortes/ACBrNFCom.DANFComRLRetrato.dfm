@@ -24,9 +24,9 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
     BeforePrint = RLNFComBeforePrint
     OnDataRecord = RLNFComDataRecord
     object rlbDivisao04: TRLBand
-      Left = 26
-      Top = 429
-      Width = 742
+      Left = 33
+      Top = 436
+      Width = 926
       Height = 115
       BandType = btSummary
       BeforePrint = rlbDivisao04BeforePrint
@@ -100,9 +100,9 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
         Tag = 10
         Left = 6
         Top = 70
-        Width = 71
+        Width = 89
         Height = 12
-        Caption = 'VALOR ISENTO'
+        Caption = 'VALOR DESCONTO'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Height = -9
@@ -494,9 +494,9 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
     end
     object rlbDivisao02: TRLBand
-      Left = 26
-      Top = 392
-      Width = 742
+      Left = 33
+      Top = 399
+      Width = 926
       Height = 19
       AutoSize = True
       Background.Arrange = baDistributed
@@ -833,9 +833,9 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
     end
     object rlbDivisao01: TRLBand
-      Left = 26
-      Top = 26
-      Width = 742
+      Left = 33
+      Top = 33
+      Width = 926
       Height = 366
       AutoExpand = False
       BandType = btHeader
@@ -1184,7 +1184,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
         Tag = 703
         Left = 143
         Top = 309
-        Width = 83
+        Width = 149
         Height = 14
         AutoSize = False
         Font.Charset = DEFAULT_CHARSET
@@ -1226,9 +1226,9 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
     end
     object rlbDivisao05: TRLBand
-      Left = 26
-      Top = 544
-      Width = 742
+      Left = 33
+      Top = 551
+      Width = 926
       Height = 158
       AlignToBottom = True
       AutoExpand = False
@@ -1289,7 +1289,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
         ParentFont = False
       end
       object rllHomologacao: TRLLabel
-        Left = 295
+        Left = 387
         Top = 68
         Width = 152
         Height = 22
@@ -1304,9 +1304,9 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
     end
     object rlbDivisao03: TRLSubDetail
-      Left = 26
-      Top = 411
-      Width = 742
+      Left = 33
+      Top = 418
+      Width = 926
       Height = 18
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
@@ -1317,7 +1317,7 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       object rlbItens: TRLBand
         Left = 0
         Top = 0
-        Width = 742
+        Width = 926
         Height = 20
         Background.Height = 487
         Background.Width = 865
@@ -1593,9 +1593,9 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
     end
     object rlbDivisao06: TRLBand
-      Left = 26
-      Top = 702
-      Width = 742
+      Left = 33
+      Top = 709
+      Width = 926
       Height = 123
       BandType = btFooter
       BeforePrint = rlbDivisao06BeforePrint
@@ -1896,9 +1896,9 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
     end
     object rlbDivisao07: TRLBand
-      Left = 26
-      Top = 917
-      Width = 742
+      Left = 33
+      Top = 924
+      Width = 926
       Height = 15
       BandType = btFooter
       BeforePrint = rlbDivisao07BeforePrint
@@ -1933,9 +1933,9 @@ inherited frlDANFComRLRetrato: TfrlDANFComRLRetrato
       end
     end
     object rlbDivisao08: TRLBand
-      Left = 26
-      Top = 825
-      Width = 742
+      Left = 33
+      Top = 832
+      Width = 926
       Height = 92
       AutoExpand = False
       BandType = btFooter
