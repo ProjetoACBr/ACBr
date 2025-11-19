@@ -240,28 +240,28 @@
       <Unit0>
         <Filename Value="ACBrLibBoleto.lpr"/>
         <IsPartOfProject Value="True"/>
-      </Unit1>
-      <Unit2>
+      </Unit0>
+      <Unit1>
         <Filename Value="ACBrLibBoletoDataModule.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="ACBrLibBoletoBase.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="ACBrLibBoletoBase.pas"/>
+        <Filename Value="ACBrLibBoletoConfig.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="ACBrLibBoletoConfig.pas"/>
+        <Filename Value="ACBrLibBoletoConsts.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="ACBrLibBoletoConsts.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit5>
-      <Unit6>
         <Filename Value="ACBrLibBoletoMT.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit6>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
