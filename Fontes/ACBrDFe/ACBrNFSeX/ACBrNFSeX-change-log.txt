@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 21/11/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8387 A cidade Telêmaco Borba/PR trocou as URLs, o provedor continua o mesmo.
+   Por: Marcos Villatore
 -- PadraoNacional.GravarXml/PadraoNacional.LerXml/PadraoNacional.Provider --
 [*] #ACBr-8427 Ajustes para gerar as tags das alíquotas do PIS e COFINS mesmo zeradas.
     Ajustes para atender a API própria do provedor Pronim.
