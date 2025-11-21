@@ -224,7 +224,10 @@ begin
   FExpire          := 0;
   FErroComunicacao := '';
   try
-    LJson := TACBrJSONObject.Parse(UTF8ToNativeString(Trim(ARetorno)));
+    if ACBrUtil.FilesIO.StringIsJSON(ARetorno) then
+      LJson := TACBrJSONObject.Parse(UTF8ToNativeString(Trim(ARetorno)))
+    else
+      raise EACBrBoletoWSOAuthException.Create('Resposta do Webservices não é um JSON Válido');
 
     try
       if (FHTTPSend.ResultCode in [ 200 .. 205 ]) then
@@ -275,13 +278,14 @@ begin
   if not Assigned(FHTTPSend) then
     Raise EACBrBoletoWSOAuthException.Create(ClassName + Format(S_METODO_NAO_IMPLEMENTADO, [ C_DFESSL ]));
 
-  CarregaCertificados;
+  FHTTPSend.Clear;
 
+  CarregaCertificados;
   //Definido Valor para Timeout com a configuração da Classe
   FHTTPSend.Timeout := FACBrBoleto.Configuracoes.WebService.TimeOut;
 
   //Definindo Header da requisição OAuth
-  FHTTPSend.Headers.Clear;
+
   LHeaders := TStringList.Create;
   try
     case Self.AuthorizationType of

@@ -316,6 +316,7 @@ begin
   FGerador      := TGerador.Create;
   FHTTPSend     := THTTPSend.Create;
   FHTTPSend.Protocol := '1.1';
+  FHTTPSend.Clear;
   FTitulo       := nil;
 
   if Assigned(ABoletoWS.FBoleto.Configuracoes.WebService) then
@@ -644,8 +645,8 @@ begin
       begin
         FBoletoWSClass.GerarRemessa;
         Result             := FBoletoWSClass.Enviar;
-        FRetornoWS         := FBoletoWSClass.FRetornoWS;
-        RetornoBanco.RetWS := Trim(FRetornoWS);
+        FRetornoWS         := Trim(FBoletoWSClass.FRetornoWS);
+        RetornoBanco.RetWS := FRetornoWS;
         RetornoBanco.RetornoEnvio(0);
       end;
   except

@@ -309,7 +309,7 @@ begin
   finally
     LHeaders.Free;
   end;
-  httpsend.Document.Clear;
+  httpsend.Clear;
   try
     httpsend.Document.Position := 0;
     if FPDadosMsg <> '' then
@@ -347,6 +347,7 @@ begin
       BoletoWS.RetornoBanco.Msg            := Trim('HTTP_Code=' + IntToStr(httpsend.ResultCode) + ' ' + httpsend.ResultString + ' ' + FRetornoWS);
       BoletoWS.RetornoBanco.HTTPResultCode := httpsend.ResultCode;
     finally
+      httpsend.OutputStream := nil;
       LStream.Free;
     end;
   end;
@@ -420,7 +421,6 @@ begin
     Executar;
 
   finally
-
     Result := (BoletoWS.RetornoBanco.HTTPResultCode in [ 200 .. 207 ]);
 
     BoletoWS.DoLog('Retorno Envio: ' + Self.ClassName, logSimples);
