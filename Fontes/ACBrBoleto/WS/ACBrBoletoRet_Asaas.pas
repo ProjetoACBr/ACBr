@@ -203,7 +203,7 @@ begin
                 ARetornoWS.DadosRet.TituloRet.CodigoEstadoTituloCobranca := RetornaCodigoOcorrencia(ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca);
                 ARetornoWS.DadosRet.TituloRet.DataCredito          := StrDatetoTDateTime(LJSON.AsString['clientPaymentDate']);
               end;
-              tpPIXConsultar :
+            tpPIXConsultar :
               begin
                 if LJSON.IsJSONObject('pix') then
                 begin
