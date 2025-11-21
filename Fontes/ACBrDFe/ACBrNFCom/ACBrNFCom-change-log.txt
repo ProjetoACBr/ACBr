@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+21/11/2025
+-- ACBrNFComXmlReader/ACBrNFComXmlWriter --
+[*] Alteração visando gerar as tagas vItem e vProd com 8 casas decimais.
+  Por: Italo Giurizzato Junior
+
 03/11/2025
 -- ACBrNFComWebServices --
 [-] No Xml Soap de retorno do evento a SEFAZ esta gerando indevidamente com o prefixo ns0.

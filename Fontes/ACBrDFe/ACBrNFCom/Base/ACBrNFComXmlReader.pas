@@ -491,10 +491,10 @@ begin
   Item.Prod.CNPJLD := ObterConteudo(ANode.Childrens.FindAnyNs('CNPJLD'), tcStr);
   Item.Prod.uMed := StrTouMed(ObterConteudo(ANode.Childrens.FindAnyNs('uMed'), tcStr));
   Item.Prod.qFaturada := ObterConteudo(ANode.Childrens.FindAnyNs('qFaturada'), tcDe4);
-  Item.Prod.vItem := ObterConteudo(ANode.Childrens.FindAnyNs('vItem'), tcDe2);
+  Item.Prod.vItem := ObterConteudo(ANode.Childrens.FindAnyNs('vItem'), tcDe8);
   Item.Prod.vDesc := ObterConteudo(ANode.Childrens.FindAnyNs('vDesc'), tcDe2);
   Item.Prod.vOutro := ObterConteudo(ANode.Childrens.FindAnyNs('vOutro'), tcDe2);
-  Item.Prod.vProd := ObterConteudo(ANode.Childrens.FindAnyNs('vProd'), tcDe2);
+  Item.Prod.vProd := ObterConteudo(ANode.Childrens.FindAnyNs('vProd'), tcDe8);
   Item.Prod.dExpiracao := ObterConteudo(ANode.Childrens.FindAnyNs('dExpiracao'), tcDat);
 
   sAux := ObterConteudo(ANode.Childrens.FindAnyNs('indDevolucao'), tcStr);

@@ -844,7 +844,7 @@ begin
                                 NFCom.Det[aDet].Prod.qFaturada, DSC_QFATURADA));
 
   // pode ter 2 ou 8 casas decimais
-  Result.AppendChild(AddNode(tcDe2, '#168', 'vItem', 1, 15, 1,
+  Result.AppendChild(AddNode(tcDe8, '#168', 'vItem', 1, 15, 1,
                                         NFCom.Det[aDet].Prod.vItem, DSC_VITEM));
 
   Result.AppendChild(AddNode(tcDe2, '#168', 'vDesc', 1, 15, 0,
@@ -854,7 +854,7 @@ begin
                                       NFCom.Det[aDet].Prod.vOutro, DSC_VOUTRO));
 
   // pode ter 2 ou 8 casas decimais
-  Result.AppendChild(AddNode(tcDe2, '#169', 'vProd', 1, 15, 1,
+  Result.AppendChild(AddNode(tcDe8, '#169', 'vProd', 1, 15, 1,
                                         NFCom.Det[aDet].Prod.vProd, DSC_VPROD));
 
   Result.AppendChild(AddNode(tcDat, '#169', 'dExpiracao', 10, 10, 0,
