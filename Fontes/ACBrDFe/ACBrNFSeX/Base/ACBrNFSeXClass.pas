@@ -857,6 +857,8 @@ type
     FInfAdicional: string;
     FxFormaPagamento: string;
     FCodigoNCM: string;
+    FcClassTrib: string;
+    FINDOP: string;
 
     procedure SetItemServico(Value: TItemServicoCollection);
     procedure SetDeducao(const Value: TDeducaoCollection);
@@ -918,6 +920,9 @@ type
     // Provedor Megasoft
     property InfAdicional: string read FInfAdicional write FInfAdicional;
     property xFormaPagamento: string read FxFormaPagamento write FxFormaPagamento;
+    // Provedor ISSSalvador
+    property cClassTrib: string read FcClassTrib write FcClassTrib;
+    property INDOP: string read FINDOP write FINDOP;
   end;
 
   TDadosPessoa = class(TObject)

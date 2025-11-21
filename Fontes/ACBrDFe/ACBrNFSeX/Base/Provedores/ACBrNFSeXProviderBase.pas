@@ -899,7 +899,8 @@ begin
     begin
       // Primeiro verifica as URLs definidas para a cidade
       Sessao := IntToStr(Configuracoes.Geral.CodigoMunicipio);
-      APIPropria := IniParams.ReadString(Sessao, 'Params', '') = 'APIPropria:';
+//      APIPropria := IniParams.ReadString(Sessao, 'Params', '') = 'APIPropria:';
+      APIPropria := (Pos('APIPropria:', IniParams.ReadString(Sessao, 'Params', '')) > 0);
 
       ConfigWebServices.LoadUrlProducao(IniParams, Sessao);
       ConfigWebServices.LoadUrlHomologacao(IniParams, Sessao);

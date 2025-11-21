@@ -178,6 +178,8 @@ begin
     CancelarNFSe := True;
     RpsGerarNFSe := True;
   end;
+
+  configschemas.Validar := False;
 end;
 
 function TACBrNFSeProviderISSSalvador.CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass;

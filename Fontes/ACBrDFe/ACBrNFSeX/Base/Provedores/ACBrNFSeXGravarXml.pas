@@ -993,7 +993,7 @@ begin
       INIRec.WriteString(sSecao, 'xPais', Servico.Endereco.xPais);
       INIRec.WriteString(sSecao, 'UF', Servico.Endereco.UF);
 
-      //IssSaoPaulo
+      //Provedor IssSaoPaulo
       INIRec.WriteFloat(sSecao, 'ValorTotalRecebido', Servico.ValorTotalRecebido);
       INIRec.WriteFloat(sSecao, 'ValorCargaTributaria', Servico.ValorCargaTributaria);
       INIRec.WriteFloat(sSecao, 'PercentualCargaTributaria', Servico.PercentualCargaTributaria);
@@ -1005,6 +1005,10 @@ begin
       //Provedor Megasoft
       INIRec.WriteString(sSecao, 'InfAdicional', Servico.InfAdicional);
       INIRec.WriteString(sSecao, 'xFormaPagamento', Servico.xFormaPagamento);
+
+      //Provedor IssSalvador
+      INIRec.WriteString(sSecao, 'cClassTrib', Servico.cClassTrib);
+      INIRec.WriteString(sSecao, 'INDOP', Servico.INDOP);
 
       for I := 0 to Servico.Deducao.Count - 1 do
       begin

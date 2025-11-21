@@ -39,7 +39,9 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrNFSeXGravarXml_ABRASFv1,
-  ACBrNFSeXConversao;
+  ACBrNFSeXConversao,
+  ACBrDFe.Conversao,
+  ACBrXmlDocument;
 
 type
   { TNFSeW_ISSSalvador }
@@ -49,6 +51,7 @@ type
     procedure Configuracao; override;
 
     procedure DefinirIDRps; override;
+    function GerarServico: TACBrXmlNode; override;
   public
     function GerarXml: Boolean; override;
 
@@ -88,6 +91,20 @@ end;
 procedure TNFSeW_ISSSalvador.DefinirIDRps;
 begin
   NFSe.InfID.ID := 'rps' + OnlyNumber(NFSe.IdentificacaoRps.Numero);
+end;
+
+function TNFSeW_ISSSalvador.GerarServico: TACBrXmlNode;
+begin
+  Result := inherited GerarServico;
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'NBS', 1, 9, 0,
+                                                       NFSe.Servico.CodigoNBS));
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'cClassTrib', 1, 6, 0,
+                                                      NFSe.Servico.cClassTrib));
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'INDOP', 1, 6, 0,
+                                                      NFSe.Servico.INDOP));
 end;
 
 function TNFSeW_ISSSalvador.GerarXml: Boolean;

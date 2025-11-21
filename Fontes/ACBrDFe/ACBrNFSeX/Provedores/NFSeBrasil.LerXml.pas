@@ -55,7 +55,7 @@ type
 
     procedure LerInfNfse(const ANode: TACBrXmlNode); override;
     procedure LerIdentificacaoRps(const ANode: TACBrXmlNode);
-    procedure LerServico(const ANode: TACBrXmlNode);
+    procedure LerServico(const ANode: TACBrXmlNode); override;
     procedure LerValores(const ANode: TACBrXmlNode);
 
   public

@@ -1327,7 +1327,7 @@ begin
 
   if not Assigned(ANode) then Exit;
 
-  AuxNode := AuxNode.Childrens.FindAnyNs('Nfse');
+  AuxNode := ANode.Childrens.FindAnyNs('Nfse');
 
   if AuxNode = nil then
     AuxNode := ANode;

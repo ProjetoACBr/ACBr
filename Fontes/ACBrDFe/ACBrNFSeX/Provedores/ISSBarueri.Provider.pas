@@ -481,6 +481,7 @@ begin
   Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
   ValorServicos := 0;
   ValorTotalRetencoes := 0;
+  TotalLinhas := 0;
 
   for I := 0 to TACBrNFSeX(FAOwner).NotasFiscais.Count - 1 do
   begin

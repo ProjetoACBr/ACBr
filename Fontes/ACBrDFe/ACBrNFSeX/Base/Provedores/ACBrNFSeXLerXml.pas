@@ -1036,6 +1036,10 @@ begin
 
       // Provedor SigISSWeb
       Servico.xFormaPagamento := AINIRec.ReadString(sSecao, 'xFormaPagamento', '');
+
+      // Provedor ISSSalvador
+      Servico.cClassTrib := AINIRec.ReadString(sSecao, 'cClassTrib', '');
+      Servico.INDOP := AINIRec.ReadString(sSecao, 'INDOP', '');
     end;
 
     i := 1;

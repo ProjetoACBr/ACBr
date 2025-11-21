@@ -514,11 +514,11 @@ const
 
 type
   TCST = (cst00, cst01, cst02, cst03, cst04, cst05, cst06, cst07,
-          cst08, cst09);
+          cst08, cst09, cstVazio);
 
 const
   TCSTArrayStrings: array[TCST] of string = ('00', '01', '02', '03', '04',
-    '05', '06', '07', '08', '09');
+    '05', '06', '07', '08', '09', '');
 
 type
   TtpRetPisCofins = (trpcRetido, trpcNaoRetido, trpcNenhum);

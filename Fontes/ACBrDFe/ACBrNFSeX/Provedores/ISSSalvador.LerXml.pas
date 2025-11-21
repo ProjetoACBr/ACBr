@@ -38,13 +38,16 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXLerXml_ABRASFv1;
+  ACBrNFSeXLerXml_ABRASFv1,
+  ACBrDFe.Conversao,
+  ACBrXmlDocument;
 
 type
   { TNFSeR_ISSSalvador }
 
   TNFSeR_ISSSalvador = class(TNFSeR_ABRASFv1)
   protected
+    procedure LerServico(const ANode: TACBrXmlNode); override;
 
   public
 
@@ -56,5 +59,18 @@ implementation
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:
 //     ISSSalvador
 //==============================================================================
+
+{ TNFSeR_ISSSalvador }
+
+procedure TNFSeR_ISSSalvador.LerServico(const ANode: TACBrXmlNode);
+begin
+  if not Assigned(ANode) then Exit;
+
+  inherited LerServico(ANode);
+
+  NFSe.Servico.CodigoNBS := ObterConteudo(ANode.Childrens.FindAnyNs('NBS'), tcStr);
+  NFSe.Servico.cClassTrib := ObterConteudo(ANode.Childrens.FindAnyNs('cClassTrib'), tcStr);
+  NFSe.Servico.INDOP := ObterConteudo(ANode.Childrens.FindAnyNs('INDOP'), tcStr);
+end;
 
 end.

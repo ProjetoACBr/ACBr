@@ -59,7 +59,7 @@ type
 
     procedure LerInfNfse(const ANode: TACBrXmlNode); virtual;
     procedure LerIdentificacaoRps(const ANode: TACBrXmlNode);
-    procedure LerServico(const ANode: TACBrXmlNode);
+    procedure LerServico(const ANode: TACBrXmlNode); virtual;
     procedure LerItensServico(const ANode: TACBrXmlNode);
     procedure LerValores(const ANode: TACBrXmlNode);
 
