@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 21/11/2025
+-- IPM.GravarXml --
+[*] #ACBr-8387 Incluído linha para gerar o codigo_nbs no XML do RPS.
+   Por: Marcos Villatore
 -- ACBrNFSeXServicos --
 [*] #ACBr-8387 A cidade Telêmaco Borba/PR trocou as URLs, o provedor continua o mesmo.
    Por: Marcos Villatore

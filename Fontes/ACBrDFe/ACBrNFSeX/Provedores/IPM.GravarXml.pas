@@ -353,6 +353,9 @@ begin
     Result[i].AppendChild(AddNode(tcStr, '#', 'codigo_item_lista_servico', 1, 9, 1,
                  OnlyNumber(NFSe.Servico.ItemServico[I].ItemListaServico), ''));
 
+    Result[i].AppendChild(AddNode(tcStr, '#', 'codigo_nbs', 1, 9, 0,
+                                       OnlyNumber(NFSe.Servico.CodigoNBS), ''));
+
     Result[i].AppendChild(AddNode(tcStr, '#', 'codigo_atividade', 1, 9, FpNrOcorrCodigoAtividade,
                        OnlyNumber(NFSe.Servico.ItemServico[I].CodigoCnae), ''));
 
