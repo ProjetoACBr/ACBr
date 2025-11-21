@@ -3460,18 +3460,16 @@ begin
 
             for j := 0 to FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn.count - 1 do
             begin
-              with infEvento.detEvento.gPerecimentoForn.New do
-              begin
-                nItem := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].nItem;
-                vIBS := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].vIBS;
-                vCBS := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].vCBS;
+              infEvento.detEvento.gPerecimentoForn.New;
+              infEvento.detEvento.gPerecimentoForn[j].nItem := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].nItem;
+              infEvento.detEvento.gPerecimentoForn[j].vIBS := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].vIBS;
+              infEvento.detEvento.gPerecimentoForn[j].vCBS := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].vCBS;
 
-                gControleEstoque.qPerecimento := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.qPerecimento;
-                gControleEstoque.uPerecimento := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.uPerecimento;
+              infEvento.detEvento.gPerecimentoForn[j].gControleEstoque.qPerecimento := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.qPerecimento;
+              infEvento.detEvento.gPerecimentoForn[j].gControleEstoque.uPerecimento := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.uPerecimento;
 
-                gControleEstoque.vIBS := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.vIBS;
-                gControleEstoque.vCBS := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.vCBS;
-              end;
+              infEvento.detEvento.gPerecimentoForn[j].gControleEstoque.vIBS := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.vIBS;
+              infEvento.detEvento.gPerecimentoForn[j].gControleEstoque.vCBS := FEvento.Evento[I].InfEvento.detEvento.gPerecimentoForn[j].gControleEstoque.vCBS;
             end;
           end;
 
@@ -3479,6 +3477,16 @@ begin
           begin
             SchemaEventoNFe := schFornecNaoRealizPagAntec;
 
+            for j := 0 to FEvento.Evento[I].InfEvento.detEvento.gItemNaoFornecido.count - 1 do
+            begin
+              infEvento.detEvento.gItemNaoFornecido.New;
+              infEvento.detEvento.gItemNaoFornecido[j].nItem := FEvento.Evento[I].InfEvento.detEvento.gItemNaoFornecido.Items[j].nItem;
+              infEvento.detEvento.gItemNaoFornecido[j].vIBS := FEvento.Evento[I].InfEvento.detEvento.gItemNaoFornecido.Items[j].vIBS;
+              infEvento.detEvento.gItemNaoFornecido[j].vCBS := FEvento.Evento[I].InfEvento.detEvento.gItemNaoFornecido.Items[j].vCBS;
+
+              infEvento.detEvento.gItemNaoFornecido[j].gControleEstoque.qNaoFornecida := FEvento.Evento[I].InfEvento.detEvento.gItemNaoFornecido.Items[j].gControleEstoque.qNaoFornecida;
+              infEvento.detEvento.gItemNaoFornecido[j].gControleEstoque.uNaoFornecida := FEvento.Evento[I].InfEvento.detEvento.gItemNaoFornecido.Items[j].gControleEstoque.uNaoFornecida;
+            end;
           end;
 
           teSolicApropCredPres:

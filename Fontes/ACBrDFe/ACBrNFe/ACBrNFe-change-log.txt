@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/11/2025
+-- ACBrNFeWebServices/ACBrNFe.EnvEvento/ACBrNFe.EventoClass --
+[+] #ACBR-5451 - Implementado o evento: Fornecimento não realizado com pagamento antecipado
+  Por: Everson.turossi / Diego Folieni
+
 19/11/2025
 -- ACBrNFeWebServices/ACBrNFe.EnvEvento/ACBrNFe.EventoClass --
 [+] #ACBR-5451 - Implementado o evento: Perecimento, perda, roubo ou furto durante o transporte contratado pelo fornecedor

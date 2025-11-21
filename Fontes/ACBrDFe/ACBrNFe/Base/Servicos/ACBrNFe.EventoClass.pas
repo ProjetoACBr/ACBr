@@ -422,6 +422,41 @@ type
     property Items[Index: Integer]: TgPerecimentoFornCollectionItem read GetItem write SetItem; default;
   end;
 
+  TgControleEstoqueItemNaoFornecido = class
+  private
+    FqNaoFornecida: Double;
+    FuNaoFornecida: String;
+  public
+    property qNaoFornecida: Double read FqNaoFornecida write FqNaoFornecida;
+    property uNaoFornecida: String read FuNaoFornecida write FuNaoFornecida;
+  end;
+
+  // Fornecimento nao realizado com pagamento antecipado
+  TgItemNaoFornecidoCollectionItem = class
+  private
+    FnItem: Integer;
+    FvIBS: Double;
+    FvCBS: Double;
+    FgControleEstoque: TgControleEstoqueItemNaoFornecido;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    property nItem: Integer read FnItem write FnItem;
+    property vIBS: Double read FvIBS write FvIBS;
+    property vCBS: Double read FvCBS write FvCBS;
+    property gControleEstoque: TgControleEstoqueItemNaoFornecido read FgControleEstoque;
+  end;
+
+  TgItemNaoFornecidoCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TgItemNaoFornecidoCollectionItem;
+    procedure SetItem(Index: Integer; Value: TgItemNaoFornecidoCollectionItem);
+  public
+    function Add: TgItemNaoFornecidoCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a fun~ao New'{$EndIf};
+    function New: TgItemNaoFornecidoCollectionItem;
+    property Items[Index: Integer]: TgItemNaoFornecidoCollectionItem read GetItem write SetItem; default;
+  end;
 
   TDetEvento = class
   private
@@ -474,6 +509,7 @@ type
     FIndAceitacao: TIndAceitacao;
     FgConsumoZFM: TgConsumoZFMCollection;
     FgPerecimentoForn: TgPerecimentoFornCollection;
+    FgItemNaoFornecido: TgItemNaoFornecidoCollection;
 
     procedure setxCondUso(const Value: string);
     procedure SetitemPedido(const Value: TitemPedidoCollection);
@@ -540,6 +576,7 @@ type
     property gConsumoZFM: TgConsumoZFMCollection read FgConsumoZFM;
     property gPerecimento: TgPerecimentoCollection read FgPerecimento write SetgPerecimento;
     property gPerecimentoForn: TgPerecimentoFornCollection read FgPerecimentoForn;
+    property gItemNaoFornecido: TgItemNaoFornecidoCollection read FgItemNaoFornecido;
     property gImobilizacao: TgImobilizacaoCollection read FgImobilizacao write SetgImobilizacao;
     property gConsumoComb: TgConsumoCombCollection read FgConsumoComb write SetgConsumoComb;
     property gCredito: TgCreditoCollection read FgCredito write SetgCredito;
@@ -831,6 +868,7 @@ begin
   FgCredito := TgCreditoCollection.Create;
   FgConsumoZFM := TgConsumoZFMCollection.Create;
   FgPerecimentoForn := TgPerecimentoFornCollection.Create;
+  FgItemNaoFornecido := TgItemNaoFornecidoCollection.Create;
 end;
 
 destructor TDetEvento.Destroy;
@@ -847,6 +885,7 @@ begin
   FgCredito.Free;
   FgConsumoZFM.Free;
   FgPerecimentoForn.Free;
+  FgItemNaoFornecido.Free;
 
   inherited;
 end;
@@ -1333,6 +1372,44 @@ end;
 
 procedure TgPerecimentoFornCollection.SetItem(Index: Integer;
   Value: TgPerecimentoFornCollectionItem);
+begin
+  inherited Items[Index] := Value;
+end;
+
+{ TgItemNaoFornecidoCollectionItem }
+
+constructor TgItemNaoFornecidoCollectionItem.Create;
+begin
+  FgControleEstoque := TgControleEstoqueItemNaoFornecido.Create;
+end;
+
+destructor TgItemNaoFornecidoCollectionItem.Destroy;
+begin
+  FgControleEstoque.Free;
+  inherited;
+end;
+
+{ TgItemNaoFornecidoCollection }
+
+function TgItemNaoFornecidoCollection.Add: TgItemNaoFornecidoCollectionItem;
+begin
+  Result := Self.New;
+end;
+
+function TgItemNaoFornecidoCollection.GetItem(
+  Index: Integer): TgItemNaoFornecidoCollectionItem;
+begin
+  Result := TgItemNaoFornecidoCollectionItem(inherited Items[Index]);
+end;
+
+function TgItemNaoFornecidoCollection.New: TgItemNaoFornecidoCollectionItem;
+begin
+  Result := TgItemNaoFornecidoCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TgItemNaoFornecidoCollection.SetItem(Index: Integer;
+  Value: TgItemNaoFornecidoCollectionItem);
 begin
   inherited Items[Index] := Value;
 end;
