@@ -156,6 +156,7 @@ type
     function Gerar_Evento_FornecNaoRealizPagAntec(Idx: Integer): TACBrXmlNode;
     function Gerar_gItemNaoFornecido(Idx: Integer): TACBrXmlNodeArray;
     function Gerar_gControleEstoque(gControleEstoque: TgControleEstoqueItemNaoFornecido): TACBrXMLNode; overload;
+    function Gerar_Evento_AtualizacaoDataPrevisaoEntrega(Idx: Integer): TACBrXmlNode;
 
 
   public
@@ -460,6 +461,19 @@ begin
       ACBrStr('O emitente ou destinatário da NF-e, declara que permite o transportador ' +
       'declarado no campo CNPJ/CPF deste evento a autorizar os transportadores ' +
       'subcontratados ou redespachados a terem acesso ao download da NF-e')));
+end;
+
+function TEventoNFe.Gerar_Evento_AtualizacaoDataPrevisaoEntrega(
+  Idx: Integer): TACBrXmlNode;
+begin
+  Result := CreateElement('detEvento');
+  Result.SetAttribute('versao', Versao);
+
+  Result.AppendChild(AddNode(tcStr, 'P19', 'descEvento', 4, 60, 1, Evento[Idx].FInfEvento.DescEvento));
+  Result.AppendChild(AddNode(tcInt, 'P20', 'cOrgaoAutor', 1, 2, 1, Evento[Idx].FInfEvento.detEvento.cOrgaoAutor));
+  Result.AppendChild(AddNode(tcStr, 'P21', 'tpAutor', 1, 1, 1, TipoAutorToStr(Evento[Idx].FInfEvento.detEvento.tpAutor)));
+  Result.AppendChild(AddNode(tcStr, 'P22', 'verAplic', 1, 20, 1, Evento[Idx].FInfEvento.detEvento.verAplic));
+  Result.AppendChild(AddNode(tcDat, 'P23', 'dPrevEntrega', 8, 8, 1, Evento[Idx].FInfEvento.detEvento.dPrevEntrega));
 end;
 
 function TEventoNFe.Gerar_Evento_CancComprEntrega(Idx: Integer): TACBrXmlNode;
@@ -985,7 +999,7 @@ begin
        teSolicApropCredPres, teDestItemConsPessoal,
        tePerecPerdaRouboFurtoTranspContratAqu, teAceiteDebitoApuracaoNotaCredito,
        teImobilizacaoItem, teSolicApropCredCombustivel,
-       teSolicApropCredBensServicos] then
+       teSolicApropCredBensServicos, teAtualizacaoDataPrevisaoEntrega] then
     FOpcoes.RetirarAcentos := False;  // Não funciona sem acentos
 
   case Evento[Idx].InfEvento.tpEvento of
@@ -1035,6 +1049,8 @@ begin
     tePerecPerdaRouboFurtoTranspContratFornec: Result.AppendChild(Gerar_Evento_PerecPerdaRouboTranspContrForn(Idx));
 
     teFornecNaoRealizPagAntec: Result.AppendChild(Gerar_Evento_FornecNaoRealizPagAntec(Idx));
+
+    teAtualizacaoDataPrevisaoEntrega: Result.AppendChild(Gerar_Evento_AtualizacaoDataPrevisaoEntrega(Idx));
 
     teSolicApropCredPres: Result.AppendChild(Gerar_Evento_SolicApropCredPres(Idx));
 
@@ -1487,7 +1503,7 @@ begin
                 infEvento.detEvento.gPerecimentoForn[J].gControleEstoque.vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
                 infEvento.detEvento.gPerecimentoForn[J].gControleEstoque.vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
                 Inc(J);
-              end;            
+              end;
             end;
           teFornecNaoRealizPagAntec:
             begin
@@ -1511,6 +1527,11 @@ begin
                 infEvento.detEvento.gItemNaoFornecido[J].gControleEstoque.uNaoFornecida := INIRec.ReadString(sSecao, 'uNaoFornecida', '');
                 Inc(J);
               end;
+            end;
+          teAtualizacaoDataPrevisaoEntrega:
+            begin
+              infEvento.detEvento.tpAutor := StrToTipoAutor(ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
+              infEvento.detEvento.dPrevEntrega := INIRec.ReadDate(sSecao, 'dPrevEntrega', 0);
             end;
         end;
       end;
@@ -1828,6 +1849,12 @@ begin
                 Evento[i].InfEvento.detEvento.gItemNaoFornecido[j].gControleEstoque.uNaoFornecida := lAuxJSONObj02.AsString['uNaoFornecida'];
               end;
             end;
+          end;
+        teAtualizacaoDataPrevisaoEntrega:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+            Evento[i].InfEvento.detEvento.dPrevEntrega := lDetEventoJSONObj.AsISODate['dPrevEntrega'];
           end;
       end;
     end;

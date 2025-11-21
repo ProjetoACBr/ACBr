@@ -254,6 +254,7 @@ const
   // Reforma Tributária
   teCancGenerico = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teCancGenerico deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   tePagIntegLibCredPresAdq = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}tePagIntegLibCredPresAdq deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
+  teAtualizacaoDataPrevisaoEntrega = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teAtualizacaoDataPrevisaoEntrega deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   teImporALCZFM = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teImporALCZFM deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   tePerecPerdaRouboFurtoTranspContratFornec = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}tePerecPerdaRouboFurtoTranspContratFornec deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
   teFornecNaoRealizPagAntec = {$IFDEF SUPPORTS_SCOPEDENUMS}TACBrTipoEvento.{$ENDIF}teFornecNaoRealizPagAntec deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Use o tipo TACBrTipoEvento da Unit ACBrDFe.Conversao.pas' {$ENDIF};
@@ -580,7 +581,7 @@ type
   end;
 
 const
-  TpcnTpEventoString : array[0..92] of String =('-99999', '110110', '110111',
+  TpcnTpEventoString : array[0..93] of String =('-99999', '110110', '110111',
                                                 '210200', '210210', '210220',
                                                 '210240', '110112', '110113',
                                                 '110114', '110160', '310620',
@@ -610,7 +611,8 @@ const
                                                 '112120', '112130', '112140',
                                                 '211110', '211120', '211124',
                                                 '211128', '211130', '211140',
-                                                '211150', '212110', '212120');
+                                                '211150', '212110', '212120',
+                                                '112150');
 
   DFeUF: array[0..26] of String =
   ('AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA',
@@ -1222,7 +1224,8 @@ begin
               'PerecPerdaRouboFurtoTranspContratAqu',
               'AceiteDebitoApuracaoNotaCredito', 'ImobilizacaoItem',
               'SolicApropCredCombustivel', 'SolicApropCredBensServicos',
-              'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao'],
+              'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao',
+              'AtualizacaoDataPrevisaoEntrega'],
              [teNaoMapeado, teCCe, teCancelamento, teManifDestConfirmacao, teManifDestCiencia,
               teManifDestDesconhecimento, teManifDestOperNaoRealizada,
               teEncerramento, teEPEC, teInclusaoCondutor, teMultiModal,
@@ -1251,7 +1254,8 @@ begin
               teDestItemConsPessoal, tePerecPerdaRouboFurtoTranspContratAqu,
               teAceiteDebitoApuracaoNotaCredito, teImobilizacaoItem,
               teSolicApropCredCombustivel, teSolicApropCredBensServicos,
-              teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao]);
+              teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao,
+              teAtualizacaoDataPrevisaoEntrega]);
 end;
 
 function StrToEnumerado2(out ok: boolean; const s: string;

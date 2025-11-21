@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+21/11/2025
+-- ACBrDFe.Conversao --
+[+] ACBR-5451 - Inclusão do evento Atualização da Data de Previsão de Entrega para Reforma Tributária
+  Por: everson.turossi
+
 12/11/2025
 -- ACBrDFe.Conversao --
 [+] #ACBR-8338: Incluído o tipo TIndAceitacao e as funções de conversão.

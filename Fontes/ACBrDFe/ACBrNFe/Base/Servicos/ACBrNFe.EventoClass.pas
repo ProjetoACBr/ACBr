@@ -510,6 +510,7 @@ type
     FgConsumoZFM: TgConsumoZFMCollection;
     FgPerecimentoForn: TgPerecimentoFornCollection;
     FgItemNaoFornecido: TgItemNaoFornecidoCollection;
+    FdPrevEntrega: TDateTime;
 
     procedure setxCondUso(const Value: string);
     procedure SetitemPedido(const Value: TitemPedidoCollection);
@@ -581,6 +582,7 @@ type
     property gConsumoComb: TgConsumoCombCollection read FgConsumoComb write SetgConsumoComb;
     property gCredito: TgCreditoCollection read FgCredito write SetgCredito;
     property indAceitacao: TIndAceitacao read  FIndAceitacao write SetIndAceitacao;
+    property dPrevEntrega: TDateTime read FdPrevEntrega write FdPrevEntrega;
   end;
 
   TInfEvento = class
@@ -770,6 +772,7 @@ begin
     teSolicApropCredBensServicos : Result := ACBrStr('Solicitação de Apropriação de Crédito para bens e serviços que dependem de atividade do adquirente');
     teManifPedTransfCredIBSSucessao : Result := '';
     teManifPedTransfCredCBSSucessao : Result := '';
+    teAtualizacaoDataPrevisaoEntrega : Result := ACBrStr('Atualização da Data de Previsão de Entrega');
   else
     Result := '';
   end;

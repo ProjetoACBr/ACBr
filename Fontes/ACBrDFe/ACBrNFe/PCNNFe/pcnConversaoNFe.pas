@@ -249,7 +249,8 @@ type
                 schDestItemConsPessoal, schPerecPerdaRouboFurtoTranspContratAqu,
                 schAceiteDebitoApuracaoNotaCredito, schImobilizacaoItem,
                 schSolicApropCredCombustivel, schSolicApropCredBensServicos,
-                schManifPedTransfCredIBSSucessao, schManifPedTransfCredCBSSucessao);
+                schManifPedTransfCredIBSSucessao, schManifPedTransfCredCBSSucessao,
+                schAtualizacaoDataPrevisaoEntrega);
 
 const
   TSchemaNFeArrayStrings: array[TSchemaNFe] of string = ('Erro', 'Nfe',
@@ -267,7 +268,8 @@ const
     'PerecPerdaRouboFurtoTranspContratAqu',
     'AceiteDebitoApuracaoNotaCredito', 'ImobilizacaoItem',
     'SolicApropCredCombustivel', 'SolicApropCredBensServicos',
-    'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao');
+    'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao',
+    'AtualizacaoDataPrevisaoEntrega');
 
   TEventoArrayStrings: array[TSchemaNFe] of string = ('', '', 'e110111', '',
     'e110110', '', '', 'e110140', '', '', '', '', '', '', '', '', '', '', '',
@@ -275,7 +277,7 @@ const
     'e210220', 'e210240', 'e110130', 'e110131', 'e110150', 'e110192', 'e110193',
     'e110750', 'e110751', 'e110001', 'e112110', 'e112120', 'e112130', 'e112140',
     'e211110', 'e211120', 'e211124', 'e211128', 'e211130', 'e211140', 'e211150',
-    'e212110', 'e212120');
+    'e212110', 'e212120', 'e112150');
 
 type
   TLayOut = (LayNfeRecepcao, LayNfeRetRecepcao, LayNfeCancelamento,
@@ -1154,7 +1156,7 @@ begin
              '110193', '610514', '610500', '110750', '110751', '510630',
              '110001', '112110', '112120', '112130', '112140', '211110',
              '211120', '211124', '211128', '211130', '211140', '211150',
-             '212110', '212120'],
+             '212110', '212120', '112150'],
             [teNaoMapeado, teCCe, teCancelamento, teCancSubst, teEPECNFe,
              tePedProrrog1, tePedProrrog2, teCanPedProrrog1, teCanPedProrrog2,
              teManifDestConfirmacao, teManifDestCiencia,
@@ -1174,7 +1176,8 @@ begin
              tePerecPerdaRouboFurtoTranspContratAqu,
              teAceiteDebitoApuracaoNotaCredito, teImobilizacaoItem,
              teSolicApropCredCombustivel, teSolicApropCredBensServicos,
-             teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao]);
+             teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao,
+             teAtualizacaoDataPrevisaoEntrega]);
 end;
 
 function LayOutToServico(const t: TLayOut): String;
@@ -1628,7 +1631,8 @@ begin
                                'e110193', 'e110750', 'e110751', 'e112110',
                                'e112120', 'e112130', 'e112140', 'e211110',
                                'e211120', 'e211124', 'e211128', 'e211130',
-                               'e211140', 'e211150', 'e212110', 'e212120'],
+                               'e211140', 'e211150', 'e212110', 'e212120',
+                               'e112150'],
     [schCancGenerico,
      schEnvCCe, schcancNFe, schCancSubst, schEnvEPEC,
      schPedProrrog1, schPedProrrog2, schCanPedProrrog1, schCanPedProrrog2,
@@ -1640,7 +1644,8 @@ begin
      schFornecNaoRealizPagAntec, schSolicApropCredPres, schDestItemConsPessoal,
      schPerecPerdaRouboFurtoTranspContratAqu, schAceiteDebitoApuracaoNotaCredito,
      schImobilizacaoItem, schSolicApropCredCombustivel, schSolicApropCredBensServicos,
-     schManifPedTransfCredIBSSucessao, schManifPedTransfCredCBSSucessao]);
+     schManifPedTransfCredIBSSucessao, schManifPedTransfCredCBSSucessao,
+     schAtualizacaoDataPrevisaoEntrega]);
 end;
 
 function AutorizacaoToStr(const t: TAutorizacao): string;

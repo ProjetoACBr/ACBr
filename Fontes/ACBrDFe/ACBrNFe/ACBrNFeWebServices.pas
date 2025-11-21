@@ -3151,7 +3151,8 @@ begin
         tePerecPerdaRouboFurtoTranspContratFornec, teFornecNaoRealizPagAntec,
         teSolicApropCredPres, teDestItemConsPessoal, tePerecPerdaRouboFurtoTranspContratAqu,
         teAceiteDebitoApuracaoNotaCredito, teImobilizacaoItem, teSolicApropCredCombustivel,
-        teSolicApropCredBensServicos, teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao:
+        teSolicApropCredBensServicos, teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao,
+        teAtualizacaoDataPrevisaoEntrega:
         begin
           FPLayout := LayNFeEvento;
           UF := 'SVRS';
@@ -3436,6 +3437,12 @@ begin
           begin
             SchemaEventoNFe := schPagIntegLibCredPresAdq;
 
+          end;
+
+          teAtualizacaoDataPrevisaoEntrega:
+          begin
+            SchemaEventoNFe := schAtualizacaoDataPrevisaoEntrega;
+            infEvento.detEvento.dPrevEntrega := FEvento.Evento[I].InfEvento.detEvento.dPrevEntrega;
           end;
 
           teImporALCZFM:

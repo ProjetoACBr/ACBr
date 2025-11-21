@@ -45,9 +45,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 21/11/2025
+-- ACBrNFeWebServices/ACBrNFe.EnvEvento/ACBrNFe.EventoClass/ACBrNFe.Conversao/pcnConversaoNFe --
+[+] #ACBR-5451 - Implementado o evento: Atualização da Data de Previsão de Entrega
+  Por: Everson.turossi
+
 -- ACBrNFeWebServices/ACBrNFe.EnvEvento/ACBrNFe.EventoClass --
 [+] #ACBR-5451 - Implementado o evento: Fornecimento não realizado com pagamento antecipado
-  Por: Everson.turossi / Diego Folieni
+  Por: everson.turossi / Diego Folieni
 
 19/11/2025
 -- ACBrNFeWebServices/ACBrNFe.EnvEvento/ACBrNFe.EventoClass --
