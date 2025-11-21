@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 21/11/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8429 A cidade Navegantes/SC trocou de provedor, agora é IPM.
+   Por: edmilsonvg
+[+] #ACBr-8431 Incluída a cidade São Caitano/PE, o provedor é Tributus.
+   Por: Mauricio Andrade
+[*] #ACBr-8432 A cidade Arroio do Sal/RS trocou de provedor, agora é Pronim.
+   Por: Igor AcertSoft
 -- Diversos --
 [*] Diversos ajustes para atender os provedores Giss e ISSSalvador visando a Reforma Tributária.
    Por: Italo Giurizzato Junior
