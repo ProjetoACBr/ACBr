@@ -84,7 +84,7 @@ end;
 
 function TRetornoEnvio_Asaas.LerRetorno(const ARetornoWS: TACBrBoletoRetornoWS): Boolean;
 var
-  LJson: TACBrJSONObject;
+  LJson, LJsonObject: TACBrJSONObject;
   LJsonArray : TACBrJSONArray;
   ARejeicao: TACBrBoletoRejeicao;
   TipoOperacao: TOperacao;
@@ -109,7 +109,11 @@ begin
           begin
             ARejeicao          := ARetornoWS.CriarRejeicaoLista;
             ARejeicao.Codigo   := LJsonArray.ItemAsJSONObject[I].AsString['code'];
-            ARejeicao.Mensagem := LJsonArray.ItemAsJSONObject[I].AsString['message'];
+            if LJsonArray.ItemAsJSONObject[I].ValueExists('message') then
+              ARejeicao.Mensagem := LJsonArray.ItemAsJSONObject[I].AsString['message']
+            else
+            if LJsonArray.ItemAsJSONObject[I].ValueExists('description') then
+              ARejeicao.Mensagem := LJsonArray.ItemAsJSONObject[I].AsString['description'];
           end;
         end;
 
@@ -199,6 +203,45 @@ begin
                 ARetornoWS.DadosRet.TituloRet.CodigoEstadoTituloCobranca := RetornaCodigoOcorrencia(ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca);
                 ARetornoWS.DadosRet.TituloRet.DataCredito          := StrDatetoTDateTime(LJSON.AsString['clientPaymentDate']);
               end;
+              tpPIXConsultar :
+              begin
+                if LJSON.IsJSONObject('pix') then
+                begin
+                  LJsonObject := LJSON.AsJSONObject['pix'];
+
+                  ARetornoWS.DadosRet.TituloRet.UrlPix := LJsonObject.AsString['payload'];
+                  ARetornoWS.DadosRet.TituloRet.EMV := ARetornoWS.DadosRet.TituloRet.UrlPix;
+                end;
+
+                if LJSON.IsJSONObject('bankSlip') then
+                begin
+                  LJsonObject := LJSON.AsJSONObject['bankSlip'];
+
+                  if LJsonObject.ValueExists('nossoNumero') then
+                  begin
+                    ARetornoWS.DadosRet.IDBoleto.NossoNum := LJsonObject.AsString['nossoNumero'];
+                    ARetornoWS.DadosRet.TituloRet.NossoNumero := ARetornoWS.DadosRet.IDBoleto.NossoNum;
+                  end;
+
+                  if LJsonObject.ValueExists('barCode') then
+                  begin
+                    ARetornoWS.DadosRet.IDBoleto.CodBarras := LJsonObject.AsString['barCode'];
+                    ARetornoWS.DadosRet.TituloRet.CodBarras := ARetornoWS.DadosRet.IDBoleto.CodBarras;
+                  end;
+
+                  if LJsonObject.ValueExists('identificationField') then
+                  begin
+                    ARetornoWS.DadosRet.IDBoleto.LinhaDig := LJsonObject.AsString['identificationField'];
+                    ARetornoWS.DadosRet.TituloRet.LinhaDig := ARetornoWS.DadosRet.IDBoleto.LinhaDig;
+                  end;
+
+                  if LJsonObject.ValueExists('bankSlipUrl') then
+                  begin
+                    ARetornoWS.DadosRet.IDBoleto.URLPDF := LJsonObject.AsString['bankSlipUrl'];
+                    ARetornoWS.DadosRet.TituloRet.URL := ARetornoWS.DadosRet.IDBoleto.URLPDF;
+                  end;
+                end;
+              end;
             else
               raise EACBrBoletoWSRetAsaasException.Create('TipoOperacao não mapeada para '+ ClassName);
           end;
@@ -235,12 +278,16 @@ begin
 
         if HTTPResultCode >= 400 then
         begin
-          if LJSON.ValueExists('message') and (LJSON.AsString['message'] <> '')then
+          if (LJSON.ValueExists('message') and (LJSON.AsString['message'] <> '')) or
+             (LJSON.ValueExists('description') and (LJSON.AsString['description'] <> ''))then
           begin
             ARejeicao := ListaRetorno.CriarRejeicaoLista;
             ARejeicao.Codigo   := LJSON.AsString['codigo'];
             ARejeicao.Versao   := LJSON.AsString['parametro'];
-            ARejeicao.Mensagem := LJSON.AsString['message'];
+            if LJSON.ValueExists('message') then
+              ARejeicao.Mensagem := LJSON.AsString['message']
+            else if LJSON.ValueExists('description') then
+              ARejeicao.Mensagem := LJSON.AsString['description'];
           end;
         end;
 

@@ -110,8 +110,9 @@ begin
     LNossoNumeroCorrespondente := ATitulo.NossoNumeroCorrespondente;
 
   case Boleto.Configuracoes.WebService.Ambiente of
-    tawsProducao : FPURL.URLProducao := C_URL_PROD;
-    tawsSandBox  : FPURL.URLSandBox  := C_URL_SANDBOX;
+    tawsProducao    : FPURL.URLProducao    := C_URL_PROD;
+    tawsHomologacao : FPURL.URLHomologacao := C_URL_SANDBOX;
+    tawsSandBox     : FPURL.URLSandBox     := C_URL_SANDBOX;
   end;
 
   case Boleto.Configuracoes.WebService.Operacao of
@@ -127,6 +128,13 @@ begin
           raise EACBrBoletoWSAsaasException.Create(C_ID_OBRIGATORIO);
       end;
     tpConsultaDetalhe:
+      begin
+        if (LNossoNumeroCorrespondente <> '') then
+          FPURL.SetPathURI( '/payments/' + LNossoNumeroCorrespondente)
+        else
+          raise EACBrBoletoWSAsaasException.Create(C_ID_OBRIGATORIO);
+      end;
+    tpPIXConsultar :
       begin
         if (LNossoNumeroCorrespondente <> '') then
           FPURL.SetPathURI( '/payments/' + LNossoNumeroCorrespondente + '/billingInfo')
@@ -173,15 +181,11 @@ begin
       begin
         FMetodoHTTP := htDELETE;
       end;
-    tpConsulta:
+    tpConsulta,
+    tpConsultaDetalhe,
+    tpPixConsultar:
       begin
         FMetodoHTTP := htGET;
-        RequisicaoConsulta;
-      end;
-    tpConsultaDetalhe:
-      begin
-        FMetodoHTTP := htGET;
-        RequisicaoConsultaDetalhe;
       end;
   else
     raise EACBrBoletoWSException.Create(ClassName + Format(S_OPERACAO_NAO_IMPLEMENTADO,[TipoOperacaoToStr(Boleto.Configuracoes.WebService.Operacao)]));
