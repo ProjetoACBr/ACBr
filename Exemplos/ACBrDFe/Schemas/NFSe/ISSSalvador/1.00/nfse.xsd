@@ -283,6 +283,27 @@
             <xsd:maxLength value="255"/>
         </xsd:restriction>
     </xsd:simpleType>
+    <xsd:simpleType name="tsNBS">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="9"/>
+            <xsd:whiteSpace value="collapse"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="tscClassTrib ">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="6"/>
+            <xsd:whiteSpace value="collapse"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="tsINDOP ">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="6"/>
+            <xsd:whiteSpace value="collapse"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 
     <!-- definition of complex elements -->
 
@@ -386,6 +407,9 @@
             <xsd:element name="CodigoTributacaoMunicipio" type="tsCodigoTributacao" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="Discriminacao" type="tsDiscriminacao" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="CodigoMunicipio" type="tsCodigoMunicipioIbge" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="NBS" type="tsNBS" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="cClassTrib" type="tscClassTrib" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="INDOP" type="tsINDOP" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="tcDadosConstrucaoCivil">
