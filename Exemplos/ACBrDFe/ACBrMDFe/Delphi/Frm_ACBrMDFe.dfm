@@ -12,7 +12,6 @@ object frmACBrMDFe: TfrmACBrMDFe
   Font.Style = []
   Position = poScreenCenter
   OnCreate = FormCreate
-  TextHeight = 13
   object pnlMenus: TPanel
     Left = 0
     Top = 0
@@ -1749,7 +1748,6 @@ object frmACBrMDFe: TfrmACBrMDFe
     ACBrMDFe = ACBrMDFe1
     ImprimeHoraSaida = False
     TipoDAMDFe = tiSemGeracao
-    TamanhoPapel = tpA4
     Cancelada = False
     Encerrado = False
     ImprimeDadosExtras = [deValorTotal, deRelacaoDFe]
