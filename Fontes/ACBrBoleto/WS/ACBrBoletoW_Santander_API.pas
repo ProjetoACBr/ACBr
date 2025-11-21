@@ -103,7 +103,8 @@ uses
   pcnConversao,
   ACBrBoletoConversao,
   ACBrPixBase,
-  ACBrUtil.Strings;
+  ACBrUtil.Strings,
+  ACBrUtil.FilesIO;
 
 { TBoletoW_Santander_API }
 
@@ -855,7 +856,8 @@ begin
 
   Result := inherited Enviar;
 
-  LEnvioPrincipal := FRetornoWS;
+  if ACBrUtil.FilesIO.StringIsJSON(FRetornoWS) then
+    LEnvioPrincipal := FRetornoWS;
 
   if Boleto.Cedente.CedenteWS.IndicadorPix and
     (Boleto.Configuracoes.WebService.Operacao = tpConsultaDetalhe) then
@@ -864,8 +866,11 @@ begin
       Boleto.Cedente.CedenteWS.IndicadorPix := False;
       Boleto.Configuracoes.WebService.Filtro.indicadorSituacao := isbNenhum;
       inherited Enviar;
+
       if NaoEstaVazio(LEnvioPrincipal) then
         LEnvioAuxiliar := ',';
+
+      if ACBrUtil.FilesIO.StringIsJSON(FRetornoWS) then
         LEnvioAuxiliar := LEnvioAuxiliar + FRetornoWS;
     finally
       Boleto.Cedente.CedenteWS.IndicadorPix := True;
@@ -881,9 +886,12 @@ begin
       Boleto.Cedente.CedenteWS.IndicadorPix := False;
       Boleto.Configuracoes.WebService.Filtro.indicadorSituacao := isbBaixado;
       Result := inherited Enviar;
+
       if NaoEstaVazio(LEnvioPrincipal) or NaoEstaVazio(LEnvioAuxiliar) then
          LEnvioComplementar := ',';
-      LEnvioComplementar := LEnvioComplementar + FRetornoWS;
+
+      if ACBrUtil.FilesIO.StringIsJSON(FRetornoWS) then
+        LEnvioComplementar := LEnvioComplementar + FRetornoWS;
       Boleto.Cedente.CedenteWS.IndicadorPix := true;
       Boleto.Configuracoes.WebService.Filtro.indicadorSituacao := isbNenhum;
     end;
