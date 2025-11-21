@@ -188,7 +188,6 @@ procedure TNFSeR_PadraoNacional.LerXMLBeneficioMunicipal(
   const ANode: TACBrXmlNode);
 var
   AuxNode: TACBrXmlNode;
-  Ok: Boolean;
 begin
   AuxNode := ANode.Childrens.FindAnyNs('BM');
 

@@ -1209,8 +1209,6 @@ end;
 
 function TNFSeW_PadraoNacional.GerarXMLTributacaoFederal: TACBrXmlNode;
 begin
-  Result := nil;
-
   Result := CreateElement('tribFed');
 
   Result.AppendChild(GerarXMLTributacaoOutrosPisCofins);
@@ -1231,9 +1229,9 @@ begin
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLTributacaoOutrosPisCofins: TACBrXmlNode;
+var
+  NOcorr: Integer;
 begin
-  Result := nil;
-
   Result := CreateElement('piscofins');
 
   Result.AppendChild(AddNode(tcStr, '#1', 'CST', 2, 2, 1,
@@ -1243,15 +1241,21 @@ begin
      (NFSe.Servico.Valores.tribFed.pAliqPis > 0) or
      (NFSe.Servico.Valores.tribFed.pAliqCofins > 0) or
      (NFSe.Servico.Valores.tribFed.vPis > 0) or
-     (NFSe.Servico.Valores.tribFed.vCofins > 0) then
+     (NFSe.Servico.Valores.tribFed.vCofins > 0) or
+     (NFSe.Servico.Valores.tribFed.CST in [cst04, cst06]) then
   begin
+    NOcorr := 0;
+
+    if NFSe.Servico.Valores.tribFed.CST in [cst04, cst06] then
+      NOcorr := 1;
+
     Result.AppendChild(AddNode(tcDe2, '#1', 'vBCPisCofins', 1, 15, 0,
                                 NFSe.Servico.Valores.tribFed.vBCPisCofins, ''));
 
-    Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqPis', 1, 5, 0,
+    Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqPis', 1, 5, NOcorr,
                                     NFSe.Servico.Valores.tribFed.pAliqPis, ''));
 
-    Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqCofins', 1, 5, 0,
+    Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqCofins', 1, 5, NOcorr,
                                  NFSe.Servico.Valores.tribFed.pAliqCofins, ''));
 
     Result.AppendChild(AddNode(tcDe2, '#1', 'vPis', 1, 15, 0,

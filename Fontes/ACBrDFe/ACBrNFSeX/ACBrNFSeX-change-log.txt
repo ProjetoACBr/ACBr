@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 21/11/2025
+-- PadraoNacional.GravarXml/PadraoNacional.LerXml/PadraoNacional.Provider --
+[*] #ACBr-8427 Ajustes para gerar as tags das alíquotas do PIS e COFINS mesmo zeradas.
+    Ajustes para atender a API própria do provedor Pronim.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] #ACBr-8429 A cidade Navegantes/SC trocou de provedor, agora é IPM.
    Por: edmilsonvg
