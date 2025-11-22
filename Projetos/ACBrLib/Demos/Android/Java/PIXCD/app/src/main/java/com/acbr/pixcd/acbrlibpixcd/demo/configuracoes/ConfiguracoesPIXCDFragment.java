@@ -46,7 +46,8 @@ public class ConfiguracoesPIXCDFragment extends Fragment {
     private String[] tipoChave = {"Nenhum", "Email", "CPF", "CNPJ", "Celular", "Aleatoria"};
     private String[] psp = {"Bradesco", "Itaú", "Banco do Brasil", "Santander", "Shipay",
                             "Sicredi", "Sicoob", "PagSeguro", "GerenciaNet", "PixPDV", "Inter", "Ailos",
-                            "Matera", "Cielo", "Mercado Pago", "Gate2All", "Banrisul", "C6Bank"};
+                            "Matera", "Cielo", "Mercado Pago", "Gate2All", "Banrisul", "C6Bank", "AppLess"};
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
