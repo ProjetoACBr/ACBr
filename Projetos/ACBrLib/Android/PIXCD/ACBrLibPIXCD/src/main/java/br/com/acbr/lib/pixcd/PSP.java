@@ -26,6 +26,7 @@ public class PSP {
     public static final PSP pspGate2All = new PSP("15", "Gate2All");
     public static final PSP pspBanrisul = new PSP("16", "Banrisul");
     public static final PSP pspC6Bank = new PSP("17", "C6Bank");
+    public static final PSP pspAppLess = new PSP("18", "AppLess");
 
     private final String value;
     private final String description;
@@ -49,9 +50,10 @@ public class PSP {
         addToLookup(pspGate2All);
         addToLookup(pspBanrisul);
         addToLookup(pspC6Bank);
+        addToLookup(pspAppLess);
         allValues = new PSP[]{pspBradesco, pspItau, pspBancoBrasil, pspSantander, pspShipay, pspSicredi,
                 pspSicoob, pspPagSeguro, pspGerenciaNet, pspPixPDV, pspInter, pspAilos, pspMatera, pspCielo,
-                pspMercadoPago, pspGate2All, pspBanrisul, pspC6Bank};
+                pspMercadoPago, pspGate2All, pspBanrisul, pspC6Bank, pspAppLess};
     }
 
     private PSP (String value, String description) {
