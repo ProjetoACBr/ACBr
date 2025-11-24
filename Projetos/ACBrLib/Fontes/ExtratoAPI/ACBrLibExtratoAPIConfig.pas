@@ -50,6 +50,8 @@ type
     FArquivoChavePrivada: String;
     FChaveCrypt: String;
   public
+    constructor Create(AChaveCrypt: String); virtual;
+
     property ArquivoCertificado: String read FArquivoCertificado write FArquivoCertificado;
     property ArquivoChavePrivada: String read FArquivoChavePrivada write FArquivoChavePrivada;
   end;
@@ -59,9 +61,13 @@ type
   private
     FClientID: String;
     FClientSecret: String;
+    function GetClientID: String;
+    function GetClientSecret: String;
   public
-    property ClientID: String read FClientID write FClientID;
-    property ClientSecret: String read FClientSecret write FClientSecret;
+    constructor Create(AChaveCrypt: String); override;
+
+    property ClientID: String read GetClientID write FClientID;
+    property ClientSecret: String read GetClientSecret write FClientSecret;
   end;
 
   { TExtratoAPIBBConfig }
@@ -70,7 +76,7 @@ type
     FDeveloperApplicationKey: String;
     FxMCITeste: String;
   public
-    constructor Create;
+    constructor Create(AChaveCrypt: String); override;
 
     procedure LerIni(const AIni: TCustomIniFile);
     procedure GravarIni(const AIni: TCustomIniFile);
@@ -82,7 +88,7 @@ type
   { TExtratoAPIInterConfig }
   TExtratoAPIInterConfig = class(TExtratoAPIBancoConfig)
   public
-    constructor Create;
+    constructor Create(AChaveCrypt: String); override;
 
     procedure LerIni(const AIni: TCustomIniFile);
     procedure GravarIni(const AIni: TCustomIniFile);
@@ -91,7 +97,7 @@ type
   { TExtratoAPISicoobConfig }
   TExtratoAPISicoobConfig = class(TExtratoAPIBancoConfig)
   public
-    constructor Create;
+    constructor Create(AChaveCrypt: String); override;
 
     procedure LerIni(const AIni: TCustomIniFile);
     procedure GravarIni(const AIni: TCustomIniFile);
@@ -156,9 +162,9 @@ begin
   inherited Create(AOwner, ANomeArquivo, AChaveCrypt);
 
   FExtratoAPIConfig := TExtratoAPIConfig.Create;
-  FExtratoAPIBBConfig := TExtratoAPIBBConfig.Create;
-  FExtratoAPIInterConfig := TExtratoAPIInterConfig.Create;
-  FExtratoAPISicoobConfig := TExtratoAPISicoobConfig.Create;
+  FExtratoAPIBBConfig := TExtratoAPIBBConfig.Create(AChaveCrypt);
+  FExtratoAPIInterConfig := TExtratoAPIInterConfig.Create(AChaveCrypt);
+  FExtratoAPISicoobConfig := TExtratoAPISicoobConfig.Create(AChaveCrypt);
 end;
 
 destructor TLibExtratoAPIConfig.Destroy;
@@ -240,9 +246,36 @@ begin
     TACBrLibExtratoAPI(Owner).ExtratoAPIDM.Destravar;
 end;
 
-{ TExtratoAPIBBConfig }
-constructor TExtratoAPIBBConfig.Create;
+{ TExtratoAPIHTTPConfig }
+constructor TExtratoAPIHTTPConfig.Create(AChaveCrypt: String);
 begin
+  if AChaveCrypt = '' then
+    FChaveCrypt := CLibChaveCrypt
+  else
+    FChaveCrypt := AChaveCrypt;
+end;
+
+{ TExtratoAPIBancoConfig }
+function TExtratoAPIBancoConfig.GetClientID: String;
+begin
+  Result := FClientID;
+end;
+
+function TExtratoAPIBancoConfig.GetClientSecret: String;
+begin
+  Result := FClientSecret;
+end;
+
+constructor TExtratoAPIBancoConfig.Create(AChaveCrypt: String);
+begin
+  inherited Create(AChaveCrypt);
+end;
+
+{ TExtratoAPIBBConfig }
+constructor TExtratoAPIBBConfig.Create(AChaveCrypt: String);
+begin
+  inherited Create(AChaveCrypt);
+
   FArquivoCertificado := EmptyStr;
   FArquivoChavePrivada := EmptyStr;
   FClientID := EmptyStr;
@@ -255,8 +288,8 @@ procedure TExtratoAPIBBConfig.LerIni(const AIni: TCustomIniFile);
 begin
   ArquivoCertificado := AIni.ReadString(CSessaoExtratoAPIBBConfig, CArquivoCertificado, ArquivoCertificado);
   ArquivoChavePrivada := AIni.ReadString(CSessaoExtratoAPIBBConfig, CArquivoChavePrivada, ArquivoChavePrivada);
-  ClientID := AIni.ReadString(CSessaoExtratoAPIBBConfig, CClientID, ClientID);
-  ClientSecret := AIni.ReadString(CSessaoExtratoAPIBBConfig, CClientSecret, ClientSecret);
+  ClientID := B64CryptToString(AIni.ReadString(CSessaoExtratoAPIBBConfig, CClientID, ClientID), FChaveCrypt);
+  ClientSecret := B64CryptToString(AIni.ReadString(CSessaoExtratoAPIBBConfig, CClientSecret, ClientSecret), FChaveCrypt);
   DeveloperApplicationKey := AIni.ReadString(CSessaoExtratoAPIBBConfig, CDeveloperApplicationKey, DeveloperApplicationKey);
   xMCITeste := AIni.ReadString(CSessaoExtratoAPIBBConfig, CxMCITeste, xMCITeste);
 end;
@@ -265,15 +298,17 @@ procedure TExtratoAPIBBConfig.GravarIni(const AIni: TCustomIniFile);
 begin
   AIni.WriteString(CSessaoExtratoAPIBBConfig, CArquivoCertificado, ArquivoCertificado);
   AIni.WriteString(CSessaoExtratoAPIBBConfig, CArquivoChavePrivada, ArquivoChavePrivada);
-  AIni.WriteString(CSessaoExtratoAPIBBConfig, CClientID, ClientID);
-  AIni.WriteString(CSessaoExtratoAPIBBConfig, CClientSecret, ClientSecret);
+  AIni.WriteString(CSessaoExtratoAPIBBConfig, CClientID, StringToB64Crypt(ClientID, FChaveCrypt));
+  AIni.WriteString(CSessaoExtratoAPIBBConfig, CClientSecret, StringToB64Crypt(ClientSecret, FChaveCrypt));
   AIni.WriteString(CSessaoExtratoAPIBBConfig, CDeveloperApplicationKey, DeveloperApplicationKey);
   AIni.WriteString(CSessaoExtratoAPIBBConfig, CxMCITeste, xMCITeste);
 end;
 
 { TExtratoAPIInterConfig }
-constructor TExtratoAPIInterConfig.Create;
+constructor TExtratoAPIInterConfig.Create(AChaveCrypt: String);
 begin
+  inherited Create(AChaveCrypt);
+
   FArquivoCertificado := EmptyStr;
   FArquivoChavePrivada := EmptyStr;
   FClientID := EmptyStr;
@@ -284,21 +319,23 @@ procedure TExtratoAPIInterConfig.LerIni(const AIni: TCustomIniFile);
 begin
   ArquivoCertificado := AIni.ReadString(CSessaoExtratoAPIInterConfig, CArquivoCertificado, ArquivoCertificado);
   ArquivoChavePrivada := AIni.ReadString(CSessaoExtratoAPIInterConfig, CArquivoChavePrivada, ArquivoChavePrivada);
-  ClientID := AIni.ReadString(CSessaoExtratoAPIInterConfig, CClientID, ClientID);
-  ClientSecret := AIni.ReadString(CSessaoExtratoAPIInterConfig, CClientSecret, ClientSecret);
+  ClientID := B64CryptToString(AIni.ReadString(CSessaoExtratoAPIInterConfig, CClientID, ClientID), FChaveCrypt);
+  ClientSecret := B64CryptToString(AIni.ReadString(CSessaoExtratoAPIInterConfig, CClientSecret, ClientSecret), FChaveCrypt);
 end;
 
 procedure TExtratoAPIInterConfig.GravarIni(const AIni: TCustomIniFile);
 begin
   AIni.WriteString(CSessaoExtratoAPIInterConfig, CArquivoCertificado, ArquivoCertificado);
   AIni.WriteString(CSessaoExtratoAPIInterConfig, CArquivoChavePrivada, ArquivoChavePrivada);
-  AIni.WriteString(CSessaoExtratoAPIInterConfig, CClientID, ClientID);
-  AIni.WriteString(CSessaoExtratoAPIInterConfig, CClientSecret, ClientSecret);
+  AIni.WriteString(CSessaoExtratoAPIInterConfig, CClientID, StringToB64Crypt(ClientID, FChaveCrypt));
+  AIni.WriteString(CSessaoExtratoAPIInterConfig, CClientSecret, StringToB64Crypt(ClientSecret, FChaveCrypt));
 end;
 
 { TExtratoAPISicoobConfig }
-constructor TExtratoAPISicoobConfig.Create;
+constructor TExtratoAPISicoobConfig.Create(AChaveCrypt: String);
 begin
+  inherited Create(AChaveCrypt);
+
   FArquivoCertificado := EmptyStr;
   FArquivoChavePrivada := EmptyStr;
   FClientID := EmptyStr;
@@ -309,14 +346,14 @@ procedure TExtratoAPISicoobConfig.LerIni(const AIni: TCustomIniFile);
 begin
   ArquivoCertificado := AIni.ReadString(CSessaoExtratoAPISicoobConfig, CArquivoCertificado, ArquivoCertificado);
   ArquivoChavePrivada := AIni.ReadString(CSessaoExtratoAPISicoobConfig, CArquivoChavePrivada, ArquivoChavePrivada);
-  ClientID := AIni.ReadString(CSessaoExtratoAPISicoobConfig, CClientID, ClientID);
+  ClientID := B64CryptToString(AIni.ReadString(CSessaoExtratoAPISicoobConfig, CClientID, ClientID), FChaveCrypt);
 end;
 
 procedure TExtratoAPISicoobConfig.GravarIni(const AIni: TCustomIniFile);
 begin
   AIni.WriteString(CSessaoExtratoAPISicoobConfig, CArquivoCertificado, ArquivoCertificado);
   AIni.WriteString(CSessaoExtratoAPISicoobConfig, CArquivoChavePrivada, ArquivoChavePrivada);
-  AIni.WriteString(CSessaoExtratoAPISicoobConfig, CClientID, ClientID);
+  AIni.WriteString(CSessaoExtratoAPISicoobConfig, CClientID, StringToB64Crypt(ClientID, FChaveCrypt));
 end;
 
 { TExtratoAPIConfig }
