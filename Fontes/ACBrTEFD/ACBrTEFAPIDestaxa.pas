@@ -199,6 +199,8 @@ begin
       ProcessarTipoInterno(Conteudo.Linha[i]);
 
   Sucesso := (DestaxaResposta.transacao_resposta = 0);
+  if (DestaxaResposta.transacao = CDESTAXA_DIGITAL_PAGAR) then
+    Sucesso := Sucesso and NaoEstaVazio(DestaxaResposta.transacao_comprovante_1via.Text);
   Confirmar := (DestaxaResposta.retorno = drsSucessoComConfirmacao) or
                ((DestaxaResposta.transacao = CDESTAXA_ADM_PENDENTE) and NaoEstaVazio(DestaxaResposta.transacao_nsu));
   Rede := DestaxaResposta.transacao_rede;

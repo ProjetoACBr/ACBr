@@ -45,6 +45,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/11/2025
+-- ACBrTEFAPIDestaxa.pas --
+[-] Validação adicional na confirmacao de sucesso de um pagamento PIX, para ignorar 
+    resposta de falso positivo do client.
+    por: Elias Cesar
+
 11/11/2025
 -- ACBrTEFSmartTEFSchemas --
 [+] Inclusão da propriedade acquirer_cnpj na classe TACBrSmartTEFCardClass.
