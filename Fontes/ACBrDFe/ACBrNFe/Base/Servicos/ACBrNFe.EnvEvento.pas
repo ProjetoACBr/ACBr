@@ -1796,6 +1796,7 @@ begin
         teImporALCZFM:
           begin
             Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
             Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
 
             lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['gConsumo'];
@@ -1822,6 +1823,7 @@ begin
         tePerecPerdaRouboFurtoTranspContratFornec:
           begin
             Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
             Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
 
             lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['gPerecimento'];
@@ -1850,6 +1852,7 @@ begin
         teFornecNaoRealizPagAntec:
           begin
             Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
             Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
 
             lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['gItemNaoFornecido'];
@@ -1876,6 +1879,7 @@ begin
         teAtualizacaoDataPrevisaoEntrega:
           begin
             Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
             Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
             Evento[i].InfEvento.detEvento.dPrevEntrega := lDetEventoJSONObj.AsISODate['dPrevEntrega'];
           end;

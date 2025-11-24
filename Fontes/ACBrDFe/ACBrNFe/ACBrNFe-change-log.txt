@@ -45,6 +45,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/11/2025
+-- ACBrNFe.Envento --
+[+] Adiciona leitura do elemento tpAutor para os eventos já implementados na rotina que lê o JSON dos eventos.
+  Por: Diego Folieni
 -- ACBrNFeWebServices/ACBrNFe.Conversao/ACBrNFe.EnvEvento/ACBrNFe.EventoClass/pcnConversaoNFe --
 [+] #ACBR-5451 - Implementado os eventos: Manifestação sobre Pedido de Transferência de Crédito de IBS em Operações de Sucessão e Manifestação sobre Pedido de Transferência de Crédito de CBS em Operações de Sucessão.
   Por: Diego Folieni
