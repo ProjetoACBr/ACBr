@@ -317,6 +317,7 @@ procedure TBoletoW_Asaas.RequisicaoIncluir;
         end;
       end;
     finally
+      httpsend.OutputStream := nil;
       LStream.Free;
     end;
 
@@ -358,6 +359,7 @@ procedure TBoletoW_Asaas.RequisicaoIncluir;
           end;
         end;
       finally
+        httpsend.OutputStream := nil;
         LStream.Free;
       end;
     end;
