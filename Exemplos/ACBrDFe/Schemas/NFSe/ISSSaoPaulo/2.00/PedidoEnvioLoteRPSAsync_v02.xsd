@@ -43,7 +43,7 @@
                   <xs:documentation>Informe o total de RPS contidos na mensagem XML.</xs:documentation>
                 </xs:annotation>
               </xs:element>
-              <xs:element name="ValorTotalServicos" type="tipos:tpValor" minOccurs="1" maxOccurs="1">
+              <xs:element name="ValorTotalServicos" type="tipos:tpValor" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                   <xs:documentation>Informe o valor total dos serviços prestados dos RPS contidos na mensagem XML.</xs:documentation>
                 </xs:annotation>
