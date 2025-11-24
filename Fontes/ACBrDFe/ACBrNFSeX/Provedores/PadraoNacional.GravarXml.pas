@@ -146,6 +146,16 @@ type
     function GerarIni: string; override;
   end;
 
+  { TNFSeW_PadraoNacionalSoap }
+
+  TNFSeW_PadraoNacionalSoap = class(TNFSeW_PadraoNacional)
+  protected
+    procedure Configuracao; override;
+
+  public
+
+  end;
+
 implementation
 
 uses
@@ -1830,6 +1840,15 @@ begin
   AINIRec.WriteFloat(LSecao, 'vLiq', NFSe.infNFSe.valores.ValorLiquidoNfse);
 
   AINIRec.WriteString(LSecao, 'xOutInf', NFSe.OutrasInformacoes);
+end;
+
+{ TNFSeW_PadraoNacionalWSSoap }
+
+procedure TNFSeW_PadraoNacionalSoap.Configuracao;
+begin
+  inherited Configuracao;
+
+//  PrefixoPadrao := 'dps';
 end;
 
 end.

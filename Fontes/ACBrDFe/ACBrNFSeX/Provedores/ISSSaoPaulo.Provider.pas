@@ -425,7 +425,7 @@ var
   Nota: TNotaFiscal;
   IdAttr, NameSpace, ListaRps, xRps,
   TagEnvio, xCabecalho, xDataI, xDataF, xTotServicos, xTotDeducoes,
-  xCNPJCPF, xDoc: string;
+  xCNPJCPF, xDoc, xValores: string;
   I: Integer;
   DataInicial, DataFinal: TDateTime;
   vTotServicos, vTotDeducoes: Double;
@@ -572,12 +572,21 @@ begin
       xTotDeducoes := FloatToString(vTotDeducoes, '.', FloatMask(2, False));
       xTotDeducoes := StringReplace(xTotDeducoes, '.00', '', []);
 
+      if FPVersaoDFe = '1' then
+        xValores := '<ValorTotalServicos>' +
+                      xTotServicos +
+                    '</ValorTotalServicos>' +
+                    '<ValorTotalDeducoes>' +
+                      xTotDeducoes +
+                    '</ValorTotalDeducoes>'
+      else
+        xValores := '';
+
       xCabecalho := '<Cabecalho xmlns="" Versao="' + FPVersaoDFe + '">' +
                       '<CPFCNPJRemetente>' +
                         xCNPJCPF +
                       '</CPFCNPJRemetente>' +
                       '<transacao>' +
-//                        LowerCase(BoolToStr(TACBrNFSeX(FAOwner).NotasFiscais.Transacao, True)) +
                         LowerCase(BoolToStr(Transacao, True)) +
                       '</transacao>' +
                       '<dtInicio>' + xDataI + '</dtInicio>' +
@@ -585,12 +594,7 @@ begin
                       '<QtdRPS>' +
                         IntToStr(TACBrNFSeX(FAOwner).NotasFiscais.Count) +
                       '</QtdRPS>' +
-                      '<ValorTotalServicos>' +
-                        xTotServicos +
-                      '</ValorTotalServicos>' +
-                      '<ValorTotalDeducoes>' +
-                        xTotDeducoes +
-                      '</ValorTotalDeducoes>' +
+                      xValores +
                     '</Cabecalho>';
 
       if EstaVazio(ConfigMsgDados.LoteRps.xmlns) then

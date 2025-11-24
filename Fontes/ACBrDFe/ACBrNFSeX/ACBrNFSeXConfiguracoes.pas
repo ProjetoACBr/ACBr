@@ -199,6 +199,7 @@ type
     FProvedor: TnfseProvedor;
     FVersao: TVersaoNFSe;
     FxProvedor: String;
+    FxProvedorOrigem: String;
     FxMunicipio: String;
     FxUF: String;
     FCNPJPrefeitura: String;
@@ -213,6 +214,7 @@ type
     FServicosDisponibilizados: TServicosDispobilizados;
     FFormDiscriminacao: TFormatoDiscriminacao;
     FParticularidades: TParticularidades;
+    FWSSoap: Boolean;
 
     procedure SetCodigoMunicipio(const Value: Integer);
   public
@@ -229,6 +231,7 @@ type
     property Provedor: TnfseProvedor read FProvedor write FProvedor;
     property Versao: TVersaoNFSe read FVersao write FVersao;
     property xProvedor: String read FxProvedor;
+    property xProvedorOrigem: String read FxProvedorOrigem;
     property xMunicipio: String read FxMunicipio;
     property xUF: String read FxUF;
     property CNPJPrefeitura: String read FCNPJPrefeitura write FCNPJPrefeitura;
@@ -247,6 +250,7 @@ type
     property ServicosDisponibilizados: TServicosDispobilizados read FServicosDisponibilizados;
     property FormatoDiscriminacao: TFormatoDiscriminacao read FFormDiscriminacao write FFormDiscriminacao default fdNenhum;
     property Particularidades: TParticularidades read FParticularidades write FParticularidades;
+    property WSSoap: Boolean read FWSSoap;
   end;
 
   { TArquivosConfNFSe }
@@ -529,7 +533,7 @@ end;
 
 procedure TGeralConfNFSe.LerParamsMunicipio;
 var
-  Ok, APIProp: Boolean;
+  Ok, APIProp, PadraoNacional: Boolean;
   CodIBGE: string;
   ACBrNFSeXLocal: TACBrNFSeX;
 begin
@@ -554,8 +558,14 @@ begin
   FxMunicipio := FPIniParams.ReadString(CodIBGE, 'Nome', '');
   FxUF := FPIniParams.ReadString(CodIBGE, 'UF', '');
   FxProvedor := FPIniParams.ReadString(CodIBGE, 'Provedor', '');
+  FxProvedorOrigem := FxProvedor;
   FVersao := StrToVersaoNFSe(Ok, FPIniParams.ReadString(CodIBGE, 'Versao', '1.00'));
   APIProp := (Pos('APIPropria:', FPIniParams.ReadString(CodIBGE, 'Params', '')) > 0);
+  FWSSoap := (Pos('WSSoap:', FPIniParams.ReadString(CodIBGE, 'Params', '')) > 0);
+  PadraoNacional := (Pos('PN:', FPIniParams.ReadString(CodIBGE, 'Params', '')) > 0);
+
+  if PadraoNacional then
+    FxProvedorOrigem := FxProvedorOrigem + 'PN';
 
 
   if (FxMunicipio <> '') and (FxProvedor = '') and (FLayoutNFSe = lnfsProvedor) then

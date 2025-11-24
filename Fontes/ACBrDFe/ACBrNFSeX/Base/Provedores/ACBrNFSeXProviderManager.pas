@@ -503,7 +503,12 @@ begin
         Result := TACBrNFSeProviderNotaInteligente200.Create(ACBrNFSe);
 
       proPadraoNacional:
-        Result := TACBrNFSeProviderPadraoNacional.Create(ACBrNFSe);
+        begin
+          if WSSoap then
+            Result := TACBrNFSeProviderPadraoNacionalSoap.Create(ACBrNFSe)
+          else
+            Result := TACBrNFSeProviderPadraoNacional.Create(ACBrNFSe);
+        end;
 
       proPrescon: Result := TACBrNFSeProviderPrescon.Create(ACBrNFSe);
       proPriMax:  Result := TACBrNFSeProviderPriMax.Create(ACBrNFSe);

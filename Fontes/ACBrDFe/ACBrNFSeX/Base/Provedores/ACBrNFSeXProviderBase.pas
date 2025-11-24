@@ -916,32 +916,65 @@ begin
       ConfigGeral.LoadParams(IniParams, Sessao);
 
       // Depois verifica as URLs definidas para o provedor
-      if (ConfigWebServices.Producao.Recepcionar = '') or
-         ((Configuracoes.Geral.Provedor = proPadraoNacional) and not APIPropria) then
+      if not APIPropria then
       begin
-        Sessao := Configuracoes.Geral.xProvedor;
-        ConfigWebServices.LoadUrlProducao(IniParams, Sessao);
-      end;
+        if (ConfigWebServices.Producao.Recepcionar = '') or
+           (Configuracoes.Geral.Provedor = proPadraoNacional) then
+        begin
+          Sessao := Configuracoes.Geral.xProvedor;
+          ConfigWebServices.LoadUrlProducao(IniParams, Sessao);
+        end;
 
-      if (ConfigWebServices.Homologacao.Recepcionar = '') or
-         ((Configuracoes.Geral.Provedor = proPadraoNacional) and not APIPropria) then
-      begin
-        Sessao := Configuracoes.Geral.xProvedor;
-        ConfigWebServices.LoadUrlHomologacao(IniParams, Sessao);
-      end;
+        if (ConfigWebServices.Homologacao.Recepcionar = '') or
+           (Configuracoes.Geral.Provedor = proPadraoNacional) then
+        begin
+          Sessao := Configuracoes.Geral.xProvedor;
+          ConfigWebServices.LoadUrlHomologacao(IniParams, Sessao);
+        end;
 
-      if (ConfigWebServices.Producao.LinkURL = '') or
-         ((Configuracoes.Geral.Provedor = proPadraoNacional) and not APIPropria) then
-      begin
-        Sessao := Configuracoes.Geral.xProvedor;
-        ConfigWebServices.LoadlinkUrlProducao(IniParams, Sessao);
-      end;
+        if (ConfigWebServices.Producao.LinkURL = '') or
+           (Configuracoes.Geral.Provedor = proPadraoNacional) then
+        begin
+          Sessao := Configuracoes.Geral.xProvedor;
+          ConfigWebServices.LoadlinkUrlProducao(IniParams, Sessao);
+        end;
 
-      if (ConfigWebServices.Homologacao.LinkURL = '') or
-         ((Configuracoes.Geral.Provedor = proPadraoNacional) and not APIPropria) then
+        if (ConfigWebServices.Homologacao.LinkURL = '') or
+           (Configuracoes.Geral.Provedor = proPadraoNacional) then
+        begin
+          Sessao := Configuracoes.Geral.xProvedor;
+          ConfigWebServices.LoadLinkUrlHomologacao(IniParams, Sessao);
+        end;
+      end
+      else
       begin
-        Sessao := Configuracoes.Geral.xProvedor;
-        ConfigWebServices.LoadLinkUrlHomologacao(IniParams, Sessao);
+        if (ConfigWebServices.Producao.Recepcionar = ''){ or
+           (Configuracoes.Geral.Provedor = proPadraoNacional)} then
+        begin
+          Sessao := Configuracoes.Geral.xProvedorOrigem;
+          ConfigWebServices.LoadUrlProducao(IniParams, Sessao);
+        end;
+
+        if (ConfigWebServices.Homologacao.Recepcionar = ''){ or
+           (Configuracoes.Geral.Provedor = proPadraoNacional)} then
+        begin
+          Sessao := Configuracoes.Geral.xProvedorOrigem;
+          ConfigWebServices.LoadUrlHomologacao(IniParams, Sessao);
+        end;
+
+        if (ConfigWebServices.Producao.LinkURL = '') or
+           (Configuracoes.Geral.Provedor = proPadraoNacional) then
+        begin
+          Sessao := Configuracoes.Geral.xProvedorOrigem;
+          ConfigWebServices.LoadlinkUrlProducao(IniParams, Sessao);
+        end;
+
+        if (ConfigWebServices.Homologacao.LinkURL = '') or
+           (Configuracoes.Geral.Provedor = proPadraoNacional) then
+        begin
+          Sessao := Configuracoes.Geral.xProvedorOrigem;
+          ConfigWebServices.LoadLinkUrlHomologacao(IniParams, Sessao);
+        end;
       end;
 
       if ConfigWebServices.Producao.XMLNameSpace = '' then
