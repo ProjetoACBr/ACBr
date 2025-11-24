@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+24/11/2025
+-- ACBrNFSeXServicos --
+[*] Ajustes em algumas cidades visando a reforma tributária.
+   Por: Italo Giurizzato Junior
+
 21/11/2025
 -- IPM.GravarXml --
 [*] #ACBr-8387 Incluído linha para gerar o codigo_nbs no XML do RPS.
