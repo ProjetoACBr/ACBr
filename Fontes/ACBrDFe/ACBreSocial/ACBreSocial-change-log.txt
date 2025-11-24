@@ -52,6 +52,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/11/2025
+-- Diversos --
+[*] ACBR-8127: Implementada NT 2025/004
+  Por: Renato Rubinho
+
 03/09/2025
 -- pcesConversaoeSocial --
 [*] ACBR-7988 - Restaurados itens que haviam sido removidos dos enumerados e arrays referentes às versões do eSocial que foram depreciadas.

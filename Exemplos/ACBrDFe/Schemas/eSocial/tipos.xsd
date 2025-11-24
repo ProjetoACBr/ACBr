@@ -1970,6 +1970,19 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <!-- Campo {natRubr} -->
+
+    <xs:simpleType name="TS_natRubr">
+        <xs:annotation>
+            <xs:documentation>Informar o código de classificação da rubrica.</xs:documentation>
+            <xs:documentation>Validação: Deve ser um código válido e existente na Tabela 03.</xs:documentation>
+            <xs:documentation>Para utilização de código [9253], é necessário que {iniValid}(1010_infoRubrica_inclusao_ideRubrica_iniValid) seja igual ou posterior ao mês de início do eConsignado no eSocial.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:integer">
+            <xs:pattern value="\d{4}" />
+        </xs:restriction>
+    </xs:simpleType>
+
     <!-- Campo {observacao} -->
 
     <xs:simpleType name="TS_observacao">
@@ -2394,6 +2407,22 @@
         </xs:annotation>
         <xs:restriction base="xs:integer">
             <xs:pattern value="\d{3}" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Campo {notAFT} -->
+
+    <xs:simpleType name="TS_notAFT">
+        <xs:annotation>
+            <xs:documentation>Número da notificação de FGTS que deu origem à confissão.</xs:documentation>
+            <xs:documentation>Validação: Se o campo for preenchido:</xs:documentation>
+            <xs:documentation>a) {}(1200_ideEvento_perApur) deve ser igual ou posterior ao início do FGTS Digital;</xs:documentation>
+            <xs:documentation>b) Todas as rubricas de vencimento ({}(1010_infoRubrica_inclusao_dadosRubrica_tpRubr) em S-1010 = [1]) informadas no demonstrativo devem possuir {}(1010_infoRubrica_inclusao_dadosRubrica_codIncFGTS) em S-1010 = [71];</xs:documentation>
+            <xs:documentation>c) Devem ser informados apenas caracteres alfanuméricos, com 9 (nove) posições.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="9" />
+            <xs:pattern value="[A-Za-z0-9]{9}" />
         </xs:restriction>
     </xs:simpleType>
 
@@ -4175,7 +4204,7 @@
     <xs:simpleType name="TS_indIncid">
         <xs:annotation>
             <xs:documentation>Indicativo de incidência de FGTS.</xs:documentation>
-            <xs:documentation>Validação: Se {codIncFGTS}(1010_infoRubrica_inclusao_dadosRubrica_codIncFGTS) em S-1010 for igual a [11, 12, 21], deve ser retornado [1].</xs:documentation>
+            <xs:documentation>Validação: Se {codIncFGTS}(1010_infoRubrica_inclusao_dadosRubrica_codIncFGTS) em S-1010 for igual a [11, 12, 21, 71], deve ser retornado [1].</xs:documentation>
             <xs:documentation>Se {codIncFGTS}(1010_infoRubrica_inclusao_dadosRubrica_codIncFGTS) em S-1010 for igual a [91, 92, 93], deve ser retornado [9].</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:byte">

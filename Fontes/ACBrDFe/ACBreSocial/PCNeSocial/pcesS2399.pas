@@ -66,6 +66,7 @@ type
     FIdeDmDev: string;
     FIdeEstabLot: TideEstabLotCollection;
     FindRRA: tpSimNaoFacultativo;
+    FnotAFT: string;
     FinfoRRA: TinfoRRA;
 
     function getInfoRRA: TInfoRRA;
@@ -77,6 +78,7 @@ type
 
     property ideDmDev: string read FIdeDmDev write FIdeDmDev;
     property indRRA: tpSimNaoFacultativo read FindRRA write FindRRA;
+    property notAFT: string read FnotAFT write FnotAFT;
     property infoRRA: TinfoRRA read getInfoRRA write FinfoRRA;
     property ideEstabLot: TideEstabLotCollection read FIdeEstabLot write FIdeEstabLot;
   end;
@@ -414,6 +416,8 @@ begin
         GerarInfoRRA(pDmDev[i].infoRRA);
     end;
 
+    Gerador.wCampo(tcStr, '', 'notAFT', 9, 9, 0, pDmDev[i].notAFT);
+
     GerarIdeEstabLot(pDmDev[i].ideEstabLot);
 
     Gerador.wGrupo('/dmDev');
@@ -541,6 +545,7 @@ begin
         begin
           ideDmDev := sFim;
           indRRA   := eSStrToSimNaoFacultativo(Ok, INIRec.ReadString(sSecao, 'indRRA', EmptyStr));
+          notAFT := INIRec.ReadString(sSecao, 'notAFT', EmptyStr);
 
           sSecao := 'infoRRA' + IntToStrZero(I, 2);
           infoRRA.tpProcRRA := eSStrToTpProcRRA(Ok, INIRec.ReadString(sSecao, 'tpProcRRA', EmptyStr));

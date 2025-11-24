@@ -295,6 +295,7 @@ type
     FIdeDmDev: string;
     FCodCateg: integer;
     FindRRA: tpSimNaoFacultativo;
+    FnotAFT: string;
     FinfoRRA: TinfoRRA;
     FInfoPerApur: TInfoPerApur;
     FInfoPerAnt: TInfoPerAnt;
@@ -318,6 +319,7 @@ type
     property ideDmDev: string read FIdeDmDev write FIdeDmDev;
     property codCateg: integer read FCodCateg write FCodCateg;
     property indRRA: tpSimNaoFacultativo read FindRRA write FindRRA;
+    property notAFT: string read FnotAFT write FnotAFT;
     property infoRRA: TinfoRRA read getInfoRRA write FinfoRRA;
     property infoPerApur: TInfoPerApur read getInfoPerApur write FInfoPerApur;
     property infoPerAnt: TInfoPerAnt read getInfoPerAnt write FInfoPerAnt;
@@ -968,6 +970,8 @@ begin
         GerarInfoRRA(dmDev[i].infoRRA);
     end;
 
+    Gerador.wCampo(tcStr, '', 'notAFT', 9, 9, 0, dmDev[i].notAFT);
+
     if (dmDev[i].infoPerApurInst()) then
       GerarInfoPerApur(dmDev[i].infoPerApur);
 
@@ -1297,6 +1301,7 @@ begin
           ideDmDev := sFim;
           codCateg := INIRec.ReadInteger(sSecao, 'codCateg', 0);
           indRRA   := eSStrToSimNaoFacultativo(Ok, INIRec.ReadString(sSecao, 'indRRA', EmptyStr));
+          notAFT := INIRec.ReadString(sSecao, 'notAFT', EmptyStr);
 
           sSecao := 'infoRRA' + IntToStrZero(I, 3);
           with infoRRA do

@@ -157,6 +157,7 @@ type
     FInfoPerAnt: TInfoPerAnt;
     FinfoTrabInterm: TinfoTrabIntermCollection;
     FindRRA: tpSimNaoFacultativo;
+    FnotAFT: string;
     FinfoRRA: TinfoRRA;
 
     function getInfoPerApur: TInfoPerApur;
@@ -172,6 +173,7 @@ type
 
     property ideDmDev: string read FIdeDmDev write FIdeDmDev;
     property indRRA: tpSimNaoFacultativo read FindRRA write FindRRA;
+    property notAFT: string read FnotAFT write FnotAFT;
     property infoRRA: TinfoRRA read getInfoRRA write FinfoRRA;
     property infoPerApur: TInfoPerApur read getInfoPerApur write FInfoPerApur;
     property infoPerAnt: TInfoPerAnt read getInfoPerAnt write FInfoPerAnt;
@@ -889,6 +891,8 @@ begin
         GerarInfoRRA(pDmDev[i].infoRRA);
     end;
 
+    Gerador.wCampo(tcStr, '', 'notAFT', 9, 9, 0, pDmDev[i].notAFT);
+
     if pDmDev[i].infoPerApurInst then
       GerarInfoPerApur(pDmDev[i].infoPerApur);
 
@@ -1144,6 +1148,7 @@ begin
         begin
           ideDmDev := sFim;
           indRRA   := eSStrToSimNaoFacultativo(OK, INIRec.ReadString(sSecao, 'indRRA', EmptyStr));
+          notAFT := INIRec.ReadString(sSecao, 'notAFT', EmptyStr);
 
           sSecao := 'infoRRA' + IntToStrZero(I, 2);
           infoRRA.tpProcRRA   := eSStrToTpProcRRA(Ok, INIRec.ReadString(sSecao, 'tpProcRRA', EmptyStr));

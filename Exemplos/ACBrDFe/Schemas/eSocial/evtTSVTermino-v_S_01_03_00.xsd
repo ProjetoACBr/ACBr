@@ -27,6 +27,7 @@
                         <xs:documentation>REGRA:REGRA_RUBRICA_COMPATIVEL_CATEGORIA</xs:documentation>
                         <xs:documentation>REGRA:REGRA_RUBRICA_ECONSIGNADO</xs:documentation>
                         <xs:documentation>REGRA:REGRA_TSV_ATIVO_NA_DTEVENTO</xs:documentation>
+                        <xs:documentation>REGRA:REGRA_VALIDA_CODINCCP_EXC_SEGURADO</xs:documentation>
                         <xs:documentation>REGRA:REGRA_VALIDA_EMPREGADOR</xs:documentation>
                         <xs:documentation>REGRA:REGRA_VALIDA_PERIODO_APURACAO</xs:documentation>
                     </xs:annotation>
@@ -158,6 +159,15 @@
                                                                     <xs:annotation>
                                                                         <xs:documentation>Indicativo de Rendimentos Recebidos Acumuladamente - RRA.</xs:documentation>
                                                                         <xs:documentation>Somente preencher este campo se for um demonstrativo de RRA.</xs:documentation>
+                                                                    </xs:annotation>
+                                                                </xs:element>
+                                                                <xs:element name="notAFT" minOccurs="0" type="TS_notAFT">
+                                                                    <xs:annotation>
+                                                                        <xs:documentation>Número da notificação de FGTS que deu origem à confissão.</xs:documentation>
+                                                                        <xs:documentation>Validação: Se o campo for preenchido:</xs:documentation>
+                                                                        <xs:documentation>a) O mês/ano de {}(2399_infoTSVTermino_dtTerm) deve ser igual ou posterior ao início do FGTS Digital;</xs:documentation>
+                                                                        <xs:documentation>b) Todas as rubricas de vencimento ({}(1010_infoRubrica_inclusao_dadosRubrica_tpRubr) em S-1010 = [1]) informadas no demonstrativo devem possuir {}(1010_infoRubrica_inclusao_dadosRubrica_codIncFGTS) em S-1010 = [71];</xs:documentation>
+                                                                        <xs:documentation>c) Devem ser informados apenas caracteres alfanuméricos, com 9 (nove) posições.</xs:documentation>
                                                                     </xs:annotation>
                                                                 </xs:element>
                                                                 <xs:element name="infoRRA" minOccurs="0" type="T_infoRRA" />

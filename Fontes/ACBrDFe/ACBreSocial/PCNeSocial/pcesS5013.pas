@@ -68,11 +68,15 @@ type
     FindIncid: Integer;
     FbaseFGTS: Currency;
     FvrFGTS: Currency;
+    FnotAFT: string;
+    FnatRubr: string;
   public
     property tpValor: Integer read FtpValor write FtpValor;
     property baseFGTS: Currency read FbaseFGTS write FbaseFGTS;
     property indIncid: Integer read FindIncid write FindIncid;
     property vrFGTS: Currency read FvrFGTS write FvrFGTS;
+    property notAFT: string read FnotAFT write FnotAFT;
+    property natRubr: string read FnatRubr write FnatRubr;
   end;
 
   TBasePerApurCollection = class(TACBrObjectList)
@@ -449,6 +453,8 @@ begin
                 InfoFGTS.IdeEstab.Items[i].IdeLotacao.Items[j].InfoBaseFGTS.BasePerApur.Items[k].indIncid := leitor.rCampo(tcInt, 'indIncid');
                 InfoFGTS.IdeEstab.Items[i].IdeLotacao.Items[j].infoBaseFGTS.basePerApur.Items[k].baseFGTS := leitor.rCampo(tcDe2, 'baseFGTS');
                 InfoFGTS.IdeEstab.Items[i].IdeLotacao.Items[j].infoBaseFGTS.basePerApur.Items[k].vrFGTS   := leitor.rCampo(tcDe2, 'vrFGTS');
+                InfoFGTS.IdeEstab.Items[i].IdeLotacao.Items[j].infoBaseFGTS.basePerApur.Items[k].notAFT   := leitor.rCampo(tcStr, 'notAFT');
+                InfoFGTS.IdeEstab.Items[i].IdeLotacao.Items[j].infoBaseFGTS.basePerApur.Items[k].natRubr  := leitor.rCampo(tcStr, 'natRubr');
 
                 inc(k);
               end;

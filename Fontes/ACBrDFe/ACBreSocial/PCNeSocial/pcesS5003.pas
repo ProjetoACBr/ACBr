@@ -123,6 +123,8 @@ type
     FindIncid   : Integer;
     FremFGTS    : Double;
     FdpsFGTS    : Double;
+    FnotAFT     : string;
+    FnatRubr    : string;
     FdetRubrSusp: TdetRubrSuspCollection;
 
     function getDetRubrSusp(): TdetRubrSuspCollection;
@@ -136,6 +138,8 @@ type
     property indIncid   : Integer read FindIncid write FindIncid;
     property remFGTS    : Double read FremFGTS write FremFGTS;
     property dpsFGTS    : Double read FdpsFGTS write FdpsFGTS;
+    property notAFT     : string read FnotAFT write FnotAFT;
+    property natRubr    : string read FnatRubr write FnatRubr;
     property detRubrSusp: TdetRubrSuspCollection read getDetRubrSusp write FdetRubrSusp;
   end;
 
@@ -700,6 +704,8 @@ begin
                   infoFGTS.IdeEstab.Items[i].IdeLotacao.Items[j].InfoTrabFGTS.Items[k].infoBaseFGTS.BasePerApur.Items[l].indIncid := leitor.rCampo(tcInt, 'indIncid');
                   infoFGTS.IdeEstab.Items[i].IdeLotacao.Items[j].InfoTrabFGTS.Items[k].infoBaseFGTS.BasePerApur.Items[l].remFGTS  := leitor.rCampo(tcDe2, 'remFGTS');
                   infoFGTS.IdeEstab.Items[i].IdeLotacao.Items[j].InfoTrabFGTS.Items[k].infoBaseFGTS.BasePerApur.Items[l].dpsFGTS  := leitor.rCampo(tcDe2, 'dpsFGTS');
+                  infoFGTS.IdeEstab.Items[i].IdeLotacao.Items[j].InfoTrabFGTS.Items[k].infoBaseFGTS.BasePerApur.Items[l].notAFT   := leitor.rCampo(tcStr, 'notAFT');
+                  infoFGTS.IdeEstab.Items[i].IdeLotacao.Items[j].InfoTrabFGTS.Items[k].infoBaseFGTS.BasePerApur.Items[l].natRubr  := leitor.rCampo(tcStr, 'natRubr');
 
                   m := 0;
                   while Leitor.rExtrai(8, 'detRubrSusp', '', m + 1) <> '' do
