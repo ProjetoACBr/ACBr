@@ -192,7 +192,7 @@ function StrToindISS(out ok: boolean; const s: string): TpcnindISS;
 function indISSToStrTagPosText(const t: TpcnindISS ): string;
 
 type
-  TpcnTipoAutor = (taEmpresaEmitente, taEmpresaDestinataria, taEmpresa, taFisco, taRFB, taOutros);
+  TpcnTipoAutor = (taEmpresaEmitente, taEmpresaDestinataria, taEmpresa, taFisco, taRFB, taOutros, taEmpresaSucessora);
 
 function TipoAutorToStr(const t: TpcnTipoAutor ): string;
 function StrToTipoAutor(out ok: boolean; const s: string): TpcnTipoAutor;
@@ -1097,16 +1097,16 @@ end;
 
 function TipoAutorToStr(const t: TpcnTipoAutor ): string;
 begin
-  result := EnumeradoToStr(t, ['1', '2', '3', '5', '6', '9'],
+  result := EnumeradoToStr(t, ['1', '2', '3', '5', '6', '9', '8'],
                               [taEmpresaEmitente, taEmpresaDestinataria,
-                               taEmpresa, taFisco, taRFB, taOutros]);
+                               taEmpresa, taFisco, taRFB, taOutros, taEmpresaSucessora]);
 end;
 
 function StrToTipoAutor(out ok: boolean; const s: string): TpcnTipoAutor;
 begin
-  result := StrToEnumerado(ok, s, ['1', '2', '3', '5', '6', '9'],
+  result := StrToEnumerado(ok, s, ['1', '2', '3', '5', '6', '9', '8'],
                                   [taEmpresaEmitente, taEmpresaDestinataria,
-                                   taEmpresa, taFisco, taRFB, taOutros]);
+                                   taEmpresa, taFisco, taRFB, taOutros, taEmpresaSucessora]);
 end;
 
 function IndOperacaoToStr(const t: TpcnIndOperacao ): string;

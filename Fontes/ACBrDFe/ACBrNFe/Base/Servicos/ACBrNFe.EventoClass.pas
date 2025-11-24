@@ -770,8 +770,8 @@ begin
     teImobilizacaoItem       : Result := ACBrStr('Imobilização de Item');
     teSolicApropCredCombustivel : Result := ACBrStr('Solicitação de Apropriação de Crédito de Combustível');
     teSolicApropCredBensServicos : Result := ACBrStr('Solicitação de Apropriação de Crédito para bens e serviços que dependem de atividade do adquirente');
-    teManifPedTransfCredIBSSucessao : Result := '';
-    teManifPedTransfCredCBSSucessao : Result := '';
+    teManifPedTransfCredIBSSucessao : Result := ACBrStr('Manifestação sobre Pedido de Transferência de Crédito de IBS em Operação de Sucessão');
+    teManifPedTransfCredCBSSucessao : Result := ACBrStr('Manifestação sobre Pedido de Transferência de Crédito de CBS em Operação de Sucessão');
     teAtualizacaoDataPrevisaoEntrega : Result := ACBrStr('Atualização da Data de Previsão de Entrega');
   else
     Result := '';

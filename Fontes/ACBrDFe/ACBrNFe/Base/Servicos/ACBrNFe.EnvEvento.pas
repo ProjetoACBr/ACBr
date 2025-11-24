@@ -157,6 +157,7 @@ type
     function Gerar_gItemNaoFornecido(Idx: Integer): TACBrXmlNodeArray;
     function Gerar_gControleEstoque(gControleEstoque: TgControleEstoqueItemNaoFornecido): TACBrXMLNode; overload;
     function Gerar_Evento_AtualizacaoDataPrevisaoEntrega(Idx: Integer): TACBrXmlNode;
+    function Gerar_Evento_ManifestacaoPedidoTransfCreditoIBSCBSOperacoesSucessao(Idx: Integer): TACBrXmlNode;
 
 
   public
@@ -739,6 +740,19 @@ begin
                                        Evento[Idx].FInfEvento.detEvento.xJust));
 end;
 
+function TEventoNFe.Gerar_Evento_ManifestacaoPedidoTransfCreditoIBSCBSOperacoesSucessao(
+  Idx: Integer): TACBrXmlNode;
+begin
+  Result := CreateElement('detEvento');
+  Result.SetAttribute('versao', Versao);
+
+  Result.AppendChild(AddNode(tcStr, 'P19', 'descEvento', 4, 60, 1, Evento[Idx].FInfEvento.DescEvento));
+  Result.AppendChild(AddNode(tcInt, 'P20', 'cOrgaoAutor', 1, 2, 1, Evento[Idx].FInfEvento.detEvento.cOrgaoAutor));
+  Result.AppendChild(AddNode(tcStr, 'P21', 'tpAutor', 1, 1, 1, TipoAutorToStr(Evento[Idx].FInfEvento.detEvento.tpAutor)));
+  Result.AppendChild(AddNode(tcStr, 'P22', 'verAplic', 1, 20, 1, Evento[Idx].FInfEvento.detEvento.verAplic));
+  Result.AppendChild(AddNode(tcStr, 'P23', 'indAceitacao', 8, 8, 1, indAceitacaoToStr(Evento[Idx].FInfEvento.detEvento.indAceitacao)));
+end;
+
 function TEventoNFe.Gerar_Evento_PedProrrogacao(Idx: Integer): TACBrXmlNode;
 var
   nodeArray: TACBrXmlNodeArray;
@@ -931,6 +945,16 @@ function TEventoNFe.Gerar_InfEvento(Idx: Integer): TACBrXmlNode;
 var
   sDoc: string;
   Serie: Integer;
+  function DescricaoEventoPrecisaDeAcentos(const AtpEvento: TACBrTipoEvento): Boolean;
+  begin
+    Result := AtpEvento in [teAtorInteressadoNFe, teCancConcFinanceira,
+       tePagIntegLibCredPresAdq, teImporALCZFM,
+       tePerecPerdaRouboFurtoTranspContratFornec, teFornecNaoRealizPagAntec,
+       teSolicApropCredPres, teDestItemConsPessoal,
+       tePerecPerdaRouboFurtoTranspContratAqu, teAceiteDebitoApuracaoNotaCredito,
+       teImobilizacaoItem, teSolicApropCredCombustivel,
+       teSolicApropCredBensServicos, teAtualizacaoDataPrevisaoEntrega];
+  end;
 begin
   Result := CreateElement('infEvento');
   Result.SetAttribute('Id', Evento[Idx].InfEvento.id);
@@ -993,13 +1017,7 @@ begin
   Result.AppendChild(AddNode(tcStr, 'HP16', 'verEvento', 1, 4, 1, Versao));
 
 
-  if Evento[Idx].InfEvento.tpEvento in [teAtorInteressadoNFe, teCancConcFinanceira,
-       tePagIntegLibCredPresAdq, teImporALCZFM,
-       tePerecPerdaRouboFurtoTranspContratFornec, teFornecNaoRealizPagAntec,
-       teSolicApropCredPres, teDestItemConsPessoal,
-       tePerecPerdaRouboFurtoTranspContratAqu, teAceiteDebitoApuracaoNotaCredito,
-       teImobilizacaoItem, teSolicApropCredCombustivel,
-       teSolicApropCredBensServicos, teAtualizacaoDataPrevisaoEntrega] then
+  if DescricaoEventoPrecisaDeAcentos(Evento[Idx].InfEvento.tpEvento) then
     FOpcoes.RetirarAcentos := False;  // Não funciona sem acentos
 
   case Evento[Idx].InfEvento.tpEvento of
@@ -1066,9 +1084,8 @@ begin
 
     teSolicApropCredBensServicos: Result.AppendChild(Gerar_Evento_SolicApropCredBensServicos(Idx));
 
-    teManifPedTransfCredIBSSucessao: Result := nil;
-
-    teManifPedTransfCredCBSSucessao: Result := nil;
+    teManifPedTransfCredIBSSucessao,
+    teManifPedTransfCredCBSSucessao : Result.AppendChild(Gerar_Evento_ManifestacaoPedidoTransfCreditoIBSCBSOperacoesSucessao(Idx));
   end;
 end;
 
@@ -1533,6 +1550,12 @@ begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
               infEvento.detEvento.dPrevEntrega := INIRec.ReadDate(sSecao, 'dPrevEntrega', 0);
             end;
+          teManifPedTransfCredIBSSucessao,
+          teManifPedTransfCredCBSSucessao:
+            begin
+              infEvento.detEvento.tpAutor := StrToTipoAutor(ok, INIRec.ReadString(sSecao, 'tpAutor', '8'));
+              infEvento.detEvento.indAceitacao := StrToIndAceitacao(INIRec.ReadString(sSecao, 'indAceitacao', ''));
+            end;
         end;
       end;
 
@@ -1855,6 +1878,14 @@ begin
             Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
             Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
             Evento[i].InfEvento.detEvento.dPrevEntrega := lDetEventoJSONObj.AsISODate['dPrevEntrega'];
+          end;
+        teManifPedTransfCredIBSSucessao,
+        teManifPedTransfCredCBSSucessao:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+            Evento[i].InfEvento.detEvento.indAceitacao := StrToIndAceitacao(lDetEventoJSONObj.AsString['indAceitacao']);
           end;
       end;
     end;

@@ -3436,7 +3436,7 @@ begin
           tePagIntegLibCredPresAdq:
           begin
             SchemaEventoNFe := schPagIntegLibCredPresAdq;
-
+            //Único campo específico é o indQuitacao e a geração do XML já preenche ele com seu único valor válido.
           end;
 
           teAtualizacaoDataPrevisaoEntrega:
@@ -3616,16 +3616,15 @@ begin
             end;
           end;
 
-          teManifPedTransfCredIBSSucessao:
+          teManifPedTransfCredIBSSucessao,
+          teManifPedTransfCredCBSSucessao :
           begin
-            SchemaEventoNFe := schManifPedTransfCredIBSSucessao;
+            if InfEvento.tpEvento = teManifPedTransfCredIBSSucessao then
+              SchemaEventoNFe := schManifPedTransfCredIBSSucessao
+            else
+              SchemaEventoNFe := schManifPedTransfCredCBSSucessao;
 
-          end;
-
-          teManifPedTransfCredCBSSucessao:
-          begin
-            SchemaEventoNFe := schManifPedTransfCredCBSSucessao;
-
+            infEvento.detEvento.indAceitacao := FEvento.Evento[I].InfEvento.detEvento.indAceitacao;
           end;
         end;
       end;
