@@ -164,9 +164,11 @@ begin
 
                 ARetornoWS.DadosRet.TituloRet.SeuNumero   := LJson.AsString['externalReference'];
                 ARetornoWS.DadosRet.TituloRet.Vencimento     := StrDatetoTDateTime(LJson.AsString['dueDate']);
-                ARetornoWS.DadosRet.TituloRet.ValorDocumento := LJSON.AsFloat['value'];
+                ARetornoWS.DadosRet.TituloRet.ValorDocumento := LJSON.AsFloat['originalValue'];
+                if ARetornoWS.DadosRet.TituloRet.ValorDocumento = 0 then
+                  ARetornoWS.DadosRet.TituloRet.ValorDocumento := LJSON.AsFloat['value'];
                 ARetornoWS.DadosRet.TituloRet.ValorAtual     := LJSON.AsFloat['value'];
-                ARetornoWS.DadosRet.TituloRet.ValorPago      := LJSON.AsFloat['originalValue'];
+                ARetornoWS.DadosRet.TituloRet.ValorPago      := LJSON.AsFloat['value'];
                 ARetornoWS.DadosRet.TituloRet.ValorRecebido  := LJSON.AsFloat['netValue'];
 
                 if LJSON.AsJSONObject['fine'].AsFloat['value'] > 0 then
@@ -199,7 +201,12 @@ begin
                   ARetornoWS.DadosRet.TituloRet.ValorDesconto  := 0;
                   ARetornoWS.DadosRet.TituloRet.CodigoDesconto := cdSemDesconto;
                 end;
-                ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca := LJSON.AsString['status'];
+
+                if LJson.AsBoolean['deleted'] then
+                  ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca := 'REFUNDED'
+                else
+                  ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca := LJSON.AsString['status'];
+
                 ARetornoWS.DadosRet.TituloRet.CodigoEstadoTituloCobranca := RetornaCodigoOcorrencia(ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca);
                 ARetornoWS.DadosRet.TituloRet.DataCredito          := StrDatetoTDateTime(LJSON.AsString['clientPaymentDate']);
               end;
@@ -327,10 +334,12 @@ begin
 
             ListaRetorno.DadosRet.TituloRet.SeuNumero   := LJSONObject.AsString['externalReference'];
             ListaRetorno.DadosRet.TituloRet.Vencimento     := StrDatetoTDateTime(LJSONObject.AsString['dueDate']);
-            ListaRetorno.DadosRet.TituloRet.ValorDocumento := LJSONObject.AsFloat['value'];
-            ListaRetorno.DadosRet.TituloRet.ValorAtual     := LJSONObject.AsFloat['value'];
-            ListaRetorno.DadosRet.TituloRet.ValorPago      := LJSONObject.AsFloat['originalValue'];
-            ListaRetorno.DadosRet.TituloRet.ValorRecebido  := LJSONObject.AsFloat['netValue'];
+            ListaRetorno.DadosRet.TituloRet.ValorDocumento := LJSON.AsFloat['originalValue'];
+            if ListaRetorno.DadosRet.TituloRet.ValorDocumento = 0 then
+              ListaRetorno.DadosRet.TituloRet.ValorDocumento := LJSON.AsFloat['value'];
+            ListaRetorno.DadosRet.TituloRet.ValorAtual     := LJSON.AsFloat['value'];
+            ListaRetorno.DadosRet.TituloRet.ValorPago      := LJSON.AsFloat['value'];
+            ListaRetorno.DadosRet.TituloRet.ValorRecebido  := LJSON.AsFloat['netValue'];
 
             if LJSONObject.AsJSONObject['fine'].AsFloat['value'] > 0 then
             begin
@@ -362,7 +371,12 @@ begin
               ListaRetorno.DadosRet.TituloRet.ValorDesconto  := 0;
               ListaRetorno.DadosRet.TituloRet.CodigoDesconto := cdSemDesconto;
             end;
-            ListaRetorno.DadosRet.TituloRet.EstadoTituloCobranca := LJSONObject.AsString['status'];
+
+            if LJSONObject.AsBoolean['deleted'] then
+              ListaRetorno.DadosRet.TituloRet.EstadoTituloCobranca := 'REFUNDED'
+            else
+              ListaRetorno.DadosRet.TituloRet.EstadoTituloCobranca := LJSONObject.AsString['status'];
+
             ListaRetorno.DadosRet.TituloRet.CodigoEstadoTituloCobranca := RetornaCodigoOcorrencia(ListaRetorno.DadosRet.TituloRet.EstadoTituloCobranca);
             ListaRetorno.DadosRet.TituloRet.DataCredito          := StrDatetoTDateTime(LJSONObject.AsString['clientPaymentDate']);
           end;

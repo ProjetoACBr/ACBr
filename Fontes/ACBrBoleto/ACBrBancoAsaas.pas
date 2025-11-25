@@ -78,8 +78,8 @@ begin
    fpNome                   := 'ASAAS';
    fpNumero                 := 461;
    fpDigito                 := 8;
-   fpTamanhoMaximoNossoNum  := 8;
-   fpTamanhoConta           := 6;
+   fpTamanhoMaximoNossoNum  := 9;
+   fpTamanhoConta           := 7;
    fpTamanhoCarteira        := 2;
 end;
 
@@ -122,8 +122,8 @@ end;
 function TACBrBancoAsaas.DefineCampoLivreCodigoBarras(const ACBrTitulo: TACBrTitulo): String;
 begin
   Result := '111' + //fixo não falaram o que é na documentação
-            Poem_Zeros('0',12) +  //fixo não falaram o que é na documentação
-            ACBrTitulo.NossoNumero +
+            Poem_Zeros('0', 20 - fpTamanhoMaximoNossoNum) +  //fixo não falaram o que é na documentação
+            Poem_Zeros(ACBrTitulo.NossoNumero, fpTamanhoMaximoNossoNum) +
             ACBrTitulo.Carteira; // geralmente 01
 end;
 
