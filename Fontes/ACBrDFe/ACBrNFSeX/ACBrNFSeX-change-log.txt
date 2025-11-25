@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 25/11/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8454 A cidade Santa Cecilia/SC mudou de versão e URL, o provedor continua o mesmo.
+   Por: lucasatz
 -- ACBrNFSeXConversao/PadraoNacional.GravarXml --
 [-] #ACBr-8465 Ajustes para não gerar Tributação Federal quando for MEI.
    Por: Felipe baldin/Italo Giurizzato Junior
