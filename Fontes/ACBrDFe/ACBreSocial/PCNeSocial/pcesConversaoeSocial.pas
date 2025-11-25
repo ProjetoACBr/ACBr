@@ -63,7 +63,7 @@ type
 
   TEmpregador = (tePessoaJuridica, teOrgaoPublico, tePessoaFisica,
                  teOrgaoPublicoExecutivoFederal, teOrgaoPublicoLegislativoFederal,
-                 teOrgaoPublicoJudiciarioFederal, teOrgaoPublicoAutonomoFederal);
+                 teOrgaoPublicoJudiciarioFederal, teOrgaoPublicoAutonomoFederal, teUniao);
 
   TeSocialGrupo = (egIniciais = 1, egNaoPeriodicos = 2, egPeriodicos = 3);
 
@@ -544,7 +544,7 @@ const
 type
 
   tpTpReint               = (trReintegracaoDecisaoJudicial, trReintegracaoAnistiaLegal, trReversaoServidorPublico, trReconducaoServidorPublico,
-                             trReinclusoMilitar, trOutros);
+                             trReinclusoMilitar, trRevisaoReformaMilitar, trOutros);
 
   tpIndSubstPatr          = (spVazio,
                              spIntegralmenteSubstituida,
@@ -709,10 +709,47 @@ type
                              tmcbRenunciaExpressa,
                              tmcbTransferenciaDeOrgaoAdministrador,
                              tmcbMudancaDeCPFDoBeneficiario,
-                             tmcbNaoRecadastramento);
+                             tmcbNaoRecadastramento,
+                             tmcbRevisaoReformaMilitar);
   const
   tpMotCessBenefArrayStrings:array[tpMotCessBenef] of string = (''  ,'01','02','03','04','05',
-                                                                '06','07','08','09','10','11');
+                                                                '06','07','08','09','10','11','12');
+
+  type
+  tpSitHomolog          = (tshNenhum,
+                           tshNaoHomologado,
+                           tshHomologado,
+                           tshNaoRequerHomologacao);
+  const
+  tpSitHomologArrayStrings:array[tpSitHomolog] of string = ('', '0'  ,'1','2');
+
+  type
+  tpTPDepInst           = (tdiNenhum,
+                           tdiConjuge,
+                           tdiCompanheiro,
+                           tdiFilhoAte21Anos,
+                           tdiEnteado,
+                           tdiExCompanheiro,
+                           tdiIrmao,
+                           tdiNeto,
+                           tdiFilhaMaiorSolteira,
+                           tdiPais,
+                           tdiMenorSobGuardaOuTutela,
+                           tdiFilhoMaiorInvalidoOuComDeficiencia,
+                           tdiExConjuge,
+                           tdiAvos,
+                           tdiBisavos,
+                           tdiBisneto,
+                           tdiCuratelado,
+                           tdiDesignado,
+                           tdiAgregadoEOutros);
+  const
+  tpTPDepInstArrayStrings:array[tpTPDepInst] of string = ('', '01'  ,'02','03',
+                                                          '04', '05', '06', '07',
+                                                          '08', '09', '10', '11',
+                                                          '12', '13', '14', '15',
+                                                          '16', '17', '99');
+
   type
 
   tpMtvTermino            = tpMotCessBenef;
@@ -1290,6 +1327,12 @@ function eStpTpMotCessBenefToStr(const t: tpMotCessBenef): string;deprecated {$I
 function eSStrToTpMotCessBenef(var ok: boolean; const s: string): tpMotCessBenef;deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS}'Use a função eSStrToTpMotCessBenefEX conforme a sua necessidade' {$ENDIF};
 function eStpTpMotCessBenefToStrEX(const t: tpMotCessBenef): string;
 function eSStrToTpMotCessBenefEX(const s: string): tpMotCessBenef;
+
+function eStpTpSitHomologToStr(const t: tpSitHomolog): string;
+function eSStrToTpSitHomolog(const s: string): tpSitHomolog;
+
+function eStpTpDepInstToStr(const t: tpTPDepInst): string;
+function eSStrTotpTpDepInst(const s: string): tpTPDepInst;
 
 function eStpTpMtvSuspensaoToStr(const t: tpMtvSuspensao): string;
 function eSStrToTpMtvSuspensao(var ok: boolean; const s: string): tpMtvSuspensao;
@@ -2032,12 +2075,12 @@ end;
 
 function eSTpReintToStr(const t: tpTpReint ): string;
 begin
-  result := EnumeradoToStr2(t,[ '1', '2', '3', '4', '5', '9' ] );
+  result := EnumeradoToStr2(t,[ '1', '2', '3', '4', '5', '6', '9' ] );
 end;
 
 function eSStrToTpReint(var ok: boolean; const s: string): tpTpReint;
 begin
-  result := tpTpReint( StrToEnumerado2(ok , s,[ '1', '2', '3', '4', '5', '9' ] ));
+  result := tpTpReint( StrToEnumerado2(ok , s,[ '1', '2', '3', '4', '5', '6', '9' ] ));
 end;
 
 function eSCodIncIRRFToStr(const t:tpCodIncIRRF ): string;
@@ -2881,7 +2924,47 @@ end;
 
 function eSStrTotpTpPenMorte(var ok: boolean; const s: string): tpTpPenMorte;
 begin
-  result := tpTpPenMorte(StrToEnumerado2(ok, s, TGenericosString1_2) );
+  result := tpTpPenMorte(StrToEnumerado2(ok, s, TGenericosString0_2) );
+end;
+
+function eStpTpSitHomologToStr(const t: tpSitHomolog): string;
+begin
+  result := tpSitHomologArrayStrings[t];
+end;
+
+function eSStrToTpSitHomolog(const s: string): tpSitHomolog;
+var
+  idx: tpSitHomolog;
+begin
+  for idx := Low(tpSitHomologArrayStrings) to High(tpSitHomologArrayStrings) do
+  begin
+    if tpSitHomologArrayStrings[idx] = s then
+    begin
+      Result := idx;
+      Exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TpSitHomolog: %s', [s]);
+end;
+
+function eStpTpDepInstToStr(const t: tpTPDepInst): string;
+begin
+  result := tpTPDepInstArrayStrings[t];
+end;
+
+function eSStrTotpTpDepInst(const s: string): tpTPDepInst;
+var
+  idx: tpTPDepInst;
+begin
+  for idx := Low(tpTPDepInstArrayStrings) to High(tpTPDepInstArrayStrings)do
+  begin
+    if tpTPDepInstArrayStrings[idx] = s then
+    begin
+      Result := idx;
+      Exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TpDepInst: %s', [s]);
 end;
 
 function eSStrTotpTpPenMorteEX(const s: string): tpTpPenMorte;

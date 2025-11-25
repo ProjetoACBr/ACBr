@@ -67,11 +67,25 @@ type
     property nrBeneficio: string read FNrBeneficio write FNrBeneficio;
   end;
 
+  { TInstPenMorte }
+  TInstPenMorte = class(TObject)
+  private
+    FtpDepInst: tpTPDepInst;
+    FdescrDepInst: String;
+  public
+    property tpDepInst: tpTPDepInst read FtpDepInst write FtpDepInst;
+    property descrDepInst: String read FdescrDepInst write FdescrDepInst;
+  end;
+
+  { TInfoPenMorte }
   TInfoPenMorte = class(TObject)
   private
     FTpTpPenMorte: tpTpPenMorte;
+    FInstPenMorte: TInstPenMorte;
+    function getInstPenMorte: TInstPenMorte;
   public
     property tpPenMorte: tpTpPenMorte read FTpTpPenMorte write FTpTpPenMorte;
+    property instPenMorte: TInstPenMorte read getInstPenMorte write FInstPenMorte;
   end;
 
   TSuspensao = class(TObject)
@@ -132,6 +146,7 @@ type
     procedure GerarInfoBenAlteracao(pInfoBenAlteracao: TInfoBenAlteracao);
     procedure GerarDadosBeneficio(pDadosBeneficio: TDadosBeneficio);
     procedure GerarInfoPenMorte(pInfoPenMorte: TInfoPenMorte);
+    procedure GerarInstPenMorte(pInstPenMorte: TInstPenMorte);
     procedure GerarSuspensao(pSuspensao: TSuspensao);
   public
     constructor Create(AACBreSocial: TObject); override;
@@ -341,7 +356,24 @@ begin
 
   Gerador.wCampo(tcStr, '', 'tpPenMorte',  1,  1, 1, eStpTpPenMorteToStrEX(pInfoPenMorte.tpPenMorte));
 
+  GerarInstPenMorte(pInfoPenMorte.instPenMorte);
+
   Gerador.wGrupo('/infoPenMorte');
+end;
+
+procedure TEvtCdBenAlt.GerarInstPenMorte(pInstPenMorte: TInstPenMorte);
+begin
+  if pInstPenMorte.tpDepInst = tdiNenhum then
+    Exit;
+
+  Gerador.wGrupo('instPenMorte');
+
+  Gerador.wCampo(tcStr, '', 'tpDepInst', 2, 2, 1, eStpTpDepInstToStr(pInstPenMorte.tpDepInst));
+
+  if pInstPenMorte.tpDepInst = tdiAgregadoEOutros then
+    Gerador.wCampo(tcStr, '', 'descrDepInst', 1, 100, 1, pInstPenMorte.descrDepInst);
+
+  Gerador.wGrupo('/instPenMorte');
 end;
 
 procedure TEvtCdBenAlt.GerarSuspensao(pSuspensao: TSuspensao);
@@ -431,6 +463,10 @@ begin
       sSecao := 'infoPenMorte';
       InfoBenAlteracao.dadosBeneficio.infoPenMorte.tpPenMorte := eSStrTotpTpPenMorteEX(INIRec.ReadString(sSecao, 'tpPenMorte', EmptyStr));
 
+      sSecao := 'instPenMorte';
+      InfoBenAlteracao.dadosBeneficio.infoPenMorte.instPenMorte.tpDepInst := eSStrTotpTpDepInst(INIRec.ReadString(sSecao, 'tpDepInst', EmptyStr));
+      InfoBenAlteracao.dadosBeneficio.infoPenMorte.instPenMorte.descrDepInst := INIRec.ReadString(sSecao, 'descrDepInst', EmptyStr);
+
       sSecao := 'suspensao';
       InfoBenAlteracao.dadosBeneficio.suspensao.mtvSuspensao := eSStrToTpMtvSuspensao(Ok, INIRec.ReadString(sSecao, 'mtvSuspensao', EmptyStr));
       InfoBenAlteracao.dadosBeneficio.suspensao.dscSuspensao := INIRec.ReadString(sSecao, 'dscSuspensao', EmptyStr);
@@ -444,5 +480,12 @@ begin
   end;
 end;
 
+{ TInfoPenMorte }
+function TInfoPenMorte.getInstPenMorte: TInstPenMorte;
+begin
+  if not(Assigned(FInstPenMorte)) then
+    FInstPenMorte := TInstPenMorte.Create;
+  Result := FInstPenMorte;
+end;
 
 end.

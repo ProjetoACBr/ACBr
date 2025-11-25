@@ -520,7 +520,29 @@
         <xs:complexContent>
             <xs:extension base="T_detVerbas">
                 <xs:sequence>
-                    <xs:element name="descFolha" minOccurs="0" type="T_descFolha" />
+                    <xs:element name="descFolha" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Informações de desconto do empréstimo em folha.</xs:documentation>
+                            <xs:documentation>CONDICAO_GRUPO: O (se {}(1010_infoRubrica_inclusao_dadosRubrica_natRubr) em S-1010 = [9253]); N (nos demais casos)</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="tpDesc" type="TS_tpDesc" />
+                                <xs:element name="instFinanc" type="TS_instFinanc">
+                                    <xs:annotation>
+                                        <xs:documentation>Código Bancário de Consignado concedente do empréstimo.</xs:documentation>
+                                        <xs:documentation>Validação: Deve ser um código válido, conforme Tabela  37 do eSocial Tabelas.</xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>    
+                                <xs:element name="nrDoc" type="TS_nrDoc" />
+                                <xs:element name="observacao" minOccurs="0" type="TS_observacao">
+                                    <xs:annotation>
+                                        <xs:documentation>Outras informações do desconto.</xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>

@@ -560,8 +560,8 @@
                                                                                         <xs:element name="instFinanc">
                                                                                             <xs:simpleType>
                                                                                                 <xs:annotation>
-                                                                                                    <xs:documentation>Instituição financeira do empréstimo eConsignado.</xs:documentation>
-                                                                                                    <xs:documentation>Origem: campo {descFolha/instFinanc} dos eventos remuneratórios (S-1200, S-1202, S-1207, S-2299 e S-2399).</xs:documentation>
+                                                                                                    <xs:documentation>Código Bancário de Consignado concedente do empréstimo.</xs:documentation>
+                                                                                                    <xs:documentation>Origem: campo {descFolha/instFinanc} do evento remuneratório (S-1200, S-2299 ou S-2399).</xs:documentation>
                                                                                                 </xs:annotation>
                                                                                                 <xs:restriction base="xs:string">
                                                                                                     <xs:pattern value="\d{3}" />
@@ -572,10 +572,10 @@
                                                                                             <xs:simpleType>
                                                                                                 <xs:annotation>
                                                                                                     <xs:documentation>Número do contrato do empréstimo eConsignado.</xs:documentation>
-                                                                                                    <xs:documentation>Origem: campo {descFolha/nrDoc} dos eventos remuneratórios (S-1200, S-1202, S-1207, S-2299 e S-2399).</xs:documentation>
+                                                                                                    <xs:documentation>Origem: campo {descFolha/nrDoc} do evento remuneratório (S-1200, S-2299 ou S-2399).</xs:documentation>
                                                                                                 </xs:annotation>
                                                                                                 <xs:restriction base="xs:string">
-                                                                                                    <xs:minLength value="1" />
+                                                                                                    <xs:minLength value="2" />
                                                                                                     <xs:maxLength value="15" />
                                                                                                     <xs:pattern value="[A-Za-z0-9][-_A-Za-z0-9/.//]{0,13}[A-Za-z0-9]" />
                                                                                                 </xs:restriction>

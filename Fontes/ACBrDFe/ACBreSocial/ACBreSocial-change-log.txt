@@ -52,6 +52,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/11/2025
+-- Diversos --
+[*] ACBR-8343: Implementada NT 2025/005
+  Por: Thiago Augusto da Costa Ataides / Renato Rubinho
+
 24/11/2025
 -- Diversos --
 [*] ACBR-8127: Implementada NT 2025/004

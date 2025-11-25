@@ -73,9 +73,13 @@ type
   private
     FCpfInst: string;
     FDtInst: TDateTime;
+    FtpDepInst: tpTPDepInst;
+    FdescrDepInst: String;
   public
     property cpfInst: string read FCpfInst write FCpfInst;
     property dtInst: TDateTime read FDtInst write FDtInst;
+    property tpDepInst: tpTPDepInst read FtpDepInst write FtpDepInst;
+    property descrDepInst: String read FdescrDepInst write FdescrDepInst;
   end;
 
   TInfoPenMorte = class(TObject)
@@ -94,6 +98,18 @@ type
     property instPenMorte: TInstPenMorte read getInstPenMorte write FInstPenMorte;
   end;
 
+  { TInfoHomolog }
+  TInfoHomolog = class(TObject)
+  private
+    FSitHomolog: tpSitHomolog;
+    FDtHomolog: TDateTime;
+  public
+    constructor Create;
+
+    property sitHomolog: tpSitHomolog read FSitHomolog write FSitHomolog;
+    property dtHomolog: TDateTime read FDtHomolog write FDtHomolog;
+  end;
+
   TDadosBeneficio = class(TObject)
   private
     FTpBeneficio: integer;
@@ -102,19 +118,23 @@ type
     FIndDecJud: TpSimNaoFacultativo;
 
     FInfoPenMorte: TInfoPenMorte;
+    FInfoHomolog: TInfoHomolog;
 
     function getInfoPenMorte(): TInfoPenMorte;
+    function getInfoHomolog(): TInfoHomolog;
   public
     constructor Create;
     destructor Destroy; override;
 
     function infoPenMorteInst(): Boolean;
+    function infoHomologInst(): Boolean;
 
     property tpBeneficio: integer read FTpBeneficio write FTpBeneficio;
     property tpPlanRP: tpPlanRP read FTpPlanRP write FTpPlanRP;
     property dsc: String read FDsc write FDsc;
     property indDecJud: TpSimNaoFacultativo read FIndDecJud write FIndDecJud;
     property infoPenMorte: TInfoPenMorte read getInfoPenMorte write FInfoPenMorte;
+    property infoHomolog: TInfoHomolog read getInfoHomolog write FInfoHomolog;
   end;
 
   TSucessaoBenef = class(TObject)
@@ -202,6 +222,7 @@ type
     procedure GerarInstPenMorte(pInstPenMorte: TInstPenMorte);
     procedure GerarSucessaoBenef(pSucessaoBenef: TSucessaoBenef);
     procedure GerarMudancaCPF(pMudancaCPF: TMudancaCPF2410);
+    procedure GerarInfoHomolog(pInfoHomolog: TInfoHomolog);
   public
     constructor Create(AACBreSocial: TObject); override;
     destructor Destroy; override;
@@ -360,11 +381,23 @@ begin
   inherited;
 end;
 
+function TDadosBeneficio.getInfoHomolog: TInfoHomolog;
+begin
+  if not(Assigned(FInfoHomolog)) then
+    FInfoHomolog := TInfoHomolog.Create;
+  Result := FInfoHomolog;
+end;
+
 function TDadosBeneficio.getInfoPenMorte(): TInfoPenMorte;
 begin
   if not(Assigned(FInfoPenMorte)) then
     FInfoPenMorte := TInfoPenMorte.Create;
   Result := FInfoPenMorte;
+end;
+
+function TDadosBeneficio.infoHomologInst: Boolean;
+begin
+  Result := Assigned(FInfoHomolog);
 end;
 
 function TDadosBeneficio.infoPenMorteInst: Boolean;
@@ -436,6 +469,9 @@ begin
 
   if pDadosBeneficio.infoPenMorteInst() then
     GerarInfoPenMorte(pDadosBeneficio.infoPenMorte);
+
+  if pDadosBeneficio.infoHomologInst() then
+   GerarInfoHomolog(pDadosBeneficio.infoHomolog);
   
   Gerador.wGrupo('/dadosBeneficio');
 end;
@@ -488,9 +524,11 @@ begin
     
   Gerador.wGrupo('instPenMorte');
   
-  Gerador.wCampo(tcStr, '', 'cpfInst',   11, 11, 1, pInstPenMorte.cpfInst);
-  Gerador.wCampo(tcDat, '', 'dtInst'   , 10, 10, 1, pInstPenMorte.dtInst);
-  
+  Gerador.wCampo(tcStr, '', 'cpfInst',       11, 11, 1, pInstPenMorte.cpfInst);
+  Gerador.wCampo(tcDat, '', 'dtInst'   ,     10, 10, 1, pInstPenMorte.dtInst);
+  Gerador.wCampo(tcStr, '', 'tpDepInst',      2,  2, 0, eStpTpDepInstToStr(pInstPenMorte.tpDepInst));
+  Gerador.wCampo(tcStr, '', 'descrDepInst',   1,100, 0, pInstPenMorte.descrDepInst);
+
   Gerador.wGrupo('/instPenMorte');
 end;
 
@@ -521,6 +559,23 @@ begin
   Gerador.wCampo(tcInt, '', 'mtvTermino',       2,  2, 1, eStpTpMotCessBenefToStrEX(pInfoBenTermino.mtvTermino));
 
   Gerador.wGrupo('/infoBenTermino');
+end;
+
+procedure TEvtCdBenIn.GerarInfoHomolog(pInfoHomolog: TInfoHomolog);
+begin
+  if pInfoHomolog.sitHomolog = tshNenhum then
+    Exit;
+
+  Gerador.wGrupo('infoHomolog');
+
+  Gerador.wCampo(tcStr, '', 'sitHomolog', 1, 1, 1, eStpTpSitHomologToStr(pInfoHomolog.sitHomolog));
+
+  if pInfoHomolog.sitHomolog = tshHomologado then
+   begin
+    Gerador.wCampo(tcDat, '', 'dtHomolog', 10, 10, 0, pInfoHomolog.dtHomolog);
+   end;
+
+  Gerador.wGrupo('/infoHomolog');
 end;
 
 procedure TEvtCdBenIn.GerarInfoBenInicio(pInfoBenInicio: TInfoBenInicio);
@@ -579,12 +634,16 @@ begin
 end;
 
 function TEvtCdBenIn.LerArqIni(const AIniString: String): Boolean;
-//var
-//  INIRec: TMemIniFile;
-//  Ok: Boolean;
-//  sSecao: String;
 begin
   Result := True;
+end;
+
+{ TInfoHomolog }
+constructor TInfoHomolog.Create;
+begin
+  inherited Create;
+  FSitHomolog := tshNenhum;
+  FDtHomolog  := 0;
 end;
 
 end.
