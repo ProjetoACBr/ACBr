@@ -52,10 +52,10 @@ type
   EACBrBoletoWSAsaasException = class(Exception);
   TBoletoW_Asaas = class(TBoletoWSREST)
   private
-    procedure DefinirAuthorization; override;
   protected
     function DefinirParametros: string;
 
+    procedure DefinirAuthorization; override;
     procedure DefinirURL; override;
     procedure DefinirContentType; override;
     procedure GerarHeader; override;
@@ -295,7 +295,7 @@ procedure TBoletoW_Asaas.RequisicaoIncluir;
       tawsSandbox  : LURL := C_URL_CUSTOMER_SANDBOX;
     end;
 
-    LStream  := TStringStream.Create('');
+    LStream := TStringStream.Create('');
     try
       httpsend.OutputStream := LStream;
       httpsend.Headers.Clear;
@@ -331,9 +331,9 @@ procedure TBoletoW_Asaas.RequisicaoIncluir;
         httpsend.MimeType := FPContentType;
         httpsend.Headers.Text := FPKeyUser;
         httpsend.Document.Clear;
+        LJSON := TACBrJSONObject.Create;
         try
-          LJSON := TACBrJSONObject.Create
-                     .AddPair('name', ATitulo.Sacado.NomeSacado)
+          LJSON.AddPair('name', ATitulo.Sacado.NomeSacado)
                      .AddPair('cpfCnpj', OnlyNumber(ATitulo.Sacado.CNPJCPF))
                      .AddPair('email', ATitulo.Sacado.Email)
                      .AddPair('phone', ATitulo.Sacado.Fone)
@@ -355,7 +355,8 @@ procedure TBoletoW_Asaas.RequisicaoIncluir;
             LJSON := TACBrJSONObject.Parse(ReadStrFromStream(LStream, LStream.Size));
             LCustomerID := LJSON.AsString['id'];
           finally
-            LJSON.Free;
+            if Assigned(LJSON) then
+              LJSON.Free;
           end;
         end;
       finally
@@ -377,7 +378,7 @@ begin
 
       if not ((ATitulo.NossoNumero = '0') or
               (ATitulo.NossoNumero = Poem_Zeros('',Boleto.Banco.TamanhoMaximoNossoNum)) ) then
-        raise Exception.Create('Campo NossoNumero é inválido obrigatóriamente deve ser informado valor 0!');
+        raise Exception.Create('Campo NossoNumero é inválido obrigatoriamente deve ser informado valor 0!');
 
       if ATitulo.DataBaixa = 0 then
         ATitulo.DataBaixa := IncMonth(ATitulo.Vencimento, 1);
@@ -403,9 +404,9 @@ end;
 
 procedure TBoletoW_Asaas.RequisicaoAlterar;
 var
-  LJSON, LJSONDesconto, LJSONJuros, LJSONMulta : TACBrJSONObject;
+  LJSON: TACBrJSONObject;
 begin
-if Assigned(ATitulo) then
+  if Assigned(ATitulo) then
   begin
     LJSON := TACBrJSONObject.Create;
     try
