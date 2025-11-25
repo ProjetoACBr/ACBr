@@ -1556,6 +1556,44 @@ begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(ok, INIRec.ReadString(sSecao, 'tpAutor', '8'));
               infEvento.detEvento.indAceitacao := StrToIndAceitacao(INIRec.ReadString(sSecao, 'indAceitacao', ''));
             end;
+          tePagIntegLibCredPresAdq:
+            begin
+              infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
+            end;
+          teSolicApropCredPres:
+            begin
+              infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
+
+              J := 0;
+              while (True) do
+              begin
+                sSecao := 'gCredPres' + IntToStrZero(J+1, 3);
+                sFim := INIRec.ReadString(sSecao, 'nItem', 'FIM');
+                if (sFim='FIM') or (Length(sFim) <= 0) then
+                  break;
+
+                infEvento.detEvento.gCredPres.New;
+                infEvento.detEvento.gCredPres[J].nItem := StrToIntDef(sFim, 0);
+                infEvento.detEvento.gCredPres[J].vBC := INIRec.ReadFloat(sSecao, 'vBC', 0);
+
+                sSecao := 'gIBS' + IntToStrZero(J+1, 3);
+                if INIRec.SectionExists(sSecao) then
+                begin
+                  infEvento.detEvento.gCredPres[J].gIBS.cCredPres := StrTocCredPres(INIRec.ReadString(sSecao, 'cCredPres', ''));
+                  infEvento.detEvento.gCredPres[J].gIBS.pCredPres := INIRec.ReadFloat(sSecao, 'pCredPres', 0);
+                  infEvento.detEvento.gCredPres[J].gIBS.vCredPres := INIRec.ReadFloat(sSecao, 'vCredPres', 0);
+                end;
+                sSecao := 'gCBS' + IntToStrZero(J+1, 3);
+                if INIRec.SectionExists(sSecao) then
+                begin
+                  infEvento.detEvento.gCredPres[J].gCBS.cCredPres := StrTocCredPres(INIRec.ReadString(sSecao, 'cCredPres', ''));
+                  infEvento.detEvento.gCredPres[J].gCBS.pCredPres := INIRec.ReadFloat(sSecao, 'pCredPres', 0);
+                  infEvento.detEvento.gCredPres[J].gCBS.vCredPres := INIRec.ReadFloat(sSecao, 'vCredPres', 0);
+                end;
+
+                Inc(J);
+              end;
+            end;
         end;
       end;
 
@@ -1890,6 +1928,47 @@ begin
             Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
             Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
             Evento[i].InfEvento.detEvento.indAceitacao := StrToIndAceitacao(lDetEventoJSONObj.AsString['indAceitacao']);
+          end;
+        tePagIntegLibCredPresAdq:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+          end;
+        teSolicApropCredPres:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+
+            lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['gCredPres'];
+            if not Assigned(lAuxJSONArray) then
+              continue;
+            for j := 0 to lAuxJSONArray.Count-1 do
+            begin
+              lAuxJSONObj := lAuxJSONArray.ItemAsJSONObject[j];
+              if not Assigned(lAuxJSONObj) then
+                continue;
+              Evento[i].InfEvento.detEvento.gCredPres.New;
+              Evento[i].InfEvento.detEvento.gCredPres[j].nItem := lAuxJSONObj.AsInteger['nItem'];
+              Evento[i].InfEvento.detEvento.gCredPres[j].vBC := lAuxJSONObj.AsFloat['vBC'];
+
+              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['gIBS'];
+              if Assigned(lAuxJSONObj02) then
+              begin
+                Evento[i].InfEvento.detEvento.gCredPres[j].gIBS.cCredPres := StrTocCredPres(lAuxJSONObj02.AsString['cCredPres']);
+                Evento[i].InfEvento.detEvento.gCredPres[j].gIBS.pCredPres := lAuxJSONObj02.AsFloat['pCredPres'];
+                Evento[i].InfEvento.detEvento.gCredPres[j].gIBS.vCredPres := lAuxJSONObj02.AsFloat['vCredPres'];
+              end;
+
+              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['gCBS'];
+              if Assigned(lAuxJSONObj02) then
+              begin
+                Evento[i].InfEvento.detEvento.gCredPres[j].gCBS.cCredPres := StrTocCredPres(lAuxJSONObj02.AsString['cCredPres']);
+                Evento[i].InfEvento.detEvento.gCredPres[j].gCBS.pCredPres := lAuxJSONObj02.AsFloat['pCredPres'];
+                Evento[i].InfEvento.detEvento.gCredPres[j].gCBS.vCredPres := lAuxJSONObj02.AsFloat['vCredPres'];
+              end;
+            end;
           end;
       end;
     end;
