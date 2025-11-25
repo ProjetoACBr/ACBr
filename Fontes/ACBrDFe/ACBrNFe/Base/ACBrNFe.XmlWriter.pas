@@ -1897,9 +1897,16 @@ begin
   end;
 
   // Reforma Tributária
-  if NFe.Det[i].Imposto.ISel.CSTIS <> cstisNenhum then
-    Result.AppendChild(Gerar_ISel(NFe.Det[i].Imposto.ISel));
+  {
+    As linhas abaixo vão ficar comentados até que for publicado uma nova NT
+    que trata sobre o Imposto Seletivo que a principio só vai passar a ser
+    aceito a partir de 2027 e somente para produtos nocivos ao meio
+    ambiente e a saúde.
 
+  if (NFe.Det[i].Imposto.ISel.CSTIS <> cstisNenhum) and
+     (NFe.Det[i].Imposto.ISel.vBCIS > 0) then
+    Result.AppendChild(Gerar_ISel(NFe.Det[i].Imposto.ISel));
+  }
   Result.AppendChild(Gerar_IBSCBS(NFe.Det[i].Imposto.IBSCBS));
 end;
 
@@ -3444,7 +3451,14 @@ begin
   Result.AppendChild(GerarTotalretTrib);
 
   // Reforma Tributária
+  {
+    A linha abaixo vai ficar comentado até que for publicado uma nova NT
+    que trata sobre o Imposto Seletivo que a principio só vai passar a ser
+    aceito a partir de 2027 e somente para produtos nocivos ao meio
+    ambiente e a saúde.
+
   Result.AppendChild(Gerar_ISTot(NFe.Total.ISTot));
+  }
   Result.AppendChild(Gerar_IBSCBSTot(NFe.Total.IBSCBSTot));
 
   Result.AppendChild(AddNode(tcDe2, 'W60', 'vNFTot', 1, 15, 0,

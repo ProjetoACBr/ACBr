@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/11/2025
+-- ACBrNFe.XmlWriter --
+[*] #ACBR-8446 - Comentado as linhas que geram os grupos IS e ISTot, uma vez que só devem ser gerados a partir de 2027.
+  Por: Elton Barbosa/Italo Giurizzato Junior
+
 24/11/2025
 -- ACBrNFe.Envento --
 [+] Adiciona leitura do elemento tpAutor para os eventos já implementados na rotina que lê o JSON dos eventos.
