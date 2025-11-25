@@ -848,13 +848,19 @@ end;
 
 function TNFSeW_IPM.GerarXMLIBSCBSNFSe: TACBrXmlNode;
 begin
-  Result := CreateElement('IBSCBS');
+  Result := nil;
 
-  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedutor', 1, 2, 1,
+  if (NFSE.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) and
+     (NFSE.IBSCBS.valores.trib.gIBSCBS.cClassTrib <> '') then
+  begin
+    Result := CreateElement('IBSCBS');
+
+    Result.AppendChild(AddNode(tcDe2, '#1', 'pRedutor', 1, 2, 1,
                                                  NFSe.infNFSe.IBSCBS.pRedutor));
 
-  Result.AppendChild(GerarValoresBrutosIbsCbs);
-  Result.AppendChild(GerarTotalizadores);
+    Result.AppendChild(GerarValoresBrutosIbsCbs);
+    Result.AppendChild(GerarTotalizadores);
+  end;
 end;
 
 function TNFSeW_IPM.GerarValoresBrutosIbsCbs: TACBrXmlNode;
