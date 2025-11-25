@@ -36,6 +36,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/11/2025
+-- ACBrCalculadoraConsumo.Schemas --
+[*] Ajuste na função DateTimeToIso8601 para não informar o milisegundos.
+    por: Elias Cesar
+
 03/11/2025
 -- ACBrIMendes --
 [*] Alteração da URL enviada para o endpoint SaneamentoGrades.
