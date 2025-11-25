@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+25/11/2025
+-- Infisc.GravarXml --
+[*] #ACBr-8443/8457 Ajustes para gerar o XML sem os novos campos da Reforma tributária em ambiente
+    de produção, somente em homologação.
+   Por: dna.automacao/TiagoTecchio
+
 24/11/2025
 -- ACBrNFSeXConfiguracoes/ACBrNFSeXProviderBase/ACBrNFSeXProviderManager --
 -- ISSSaoPaulo.Provider/PadraoNacional.GravarXml/PadraoNacional.LerXml/PadraoNacional.Provider -
