@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 25/11/2025
+-- ISSe.GravarXml --
+[-] #ACBr-8455 Ajustes para não ocorrer mais erro de validação ao gerar o XML com os novos
+    campos.
+   Por: Italo Giurizzato Junior
 -- IPM.GravarXml --
 [*] #ACBr-8454 Ajustes para gerar o XML com os novos campos da reforma tributária no
     layout versão 2.04 da ABRASF.
