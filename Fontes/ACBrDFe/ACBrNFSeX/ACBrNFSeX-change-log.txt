@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 25/11/2025
+-- Giss.GravarXml --
+[*] #ACBr-8466 Alteração visando não gerar a tag Alíquota.
+   Por: breno.silva
 -- ACBrNFSeXServicos --
 [*] #ACBr-8454 A cidade Santa Cecilia/SC mudou de versão e URL, o provedor continua o mesmo.
    Por: lucasatz

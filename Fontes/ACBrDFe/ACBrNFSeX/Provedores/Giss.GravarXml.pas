@@ -93,8 +93,6 @@ begin
   NrOcorrCodigoPaisTomador := -1;
   NrOcorrcCredPres := -1;
 
-  NrOcorrAliquota := 1;
-
   GerarDest := False;
   GerarImovel := False;
   GerarTribRegular := False;
