@@ -967,7 +967,9 @@ begin
         // Reforma Tributária
         if rgReformaTributaria.ItemIndex = 0 then
         begin
-          //  Informações do tributo: Imposto Seletivo
+          //  Informações do tributo: Imposto Seletivo só para 2027 e para os
+          //  os produtos nocivos ao meio ambiente e a saúde.
+          {
           ISel.CSTIS := cstis000;
           ISel.cClassTribIS := '000001';
 
@@ -977,7 +979,7 @@ begin
           ISel.uTrib := 'UNIDAD';
           ISel.qTrib := 10;
           ISel.vIS := 100;
-
+          }
           {
             Utilize os CST (cst000, cst200, cst220 e cst510) e os cClassTrib
             correspondentes para gerar o grupo IBSCBS
@@ -1807,7 +1809,9 @@ begin
     // Reforma Tributária
     if rgReformaTributaria.ItemIndex = 0 then
     begin
-      //  Informações do tributo: Imposto Seletivo
+      //  INFORMAÇÕES DO TRIBUTO: IMPOSTO SELETIVO SÓ PARA 2027 E PARA OS
+      //  OS PRODUTOS NOCIVOS AO MEIO AMBIENTE E A SAÚDE.
+      {
       ISel.CSTIS := cstis000;
       ISel.cClassTribIS := '000001';
 
@@ -1817,7 +1821,7 @@ begin
       ISel.uTrib := 'UNIDAD';
       ISel.qTrib := 10;
       ISel.vIS := 100;
-
+      }
       {
         Utilize os CST (cst000, cst200, cst220, cst510 e cst550) e os cClassTrib
         correspondentes para gerar o grupo IBSCBS

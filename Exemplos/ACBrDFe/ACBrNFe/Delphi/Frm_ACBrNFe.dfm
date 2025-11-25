@@ -1842,7 +1842,6 @@ object frmACBrNFe: TfrmACBrNFe
           ActivePage = tsEventosComuns
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 557
           object tsEventosComuns: TTabSheet
             Caption = 'Comuns'
             object btnAtorInterNFeTransp: TButton
