@@ -5,6 +5,8 @@ const dotenv = require('dotenv')
 // ACBrLibNFSeMT é exportado como default
 const ACBrLibNFSeMT = require("@projetoacbr/acbrlib-nfse-node/dist/src").default;
 
+const {NFSeModoEnvio} = require("@projetoacbr/acbrlib-nfse-node/dist/src");
+
 
 
 // define os caminhos para a lib e o arquivo de exemplo
@@ -66,7 +68,9 @@ try {
 
   nfse.configGravar()
 
-  inicio = nfse.emitir("55", 0, false);
+  //
+  let modoEnvio = NFSeModoEnvio.TESTE;
+  inicio = nfse.emitir("55", modoEnvio, false);
   console.log(`NFSE_Emitir >>>>>>>> ${inicio}`);
 
 
