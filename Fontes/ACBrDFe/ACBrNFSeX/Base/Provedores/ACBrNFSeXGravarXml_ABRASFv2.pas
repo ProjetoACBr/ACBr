@@ -1301,6 +1301,10 @@ begin
   AINIRec.WriteInteger(FpSecao, 'CodigoPais', NFSe.Tomador.Endereco.CodigoPais);
   AINIRec.WriteString(FpSecao, 'Telefone', NFSe.Tomador.Contato.Telefone);
   AINIRec.WriteString(FpSecao, 'Email', NFSe.Tomador.Contato.Email);
+
+  AINIRec.WriteString(FpSecao, 'AtualizaTomador', FpAOwner.SimNaoToStr(NFSe.Tomador.AtualizaTomador));
+  AINIRec.WriteString(FpSecao, 'TomadorExterior', FpAOwner.SimNaoToStr(NFSe.Tomador.TomadorExterior));
+  AINIRec.WriteString(FpSecao, 'TomadorSubstitutoTributario', FpAOwner.SimNaoToStr(NFSe.Tomador.TomadorSubstitutoTributario));
 end;
 
 procedure TNFSeW_ABRASFv2.GerarINISecaoIntermediario(const AINIRec: TMemIniFile);

@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 25/11/2025
+-- ACBrNFSeXClass/ACBrNFSeXGravarXml_ABRASFv2/ACBrNFSeXLerXml_ABRASFv2/DeISS.GravarXml --
+[*] #ACBr-8459 Implementado o campo TomadorSubstitutoTributario para determinar se o 
+    tomador é ou não é substituto tributário.
+   Por: Vinicius Jung - DSV Bremen/Italo Giurizzato Junior
 -- IPM.GravarXml -
 [*] #ACBr-8461 Alteração visando não gerar o grupo IBSCBS quando os campos não estiverem
     alimentados.

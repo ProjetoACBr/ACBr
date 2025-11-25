@@ -1562,6 +1562,7 @@ begin
 
     NFSe.Tomador.AtualizaTomador := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(LSecao, 'AtualizaTomador', '1'));
     NFSe.Tomador.TomadorExterior := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(LSecao, 'TomadorExterior', '2'));
+    NFSe.Tomador.TomadorSubstitutoTributario := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(LSecao, 'TomadorSubstitutoTributario', '2'));
   end;
 end;
 

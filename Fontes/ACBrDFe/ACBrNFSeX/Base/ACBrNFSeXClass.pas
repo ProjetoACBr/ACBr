@@ -993,6 +993,7 @@ type
 
     FAtualizaTomador: TnfseSimNao;
     FTomadorExterior: TnfseSimNao;
+    FTomadorSubstitutoTributario: TnfseSimNao;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1004,6 +1005,7 @@ type
     property Contato: TContato read FContato write FContato;
     property AtualizaTomador: TnfseSimNao read FAtualizaTomador write FAtualizaTomador;
     property TomadorExterior: TnfseSimNao read FTomadorExterior write FTomadorExterior;
+    property TomadorSubstitutoTributario: TnfseSimNao read FTomadorSubstitutoTributario write FTomadorSubstitutoTributario;
   end;
 
   TDadosIntermediario = class(TObject)

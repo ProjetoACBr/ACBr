@@ -86,8 +86,9 @@ end;
 
 function TNFSeW_DeISS203.GerarXml: Boolean;
 begin
-  if (NFSe.Servico.Valores.IssRetido = stRetencao) or
-     (NFSe.Prestador.Endereco.CodigoMunicipio <> IntToStr(NFSe.Servico.MunicipioIncidencia)) then
+  if ((NFSe.Servico.Valores.IssRetido = stRetencao) or
+     (NFSe.Prestador.Endereco.CodigoMunicipio <> IntToStr(NFSe.Servico.MunicipioIncidencia))) and
+     (NFSe.Tomador.TomadorSubstitutoTributario = snNao) then
     NrOcorrValorIss := 1
   else
     NrOcorrValorIss := -1;
