@@ -37,6 +37,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/11/2025
+-- ACBrUtil.DateTime --
+[+] Inclusão da função 'DateToIso8601';
+[+] Inclusão do parâmetro 'IncludeMilliseconds' na função 'DateTimeToIso8601', para possibilitar
+    a conversão SEM os milisegundos.
+    por: Elias Cesar
+
 29/09/2025
 -- ACBrUtil.FilesIO --
 [*] Implementado a função CarregarArquivo, retorna o conteudo do arquivo como sendo
