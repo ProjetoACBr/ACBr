@@ -1149,7 +1149,10 @@ begin
   Result := CreateElement('trib');
 
   Result.AppendChild(GerarXMLTributacaoMunicipal);
-  Result.AppendChild(GerarXMLTributacaoFederal);
+
+  if NFSe.OptanteSN <> osnOptanteMEI then
+    Result.AppendChild(GerarXMLTributacaoFederal);
+
   Result.AppendChild(GerarXMLTotalTributos);
 end;
 
@@ -1219,14 +1222,16 @@ end;
 
 function TNFSeW_PadraoNacional.GerarXMLTributacaoFederal: TACBrXmlNode;
 begin
-  Result := CreateElement('tribFed');
-
-  Result.AppendChild(GerarXMLTributacaoOutrosPisCofins);
-
   if (NFSe.Servico.Valores.tribFed.vRetCP > 0) or
      (NFSe.Servico.Valores.tribFed.vRetIRRF > 0) or
-     (NFSe.Servico.Valores.tribFed.vRetCSLL > 0) then
+     (NFSe.Servico.Valores.tribFed.vRetCSLL > 0) or
+     (NFSe.Servico.Valores.tribFed.CST <> cstVazio) then
   begin
+    Result := CreateElement('tribFed');
+
+    if NFSe.Servico.Valores.tribFed.CST <> cstVazio then
+      Result.AppendChild(GerarXMLTributacaoOutrosPisCofins);
+
     Result.AppendChild(AddNode(tcDe2, '#1', 'vRetCP', 1, 15, 0,
                                       NFSe.Servico.Valores.tribFed.vRetCP, ''));
 
