@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 25/11/2025
+-- IPM.GravarXml --
+[*] #ACBr-8454 Ajustes para gerar o XML com os novos campos da reforma tributária no
+    layout versão 2.04 da ABRASF.
+   Por: Italo Giurizzato Junior
 -- Infisc.GravarXml --
 [*] #ACBr-8443/8457 Ajustes para gerar o XML sem os novos campos da Reforma tributária em ambiente
     de produção, somente em homologação.
