@@ -93,6 +93,9 @@ begin
   NrOcorrCodigoPaisTomador := -1;
   NrOcorrcCredPres := -1;
 
+  if Now >= EncodeDate(2026, 1, 1) then
+    NrOcorrCodigoNBS := 1;
+
   GerarDest := False;
   GerarImovel := False;
   GerarTribRegular := False;
@@ -178,14 +181,17 @@ function TNFSeW_Giss204.GerarEnderecoExteriorTomador: TACBrXmlNode;
 begin
   Result := inherited GerarEnderecoExteriorTomador;
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'cEndPost', 1, 11, 1,
+  if NFSe.Tomador.Endereco.CEP <> '' then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#1', 'cEndPost', 1, 11, 1,
                                                 NFSe.Tomador.Endereco.CEP, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'xCidade', 1, 60, 1,
+    Result.AppendChild(AddNode(tcStr, '#1', 'xCidade', 1, 60, 1,
                                          NFSe.Tomador.Endereco.xMunicipio, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'xEstProvReg', 1, 60, 1,
+    Result.AppendChild(AddNode(tcStr, '#1', 'xEstProvReg', 1, 60, 1,
                                                  NFSe.Tomador.Endereco.UF, ''));
+  end;
 end;
 
 function TNFSeW_Giss204.GerarValores: TACBrXmlNode;

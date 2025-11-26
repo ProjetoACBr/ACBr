@@ -950,7 +950,7 @@ begin
     Result.AppendChild(AddNode(tcStr, '#38', 'RazaoSocial', 1, 115, 0,
                                           NFSe.Tomador.RazaoSocial, DSC_XNOME));
 
-    if GerarEnderecoExterior and (NFSe.Tomador.Endereco.UF = 'EX') then
+    if GerarEnderecoExterior and (NFSe.Tomador.Endereco.CodigoPais <> 1058) then
       Result.AppendChild(GerarEnderecoExteriorTomador)
     else
       Result.AppendChild(GerarEnderecoTomador);

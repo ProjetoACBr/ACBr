@@ -60,7 +60,6 @@ type
 implementation
 
 uses
-  ACBrXmlBase,
   ACBrUtil.Base,
   ACBrDFe.Conversao,
   ACBrNFSeXConversao;

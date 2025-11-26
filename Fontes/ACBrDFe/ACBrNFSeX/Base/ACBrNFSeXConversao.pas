@@ -513,12 +513,12 @@ const
   TtpSuspArrayStrings: array[TtpSusp] of string = ('', '1', '2');
 
 type
-  TCST = (cst00, cst01, cst02, cst03, cst04, cst05, cst06, cst07,
-          cst08, cst09, cstVazio);
+  TCST = (cstVazio, cst00, cst01, cst02, cst03, cst04, cst05, cst06, cst07,
+          cst08, cst09);
 
 const
-  TCSTArrayStrings: array[TCST] of string = ('00', '01', '02', '03', '04',
-    '05', '06', '07', '08', '09', '');
+  TCSTArrayStrings: array[TCST] of string = ('', '00', '01', '02', '03', '04',
+    '05', '06', '07', '08', '09');
 
 type
   TtpRetPisCofins = (trpcRetido, trpcNaoRetido, trpcNenhum);
@@ -13169,17 +13169,17 @@ end;
 function CSTToStr(const t: TCST): string;
 begin
   result := EnumeradoToStr(t,
-        ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', ''],
-        [cst00, cst01, cst02, cst03, cst04, cst05, cst06, cst07, cst08, cst09,
-         cstVazio]);
+        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09'],
+        [cstVazio, cst00, cst01, cst02, cst03, cst04, cst05, cst06, cst07,
+         cst08, cst09]);
 end;
 
 function StrToCST(out ok: Boolean; const s: string): TCST;
 begin
   result := StrToEnumerado(ok, s,
-        ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', ''],
-        [cst00, cst01, cst02, cst03, cst04, cst05, cst06, cst07, cst08, cst09,
-         cstVazio]);
+        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09'],
+        [cstVazio, cst00, cst01, cst02, cst03, cst04, cst05, cst06, cst07,
+         cst08, cst09]);
 end;
 
 function tpRetPisCofinsToStr(const t: TtpRetPisCofins): string;

@@ -602,12 +602,12 @@ begin
     if ((NFSe.Producao = snSim) and (Now >= EncodeDate(2026, 1, 1))) or
        (NFSe.Producao <> snSim) then
     begin
-        if NFSe.Prestador.Endereco.CodigoMunicipio <> '' then
-           Result.AppendChild(AddNode(tcStr, '#1', 'cLocPrestacao', 1, 15, 1,
-                                      NFSe.Prestador.Endereco.CodigoMunicipio, ''));
+      if NFSe.Prestador.Endereco.CodigoMunicipio <> '' then
+         Result.AppendChild(AddNode(tcStr, '#1', 'cLocPrestacao', 1, 15, 1,
+                                  NFSe.Prestador.Endereco.CodigoMunicipio, ''));
 
-        Result.AppendChild(AddNode(tcInt, '#1', 'cPaisPrestacao', 1, 4, 1,
-                                           NFSe.Prestador.Endereco.CodigoPais, ''));
+      Result.AppendChild(AddNode(tcInt, '#1', 'cPaisPrestacao', 1, 4, 1,
+                                       NFSe.Prestador.Endereco.CodigoPais, ''));
     end;
   end;
 end;
