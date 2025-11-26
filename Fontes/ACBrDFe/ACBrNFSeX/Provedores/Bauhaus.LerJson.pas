@@ -503,7 +503,7 @@ begin
   sSecao := 'Prestador';
   if AINIRec.SectionExists(sSecao) then
   begin
-    NFSe.Prestador.IdentificacaoPrestador.CpfCnpj := AINIRec.ReadString(sSecao, 'CNPJ', '');
+    NFSe.Prestador.IdentificacaoPrestador.InscricaoMunicipal := AINIRec.ReadString(sSecao, 'InscricaoMunicipal', '');
   end;
 end;
 
@@ -547,6 +547,8 @@ begin
     NFSe.IdentificacaoRps.Serie := AINIRec.ReadString(sSecao, 'Serie', '0');
 
     sData := AINIRec.ReadString(sSecao, 'DataEmissaoRps', '');
+    if sData = '' then
+      sData := AINIRec.ReadString(sSecao, 'DataEmissao', '');
     if sData <> '' then
       NFSe.DataEmissaoRps := StringToDateTimeDef(sData, 0);
 

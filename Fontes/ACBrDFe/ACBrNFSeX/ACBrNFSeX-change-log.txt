@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 26/11/2025
+-- Bauhaus.GravarJson/Bauhaus.LerJson --
+[*] #ACBr-8486 Ajustes na leitura do arquivo INI.
+  Por: Italo Giurizzato Junior
 -- ACBrNFSeXClass/ACBrNFSeXConversao/ACBrNFSeXGravarXml/ACBrNFSeXLerXml --
 [*] #ACBr-8469/8485 Definido um novo tipo para o tpOper para a NFS-e pois possui 
     mais opções do que o tipo definido para os demais DF-e.

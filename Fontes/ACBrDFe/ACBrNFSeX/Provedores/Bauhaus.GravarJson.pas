@@ -207,7 +207,7 @@ begin
               .AddPair('Numero', StrToIntDef(NFSe.IdentificacaoRps.Numero, 0))
               .AddPair('Serie', StrToIntDef(NFSe.IdentificacaoRps.Serie, 0))
               .AddPair('Tipo', 1)
-              .AddPairISODate('DataEmissao', NFSe.DataEmissaoRps);
+              .AddPairISODate('DataEmissao', NFSe.DataEmissao);
 end;
 
 function TNFSeW_Bauhaus.GerarServicos: TACBrJSONArray;
@@ -359,7 +359,7 @@ begin
   AINIRec.WriteString(sSecao, 'OutrasInformacoes', StringReplace(NFSe.OutrasInformacoes, sLineBreak, FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]));
   AINIRec.WriteString(sSecao, 'Numero', NFSe.IdentificacaoRps.Numero);
   AINIRec.WriteString(sSecao, 'Serie', NFSe.IdentificacaoRps.Serie);
-  AINIRec.WriteString(sSecao, 'DataEmissaoRps', DateTimeToStr(NFSe.DataEmissaoRps));
+  AINIRec.WriteString(sSecao, 'DataEmissao', DateTimeToStr(NFSe.DataEmissao));
   {
 
    if NFSe.tpXML = txmlNFSe then
