@@ -4215,8 +4215,9 @@ begin
     Result.AppendChild(AddNode(tcStr, 'UB13', 'cClassTrib', 6, 6, 1,
                                             IBSCBS.cClassTrib, DSC_CCLASSTRIB));
 
-    Result.AppendChild(AddNode(tcStr, '#3', 'indDoacao', 1, 1, 0,
-              pcnConversao.TIndicadorExToStr(IBSCBS.indDoacao), DSC_INDDOACAO));
+    if IBSCBS.indDoacao = tieSim then
+      Result.AppendChild(AddNode(tcStr, '#3', 'indDoacao', 1, 1, 0,
+                                                           '1', DSC_INDDOACAO));
 
     case IBSCBS.CST of
       cst000, cst200, cst220, cst510:
@@ -4232,10 +4233,6 @@ begin
       cst800:
         if (NFe.Ide.modelo = 55) then
           Result.AppendChild(Gerar_IBSCBS_gTransfCred(IBSCBS.gTransfCred));
-
-//      cst810:
-//        if (NFe.Ide.modelo = 55) and (IBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM <> tcpNenhum) then
-//          Result.AppendChild(Gerar_IBSCBS_gCredPresIBSZFM(IBSCBS.gCredPresIBSZFM));
 
       cst811:
         if (NFe.Ide.modelo = 55) then

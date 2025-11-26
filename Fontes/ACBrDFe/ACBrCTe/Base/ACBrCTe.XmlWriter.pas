@@ -4632,13 +4632,14 @@ begin
     Result.AppendChild(AddNode(tcStr, '#2', 'cClassTrib', 6, 6, 1,
                                             IBSCBS.cClassTrib, DSC_CCLASSTRIB));
 
-    Result.AppendChild(AddNode(tcStr, '#3', 'indDoacao', 1, 1, 0,
-                           TIndicadorExToStr(IBSCBS.indDoacao), DSC_INDDOACAO));
+    if IBSCBS.indDoacao = tieSim then
+      Result.AppendChild(AddNode(tcStr, '#3', 'indDoacao', 1, 1, 0,
+                                                           '1', DSC_INDDOACAO));
 
-    if (ModeloDF in [moCTe, moCTeSimp]) and (IBSCBS.CST in [cst000, cst200, cst400]) then
+    if (ModeloDF in [moCTe, moCTeSimp]) and (IBSCBS.CST in [cst000, cst200]) then
         Result.AppendChild(Gerar_IBSCBS_gIBSCBS(IBSCBS.gIBSCBS));
 
-    if (ModeloDF = moCTeOS) and (IBSCBS.CST in [cst000, cst222, cst410]) then
+    if (ModeloDF = moCTeOS) and (IBSCBS.CST in [cst000, cst222]) then
         Result.AppendChild(Gerar_IBSCBS_gIBSCBS(IBSCBS.gIBSCBS));
 
     if (IBSCBS.gEstornoCred.vIBSEstCred > 0) or (IBSCBS.gEstornoCred.vCBSEstCred > 0) then

@@ -2285,8 +2285,9 @@ begin
     Result.AppendChild(AddNode(tcStr, '#2', 'cClassTrib', 6, 6, 1,
                                             IBSCBS.cClassTrib, DSC_CCLASSTRIB));
 
-    Result.AppendChild(AddNode(tcStr, '#3', 'indDoacao', 1, 1, 0,
-              pcnConversao.TIndicadorExToStr(IBSCBS.indDoacao), DSC_INDDOACAO));
+    if IBSCBS.indDoacao = tieSim then
+      Result.AppendChild(AddNode(tcStr, '#3', 'indDoacao', 1, 1, 0,
+                                                           '1', DSC_INDDOACAO));
 
     if IBSCBS.CST in [cst000, cst510, cst830] then
       Result.AppendChild(Gerar_IBSCBS_gIBSCBS(IBSCBS.gIBSCBS));

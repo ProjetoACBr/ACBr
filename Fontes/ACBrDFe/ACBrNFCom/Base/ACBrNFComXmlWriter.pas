@@ -1622,14 +1622,15 @@ begin
     Result.AppendChild(AddNode(tcStr, '#2', 'cClassTrib', 6, 6, 1,
                                             IBSCBS.cClassTrib, DSC_CCLASSTRIB));
 
-    Result.AppendChild(AddNode(tcStr, '#3', 'indDoacao', 1, 1, 0,
-              pcnConversao.TIndicadorExToStr(IBSCBS.indDoacao), DSC_INDDOACAO));
+    if IBSCBS.indDoacao = tieSim then
+      Result.AppendChild(AddNode(tcStr, '#3', 'indDoacao', 1, 1, 0,
+                                                           '1', DSC_INDDOACAO));
 
     if IBSCBS.CST = cst000 then
       Result.AppendChild(Gerar_IBSCBS_gIBSCBS(IBSCBS.gIBSCBS));
 
-  if (IBSCBS.gEstornoCred.vIBSEstCred > 0) or (IBSCBS.gEstornoCred.vCBSEstCred > 0) then
-    Result.AppendChild(Gerar_gEstornoCred(IBSCBS.gEstornoCred));
+    if (IBSCBS.gEstornoCred.vIBSEstCred > 0) or (IBSCBS.gEstornoCred.vCBSEstCred > 0) then
+      Result.AppendChild(Gerar_gEstornoCred(IBSCBS.gEstornoCred));
   end;
 end;
 
