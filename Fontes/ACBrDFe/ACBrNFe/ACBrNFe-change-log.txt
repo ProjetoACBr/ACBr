@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/11/2025
+-- ACBrNFe.EnvEvento --
+[+] #ACBR-5451 - Implementado a leitura INI e JSON dos eventos: "Destinação de item para consumo pessoal" e "Perecimento, perda, roubo ou furto durante o transporte contratado pelo adquirente".
+  Por: Diego Folieni
+
 25/11/2025
 -- ACBrNFe.EnvEvento --
 [+] #ACBR-5451 - Implementado a leitura INI e JSON dos eventos: "Informação de efetivo pagamento integral para liberar crédito presumido do adquirente" e "Solicitação de Apropriação de crédito presumido".

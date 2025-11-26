@@ -1594,6 +1594,58 @@ begin
                 Inc(J);
               end;
             end;
+          teDestItemConsPessoal:
+            begin
+              infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
+              J := 0;
+              while (True) do
+              begin
+                sSecao := 'gConsumo' + IntToStrZero(J+1, 3);
+                sFim := INIRec.ReadString(sSecao, 'nItem', 'FIM');
+                if (sFim='FIM') or (Length(sFim) <= 0) then
+                  break;
+
+                infEvento.detEvento.gConsumo.New;
+                infEvento.detEvento.gConsumo[J].nItem := StrToIntDef(sFim, 0);
+                infEvento.detEvento.gConsumo[J].vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
+                infEvento.detEvento.gConsumo[J].vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+
+                sSecao := 'gControleEstoque' + IntToStrZero(J+1, 3);
+                infEvento.detEvento.gConsumo[J].gControleEstoque.qConsumo := INIRec.ReadFloat(sSecao, 'qConsumo', 0);
+                infEvento.detEvento.gConsumo[J].gControleEstoque.uConsumo := INIRec.ReadString(sSecao, 'uConsumo', '');
+
+                sSecao := 'DFeReferenciado' + IntToStrZero(J+1, 3);
+                infEvento.detEvento.gConsumo[J].DFeReferenciado.nItem := INIRec.ReadInteger(sSecao, 'nItem', 0);
+                infEvento.detEvento.gConsumo[J].DFeReferenciado.chaveAcesso := INIRec.ReadString(sSecao, 'chaveAcesso', '');
+
+                Inc(J);
+              end;
+            end;
+          tePerecPerdaRouboFurtoTranspContratAqu:
+            begin
+              infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
+
+              infEvento.detEvento.tpAutor := StrToTipoAutor(ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
+
+              J := 0;
+              while True do
+              begin
+                sSecao := 'gPerecimento' + IntToStrZero(J+1, 3);
+                sFim := INIRec.ReadString(sSecao, 'nItem', 'FIM');
+                if (sFim = 'FIM') or (Length(sFIM) <= 0) then
+                  break;
+
+                infEvento.detEvento.gPerecimento.New;
+                infEvento.detEvento.gPerecimento[J].nItem := StrToIntDef(sFim, 0);
+                infEvento.detEvento.gPerecimento[J].vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
+                infEvento.detEvento.gPerecimento[J].vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+
+                sSecao := 'gControleEstoque' + IntToStrZero(J+1, 3);
+                infEvento.detEvento.gPerecimento[J].gControleEstoque.qPerecimento := INIRec.ReadFloat(sSecao, 'qPerecimento', 0);
+                infEvento.detEvento.gPerecimento[J].gControleEstoque.uPerecimento := INIRec.ReadString(sSecao, 'uPerecimento', '');
+                Inc(J);
+              end;
+            end;
         end;
       end;
 
@@ -1967,6 +2019,68 @@ begin
                 Evento[i].InfEvento.detEvento.gCredPres[j].gCBS.cCredPres := StrTocCredPres(lAuxJSONObj02.AsString['cCredPres']);
                 Evento[i].InfEvento.detEvento.gCredPres[j].gCBS.pCredPres := lAuxJSONObj02.AsFloat['pCredPres'];
                 Evento[i].InfEvento.detEvento.gCredPres[j].gCBS.vCredPres := lAuxJSONObj02.AsFloat['vCredPres'];
+              end;
+            end;
+          end;
+        teDestItemConsPessoal:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+
+            lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['gConsumo'];
+            if not Assigned(lAuxJSONArray) then
+              continue;
+            for j := 0 to lAuxJSONArray.Count-1 do
+            begin
+              lAuxJSONObj := lAuxJSONArray.ItemAsJSONObject[j];
+              if not Assigned(lAuxJSONObj) then
+                continue;
+
+              Evento[i].InfEvento.detEvento.gConsumo.New;
+              Evento[i].InfEvento.detEvento.gConsumo[j].nItem := lAuxJSONObj.AsInteger['nItem'];
+              Evento[i].InfEvento.detEvento.gConsumo[j].vIBS := lAuxJSONObj.AsFloat['vIBS'];
+              Evento[i].InfEvento.detEvento.gConsumo[j].vCBS := lAuxJSONObj.AsFloat['vCBS'];
+
+              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['gControleEstoque'];
+              if not Assigned(lAuxJSONObj02) then
+                continue;
+
+              Evento[i].InfEvento.detEvento.gConsumo[j].gControleEstoque.qConsumo := lAuxJSONObj02.AsFloat['qConsumo'];
+              Evento[i].InfEvento.detEvento.gConsumo[j].gControleEstoque.uConsumo := lAuxJSONObj02.AsString['uConsumo'];
+
+              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['DFeReferenciado'];
+              if not Assigned(lAuxJSONObj02) then
+                continue;
+
+              Evento[i].InfEvento.detEvento.gConsumo[j].DFeReferenciado.nItem := lAuxJSONObj02.AsInteger['nItem'];
+              Evento[i].InfEvento.detEvento.gConsumo[j].DFeReferenciado.chaveAcesso := lAuxJSONObj02.AsString['chaveAcesso'];
+            end;
+          end;
+        tePerecPerdaRouboFurtoTranspContratAqu:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+
+            lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['gPerecimento'];
+            if not Assigned(lAuxJSONArray) then
+              continue;
+            for j := 0 to lAuxJSONArray.Count-1 do
+            begin
+              lAuxJSONObj := lAuxJSONArray.ItemAsJSONObject[j];
+              if not Assigned(lAuxJSONObj) then
+                continue;
+              Evento[i].InfEvento.detEvento.gPerecimento.New;
+              Evento[i].InfEvento.detEvento.gPerecimento[j].nItem := lAuxJSONObj.AsInteger['nItem'];
+              Evento[i].InfEvento.detEvento.gPerecimento[j].vIBS := lAuxJSONObj.AsFloat['vIBS'];
+              Evento[i].InfEvento.detEvento.gPerecimento[j].vCBS := lAuxJSONObj.AsFloat['vCBS'];
+
+              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['gControleEstoque'];
+              if Assigned(lAuxJSONObj02) then
+              begin
+                Evento[i].InfEvento.detEvento.gPerecimento[j].gControleEstoque.qPerecimento := lAuxJSONObj02.AsFloat['qPerecimento'];
+                Evento[i].InfEvento.detEvento.gPerecimento[j].gControleEstoque.uPerecimento := lAuxJSONObj02.AsString['uPerecimento'];
               end;
             end;
           end;
