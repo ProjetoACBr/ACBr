@@ -1625,8 +1625,6 @@ begin
             begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
 
-              infEvento.detEvento.tpAutor := StrToTipoAutor(ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
-
               J := 0;
               while True do
               begin
@@ -1645,6 +1643,11 @@ begin
                 infEvento.detEvento.gPerecimento[J].gControleEstoque.uPerecimento := INIRec.ReadString(sSecao, 'uPerecimento', '');
                 Inc(J);
               end;
+            end;
+          teAceiteDebitoApuracaoNotaCredito:
+            begin
+              infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
+              infEvento.detEvento.indAceitacao := StrToIndAceitacao(INIRec.ReadString(sSecao, 'indAceitacao', '0'));
             end;
         end;
       end;
@@ -2083,6 +2086,13 @@ begin
                 Evento[i].InfEvento.detEvento.gPerecimento[j].gControleEstoque.uPerecimento := lAuxJSONObj02.AsString['uPerecimento'];
               end;
             end;
+          end;
+        teAceiteDebitoApuracaoNotaCredito:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+            Evento[i].InfEvento.detEvento.indAceitacao := StrToIndAceitacao(lDetEventoJSONObj.AsString['indAceitacao']);
           end;
       end;
     end;

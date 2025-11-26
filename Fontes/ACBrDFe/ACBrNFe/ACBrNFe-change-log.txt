@@ -46,6 +46,8 @@ Símbolo : Significado
 
 26/11/2025
 -- ACBrNFe.EnvEvento --
+[+] #ACBR-5451 - Implementado a leitura INI e JSON do evento "Aceite de débito na apuração por emissão de nota de crédito".
+  Por: Diego Folieni
 [+] #ACBR-5451 - Implementado a leitura INI e JSON dos eventos: "Destinação de item para consumo pessoal" e "Perecimento, perda, roubo ou furto durante o transporte contratado pelo adquirente".
   Por: Diego Folieni
 
