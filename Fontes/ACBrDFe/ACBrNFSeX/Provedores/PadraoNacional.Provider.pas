@@ -1736,7 +1736,7 @@ begin
   begin
     Result := UTF8Decode(Result);
 
-    if (Pos('{"', Result) = 0) then
+    if not StringIsJSON(Result) then
     begin
       Result := '{' +
                   '"tipoAmbiente": "",' +

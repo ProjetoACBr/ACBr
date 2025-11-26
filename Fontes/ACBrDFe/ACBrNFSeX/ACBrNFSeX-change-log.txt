@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 26/11/2025
+-- PadraoNacional.Provider --
+[-] #ACBr-8483 Ajuste visando o correto tratamento do retorno para as respostas do PadraoNacional
+  Por: Diego Folieni
 -- Ginfes.GravarXml/Ginfes.LerXml --
 [*] #ACBr-8444 Alterações visando a Reforma Tributária
    Por: Italo Giurizzato Junior
