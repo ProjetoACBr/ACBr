@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 26/11/2025
+-- Ginfes.GravarXml/Ginfes.LerXml --
+[*] #ACBr-8444 Alterações visando a Reforma Tributária
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXConversao/ACBrNFSeXGravarXml_ABRASFv2/Giss.GravarXml/Giss.LerXml/Infisc.GravarXml --
 [*] Ajustes no CST que se não informando estava sendo considerado o CST01.
    Por: Italo Giurizzato Junior
