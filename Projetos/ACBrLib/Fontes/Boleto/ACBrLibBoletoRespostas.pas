@@ -81,6 +81,7 @@ type
     FDensidadeGravacao: String;
     FCIP: String;
     FKeySoftwareHouse: String;
+    FDataArquivo: TDateTime;
 
   public
     constructor Create(const ATipo: TACBrLibRespostaTipo; const AFormato: TACBrLibCodificacao); reintroduce;
@@ -98,6 +99,7 @@ type
     property DensidadeGravacao: String read FDensidadeGravacao write FDensidadeGravacao;
     property CIP: String read FCIP write FCIP;
     property KeySoftwareHouse: String read FKeySoftwareHouse write FKeySoftwareHouse;
+    property DataArquivo: TDateTime read FDataArquivo write FDataArquivo;
 
   end;
 
@@ -181,9 +183,6 @@ type
     FEMV: String;
     FTxID: String;
     FURL: String;
-
-
-
   public
     constructor Create(const AID: Integer; const ATipo: TACBrLibRespostaTipo; const AFormato: TACBrLibCodificacao); reintroduce;
     destructor Destroy; override;
@@ -832,6 +831,7 @@ begin
   IDCodBarras:= RetEnvio.DadosRet.IDBoleto.CodBarras;
   IDLinhaDig:= RetEnvio.DadosRet.IDBoleto.LinhaDig;
   IDNossoNum:= RetEnvio.DadosRet.IDBoleto.NossoNum;
+
   IDURL:= RetEnvio.DadosRet.IDBoleto.URL;
 
   for J:= 0 to  RetEnvio.ListaRejeicao.Count -1 do
@@ -946,6 +946,7 @@ var
 begin
   if ACBrBoleto.ListadeBoletos.Count > 0 then
   begin
+
     Sacado_Nome := ACBrBoleto.ListadeBoletos[FID].Sacado.NomeSacado;
     Sacado_CNPJCPF := ACBrBoleto.ListadeBoletos[FID].Sacado.CNPJCPF;
     Vencimento := ACBrBoleto.ListadeBoletos[FID].Vencimento;
@@ -1042,6 +1043,7 @@ begin
     DensidadeGravacao := ACBrBoleto.Banco.DensidadeGravacao;
     CIP := ACBrBoleto.Banco.CIP;
     KeySoftwareHouse:= ACBrBoleto.KeySoftwareHouse;
+    DataArquivo := ACBrBoleto.DataArquivo;
   end;
 end;
 
