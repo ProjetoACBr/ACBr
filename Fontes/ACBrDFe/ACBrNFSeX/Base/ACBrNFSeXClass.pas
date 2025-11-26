@@ -1907,7 +1907,7 @@ type
     FfinNFSe: TfinNFSe;
     FindFinal: TindFinal;
     FcIndOp: string;
-    FtpOper: TtpOperGov;
+    FtpOper: TtpOperGovNFSe;
     FgRefNFSe: TgRefNFSeCollection;
     FtpEnteGov: TtpEnteGov;
     FindDest: TindDest;
@@ -1923,7 +1923,7 @@ type
     property finNFSe: TfinNFSe read FfinNFSe write FfinNFSe;
     property indFinal: TindFinal read FindFinal write FindFinal;
     property cIndOp: string read FcIndOp write FcIndOp;
-    property tpOper: TtpOperGov read FtpOper write FtpOper;
+    property tpOper: TtpOperGovNFSe read FtpOper write FtpOper;
     property gRefNFSe: TgRefNFSeCollection read FgRefNFSe write SetgRefNFSe;
     property tpEnteGov: TtpEnteGov read FtpEnteGov write FtpEnteGov;
     property indDest: TindDest read FindDest write FindDest;

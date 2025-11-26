@@ -666,6 +666,16 @@ type
 
 const
   TindCompGovArrayStrings: array[TindCompGov] of string = ('', '1', '0');
+
+  type
+  TtpOperGovNFSe = (togNenhum, togFornecimento, togRecebimentoPag,
+                    togFornecimentoRealizado, togRecebimentoPagPosterior,
+                    togFornecimentoRecebimento);
+
+const
+  TtpOperGovNFSeArrayStrings: array[TtpOperGovNFSe] of string = ('', '1', '2', '3',
+    '4', '5');
+
 (*
 type
   TmodoPrestServ  = (mpsPresencial, mpsNaoPresencial);
@@ -875,6 +885,10 @@ function StrTotpReeRepRes(const s: string): TtpReeRepRes;
 
 function indCompGovToStr(const t: TindCompGov): string;
 function StrToindCompGov(const s: string): TindCompGov;
+
+function tpOperGovNFSeToStr(const t: TtpOperGovNFSe): string;
+function TryStrTotpOperGovNFSe(const s: string; out Value: TtpOperGovNFSe): Boolean;
+function StrTotpOperGovNFSe(const s: string): TtpOperGovNFSe;
 
 (*
 function modoPrestServToStr(const t: TmodoPrestServ): string;
@@ -13599,6 +13613,32 @@ begin
   raise EACBrException.CreateFmt('Valor string inválido para TindCompGov: %s', [s]);
 end;
 
+function tpOperGovNFSeToStr(const t: TtpOperGovNFSe): string;
+begin
+  Result := TtpOperGovNFSeArrayStrings[t];
+end;
+
+function TryStrTotpOperGovNFSe(const s: string; out Value: TtpOperGovNFSe): Boolean;
+var
+  idx: TtpOperGovNFSe;
+begin
+  Result := False;
+  for idx := Low(TtpOperGovNFSeArrayStrings) to High(TtpOperGovNFSeArrayStrings) do
+  begin
+    if TtpOperGovNFSeArrayStrings[idx] = s then
+    begin
+      Value := idx;
+      Result := True;
+      Exit;
+    end;
+  end;
+end;
+
+function StrTotpOperGovNFSe(const s: string): TtpOperGovNFSe;
+begin
+  if not TryStrTotpOperGovNFSe(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TtpOperGovNFSe: %s', [s]);
+end;
 (*
 function modoPrestServToStr(const t: TmodoPrestServ): string;
 begin

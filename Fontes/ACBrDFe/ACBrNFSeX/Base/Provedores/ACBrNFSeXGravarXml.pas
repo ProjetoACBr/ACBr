@@ -1414,7 +1414,7 @@ begin
                                                             IBSCBS.cIndOp, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'tpOper', 1, 1, NrOcorrtpOper,
-                                            tpOperGovToStr(IBSCBS.tpOper), ''));
+                                        tpOperGovNFSeToStr(IBSCBS.tpOper), ''));
 
   if IBSCBS.gRefNFSe.Count > 0 then
     Result.AppendChild(GerarXMLgRefNFSe(IBSCBS.gRefNFSe));
@@ -1793,7 +1793,7 @@ begin
   AINIRec.WriteString(LSecao, 'finNFSe', finNFSeToStr(IBSCBS.finNFSe));
   AINIRec.WriteString(LSecao, 'indFinal', indFinalToStr(IBSCBS.indFinal));
   AINIRec.WriteString(LSecao, 'cIndOp', IBSCBS.cIndOp);
-  AINIRec.WriteString(LSecao, 'tpOper', tpOperGovToStr(IBSCBS.tpOper));
+  AINIRec.WriteString(LSecao, 'tpOper', tpOperGovNFSeToStr(IBSCBS.tpOper));
   AINIRec.WriteString(LSecao, 'tpEnteGov', tpEnteGovToStr(IBSCBS.tpEnteGov));
   AINIRec.WriteString(LSecao, 'indDest', indDestToStr(IBSCBS.indDest));
 

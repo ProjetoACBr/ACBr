@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 26/11/2025
+-- ACBrNFSeXClass/ACBrNFSeXConversao/ACBrNFSeXGravarXml/ACBrNFSeXLerXml --
+[*] #ACBr-8469/8485 Definido um novo tipo para o tpOper para a NFS-e pois possui 
+    mais opções do que o tipo definido para os demais DF-e.
+  Por: Italo Giurizzato Junior
 -- PadraoNacional.Provider --
 [-] #ACBr-8483 Ajuste visando o correto tratamento do retorno para as respostas do PadraoNacional
   Por: Diego Folieni

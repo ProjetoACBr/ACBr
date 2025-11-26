@@ -1366,7 +1366,7 @@ begin
   IBSCBS.finNFSe := StrTofinNFSe(ObterConteudo(ANode.Childrens.FindAnyNs('finNFSe'), tcStr));
   IBSCBS.indFinal := StrToindFinal(ObterConteudo(ANode.Childrens.FindAnyNs('indFinal'), tcStr));
   IBSCBS.cIndOp := ObterConteudo(ANode.Childrens.FindAnyNs('cIndOp'), tcStr);
-  IBSCBS.tpOper := StrTotpOperGov(ObterConteudo(ANode.Childrens.FindAnyNs('tpOper'), tcStr));
+  IBSCBS.tpOper := StrTotpOperGovNFSe(ObterConteudo(ANode.Childrens.FindAnyNs('tpOper'), tcStr));
 
   ANodeAux := ANode.Childrens.Find('gRefNFSe');
 
@@ -1770,7 +1770,7 @@ begin
     IBSCBS.finNFSe := StrTofinNFSe(AINIRec.ReadString(sSecao, 'finNFSe', ''));
     IBSCBS.indFinal := StrToindFinal(AINIRec.ReadString(sSecao, 'indFinal', ''));
     IBSCBS.cIndOp := AINIRec.ReadString(sSecao, 'cIndOp', '');
-    IBSCBS.tpOper := StrTotpOperGov(AINIRec.ReadString(sSecao, 'tpOper', ''));
+    IBSCBS.tpOper := StrTotpOperGovNFSe(AINIRec.ReadString(sSecao, 'tpOper', ''));
     IBSCBS.tpEnteGov := StrTotpEnteGov(AINIRec.ReadString(sSecao, 'tpEnteGov', ''));
     IBSCBS.indDest := StrToindDest(AINIRec.ReadString(sSecao, 'indDest', ''));
 
