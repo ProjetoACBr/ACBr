@@ -832,6 +832,7 @@ begin
       GravarLog('NFE_Consultar', logNormal);
 
     NFeDM.Travar;
+    try
 
     EhArquivo := StringEhArquivo(ChaveOuNFe);
 
@@ -854,7 +855,7 @@ begin
     NFeDM.ACBrNFe1.WebServices.Consulta.ExtrairEventos := AExtrairEventos;
     Resp := TConsultaNFeResposta.Create(Config.TipoResposta, Config.CodResposta);
 
-    try
+
       with NFeDM.ACBrNFe1 do
       begin
         WebServices.Consulta.Executar;

@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/11/2025
+-- ACBrLibNFeBase.pas --
+[-] Corrige deadlock quando exceção chave "inválida é lançada" ACBR-8501
+
+Por: doszapro
+
 09/10/2025
 -- ACBrLibNFeConsoleMT.lpi, ACBrLibNFeConsoleMTDemo.lpi --
 [+] TK-7487 - Habilita 16KB de alinhamento nos LPI console da ACBrLibNFe, obs: para ndk <=r22b
