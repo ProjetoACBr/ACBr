@@ -303,7 +303,7 @@ procedure TBoletoW_Asaas.RequisicaoIncluir;
       httpsend.Headers.Text := FPKeyUser;
       httpsend.Document.Clear;
       //necessario consultar se já existe, pois o portal permite duplicação de cadastros
-      httpsend.HTTPMethod('GET', LURL + Format('?cpfCnpj=', [ATitulo.Sacado.CNPJCPF]));
+      httpsend.HTTPMethod('GET', LURL + Format('?cpfCnpj=%s', [ATitulo.Sacado.CNPJCPF]));
       httpsend.Document.Position := 0;
       if (httpsend.ResultCode = 200) and (LStream.Size > 0) then
       begin
