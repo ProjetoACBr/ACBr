@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/11/2025
+-- ACBrNFSeXServicos --
+[*] Alterado de http para https as URLs da cidade Sao Sebastiao do Oeste/MG
+   Por: Italo Giurizzato Junior
 -- PadraoNacional.GravarXml --
 [*] Alteração visando gerar as tags: vPis e vCofins que estão dentro do grupo piscofins mesmo com valores zero
     quando o CST for 04 ou 06.
