@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/11/2025
+-- ACBrNFSeXServicos --
+[*] #ACBr-8475 A cidade Itapoa/SC mudou de versão e URL, o provedor continua o mesmo.
+   Por: C4Dev
+[*] #ACBr-8490 Criado a seção SimplISSPN que contem a URL base de Homologação da API própria do
+    provedor SimplISS a ser utilizada por todas as cidades atendidas pelo provedor.
+   Por: Denis (JJW)/Italo Giurizzato Junior
 
 26/11/2025
 -- Bauhaus.GravarJson/Bauhaus.LerJson --
