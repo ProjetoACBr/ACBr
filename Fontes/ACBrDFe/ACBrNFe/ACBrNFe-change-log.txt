@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/11/2025
+-- ACBrNFe.EnvEvento --
+[+] #ACBR-5451 - Implementado a leitura INI e JSON dos eventos "Imobilização de Item", "Solicitação de Apropriação de Crédito de Combustível" e "Solicitação de Apropriação de Crédito para bens e serviços que dependem de atividade do adquirente".
+  Por: Diego Folieni
+
 26/11/2025
 -- ACBrNFe.EnvEvento --
 [+] #ACBR-5451 - Implementado a leitura INI e JSON do evento "Aceite de débito na apuração por emissão de nota de crédito".

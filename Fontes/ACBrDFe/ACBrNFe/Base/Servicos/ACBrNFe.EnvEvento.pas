@@ -1649,6 +1649,69 @@ begin
               infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
               infEvento.detEvento.indAceitacao := StrToIndAceitacao(INIRec.ReadString(sSecao, 'indAceitacao', '0'));
             end;
+          teImobilizacaoItem:
+            begin
+              infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
+              J := 0;
+              while (True) do
+              begin
+                sSecao := 'gImobilizacao' + IntToStrZero(J+1, 3);
+                sFim := INIRec.ReadString(sSecao, 'nItem', 'FIM');
+                if (sFim = 'FIM') or (Length(sFim) <= 0) then
+                  break;
+
+                infEvento.detEvento.gImobilizacao.New;
+                infEvento.detEvento.gImobilizacao[J].nItem := StrToIntDef(sFim, 0);
+                infEvento.detEvento.gImobilizacao[J].vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
+                infEvento.detEvento.gImobilizacao[J].vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+
+                sSecao := 'gControleEstoque' + IntToStrZero(J+1, 3);
+                infEvento.detEvento.gImobilizacao[J].gControleEstoque.qImobilizado := INIRec.ReadFloat(sSecao, 'qImobilizado', 0);
+                infEvento.detEvento.gImobilizacao[J].gControleEstoque.uImobilizado := INIRec.ReadString(sSecao, 'uImobilizado', '');
+                Inc(J);
+              end;
+            end;
+          teSolicApropCredCombustivel:
+            begin
+              infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
+              J := 0;
+              while (True) do
+              begin
+                sSecao := 'gConsumoComb' + IntToStrZero(J+1, 3);
+                sFim := INIRec.ReadString(sSecao, 'nItem', 'FIM');
+                if (sFim = 'FIM') or (Length(sFim) <= 0) then
+                  break;
+
+                infEvento.detEvento.gConsumoComb.New;
+                infEvento.detEvento.gConsumoComb[J].nItem := StrToIntDef(sFim, 0);
+                infEvento.detEvento.gConsumoComb[J].vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
+                infEvento.detEvento.gConsumoComb[J].vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+
+                sSecao := 'gControleEstoque' + IntToStrZero(J+1, 3);
+                infEvento.detEvento.gConsumoComb[J].gControleEstoque.qComb := INIRec.ReadFloat(sSecao, 'qComb', 0);
+                infEvento.detEvento.gConsumoComb[J].gControleEstoque.uComb := INIRec.ReadString(sSecao, 'uComb', '');
+                Inc(J);
+              end;
+            end;
+          teSolicApropCredBensServicos:
+            begin
+              infEvento.detEvento.tpAutor := StrToTipoAutor(Ok, INIRec.ReadString(sSecao, 'tpAutor', '1'));
+              J := 0;
+              while (True) do
+              begin
+                sSecao := 'gCredito' + IntToStrZero(J+1, 3);
+                sFim := INIRec.ReadString(sSecao, 'nItem', 'FIM');
+                if (sFim='FIM') or (Length(sFim) <= 0) then
+                  break;
+
+                infEvento.detEvento.gCredito.New;
+                infEvento.detEvento.gCredito[J].nItem := StrToIntDef(sFim, 0);
+                infEvento.detEvento.gCredito[J].vCredIBS := INIRec.ReadFloat(sSecao, 'vCredIBS', 0);
+                infEvento.detEvento.gCredito[J].vCredCBS := INIRec.ReadFloat(sSecao, 'vCredCBS', 0);
+
+                Inc(J);
+              end;
+            end;
         end;
       end;
 
@@ -2093,6 +2156,74 @@ begin
             Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
             Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
             Evento[i].InfEvento.detEvento.indAceitacao := StrToIndAceitacao(lDetEventoJSONObj.AsString['indAceitacao']);
+          end;
+        teImobilizacaoItem:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+
+            lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['gImobilizacao'];
+            if not Assigned(lAuxJSONArray) then
+              continue;
+            for j := 0 to lAuxJSONArray.Count - 1 do
+            begin
+              lAuxJSONObj := lAuxJSONArray.ItemAsJSONObject[j];
+              Evento[i].InfEvento.detEvento.gImobilizacao.New;
+              Evento[i].InfEvento.detEvento.gImobilizacao[j].nItem := lAuxJSONObj.AsInteger['nItem'];
+              Evento[i].InfEvento.detEvento.gImobilizacao[j].vIBS := lAuxJSONObj.AsFloat['vIBS'];
+              Evento[i].InfEvento.detEvento.gImobilizacao[j].vCBS := lAuxJSONObj.AsFloat['vCBS'];
+
+              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['gControleEstoque'];
+              if Assigned(lAuxJSONObj02) then
+              begin
+                Evento[i].InfEvento.detEvento.gImobilizacao[j].gControleEstoque.qImobilizado := lAuxJSONObj02.AsFloat['qImobilizado'];
+                Evento[i].InfEvento.detEvento.gImobilizacao[j].gControleEstoque.uImobilizado := lAuxJSONObj02.AsString['uImobilizado'];
+              end;
+            end;
+          end;
+        teSolicApropCredCombustivel:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+
+            lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['gConsumoComb'];
+            if not Assigned(lAuxJSONArray) then
+              continue;
+            for j := 0 to lAuxJSONArray.Count - 1 do
+            begin
+              lAuxJSONObj := lAuxJSONArray.ItemAsJSONObject[j];
+              Evento[i].InfEvento.detEvento.gConsumoComb.New;
+              Evento[i].InfEvento.detEvento.gConsumoComb[j].nItem := lAuxJSONObj.AsInteger['nItem'];
+              Evento[i].InfEvento.detEvento.gConsumoComb[j].vIBS := lAuxJSONObj.AsFloat['vIBS'];
+              Evento[i].InfEvento.detEvento.gConsumoComb[j].vCBS := lAuxJSONObj.AsFloat['vCBS'];
+
+              lAuxJSONObj02 := lAuxJSONObj.AsJSONObject['gControleEstoque'];
+              if Assigned(lAuxJSONObj02) then
+              begin
+                Evento[i].InfEvento.detEvento.gConsumoComb[j].gControleEstoque.qComb := lAuxJSONObj02.AsFloat['qComb'];
+                Evento[i].InfEvento.detEvento.gConsumoComb[j].gControleEstoque.uComb := lAuxJSONObj02.AsString['uComb'];
+              end;
+            end;
+          end;
+        teSolicApropCredBensServicos:
+          begin
+            Evento[i].InfEvento.detEvento.cOrgaoAutor := lDetEventoJSONObj.AsInteger['cOrgaoAutor'];
+            Evento[i].InfEvento.detEvento.tpAutor := StrToTipoAutor(Ok, lDetEventoJSONObj.AsString['tpAutor']);
+            Evento[i].InfEvento.detEvento.verAplic := lDetEventoJSONObj.AsString['verAplic'];
+
+            lAuxJSONArray := lDetEventoJSONObj.AsJSONArray['gCredito'];
+            if not Assigned(lAuxJSONArray) then
+              continue;
+            for j := 0 to lAuxJSONArray.Count - 1 do
+            begin
+              lAuxJSONObj := lAuxJSONArray.ItemAsJSONObject[j];
+              Evento[i].InfEvento.detEvento.gCredito.New;
+              Evento[i].InfEvento.detEvento.gCredito[j].nItem := lAuxJSONObj.AsInteger['nItem'];
+              Evento[i].InfEvento.detEvento.gCredito[j].vCredIBS := lAuxJSONObj.AsFloat['vCredIBS'];
+              Evento[i].InfEvento.detEvento.gCredito[j].vCredCBS := lAuxJSONObj.AsFloat['vCredCBS'];
+            end;
           end;
       end;
     end;
