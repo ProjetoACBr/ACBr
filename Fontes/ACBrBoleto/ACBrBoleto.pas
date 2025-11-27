@@ -3707,6 +3707,7 @@ var
   LNomeArquivo: String;
   LCodigoBanco: String;
   LTamanhoLayout : Cardinal;
+  LCarteira : String;
 begin
   LListaRetorno := TStringList.Create;
   try
@@ -3772,8 +3773,14 @@ begin
     (IntToStrZero(Banco.NumeroCorrespondente, 3) <> LCodigoBanco) then
     begin
       if LeCedenteRetorno then
-        Banco.TipoCobranca := GetTipoCobranca(StrToIntDef(LCodigoBanco, 0))
-      else
+      begin
+        if (LCodigoBanco = '637') and (LListaRetorno.Count > 0) then
+          LCarteira := Copy(LListaRetorno.Strings[1], 83, 3)
+        else
+          LCarteira := '0';
+
+        Banco.TipoCobranca := GetTipoCobranca(StrToIntDef(LCodigoBanco, 0), LCarteira);
+      end else
         raise EACBrBoleto.Create(ACBrStr('Arquivo de retorno de banco diferente do Cedente'));
     end;
 
