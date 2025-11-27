@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/11/2025
+-- ACBrNFSeXLerXML --
+[+] ACBR-8477 - Adiciona chamada de rotina que lê os novos campos da Reforma Tributária na leitura do arquivo INI.
+   Por: Diego Folieni
 -- ACBrNFSeXServicos --
 [*] Alterado de http para https as URLs da cidade Sao Sebastiao do Oeste/MG
    Por: Italo Giurizzato Junior

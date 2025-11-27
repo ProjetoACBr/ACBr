@@ -1350,6 +1350,8 @@ begin
 
       Inc(i);
     end;
+
+    LerINIIBSCBS(AINIRec, IBSCBS);
   end;
 end;
 
