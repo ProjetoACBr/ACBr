@@ -208,7 +208,6 @@ begin
     FormatoArqRetorno := tfaJson;
     FormatoArqEnvioSoap := tfaJson;
     FormatoArqRetornoSoap := tfaJson;
-//    UseAuthorizationHeader := ConfigGeral.Params.TemParametro('UseToken');
 
     ServicosDisponibilizados.EnviarUnitario := True;
     ServicosDisponibilizados.ConsultarNfseChave := True;
@@ -690,8 +689,11 @@ begin
 
         NFSeXml := Document.AsString['nfseXmlGZipB64'];
 
+        { acrescenta a função DecodeToString visando o tratamento correto de
+          vogais acentuadas e cedilha.
+        }
         if NFSeXml <> '' then
-          NFSeXml := DeCompress(DecodeBase64(NFSeXml));
+          NFSeXml := DecodeToString(DeCompress(DecodeBase64(NFSeXml)), True);
 
         DocumentXml := TACBrXmlDocument.Create;
 
@@ -1068,6 +1070,7 @@ begin
             Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhProc'), tcDatHor);
             Response.idEvento := IDEvento;
             Response.tpEvento := StrTotpEvento(Ok, Copy(IDEvento, 51, 6));
+            Response.XmlRetorno := ArquivoXml;
 
             ANode := ANode.Childrens.FindAnyNs('pedRegEvento');
             ANode := ANode.Childrens.FindAnyNs('infPedReg');

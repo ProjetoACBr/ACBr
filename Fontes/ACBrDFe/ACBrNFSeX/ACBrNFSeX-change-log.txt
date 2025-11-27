@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/11/2025
+-- PadraoNacional.Provider --
+[*] #ACBr-8492 Alteração visando a leitura correta do XML quando este tem vogais acentuadas e cedilha.
+  Por: marcelo.hgv
+[*] #ACBr-8491 Alteração visando obter o XML do evento pela propriedade XmlRetorno para salvar no banco de dados.
+  Por: Diego Reckziegel
 -- ACBrNFSeXServicos --
 [*] #ACBr-8475 A cidade Itapoa/SC mudou de versão e URL, o provedor continua o mesmo.
    Por: C4Dev
