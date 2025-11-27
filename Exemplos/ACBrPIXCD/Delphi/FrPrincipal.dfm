@@ -1978,10 +1978,10 @@ object Form1: TForm1
                     Caption = 'Comprador'
                     TabOrder = 8
                     object pnCobVComprador: TPanel
-                      Left = 2
-                      Top = 15
+                      Left = 0
+                      Top = 0
                       Width = 604
-                      Height = 55
+                      Height = 52
                       Align = alClient
                       BevelOuter = bvNone
                       TabOrder = 0
@@ -2775,7 +2775,7 @@ object Form1: TForm1
                       Top = 10
                       Width = 33
                       Height = 13
-                      Caption = 'In'#195#173'cio'
+                      Caption = 'Inicio'
                       Color = clBtnFace
                       ParentColor = False
                     end
@@ -2802,7 +2802,7 @@ object Form1: TForm1
                       Top = 60
                       Width = 37
                       Height = 13
-                      Caption = 'P'#195#161'gina'
+                      Caption = 'Pagina'
                       Color = clBtnFace
                       ParentColor = False
                     end
@@ -2811,7 +2811,7 @@ object Form1: TForm1
                       Top = 60
                       Width = 67
                       Height = 13
-                      Caption = 'Itens por P'#195#161'g'
+                      Caption = 'Itens por Pag'
                       Color = clBtnFace
                       ParentColor = False
                     end
@@ -3962,7 +3962,7 @@ object Form1: TForm1
                     end
                     object btCriarSolicitacaoRec: TBitBtn
                       Left = 16
-                      Top = 112
+                      Top = 104
                       Width = 102
                       Height = 26
                       Anchors = [akTop, akRight]
@@ -4210,7 +4210,7 @@ object Form1: TForm1
                 Top = 0
                 Width = 616
                 Height = 529
-                ActivePage = tsConsultarLocationsRec
+                ActivePage = tsCriarLocationRec
                 Align = alClient
                 TabOrder = 0
                 object tsCriarLocationRec: TTabSheet
@@ -6204,8 +6204,8 @@ object Form1: TForm1
                           Top = 79
                           Width = 145
                           Height = 23
-                          Date = 45979.000000000000000000
-                          Time = 45979.000000000000000000
+                          Date = 45988.000000000000000000
+                          Time = 45988.000000000000000000
                           MaxDate = 2958465.000000000000000000
                           MinDate = -53780.000000000000000000
                           TabOrder = 1
@@ -6371,7 +6371,7 @@ object Form1: TForm1
                     Left = 19
                     Top = 24
                     Width = 900
-                    Height = 377
+                    Height = 381
                     ActivePage = tsItauChaveCertificadoArquivos
                     Anchors = [akLeft, akTop, akRight, akBottom]
                     TabOrder = 0
@@ -6380,7 +6380,7 @@ object Form1: TForm1
                       Caption = 'Arquivos'
                       DesignSize = (
                         892
-                        349)
+                        353)
                       object lItauAvisoChaveCertificadoDesabilitado: TLabel
                         Left = 35
                         Top = 16
@@ -7129,7 +7129,7 @@ object Form1: TForm1
                       880
                       340)
                     object sbSicrediAcharChavePrivada: TSpeedButton
-                      Left = 836
+                      Left = 630
                       Top = 197
                       Width = 24
                       Height = 23
@@ -7306,7 +7306,7 @@ object Form1: TForm1
                     object edSicrediArqChavePrivada: TEdit
                       Left = 24
                       Top = 197
-                      Width = 808
+                      Width = 602
                       Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       AutoSize = False
@@ -8380,13 +8380,22 @@ object Form1: TForm1
                             Color = clBtnFace
                             ParentColor = False
                           end
+                          object lbPagSeguroChallengeToken: TLabel
+                            Left = 216
+                            Top = 7
+                            Width = 151
+                            Height = 13
+                            Caption = 'Token (Valido por 30 segundos)'
+                            Color = clBtnFace
+                            ParentColor = False
+                          end
                           object btPagSeguroChallengeSolic: TBitBtn
                             Left = 24
                             Top = 20
-                            Width = 160
+                            Width = 168
                             Height = 26
                             Anchors = [akTop, akRight]
-                            Caption = 'Solicitar Desafio'
+                            Caption = 'Solicitar Token e Desafio'
                             TabOrder = 0
                             OnClick = btPagSeguroChallengeSolicClick
                           end
@@ -8401,9 +8410,9 @@ object Form1: TForm1
                           end
                           object mmPagSeguroChallengeCript: TMemo
                             Left = 24
-                            Top = 50
+                            Top = 56
                             Width = 800
-                            Height = 88
+                            Height = 82
                             Anchors = [akLeft, akTop, akRight, akBottom]
                             Font.Charset = DEFAULT_CHARSET
                             Font.Color = clWindowText
@@ -8411,11 +8420,9 @@ object Form1: TForm1
                             Font.Name = 'Lucida Console'
                             Font.Style = []
                             ParentFont = False
-                            ReadOnly = True
                             ScrollBars = ssBoth
                             TabOrder = 2
                             WantReturns = False
-                            WordWrap = False
                           end
                           object mmPagSeguroChallenge: TMemo
                             Left = 24
@@ -8445,6 +8452,14 @@ object Form1: TForm1
                             TabOrder = 4
                             OnClick = btPagSeguroChallengeDecriptClick
                           end
+                          object edPagSeguroChallengeToken: TEdit
+                            Left = 216
+                            Top = 23
+                            Width = 608
+                            Height = 23
+                            Anchors = [akLeft, akTop, akRight]
+                            TabOrder = 5
+                          end
                         end
                       end
                       object tsPagSeguroCertificado: TTabSheet
@@ -8460,7 +8475,7 @@ object Form1: TForm1
                           DesignSize = (
                             850
                             354)
-                          object lbPagSeguroCertificadoToken: TLabel
+                          object lbPagSeguroChallengeToken2: TLabel
                             Left = 24
                             Top = 24
                             Width = 151
@@ -8488,7 +8503,7 @@ object Form1: TForm1
                             TabOrder = 0
                             OnClick = btPagSeguroCertificadoGerarClick
                           end
-                          object edPagSeguroCertificadoToken: TEdit
+                          object edPagSeguroChallengeToken2: TEdit
                             Left = 24
                             Top = 40
                             Width = 384
@@ -8564,7 +8579,7 @@ object Form1: TForm1
                   OnClick = sbGerenciaNetAcharPFXClick
                 end
                 object lbGerenciaNetTipoChave: TLabel
-                  Left = 687
+                  Left = 686
                   Top = 19
                   Width = 55
                   Height = 13
@@ -8700,8 +8715,8 @@ object Form1: TForm1
                   880
                   354)
                 object lbBradescoTipoChave: TLabel
-                  Left = 678
-                  Top = 19
+                  Left = 677
+                  Top = 20
                   Width = 55
                   Height = 13
                   Anchors = [akTop, akRight]
@@ -8786,7 +8801,7 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 4
                   TabStop = False
                 end
@@ -8795,13 +8810,14 @@ object Form1: TForm1
                   Top = 116
                   Width = 190
                   Height = 58
+                  Anchors = [akTop, akRight]
                   Caption = 'Tipo Certificado'
                   Columns = 2
                   ItemIndex = 0
                   Items.Strings = (
                     'PFX'
                     'Chave/Certificado')
-                  TabOrder = 4
+                  TabOrder = 5
                   OnClick = rgBradescoTipoCertificadoClick
                 end
                 object pnBradescoCertificados: TPanel
@@ -8811,7 +8827,7 @@ object Form1: TForm1
                   Height = 170
                   Align = alBottom
                   BevelOuter = bvNone
-                  TabOrder = 5
+                  TabOrder = 6
                   object pcBradescoCertificados: TPageControl
                     Left = 0
                     Top = 0
@@ -9054,7 +9070,7 @@ object Form1: TForm1
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 3
                   TabStop = False
                 end
@@ -9369,7 +9385,7 @@ object Form1: TForm1
                   888
                   625)
                 object lbAilosTipoChave: TLabel
-                  Left = 683
+                  Left = 682
                   Top = 24
                   Width = 55
                   Height = 13
@@ -11865,8 +11881,8 @@ object Form1: TForm1
     PSP = ACBrPSPBancoDoBrasil1
     QuandoGravarLog = ACBrPixCD1QuandoGravarLog
     OnQuandoAlterarPSP = ACBrPixCD1QuandoAlterarPSP
-    Left = 328
-    Top = 120
+    Left = 140
+    Top = 472
   end
   object ACBrPSPItau1: TACBrPSPItau
     Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
@@ -11997,7 +12013,7 @@ object Form1: TForm1
   end
   object ACBrPSPAppLess1: TACBrPSPAppLess
     Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
-    Left = 694
+    Left = 704
     Top = 416
   end
 end

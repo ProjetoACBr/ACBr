@@ -688,9 +688,9 @@ object Form1: TForm1
             Height = 550
             Top = 0
             Width = 624
-            ActivePage = tsSimularPagamento
+            ActivePage = tsEndPointPix
             Align = alClient
-            TabIndex = 7
+            TabIndex = 0
             TabOrder = 0
             TabWidth = 120
             object tsEndPointPix: TTabSheet
@@ -702,9 +702,9 @@ object Form1: TForm1
                 Height = 522
                 Top = 0
                 Width = 616
-                ActivePage = tsSolicitarDevolucaoPix
+                ActivePage = tsConsultarPix
                 Align = alClient
-                TabIndex = 2
+                TabIndex = 0
                 TabOrder = 0
                 object tsConsultarPix: TTabSheet
                   Caption = 'ConsultarPix'
@@ -1225,9 +1225,9 @@ object Form1: TForm1
                 Height = 522
                 Top = 0
                 Width = 616
-                ActivePage = tsConsultarCobrancaImediata
+                ActivePage = tsCriarCobrancaImediata
                 Align = alClient
-                TabIndex = 1
+                TabIndex = 0
                 TabOrder = 0
                 object tsCriarCobrancaImediata: TTabSheet
                   Caption = 'CriarCobrancaImediata'
@@ -6635,10 +6635,10 @@ object Form1: TForm1
                 Height = 443
                 Top = 24
                 Width = 946
-                ActivePage = tsItauCertificado
+                ActivePage = tsItauChave
                 Anchors = [akTop, akLeft, akRight, akBottom]
                 Images = ImageList1
-                TabIndex = 1
+                TabIndex = 0
                 TabOrder = 0
                 object tsItauChave: TTabSheet
                   Caption = 'Chave e Client ID'
@@ -6758,9 +6758,9 @@ object Form1: TForm1
                     Height = 382
                     Top = 24
                     Width = 900
-                    ActivePage = tsItauRenovarChaveCertificado
+                    ActivePage = tsItauChaveCertificadoArquivos
                     Anchors = [akTop, akLeft, akRight, akBottom]
-                    TabIndex = 2
+                    TabIndex = 0
                     TabOrder = 0
                     OnChange = pgPSPItauChaveCertificadoChange
                     object tsItauChaveCertificadoArquivos: TTabSheet
@@ -8728,9 +8728,9 @@ object Form1: TForm1
                             Left = 24
                             Height = 26
                             Top = 20
-                            Width = 160
+                            Width = 168
                             Anchors = [akTop, akRight]
-                            Caption = 'Solicitar Desafio'
+                            Caption = 'Solicitar Token e Desafio'
                             Images = ImageList1
                             ImageIndex = 26
                             TabOrder = 0
@@ -8755,17 +8755,15 @@ object Form1: TForm1
                           end
                           object mmPagSeguroChallengeCript: TMemo
                             Left = 24
-                            Height = 92
-                            Top = 50
+                            Height = 86
+                            Top = 56
                             Width = 800
                             Anchors = [akTop, akLeft, akRight, akBottom]
                             Font.Name = 'Lucida Console'
                             ParentFont = False
-                            ReadOnly = True
                             ScrollBars = ssBoth
                             TabOrder = 2
                             WantReturns = False
-                            WordWrap = False
                           end
                           object mmPagSeguroChallenge: TMemo
                             Left = 24
@@ -8792,6 +8790,22 @@ object Form1: TForm1
                             ImageIndex = 28
                             TabOrder = 4
                             OnClick = btPagSeguroChallengeDecriptClick
+                          end
+                          object lbPagSeguroChallengeToken: TLabel
+                            Left = 216
+                            Height = 15
+                            Top = 7
+                            Width = 165
+                            Caption = 'Token (Válido por 30 segundos)'
+                            ParentColor = False
+                          end
+                          object edPagSeguroChallengeToken: TEdit
+                            Left = 216
+                            Height = 23
+                            Top = 23
+                            Width = 608
+                            Anchors = [akTop, akLeft, akRight]
+                            TabOrder = 5
                           end
                         end
                       end
@@ -8821,7 +8835,7 @@ object Form1: TForm1
                             TabOrder = 0
                             OnClick = btPagSeguroCertificadoGerarClick
                           end
-                          object edPagSeguroCertificadoToken: TEdit
+                          object edPagSeguroChallengeToken2: TEdit
                             Left = 24
                             Height = 23
                             Top = 40
@@ -8829,7 +8843,7 @@ object Form1: TForm1
                             Anchors = [akTop, akLeft, akRight]
                             TabOrder = 1
                           end
-                          object lbPagSeguroCertificadoToken: TLabel
+                          object lbPagSeguroChallengeToken2: TLabel
                             Left = 24
                             Height = 15
                             Top = 24
@@ -11150,8 +11164,8 @@ object Form1: TForm1
     PSP = ACBrPSPBancoDoBrasil1
     QuandoGravarLog = ACBrPixCD1QuandoGravarLog
     OnQuandoAlterarPSP = ACBrPixCD1QuandoAlterarPSP
-    Left = 328
-    Top = 120
+    Left = 140
+    Top = 472
   end
   object ACBrPSPItau1: TACBrPSPItau
     Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
@@ -11284,7 +11298,7 @@ object Form1: TForm1
   end
   object ACBrPSPAppLess1: TACBrPSPAppLess
     Scopes = [scCobWrite, scCobRead, scPixWrite, scPixRead]
-    Left = 440
-    Top = 120
+    Left = 704
+    Top = 416
   end
 end

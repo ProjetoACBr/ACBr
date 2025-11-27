@@ -40,7 +40,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls, StdCtrls,
   ExtCtrls, Buttons, Spin, Grids, ACBrCEP, ACBrPIXCD, ACBrPIXPSPItau,
   ACBrPIXPSPBancoDoBrasil, ACBrPIXPSPSantander, ACBrPIXBase, ACBrPIXSchemasPix,
-  ACBrPIXSchemasDevolucao, ACBrPIXSchemasCob, ACBrPIXPSPShipay, ShellAPI,
+  ACBrPIXSchemasDevolucao, ACBrPIXSchemasCob, ACBrPIXPSPShipay,
   ACBrOpenSSLUtils, ACBrPIXPSPSicredi, ACBrPIXBRCode, ACBrSocket, ACBrBase,
   ImgList, ACBrPIXPSPSicoob, ACBrPIXPSPPagSeguro, ACBrPIXPSPGerenciaNet,
   ACBrPIXPSPBradesco, ACBrPIXPSPPixPDV, ACBrPIXPSPInter, ACBrPIXPSPAilos,
@@ -260,6 +260,7 @@ type
     edConsultarLocationRecId: TEdit;
     edPagSeguroArqCertificado: TEdit;
     edPagSeguroArqChavePrivada: TEdit;
+    edPagSeguroChallengeToken: TEdit;
     edPagSeguroChavePIX: TEdit;
     edPagSeguroClientID1: TEdit;
     edPagSeguroClientID2: TEdit;
@@ -271,7 +272,7 @@ type
     edPagSeguroChallengePrivateKey: TEdit;
     edPagSeguroCertificadoChallenge: TEdit;
     edPagSeguroPublicKey: TEdit;
-    edPagSeguroCertificadoToken: TEdit;
+    edPagSeguroChallengeToken2: TEdit;
     edPagSeguroToken1: TEdit;
     edPagSeguroToken2: TEdit;
     edSolicitarRetentativaTxID: TEdit;
@@ -570,6 +571,7 @@ type
     lbBradescoAPIVersao: TLabel;
     lbPagSeguroArqCertificado: TLabel;
     lbPagSeguroArqChavePrivada: TLabel;
+    lbPagSeguroChallengeToken: TLabel;
     lbPagSeguroChavePIX: TLabel;
     lbPagSeguroClientID1: TLabel;
     lbPagSeguroClientID2: TLabel;
@@ -583,7 +585,7 @@ type
     lbPagSeguroChallengePrivateKey: TLabel;
     lbPagSeguroCertificadoChallenge: TLabel;
     lbPagSeguroPublicKey: TLabel;
-    lbPagSeguroCertificadoToken: TLabel;
+    lbPagSeguroChallengeToken2: TLabel;
     lbPagSeguroTipoChave: TLabel;
     lbPagSeguroTokenPay1: TLabel;
     lbPagSeguroTokenPay2: TLabel;
@@ -1304,7 +1306,6 @@ type
     procedure btFluxoItemIncluirClick(Sender: TObject);
     procedure btFluxoNovaVendaClick(Sender: TObject);
     procedure btFluxoPagarClick(Sender: TObject);
-    procedure btGerenciaNetBaixarConversorClick(Sender: TObject);
     procedure btItauGerarChavePrivadaClick(Sender: TObject);
     procedure btItauRenovarCertificadoClick(Sender: TObject);
     procedure btItauSolicitarCertificadoClick(Sender: TObject);
@@ -2587,7 +2588,7 @@ begin
   wErros := TStringList.Create;
   try
     wErros.Clear;
-    if EstaVazio(edPagSeguroCertificadoToken.Text) then
+    if EstaVazio(edPagSeguroChallengeToken2.Text) then
       wErros.Add('- Token não informado');
     if EstaVazio(edPagSeguroCertificadoChallenge.Text) then
       wErros.Add('- Desafio não informado');
@@ -2598,15 +2599,14 @@ begin
   end;
 
   mmPagSeguroCertificado.Lines.Text := ACBrPSPPagSeguro1.SolicitarCertificado(
-                                         edPagSeguroCertificadoToken.Text,
+                                         edPagSeguroChallengeToken2.Text,
                                          edPagSeguroCertificadoChallenge.Text);
 end;
 
 procedure TForm1.btPagSeguroChallengeDecriptClick(Sender: TObject);
 var
   wErros: TStringList;
-  wPathPrivate: String;
-  wPrivateKey: AnsiString;
+  wPathPrivate, wChallenge: String;
 begin
   wErros := TStringList.Create;
   try
@@ -2622,16 +2622,32 @@ begin
     wErros.Free;
   end;
 
-  wPrivateKey := LerArquivoOuString(wPathPrivate);
-  mmPagSeguroChallenge.Lines.Text := ACBrOpenSSLUtils1.DecryptFromString(
-                                       mmPagSeguroChallengeCript.Lines.Text,
-                                       wPrivateKey,
-                                       chpAES_256_ECB);
+  ACBrOpenSSLUtils1.LoadPrivateKeyFromFile(edPagSeguroChallengePrivateKey.Text);
+  wChallenge := ACBrOpenSSLUtils1.PrivateDecryptFromString(
+                  DecodeBase64(mmPagSeguroChallengeCript.Lines.Text),
+                  algSHA256,
+                  rsaPKCS1_OAEP_PADDING,
+                  sttBinary);
+
+  if NaoEstaVazio(wChallenge) then
+  begin
+    mmPagSeguroChallenge.Lines.Text := wChallenge;
+    edPagSeguroCertificadoChallenge.Text := wChallenge;
+  end;
 end;
 
 procedure TForm1.btPagSeguroChallengeSolicClick(Sender: TObject);
+var
+  Challenge, TokenChallenge: AnsiString;
 begin
-  mmPagSeguroChallengeCript.Text := ACBrPSPPagSeguro1.SolicitarDesafioCertificado;
+  Challenge := EmptyStr;
+  TokenChallenge := EmptyStr;
+  if ACBrPSPPagSeguro1.SolicitarDesafioCertificado(Challenge, TokenChallenge) then
+  begin
+    mmPagSeguroChallengeCript.Text := Challenge;
+    edPagSeguroChallengeToken.Text := TokenChallenge;
+    edPagSeguroChallengeToken2.Text := TokenChallenge;
+  end;
 end;
 
 procedure TForm1.btPagSeguroGerarChavesClick(Sender: TObject);
@@ -3440,11 +3456,6 @@ begin
   finally
     HabilitarInterface(True);
   end;
-end;
-
-procedure TForm1.btGerenciaNetBaixarConversorClick(Sender: TObject);
-begin
-  shellexecute(0, 'open', 'https://pix.gerencianet.com.br/ferramentas/conversorGerencianet.exe', '', '', 1);
 end;
 
 procedure TForm1.btItauGerarChavePrivadaClick(Sender: TObject);
