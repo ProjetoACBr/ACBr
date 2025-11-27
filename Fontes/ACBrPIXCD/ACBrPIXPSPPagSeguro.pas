@@ -88,7 +88,7 @@ type
     function SimularPagamentoPIX(const aTxID: String): Boolean;
 
     function SolicitarCredenciais(const aNomeAplicacao: String; var aClientID: String; var aClientSecret: String): Boolean;
-    function SolicitarDesafioCertificado: String;
+    function SolicitarDesafioCertificado(out Challenge: String; out TokenChallenge: String): Boolean;
     function SolicitarCertificado(const aToken: String; aChallenge: String): String;
   published
     property TokenPay: String read fTokenPay write fTokenPay;
@@ -293,15 +293,17 @@ begin
   end;
 end;
 
-function TACBrPSPPagSeguro.SolicitarDesafioCertificado: String;
+function TACBrPSPPagSeguro.SolicitarDesafioCertificado(out Challenge: String; out TokenChallenge: String): Boolean;
 var
   aURL: String;
-  js: TACBrJSONObject;
+  js, jr: TACBrJSONObject;
   wBody: String;
   wRespostaHttp: AnsiString;
   wResultCode: Integer;
 begin
-
+  Result := False;
+  Challenge := EmptyStr;
+  TokenChallenge := EmptyStr;
   VerificarPIXCDAtribuido;
 
   if EstaVazio(TokenPay) then
@@ -330,14 +332,20 @@ begin
   Http.Protocol := '1.1';
 
   TransmitirHttp(ChttpMethodPOST, aURL, wResultCode, wRespostaHttp);
+  Result := (wResultCode = HTTP_OK);
 
-  Result := EmptyStr;
-  if (wResultCode = HTTP_OK) then
-    Result := StreamToAnsiString(Http.OutputStream)
+  if Result then
+  begin
+    jr := TACBrJSONObject.Parse(wRespostaHttp);
+    try
+      jr.Value('challenge', Challenge);
+      jr.Value('access_token', TokenChallenge);
+    finally
+      jr.Free;
+    end;
+  end
   else
-    DispararExcecao(EACBrPixHttpException.CreateFmt( sErroHttp,
-      [Http.ResultCode, ChttpMethodPOST, aURL]));
-
+    DispararExcecao(EACBrPixHttpException.CreateFmt(sErroHttp, [Http.ResultCode, ChttpMethodPOST, aURL]));
 end;
 
 function TACBrPSPPagSeguro.SolicitarCertificado(const aToken: String; aChallenge: String): String;
@@ -346,7 +354,6 @@ var
   wRespostaHttp: AnsiString;
   wResultCode: Integer;
 begin
-
   VerificarPIXCDAtribuido;
 
   if EstaVazio(aToken) then
@@ -371,9 +378,7 @@ begin
   if (wResultCode in [HTTP_OK, HTTP_CREATED]) then
     Result := StreamToAnsiString(Http.OutputStream)
   else
-    DispararExcecao(EACBrPixHttpException.CreateFmt( sErroHttp,
-      [Http.ResultCode, ChttpMethodPOST, aURL]));
-
+    DispararExcecao(EACBrPixHttpException.CreateFmt(sErroHttp, [Http.ResultCode, ChttpMethodPOST, aURL]));
 end;
 
 end.
