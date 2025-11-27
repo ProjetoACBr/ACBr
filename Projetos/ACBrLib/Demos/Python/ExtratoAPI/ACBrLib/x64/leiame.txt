@@ -1,0 +1,1 @@
+salvar as dlls acbrlibExtratoAPI 64 Cdelc MT e as dependencias Openssl
