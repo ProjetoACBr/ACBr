@@ -341,7 +341,10 @@ begin
     end;
 
     FRetornoWS                       := String(UTF8ToNativeString(Trim(FRetornoWS)));
-    BoletoWS.RetornoBanco.CodRetorno := httpsend.Sock.LastError;
+    if (httpsend.ResultCode = 0) then
+      BoletoWS.RetornoBanco.CodRetorno := httpsend.Sock.LastError
+    else
+      BoletoWS.RetornoBanco.CodRetorno := httpsend.ResultCode;
     try
       BoletoWS.RetornoBanco.Msg            := Trim('HTTP_Code=' + IntToStr(httpsend.ResultCode) + ' ' + httpsend.ResultString + ' ' + FRetornoWS);
       BoletoWS.RetornoBanco.HTTPResultCode := httpsend.ResultCode;
