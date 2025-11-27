@@ -45,6 +45,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/11/2025
+-- ACBrTEFAPIElginComum.pas --
+[*] Contribuição Leitura de Voucher TEF Elgin - ACBR-8494
+  Por: Stor Sistemas - Rev: Antonio Carlos Junior
+
 24/11/2025
 -- ACBrTEFAPIDestaxa.pas --
 [-] Validação adicional na confirmacao de sucesso de um pagamento PIX, para ignorar 

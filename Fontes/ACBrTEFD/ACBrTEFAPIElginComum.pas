@@ -387,9 +387,10 @@ begin
   ConteudoToComprovantes;
 
   lStr := JsonKey('tef.tipoCartao');
-  case AnsiIndexStr(lStr, ['Debito', 'Credito']) of
+  case AnsiIndexStr(lStr, ['Debito', 'Credito', 'Voucher']) of
     0: AACBrTEFResp.Debito := True;
     1: AACBrTEFResp.Credito := True;
+    2: AACBrTEFResp.Voucher := True;
   end;
 
   AACBrTEFResp.DataHoraTransacaoHost := JsonKeyDateTime('tef.dataHoraTransacao');
