@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/11/2025
+-- PadraoNacional.GravarXml --
+[*] Alteração visando gerar as tags: vPis e vCofins que estão dentro do grupo piscofins mesmo com valores zero
+    quando o CST for 04 ou 06.
+  Por: Italo Giurizzato Junior
 -- PadraoNacional.Provider --
 [*] #ACBr-8492 Alteração visando a leitura correta do XML quando este tem vogais acentuadas e cedilha.
   Por: marcelo.hgv
