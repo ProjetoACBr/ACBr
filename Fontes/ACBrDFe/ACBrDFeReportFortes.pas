@@ -84,9 +84,15 @@ begin
   //https://www.projetoacbr.com.br/forum/topic/63913-gerar-pdf-danfe-fortesreport-via-iis/  
   if (AConfig.NumCopias > 0) then
   begin
-    if NaoEstaVazio(AConfig.Impressora) then
-      if RLPrinter.PrinterName <> AConfig.Impressora then
+    try
+      if NaoEstaVazio(AConfig.Impressora) and (RLPrinter.PrinterName <> AConfig.Impressora) then
         RLPrinter.PrinterName := AConfig.Impressora;
+    except
+      on E: EStringListError do
+      begin
+        //Ignore exception generated because of default printer is not found (List Index Error).
+      end;
+    end;
 
     if RLPrinter.SupportsDuplex Then
        RLPrinter.Duplex := false;
