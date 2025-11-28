@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 28/11/2025
+-- ACBrNFSeXServicos --
+[*] ACBR-8502 - Alterado a versão e as URLs das cidades Vitorino/PR e São Domingos/SC o provedor continua o mesmo.
+   Por: C4Dev
 -- PadraoNacional.Provider --
 [*] Melhorias no TrataRetornoEmitir visando atender API própria de outros provedores.
   Por: Italo Giurizzato Junior
