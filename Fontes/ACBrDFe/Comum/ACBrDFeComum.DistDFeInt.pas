@@ -115,6 +115,7 @@ function TDistDFeInt.GerarXML: string;
 var
  sNSU, sTagGrupoMsgIni, sTagGrupoMsgFim,
  xUFAutor, xDoc, xConsulta: string;
+ Tamanho: Integer;
 begin
   sTagGrupoMsgIni := '';
   sTagGrupoMsgFim := '';
@@ -129,10 +130,27 @@ begin
   if FpGerarcUFAutor and (cUFAutor > 0) then
     xUFAutor := '<cUFAutor>' + IntToStr(cUFAutor) + '</cUFAutor>';
 
-  if Length(OnlyAlphaNum(CNPJCPF)) = 14 then
-    xDoc := '<CNPJ>' + OnlyAlphaNum(CNPJCPF) + '</CNPJ>'
+  CNPJCPF := OnlyAlphaNum(trim(CNPJCPF));
+  Tamanho := length(CNPJCPF);
+
+  if (Tamanho > 0) and (Tamanho <= 11) then
+  begin
+    CNPJCPF := PadLeft(CNPJCPF, 11, '0');
+    Tamanho := 11;
+  end
   else
-    xDoc := '<CPF>' + OnlyNumber(CNPJCPF) + '</CPF>';
+  begin
+    if (Tamanho > 0) and (Tamanho <> 14) then
+    begin
+      CNPJCPF := PadLeft(CNPJCPF, 14, '0');
+      Tamanho := 14;
+    end;
+  end;
+
+  if Tamanho = 14 then
+    xDoc := '<CNPJ>' + CNPJCPF + '</CNPJ>'
+  else
+    xDoc := '<CPF>' + CNPJCPF + '</CPF>';
 
   if NSU = '' then
   begin

@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+28/11/2025
+-- ACBrDFeComum.DistDFeInt --
+[*] Alteração visando acrescentar zeros a esquerda do CPF ou CNPJ para que eles fiquem
+    com o tamanho correto.
+   Por: Italo Giurizzato Junior
+
 09/10/2025
 -- ACBrDFeComum.DistDFeInt --
 [*] Alteração visando gerar a tag cUFAutor se o código da UF for diferente de zero.
