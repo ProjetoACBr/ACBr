@@ -3672,7 +3672,7 @@ begin
 
   if ACBrCTe1.DACTe <> nil then
   begin
-    ACBrCTe1.DACTe.TipoDACTe := StrToTpImp(OK, IntToStr(rgTipoDaCTe.ItemIndex + 1));
+    ACBrCTe1.DACTe.TipoDACTe := StrToTpImp(IntToStr(rgTipoDaCTe.ItemIndex + 1));
     ACBrCTe1.DACTe.Logo      := edtLogoMarca.Text;
   end;
 end;
