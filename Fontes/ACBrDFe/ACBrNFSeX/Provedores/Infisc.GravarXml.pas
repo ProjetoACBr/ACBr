@@ -599,6 +599,23 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'empreitadaGlobal', 1, 1, 1,
                              EmpreitadaGlobalToStr(NFSe.EmpreitadaGlobal), ''));
 
+    Result.AppendChild(AddNode(tcInt, '#1', 'codRPS', 0, 1, 0,
+                                                       NFSe.id_sis_legado, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'rps', 0, 1, 0,
+                                             NFSe.IdentificacaoRps.Numero, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'serierps', 0, 1, 0,
+                                              NFSe.IdentificacaoRps.Serie, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'dataEmissaoRpsPapel', 0, 1, 0,
+                        FormatDateTime('yyyy-mm-dd', NFSe.DataEmissaoRps), ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'enviarEmail', 0, 1, 0, 'N', ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'chaveAcessoSubstituida', 0, 1, 0,
+                                                                       '', ''));
+
     if ((NFSe.Producao = snSim) and (Now >= EncodeDate(2026, 1, 1))) or
        (NFSe.Producao <> snSim) then
     begin

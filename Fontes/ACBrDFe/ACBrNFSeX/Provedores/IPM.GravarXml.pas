@@ -103,6 +103,7 @@ type
   TNFSeW_IPM204 = class(TNFSeW_ABRASFv2)
   protected
     procedure Configuracao; override;
+
     function GerarServico: TACBrXmlNode; override;
     function GerarXMLIBSCBSServico: TACBrXmlNode;
     function GerarValoresBrutosIbsCbs: TACBrXmlNode;
@@ -807,11 +808,17 @@ begin
         GerarTagNifTomador := True;
         NrOcorrCodigoMunicInterm := 1;
       end;
+
     ve204:
       begin
         GerarTagNifTomador := True;
         GerarEnderecoExterior := True;
         NrOcorrCodigoMunicInterm := 1;
+        NrOcorrDiscriminacao_1 := -1;
+        NrOcorrCodigoMunic_1 := -1;
+        NrOcorrCodigoNBS := 1;
+        NrOcorrDiscriminacao_2 := 1;
+        NrOcorrCodigoMunic_2 := 1;
       end;
   else
     begin

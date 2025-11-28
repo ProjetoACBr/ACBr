@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 28/11/2025
+-- Infisc.GravarXml --
+[+] ACBR-8493 - Acrescentado os campos opcionais que consta nos schemas, mas não estavam sendo gerados caso alimentados.
+   Por: Fabiano Oliveira de Castro
+-- IPM.GravarXml --
+[*] ACBR-8489 - Alteração visando gerar a tag codigoNBS para a versão 2.04
+   Por: Helius_ERP
 -- PadraoNacional.Provider --
 [*] Melhoria a rotina TratarXMLRetornado para usar classes próprias para criação do JSON.
   Por: Diego Folieni
