@@ -60,6 +60,7 @@ const
   cPagSeguroPathCertificate = '/certificates';
   cPagSeguroPathAPIPix = '/instant-payments';
   cPagSeguroEndPointPay = '/pay';
+  cPagSeguroHeaderChallenge = 'X_CHALLENGE: ';
 
 resourcestring
   sPagSeguroErroTokenPay = 'Token para simular pagamento não informado';
@@ -367,7 +368,7 @@ begin
 
   LimparHTTP;
   Http.Headers.Insert(0, ChttpHeaderAuthorization + ChttpAuthorizationBearer+' '+aToken);
-  Http.Headers.Insert(1, 'X_CHALLENGE'+' '+aChallenge);
+  Http.Headers.Insert(1, cPagSeguroHeaderChallenge + aChallenge);
 
   Http.MimeType := CContentTypeApplicationJSon;
   Http.Protocol := '1.1';
