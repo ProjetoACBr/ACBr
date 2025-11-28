@@ -2638,7 +2638,7 @@ end;
 
 procedure TForm1.btPagSeguroChallengeSolicClick(Sender: TObject);
 var
-  Challenge, TokenChallenge: AnsiString;
+  Challenge, TokenChallenge: String;
 begin
   Challenge := EmptyStr;
   TokenChallenge := EmptyStr;
