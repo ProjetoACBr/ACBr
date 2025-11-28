@@ -2,7 +2,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
       xmlns:ds="http://www.w3.org/2000/09/xmldsig#" attributeFormDefault="unqualified"
       elementFormDefault="qualified">
-      <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" 
+      <xs:import namespace="http://www.w3.org/2000/09/xmldsig#"
             schemaLocation="xmldsig-core-schema_v1.01.xsd"/>
 
       <!-- ***********************************************************  -->
@@ -405,7 +405,7 @@
                <!-- Hora da solicitacao -->
               <xs:element name="horaSolicitacao" type="THora" minOccurs="1" maxOccurs="1"/>
               <!-- Conteudo das inutilizacoes -->
-              <xs:element ref="numerosInutilizados" minOccurs="1" maxOccurs="1"/>  
+              <xs:element ref="numerosInutilizados" minOccurs="1" maxOccurs="1"/>
                    <!-- Assinatura digital   -->
               <xs:element ref="ds:Signature" minOccurs="0" maxOccurs="1"/>
               </xs:sequence>
@@ -502,9 +502,9 @@
                   <!-- Dados de tomador da NFSe -->
                   <xs:element ref="TomS"/>
                   <!-- Dados do local de entrega  -->
-                  <xs:element ref="dadosDaObra" minOccurs="0" maxOccurs="1" />  
+                  <xs:element ref="dadosDaObra" minOccurs="0" maxOccurs="1" />
                   <!-- Dados da transportadora  -->
-                  <xs:element ref="transportadora" minOccurs="0" maxOccurs="1" />   
+                  <xs:element ref="transportadora" minOccurs="0" maxOccurs="1" />
                   <!-- Detalhes dos itens de servico da NFSe -->
                   <xs:element ref="det" minOccurs="1"  maxOccurs="999"/>
                   <!-- Dados de totalizacao da NFSe -->
@@ -580,7 +580,7 @@
                  <!--  Municipio do local de prestacao  -->
                  <xs:element name="cLocPrestacao" type="TCodMunIBGE" minOccurs="0" maxOccurs="1"/>
                  <!--  Municipio do local de prestacao  -->
-                 <xs:element name="cPaisPrestacao" type="tsCodigoPaisIbge" minOccurs="0" maxOccurs="1"/>             
+                 <xs:element name="cPaisPrestacao" type="tsCodigoPaisIbge" minOccurs="0" maxOccurs="1"/>
              </xs:sequence>
          </xs:complexType>
       </xs:element>
@@ -609,12 +609,12 @@
                   <!-- Fone alternativo -->
                   <xs:element name="fone2" type="TFone" minOccurs="0" maxOccurs="1"/>
                   <!-- Inscricao Estadual  -->
-                  <xs:element name="IE" type="TString15" minOccurs="0" maxOccurs="1"/> 
+                  <xs:element name="IE" type="TString15" minOccurs="0" maxOccurs="1"/>
                   <!-- Regime tributario  -->
                   <xs:element name="regimeTrib" type="TCharInt"/>
               </xs:sequence>
           </xs:complexType>
-      </xs:element> 
+      </xs:element>
 
       <!-- Definicao da estrutura de dados para endereco de um emitente de uma NFSe -->
       <xs:element name="end">
@@ -640,9 +640,9 @@
                   <xs:element name="cPais" type="TcPais" />
                   <!-- Pais  -->
                   <xs:element name="xPais" type="TString100" />
-              </xs:sequence>  
+              </xs:sequence>
           </xs:complexType>
-      </xs:element>   
+      </xs:element>
 
 
       <!-- Definicao da estrutura de dados para tomador de uma NFSe -->
@@ -780,7 +780,8 @@
                   <!-- Ordem sequencial do item na nota  -->
                   <xs:element name="nItem" type="TOrdemSeq"/>
                   <xs:element ref="serv"/>
-                  <xs:element ref="ISSST" minOccurs="0" maxOccurs="1"/>   
+                  <xs:element ref="ISSST" minOccurs="0" maxOccurs="1"/>
+                  <xs:element name="IBSCBS" type="TCRTCInfoIBSCBS" minOccurs="0" maxOccurs="1"/>
               </xs:sequence>
           </xs:complexType>
       </xs:element>
@@ -848,9 +849,11 @@
             <xs:element name="pRetPISPASEP" type="TDec_0302" minOccurs="0" maxOccurs="1"/>
                   <!-- Valor  -->
             <xs:element name="vRetPISPASEP" type="TDec_1302" minOccurs="0" maxOccurs="1"/>
-      <!-- Valor total Aproximado de tributos federais -->
+            <!-- Valor total Aproximado de tributos federais -->
             <xs:element name="totalAproxTribServ" type="TDec_1302" minOccurs="0" maxOccurs="1"/>
-              </xs:sequence>
+            <!--  Codigo da NBS  -->
+            <xs:element name="cNBS" type="tsCodigoNbs" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
           </xs:complexType>
       </xs:element>
 
@@ -954,7 +957,7 @@
                   <!-- Data de vencimento   -->
                   <xs:element name="dVenc" type="TData" minOccurs="0" maxOccurs="1"/>
                   <!-- Valor da fatura  -->
-                  <xs:element name="vFat" type="TDec_1302" />   
+                  <xs:element name="vFat" type="TDec_1302" />
                   <!-- Tipo vencimento fatura  -->
                   <xs:element name="tipoVencFat" type="TCharInt" minOccurs="0" maxOccurs="1"/>
                   <!-- Descrição tipo vencimento fatura  -->
@@ -969,7 +972,7 @@
 
 
       <!-- Tipo para Codigo Postal  -->
-      <xs:simpleType name="TCep"> 
+      <xs:simpleType name="TCep">
   <xs:annotation>
     <xs:documentation>Tipo para Codigo Postal</xs:documentation>
   </xs:annotation>
@@ -1188,7 +1191,7 @@
     <xs:pattern value="[0-9]{0,9}"/>
   </xs:restriction>
       </xs:simpleType>
-            
+
   <!-- Tipo para numeros inteiros   -->
   <xs:simpleType name="TNum">
   <xs:annotation>
@@ -1290,7 +1293,7 @@
     <xs:maxInclusive value="999"/>
         </xs:restriction>
       </xs:simpleType>
- 
+
       <!-- Tipo para situacao de uma NFSe -->
       <xs:simpleType name="TSituacaoNFSe">
   <xs:annotation>
@@ -1459,7 +1462,1285 @@
     <xs:restriction base="xs:string">
     </xs:restriction>
   </xs:simpleType>
-  
-  
 
+<!-- Novo Reforma -->
+<xs:simpleType name="tsCodigoPaisIbge">
+<xs:restriction base="xs:string">
+<xs:length value="4"/>
+<xs:whiteSpace value="collapse"/>
+</xs:restriction>
+</xs:simpleType>
+
+<!--  Tipo string para Codigo NBS   -->
+<xs:simpleType name="tsCodigoNbs">
+<xs:annotation>
+<xs:documentation>Tipo string para Codigo NBS</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:maxLength value="9"/>
+<xs:minLength value="1"/>
+<xs:whiteSpace value="collapse"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="TCRTCInfoIBSCBS">
+<xs:sequence>
+<xs:element name="finNFSe" type="TSRTCFinNFSe">
+<xs:annotation>
+<xs:documentation> Indicador da finalidade da emissão de NFS-e </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="indFinal" type="TSRTCIndFinal">
+<xs:annotation>
+<xs:documentation> Indica operação de uso ou consumo pessoal (art. 57) </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="cIndOp" type="TSRTCCodIndOp">
+<xs:annotation>
+<xs:documentation> Código indicador da operação de fornecimento, conforme tabela "código indicador de operação" </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="tpOper" type="TSRTCTpOper" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Tipo de Operação com Entes Governamentais ou outros serviços sobre bens imóveis </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="gRefNFSe" type="TCInfoRefNFSe" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Grupo de NFS-e referenciadas </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="tpEnteGov" type="TSRTCTpEnteGov" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Tipo de ente governamental </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="indDest" type="TSRTCIndDest">
+<xs:annotation>
+<xs:documentation> A respeito do Destinatário dos serviços </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="dest" type="TCRTCInfoDest" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Grupo de informações relativas ao Destinatário </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="imovel" type="TCRTCInfoImovel" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Grupo de informações de operações relacionadas a bens imóveis, exceto obras </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="valores" type="TCRTCInfoValoresIBSCBS">
+<xs:annotation>
+<xs:documentation> Grupo de informações relativas aos valores do serviço prestado para IBS e CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="TSRTCFinNFSe">
+<xs:annotation>
+<xs:documentation> Indicador da finalidade da emissão de NFS-e: 0 - NFS-e regular; </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:enumeration value="0"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSRTCIndFinal">
+<xs:annotation>
+<xs:documentation> Indica operação de uso ou consumo pessoal (art. 57): 0 - Não; 1 - Sim; </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:enumeration value="0"/>
+<xs:enumeration value="1"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSRTCCodIndOp">
+<xs:annotation>
+<xs:documentation> Código indicador da operação de fornecimento, conforme tabela "código indicador de operação" </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:pattern value="[0-9]{6}"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSRTCTpOper">
+<xs:annotation>
+<xs:documentation> Tipo de Operação com Entes Governamentais ou outros serviços sobre bens imóveis: 1 – Fornecimento com pagamento posterior; 2 - Recebimento do pagamento com fornecimento já realizado; 3 – Fornecimento com pagamento já realizado; 4 – Recebimento do pagamento com fornecimento posterior; 5 – Fornecimento e recebimento do pagamento concomitantes; </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:enumeration value="1"/>
+<xs:enumeration value="2"/>
+<xs:enumeration value="3"/>
+<xs:enumeration value="4"/>
+<xs:enumeration value="5"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSDec15V2">
+<xs:annotation>
+<xs:documentation>Valor decimal com 1 a 15 dígitos mais 2 casas decimais</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:pattern value="0|0\.[0-9]{2}|[1-9]{1}[0-9]{0,14}(\.[0-9]{2})?"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSData">
+<xs:annotation>
+<xs:documentation>Tipo data no formato AAAA-MM-DD</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:pattern value="(((20(([02468][048])|([13579][26]))-02-29))|(20[0-9][0-9])-((((0[1-9])|(1[0-2]))-((0[1-9])|(1\d)|(2[0-8])))|((((0[13578])|(1[02]))-31)|(((0[1,3-9])|(1[0-2]))-(29|30)))))"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSRTCTpReeRepRes">
+<xs:annotation>
+<xs:documentation> Tipo de valor incluído neste documento, recebido por motivo de estarem relacionadas a operações de terceiros, objeto de reembolso, repasse ou ressarcimento pelo recebedor, já tributados e aqui referenciados 01 - Repasse de remuneração por intermediação de imóveis a demais corretores envolvidos na operação; 02 - Repasse de valores a fornecedor relativo a fornecimento intermediado por agência de turismo; 03 - Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de produção externa por conta e ordem de terceiro; 04 - Reembolso ou ressarcimento recebido por agência de propaganda e publicidade por valores pagos relativos a serviços de mídia por conta e ordem de terceiro; 99 - Outros reembolsos ou ressarcimentos recebidos por valores pagos relativos a operações por conta e ordem de terceiro; </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:enumeration value="01"/>
+<xs:enumeration value="02"/>
+<xs:enumeration value="03"/>
+<xs:enumeration value="04"/>
+<xs:enumeration value="99"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSChaveNFSe">
+<xs:annotation>
+<xs:documentation>Tipo Chave da Nota Fiscal de Serviço Eletrônica</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:maxLength value="50"/>
+<xs:pattern value="[0-9]{50}"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSCNPJ">
+<xs:annotation>
+<xs:documentation>Tipo Número do CNPJ</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:maxLength value="14"/>
+<xs:pattern value="[0-9]{14}"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSCPF">
+<xs:annotation>
+<xs:documentation>Tipo Número do CPF</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:maxLength value="11"/>
+<xs:pattern value="[0-9]{11}"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSNIF">
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:minLength value="1"/>
+<xs:maxLength value="40"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSCodNaoNIF">
+<xs:annotation>
+<xs:documentation> Motivo para não informação do NIF: 0 - Não informado na nota de origem; 1 - Dispensado do NIF; 2 - Não exigência do NIF; </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:enumeration value="0"/>
+<xs:enumeration value="1"/>
+<xs:enumeration value="2"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSDesc150">
+<xs:restriction base="TSString">
+<xs:minLength value="1"/>
+<xs:maxLength value="150"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSCodMunIBGE">
+<xs:annotation>
+<xs:documentation>Tipo Código do Município segundo tabela IBGE</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:pattern value="[0-9]{7}"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="TCEnderNac">
+<xs:sequence>
+<xs:element name="cMun" type="TSCodMunIBGE">
+<xs:annotation>
+<xs:documentation>Código do município, conforme Tabela do IBGE</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="CEP" type="TSCEP">
+<xs:annotation>
+<xs:documentation>Número do CEP</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="TSCodPaisISO">
+<xs:annotation>
+<xs:documentation>Tipo Código do País segundo tabela ISO</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:pattern value="[A-Z]{2}"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="TCEnderExt">
+<xs:sequence>
+<xs:element name="cPais" type="TSCodPaisISO">
+<xs:annotation>
+<xs:documentation>Código do país (Tabela de Países ISO)</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="cEndPost" type="TSCodigoEndPostal">
+<xs:annotation>
+<xs:documentation>Código alfanumérico do Endereçamento Postal no exterior do prestador do serviço.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xCidade" type="TSCidade">
+<xs:annotation>
+<xs:documentation>Nome da cidade no exterior do prestador do serviço.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xEstProvReg" type="TSEstadoProvRegiao">
+<xs:annotation>
+<xs:documentation>Estado, província ou região da cidade no exterior do prestador do serviço.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="TSTelefone">
+<xs:annotation>
+<xs:documentation> Número do telefone do prestador: Preencher com o Código DDD + número do telefone. Nas operações com exterior é permitido informar o código do país + código da localidade + número do telefone </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:pattern value="[0-9]{6,20}"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSEmail">
+<xs:restriction base="TSString">
+<xs:whiteSpace value="preserve"/>
+<xs:minLength value="1"/>
+<xs:maxLength value="80"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="TCEndereco">
+<xs:sequence>
+<xs:choice>
+<xs:element name="endNac" type="TCEnderNac">
+<xs:annotation>
+<xs:documentation>Grupo de informações específicas de endereço nacional</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="endExt" type="TCEnderExt">
+<xs:annotation>
+<xs:documentation>Grupo de informações específicas de endereço no exterior</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:choice>
+<xs:element name="xLgr" type="TSLogradouro">
+<xs:annotation>
+<xs:documentation>Tipo e nome do logradouro da localização do imóvel</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="nro" type="TSNumeroEndereco">
+<xs:annotation>
+<xs:documentation>Número do imóvel</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xCpl" type="TSComplementoEndereco" minOccurs="0">
+<xs:annotation>
+<xs:documentation>Complemento do endereço</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xBairro" type="TSBairro">
+<xs:annotation>
+<xs:documentation>Bairro</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="TSInscImobFisc">
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:minLength value="1"/>
+<xs:maxLength value="30"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSCodCIB">
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:length value="8"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="TCEnderObraEvento">
+<xs:sequence>
+<xs:choice>
+<xs:element minOccurs="1" name="CEP" type="TSCEP">
+<xs:annotation>
+<xs:documentation>Número do CEP</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element minOccurs="1" name="endExt" type="TCEnderExtSimples">
+<xs:annotation>
+<xs:documentation>Grupo de informações específicas de endereço no exterior</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:choice>
+<xs:element name="xLgr" type="TSLogradouro">
+<xs:annotation>
+<xs:documentation>Tipo e nome do logradouro da localização do imóvel</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="nro" type="TSNumeroEndereco">
+<xs:annotation>
+<xs:documentation>Número do imóvel</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xCpl" type="TSComplementoEndereco" minOccurs="0">
+<xs:annotation>
+<xs:documentation>Complemento do endereço</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xBairro" type="TSBairro">
+<xs:annotation>
+<xs:documentation>Bairro</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="TCInfoRefNFSe">
+<xs:sequence>
+<xs:element name="refNFSe" type="TSChaveNFSe" maxOccurs="99">
+<xs:annotation>
+<xs:documentation> Chave da NFS-e referenciada </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TCRTCInfoDest">
+<xs:sequence>
+<xs:choice>
+<xs:element name="CNPJ" type="TSCNPJ">
+<xs:annotation>
+<xs:documentation> Número da inscrição no Cadastro Nacional de Pessoa Jurídica (CNPJ) do Destinatário do serviço </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="CPF" type="TSCPF">
+<xs:annotation>
+<xs:documentation> Número da inscrição no Cadastro de Pessoa Física (CPF) do Destinatário do serviço </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="NIF" type="TSNIF">
+<xs:annotation>
+<xs:documentation> Número de Identificação Fiscal fornecido por órgão de administração tributária no exterior </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="cNaoNIF" type="TSCodNaoNIF">
+<xs:annotation>
+<xs:documentation> Motivo para não informação do NIF: 0 - Não informado na nota de origem; 1 - Dispensado do NIF; 2 - Não exigência do NIF; </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:choice>
+<xs:element name="xNome" type="TSDesc150">
+<xs:annotation>
+<xs:documentation> Nome / Nome Empresarial do do Destinatário do serviço </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="end" type="TCEndereco" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Grupo de informações do endereço do Destinatário do serviço </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="fone" type="TSTelefone" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Número do telefone do Destinatário do serviço (Preencher com o Código DDD + número do telefone. Nas operações com exterior é permitido informar o código do país + código da localidade + número do telefone) </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="email" type="TSEmail" minOccurs="0">
+<xs:annotation>
+<xs:documentation>E-mail do Destinatário do serviço</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TCRTCInfoImovel">
+<xs:sequence>
+<xs:element name="inscImobFisc" type="TSInscImobFisc" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Inscrição imobiliária fiscal (código fornecido pela Prefeitura Municipal para a identificação da obra ou para fins de recolhimento do IPTU) </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:choice minOccurs="1">
+<xs:element name="cCIB" type="TSCodCIB">
+<xs:annotation>
+<xs:documentation> Código do Cadastro Imobiliário Brasileiro - CIB </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="end" type="TCEnderObraEvento">
+<xs:annotation>
+<xs:documentation> Grupo de informações do endereço da obra do serviço prestado </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:choice>
+</xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="TSRTCTpEnteGov">
+<xs:annotation>
+<xs:documentation> Tipo de ente governamental Para administração pública direta e suas autarquias e fundações: 1 - União; 2 - Estado; 3 - Distrito Federal; 4 - Município; </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:enumeration value="1"/>
+<xs:enumeration value="2"/>
+<xs:enumeration value="3"/>
+<xs:enumeration value="4"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSRTCIndDest">
+<xs:annotation>
+<xs:documentation> A respeito do Destinatário dos serviços: 0 – o destinatário é o próprio tomador/adquirente identificado na NFS-e (tomador = adquirente = destinatário); 1 – o destinatário não é o próprio adquirente, podendo ser outra pessoa, física ou jurídica (ou equiparada), ou um estabelecimento diferente do indicado como tomador (tomador = adquirente ≠ destinatário); </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:enumeration value="0"/>
+<xs:enumeration value="1"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSDec3V2">
+<xs:annotation>
+<xs:documentation>Valor decimal com 1 a 3 dígitos mais 2 casas decimais</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:pattern value="0|0\.[0-9]{2}|[1-9]{1}[0-9]{0,2}(\.[0-9]{2})?"/>
+</xs:restriction>
+</xs:simpleType>
+
+<!-- TIPO COMPLEXO INFORMAÇÕES RELATIVAS AOS VALORES DO SERVIÇO PRESTADO IBSCBS -->
+<xs:complexType name="TCRTCInfoValoresIBSCBS">
+<xs:sequence>
+<xs:element name="gReeRepRes" type="TCRTCInfoReeRepRes" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Grupo de informações relativas a valores incluídos neste documento e recebidos por motivo de estarem relacionadas a operações de terceiros, objeto de reembolso, repasse ou ressarcimento pelo recebedor, já tributados e aqui referenciados </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="trib" type="TCRTCInfoTributosIBSCBS">
+<xs:annotation>
+<xs:documentation> Grupo de informações relacionados aos tributos IBS e CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="TSNum7Dig">
+<xs:annotation>
+<xs:documentation>Número com 7 dígitos</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:maxLength value="7"/>
+<xs:pattern value="[0-9]{7}"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSDesc255">
+<xs:restriction base="TSString">
+<xs:whiteSpace value="preserve"/>
+<xs:minLength value="1"/>
+<xs:maxLength value="255"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSRTCChaveDFe">
+<xs:annotation>
+<xs:documentation> Chave do Documento Fiscal Eletrônico </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:minLength value="1"/>
+<xs:maxLength value="50"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSRTCCodSitTrib">
+<xs:annotation>
+<xs:documentation> Código de Situação Tributária </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:pattern value="[0-9]{3}"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSRTCCodClassTrib">
+<xs:annotation>
+<xs:documentation> Código de Classificação Tributária </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:pattern value="[0-9]{6}"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSRTCCodCredPres">
+<xs:annotation>
+<xs:documentation> Código e Classificação do Crédito Presumido </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:pattern value="[0-9]{2}"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TSRTCTipoChaveDFe">
+<xs:annotation>
+<xs:documentation> Documento fiscal a que se refere a chaveDfe que seja um dos documentos do Repositório Nacional: 1 - NFS-e; 2 - NF-e; 3 - CT-e; 9 - Outro; </xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:enumeration value="1"/>
+<xs:enumeration value="2"/>
+<xs:enumeration value="3"/>
+<xs:enumeration value="9"/>
+</xs:restriction>
+</xs:simpleType>
+
+<!-- TIPO COMPLEXO INFORMAÇÕES RELATIVAS AOS VALORES DE REEMBOLSO REPASSE OU RESSARCIMENTO IBSCBS -->
+<xs:complexType name="TCRTCInfoReeRepRes">
+<xs:sequence>
+<xs:element name="documentos" type="TCRTCListaDoc" minOccurs="1" maxOccurs="1000">
+<xs:annotation>
+<xs:documentation> Grupo relativo aos documentos referenciados nos casos de reembolso, repasse e ressarcimento que serão considerados na base de cálculo do ISSQN, do IBS e da CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO INFORMAÇÕES RELACIONADOS AOS TRIBUTOS IBSCBS -->
+<xs:complexType name="TCRTCInfoTributosIBSCBS">
+<xs:sequence>
+<xs:element name="gIBSCBS" type="TCRTCInfoTributosSitClas">
+<xs:annotation>
+<xs:documentation> Grupo de informações relacionadas ao IBS e à CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TCRTCInfoTributosSitClas">
+<xs:sequence>
+<xs:element name="CST" type="TSRTCCodSitTrib">
+<xs:annotation>
+<xs:documentation> Código de Situação Tributária do IBS e da CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="cClassTrib" type="TSRTCCodClassTrib">
+<xs:annotation>
+<xs:documentation> Código de Classificação Tributária do IBS e da CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="cCredPres" type="TSRTCCodCredPres" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Código e Classificação do Crédito Presumido: IBS e CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="gTribRegular" type="TCRTCInfoTributosTribRegular" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Grupo de informações da Tributação Regular </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="gDif" type="TCRTCInfoTributosDif" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Grupo de informações relacionadas ao diferimento para IBS e CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TCRTCInfoTributosTribRegular">
+<xs:sequence>
+<xs:element name="CSTReg" type="TSRTCCodSitTrib">
+<xs:annotation>
+<xs:documentation> Código de Situação Tributária do IBS e da CBS de tributação regular </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="cClassTribReg" type="TSRTCCodClassTrib">
+<xs:annotation>
+<xs:documentation> Código da Classificação Tributária do IBS e da CBS de tributação regular </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TCRTCInfoTributosDif">
+<xs:sequence>
+<xs:element name="pDifUF" type="TSDec3V2">
+<xs:annotation>
+<xs:documentation> Percentual de diferimento para o IBS estadual </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="pDifMun" type="TSDec3V2">
+<xs:annotation>
+<xs:documentation> Percentual de diferimento para o IBS municipal </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="pDifCBS" type="TSDec3V2">
+<xs:annotation>
+<xs:documentation> Percentual de diferimento para a CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TCRTCListaDoc">
+<xs:sequence>
+<xs:choice>
+<xs:element name="dFeNacional" type="TCRTCListaDocDFe">
+<xs:annotation>
+<xs:documentation> Grupo de informações de documentos fiscais eletrônicos que se encontram no repositório nacional </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="docFiscalOutro" type="TCRTCListaDocFiscalOutro">
+<xs:annotation>
+<xs:documentation> Grupo de informações de documento fiscais, eletrônicos ou não, que não se encontram no repositório nacional </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="docOutro" type="TCRTCListaDocOutro">
+<xs:annotation>
+<xs:documentation> Grupo de informações de documento não fiscal. </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:choice>
+<xs:element name="fornec" type="TCRTCListaDocFornec" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Grupo de informações do fornecedor do documento referenciado </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="dtEmiDoc" type="TSData">
+<xs:annotation>
+<xs:documentation> Data da emissão do documento dedutível Ano, mês e dia (AAAA-MM-DD) </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="dtCompDoc" type="TSData">
+<xs:annotation>
+<xs:documentation> Data da competência do documento dedutível Ano, mês e dia (AAAA-MM-DD) </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="tpReeRepRes" type="TSRTCTpReeRepRes">
+<xs:annotation>
+<xs:documentation> Tipo de valor incluído neste documento, recebido por motivo de estarem relacionadas a operações de terceiros, objeto de reembolso, repasse ou ressarcimento pelo recebedor, já tributados e aqui referenciados </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xTpReeRepRes" type="TSDesc150" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Descrição do reembolso ou ressarcimento quando a opção é "99 – Outros reembolsos ou ressarcimentos recebidos por valores pagos relativos a operações por conta e ordem de terceiro" </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vlrReeRepRes" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Valor monetário (total ou parcial, conforme documento informado) utilizado para não inclusão na base de cálculo do ISS e do IBS e da CBS da NFS-e que está sendo emitida (R$) </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TCRTCListaDocOutro">
+<xs:sequence>
+<xs:element name="nDoc" type="TSDesc255">
+<xs:annotation>
+<xs:documentation> Número do documento não fiscal </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xDoc" type="TSDesc255">
+<xs:annotation>
+<xs:documentation> Descrição do documento não fiscal </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TCRTCListaDocDFe">
+<xs:sequence>
+<xs:element name="tipoChaveDFe" type="TSRTCTipoChaveDFe">
+<xs:annotation>
+<xs:documentation> Documento fiscal a que se refere a chaveDfe que seja um dos documentos do Repositório Nacional </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xTipoChaveDFe" type="TSDesc255" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Descrição da DF-e a que se refere a chaveDfe que seja um dos documentos do Repositório Nacional Deve ser preenchido apenas quando "tipoChaveDFe = 9 (Outro)" </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="chaveDFe" type="TSRTCChaveDFe">
+<xs:annotation>
+<xs:documentation> Chave do Documento Fiscal eletrônico do repositório nacional referenciado para os casos de operações já tributadas </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TCRTCListaDocFiscalOutro">
+<xs:sequence>
+<xs:element name="cMunDocFiscal" type="TSNum7Dig">
+<xs:annotation>
+<xs:documentation> Código do município emissor do documento fiscal que não se encontra no repositório nacional </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="nDocFiscal" type="TSDesc255">
+<xs:annotation>
+<xs:documentation> Número do documento fiscal que não se encontra no repositório nacional </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xDocFiscal" type="TSDesc255">
+<xs:annotation>
+<xs:documentation> Descrição do documento fiscal </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TCRTCListaDocFornec">
+<xs:sequence>
+<xs:choice>
+<xs:element name="CNPJ" type="TSCNPJ">
+<xs:annotation>
+<xs:documentation> Número da inscrição no Cadastro Nacional de Pessoa Jurídica (CNPJ) do Fornecedor do serviço </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="CPF" type="TSCPF">
+<xs:annotation>
+<xs:documentation> Número da inscrição no Cadastro de Pessoa Física (CPF) do Fornecedor do serviço </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="NIF" type="TSNIF">
+<xs:annotation>
+<xs:documentation> Este elemento só deverá ser preenchido para fornecedores não residentes no Brasil </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="cNaoNIF" type="TSCodNaoNIF">
+<xs:annotation>
+<xs:documentation> Motivo para não informação do NIF: 0 - Não informado na nota de origem; 1 - Dispensado do NIF; 2 - Não exigência do NIF; </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:choice>
+<xs:element name="xNome" type="TSDesc150">
+<xs:annotation>
+<xs:documentation> Nome / Razão Social do do Fornecedor do serviço </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TCEnderecoSimples">
+<xs:sequence>
+<xs:choice>
+<xs:element name="CEP" type="TSCEP">
+<xs:annotation>
+<xs:documentation>Número do CEP</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="endExt" type="TCEnderExtSimples">
+<xs:annotation>
+<xs:documentation>Grupo de informações específicas de endereço no exterior</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:choice>
+<xs:element name="xLgr" type="TSLogradouro">
+<xs:annotation>
+<xs:documentation>Tipo e nome do logradouro da localização do imóvel</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="nro" type="TSNumeroEndereco">
+<xs:annotation>
+<xs:documentation>Número do imóvel</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xCpl" type="TSComplementoEndereco" minOccurs="0">
+<xs:annotation>
+<xs:documentation>Complemento do endereço</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xBairro" type="TSBairro">
+<xs:annotation>
+<xs:documentation>Bairro</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO IBSCBS -->
+<xs:complexType name="TCRTCIBSCBS">
+<xs:sequence>
+<xs:element name="cLocalidadeIncid" type="TSCodMunIBGE">
+<xs:annotation>
+<xs:documentation> Código IBGE da localidade de incidência do IBS/CBS (local da operação) </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xLocalidadeIncid" type="TSDesc600">
+<xs:annotation>
+<xs:documentation> Nome da localidade de incidência do IBS/CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="pRedutor" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> Percentual de redução de aliquota em compra governamental </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="valores" type="TCRTCValoresIBSCBS">
+<xs:annotation>
+<xs:documentation> Grupo de valores brutos referentes ao IBS/CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="totCIBS" type="TCRTCTotalCIBS">
+<xs:annotation>
+<xs:documentation> Grupo de Totalizadores </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO DOS VALORES BRUTOS IBSCBS -->
+<xs:complexType name="TCRTCValoresIBSCBS">
+<xs:sequence>
+<xs:element name="vBC" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Valor da base de cálculo (BC) do IBS/CBS antes das reduções para cálculo do tributo bruto vBC = vServ - descIncond – vCalcReeRepRes – vISSQN – vPIS - vCOFINS (até 2026) ou vBC = vServ - descIncond – vCalcReeRepRes – vISSQN (até 2032) </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vCalcReeRepRes" type="TSDec15V2" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Valor monetário (R$) total relativo ao fornecimento próprio de bens materiais ou relacionados a operações de terceiros, objeto de reembolso, repasse ou ressarcimento pelo recebedor, já tributados e aqui referenciados e que não integram da base de cálculo (BC) do ISSQN, do IBS e da CBS. </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="uf" type="TCRTCValoresIBSCBSUF">
+<xs:annotation>
+<xs:documentation> Grupo de Informações relativas aos valores do IBS Estadual </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="mun" type="TCRTCValoresIBSCBSMun">
+<xs:annotation>
+<xs:documentation> Grupo de Informações relativas aos valores do IBS Municipal </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="fed" type="TCRTCValoresIBSCBSFed">
+<xs:annotation>
+<xs:documentation> Grupo de Informações relativas aos valores da CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO IBS ESTADUAL -->
+<xs:complexType name="TCRTCValoresIBSCBSUF">
+<xs:sequence>
+<xs:element name="pIBSUF" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> Alíquota da UF para IBS da localidade de incidência parametrizada no sistema </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="pRedAliqUF" type="TSDec3V2" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Percentual de redução de alíquota estadual </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="pAliqEfetUF" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> pAliqEfetUF = pIBSUF x (1 - pRedAliqUF) x (1 - pRedutor) Se pRedAliqUF não for informado na DPS, então pAliqEfetUF é a própria pIBSUF </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO IBS MUNICIPAL -->
+<xs:complexType name="TCRTCValoresIBSCBSMun">
+<xs:sequence>
+<xs:element name="pIBSMun" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> Alíquota do Município para IBS da localidade de incidência parametrizada no sistema </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="pRedAliqMun" type="TSDec3V2" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Percentual de redução de alíquota municipal </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="pAliqEfetMun" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> pAliqEfetMun = pIBSMun x (1 - pRedAliqMun) x (1 - pRedutor) Se pRedAliqMun não for informado na DPS, então pAliqEfetMun é a própria pIBSMun </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO CBS -->
+<xs:complexType name="TCRTCValoresIBSCBSFed">
+<xs:sequence>
+<xs:element name="pCBS" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> Alíquota da União para CBS parametrizada no sistema </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="pRedAliqCBS" type="TSDec3V2" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Percentual da redução de alíquota da CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="pAliqEfetCBS" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> pAliqEfetCBS = pCBS x (1 - pRedAliqCBS) x (1 - pRedutor) Se pRedAliqCBS não for informado na DPS, então pAliqEfetCBS é a própria pCBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO DE TOTALIZADORES IBSCBS -->
+<xs:complexType name="TCRTCTotalCIBS">
+<xs:sequence>
+<xs:element name="vTotNF" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Valor Total da NF considerando os impostos por fora: IBS e CBS O IBS e a CBS são por fora, por isso seus valores devem ser adicionados ao valor total da NF vTotNF = vLiq (em 2026) vTotNF = vLiq + vCBS + vIBSTot (a partir de 2027) </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="gIBS" type="TCRTCTotalIBS">
+<xs:annotation>
+<xs:documentation> Grupo de valores referentes ao IBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="gCBS" type="TCRTCTotalCBS">
+<xs:annotation>
+<xs:documentation> Grupo de valores referentes à CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="gTribRegular" type="TCRTCTotalTribRegular" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Grupo de informações de tributação regular </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="gTribCompraGov" type="TCRTCTotalTribCompraGov" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Grupo de informações da composição do valor do IBS e da CBS em compras governamentais </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO DE TOTALIZADORES DOS VALORES IBS -->
+<xs:complexType name="TCRTCTotalIBS">
+<xs:sequence>
+<xs:element name="vIBSTot" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Valor total do IBS. vIBSTot = vIBSUF + vIBSMun </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="gIBSCredPres" type="TCRTCTotalIBSCredPres" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Grupo de valores referentes ao crédito presumido para IBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="gIBSUFTot" type="TCRTCTotalIBSUF">
+<xs:annotation>
+<xs:documentation> Grupo de valores referentes ao IBS Estadual </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="gIBSMunTot" type="TCRTCTotalIBSMun">
+<xs:annotation>
+<xs:documentation> Grupo de valores referentes ao IBS Municipal </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO DE TOTALIZADORES DOS VALORES CREDITO PRESUMIDO IBS -->
+<xs:complexType name="TCRTCTotalIBSCredPres">
+<xs:sequence>
+<xs:element name="pCredPresIBS" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> Alíquota do crédito presumido para o IBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vCredPresIBS" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Valor do Crédito Presumido para o IBS vCredPresIBS = vBC x pCredPresIBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO DE TOTALIZADORES DOS VALORES IBS ESTADUAL -->
+<xs:complexType name="TCRTCTotalIBSUF">
+<xs:sequence>
+<xs:element name="vDifUF" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Total do Diferimento do IBS estadual vDifUF = vIBSUF x pDifUF </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vIBSUF" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Total valor do IBS estadual vIBSUF = vBC x (pIBSUF ou pAliqEfetUF) </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO DE TOTALIZADORES DOS VALORES IBS MUNICIPAL -->
+<xs:complexType name="TCRTCTotalIBSMun">
+<xs:sequence>
+<xs:element name="vDifMun" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Total do Diferimento do IBS municipal vDifMun = vIBSMun x pDifMun </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vIBSMun" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Total valor do IBS municipal vIBSMun = vBC x (pIBSMun ou pAliqEfetMun) </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO DE TOTALIZADORES DOS VALORES CBS -->
+<xs:complexType name="TCRTCTotalCBS">
+<xs:sequence>
+<xs:element name="gCBSCredPres" type="TCRTCTotalCBSCredPres" minOccurs="0">
+<xs:annotation>
+<xs:documentation> Grupo de valores referentes ao crédito presumido para CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vDifCBS" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Total do Diferimento CBS vDifCBS = vCBS x pDifCBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vCBS" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Total valor da CBS da União vCBS = vBC x (pCBS ou pAliqEfetCBS) </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO DE TOTALIZADORES DOS VALORES CREDITO PRESUMIDO CBS -->
+<xs:complexType name="TCRTCTotalCBSCredPres">
+<xs:sequence>
+<xs:element name="pCredPresCBS" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> Alíquota do crédito presumido para a CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vCredPresCBS" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Valor do Crédito Presumido da CBS vCredPresCBS = vBC x pCredPresCBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO DE TOTALIZADORES DOS VALORES TRIBUTAÇÃO REGULAR -->
+<xs:complexType name="TCRTCTotalTribRegular">
+<xs:sequence>
+<xs:element name="pAliqEfeRegIBSUF" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> Alíquota efetiva de tributação regular do IBS estadual </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vTribRegIBSUF" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Valor da tributação regular do IBS estadual vTribRegIBSUF = vBC x pAliqEfeRegIBSUF </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="pAliqEfeRegIBSMun" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> Alíquota efetiva de tributação regular do IBS municipal </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vTribRegIBSMun" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Valor da tributação regular do IBS municipal vTribRegIBSMun = vBC x pAliqEfeRegIBSMun </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="pAliqEfeRegCBS" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> Alíquota efetiva de tributação regular da CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vTribRegCBS" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Valor da tributação regular da CBS vTribRegCBS = vBC x pAliqEfeRegCBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<!-- TIPO COMPLEXO DE TOTALIZADORES DOS VALORES IBSCBS EM COMPRAS GOVERNAMENTAIS -->
+<xs:complexType name="TCRTCTotalTribCompraGov">
+<xs:sequence>
+<xs:element name="pIBSUF" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> Alíquota do IBS de competência do Estado </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vIBSUF" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Valor do Tributo do IBS da UF calculado </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="pIBSMun" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> Alíquota do IBS de competência do Município </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vIBSMun" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Valor do Tributo do IBS do Município calculado </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="pCBS" type="TSDec2V2">
+<xs:annotation>
+<xs:documentation> Alíquota da CBS </xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="vCBS" type="TSDec15V2">
+<xs:annotation>
+<xs:documentation> Valor do Tributo da CBS calculado </xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="TSDesc600">
+<xs:restriction base="TSString">
+<xs:whiteSpace value="preserve"/>
+<xs:minLength value="1"/>
+<xs:maxLength value="600"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSDec2V2">
+<xs:annotation>
+<xs:documentation>Valor decimal com 1 ou 2 dígitos mais 2 casas decimais</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:pattern value="0|0\.[0-9]{2}|[1-9]{1}[0-9]{0,1}(\.[0-9]{2})?"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSBairro">
+<xs:annotation>
+<xs:documentation>Bairro</xs:documentation>
+</xs:annotation>
+<xs:restriction base="TSString">
+<xs:minLength value="1"/>
+<xs:maxLength value="60"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSComplementoEndereco">
+<xs:annotation>
+<xs:documentation>Complemento</xs:documentation>
+</xs:annotation>
+<xs:restriction base="TSString">
+<xs:minLength value="1"/>
+<xs:maxLength value="156"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSNumeroEndereco">
+<xs:annotation>
+<xs:documentation>Número</xs:documentation>
+</xs:annotation>
+<xs:restriction base="TSString">
+<xs:minLength value="1"/>
+<xs:maxLength value="60"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSLogradouro">
+<xs:annotation>
+<xs:documentation>Logradouro</xs:documentation>
+</xs:annotation>
+<xs:restriction base="TSString">
+<xs:minLength value="1"/>
+<xs:maxLength value="255"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:complexType name="TCEnderExtSimples">
+<xs:sequence>
+<xs:element name="cEndPost" type="TSCodigoEndPostal">
+<xs:annotation>
+<xs:documentation>Código alfanumérico do Endereçamento Postal no exterior do prestador do serviço.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xCidade" type="TSCidade">
+<xs:annotation>
+<xs:documentation>Nome da cidade no exterior do prestador do serviço.</xs:documentation>
+</xs:annotation>
+</xs:element>
+<xs:element name="xEstProvReg" type="TSEstadoProvRegiao">
+<xs:annotation>
+<xs:documentation>Estado, província ou região da cidade no exterior do prestador do serviço.</xs:documentation>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="TSCodigoEndPostal">
+<xs:annotation>
+<xs:documentation>Código de enderaçamento postal</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:minLength value="1"/>
+<xs:maxLength value="11"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSCidade">
+<xs:annotation>
+<xs:documentation>Cidade</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:minLength value="1"/>
+<xs:maxLength value="60"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSEstadoProvRegiao">
+<xs:annotation>
+<xs:documentation>Estado, província ou região</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:minLength value="1"/>
+<xs:maxLength value="60"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSCEP">
+<xs:annotation>
+<xs:documentation>CEP</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:pattern value="[0-9]{8}"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSIdeEvento">
+<xs:annotation>
+<xs:documentation>Identificação da Atividade de Evento (código identificador de evento determinado pela Administração Tributária Municipal)</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:minLength value="1"/>
+<xs:maxLength value="30"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="TSString">
+<xs:annotation>
+<xs:documentation>Tipo string genérico</xs:documentation>
+</xs:annotation>
+<xs:restriction base="xs:string">
+<xs:whiteSpace value="preserve"/>
+<xs:pattern value="[!-ÿ]{1}[ -ÿ]{0,}[!-ÿ]{1}|[!-ÿ]{1}"/>
+</xs:restriction>
+</xs:simpleType>
 </xs:schema>
