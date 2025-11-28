@@ -466,10 +466,8 @@ var
   i: Integer;
   AResumo: TNFSeResumoCollectionItem;
 
-  procedure LerNFSe(XmlCodificado: string);
+  procedure LerNFSe(NFSeXml: string);
   begin
-    NFSeXml := DeCompress(DecodeBase64(NFSeXml));
-
     DocumentXml := TACBrXmlDocument.Create;
 
     try
@@ -498,6 +496,7 @@ var
         begin
           NumeroNota := NumNFSe;
           Data := DataAut;
+          XmlRetorno := NFSeXml;
         end;
 
         ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumDps);
@@ -550,6 +549,10 @@ begin
 
         NFSeXml := JSon.AsString['xmlGZipB64'];
 
+        NFSeXml := DeCompress(DecodeBase64(NFSeXml));
+
+        AResumo.XmlRetorno := NFSeXml;
+
         if NFSeXml <> '' then
           LerNFSe(NFSeXml);
       end;
@@ -570,6 +573,8 @@ begin
 
         Response.Link := Document.AsString['chaveAcesso'];
         NFSeXml := Document.AsString['nfseXmlGZipB64'];
+
+        NFSeXml := DeCompress(DecodeBase64(NFSeXml));
 
         if NFSeXml <> '' then
           LerNFSe(NFSeXml);
