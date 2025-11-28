@@ -1741,6 +1741,9 @@ end;
 
 function TACBrNFSeXWebservicePadraoNacional.TratarXmlRetornado(
   const aXML: string): string;
+var
+  lJSON, lErroJSON: TACBrJSONObject;
+  lJSONArray: TACBrJSONArray;
 begin
   Result := inherited TratarXmlRetornado(aXML);
 
@@ -1750,22 +1753,37 @@ begin
 
     if not StringIsJSON(Result) then
     begin
-      Result := '{' +
-                  '"tipoAmbiente": "",' +
-                  '"versaoAplicativo": "",' +
-                  '"dataHoraProcessamento": "",' +
-                  '"idDps": "",' +
-                  '"chaveAcesso": "",' +
-                  '"nfseXmlGZipB64": "",' +
-                  '"erros": [' +
-                   '{'  +
-                   '"mensagem": "' + Result + '",' +
-                    '"codigo": "E9999",' +
-                    '"descricao": "' + Result + '",' +
-                    '"complemento": ""' +
-                    '}' +
-                    ']' +
-                '}';
+      lJSON := TACBrJSONObject.Create;
+      try
+        lJSONArray := TACBrJSONArray.Create;
+        try
+          lErroJSON := TACBrJSONObject.Create;
+          try
+            lJSON.AddPair('tipoAmbiente', EmptyStr);
+            lJSON.AddPair('versaoAplicativo', EmptyStr);
+            lJSON.AddPair('dataHoraProcessamento', EmptyStr);
+            lJSON.AddPair('idDps', EmptyStr);
+            lJSON.AddPair('chaveAcesso', EmptyStr);
+            lJSON.AddPair('nfseXmlGZipB64', EmptyStr);
+
+            lErroJSON.AddPair('mensagem', EmptyStr);
+            lErroJSON.AddPair('codigo', 'E9999');
+            lErroJSON.AddPair('descricao', Result);
+            lErroJSON.AddPair('complemento', EmptyStr);
+
+            lJSONArray.AddElementJSON(lErroJSON);
+            lJSON.AddPair('erros', lJSONArray, False);
+
+            Result := lJSON.ToJSON;
+          finally
+            //lErroJSON.Free;
+          end;
+        finally
+          //lJSONArray.Free;
+        end;
+      finally
+        lJSON.Free;
+      end;
     end
   end;
 end;

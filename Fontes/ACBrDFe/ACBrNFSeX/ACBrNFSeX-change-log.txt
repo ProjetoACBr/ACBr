@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 28/11/2025
+-- PadraoNacional.Provider --
+[*] Melhoria a rotina TratarXMLRetornado para usar classes próprias para criação do JSON.
+  Por: Diego Folieni
 -- ACBrNFSeXWebservicesResponse/PadraoNacional.Provider --
 [+] Incluído o campo XmlRetorno na lista Resumos para conter o XML da NFS-e do Padrão Nacional.
   Por: Italo Giurizzato Junior
