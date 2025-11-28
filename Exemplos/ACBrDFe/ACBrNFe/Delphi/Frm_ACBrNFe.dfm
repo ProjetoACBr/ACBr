@@ -1647,8 +1647,8 @@ object frmACBrNFe: TfrmACBrNFe
         Caption = 'Envios'
         ImageIndex = 2
         object btnCriarEnviar: TButton
-          Left = 376
-          Top = 8
+          Left = 375
+          Top = 9
           Width = 177
           Height = 25
           Caption = 'Criar e Enviar'
@@ -1947,59 +1947,155 @@ object frmACBrNFe: TfrmACBrNFe
           object tsEventosReformaTributaria: TTabSheet
             Caption = 'Reforma Tribut'#225'ria'
             ImageIndex = 1
-            object btnImportALCZFM: TButton
-              Left = 8
-              Top = 68
-              Width = 177
-              Height = 25
-              Caption = 'Importa'#231#227'o ALC/ZFM'
+            object pgcAutorEvento: TPageControl
+              Left = 0
+              Top = 0
+              Width = 551
+              Height = 141
+              ActivePage = tsTodos
+              Align = alClient
               TabOrder = 0
-              OnClick = btnImportALCZFMClick
-            end
-            object btnCancelarEventoRT: TButton
-              Left = 8
-              Top = 102
-              Width = 177
-              Height = 25
-              Caption = 'Cancelamento de Evento'
-              TabOrder = 1
-              OnClick = btnCancelarEventoRTClick
-            end
-            object btnPerecPerdaContrFornec: TButton
-              Left = 8
-              Top = 34
-              Width = 177
-              Height = 25
-              Caption = 'Perec. Transp. Contratado Fornec'
-              TabOrder = 2
-              OnClick = btnPerecPerdaContrFornecClick
-            end
-            object btnFornecNaoRealizadoPagAntecip: TButton
-              Left = 8
-              Top = 3
-              Width = 177
-              Height = 25
-              Caption = 'Fornec. n'#227'o realizado Pag. Antecip'
-              TabOrder = 3
-              OnClick = btnFornecNaoRealizadoPagAntecipClick
-            end
-            object btnAtualizacaoPrevisaoEntrega: TButton
-              Left = 191
-              Top = 3
-              Width = 177
-              Height = 25
-              Caption = 'Atualiza'#231#227'o Previs'#227'o de Entrega'
-              TabOrder = 4
-              OnClick = btnAtualizacaoPrevisaoEntregaClick
-            end
-            object btnManifestacaoPedidoTransfCredSucessao: TButton
-              Left = 191
-              Top = 34
-              Width = 177
-              Height = 25
-              Caption = 'Manfesta'#231#227'o Transf. Cr'#233'd. Sucess.'
-              TabOrder = 5
-              OnClick = btnManifestacaoPedidoTransfCredSucessaoClick
+              object tsTodos: TTabSheet
+                Caption = 'Todos'
+                object btnCancelarEventoRT: TButton
+                  Left = 5
+                  Top = 41
+                  Width = 177
+                  Height = 25
+                  Caption = 'Cancelamento de Evento'
+                  TabOrder = 0
+                  OnClick = btnCancelarEventoRTClick
+                end
+                object btnDestItemConsumoPessoal: TButton
+                  Left = 5
+                  Top = 8
+                  Width = 177
+                  Height = 25
+                  Caption = 'Dest. Item consumo pessoal'
+                  TabOrder = 1
+                  OnClick = btnDestItemConsumoPessoalClick
+                end
+              end
+              object tsEmitente: TTabSheet
+                Caption = 'Emitente'
+                ImageIndex = 1
+                object btnImportALCZFM: TButton
+                  Left = 5
+                  Top = 73
+                  Width = 177
+                  Height = 25
+                  Caption = 'Importa'#231#227'o ALC/ZFM'
+                  TabOrder = 0
+                  OnClick = btnImportALCZFMClick
+                end
+                object btnAtualizacaoPrevisaoEntrega: TButton
+                  Left = 189
+                  Top = 8
+                  Width = 177
+                  Height = 25
+                  Caption = 'Atualiza'#231#227'o Previs'#227'o de Entrega'
+                  TabOrder = 1
+                  OnClick = btnAtualizacaoPrevisaoEntregaClick
+                end
+                object btnFornecNaoRealizadoPagAntecip: TButton
+                  Left = 5
+                  Top = 8
+                  Width = 177
+                  Height = 25
+                  Caption = 'Fornec. n'#227'o realizado Pag. Antecip'
+                  TabOrder = 2
+                  OnClick = btnFornecNaoRealizadoPagAntecipClick
+                end
+                object btnPerecPerdaContrFornec: TButton
+                  Left = 5
+                  Top = 40
+                  Width = 177
+                  Height = 25
+                  Caption = 'Perec. Transp. Contratado Fornec'
+                  TabOrder = 3
+                  OnClick = btnPerecPerdaContrFornecClick
+                end
+                object btnPagIntegLibCredPresAq: TButton
+                  Left = 189
+                  Top = 40
+                  Width = 177
+                  Height = 25
+                  Caption = 'Efetivo Pag. Integ. Lib. Cred. Pres.'
+                  TabOrder = 4
+                  OnClick = btnPagIntegLibCredPresAqClick
+                end
+              end
+              object tsDestinatario: TTabSheet
+                Caption = 'Destinatario'
+                ImageIndex = 2
+                object btnAceiteDebApuracaoNotaCredito: TButton
+                  Left = 186
+                  Top = 40
+                  Width = 177
+                  Height = 25
+                  Caption = 'Aceite D'#233'b. Apur. Nota Cr'#233'dito'
+                  TabOrder = 0
+                  OnClick = btnAceiteDebApuracaoNotaCreditoClick
+                end
+                object btnImobilizacaoItem: TButton
+                  Left = 186
+                  Top = 72
+                  Width = 177
+                  Height = 25
+                  Caption = 'Imobiliza'#231#227'o de Item'
+                  TabOrder = 1
+                  OnClick = btnImobilizacaoItemClick
+                end
+                object btnSolicApropriacaoCredPres: TButton
+                  Left = 186
+                  Top = 8
+                  Width = 177
+                  Height = 25
+                  Caption = 'Solic. Apropria. Cr'#233'd. Presumido'
+                  TabOrder = 2
+                  OnClick = btnSolicApropriacaoCredPresClick
+                end
+                object btnSolicitacaoApropCredCombustivel: TButton
+                  Left = 5
+                  Top = 8
+                  Width = 175
+                  Height = 25
+                  Caption = 'Solicit. Aprop. Cr'#233'd. Combust'#237'vel'
+                  TabOrder = 3
+                  OnClick = btnSolicitacaoApropCredCombustivelClick
+                end
+                object btnSolicitacaoAproCredBensServAdiq: TButton
+                  Left = 5
+                  Top = 40
+                  Width = 175
+                  Height = 25
+                  Caption = 'Solicita'#231#227'o Aprop. Cred. Bens Adiq'
+                  TabOrder = 4
+                  OnClick = btnSolicitacaoAproCredBensServAdiqClick
+                end
+                object btnPerecPerdaContrAdiqu: TButton
+                  Left = 5
+                  Top = 72
+                  Width = 175
+                  Height = 25
+                  Caption = 'Perec. Transp. Contratado Adiq.'
+                  TabOrder = 5
+                  OnClick = btnPerecPerdaContrAdiquClick
+                end
+              end
+              object Sucessora: TTabSheet
+                Caption = 'Sucessora'
+                ImageIndex = 3
+                object btnManifestacaoPedidoTransfCredSucessao: TButton
+                  Left = 4
+                  Top = 6
+                  Width = 177
+                  Height = 25
+                  Caption = 'Manfesta'#231#227'o Transf. Cr'#233'd. Sucess.'
+                  TabOrder = 0
+                  OnClick = btnManifestacaoPedidoTransfCredSucessaoClick
+                end
+              end
             end
           end
         end

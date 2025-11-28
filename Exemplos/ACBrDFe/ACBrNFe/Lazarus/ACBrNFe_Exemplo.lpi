@@ -99,43 +99,46 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages Count="12">
+    <RequiredPackages Count="13">
       <Item1>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="SynEditDsgn"/>
       </Item1>
       <Item2>
-        <PackageName Value="laz_synapse"/>
+        <PackageName Value="SynEdit"/>
       </Item2>
       <Item3>
-        <PackageName Value="PCNComum"/>
+        <PackageName Value="laz_synapse"/>
       </Item3>
       <Item4>
-        <PackageName Value="ACBrTCP"/>
+        <PackageName Value="PCNComum"/>
       </Item4>
       <Item5>
-        <PackageName Value="ACBrSerial"/>
+        <PackageName Value="ACBrTCP"/>
       </Item5>
       <Item6>
-        <PackageName Value="ACBr_NFe_DanfeESCPOS"/>
+        <PackageName Value="ACBrSerial"/>
       </Item6>
       <Item7>
-        <PackageName Value="ACBrDFeComum"/>
+        <PackageName Value="ACBr_NFe_DanfeESCPOS"/>
       </Item7>
       <Item8>
-        <PackageName Value="ACBr_NFe"/>
+        <PackageName Value="ACBrDFeComum"/>
       </Item8>
       <Item9>
-        <PackageName Value="ACBrComum"/>
+        <PackageName Value="ACBr_NFe"/>
       </Item9>
       <Item10>
-        <PackageName Value="ACBr_Integrador"/>
+        <PackageName Value="ACBrComum"/>
       </Item10>
       <Item11>
-        <PackageName Value="ACBr_NFe_DanfeRL"/>
+        <PackageName Value="ACBr_Integrador"/>
       </Item11>
       <Item12>
-        <PackageName Value="LCL"/>
+        <PackageName Value="ACBr_NFe_DanfeRL"/>
       </Item12>
+      <Item13>
+        <PackageName Value="LCL"/>
+      </Item13>
     </RequiredPackages>
     <Units Count="5">
       <Unit0>

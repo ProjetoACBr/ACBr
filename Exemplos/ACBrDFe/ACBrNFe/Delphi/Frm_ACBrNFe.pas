@@ -304,6 +304,19 @@ type
     btnFornecNaoRealizadoPagAntecip: TButton;
     btnAtualizacaoPrevisaoEntrega: TButton;
     btnManifestacaoPedidoTransfCredSucessao: TButton;
+    btnPagIntegLibCredPresAq: TButton;
+    btnSolicApropriacaoCredPres: TButton;
+    btnDestItemConsumoPessoal: TButton;
+    btnPerecPerdaContrAdiqu: TButton;
+    btnAceiteDebApuracaoNotaCredito: TButton;
+    btnImobilizacaoItem: TButton;
+    btnSolicitacaoApropCredCombustivel: TButton;
+    btnSolicitacaoAproCredBensServAdiq: TButton;
+    pgcAutorEvento: TPageControl;
+    tsTodos: TTabSheet;
+    tsEmitente: TTabSheet;
+    tsDestinatario: TTabSheet;
+    Sucessora: TTabSheet;
 
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
@@ -384,6 +397,14 @@ type
     procedure btnFornecNaoRealizadoPagAntecipClick(Sender: TObject);
     procedure btnAtualizacaoPrevisaoEntregaClick(Sender: TObject);
     procedure btnManifestacaoPedidoTransfCredSucessaoClick(Sender: TObject);
+    procedure btnPagIntegLibCredPresAqClick(Sender: TObject);
+    procedure btnSolicApropriacaoCredPresClick(Sender: TObject);
+    procedure btnDestItemConsumoPessoalClick(Sender: TObject);
+    procedure btnPerecPerdaContrAdiquClick(Sender: TObject);
+    procedure btnAceiteDebApuracaoNotaCreditoClick(Sender: TObject);
+    procedure btnImobilizacaoItemClick(Sender: TObject);
+    procedure btnSolicitacaoApropCredCombustivelClick(Sender: TObject);
+    procedure btnSolicitacaoAproCredBensServAdiqClick(Sender: TObject);
   private
     { Private declarations }
     procedure GravarConfiguracao;
@@ -2244,6 +2265,81 @@ begin
   cbSSLType.Enabled := (ACBrNFe1.Configuracoes.Geral.SSLHttpLib in [httpWinHttp, httpOpenSSL]);
 end;
 
+procedure TfrmACBrNFe.btnAceiteDebApuracaoNotaCreditoClick(Sender: TObject);
+var
+  lidLote, lVerAplic, lUF, lnSeqEvento, lIndAceitacao: String;
+  lEvento: TInfEventoCollectionItem;
+begin
+  OpenDialog1.Title := 'Selecione a NFe';
+  OpenDialog1.DefaultExt := '*-nfe.XML';
+  OpenDialog1.Filter := 'Arquivos NFe (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrNFe1.NotasFiscais.Clear;
+    ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
+
+    lidLote := '1';
+    if not(InputQuery('WebServices Eventos: Aceite Débito Apuração Nota de Crédito', 'Identificador de controle do Lote de envio do Evento', lidLote)) then
+       exit;
+
+    lnSeqEvento := '1';
+    if not(InputQuery('WebServices Eventos: Aceite Débito Apuração Nota de Crédito', 'Numero sequencial do evento', lnSeqEvento)) then
+       exit;
+
+    lVerAplic := '1.00';
+    if not(InputQuery('WebServices Eventos: Aceite Débito Apuração Nota de Crédito', 'Versão do Aplicativo do emitente', lVerAplic)) then
+       exit;
+
+    lUF := 'SP';
+    if not(InputQuery('WebServices Eventos: Aceite Débito Apuração Nota de Crédito', 'UF do emitente do Evento', lUF)) then
+       exit;
+
+    lIndAceitacao := '1';
+    if not(InputQuery('WebServices Eventos: Aceite Débito Apuração Nota de Crédito', 'Indicador de concordância', lIndAceitacao)) then
+       exit;
+
+    ACBrNFe1.EventoNFe.Evento.Clear;
+    lEvento := ACBrNFe1.EventoNFe.Evento.New;
+
+    lEvento.InfEvento.tpEvento := teAceiteDebitoApuracaoNotaCredito;
+    lEvento.InfEvento.dhEvento := Now;
+    lEvento.InfEvento.chNFe := OnlyNumber(ACBrNFe1.NotasFiscais[0].NFe.infNFe.ID);
+    lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
+    lEvento.InfEvento.detEvento.verAplic := lVerAplic;
+    lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+    lEvento.InfEvento.detEvento.tpAutor := taEmpresaDestinataria;
+    lEvento.InfEvento.detEvento.indAceitacao := StrToIndAceitacao(lIndAceitacao);
+
+    ACBrNFe1.EnviarEvento(StrToIntDef(lidLote, 1));
+
+    MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
+    memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
+
+    LoadXML(ACBrNFe1.WebServices.EnvEvento.RetornoWS, WBResposta);
+
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Retorno do Evento');
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Id.........: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.Id);
+    MemoDados.Lines.Add('tpAmb......: ' + TpAmbToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.TpAmb));
+    MemoDados.Lines.Add('verAplic...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.verAplic);
+    MemoDados.Lines.Add('cOrgao.....: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cOrgao));
+    MemoDados.Lines.Add('cStat......: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat));
+    MemoDados.Lines.Add('xMotivo....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xMotivo);
+    MemoDados.Lines.Add('chNFe......: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.chNFe);
+    MemoDados.Lines.Add('tpEvento...: ' + TpEventoToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.tpEvento));
+    MemoDados.Lines.Add('xEvento....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xEvento);
+    MemoDados.Lines.Add('nSeqEvento.: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nSeqEvento));
+    MemoDados.Lines.Add('CNPJDest...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.CNPJDest);
+    MemoDados.Lines.Add('emailDest..: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.emailDest);
+    MemoDados.Lines.Add('dhRegEvento: ' + DateTimeToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento));
+    MemoDados.Lines.Add('Protocolo..: '+ ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt);
+  end;
+end;
+
 procedure TfrmACBrNFe.btnAdicionarProtocoloClick(Sender: TObject);
 var
   NomeArq: String;
@@ -2464,6 +2560,7 @@ begin
     lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
     lEvento.InfEvento.detEvento.verAplic := lVerAplic;
     lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+    lEvento.InfEvento.detEvento.tpAutor := taEmpresaEmitente;
     lEvento.InfEvento.detEvento.dPrevEntrega := IncDay(Now, 3);
 
     ACBrNFe1.EnviarEvento(StrToIntDef(lidLote, 1));
@@ -2556,7 +2653,8 @@ end;
 
 procedure TfrmACBrNFe.btnCancelarEventoRTClick(Sender: TObject);
 var
-  lnProtEvento, lChave, lidLote, lCNPJ, lProtocolo, ltpEventoAut, lVerAplic, lUF, lnSeqEvento: string;
+  lnProtEvento, lChave, lidLote, lCNPJ, lProtocolo, ltpEventoAut, ltpAutor, lVerAplic, lUF, lnSeqEvento: string;
+  OK: Boolean;
 begin
   lChave := '';
   if not(InputQuery('WebServices Eventos: Cancelamento Genérico', 'Chave da NF-e', lChave)) then
@@ -2577,6 +2675,9 @@ begin
   ltpEventoAut := '';
   if not(InputQuery('WebServices Eventos: Cancelamento Genérico', 'Evento a ser cancelado', ltpEventoAut)) then
      exit;
+  ltpAutor := '1';
+  if not(InputQuery('WebServices Eventos: Cancelamento Genérico', 'Autor do Evento a ser cancelado', ltpAutor)) then
+     exit;
   lVerAplic := '1.00';
   if not(InputQuery('WebServices Eventos: Cancelamento Genérico', 'Versão do Aplicativo do emitente', lVerAplic)) then
      exit;
@@ -2596,6 +2697,7 @@ begin
     infEvento.detEvento.tpEventoAut := ltpEventoAut;
     infEvento.detEvento.nProtEvento := lnProtEvento;
     infEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+    infEvento.detEvento.tpAutor     := StrToTipoAutor(OK, ltpAutor);
     infEvento.detEvento.verAplic := lVerAplic;
   end;
 
@@ -2605,8 +2707,6 @@ begin
   memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
 
   LoadXML(ACBrNFe1.WebServices.EnvEvento.RetornoWS, WBResposta);
-
-//  ArqXML := ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.XML;
 
   MemoDados.Lines.Add('');
   MemoDados.Lines.Add('Retorno do Evento');
@@ -3227,6 +3327,120 @@ begin
   ShowMessage(FormatDateTimeBr(ACBrNFe1.SSL.CertDataVenc));
 end;
 
+procedure TfrmACBrNFe.btnDestItemConsumoPessoalClick(Sender: TObject);
+var
+  lidLote, lAux, lnItem, lvIBS, lvCBS, lqConsumo, luConsumo, lVerAplic, lUF, lnSeqEvento,
+  lchaveAcesso, ltpAutor: String;
+  OK: Boolean;
+  lEvento: TInfEventoCollectionItem;
+  lgConsumo: TgConsumoCollectionItem;
+begin
+  OpenDialog1.Title := 'Selecione a NFe';
+  OpenDialog1.DefaultExt := '*-nfe.XML';
+  OpenDialog1.Filter := 'Arquivos NFe (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrNFe1.NotasFiscais.Clear;
+    ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
+
+    lidLote := '1';
+    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Identificador de controle do Lote de envio do Evento', lidLote)) then
+       exit;
+
+    lnSeqEvento := '1';
+    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Numero sequencial do evento', lnSeqEvento)) then
+       exit;
+
+    lVerAplic := '1.00';
+    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Versão do Aplicativo do emitente', lVerAplic)) then
+       exit;
+
+    lUF := 'SP';
+    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'UF do emitente do Evento', lUF)) then
+       exit;
+    ltpAutor := '1';
+    if not(InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Autor do Evento', ltpAutor)) then
+       exit;
+
+    ACBrNFe1.EventoNFe.Evento.Clear;
+    lEvento := ACBrNFe1.EventoNFe.Evento.New;
+
+    lEvento.InfEvento.tpEvento := teDestItemConsPessoal;
+    lEvento.InfEvento.dhEvento := Now;
+    lEvento.InfEvento.chNFe := OnlyNumber(ACBrNFe1.NotasFiscais[0].NFe.infNFe.ID);
+    lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
+    lEvento.InfEvento.detEvento.verAplic := lVerAplic;
+    lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+    lEvento.InfEvento.detEvento.tpAutor := StrToTipoAutor(OK, ltpAutor);
+
+    lAux := 'S';
+    repeat
+      lnItem := '1';
+      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe nItem', lnItem) then
+        break;
+
+      lvIBS := '1';
+      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe vIBS', lvIBS) then
+        break;
+
+      lvCBS := '1';
+      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe vCBS', lvCBS) then
+        break;
+
+      lqConsumo := '1';
+      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe qConsumo', lqConsumo) then
+        break;
+
+      luConsumo := 'UNIDAD';
+      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe uConsumo', luConsumo) then
+        break;
+
+      lchaveAcesso := '35251118760540000139550010000000011445690173';
+      if not InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Informe chaveAcesso', lchaveAcesso) then
+        break;
+
+      lgConsumo := lEvento.InfEvento.detEvento.gConsumo.New;
+      lgConsumo.nItem := StrToIntDef(lnItem, 1);
+      lgConsumo.vIBS := StrToFloatDef(lvIBS, 1);
+      lgConsumo.vCBS := StrToFloatDef(lvCBS, 1);
+      lgConsumo.gControleEstoque.qConsumo := StrToFloatDef(lqConsumo, 1);
+      lgConsumo.gControleEstoque.uConsumo := luConsumo;
+      lgConsumo.DFeReferenciado.nItem := StrToIntDef(lnItem, 1);
+      lgConsumo.DFeReferenciado.chaveAcesso := lchaveAcesso;
+
+      InputQuery('WebServices Eventos: Destinação Item consumo pessoal', 'Adicionar gConsumo? (S/N)', lAux);
+    until (UpperCase(lAux) <> 'S');
+
+    ACBrNFe1.EnviarEvento(StrToIntDef(lidLote, 1));
+
+    MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
+    memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
+
+    LoadXML(ACBrNFe1.WebServices.EnvEvento.RetornoWS, WBResposta);
+
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Retorno do Evento');
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Id.........: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.Id);
+    MemoDados.Lines.Add('tpAmb......: ' + TpAmbToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.TpAmb));
+    MemoDados.Lines.Add('verAplic...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.verAplic);
+    MemoDados.Lines.Add('cOrgao.....: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cOrgao));
+    MemoDados.Lines.Add('cStat......: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat));
+    MemoDados.Lines.Add('xMotivo....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xMotivo);
+    MemoDados.Lines.Add('chNFe......: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.chNFe);
+    MemoDados.Lines.Add('tpEvento...: ' + TpEventoToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.tpEvento));
+    MemoDados.Lines.Add('xEvento....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xEvento);
+    MemoDados.Lines.Add('nSeqEvento.: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nSeqEvento));
+    MemoDados.Lines.Add('CNPJDest...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.CNPJDest);
+    MemoDados.Lines.Add('emailDest..: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.emailDest);
+    MemoDados.Lines.Add('dhRegEvento: ' + DateTimeToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento));
+    MemoDados.Lines.Add('Protocolo..: '+ ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt);
+  end;
+end;
+
 procedure TfrmACBrNFe.btnDistrDFePorChaveClick(Sender: TObject);
 var
   xTitulo, cUFAutor, CNPJ, Chave: string;
@@ -3778,6 +3992,7 @@ begin
     lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
     lEvento.InfEvento.detEvento.verAplic := lVerAplic;
     lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+    lEvento.InfEvento.detEvento.tpAutor := taEmpresaEmitente;
 
     lAux := 'S';
     repeat
@@ -3803,7 +4018,7 @@ begin
       lgItemNaoFornecido.gControleEstoque.qNaoFornecida := StrToFloatDef(lqNaoFornecida, 1);
       lgItemNaoFornecido.gControleEstoque.uNaoFornecida := luNaoFornecida;
 
-      InputQuery('WebServices Eventos: Fornecimento não realizado, pag. antecip.', 'Adicionar gConsumo? (S/N)', lAux);
+      InputQuery('WebServices Eventos: Fornecimento não realizado, pag. antecip.', 'Adicionar gItemNaoFornecido? (S/N)', lAux);
     until (UpperCase(lAux) <> 'S');
 
     ACBrNFe1.EnviarEvento(StrToIntDef(lidLote, 1));
@@ -3972,6 +4187,104 @@ begin
   pgRespostas.ActivePageIndex := 0;
 end;
 
+procedure TfrmACBrNFe.btnImobilizacaoItemClick(Sender: TObject);
+var
+  lidLote, lAux, lnItem, lvIBS, lvCBS, lqImobilizado, luImobilizado, lVerAplic, lUF, lnSeqEvento: String;
+  lEvento: TInfEventoCollectionItem;
+  lgImobilizacao: TgImobilizacaoCollectionItem;
+begin
+  OpenDialog1.Title := 'Selecione a NFe';
+  OpenDialog1.DefaultExt := '*-nfe.XML';
+  OpenDialog1.Filter := 'Arquivos NFe (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrNFe1.NotasFiscais.Clear;
+    ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
+
+    lidLote := '1';
+    if not(InputQuery('WebServices Eventos: Imobilização de Item', 'Identificador de controle do Lote de envio do Evento', lidLote)) then
+       exit;
+
+    lnSeqEvento := '1';
+    if not(InputQuery('WebServices Eventos: Imobilização de Item', 'Numero sequencial do evento', lnSeqEvento)) then
+       exit;
+
+    lVerAplic := '1.00';
+    if not(InputQuery('WebServices Eventos: Imobilização de Item', 'Versão do Aplicativo do emitente', lVerAplic)) then
+       exit;
+
+    lUF := 'SP';
+    if not(InputQuery('WebServices Eventos: Imobilização de Item', 'UF do emitente do Evento', lUF)) then
+       exit;
+
+    ACBrNFe1.EventoNFe.Evento.Clear;
+    lEvento := ACBrNFe1.EventoNFe.Evento.New;
+
+    lEvento.InfEvento.tpEvento := teImobilizacaoItem;
+    lEvento.InfEvento.dhEvento := Now;
+    lEvento.InfEvento.chNFe := OnlyNumber(ACBrNFe1.NotasFiscais[0].NFe.infNFe.ID);
+    lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
+    lEvento.InfEvento.detEvento.verAplic := lVerAplic;
+    lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+    lEvento.InfEvento.detEvento.tpAutor := taEmpresaDestinataria;
+
+    lAux := 'S';
+    repeat
+      lnItem := '1';
+      InputQuery('WebServices Eventos: Imobilizãção de Item', 'Informe nItem', lnItem);
+
+      lvIBS := '1';
+      InputQuery('WebServices Eventos: Imobilizãção de Item', 'Informe vIBS', lvIBS);
+
+      lvCBS := '1';
+      InputQuery('WebServices Eventos: Imobilizãção de Item', 'Informe vCBS', lvCBS);
+
+      lqImobilizado := '1';
+      InputQuery('WebServices Eventos: Imobilizãção de Item', 'Informe qtde', lqImobilizado);
+
+      luImobilizado := 'UNIDAD';
+      InputQuery('WebServices Eventos: Imobilizãção de Item', 'Informe unidade', luImobilizado);
+
+      lgImobilizacao := lEvento.InfEvento.detEvento.gImobilizacao.New;
+      lgImobilizacao.nItem := StrToIntDef(lnItem, 1);
+      lgImobilizacao.vIBS := StrToFloatDef(lvIBS, 1);
+      lgImobilizacao.vCBS := StrToFloatDef(lvCBS, 1);
+      lgImobilizacao.gControleEstoque.qImobilizado := StrToFloatDef(lqImobilizado, 1);
+      lgImobilizacao.gControleEstoque.uImobilizado := luImobilizado;
+
+      InputQuery('WebServices Eventos: Imobilizãção de Item', 'Adicionar gImobilizacao? (S/N)', lAux);
+    until (UpperCase(lAux) <> 'S');
+
+    ACBrNFe1.EnviarEvento(StrToIntDef(lidLote, 1));
+
+    MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
+    memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
+
+    LoadXML(ACBrNFe1.WebServices.EnvEvento.RetornoWS, WBResposta);
+
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Retorno do Evento');
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Id.........: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.Id);
+    MemoDados.Lines.Add('tpAmb......: ' + TpAmbToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.TpAmb));
+    MemoDados.Lines.Add('verAplic...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.verAplic);
+    MemoDados.Lines.Add('cOrgao.....: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cOrgao));
+    MemoDados.Lines.Add('cStat......: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat));
+    MemoDados.Lines.Add('xMotivo....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xMotivo);
+    MemoDados.Lines.Add('chNFe......: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.chNFe);
+    MemoDados.Lines.Add('tpEvento...: ' + TpEventoToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.tpEvento));
+    MemoDados.Lines.Add('xEvento....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xEvento);
+    MemoDados.Lines.Add('nSeqEvento.: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nSeqEvento));
+    MemoDados.Lines.Add('CNPJDest...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.CNPJDest);
+    MemoDados.Lines.Add('emailDest..: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.emailDest);
+    MemoDados.Lines.Add('dhRegEvento: ' + DateTimeToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento));
+    MemoDados.Lines.Add('Protocolo..: '+ ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt);
+  end;
+end;
+
 procedure TfrmACBrNFe.btnImportALCZFMClick(Sender: TObject);
 var
   lidLote, lAux, lnItem, lvIBS, lvCBS, lqtde, lunidade, lVerAplic, lUF, lnSeqEvento: String;
@@ -4014,6 +4327,7 @@ begin
     lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
     lEvento.InfEvento.detEvento.verAplic := lVerAplic;
     lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+    lEvento.InfEvento.detEvento.tpAutor := taEmpresaEmitente;
 
     lAux := 'S';
     repeat
@@ -5225,6 +5539,174 @@ begin
   ShowMessage(ACBrNFe1.SSL.CertNumeroSerie);
 end;
 
+procedure TfrmACBrNFe.btnPagIntegLibCredPresAqClick(Sender: TObject);
+var
+  lidLote, lVerAplic, lUF, lnSeqEvento: String;
+  lEvento: TInfEventoCollectionItem;
+begin
+  OpenDialog1.Title := 'Selecione a NFe';
+  OpenDialog1.DefaultExt := '*-nfe.XML';
+  OpenDialog1.Filter := 'Arquivos NFe (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrNFe1.NotasFiscais.Clear;
+    ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
+
+    lidLote := '1';
+    if not(InputQuery('WebServices Eventos: Informação Efetiv. Pag. Integral Libera Cred. Pres.', 'Identificador de controle do Lote de envio do Evento', lidLote)) then
+       exit;
+
+    lnSeqEvento := '1';
+    if not(InputQuery('WebServices Eventos: Informação Efetiv. Pag. Integral Libera Cred. Pres.', 'Numero sequencial do evento', lnSeqEvento)) then
+       exit;
+
+    lVerAplic := '1.00';
+    if not(InputQuery('WebServices Eventos: Informação Efetiv. Pag. Integral Libera Cred. Pres.', 'Versão do Aplicativo do emitente', lVerAplic)) then
+       exit;
+
+    lUF := 'SP';
+    if not(InputQuery('WebServices Eventos: Informação Efetiv. Pag. Integral Libera Cred. Pres.', 'UF do emitente do Evento', lUF)) then
+       exit;
+
+    ACBrNFe1.EventoNFe.Evento.Clear;
+    lEvento := ACBrNFe1.EventoNFe.Evento.New;
+
+    lEvento.InfEvento.tpEvento := tePagIntegLibCredPresAdq;
+    lEvento.InfEvento.dhEvento := Now;
+    lEvento.InfEvento.chNFe := OnlyNumber(ACBrNFe1.NotasFiscais[0].NFe.infNFe.ID);
+    lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
+    lEvento.InfEvento.detEvento.verAplic := lVerAplic;
+    lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+    lEvento.InfEvento.detEvento.tpAutor := taEmpresaEmitente;
+
+    ACBrNFe1.EnviarEvento(StrToIntDef(lidLote, 1));
+
+    MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
+    memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
+
+    LoadXML(ACBrNFe1.WebServices.EnvEvento.RetornoWS, WBResposta);
+
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Retorno do Evento');
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Id.........: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.Id);
+    MemoDados.Lines.Add('tpAmb......: ' + TpAmbToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.TpAmb));
+    MemoDados.Lines.Add('verAplic...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.verAplic);
+    MemoDados.Lines.Add('cOrgao.....: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cOrgao));
+    MemoDados.Lines.Add('cStat......: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat));
+    MemoDados.Lines.Add('xMotivo....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xMotivo);
+    MemoDados.Lines.Add('chNFe......: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.chNFe);
+    MemoDados.Lines.Add('tpEvento...: ' + TpEventoToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.tpEvento));
+    MemoDados.Lines.Add('xEvento....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xEvento);
+    MemoDados.Lines.Add('nSeqEvento.: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nSeqEvento));
+    MemoDados.Lines.Add('CNPJDest...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.CNPJDest);
+    MemoDados.Lines.Add('emailDest..: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.emailDest);
+    MemoDados.Lines.Add('dhRegEvento: ' + DateTimeToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento));
+    MemoDados.Lines.Add('Protocolo..: '+ ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt);
+  end;
+end;
+
+procedure TfrmACBrNFe.btnPerecPerdaContrAdiquClick(Sender: TObject);
+var
+  lidLote, lAux, lnItem, lvIBS, lvCBS, lqPerecimento, luPerecimento, lVerAplic, lUF, lnSeqEvento: String;
+  lEvento: TInfEventoCollectionItem;
+  lgPerecimento: TgPerecimentoCollectionItem;
+begin
+  OpenDialog1.Title := 'Selecione a NFe';
+  OpenDialog1.DefaultExt := '*-nfe.XML';
+  OpenDialog1.Filter := 'Arquivos NFe (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrNFe1.NotasFiscais.Clear;
+    ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
+
+    lidLote := '1';
+    if not(InputQuery('WebServices Eventos: Perecimento em transp. pelo contratado fornecedor', 'Identificador de controle do Lote de envio do Evento', lidLote)) then
+       exit;
+
+    lnSeqEvento := '1';
+    if not(InputQuery('WebServices Eventos: Perecimento em transp. pelo contratado fornecedor', 'Numero sequencial do evento', lnSeqEvento)) then
+       exit;
+
+    lVerAplic := '1.00';
+    if not(InputQuery('WebServices Eventos: Perecimento em transp. pelo contratado fornecedor', 'Versão do Aplicativo do emitente', lVerAplic)) then
+       exit;
+
+    lUF := 'SP';
+    if not(InputQuery('WebServices Eventos: Perecimento em transp. pelo contratado fornecedor', 'UF do emitente do Evento', lUF)) then
+       exit;
+
+    ACBrNFe1.EventoNFe.Evento.Clear;
+    lEvento := ACBrNFe1.EventoNFe.Evento.New;
+
+    lEvento.InfEvento.tpEvento := tePerecPerdaRouboFurtoTranspContratAqu;
+    lEvento.InfEvento.dhEvento := Now;
+    lEvento.InfEvento.chNFe := OnlyNumber(ACBrNFe1.NotasFiscais[0].NFe.infNFe.ID);
+    lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
+    lEvento.InfEvento.detEvento.verAplic := lVerAplic;
+    lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+    lEvento.InfEvento.detEvento.tpAutor := taEmpresaDestinataria;
+
+    lAux := 'S';
+    repeat
+      lnItem := '1';
+      InputQuery('WebServices Eventos: Perecimento em transp. pelo contratado fornecedor', 'Informe nItem', lnItem);
+
+      lvIBS := '1';
+      InputQuery('WebServices Eventos: Perecimento em transp. pelo contratado fornecedor', 'Informe vIBS', lvIBS);
+
+      lvCBS := '1';
+      InputQuery('WebServices Eventos: Perecimento em transp. pelo contratado fornecedor', 'Informe vCBS', lvCBS);
+
+      lqPerecimento := '1';
+      InputQuery('WebServices Eventos: Perecimento em transp. pelo contratado fornecedor', 'Informe qPerecimento', lqPerecimento);
+
+      luPerecimento := 'UNIDAD';
+      InputQuery('WebServices Eventos: Perecimento em transp. pelo contratado fornecedor', 'Informe uPerecimento', luPerecimento);
+
+      lgPerecimento := lEvento.InfEvento.detEvento.gPerecimento.New;
+      lgPerecimento.nItem := StrToIntDef(lnItem, 1);
+      lgPerecimento.vIBS := StrToFloatDef(lvIBS, 1);
+      lgPerecimento.vCBS := StrToFloatDef(lvCBS, 1);
+      lgPerecimento.gControleEstoque.qPerecimento := StrToFloatDef(lqPerecimento, 1);
+      lgPerecimento.gControleEstoque.uPerecimento := luPerecimento;
+
+      InputQuery('WebServices Eventos: Perecimento em transp. pelo contratado fornecedor', 'Adicionar gPerecimento? (S/N)', lAux);
+    until (UpperCase(lAux) <> 'S');
+
+    ACBrNFe1.EnviarEvento(StrToIntDef(lidLote, 1));
+
+    MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
+    memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
+
+    LoadXML(ACBrNFe1.WebServices.EnvEvento.RetornoWS, WBResposta);
+
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Retorno do Evento');
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Id.........: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.Id);
+    MemoDados.Lines.Add('tpAmb......: ' + TpAmbToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.TpAmb));
+    MemoDados.Lines.Add('verAplic...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.verAplic);
+    MemoDados.Lines.Add('cOrgao.....: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cOrgao));
+    MemoDados.Lines.Add('cStat......: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat));
+    MemoDados.Lines.Add('xMotivo....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xMotivo);
+    MemoDados.Lines.Add('chNFe......: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.chNFe);
+    MemoDados.Lines.Add('tpEvento...: ' + TpEventoToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.tpEvento));
+    MemoDados.Lines.Add('xEvento....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xEvento);
+    MemoDados.Lines.Add('nSeqEvento.: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nSeqEvento));
+    MemoDados.Lines.Add('CNPJDest...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.CNPJDest);
+    MemoDados.Lines.Add('emailDest..: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.emailDest);
+    MemoDados.Lines.Add('dhRegEvento: ' + DateTimeToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento));
+    MemoDados.Lines.Add('Protocolo..: '+ ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt);
+  end;
+end;
+
 procedure TfrmACBrNFe.btnPerecPerdaContrFornecClick(Sender: TObject);
 var
   lidLote, lAux, lnItem, lvIBS, lvCBS, lqPerecimento, luPerecimento, lVerAplic, lUF, lnSeqEvento: String;
@@ -5267,6 +5749,7 @@ begin
     lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
     lEvento.InfEvento.detEvento.verAplic := lVerAplic;
     lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+    lEvento.InfEvento.detEvento.tpAutor := taEmpresaEmitente;
 
     lAux := 'S';
     repeat
@@ -5336,6 +5819,308 @@ begin
   Ahash := ACBrNFe1.SSL.CalcHash(Edit1.Text, dgstSHA256, outBase64, cbAssinar.Checked);
   MemoResp.Lines.Add( Ahash );
   pgRespostas.ActivePageIndex := 0;
+end;
+
+procedure TfrmACBrNFe.btnSolicApropriacaoCredPresClick(Sender: TObject);
+var
+  lidLote, lAux, lnItem, lvBC, lIBScCredPres, lIBSvCredPres, lIBSpCredPres,
+  lCBScCredPres, lCBSvCredPres, lCBSpCredPres, lVerAplic, lUF, lnSeqEvento: String;
+  lEvento: TInfEventoCollectionItem;
+  lgCredPres: TgCredPresCollectionItem;
+begin
+  OpenDialog1.Title := 'Selecione a NFe';
+  OpenDialog1.DefaultExt := '*-nfe.XML';
+  OpenDialog1.Filter := 'Arquivos NFe (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrNFe1.NotasFiscais.Clear;
+    ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
+
+    lidLote := '1';
+    if not(InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Identificador de controle do Lote de envio do Evento', lidLote)) then
+       exit;
+
+    lnSeqEvento := '1';
+    if not(InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Numero sequencial do evento', lnSeqEvento)) then
+       exit;
+
+    lVerAplic := '1.00';
+    if not(InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Versão do Aplicativo do emitente', lVerAplic)) then
+       exit;
+
+    lUF := 'SP';
+    if not(InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'UF do emitente do Evento', lUF)) then
+       exit;
+
+    ACBrNFe1.EventoNFe.Evento.Clear;
+    lEvento := ACBrNFe1.EventoNFe.Evento.New;
+
+    lEvento.InfEvento.tpEvento := teSolicApropCredPres;
+    lEvento.InfEvento.dhEvento := Now;
+    lEvento.InfEvento.chNFe := OnlyNumber(ACBrNFe1.NotasFiscais[0].NFe.infNFe.ID);
+    lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
+    lEvento.InfEvento.detEvento.verAplic := lVerAplic;
+    lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+    lEvento.InfEvento.detEvento.tpAutor := taEmpresaDestinataria;
+
+    lAux := 'S';
+    repeat
+      lnItem := '1';
+      InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe nItem', lnItem);
+
+      lvBC := '1';
+      InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe vBC', lvBC);
+
+      lIBScCredPres := '01';
+      InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe cCredPres do IBS', lIBScCredPres);
+
+      lIBSpCredPres := '1';
+      InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe pCredPres do IBS', lIBSpCredPres);
+
+      lIBSvCredPres := '1';
+      InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe vCredPres do IBS', lIBSvCredPres);
+
+      lCBScCredPres := '01';
+      InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe cCredPres da CBS', lCBScCredPres);
+
+      lCBSpCredPres := '1';
+      InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe pCredPres da CBS', lCBSpCredPres);
+
+      lCBSvCredPres := '1';
+      InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Informe vCredPres da CBS', lCBSvCredPres);
+
+      lgCredPres := lEvento.InfEvento.detEvento.gCredPres.New;
+      lgCredPres.nItem := StrToIntDef(lnItem, 1);
+      lgCredPres.vBC := StrToFloatDef(lvBC, 0);
+
+      lgCredPres.gIBS.cCredPres := StrTocCredPres(lIBScCredPres);
+      lgCredPres.gIBS.pCredPres := StrToFloatDef(lIBSpCredPres, 0);
+      lgCredPres.gIBS.vCredPres := StrToFloatDef(lIBSvCredPres, 0);
+
+      lgCredPres.gCBS.cCredPres := StrTocCredPres(lCBScCredPres);
+      lgCredPres.gCBS.pCredPres := StrToFloatDef(lCBSpCredPres, 0);
+      lgCredPres.gCBS.vCredPres := StrToFloatDef(lCBSvCredPres, 0);
+
+
+      InputQuery('WebServices Eventos: Solic. Apropriação Créd. Presumido', 'Adicionar gCredPres? (S/N)', lAux);
+    until (UpperCase(lAux) <> 'S');
+
+    ACBrNFe1.EnviarEvento(StrToIntDef(lidLote, 1));
+
+    MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
+    memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
+
+    LoadXML(ACBrNFe1.WebServices.EnvEvento.RetornoWS, WBResposta);
+
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Retorno do Evento');
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Id.........: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.Id);
+    MemoDados.Lines.Add('tpAmb......: ' + TpAmbToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.TpAmb));
+    MemoDados.Lines.Add('verAplic...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.verAplic);
+    MemoDados.Lines.Add('cOrgao.....: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cOrgao));
+    MemoDados.Lines.Add('cStat......: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat));
+    MemoDados.Lines.Add('xMotivo....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xMotivo);
+    MemoDados.Lines.Add('chNFe......: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.chNFe);
+    MemoDados.Lines.Add('tpEvento...: ' + TpEventoToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.tpEvento));
+    MemoDados.Lines.Add('xEvento....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xEvento);
+    MemoDados.Lines.Add('nSeqEvento.: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nSeqEvento));
+    MemoDados.Lines.Add('CNPJDest...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.CNPJDest);
+    MemoDados.Lines.Add('emailDest..: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.emailDest);
+    MemoDados.Lines.Add('dhRegEvento: ' + DateTimeToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento));
+    MemoDados.Lines.Add('Protocolo..: '+ ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt);
+  end;
+end;
+
+procedure TfrmACBrNFe.btnSolicitacaoAproCredBensServAdiqClick(Sender: TObject);
+var
+  lidLote, lAux, lnItem, lvCredIBS, lvCredCBS, lVerAplic, lUF, lnSeqEvento: String;
+  lEvento: TInfEventoCollectionItem;
+  lgCredito: TgCreditoCollectionItem;
+begin
+  OpenDialog1.Title := 'Selecione a NFe';
+  OpenDialog1.DefaultExt := '*-nfe.XML';
+  OpenDialog1.Filter := 'Arquivos NFe (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrNFe1.NotasFiscais.Clear;
+    ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
+
+    lidLote := '1';
+    if not(InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Bens Adiq.', 'Identificador de controle do Lote de envio do Evento', lidLote)) then
+       exit;
+
+    lnSeqEvento := '1';
+    if not(InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Bens Adiq.', 'Numero sequencial do evento', lnSeqEvento)) then
+       exit;
+
+    lVerAplic := '1.00';
+    if not(InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Bens Adiq.', 'Versão do Aplicativo do emitente', lVerAplic)) then
+       exit;
+
+    lUF := 'SP';
+    if not(InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Bens Adiq.', 'UF do emitente do Evento', lUF)) then
+       exit;
+
+    ACBrNFe1.EventoNFe.Evento.Clear;
+    lEvento := ACBrNFe1.EventoNFe.Evento.New;
+
+    lEvento.InfEvento.tpEvento := teSolicApropCredBensServicos;
+    lEvento.InfEvento.dhEvento := Now;
+    lEvento.InfEvento.chNFe := OnlyNumber(ACBrNFe1.NotasFiscais[0].NFe.infNFe.ID);
+    lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
+    lEvento.InfEvento.detEvento.verAplic := lVerAplic;
+    lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+    lEvento.InfEvento.detEvento.tpAutor := taEmpresaDestinataria;
+
+    lAux := 'S';
+    repeat
+      lnItem := '1';
+      InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Bens Adiq.', 'Informe nItem', lnItem);
+
+      lvCredIBS := '1';
+      InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Bens Adiq.', 'Informe vCredIBS', lvCredIBS);
+
+      lvCredCBS := '1';
+      InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Bens Adiq.', 'Informe vCredCBS', lvCredCBS);
+
+      lgCredito := lEvento.InfEvento.detEvento.gCredito.New;
+      lgCredito.nItem := StrToIntDef(lnItem, 1);
+      lgCredito.vCredIBS := StrToFloatDef(lvCredIBS, 0);
+      lgCredito.vCredCBS := StrToFloatDef(lvCredCBS, 0);
+
+      InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Bens Adiq.', 'Adicionar gCredito? (S/N)', lAux);
+    until (UpperCase(lAux) <> 'S');
+
+    ACBrNFe1.EnviarEvento(StrToIntDef(lidLote, 1));
+
+    MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
+    memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
+
+    LoadXML(ACBrNFe1.WebServices.EnvEvento.RetornoWS, WBResposta);
+
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Retorno do Evento');
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Id.........: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.Id);
+    MemoDados.Lines.Add('tpAmb......: ' + TpAmbToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.TpAmb));
+    MemoDados.Lines.Add('verAplic...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.verAplic);
+    MemoDados.Lines.Add('cOrgao.....: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cOrgao));
+    MemoDados.Lines.Add('cStat......: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat));
+    MemoDados.Lines.Add('xMotivo....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xMotivo);
+    MemoDados.Lines.Add('chNFe......: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.chNFe);
+    MemoDados.Lines.Add('tpEvento...: ' + TpEventoToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.tpEvento));
+    MemoDados.Lines.Add('xEvento....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xEvento);
+    MemoDados.Lines.Add('nSeqEvento.: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nSeqEvento));
+    MemoDados.Lines.Add('CNPJDest...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.CNPJDest);
+    MemoDados.Lines.Add('emailDest..: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.emailDest);
+    MemoDados.Lines.Add('dhRegEvento: ' + DateTimeToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento));
+    MemoDados.Lines.Add('Protocolo..: '+ ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt);
+  end;
+end;
+
+procedure TfrmACBrNFe.btnSolicitacaoApropCredCombustivelClick(Sender: TObject);
+var
+  lidLote, lAux, lnItem, lvIBS, lvCBS, lqComb, luComb, lVerAplic, lUF, lnSeqEvento: String;
+  lEvento: TInfEventoCollectionItem;
+  lgConsumoComb: TgConsumoCombCollectionItem;
+begin
+  OpenDialog1.Title := 'Selecione a NFe';
+  OpenDialog1.DefaultExt := '*-nfe.XML';
+  OpenDialog1.Filter := 'Arquivos NFe (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrNFe1.NotasFiscais.Clear;
+    ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
+
+    lidLote := '1';
+    if not(InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Combustível', 'Identificador de controle do Lote de envio do Evento', lidLote)) then
+       exit;
+
+    lnSeqEvento := '1';
+    if not(InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Combustível', 'Numero sequencial do evento', lnSeqEvento)) then
+       exit;
+
+    lVerAplic := '1.00';
+    if not(InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Combustível', 'Versão do Aplicativo do emitente', lVerAplic)) then
+       exit;
+
+    lUF := 'SP';
+    if not(InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Combustível', 'UF do emitente do Evento', lUF)) then
+       exit;
+
+    ACBrNFe1.EventoNFe.Evento.Clear;
+    lEvento := ACBrNFe1.EventoNFe.Evento.New;
+
+    lEvento.InfEvento.tpEvento := teSolicApropCredCombustivel;
+    lEvento.InfEvento.dhEvento := Now;
+    lEvento.InfEvento.chNFe := OnlyNumber(ACBrNFe1.NotasFiscais[0].NFe.infNFe.ID);
+    lEvento.InfEvento.nSeqEvento := StrToIntDef(lnSeqEvento, 1);
+    lEvento.InfEvento.detEvento.verAplic := lVerAplic;
+    lEvento.InfEvento.detEvento.cOrgaoAutor := UFtoCUF(lUF);
+    lEvento.InfEvento.detEvento.tpAutor := taEmpresaDestinataria;
+
+    lAux := 'S';
+    repeat
+      lnItem := '1';
+      InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Combustível', 'Informe nItem', lnItem);
+
+      lvIBS := '1';
+      InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Combustível', 'Informe vIBS', lvIBS);
+
+      lvCBS := '1';
+      InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Combustível', 'Informe vCBS', lvCBS);
+
+      lqComb := '1';
+      InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Combustível', 'Informe qtde', lqComb);
+
+      luComb := 'UNIDAD';
+      InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Combustível', 'Informe unidade', luComb);
+
+      lgConsumoComb := lEvento.InfEvento.detEvento.gConsumoComb.New;
+      lgConsumoComb.nItem := StrToIntDef(lnItem, 1);
+      lgConsumoComb.vIBS := StrToFloatDef(lvIBS, 1);
+      lgConsumoComb.vCBS := StrToFloatDef(lvCBS, 1);
+      lgConsumoComb.gControleEstoque.qComb := StrToFloatDef(lqComb, 1);
+      lgConsumoComb.gControleEstoque.uComb := luComb;
+
+      InputQuery('WebServices Eventos: Solicitação Aprop. Créd. Combustível', 'Adicionar gConsumoComb? (S/N)', lAux);
+    until (UpperCase(lAux) <> 'S');
+
+    ACBrNFe1.EnviarEvento(StrToIntDef(lidLote, 1));
+
+    MemoResp.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetWS;
+    memoRespWS.Lines.Text := ACBrNFe1.WebServices.EnvEvento.RetornoWS;
+
+    LoadXML(ACBrNFe1.WebServices.EnvEvento.RetornoWS, WBResposta);
+
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Retorno do Evento');
+    MemoDados.Lines.Add('');
+    MemoDados.Lines.Add('Id.........: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.Id);
+    MemoDados.Lines.Add('tpAmb......: ' + TpAmbToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.TpAmb));
+    MemoDados.Lines.Add('verAplic...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.verAplic);
+    MemoDados.Lines.Add('cOrgao.....: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cOrgao));
+    MemoDados.Lines.Add('cStat......: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.cStat));
+    MemoDados.Lines.Add('xMotivo....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xMotivo);
+    MemoDados.Lines.Add('chNFe......: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.chNFe);
+    MemoDados.Lines.Add('tpEvento...: ' + TpEventoToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.tpEvento));
+    MemoDados.Lines.Add('xEvento....: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.xEvento);
+    MemoDados.Lines.Add('nSeqEvento.: ' + IntToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nSeqEvento));
+    MemoDados.Lines.Add('CNPJDest...: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.CNPJDest);
+    MemoDados.Lines.Add('emailDest..: ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.emailDest);
+    MemoDados.Lines.Add('dhRegEvento: ' + DateTimeToStr(ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.dhRegEvento));
+    MemoDados.Lines.Add('Protocolo..: '+ ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento[0].RetInfEvento.nProt);
+  end;
 end;
 
 procedure TfrmACBrNFe.btnStatusServClick(Sender: TObject);
