@@ -840,32 +840,31 @@ begin
     with TACBrLibBPe(pLib) do
     begin
       BPeDM.Travar;
-      Resposta := TStatusServicoResposta.Create(pLib.Config.TipoResposta, pLib.Config.CodResposta);
       try
-        with BPeDM.ACBrBPe1 do
+        if BPeDM.ACBrBPe1.WebServices.StatusServico.Executar then
         begin
-          if WebServices.StatusServico.Executar then
-          begin
-            Resposta.Msg := WebServices.StatusServico.Msg;
-            Resposta.Versao := WebServices.StatusServico.versao;
-            Resposta.TpAmb := TpAmbToStr(WebServices.StatusServico.TpAmb);
-            Resposta.VerAplic := WebServices.StatusServico.VerAplic;
-            Resposta.CStat := WebServices.StatusServico.CStat;
-            Resposta.XMotivo := WebServices.StatusServico.XMotivo;
-            Resposta.CUF := WebServices.StatusServico.CUF;
-            Resposta.DhRecbto := WebServices.StatusServico.DhRecbto;
-            Resposta.TMed := WebServices.StatusServico.TMed;
-            Resposta.DhRetorno := WebServices.StatusServico.DhRetorno;
-            Resposta.XObs := WebServices.StatusServico.XObs;
-
+          Resposta := TStatusServicoResposta.Create(pLib.Config.TipoResposta, pLib.Config.CodResposta);
+          try
+            Resposta.Msg := BPeDM.ACBrBPe1.WebServices.StatusServico.Msg;
+            Resposta.Versao := BPeDM.ACBrBPe1.WebServices.StatusServico.versao;
+            Resposta.TpAmb := TpAmbToStr(BPeDM.ACBrBPe1.WebServices.StatusServico.TpAmb);
+            Resposta.VerAplic := BPeDM.ACBrBPe1.WebServices.StatusServico.VerAplic;
+            Resposta.CStat := BPeDM.ACBrBPe1.WebServices.StatusServico.CStat;
+            Resposta.XMotivo := BPeDM.ACBrBPe1.WebServices.StatusServico.XMotivo;
+            Resposta.CUF := BPeDM.ACBrBPe1.WebServices.StatusServico.CUF;
+            Resposta.DhRecbto := BPeDM.ACBrBPe1.WebServices.StatusServico.DhRecbto;
+            Resposta.TMed := BPeDM.ACBrBPe1.WebServices.StatusServico.TMed;
+            Resposta.DhRetorno := BPeDM.ACBrBPe1.WebServices.StatusServico.DhRetorno;
+            Resposta.XObs := BPeDM.ACBrBPe1.WebServices.StatusServico.XObs;
             MoverStringParaPChar(Resposta.Gerar, sResposta, esTamanho);
-            Result := SetRetorno(ErrOK, StrPas(sResposta));
-          end
-          else
-            Result := SetRetornoWebService(SSL.HTTPResultCode, 'StatusServico');
-        end;
+          finally
+            Resposta.Free;
+          end;
+          Result := SetRetorno(ErrOK, StrPas(sResposta));
+        end
+        else
+          Result := SetRetornoWebService(SSL.HTTPResultCode, 'StatusServico');
       finally
-        Resposta.Free;
         BPeDM.Destravar;
       end;
     end;
@@ -902,48 +901,50 @@ begin
     with TACBrLibBPe(pLib) do
     begin
       BPeDM.Travar;
-
-      if EhArquivo then
-        BPeDM.ACBrBPe1.Bilhetes.LoadFromFile(ChaveOuBPe);
-
-      if BPeDM.ACBrBPe1.Bilhetes.Count = 0 then
-      begin
-        if ValidarChave(ChaveOuBPe) then
-          BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave := ChaveOuBPe
-        else
-          raise EACBrLibException.Create(ErrChaveBPe, Format(SErrChaveInvalida, [ChaveOuBPe]));
-      end
-      else
-        BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave := StringReplace(
-          BPeDM.ACBrBPe1.Bilhetes.Items[BPeDM.ACBrBPe1.Bilhetes.Count - 1].BPe.infBPe.ID,
-          'BPe','',[rfIgnoreCase]);
-
-      Resposta := TConsultaBPeResposta.Create(pLib.Config.TipoResposta, pLib.Config.CodResposta);
       try
-        with BPeDM.ACBrBPe1 do
-        begin
-          if WebServices.Consulta.Executar then
-          begin
-            Resposta.Msg := WebServices.Consulta.Msg;
-            Resposta.Versao := WebServices.Consulta.versao;
-            Resposta.TpAmb := TpAmbToStr(WebServices.Consulta.TpAmb);
-            Resposta.VerAplic := WebServices.Consulta.VerAplic;
-            Resposta.CStat := WebServices.Consulta.CStat;
-            Resposta.XMotivo := WebServices.Consulta.XMotivo;
-            Resposta.CUF := WebServices.Consulta.CUF;
-            Resposta.DhRecbto := WebServices.Consulta.DhRecbto;
-            Resposta.ChBPe := WebServices.Consulta.BPeChave;
-            Resposta.NProt := WebServices.Consulta.Protocolo;
-            Resposta.DigVal := WebServices.Consulta.protBPe.digVal;
+        if EhArquivo then
+          BPeDM.ACBrBPe1.Bilhetes.LoadFromFile(ChaveOuBPe);
 
-            MoverStringParaPChar(Resposta.Gerar, sResposta, esTamanho);
-            Result := SetRetorno(ErrOK, StrPas(sResposta));
-          end
+        if BPeDM.ACBrBPe1.Bilhetes.Count = 0 then
+        begin
+          if ValidarChave(ChaveOuBPe) then
+            BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave := ChaveOuBPe
           else
-            Result := SetRetornoWebService(SSL.HTTPResultCode, 'Consultar');
+            raise EACBrLibException.Create(ErrChaveBPe, Format(SErrChaveInvalida, [ChaveOuBPe]));
+        end
+        else
+          BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave := StringReplace(
+            BPeDM.ACBrBPe1.Bilhetes.Items[BPeDM.ACBrBPe1.Bilhetes.Count - 1].BPe.infBPe.ID,
+            'BPe','',[rfIgnoreCase]);
+
+        Resposta := TConsultaBPeResposta.Create(pLib.Config.TipoResposta, pLib.Config.CodResposta);
+        try
+          with BPeDM.ACBrBPe1 do
+          begin
+            if WebServices.Consulta.Executar then
+            begin
+              Resposta.Msg := WebServices.Consulta.Msg;
+              Resposta.Versao := WebServices.Consulta.versao;
+              Resposta.TpAmb := TpAmbToStr(WebServices.Consulta.TpAmb);
+              Resposta.VerAplic := WebServices.Consulta.VerAplic;
+              Resposta.CStat := WebServices.Consulta.CStat;
+              Resposta.XMotivo := WebServices.Consulta.XMotivo;
+              Resposta.CUF := WebServices.Consulta.CUF;
+              Resposta.DhRecbto := WebServices.Consulta.DhRecbto;
+              Resposta.ChBPe := WebServices.Consulta.BPeChave;
+              Resposta.NProt := WebServices.Consulta.Protocolo;
+              Resposta.DigVal := WebServices.Consulta.protBPe.digVal;
+
+              MoverStringParaPChar(Resposta.Gerar, sResposta, esTamanho);
+              Result := SetRetorno(ErrOK, StrPas(sResposta));
+            end
+            else
+              Result := SetRetornoWebService(SSL.HTTPResultCode, 'Consultar');
+          end;
+        finally
+          Resposta.Free;
         end;
       finally
-        Resposta.Free;
         BPeDM.Destravar;
       end;
     end;
@@ -974,43 +975,44 @@ begin
     with TACBrLibBPe(pLib) do
     begin
       BPeDM.Travar;
-
-      with BPeDM.ACBrBPe1 do
-      begin
-        if Bilhetes.Count = 0 then
-          raise EACBrLibException.Create(ErrEnvio, Format(SInfBPeCarregados, [Bilhetes.Count]))
-        else
+      try
+        with BPeDM.ACBrBPe1 do
         begin
-          Bilhetes.Assinar;
-          Bilhetes.Validar;
-
-          if (ALote = 0) then
-            WebServices.Enviar.Lote := '1'
+          if Bilhetes.Count = 0 then
+            raise EACBrLibException.Create(ErrEnvio, Format(SInfBPeCarregados, [Bilhetes.Count]))
           else
-            WebServices.Enviar.Lote := IntToStr(ALote);
-
-          if WebServices.Enviar.Executar then
           begin
-            Resposta := RespostaEnvio;
+            Bilhetes.Assinar;
+            Bilhetes.Validar;
 
-//            WebServices.Retorno.Recibo := WebServices.Enviar.Recibo;
+            if (ALote = 0) then
+              WebServices.Enviar.Lote := '1'
+            else
+              WebServices.Enviar.Lote := IntToStr(ALote);
 
-//            if WebServices.Retorno.Executar then
-//            begin
-//              Resposta := Resposta + RespostaRetorno;
+            if WebServices.Enviar.Executar then
+            begin
+              Resposta := RespostaEnvio;
 
-              MoverStringParaPChar(Resposta, sResposta, esTamanho);
-              Result := SetRetorno(ErrOK, StrPas(sResposta));
-//            end
-//            else
-//              Result := SetRetornoWebService(SSL.HTTPResultCode, 'Consultar Recibo');
-          end
-          else
-            Result := SetRetornoWebService(SSL.HTTPResultCode, 'Enviar');
+  //            WebServices.Retorno.Recibo := WebServices.Enviar.Recibo;
+
+  //            if WebServices.Retorno.Executar then
+  //            begin
+  //              Resposta := Resposta + RespostaRetorno;
+
+                MoverStringParaPChar(Resposta, sResposta, esTamanho);
+                Result := SetRetorno(ErrOK, StrPas(sResposta));
+  //            end
+  //            else
+  //              Result := SetRetornoWebService(SSL.HTTPResultCode, 'Consultar Recibo');
+            end
+            else
+              Result := SetRetornoWebService(SSL.HTTPResultCode, 'Enviar');
+          end;
         end;
+      finally
+        BPeDM.Destravar;
       end;
-
-      BPeDM.Destravar;
     end;
   except
     on E: EACBrLibException do
@@ -1043,52 +1045,53 @@ begin
     with TACBrLibBPe(pLib) do
     begin
       BPeDM.Travar;
-
-      if not ValidarChave(AChave) then
-        raise EACBrLibException.Create(ErrChaveBPe, Format(SErrChaveInvalida, [AChave]))
-      else
-        BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave := AChave;
-
-      if not BPeDM.ACBrBPe1.WebServices.Consulta.Executar then
-        raise EACBrLibException.Create(ErrConsulta, BPeDM.ACBrBPe1.WebServices.Consulta.Msg);
-
-      BPeDM.ACBrBPe1.EventoBPe.Evento.Clear;
-
-      with BPeDM.ACBrBPe1.EventoBPe.Evento.Add do
-      begin
-        Infevento.CNPJ := ACNPJ;
-        if Trim(Infevento.CNPJ) = '' then
-          Infevento.CNPJ := copy(OnlyNumber(BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave), 7, 14)
+      try
+        if not ValidarChave(AChave) then
+          raise EACBrLibException.Create(ErrChaveBPe, Format(SErrChaveInvalida, [AChave]))
         else
+          BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave := AChave;
+
+        if not BPeDM.ACBrBPe1.WebServices.Consulta.Executar then
+          raise EACBrLibException.Create(ErrConsulta, BPeDM.ACBrBPe1.WebServices.Consulta.Msg);
+
+        BPeDM.ACBrBPe1.EventoBPe.Evento.Clear;
+
+        with BPeDM.ACBrBPe1.EventoBPe.Evento.Add do
         begin
-          if not ValidarCNPJ(ACNPJ) then
-            raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJInvalido, [ACNPJ]));
+          Infevento.CNPJ := ACNPJ;
+          if Trim(Infevento.CNPJ) = '' then
+            Infevento.CNPJ := copy(OnlyNumber(BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave), 7, 14)
+          else
+          begin
+            if not ValidarCNPJ(ACNPJ) then
+              raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJInvalido, [ACNPJ]));
+          end;
+
+          Infevento.cOrgao := StrToIntDef(
+            copy(OnlyNumber(BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave), 1, 2), 0);
+          Infevento.dhEvento := now;
+          Infevento.tpEvento := teCancelamento;
+          Infevento.chBPe := BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave;
+          Infevento.detEvento.nProt := BPeDM.ACBrBPe1.WebServices.Consulta.Protocolo;
+          Infevento.detEvento.xJust := AJustificativa;
         end;
 
-        Infevento.cOrgao := StrToIntDef(
-          copy(OnlyNumber(BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave), 1, 2), 0);
-        Infevento.dhEvento := now;
-        Infevento.tpEvento := teCancelamento;
-        Infevento.chBPe := BPeDM.ACBrBPe1.WebServices.Consulta.BPeChave;
-        Infevento.detEvento.nProt := BPeDM.ACBrBPe1.WebServices.Consulta.Protocolo;
-        Infevento.detEvento.xJust := AJustificativa;
+        try
+          if BPeDM.ACBrBPe1.EnviarEvento(ALote) then
+          begin
+            Resposta := RespostaCancelamento;
+
+            MoverStringParaPChar(Resposta, sResposta, esTamanho);
+            Result := SetRetorno(ErrOK, StrPas(sResposta));
+          end
+          else
+            Result := SetRetornoWebService(BPeDM.ACBrBPe1.SSL.HTTPResultCode, 'Cancelar');
+        except
+          raise EACBrLibException.Create(ErrRetorno, BPeDM.ACBrBPe1.WebServices.EnvEvento.EventoRetorno.xMotivo);
+        end;
+      finally
+        BPeDM.Destravar;
       end;
-
-      try
-        if BPeDM.ACBrBPe1.EnviarEvento(ALote) then
-        begin
-          Resposta := RespostaCancelamento;
-
-          MoverStringParaPChar(Resposta, sResposta, esTamanho);
-          Result := SetRetorno(ErrOK, StrPas(sResposta));
-        end
-        else
-          Result := SetRetornoWebService(BPeDM.ACBrBPe1.SSL.HTTPResultCode, 'Cancelar');
-      except
-        raise EACBrLibException.Create(ErrRetorno, BPeDM.ACBrBPe1.WebServices.EnvEvento.EventoRetorno.xMotivo);
-      end;
-
-      BPeDM.Destravar;
     end;
   except
     on E: EACBrLibException do
@@ -1117,13 +1120,12 @@ begin
     with TACBrLibBPe(pLib) do
     begin
       BPeDM.Travar;
-
-      with BPeDM.ACBrBPe1 do
-      begin
-        if EventoBPe.Evento.Count =0 then
-          raise EACBrLibException.Create(ErrEnvioEvento, Format(SInfEventosCarregados, [EventoBPe.Evento.Count]))
-        else
+      try
+        with BPeDM.ACBrBPe1 do
         begin
+          if EventoBPe.Evento.Count =0 then
+            raise EACBrLibException.Create(ErrEnvioEvento, Format(SInfEventosCarregados, [EventoBPe.Evento.Count]));
+
           if (idLote = 0) then
             idLote := 1;
 
@@ -1140,9 +1142,9 @@ begin
           else
             Result := SetRetornoWebService(SSL.HTTPResultCode, 'Enviar Evento');
         end;
+      finally
+        BPeDM.Destravar;
       end;
-
-      BPeDM.Destravar;
     end;
   except
     on E: EACBrLibException do
@@ -1175,40 +1177,41 @@ begin
     with TACBrLibBPe(pLib) do
     begin
       BPeDM.Travar;
+      try
+        if not ValidarCNPJ(ACNPJCPF) then
+          raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJCPFInvalido, [ACNPJCPF]));
 
-      if not ValidarCNPJ(ACNPJCPF) then
-        raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJCPFInvalido, [ACNPJCPF]));
+        with BPeDM.ACBrBPe1 do
+        begin
+          try
+            if DistribuicaoDFePorUltNSU(AcUFAutor, ACNPJCPF, AultNSU) then
+            begin
+              Resposta := RespostaDistribuicaoDFe;
 
-      with BPeDM.ACBrBPe1 do
-      begin
-        try
-          if DistribuicaoDFePorUltNSU(AcUFAutor, ACNPJCPF, AultNSU) then
-          begin
-            Resposta := RespostaDistribuicaoDFe;
+              for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
+                Resposta := Resposta + RespostaItensDistribuicaoDFeResBPe(i);
 
-            for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
-              Resposta := Resposta + RespostaItensDistribuicaoDFeResBPe(i);
+              for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
+                Resposta := Resposta + RespostaItensDistribuicaoDFeResEve(i);
 
-            for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
-              Resposta := Resposta + RespostaItensDistribuicaoDFeResEve(i);
+              for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
+                Resposta := Resposta + RespostaItensDistribuicaoDFeProEve(i);
 
-            for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
-              Resposta := Resposta + RespostaItensDistribuicaoDFeProEve(i);
+              for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
+                Resposta := Resposta + RespostaItensDistribuicaoDFeInfeve(i);
 
-            for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
-              Resposta := Resposta + RespostaItensDistribuicaoDFeInfeve(i);
-
-            MoverStringParaPChar(Resposta, sResposta, esTamanho);
-            Result := SetRetorno(ErrOK, StrPas(sResposta));
-          end
-          else
-            Result := SetRetornoWebService(SSL.HTTPResultCode, 'DistribuicaoDFePorUltNSU');
-        except
-          raise EACBrLibException.Create(ErrRetorno, WebServices.DistribuicaoDFe.retDistDFeInt.xMotivo);
+              MoverStringParaPChar(Resposta, sResposta, esTamanho);
+              Result := SetRetorno(ErrOK, StrPas(sResposta));
+            end
+            else
+              Result := SetRetornoWebService(SSL.HTTPResultCode, 'DistribuicaoDFePorUltNSU');
+          except
+            raise EACBrLibException.Create(ErrRetorno, WebServices.DistribuicaoDFe.retDistDFeInt.xMotivo);
+          end;
         end;
+      finally
+        BPeDM.Destravar;
       end;
-
-      BPeDM.Destravar;
     end;
   except
     on E: EACBrLibException do
@@ -1242,40 +1245,41 @@ begin
     with TACBrLibBPe(pLib) do
     begin
       BPeDM.Travar;
+      try
+        if not ValidarCNPJ(ACNPJCPF) then
+          raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJCPFInvalido, [ACNPJCPF]));
 
-      if not ValidarCNPJ(ACNPJCPF) then
-        raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJCPFInvalido, [ACNPJCPF]));
+        with BPeDM.ACBrBPe1 do
+        begin
+          try
+            if DistribuicaoDFePorNSU(AcUFAutor, ACNPJCPF, ANSU) then
+            begin
+              Resposta := RespostaDistribuicaoDFe;
 
-      with BPeDM.ACBrBPe1 do
-      begin
-        try
-          if DistribuicaoDFePorNSU(AcUFAutor, ACNPJCPF, ANSU) then
-          begin
-            Resposta := RespostaDistribuicaoDFe;
+              for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
+                Resposta := Resposta + RespostaItensDistribuicaoDFeResBPe(i);
 
-            for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
-              Resposta := Resposta + RespostaItensDistribuicaoDFeResBPe(i);
+              for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
+                Resposta := Resposta + RespostaItensDistribuicaoDFeResEve(i);
 
-            for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
-              Resposta := Resposta + RespostaItensDistribuicaoDFeResEve(i);
+              for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
+                Resposta := Resposta + RespostaItensDistribuicaoDFeProEve(i);
 
-            for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
-              Resposta := Resposta + RespostaItensDistribuicaoDFeProEve(i);
+              for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
+                Resposta := Resposta + RespostaItensDistribuicaoDFeInfeve(i);
 
-            for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
-              Resposta := Resposta + RespostaItensDistribuicaoDFeInfeve(i);
-
-            MoverStringParaPChar(Resposta, sResposta, esTamanho);
-            Result := SetRetorno(ErrOK, StrPas(sResposta));
-          end
-          else
-            Result := SetRetornoWebService(SSL.HTTPResultCode, 'DistribuicaoDFePorNSU');
-        except
-          raise EACBrLibException.Create(ErrRetorno, WebServices.DistribuicaoDFe.retDistDFeInt.xMotivo);
+              MoverStringParaPChar(Resposta, sResposta, esTamanho);
+              Result := SetRetorno(ErrOK, StrPas(sResposta));
+            end
+            else
+              Result := SetRetornoWebService(SSL.HTTPResultCode, 'DistribuicaoDFePorNSU');
+          except
+            raise EACBrLibException.Create(ErrRetorno, WebServices.DistribuicaoDFe.retDistDFeInt.xMotivo);
+          end;
         end;
+      finally
+        BPeDM.Destravar;
       end;
-
-      BPeDM.Destravar;
     end;
   except
     on E: EACBrLibException do
@@ -1309,43 +1313,44 @@ begin
     with TACBrLibBPe(pLib) do
     begin
       BPeDM.Travar;
+      try
+        if not ValidarCNPJ(ACNPJCPF) then
+          raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJCPFInvalido, [ACNPJCPF]));
 
-      if not ValidarCNPJ(ACNPJCPF) then
-        raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJCPFInvalido, [ACNPJCPF]));
+        if not ValidarChave(AchBPe) then
+          raise EACBrLibException.Create(ErrChaveBPe, Format(SErrChaveInvalida, [AchBPe]));
 
-      if not ValidarChave(AchBPe) then
-        raise EACBrLibException.Create(ErrChaveBPe, Format(SErrChaveInvalida, [AchBPe]));
+        with BPeDM.ACBrBPe1 do
+        begin
+          try
+            if DistribuicaoDFePorChaveBPe(AcUFAutor, ACNPJCPF, AchBPe) then
+            begin
+              Resposta := RespostaDistribuicaoDFe;
 
-      with BPeDM.ACBrBPe1 do
-      begin
-        try
-          if DistribuicaoDFePorChaveBPe(AcUFAutor, ACNPJCPF, AchBPe) then
-          begin
-            Resposta := RespostaDistribuicaoDFe;
+              for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
+                Resposta := Resposta + RespostaItensDistribuicaoDFeResBPe(i);
 
-            for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
-              Resposta := Resposta + RespostaItensDistribuicaoDFeResBPe(i);
+              for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
+                Resposta := Resposta + RespostaItensDistribuicaoDFeResEve(i);
 
-            for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
-              Resposta := Resposta + RespostaItensDistribuicaoDFeResEve(i);
+              for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
+                Resposta := Resposta + RespostaItensDistribuicaoDFeProEve(i);
 
-            for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
-              Resposta := Resposta + RespostaItensDistribuicaoDFeProEve(i);
+              for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
+                Resposta := Resposta + RespostaItensDistribuicaoDFeInfeve(i);
 
-            for i := 0 to WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count - 1 do
-              Resposta := Resposta + RespostaItensDistribuicaoDFeInfeve(i);
-
-            MoverStringParaPChar(Resposta, sResposta, esTamanho);
-            Result := SetRetorno(ErrOK, StrPas(sResposta));
-          end
-          else
-            Result := SetRetornoWebService(SSL.HTTPResultCode, 'DistribuicaoDFePorChaveBPe');
-        except
-          raise EACBrLibException.Create(ErrRetorno, WebServices.DistribuicaoDFe.retDistDFeInt.xMotivo);
+              MoverStringParaPChar(Resposta, sResposta, esTamanho);
+              Result := SetRetorno(ErrOK, StrPas(sResposta));
+            end
+            else
+              Result := SetRetornoWebService(SSL.HTTPResultCode, 'DistribuicaoDFePorChaveBPe');
+          except
+            raise EACBrLibException.Create(ErrRetorno, WebServices.DistribuicaoDFe.retDistDFeInt.xMotivo);
+          end;
         end;
+      finally
+        BPeDM.Destravar;
       end;
-
-      BPeDM.Destravar;
     end;
   except
     on E: EACBrLibException do
@@ -1384,60 +1389,61 @@ begin
     with TACBrLibBPe(pLib) do
     begin
       BPeDM.Travar;
-
-      with BPeDM.ACBrBPe1 do
-      begin
-        EhArquivo := StringEhArquivo(AChaveBPe);
-
-        if EhArquivo then
-          VerificarArquivoExiste(AChaveBPe);
-
-        if EhArquivo then
-          Bilhetes.LoadFromFile(AchaveBPe);
-
-        if Bilhetes.Count = 0 then
-          raise EACBrLibException.Create(ErrEnvio, Format(SInfBPeCarregados, [Bilhetes.Count]))
-        else
+      try
+        with BPeDM.ACBrBPe1 do
         begin
-          slMensagemEmail := TStringList.Create;
-          slCC := TStringList.Create;
-          slAnexos := TStringList.Create;
-          try
-            with mail do
-            begin
-              slMensagemEmail.DelimitedText:= sLineBreak;
-              slMensagemEmail.Text := StringReplace(AMensagem, ';', sLineBreak, [rfReplaceAll]);
+          EhArquivo := StringEhArquivo(AChaveBPe);
 
-              slCC.DelimitedText:= sLineBreak;
-              slCC.Text := StringReplace(ACC, ';', sLineBreak, [rfReplaceAll]);
+          if EhArquivo then
+            VerificarArquivoExiste(AChaveBPe);
 
-              slAnexos.DelimitedText := sLineBreak;
-              slAnexos.Text := StringReplace(AAnexos, ';', sLineBreak, [rfReplaceAll]);
+          if EhArquivo then
+            Bilhetes.LoadFromFile(AchaveBPe);
 
-              try
-                BPeDM.ACBrBPe1.Bilhetes.Items[0].EnviarEmail(
-                  APara,
-                  AAssunto,
-                  slMensagemEmail,
-                  AEnviaPDF, // Enviar PDF junto
-                  slCC,      // Lista com emails que serão enviado cópias - TStrings
-                  slAnexos); // Lista de slAnexos - TStrings
+          if Bilhetes.Count = 0 then
+            raise EACBrLibException.Create(ErrEnvio, Format(SInfBPeCarregados, [Bilhetes.Count]))
+          else
+          begin
+            slMensagemEmail := TStringList.Create;
+            slCC := TStringList.Create;
+            slAnexos := TStringList.Create;
+            try
+              with mail do
+              begin
+                slMensagemEmail.DelimitedText:= sLineBreak;
+                slMensagemEmail.Text := StringReplace(AMensagem, ';', sLineBreak, [rfReplaceAll]);
 
-                Result := SetRetorno(ErrOK, 'Email enviado com sucesso');
-              except
-                on E: Exception do
-                  raise EACBrLibException.Create(ErrRetorno, 'Erro ao enviar email' + sLineBreak + E.Message);
+                slCC.DelimitedText:= sLineBreak;
+                slCC.Text := StringReplace(ACC, ';', sLineBreak, [rfReplaceAll]);
+
+                slAnexos.DelimitedText := sLineBreak;
+                slAnexos.Text := StringReplace(AAnexos, ';', sLineBreak, [rfReplaceAll]);
+
+                try
+                  BPeDM.ACBrBPe1.Bilhetes.Items[0].EnviarEmail(
+                    APara,
+                    AAssunto,
+                    slMensagemEmail,
+                    AEnviaPDF, // Enviar PDF junto
+                    slCC,      // Lista com emails que serão enviado cópias - TStrings
+                    slAnexos); // Lista de slAnexos - TStrings
+
+                  Result := SetRetorno(ErrOK, 'Email enviado com sucesso');
+                except
+                  on E: Exception do
+                    raise EACBrLibException.Create(ErrRetorno, 'Erro ao enviar email' + sLineBreak + E.Message);
+                end;
               end;
+            finally
+              slCC.Free;
+              slAnexos.Free;
+              slMensagemEmail.Free;
             end;
-          finally
-            slCC.Free;
-            slAnexos.Free;
-            slMensagemEmail.Free;
           end;
         end;
+      finally
+        BPeDM.Destravar;
       end;
-
-      BPeDM.Destravar;
     end;
   except
     on E: EACBrLibException do
@@ -1478,49 +1484,47 @@ begin
     with TACBrLibBPe(pLib) do
     begin
       BPeDM.Travar;
-
-      with BPeDM.ACBrBPe1 do
-      begin
-        EventoBPe.Evento.Clear;
-        Bilhetes.Clear;
-
-        EhArquivo := StringEhArquivo(AChaveEvento);
-
-        if EhArquivo then
-          VerificarArquivoExiste(AChaveEvento);
-
-        if EhArquivo then
-          EventoBPe.LerXML(AChaveEvento);
-
-        EhArquivo := StringEhArquivo(AChaveBPe);
-
-        if EhArquivo then
-          VerificarArquivoExiste(AChaveBPe);
-
-        if EhArquivo then
-          Bilhetes.LoadFromFile(AchaveBPe);
-
-        if EventoBPe.Evento.Count = 0 then
-          raise EACBrLibException.Create(ErrEnvio,
-                  Format(SInfEventosCarregados, [EventoBPe.Evento.Count]))
-        else
+      try
+        with BPeDM.ACBrBPe1 do
         begin
+          EventoBPe.Evento.Clear;
+          Bilhetes.Clear;
+
+          EhArquivo := StringEhArquivo(AChaveEvento);
+          if EhArquivo then
+          begin
+            VerificarArquivoExiste(AChaveEvento);
+            EventoBPe.LerXML(AChaveEvento);
+          end;
+
+          EhArquivo := StringEhArquivo(AChaveBPe);
+          if EhArquivo then
+          begin
+            VerificarArquivoExiste(AChaveBPe);
+            Bilhetes.LoadFromFile(AchaveBPe);
+          end;
+
+          if EventoBPe.Evento.Count = 0 then
+            raise EACBrLibException.Create(ErrEnvio,
+                    Format(SInfEventosCarregados, [EventoBPe.Evento.Count]));
+
+          if AEnviaPDF then
+          begin
+            try
+              ImprimirEventoPDF;
+
+              ArqPDF := OnlyNumber(EventoBPe.Evento[0].Infevento.id);
+              ArqPDF := PathWithDelim(DABPe.PathPDF)+ArqPDF+'-procEventoBPe.pdf';
+            except
+              on E: Exception do
+                raise EACBrLibException.Create(ErrRetorno, 'Erro ao criar o arquivo PDF: ' + E.Message);
+            end;
+          end;
+
           slMensagemEmail := TStringList.Create;
           slCC := TStringList.Create;
           slAnexos := TStringList.Create;
           try
-            if AEnviaPDF then
-            begin
-              try
-                ImprimirEventoPDF;
-
-                ArqPDF := OnlyNumber(EventoBPe.Evento[0].Infevento.id);
-                ArqPDF := PathWithDelim(DABPe.PathPDF)+ArqPDF+'-procEventoBPe.pdf';
-              except
-                raise EACBrLibException.Create(ErrRetorno, 'Erro ao criar o arquivo PDF');
-              end;
-            end;
-
             with mail do
             begin
               slMensagemEmail.DelimitedText:= sLineBreak;
@@ -1557,9 +1561,10 @@ begin
             slMensagemEmail.Free;
           end;
         end;
-      end;
 
-      BPeDM.Destravar;
+      finally
+        BPeDM.Destravar;
+      end;
     end;
   except
     on E: EACBrLibException do
@@ -1643,26 +1648,27 @@ begin
     with TACBrLibBPe(pLib) do
     begin
       BPeDM.Travar;
+      try
+        EhArquivo := StringEhArquivo(AChaveBPe);
+        if EhArquivo then
+        begin
+          VerificarArquivoExiste(AChaveBPe);
+          BPeDM.ACBrBPe1.Bilhetes.LoadFromFile(AchaveBPe);
+        end;
 
-      EhArquivo := StringEhArquivo(AChaveBPe);
+        EhArquivo := StringEhArquivo(AChaveEvento);
+        if EhArquivo then
+        begin
+          VerificarArquivoExiste(AChaveEvento);
+          BPeDM.ACBrBPe1.EventoBPe.LerXML(AChaveEvento);
+        end;
 
-      if EhArquivo then
-        VerificarArquivoExiste(AChaveBPe);
+        BPeDM.ACBrBPe1.ImprimirEvento;
 
-      if EhArquivo then
-        BPeDM.ACBrBPe1.Bilhetes.LoadFromFile(AchaveBPe);
-
-      EhArquivo := StringEhArquivo(AChaveEvento);
-
-      if EhArquivo then
-        VerificarArquivoExiste(AChaveEvento);
-
-      if EhArquivo then
-        BPeDM.ACBrBPe1.EventoBPe.LerXML(AChaveEvento);
-
-      BPeDM.ACBrBPe1.ImprimirEvento;
-
-      Result := SetRetorno(ErrOK);
+        Result := SetRetorno(ErrOK);
+      finally
+        BPeDM.Destravar;
+      end;
     end;
   except
     on E: EACBrLibException do
@@ -1694,26 +1700,29 @@ begin
     with TACBrLibBPe(pLib) do
     begin
       BPeDM.Travar;
+      try
+        EhArquivo := StringEhArquivo(AChaveBPe);
 
-      EhArquivo := StringEhArquivo(AChaveBPe);
+        if EhArquivo then
+        begin
+          VerificarArquivoExiste(AChaveBPe);
+          BPeDM.ACBrBPe1.Bilhetes.LoadFromFile(AchaveBPe);
+        end;
 
-      if EhArquivo then
-        VerificarArquivoExiste(AChaveBPe);
+        EhArquivo := StringEhArquivo(AChaveEvento);
+        if EhArquivo then
+        begin
+          VerificarArquivoExiste(AChaveEvento);
+          BPeDM.ACBrBPe1.EventoBPe.LerXML(AChaveEvento);
+        end;
 
-      if EhArquivo then
-        BPeDM.ACBrBPe1.Bilhetes.LoadFromFile(AchaveBPe);
+        BPeDM.ACBrBPe1.ImprimirEventoPDF;
 
-      EhArquivo := StringEhArquivo(AChaveEvento);
+        Result := SetRetorno(ErrOK);
+      finally
+        BPeDM.Destravar;
+      end;
 
-      if EhArquivo then
-        VerificarArquivoExiste(AChaveEvento);
-
-      if EhArquivo then
-        BPeDM.ACBrBPe1.EventoBPe.LerXML(AChaveEvento);
-
-      BPeDM.ACBrBPe1.ImprimirEventoPDF;
-
-      Result := SetRetorno(ErrOK);
     end;
   except
     on E: EACBrLibException do
