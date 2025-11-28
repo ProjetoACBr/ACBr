@@ -33,12 +33,11 @@ unit Frm_ACBrNFe;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, StdCtrls, Spin, Buttons, ComCtrls, SynEdit,
   SynHighlighterXML, ACBrMail, ACBrPosPrinter,
   ACBrNFeDANFeESCPOS, ACBrNFeDANFEClass, ACBrDANFCeFortesFr, ACBrDFeReport,
-  ACBrDFeDANFeReport, ACBrNFeDANFeRLClass, ACBrBase, ACBrDFe, ACBrNFe, ShellAPI,
-  zlib, ACBrDANFCeFortesFrA4;
+  ACBrDFeDANFeReport, ACBrNFeDANFeRLClass, ACBrBase, ACBrDFe, ACBrNFe, ACBrDANFCeFortesFrA4;
 
 type
 
