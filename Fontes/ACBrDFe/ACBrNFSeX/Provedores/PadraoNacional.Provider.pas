@@ -117,6 +117,8 @@ type
   end;
 
   TACBrNFSeXWebservicePadraoNacionalSoap = class(TACBrNFSeXWebserviceSoap11)
+  private
+    function GetSubVersao: Integer;
   protected
 
   public
@@ -132,6 +134,8 @@ type
     }
 
     function TratarXmlRetornado(const aXML: string): string; override;
+
+    property SubVersao: Integer read GetSubVersao;
   end;
 
   TACBrNFSeProviderPadraoNacionalSoap = class (TACBrNFSeProviderPadraoNacional)
@@ -201,7 +205,7 @@ begin
 
   with ConfigGeral do
   begin
-    QuebradeLinha := '|';
+    QuebradeLinha := '\n';
     ModoEnvio := meUnitario;
     ConsultaLote := False;
     FormatoArqEnvio := tfaJson;
@@ -544,7 +548,7 @@ begin
         AResumo.idNota := JSon.AsString['id'];
         AResumo.Link := JSon.AsString['chaveAcesso'];
 
-        NFSeXml := Document.AsString['XmlGZipB64'];
+        NFSeXml := JSon.AsString['xmlGZipB64'];
 
         if NFSeXml <> '' then
           LerNFSe(NFSeXml);
@@ -1980,6 +1984,11 @@ end;
 
 { TACBrNFSeXWebservicePadraoNacionalSoap }
 
+function TACBrNFSeXWebservicePadraoNacionalSoap.GetSubVersao: Integer;
+begin
+  Result := StrToIntDef(TACBrNFSeX(FPDFeOwner).Provider.ConfigGeral.Params.ValorParametro('SubVersao'), 0);
+end;
+
 function TACBrNFSeXWebservicePadraoNacionalSoap.GerarNFSe(const ACabecalho,
   AMSG: string): string;
 var
@@ -1987,20 +1996,36 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := RemoverDeclaracaoXML(AMSG);
+  case SubVersao of
+    0: begin
+         Request := RemoverDeclaracaoXML(AMSG);
 
-  Request := RetornarConteudoEntre(Request,
-   '<dps:DPS xmlns:dps="http://www.sped.fazenda.gov.br/nfse" versao="1.01">',
-   '</dps:DPS>', False);
+         Request := RetornarConteudoEntre(Request,
+           '<dps:DPS xmlns:dps="http://www.sped.fazenda.gov.br/nfse" versao="1.01">',
+           '</dps:DPS>', False);
 
-  Request := '<dps:RecepcionarDpsEnvio xmlns:dps="http://www.betha.com.br/e-nota-dps">' +
-               '<dps:DPS versao="1.0">' +
-                  Request +
-               '</dps:DPS>' +
-             '</dps:RecepcionarDpsEnvio>';
+         Request := '<dps:RecepcionarDpsEnvio xmlns:dps="http://www.betha.com.br/e-nota-dps">' +
+                      '<dps:DPS versao="1.0">' +
+                         Request +
+                      '</dps:DPS>' +
+                    '</dps:RecepcionarDpsEnvio>';
 
-  Result := Executar('http://www.betha.com.br/e-nota-dps-service/RecepcionarDps',
-    Request, [], []);
+         Result := Executar('http://www.betha.com.br/e-nota-dps-service/RecepcionarDps',
+           Request, [], []);
+       end;
+
+    1: begin
+         Request := RemoverDeclaracaoXML(AMSG);
+
+         Request := '<nfse:NotaFiscalNacionalGerar>' +
+                      '<xml>' + IncluirCDATA(Request) + '</xml>' +
+                    '</nfse:NotaFiscalNacionalGerar>';
+
+         Result := Executar('', Request, ['return'],
+           ['xmlns:nfse="http://webservices.sil.com/"']);
+       end;
+  end;
+
 end;
 
 function TACBrNFSeXWebservicePadraoNacionalSoap.TratarXmlRetornado(
