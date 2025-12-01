@@ -82,7 +82,8 @@ public abstract class ACBrLibBase implements AutoCloseable {
      * @return
      */
     protected static String fromUTF8(ByteBuffer buffer, int len) {
-        return new String(buffer.array(), 0, len, UTF8);
+        byte[] array = buffer.array();
+        return new String(array, 0,Math.min(array.length,len), UTF8);
     }
 
     protected static String toUTF8(Boolean value) {
@@ -99,7 +100,7 @@ public abstract class ACBrLibBase implements AutoCloseable {
 
     protected static String fromUTF8(ByteBuffer buffer, IntByReference len) {
         byte[] array = buffer.array();
-        return new String(array, 0, len.getValue(), UTF8);
+        return new String(array, 0, Math.min(len.getValue(), array.length), UTF8);
     }
 
     /**
