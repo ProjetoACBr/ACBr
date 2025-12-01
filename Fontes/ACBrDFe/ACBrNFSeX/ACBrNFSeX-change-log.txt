@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+01/12/2025
+-- ACBrNFSeXServicos --
+[*] ACBR-8512 - Alterado a versão e as URLs das cidades Mamborê/PR o provedor continua o mesmo.
+   Por: Arthur Haupt Pacheco
+
 28/11/2025
 -- Infisc.GravarXml --
 [+] ACBR-8493 - Acrescentado os campos opcionais que consta nos schemas, mas não estavam sendo gerados caso alimentados.
