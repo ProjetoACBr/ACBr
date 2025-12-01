@@ -48,6 +48,13 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+01/12/2025
+-- ACBrBancoVortx  --
+[*] Corrigido o metodo montarCampoLivreCodigoBarras e Impressao do cedente no boleto
+   ACBR-8479 https://www.projetoacbr.com.br/forum/topic/86975-problema-na-linha-digital-banco-vortx
+   https://www.projetoacbr.com.br/forum/topic/87799-ajustes-no-banco-vortx/
+   Por Daniel de Morais InfoCotidiano
+
 13/11/2025
 -- ACBrBoleto,ACBrBancoBradescoMoneyPlus  --
 [*] Criado metodo para definir posições agencia, agenciadv, conta e contadv nos retornos

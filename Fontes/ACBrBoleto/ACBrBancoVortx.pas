@@ -108,11 +108,10 @@ begin
   LCodigoCedente := IntToStr(StrToInt(ACBrTitulo.ACBrBoleto.Cedente.CodigoCedente));
   LNossoNumero := IntToStr(StrToInt(ACBrTitulo.NossoNumero));
 
-  LCampoLivre := PadLeft(LAgencia, 3, '0') +
-                 ACBrTitulo.ACBrBoleto.Cedente.AgenciaDigito +
+  LCampoLivre := PadLeft(LAgencia, 4, '0') +
                  PadLeft(LCodigoCedente, 10, '0') +
-                 PadLeft(LNossoNumero, 10, '0');
-  Result := LCampoLivre + LDigito;
+                 PadLeft(LNossoNumero, 11, '0');
+  Result := LCampoLivre ; 
 end;
 
 function TACBrBancoVortx.MontarCampoNossoNumero(const ACBrTitulo: TACBrTitulo): string;
@@ -122,9 +121,11 @@ end;
 
 function TACBrBancoVortx.MontarCampoCodigoCedente(const ACBrTitulo: TACBrTitulo): string;
 begin
-  Result := PadLeft(IntToStr(StrToInt(ACBrTitulo.ACBrBoleto.Cedente.Agencia)), 3, '0') +
-            ACBrTitulo.ACBrBoleto.Cedente.AgenciaDigito + '/' +
-            ACBrTitulo.ACBrBoleto.Cedente.CodigoCedente;
+  Result := PadLeft(IntToStr(StrToInt(ACBrTitulo.ACBrBoleto.Cedente.Agencia)), 4, '0') +
+            '/' +
+            Copy(ACBrTitulo.ACBrBoleto.Cedente.CodigoCedente,1,Length(ACBrTitulo.ACBrBoleto.Cedente.CodigoCedente)-1) +
+            '-'+
+            Copy(ACBrTitulo.ACBrBoleto.Cedente.CodigoCedente,Length(ACBrTitulo.ACBrBoleto.Cedente.CodigoCedente),Length(ACBrTitulo.ACBrBoleto.Cedente.CodigoCedente));
 end;
 
 function TACBrBancoVortx.GerarRegistroHeader240(NumeroRemessa: Integer): String;
