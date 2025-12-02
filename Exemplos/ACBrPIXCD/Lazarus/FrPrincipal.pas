@@ -271,8 +271,10 @@ type
     edPagSeguroPrivateKey: TEdit;
     edPagSeguroChallengePrivateKey: TEdit;
     edPagSeguroCertificadoChallenge: TEdit;
+    edPagSeguroPrivateKeyFinal: TEdit;
     edPagSeguroPublicKey: TEdit;
     edPagSeguroChallengeToken2: TEdit;
+    edPagSeguroCertificadoFinal: TEdit;
     edPagSeguroToken1: TEdit;
     edPagSeguroToken2: TEdit;
     edSolicitarRetentativaTxID: TEdit;
@@ -584,8 +586,10 @@ type
     lbPagSeguroPrivateKey: TLabel;
     lbPagSeguroChallengePrivateKey: TLabel;
     lbPagSeguroCertificadoChallenge: TLabel;
+    lbPagSeguroPrivateKey1: TLabel;
     lbPagSeguroPublicKey: TLabel;
     lbPagSeguroChallengeToken2: TLabel;
+    lbPagSeguroPublicKey1: TLabel;
     lbPagSeguroTipoChave: TLabel;
     lbPagSeguroTokenPay1: TLabel;
     lbPagSeguroTokenPay2: TLabel;
@@ -865,7 +869,6 @@ type
     mmPagSeguroChallenge: TMemo;
     mmPagSeguroPublicKey: TMemo;
     mmPagSeguroChallengeCript: TMemo;
-    mmPagSeguroCertificado: TMemo;
     mmSolicitarRetentativa: TMemo;
     mmConsultarRecorrencia: TMemo;
     mmConsultarCobR: TMemo;
@@ -2378,7 +2381,7 @@ begin
   end;
 
   if ACBrPixCD1.PSP.epCobR.CriarCobranca(wTxId) then
-    mmCriarCobR.Lines.Text := FormatarJSON(ACBrPixCD1.PSP.epCobR.CobRSolicitada.AsJSON)
+    mmCriarCobR.Lines.Text := FormatarJSON(ACBrPixCD1.PSP.epCobR.CobRGerada.AsJSON)
   else
     mmCriarCobR.Lines.Text := FormatarJSON(ACBrPixCD1.PSP.epCobR.Problema.AsJSON);
 end;
@@ -2584,6 +2587,10 @@ end;
 procedure TForm1.btPagSeguroCertificadoGerarClick(Sender: TObject);
 var
   wErros: TStringList;
+  wPathCert, wPathChave, idCert: String;
+  wCertFinal, wChaveFinal: AnsiString;
+  wSLCert, wSLChave: TStringList;
+  ArquivosGerados: Boolean;
 begin
   wErros := TStringList.Create;
   try
@@ -2594,13 +2601,42 @@ begin
       wErros.Add('- Desafio não informado');
     if NaoEstaZerado(wErros.Count) then
       raise Exception.Create('Erros ao Gerar Certificado:' + sLineBreak + wErros.Text);
+
+    wPathCert := AdicionarPathAplicacao(edPagSeguroCertificadoFinal.Text);
+    wPathChave := AdicionarPathAplicacao(edPagSeguroPrivateKeyFinal.Text);
+    if FilesExists(wPathCert) then
+      wErros.Add('- Certificado já existe!');
+    if FilesExists(wPathChave) then
+      wErros.Add('- Chave Privada já existe!');
+    if NaoEstaZerado(wErros.Count) then
+      raise Exception.Create('Erros ao Gerar Certificado:' + sLineBreak + wErros.Text);
   finally
     wErros.Free;
   end;
 
-  mmPagSeguroCertificado.Lines.Text := ACBrPSPPagSeguro1.SolicitarCertificado(
-                                         edPagSeguroChallengeToken2.Text,
-                                         edPagSeguroCertificadoChallenge.Text);
+  idCert := EmptyStr;
+  wCertFinal := EmptyStr;
+  wChaveFinal := EmptyStr;
+  ArquivosGerados := ACBrPSPPagSeguro1.SolicitarCertificado(edPagSeguroChallengeToken2.Text,
+                       edPagSeguroCertificadoChallenge.Text, idCert, wCertFinal, wChaveFinal);
+  if ArquivosGerados then
+  begin
+    wSLCert := TStringList.Create;
+    wSLChave := TStringList.Create;
+    try
+      wSLCert.Text := wCertFinal;
+      wSLCert.SaveToFile(wPathCert);
+
+      wSLChave.Text := wChaveFinal;
+      wSLChave.SaveToFile(wPathChave);
+      ShowMessage('Arquivos gerados com sucesso!');
+    finally
+      wSLCert.Free;
+      wSLChave.Free;
+    end;
+  end
+  else
+    ShowMessage('Arquivos não foram gerados!');
 end;
 
 procedure TForm1.btPagSeguroChallengeDecriptClick(Sender: TObject);

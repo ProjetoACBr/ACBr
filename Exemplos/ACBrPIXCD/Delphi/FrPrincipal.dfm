@@ -703,7 +703,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 464
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -1264,7 +1264,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 25
                       Width = 266
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edtCriarCobrancaImediata_NomeDevedorChange
@@ -1273,7 +1273,7 @@ object Form1: TForm1
                       Left = 298
                       Top = 25
                       Width = 145
-                      Height = 21
+                      Height = 23
                       Anchors = [akTop, akRight]
                       Enabled = False
                       TabOrder = 1
@@ -1292,21 +1292,21 @@ object Form1: TForm1
                       Left = 16
                       Top = 73
                       Width = 266
-                      Height = 21
+                      Height = 23
                       TabOrder = 2
                     end
                     object edtCriarCobrancaImediata_TxId: TEdit
                       Left = 16
                       Top = 123
                       Width = 266
-                      Height = 21
+                      Height = 23
                       TabOrder = 4
                     end
                     object feCriarCobrancaImediatax_Valor: TEdit
                       Left = 298
                       Top = 73
                       Width = 145
-                      Height = 21
+                      Height = 23
                       TabOrder = 6
                       Text = '1,00'
                     end
@@ -1766,7 +1766,7 @@ object Form1: TForm1
                     Left = 204
                     Top = 449
                     Width = 332
-                    Height = 21
+                    Height = 23
                     TabOrder = 0
                     Visible = False
                   end
@@ -1783,7 +1783,7 @@ object Form1: TForm1
                     Left = 398
                     Top = 320
                     Width = 170
-                    Height = 21
+                    Height = 23
                     TabOrder = 2
                     Text = '0,50'
                   end
@@ -1791,7 +1791,7 @@ object Form1: TForm1
                     Left = 204
                     Top = 320
                     Width = 170
-                    Height = 22
+                    Height = 23
                     MaxValue = 0
                     MinValue = 0
                     TabOrder = 3
@@ -1848,7 +1848,7 @@ object Form1: TForm1
                         Left = 398
                         Top = 15
                         Width = 170
-                        Height = 21
+                        Height = 23
                         TabOrder = 1
                         Text = '0,00'
                       end
@@ -1901,7 +1901,7 @@ object Form1: TForm1
                         Left = 398
                         Top = 15
                         Width = 170
-                        Height = 21
+                        Height = 23
                         TabOrder = 1
                         Text = '0,00'
                       end
@@ -1954,7 +1954,7 @@ object Form1: TForm1
                         Left = 398
                         Top = 15
                         Width = 170
-                        Height = 21
+                        Height = 23
                         TabOrder = 1
                         Text = '0,00'
                       end
@@ -2007,7 +2007,7 @@ object Form1: TForm1
                         Left = 15
                         Top = 15
                         Width = 356
-                        Height = 21
+                        Height = 23
                         TabOrder = 0
                         Text = 'Elias Cesar Vieira'
                       end
@@ -2015,7 +2015,7 @@ object Form1: TForm1
                         Left = 398
                         Top = 15
                         Width = 170
-                        Height = 21
+                        Height = 23
                         TabOrder = 1
                         Text = '67751079002'
                       end
@@ -2425,7 +2425,7 @@ object Form1: TForm1
                       Top = 10
                       Width = 80
                       Height = 13
-                      Caption = 'Informacao Adic.'
+                      Caption = 'Informa'#231#227'o Adic.'
                       Color = clBtnFace
                       ParentColor = False
                     end
@@ -2541,7 +2541,7 @@ object Form1: TForm1
                       Left = 254
                       Top = 124
                       Width = 160
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edCriarRecorrenciaNomeDevedorChange
@@ -2550,14 +2550,14 @@ object Form1: TForm1
                       Left = 254
                       Top = 25
                       Width = 105
-                      Height = 21
+                      Height = 23
                       TabOrder = 3
                     end
                     object edCriarCobRValor: TEdit
                       Left = 492
                       Top = 25
                       Width = 98
-                      Height = 21
+                      Height = 23
                       TabOrder = 1
                       Text = '1,00'
                     end
@@ -2597,7 +2597,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 25
                       Width = 224
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 7
                     end
@@ -2605,7 +2605,7 @@ object Form1: TForm1
                       Left = 492
                       Top = 73
                       Width = 98
-                      Height = 21
+                      Height = 23
                       TabOrder = 8
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                     end
@@ -2613,7 +2613,7 @@ object Form1: TForm1
                       Left = 373
                       Top = 73
                       Width = 105
-                      Height = 21
+                      Height = 23
                       TabOrder = 9
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                     end
@@ -2621,14 +2621,14 @@ object Form1: TForm1
                       Left = 16
                       Top = 73
                       Width = 200
-                      Height = 21
+                      Height = 23
                       TabOrder = 10
                     end
                     object edCriarCobREmail: TEdit
                       Left = 430
                       Top = 124
                       Width = 160
-                      Height = 21
+                      Height = 23
                       TabOrder = 11
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                     end
@@ -2636,7 +2636,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 124
                       Width = 74
-                      Height = 21
+                      Height = 23
                       TabOrder = 12
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                     end
@@ -2644,7 +2644,7 @@ object Form1: TForm1
                       Left = 104
                       Top = 124
                       Width = 90
-                      Height = 21
+                      Height = 23
                       TabOrder = 13
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                     end
@@ -2652,7 +2652,7 @@ object Form1: TForm1
                       Left = 198
                       Top = 124
                       Width = 42
-                      Height = 21
+                      Height = 23
                       TabOrder = 14
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                     end
@@ -2714,7 +2714,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 576
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -2773,7 +2773,7 @@ object Form1: TForm1
                     object lbConsultarCobsRInicio: TLabel
                       Left = 10
                       Top = 10
-                      Width = 33
+                      Width = 27
                       Height = 13
                       Caption = 'Inicio'
                       Color = clBtnFace
@@ -2800,7 +2800,7 @@ object Form1: TForm1
                     object lbConsultarCobsRPagina: TLabel
                       Left = 10
                       Top = 60
-                      Width = 37
+                      Width = 33
                       Height = 13
                       Caption = 'Pagina'
                       Color = clBtnFace
@@ -2877,7 +2877,7 @@ object Form1: TForm1
                       Left = 244
                       Top = 25
                       Width = 106
-                      Height = 21
+                      Height = 23
                       TabOrder = 2
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -2886,7 +2886,7 @@ object Form1: TForm1
                       Left = 10
                       Top = 75
                       Width = 100
-                      Height = 22
+                      Height = 23
                       MaxValue = 9999
                       MinValue = 0
                       TabOrder = 5
@@ -2896,7 +2896,7 @@ object Form1: TForm1
                       Left = 128
                       Top = 75
                       Width = 100
-                      Height = 22
+                      Height = 23
                       MaxValue = 100
                       MinValue = 0
                       TabOrder = 6
@@ -2915,7 +2915,7 @@ object Form1: TForm1
                       Left = 486
                       Top = 25
                       Width = 106
-                      Height = 21
+                      Height = 23
                       TabOrder = 4
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
                     end
@@ -2923,7 +2923,7 @@ object Form1: TForm1
                       Left = 365
                       Top = 25
                       Width = 106
-                      Height = 21
+                      Height = 23
                       TabOrder = 3
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
                     end
@@ -2985,7 +2985,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 466
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -3273,7 +3273,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 25
                       Width = 224
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edCriarRecorrenciaNomeDevedorChange
@@ -3282,7 +3282,7 @@ object Form1: TForm1
                       Left = 254
                       Top = 25
                       Width = 102
-                      Height = 21
+                      Height = 23
                       Enabled = False
                       TabOrder = 1
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
@@ -3292,14 +3292,14 @@ object Form1: TForm1
                       Left = 16
                       Top = 73
                       Width = 224
-                      Height = 21
+                      Height = 23
                       TabOrder = 4
                     end
                     object edCriarRecorrenciaValor: TEdit
                       Left = 370
                       Top = 25
                       Width = 102
-                      Height = 21
+                      Height = 23
                       TabOrder = 2
                       Text = '1,00'
                     end
@@ -3307,7 +3307,7 @@ object Form1: TForm1
                       Left = 254
                       Top = 73
                       Width = 218
-                      Height = 21
+                      Height = 23
                       TabOrder = 5
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -3360,14 +3360,14 @@ object Form1: TForm1
                       Left = 16
                       Top = 124
                       Width = 224
-                      Height = 21
+                      Height = 23
                       TabOrder = 7
                     end
                     object edCriarRecorrenciaLoc: TSpinEdit
                       Left = 488
                       Top = 73
                       Width = 102
-                      Height = 22
+                      Height = 23
                       MaxValue = 0
                       MinValue = 0
                       TabOrder = 6
@@ -3446,10 +3446,10 @@ object Form1: TForm1
                       ParentColor = False
                     end
                     object edConsultarRecorrenciaIdRec: TEdit
-                      Left = 17
+                      Left = 16
                       Top = 30
-                      Width = 289
-                      Height = 21
+                      Width = 296
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -3467,7 +3467,7 @@ object Form1: TForm1
                       Left = 333
                       Top = 30
                       Width = 259
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 2
                     end
@@ -3611,7 +3611,7 @@ object Form1: TForm1
                       Left = 244
                       Top = 25
                       Width = 170
-                      Height = 21
+                      Height = 23
                       TabOrder = 2
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -3620,7 +3620,7 @@ object Form1: TForm1
                       Left = 10
                       Top = 75
                       Width = 100
-                      Height = 22
+                      Height = 23
                       MaxValue = 9999
                       MinValue = 0
                       TabOrder = 6
@@ -3630,7 +3630,7 @@ object Form1: TForm1
                       Left = 128
                       Top = 75
                       Width = 100
-                      Height = 22
+                      Height = 23
                       MaxValue = 100
                       MinValue = 0
                       TabOrder = 5
@@ -3657,7 +3657,7 @@ object Form1: TForm1
                       Left = 429
                       Top = 25
                       Width = 163
-                      Height = 21
+                      Height = 23
                       TabOrder = 8
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -3768,7 +3768,7 @@ object Form1: TForm1
                       Left = 275
                       Top = 25
                       Width = 177
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edRevisarRecorrenciaNomeDevedorChange
@@ -3777,7 +3777,7 @@ object Form1: TForm1
                       Left = 472
                       Top = 25
                       Width = 120
-                      Height = 21
+                      Height = 23
                       Enabled = False
                       TabOrder = 1
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
@@ -3800,7 +3800,7 @@ object Form1: TForm1
                       Left = 472
                       Top = 71
                       Width = 120
-                      Height = 22
+                      Height = 23
                       MaxValue = 0
                       MinValue = 0
                       TabOrder = 3
@@ -3810,7 +3810,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 71
                       Width = 240
-                      Height = 21
+                      Height = 23
                       TabOrder = 4
                     end
                     object btCancelarRecorrencia: TBitBtn
@@ -3837,7 +3837,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 25
                       Width = 240
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 7
                       OnChange = edRevisarRecorrenciaNomeDevedorChange
@@ -3974,7 +3974,7 @@ object Form1: TForm1
                       Left = 273
                       Top = 25
                       Width = 150
-                      Height = 21
+                      Height = 23
                       TabOrder = 1
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -3983,14 +3983,14 @@ object Form1: TForm1
                       Left = 16
                       Top = 73
                       Width = 240
-                      Height = 21
+                      Height = 23
                       TabOrder = 3
                     end
                     object edCriarSolicitacaoRecAgencia: TEdit
                       Left = 273
                       Top = 73
                       Width = 150
-                      Height = 21
+                      Height = 23
                       TabOrder = 4
                       OnChange = edtCriarCobrancaImediata_CPF_CNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -4012,14 +4012,14 @@ object Form1: TForm1
                       Left = 439
                       Top = 73
                       Width = 150
-                      Height = 21
+                      Height = 23
                       TabOrder = 5
                     end
                     object edCriarSolicitacaoRecIdRec: TEdit
                       Left = 16
                       Top = 25
                       Width = 240
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edRevisarRecorrenciaNomeDevedorChange
@@ -4082,7 +4082,7 @@ object Form1: TForm1
                       Left = 16
                       Top = 36
                       Width = 576
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                     end
@@ -4154,7 +4154,7 @@ object Form1: TForm1
                       Left = 15
                       Top = 25
                       Width = 449
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 0
                       OnChange = edRevisarRecorrenciaNomeDevedorChange
@@ -4359,7 +4359,7 @@ object Form1: TForm1
                     object lbConsultarLocationsRecInicio: TLabel
                       Left = 10
                       Top = 10
-                      Width = 25
+                      Width = 27
                       Height = 13
                       Caption = 'Inicio'
                       Color = clBtnFace
@@ -4436,7 +4436,7 @@ object Form1: TForm1
                       Left = 416
                       Top = 25
                       Width = 80
-                      Height = 22
+                      Height = 23
                       MaxValue = 9999
                       MinValue = 0
                       TabOrder = 4
@@ -4446,7 +4446,7 @@ object Form1: TForm1
                       Left = 512
                       Top = 25
                       Width = 80
-                      Height = 22
+                      Height = 23
                       MaxValue = 100
                       MinValue = 0
                       TabOrder = 3
@@ -4464,7 +4464,7 @@ object Form1: TForm1
                       Left = 239
                       Top = 25
                       Width = 163
-                      Height = 21
+                      Height = 23
                       TabOrder = 6
                       OnChange = edtConsultarPixRecebidosCPFCNPJChange
                       OnKeyPress = edOnlyNumbersKeyPress
@@ -5157,10 +5157,10 @@ object Form1: TForm1
         object Label2: TLabel
           Left = 1
           Top = 1
-          Width = 361
+          Width = 93
           Height = 13
           Align = alTop
-          Caption = 'Log das Opera'#231#245'es'
+          Caption = 'Log das Operacoes'
           Color = clBtnFace
           ParentColor = False
         end
@@ -5847,7 +5847,7 @@ object Form1: TForm1
                       Left = 25
                       Top = 35
                       Width = 692
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 2
                       OnChange = edtBBChavePIXChange
@@ -5866,7 +5866,7 @@ object Form1: TForm1
                       Left = 25
                       Top = 85
                       Width = 692
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 3
                     end
@@ -5874,7 +5874,7 @@ object Form1: TForm1
                       Left = 25
                       Top = 135
                       Width = 692
-                      Height = 21
+                      Height = 23
                       Anchors = [akLeft, akTop, akRight]
                       TabOrder = 4
                     end
@@ -5882,7 +5882,7 @@ object Form1: TForm1
                       Left = 25
                       Top = 185
                       Width = 692
-                      Height = 21
+                      Height = 23
                       TabOrder = 5
                     end
                     object cbBBVersaoAPI: TComboBox
@@ -6016,7 +6016,7 @@ object Form1: TForm1
                               Left = 728
                               Top = 32
                               Width = 172
-                              Height = 21
+                              Height = 23
                               Anchors = [akLeft, akTop, akRight]
                               PasswordChar = '*'
                               TabOrder = 1
@@ -6204,8 +6204,8 @@ object Form1: TForm1
                           Top = 79
                           Width = 145
                           Height = 23
-                          Date = 45988.000000000000000000
-                          Time = 45988.000000000000000000
+                          Date = 45993.000000000000000000
+                          Time = 45993.000000000000000000
                           MaxDate = 2958465.000000000000000000
                           MinDate = -53780.000000000000000000
                           TabOrder = 1
@@ -6515,9 +6515,9 @@ object Form1: TForm1
                           OnChange = edtItauArqChavePrivadaChange
                         end
                         object btItauValidarChaveCertificado: TBitBtn
-                          Left = 538
+                          Left = 539
                           Top = 16
-                          Width = 188
+                          Width = 187
                           Height = 26
                           Anchors = [akTop, akRight]
                           Caption = 'Validar Chave e Certificado'
@@ -6531,12 +6531,12 @@ object Form1: TForm1
                       Caption = 'Gerar Chave e Certificado'
                       DesignSize = (
                         892
-                        349)
+                        353)
                       object pgPSPItauGerarChaveCertificado: TPageControl
                         Left = 16
                         Top = 16
                         Width = 842
-                        Height = 329
+                        Height = 333
                         ActivePage = tsItauCertPasso1
                         Anchors = [akLeft, akTop, akRight, akBottom]
                         TabOrder = 0
@@ -6544,7 +6544,7 @@ object Form1: TForm1
                           Caption = 'Passo 1 - Definir Chave Privada'
                           DesignSize = (
                             834
-                            301)
+                            305)
                           object Label39: TLabel
                             Left = 16
                             Top = 24
@@ -6579,7 +6579,7 @@ object Form1: TForm1
                             Left = 16
                             Top = 72
                             Width = 794
-                            Height = 212
+                            Height = 216
                             Anchors = [akLeft, akTop, akRight, akBottom]
                             Font.Charset = DEFAULT_CHARSET
                             Font.Color = clWindowText
@@ -6678,7 +6678,7 @@ object Form1: TForm1
                             Left = 0
                             Top = 136
                             Width = 834
-                            Height = 165
+                            Height = 169
                             Align = alClient
                             BevelOuter = bvNone
                             TabOrder = 2
@@ -7328,9 +7328,9 @@ object Form1: TForm1
                       OnExit = edSicrediArqCertificadoExit
                     end
                     object cbSicrediTipoChave: TComboBox
-                      Left = 675
+                      Left = 674
                       Top = 40
-                      Width = 157
+                      Width = 158
                       Height = 21
                       Style = csDropDownList
                       Anchors = [akTop, akRight]
@@ -8493,6 +8493,24 @@ object Form1: TForm1
                             Color = clBtnFace
                             ParentColor = False
                           end
+                          object lbPagSeguroPublicKey1: TLabel
+                            Left = 24
+                            Top = 120
+                            Width = 75
+                            Height = 13
+                            Caption = 'Certificado Final'
+                            Color = clBtnFace
+                            ParentColor = False
+                          end
+                          object lbPagSeguroPrivateKey1: TLabel
+                            Left = 424
+                            Top = 120
+                            Width = 95
+                            Height = 13
+                            Caption = 'Chave Privada Final'
+                            Color = clBtnFace
+                            ParentColor = False
+                          end
                           object btPagSeguroCertificadoGerar: TBitBtn
                             Left = 24
                             Top = 78
@@ -8507,7 +8525,7 @@ object Form1: TForm1
                             Left = 24
                             Top = 40
                             Width = 384
-                            Height = 23
+                            Height = 21
                             Anchors = [akLeft, akTop, akRight]
                             TabOrder = 1
                           end
@@ -8515,27 +8533,27 @@ object Form1: TForm1
                             Left = 424
                             Top = 40
                             Width = 386
-                            Height = 23
+                            Height = 21
                             Anchors = [akLeft, akTop, akRight]
                             TabOrder = 2
                           end
-                          object mmPagSeguroCertificado: TMemo
+                          object edPagSeguroCertificadoFinal: TEdit
                             Left = 24
-                            Top = 120
-                            Width = 786
-                            Height = 216
-                            Anchors = [akLeft, akTop, akRight, akBottom]
-                            Font.Charset = DEFAULT_CHARSET
-                            Font.Color = clWindowText
-                            Font.Height = -11
-                            Font.Name = 'Lucida Console'
-                            Font.Style = []
-                            ParentFont = False
-                            ReadOnly = True
-                            ScrollBars = ssBoth
+                            Top = 136
+                            Width = 384
+                            Height = 21
+                            Anchors = [akLeft, akTop, akRight]
                             TabOrder = 3
-                            WantReturns = False
-                            WordWrap = False
+                            Text = 'PagSeguro_CertificadoFinal.pem'
+                          end
+                          object edPagSeguroPrivateKeyFinal: TEdit
+                            Left = 424
+                            Top = 136
+                            Width = 386
+                            Height = 21
+                            Anchors = [akLeft, akTop, akRight]
+                            TabOrder = 4
+                            Text = 'PagSeguro_PrivateFinal.key'
                           end
                         end
                       end
@@ -8773,7 +8791,7 @@ object Form1: TForm1
                   Left = 32
                   Top = 143
                   Width = 616
-                  Height = 21
+                  Height = 23
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 0
                 end
@@ -8781,7 +8799,7 @@ object Form1: TForm1
                   Left = 32
                   Top = 83
                   Width = 616
-                  Height = 21
+                  Height = 23
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 1
                 end
@@ -8789,7 +8807,7 @@ object Form1: TForm1
                   Left = 32
                   Top = 35
                   Width = 616
-                  Height = 21
+                  Height = 23
                   Anchors = [akLeft, akTop, akRight]
                   TabOrder = 2
                   OnChange = edBradescoChavePIXChange
@@ -8929,7 +8947,7 @@ object Form1: TForm1
                           Left = 678
                           Top = 39
                           Width = 161
-                          Height = 21
+                          Height = 23
                           Anchors = [akLeft, akTop, akRight]
                           PasswordChar = '*'
                           TabOrder = 1
