@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/12/2025
+-- ACBrPIXSchemasCob, ACBrPIXSchemasCobV, ACBrPIXSchemasCobR, ACBrPIXSchemasDevolucao --
+[-] Correção na maneira que os métodos 'Clear' são sobreescritos nas classes filhas de TACBrPIXSchema.
+    por: Elias Cesar
+
 28/11/2025
 -- ACBrPIXPSPPagSeguro --
 [-] Correção no header 'X_CHALLENGE' da função SolicitarCertificado().

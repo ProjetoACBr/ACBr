@@ -112,7 +112,7 @@ type
   public
     constructor Create(const ObjectName: String = ''); override;
     destructor Destroy; override;
-    procedure Clear; reintroduce;
+    procedure Clear; override;
     function IsEmpty: Boolean; override;
     procedure Assign(Source: TACBrPIXDevolucao);
 

@@ -171,7 +171,7 @@ type
   public
     constructor Create(const ObjectName: String = ''); override;
     destructor Destroy; override;
-    procedure Clear; reintroduce;
+    procedure Clear; override;
     function IsEmpty: Boolean; override;
     procedure Assign(Source: TACBrPIXCobSolicitada);
     function LoadFromIni(aIniStr: String): Boolean; override;
@@ -191,7 +191,7 @@ type
     procedure DoWriteToJSon(AJSon: TACBrJSONObject); override;
     procedure DoReadFromJSon(AJSon: TACBrJSONObject); override;
   public
-    procedure Clear; reintroduce;
+    procedure Clear; override;
     function IsEmpty: Boolean; override;
     procedure Assign(Source: TACBrPIXCobRevisada);
     function LoadFromIni(aIniStr: String): Boolean; override;
@@ -208,7 +208,7 @@ type
     procedure DoWriteToJSon(AJSon: TACBrJSONObject); override;
     procedure DoReadFromJSon(AJSon: TACBrJSONObject); override;
   public
-    procedure Clear; reintroduce;
+    procedure Clear; override;
     function IsEmpty: Boolean; override;
     procedure Assign(Source: TACBrPIXCobBaseCopiaCola);
 
@@ -235,7 +235,7 @@ type
   public
     constructor Create(const ObjectName: String = ''); override;
     destructor Destroy; override;
-    procedure Clear; reintroduce;
+    procedure Clear; override;
     function IsEmpty: Boolean; override;
     procedure Assign(Source: TACBrPIXCobGerada);
 
@@ -260,7 +260,7 @@ type
     procedure DoReadFromJSon(AJSon: TACBrJSONObject); override;
   public
     constructor Create(const ObjectName: String = ''); override;
-    procedure Clear; reintroduce;
+    procedure Clear; override;
     function IsEmpty: Boolean; override;
     destructor Destroy; override;
     procedure Assign(Source: TACBrPIXCobCompleta);
