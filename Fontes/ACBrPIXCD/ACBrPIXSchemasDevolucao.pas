@@ -313,7 +313,8 @@ begin
   fmotivo := '';
   frtrId := '';
   fstatus := stdNENHUM;
-  fhorario.Clear;
+  if Assigned(fhorario) then
+    fhorario.Clear;
 end;
 
 function TACBrPIXDevolucao.IsEmpty: Boolean;

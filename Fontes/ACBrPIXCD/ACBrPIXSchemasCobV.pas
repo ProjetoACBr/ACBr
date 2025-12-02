@@ -682,7 +682,8 @@ procedure TACBrPIXDesconto.Clear;
 begin
   fvalorPerc := 0;         
   fmodalidade := pdmNenhum;
-  fdescontosDataFixa.Clear;
+  if Assigned(fdescontosDataFixa) then
+    fdescontosDataFixa.Clear;
 end;
 
 procedure TACBrPIXDesconto.Assign(aSource: TACBrPIXDesconto);
@@ -749,10 +750,14 @@ end;
 procedure TACBrPIXCobVValor.Clear;
 begin
   foriginal := 0;
-  fabatimento.Clear;
-  fdesconto.Clear;
-  fjuros.Clear;
-  fmulta.Clear;
+  if Assigned(fabatimento) then
+    fabatimento.Clear;
+  if Assigned(fdesconto) then
+    fdesconto.Clear;
+  if Assigned(fjuros) then
+    fjuros.Clear;
+  if Assigned(fmulta) then
+    fmulta.Clear;
 end;
 
 function TACBrPIXCobVValor.IsEmpty: Boolean;
@@ -817,10 +822,14 @@ end;
 procedure TACBrPIXCobVSolicitada.Clear;
 begin
   inherited Clear;
-  fcalendario.Clear;
-  fdevedor.Clear;
-  floc.Clear;
-  fvalor.Clear;
+  if Assigned(fcalendario) then
+    fcalendario.Clear;
+  if Assigned(fdevedor) then
+    fdevedor.Clear;
+  if Assigned(floc) then
+    floc.Clear;
+  if Assigned(fvalor) then
+    fvalor.Clear;
 end;
 
 function TACBrPIXCobVSolicitada.IsEmpty: Boolean;
@@ -1046,11 +1055,16 @@ begin
   frevisao := 0;
   fstatus := stcNENHUM;
   ftxId := '';
-  fcalendario.Clear;
-  fdevedor.Clear;
-  frecebedor.Clear;
-  floc.Clear;
-  fvalor.Clear;
+  if Assigned(fcalendario) then
+    fcalendario.Clear;
+  if Assigned(fdevedor) then
+    fdevedor.Clear;
+  if Assigned(frecebedor) then
+    frecebedor.Clear;
+  if Assigned(floc) then
+    floc.Clear;
+  if Assigned(fvalor) then
+    fvalor.Clear;
 end;
 
 function TACBrPIXCobVGerada.IsEmpty: Boolean;
@@ -1158,7 +1172,8 @@ end;
 
 procedure TACBrPIXCobVCompleta.Clear;
 begin
-  fpix.Clear;
+  if Assigned(fpix) then
+    fpix.Clear;
   inherited Clear;
 end;
 

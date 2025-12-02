@@ -49,6 +49,12 @@ Símbolo : Significado
 
 02/12/2025
 -- ACBrPIXSchemasCob, ACBrPIXSchemasCobV, ACBrPIXSchemasCobR, ACBrPIXSchemasDevolucao --
+[*] Ajustes para não ocorrer AV, pois verifica se propriedades tipo objeto estão instanciadas 
+    antes de utilizar método Clear.
+    por: Elias Cesar
+
+02/12/2025
+-- ACBrPIXSchemasCob, ACBrPIXSchemasCobV, ACBrPIXSchemasCobR, ACBrPIXSchemasDevolucao --
 [-] Correção na maneira que os métodos 'Clear' são sobreescritos nas classes filhas de TACBrPIXSchema.
     por: Elias Cesar
 
