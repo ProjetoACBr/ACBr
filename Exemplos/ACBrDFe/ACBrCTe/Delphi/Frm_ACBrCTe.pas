@@ -1213,8 +1213,8 @@ begin
       Imp.IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS := 50;
 
       // Estorno de Crédito
-      Imp.IBSCBS.gEstornoCred.vIBSEstCred := 10;
-      Imp.IBSCBS.gEstornoCred.vCBSEstCred := 10;
+      Imp.IBSCBS.gEstornoCred.vIBSEstCred := 0;
+      Imp.IBSCBS.gEstornoCred.vCBSEstCred := 0;
     end;
 
     {Informações sobre Total}
