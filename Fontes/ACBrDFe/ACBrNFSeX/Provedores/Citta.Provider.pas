@@ -39,9 +39,16 @@ interface
 uses
   SysUtils, Classes,
   ACBrXmlBase,
-  ACBrNFSeX, ACBrNFSeXClass, ACBrNFSeXConversao, ACBrNFSeXConfiguracoes,
-  ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
-  ACBrNFSeXProviderABRASFv2, ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
+  ACBrNFSeX,
+  ACBrNFSeXClass,
+  ACBrNFSeXConversao,
+  ACBrNFSeXConfiguracoes,
+  ACBrNFSeXGravarXml,
+  ACBrNFSeXLerXml,
+  ACBrNFSeXProviderABRASFv2,
+  ACBrNFSeXWebserviceBase,
+  ACBrNFSeXWebservicesResponse,
+  PadraoNacional.Provider;
 
 type
   TACBrNFSeXWebserviceCitta203 = class(TACBrNFSeXWebserviceSoap11)
@@ -73,12 +80,35 @@ type
     function StrToSituacaoTributaria(out ok: boolean; const s: string): TnfseSituacaoTributaria; override;
   end;
 
+  TACBrNFSeXWebserviceCittaAPIPropria = class(TACBrNFSeXWebservicePadraoNacional)
+  protected
+
+  public
+
+  end;
+
+  TACBrNFSeProviderCittaAPIPropria = class(TACBrNFSeProviderPadraoNacional)
+  private
+
+  protected
+    procedure Configuracao; override;
+
+    function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
+    function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
+    function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+  end;
+
 implementation
 
 uses
   ACBrDFeException,
   ACBrDFe.Conversao,
-  Citta.GravarXml, Citta.LerXml;
+  ACBrNFSeXNotasFiscais,
+  ACBrNFSeXConsts,
+  ACBrUtil.Strings,
+  ACBrUtil.XMLHTML,
+  Citta.GravarXml,
+  Citta.LerXml;
 
 { TACBrNFSeProviderCitta203 }
 
@@ -310,6 +340,113 @@ begin
 
   Result := Executar('http://nfse.abrasf.org.br/SubstituirNfse', AMSG,
                      [], ['xmlns:nfse="http://nfse.abrasf.org.br"']);
+end;
+
+{ TACBrNFSeProviderCittaAPIPropria }
+
+procedure TACBrNFSeProviderCittaAPIPropria.Configuracao;
+var
+  VersaoDFe: string;
+begin
+  inherited Configuracao;
+
+  VersaoDFe := VersaoNFSeToStr(TACBrNFSeX(FAOwner).Configuracoes.Geral.Versao);
+
+  with ConfigGeral do
+  begin
+    QuebradeLinha := '|';
+    ModoEnvio := meUnitario;
+    ConsultaLote := False;
+    FormatoArqEnvio := tfaJson;
+    FormatoArqRetorno := tfaJson;
+    FormatoArqEnvioSoap := tfaJson;
+    FormatoArqRetornoSoap := tfaJson;
+    {
+    ServicosDisponibilizados.EnviarUnitario := True;
+    ServicosDisponibilizados.ConsultarNfseChave := True;
+    ServicosDisponibilizados.ConsultarRps := True;
+    ServicosDisponibilizados.EnviarEvento := True;
+    ServicosDisponibilizados.ConsultarEvento := True;
+    ServicosDisponibilizados.ConsultarDFe := True;
+    ServicosDisponibilizados.ConsultarParam := True;
+    ServicosDisponibilizados.ObterDANFSE := True;
+    }
+    Particularidades.AtendeReformaTributaria := True;
+  end;
+
+  with ConfigWebServices do
+  begin
+    VersaoDados := VersaoDFe;
+    VersaoAtrib := VersaoDFe;
+
+    AtribVerLote := 'versao';
+  end;
+
+  SetXmlNameSpace('http://www.sped.fazenda.gov.br/nfse');
+
+  with ConfigMsgDados do
+  begin
+    UsarNumLoteConsLote := False;
+
+    DadosCabecalho := GetCabecalho('');
+
+    XmlRps.InfElemento := 'infNFSe';
+    XmlRps.DocElemento := 'NFSe';
+
+    EnviarEvento.InfElemento := 'infPedReg';
+    EnviarEvento.DocElemento := 'pedRegEvento';
+  end;
+
+  with ConfigAssinar do
+  begin
+    RpsGerarNFSe := True;
+    EnviarEvento := True;
+  end;
+
+  SetNomeXSD('***');
+
+  with ConfigSchemas do
+  begin
+    GerarNFSe := 'DPS_v' + VersaoDFe + '.xsd';
+    ConsultarNFSe := 'DPS_v' + VersaoDFe + '.xsd';
+    ConsultarNFSeRps := 'DPS_v' + VersaoDFe + '.xsd';
+    EnviarEvento := 'pedRegEvento_v' + VersaoDFe + '.xsd';
+    ConsultarEvento := 'DPS_v' + VersaoDFe + '.xsd';
+
+    Validar := False;
+  end;
+end;
+
+function TACBrNFSeProviderCittaAPIPropria.CriarGeradorXml(
+  const ANFSe: TNFSe): TNFSeWClass;
+begin
+  Result := TNFSeW_CittaAPIPropria.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderCittaAPIPropria.CriarLeitorXml(
+  const ANFSe: TNFSe): TNFSeRClass;
+begin
+  Result := TNFSeR_CittaAPIPropria.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderCittaAPIPropria.CriarServiceClient(
+  const AMetodo: TMetodo): TACBrNFSeXWebservice;
+var
+  URL: string;
+begin
+  URL := GetWebServiceURL(AMetodo);
+
+  if URL <> '' then
+    Result := TACBrNFSeXWebserviceCittaAPIPropria.Create(FAOwner, AMetodo, URL, Method)
+  else
+  begin
+    if ConfigGeral.Ambiente = taProducao then
+      raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
+    else
+      raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
 end;
 
 end.

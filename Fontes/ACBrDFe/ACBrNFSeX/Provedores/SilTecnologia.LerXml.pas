@@ -38,7 +38,9 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXLerXml_ABRASFv1, ACBrNFSeXLerXml_ABRASFv2;
+  ACBrNFSeXLerXml_ABRASFv1,
+  ACBrNFSeXLerXml_ABRASFv2,
+  PadraoNacional.LerXml;
 
 type
   { TNFSeR_SilTecnologia }
@@ -53,6 +55,15 @@ type
   { TNFSeR_SilTecnologia203 }
 
   TNFSeR_SilTecnologia203 = class(TNFSeR_ABRASFv2)
+  protected
+
+  public
+
+  end;
+
+  { TNFSeR_SilTecnologiaAPIPropria }
+
+  TNFSeR_SilTecnologiaAPIPropria = class(TNFSeR_PadraoNacional)
   protected
 
   public

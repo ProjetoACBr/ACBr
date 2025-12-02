@@ -40,7 +40,8 @@ uses
   SysUtils, Classes, StrUtils,
   ACBrNFSeXGravarXml_ABRASFv1,
   ACBrNFSeXGravarXml_ABRASFv2,
-  ACBrNFSeXConversao;
+  ACBrNFSeXConversao,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_Pronim }
@@ -59,6 +60,13 @@ type
 
   public
     function GerarXml: Boolean; Override;
+  end;
+
+  { TNFSeW_PronimAPIPropria }
+
+  TNFSeW_PronimAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
+
   end;
 
 implementation

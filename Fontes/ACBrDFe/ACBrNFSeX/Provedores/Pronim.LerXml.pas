@@ -38,7 +38,9 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXLerXml_ABRASFv1, ACBrNFSeXLerXml_ABRASFv2;
+  ACBrNFSeXLerXml_ABRASFv1,
+  ACBrNFSeXLerXml_ABRASFv2,
+  PadraoNacional.LerXml;
 
 type
   { TNFSeR_Pronim }
@@ -53,6 +55,15 @@ type
   { TNFSeR_Pronim202 }
 
   TNFSeR_Pronim202 = class(TNFSeR_ABRASFv2)
+  protected
+
+  public
+
+  end;
+
+  { TNFSeR_PronimAPIPropria }
+
+  TNFSeR_PronimAPIPropria = class(TNFSeR_PadraoNacional)
   protected
 
   public

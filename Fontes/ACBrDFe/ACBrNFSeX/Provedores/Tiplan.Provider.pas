@@ -38,9 +38,16 @@ interface
 
 uses
   SysUtils, Classes,
-  ACBrXmlBase, ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
-  ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
-  ACBrNFSeXProviderABRASFv1, ACBrNFSeXProviderABRASFv2, ACBrNFSeXWebserviceBase;
+  ACBrXmlBase,
+  ACBrXmlDocument,
+  ACBrNFSeXClass,
+  ACBrNFSeXConversao,
+  ACBrNFSeXGravarXml,
+  ACBrNFSeXLerXml,
+  ACBrNFSeXProviderABRASFv1,
+  ACBrNFSeXProviderABRASFv2,
+  ACBrNFSeXWebserviceBase,
+  PadraoNacional.Provider;
 
 type
   TACBrNFSeXWebserviceTiplan = class(TACBrNFSeXWebserviceSoap11)
@@ -88,7 +95,22 @@ type
     function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+  end;
 
+  TACBrNFSeXWebserviceTiplanAPIPropria = class(TACBrNFSeXWebservicePadraoNacional)
+  protected
+
+  public
+
+  end;
+
+  TACBrNFSeProviderTiplanAPIPropria = class(TACBrNFSeProviderPadraoNacional)
+  private
+
+  protected
+    function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
+    function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
+    function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
   end;
 
 implementation
@@ -97,8 +119,11 @@ uses
   ACBrDFe.Conversao,
   ACBrUtil.XMLHTML,
   ACBrDFeException,
-  ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXNotasFiscais,
-  Tiplan.GravarXml, Tiplan.LerXml;
+  ACBrNFSeX,
+  ACBrNFSeXConfiguracoes,
+  ACBrNFSeXNotasFiscais,
+  Tiplan.GravarXml,
+  Tiplan.LerXml;
 
 { TACBrNFSeProviderTiplan }
 
@@ -483,6 +508,40 @@ begin
 
   Result := RemoverCaracteresDesnecessarios(Result);
   Result := ParseText(Result);
+end;
+
+{ TACBrNFSeProviderTiplanAPIPropria }
+
+function TACBrNFSeProviderTiplanAPIPropria.CriarGeradorXml(
+  const ANFSe: TNFSe): TNFSeWClass;
+begin
+  Result := TNFSeW_TiplanAPIPropria.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderTiplanAPIPropria.CriarLeitorXml(
+  const ANFSe: TNFSe): TNFSeRClass;
+begin
+  Result := TNFSeR_TiplanAPIPropria.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderTiplanAPIPropria.CriarServiceClient(
+  const AMetodo: TMetodo): TACBrNFSeXWebservice;
+var
+  URL: string;
+begin
+  URL := GetWebServiceURL(AMetodo);
+
+  if URL <> '' then
+    Result := TACBrNFSeXWebserviceTiplanAPIPropria.Create(FAOwner, AMetodo, URL, Method)
+  else
+  begin
+    if ConfigGeral.Ambiente = taProducao then
+      raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
+    else
+      raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
 end;
 
 end.

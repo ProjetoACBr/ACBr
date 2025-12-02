@@ -214,7 +214,7 @@ type
     FServicosDisponibilizados: TServicosDispobilizados;
     FFormDiscriminacao: TFormatoDiscriminacao;
     FParticularidades: TParticularidades;
-    FWSSoap: Boolean;
+    FAPIPropria: Boolean;
 
     procedure SetCodigoMunicipio(const Value: Integer);
   public
@@ -250,7 +250,7 @@ type
     property ServicosDisponibilizados: TServicosDispobilizados read FServicosDisponibilizados;
     property FormatoDiscriminacao: TFormatoDiscriminacao read FFormDiscriminacao write FFormDiscriminacao default fdNenhum;
     property Particularidades: TParticularidades read FParticularidades write FParticularidades;
-    property WSSoap: Boolean read FWSSoap;
+    property APIPropria: Boolean read FAPIPropria;
   end;
 
   { TArquivosConfNFSe }
@@ -436,6 +436,7 @@ begin
   FAutenticacao := TAutenticacao.Create;
   FServicosDisponibilizados := TServicosDispobilizados.Create;
   FParticularidades := TParticularidades.Create;
+  FAPIPropria := False;
 end;
 
 destructor TGeralConfNFSe.Destroy;
@@ -461,6 +462,7 @@ begin
   AIni.WriteInteger(fpConfiguracoes.SessaoIni, 'LayoutNFSe', Integer(LayoutNFSe));
   AIni.WriteInteger(fpConfiguracoes.SessaoIni, 'Assinaturas', Integer(Assinaturas));
   AIni.WriteInteger(fpConfiguracoes.SessaoIni, 'FormatoDiscriminacao', Integer(FormatoDiscriminacao));
+  AIni.WriteBool(fpConfiguracoes.SessaoIni, 'APIPropria', APIPropria);
 
   // Emitente
   with Emitente do
@@ -502,6 +504,7 @@ begin
   LayoutNFSe := TLayoutNFSe(AIni.ReadInteger(fpConfiguracoes.SessaoIni, 'LayoutNFSe', Integer(LayoutNFSe)));
   Assinaturas := TAssinaturas(AIni.ReadInteger(fpConfiguracoes.SessaoIni, 'Assinaturas', Integer(Assinaturas)));
   FormatoDiscriminacao := TFormatoDiscriminacao(AIni.ReadInteger(fpConfiguracoes.SessaoIni, 'FormatoDiscriminacao', Integer(FormatoDiscriminacao)));
+  FAPIPropria := AIni.ReadBool(fpConfiguracoes.SessaoIni, 'APIPropria', APIPropria);
 
   // Emitente
   with Emitente do
@@ -533,7 +536,7 @@ end;
 
 procedure TGeralConfNFSe.LerParamsMunicipio;
 var
-  Ok, APIProp, PadraoNacional: Boolean;
+  Ok, PadraoNacional: Boolean;
   CodIBGE: string;
   ACBrNFSeXLocal: TACBrNFSeX;
 begin
@@ -560,8 +563,7 @@ begin
   FxProvedor := FPIniParams.ReadString(CodIBGE, 'Provedor', '');
   FxProvedorOrigem := FxProvedor;
   FVersao := StrToVersaoNFSe(Ok, FPIniParams.ReadString(CodIBGE, 'Versao', '1.00'));
-  APIProp := (Pos('APIPropria:', FPIniParams.ReadString(CodIBGE, 'Params', '')) > 0);
-  FWSSoap := (Pos('WSSoap:', FPIniParams.ReadString(CodIBGE, 'Params', '')) > 0);
+  FAPIPropria := (Pos('APIPropria:', FPIniParams.ReadString(CodIBGE, 'Params', '')) > 0);
   PadraoNacional := (Pos('PN:', FPIniParams.ReadString(CodIBGE, 'Params', '')) > 0);
 
   if PadraoNacional then
@@ -580,14 +582,14 @@ begin
     FVersao := ve100;
     FProvedor := proPadraoNacional;
   end;
-
-  if (FLayoutNFSe = lnfsPadraoNacionalv101) or APIProp then
+  {
+  if (FLayoutNFSe = lnfsPadraoNacionalv101) or FAPIPropria then
   begin
     FxProvedor := 'PadraoNacional';
     FVersao := ve101;
     FProvedor := proPadraoNacional;
   end;
-
+  }
   if FProvedor = proNenhum then
     raise EACBrNFSeException.Create('Código do Município [' + CodIBGE +
             '] não Encontrado.');
@@ -619,6 +621,7 @@ begin
   FLayoutNFSe            := DeGeralConfNFSe.LayoutNFSe;
   FAssinaturas           := DeGeralConfNFSe.Assinaturas;
   FFormDiscriminacao     := DeGeralConfNFSe.FormatoDiscriminacao;
+  FAPIPropria            := DeGeralConfNFSe.APIPropria;
 
   FEmitente.Assign(DeGeralConfNFSe.Emitente);
 

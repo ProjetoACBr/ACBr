@@ -41,8 +41,10 @@ uses
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrXmlDocument,
-  ACBrNFSeXConversao, ACBrNFSeXLerXml,
-  ACBrNFSeXLerXml_ABRASFv2;
+  ACBrNFSeXConversao,
+  ACBrNFSeXLerXml,
+  ACBrNFSeXLerXml_ABRASFv2,
+  PadraoNacional.LerXml;
 
 type
   { Provedor com layout próprio }
@@ -98,10 +100,20 @@ type
 
   end;
 
+  { TNFSeR_InfiscAPIPropria }
+
+  TNFSeR_InfiscAPIPropria = class(TNFSeR_PadraoNacional)
+  protected
+
+  public
+
+  end;
+
 implementation
 
 uses
-  ACBrUtil.Base, ACBrUtil.Strings;
+  ACBrUtil.Base,
+  ACBrUtil.Strings;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:

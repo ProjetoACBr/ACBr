@@ -43,7 +43,8 @@ uses
   ACBrXmlDocument,
   ACBrNFSeXGravarXml,
   ACBrNFSeXGravarXml_ABRASFv2,
-  ACBrNFSeXConversao;
+  ACBrNFSeXConversao,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_Infisc }
@@ -107,6 +108,13 @@ type
   TNFSeW_Infisc203 = class(TNFSeW_ABRASFv2)
   protected
     procedure Configuracao; override;
+
+  end;
+
+  { TNFSeW_InfiscAPIPropria }
+
+  TNFSeW_InfiscAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
 
   end;
 

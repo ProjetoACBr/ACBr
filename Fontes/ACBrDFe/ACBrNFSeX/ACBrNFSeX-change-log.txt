@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+02/12/2025
+-- Diversos --
+[*] Varias alterações visando atender os provedores: Betha, Città, E&L, Pronim, SimplISS,
+    Tiplan, SilTecnologia, RLZ, Infisc no que se refere a adoção ao layout da NFS-e
+    Padrão Nacional
+   Por: Italo Giurizzato Junior
+
 01/12/2025
 -- ACBrNFSeXServicos --
 [*] ACBR-8512 - Alterado a versão e as URLs das cidades Mamborê/PR o provedor continua o mesmo.

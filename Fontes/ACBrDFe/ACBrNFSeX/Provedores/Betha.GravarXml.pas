@@ -43,7 +43,8 @@ uses
   ACBrNFSeXGravarXml_ABRASFv1,
   ACBrNFSeXGravarXml_ABRASFv2,
   ACBrNFSeXConversao,
-  ACBrNFSeXConsts;
+  ACBrNFSeXConsts,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_Betha }
@@ -72,6 +73,13 @@ type
     procedure DefinirIDDeclaracao; override;
   public
     function GerarXml: Boolean; override;
+  end;
+
+  { TNFSeW_BethaAPIPropria }
+
+  TNFSeW_BethaAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
+
   end;
 
 implementation

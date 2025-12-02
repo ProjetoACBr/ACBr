@@ -40,7 +40,8 @@ uses
   SysUtils, Classes, StrUtils,
   ACBrNFSeXGravarXml_ABRASFv1,
   ACBrNFSeXGravarXml_ABRASFv2,
-  ACBrNFSeXConversao;
+  ACBrNFSeXConversao,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_Tiplan }
@@ -56,6 +57,13 @@ type
   TNFSeW_Tiplan203 = class(TNFSeW_ABRASFv2)
   protected
     function DefinirNameSpaceDeclaracao: string; override;
+
+  end;
+
+  { TNFSeW_TiplanAPIPropria }
+
+  TNFSeW_TiplanAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
 
   end;
 

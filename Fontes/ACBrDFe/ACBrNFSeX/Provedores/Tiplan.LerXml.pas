@@ -38,7 +38,9 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXLerXml_ABRASFv1, ACBrNFSeXLerXml_ABRASFv2;
+  ACBrNFSeXLerXml_ABRASFv1,
+  ACBrNFSeXLerXml_ABRASFv2,
+  PadraoNacional.LerXml;
 
 type
   { TNFSeR_Tiplan }
@@ -53,6 +55,15 @@ type
   { TNFSeR_Tiplan203 }
 
   TNFSeR_Tiplan203 = class(TNFSeR_ABRASFv2)
+  protected
+
+  public
+
+  end;
+
+  { TNFSeR_TiplanAPIPropria }
+
+  TNFSeR_TiplanAPIPropria = class(TNFSeR_PadraoNacional)
   protected
 
   public

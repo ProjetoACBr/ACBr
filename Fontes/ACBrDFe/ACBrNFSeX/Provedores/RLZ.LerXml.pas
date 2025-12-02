@@ -40,7 +40,10 @@ uses
   SysUtils, Classes, StrUtils,
   ACBrXmlBase,
   ACBrXmlDocument,
-  ACBrNFSeXLerXml_ABRASFv2, ACBrNFSeXConversao, ACBrNFSeXLerXml;
+  ACBrNFSeXLerXml_ABRASFv2,
+  ACBrNFSeXConversao,
+  ACBrNFSeXLerXml,
+  PadraoNacional.LerXml;
 
 type
   { TNFSeR_RLZ }
@@ -58,6 +61,15 @@ type
   { TNFSeR_RLZ203 }
 
   TNFSeR_RLZ203 = class(TNFSeR_ABRASFv2)
+  protected
+
+  public
+
+  end;
+
+  { TNFSeR_RLZAPIPropria }
+
+  TNFSeR_RLZAPIPropria = class(TNFSeR_PadraoNacional)
   protected
 
   public

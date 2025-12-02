@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXGravarXml_ABRASFv2;
+  ACBrNFSeXGravarXml_ABRASFv2,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_Citta203 }
@@ -49,7 +50,22 @@ type
 
   end;
 
+  { TNFSeW_CittaAPIPropria }
+
+  TNFSeW_CittaAPIPropria = class(TNFSeW_PadraoNacional)
+  private
+
+  protected
+
+  public
+    function GerarXml: Boolean; override;
+  end;
+
 implementation
+
+uses
+  ACBrXmlDocument,
+  ACBrNFSeXConversao;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva gerar o XML do RPS do provedor:
@@ -63,6 +79,24 @@ begin
   inherited Configuracao;
 
   GerarIDRps := True;
+end;
+
+{ TNFSeW_CittaAPIPropria }
+
+function TNFSeW_CittaAPIPropria.GerarXml: Boolean;
+var
+  NFSeNode: TACBrXmlNode;
+begin
+  Configuracao;
+
+  ListaDeAlertas.Clear;
+
+  FDocument.Clear();
+
+  NFSeNode := GerarXMLNFSe;
+  FDocument.Root := NFSeNode;
+
+  Result := True;
 end;
 
 end.

@@ -146,15 +146,6 @@ type
     function LerIni: Boolean; override;
   end;
 
-  { TNFSeR_PadraoNacionalSoap }
-
-  TNFSeR_PadraoNacionalSoap = class(TNFSeR_PadraoNacional)
-  protected
-
-  public
-
-  end;
-
 implementation
 
 uses

@@ -41,7 +41,8 @@ uses
   ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXGravarXml,
-  ACBrNFSeXGravarXml_ABRASFv2;
+  ACBrNFSeXGravarXml_ABRASFv2,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_RLZ }
@@ -61,6 +62,13 @@ type
   TNFSeW_RLZ203 = class(TNFSeW_ABRASFv2)
   protected
     procedure Configuracao; override;
+
+  end;
+
+  { TNFSeW_RLZAPIPropria }
+
+  TNFSeW_RLZAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
 
   end;
 

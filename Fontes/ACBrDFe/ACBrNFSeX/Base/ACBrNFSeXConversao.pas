@@ -700,6 +700,8 @@ function VersaoXML(const AXML: string): string;
 function GerarNomeNFSe(AUF: Integer; ADataEmissao: TDateTime; const ACNPJ: string;
                                ANumero: Int64; AModelo: Integer = 56): string;
 
+function GerarCodigoNFSe(AnDF: Integer; ADigitos: Integer = 9): Int64;
+
 function SepararDados(const AString: string; const Chave: string;
   const MantemChave : Boolean = False;
   const PermitePrefixo: Boolean = True): string;
@@ -12438,6 +12440,16 @@ begin
   vNumero      := Poem_Zeros(ANumero, 15);
 
   Result := vUF + vDataEmissao + ACNPJ + vModelo + vNumero;
+end;
+
+function GerarCodigoNFSe(AnDF: Integer; ADigitos: Integer = 9): Int64;
+var
+ ACodigo, ARange: Int64;
+begin
+  ARange := StrToInt(ACBrUtil.Strings.PadRight('9', ADigitos, '9'));
+  ACodigo := Random(ARange);
+
+  Result := ACodigo;
 end;
 
 function SepararDados(const AString: string; const Chave: string; const MantemChave: Boolean = False;

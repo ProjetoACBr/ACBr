@@ -476,7 +476,11 @@ function TACBrNFSeXProvider.GetSchemaPath: string;
 begin
   with TACBrNFSeX(FAOwner).Configuracoes do
   begin
-    Result := PathWithDelim(Arquivos.PathSchemas + Geral.xProvedor);
+    if Geral.APIPropria then
+      Result := PathWithDelim(Arquivos.PathSchemas + 'PadraoNacional')
+    else
+      Result := PathWithDelim(Arquivos.PathSchemas + Geral.xProvedor);
+
     Result := PathWithDelim(Result + VersaoNFSeToStr(Geral.Versao));
   end;
 end;

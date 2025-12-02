@@ -40,7 +40,9 @@ uses
   SysUtils, Classes, StrUtils, IniFiles,
   ACBrXmlBase,
   ACBrXmlDocument,
-  ACBrNFSeXLerXml_ABRASFv1, ACBrNFSeXLerXml_ABRASFv2;
+  ACBrNFSeXLerXml_ABRASFv1,
+  ACBrNFSeXLerXml_ABRASFv2,
+  PadraoNacional.LerXml;
 
 type
   { TNFSeR_Betha }
@@ -61,6 +63,15 @@ type
   { TNFSeR_Betha202 }
 
   TNFSeR_Betha202 = class(TNFSeR_ABRASFv2)
+  protected
+
+  public
+
+  end;
+
+  { TNFSeR_BethaAPIPropria }
+
+  TNFSeR_BethaAPIPropria = class(TNFSeR_PadraoNacional)
   protected
 
   public

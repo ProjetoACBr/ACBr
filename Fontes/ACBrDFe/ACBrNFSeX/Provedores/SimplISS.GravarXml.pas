@@ -41,7 +41,8 @@ uses
   ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXGravarXml_ABRASFv1,
-  ACBrNFSeXGravarXml_ABRASFv2;
+  ACBrNFSeXGravarXml_ABRASFv2,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_SimplISS }
@@ -60,6 +61,13 @@ type
   TNFSeW_SimplISS203 = class(TNFSeW_ABRASFv2)
   protected
     procedure Configuracao; override;
+  end;
+
+  { TNFSeW_SimplISSAPIPropria }
+
+  TNFSeW_SimplISSAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
+
   end;
 
 implementation

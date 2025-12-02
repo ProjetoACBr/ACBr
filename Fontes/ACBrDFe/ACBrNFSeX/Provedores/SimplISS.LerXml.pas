@@ -39,7 +39,10 @@ interface
 uses
   SysUtils, Classes, StrUtils, IniFiles,
   ACBrXmlBase,
-  ACBrNFSeXLerXml_ABRASFv1, ACBrNFSeXLerXml_ABRASFv2, ACBrXmlDocument;
+  ACBrNFSeXLerXml_ABRASFv1,
+  ACBrNFSeXLerXml_ABRASFv2,
+  ACBrXmlDocument,
+  PadraoNacional.LerXml;
 
 type
   { TNFSeR_SimplISS }
@@ -57,6 +60,15 @@ type
   TNFSeR_SimplISS203 = class(TNFSeR_ABRASFv2)
   protected
     procedure LerServico(const ANode: TACBrXmlNode); override;
+  public
+
+  end;
+
+  { TNFSeR_SimplISSAPIPropria }
+
+  TNFSeR_SimplISSAPIPropria = class(TNFSeR_PadraoNacional)
+  protected
+
   public
 
   end;
