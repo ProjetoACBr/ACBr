@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 02/12/2025
+-- fintelISS.GravarXml --
+[*] ACBR-8509 - Ajustes por conta da alteração nos schemas disponibilizado pelo provedor.
+   Por: aslsoftwareltda/Italo Giurizzato Junior
 -- IPM.GravarXml --
 [*] ACBR-8510 - Ajustes por conta da alteração nos schemas disponibilizado pelo provedor.
    Por: marciost

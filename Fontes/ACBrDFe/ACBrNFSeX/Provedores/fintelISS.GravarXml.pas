@@ -49,6 +49,7 @@ type
   protected
     procedure Configuracao; override;
 
+    function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
   end;
 
   { TNFSeW_fintelISS202 }
@@ -95,6 +96,18 @@ begin
   NrOcorrAliquota := 1;
   NrOcorrCodigoPaisServico := 1;
   NrOcorrDataPagamento := 0;
+end;
+
+function TNFSeW_fintelISS200.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
+begin
+  Result := inherited GerarInfDeclaracaoPrestacaoServico;
+
+  // Reforma Tributária
+  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+     (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
+    Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 end;
 
 { TNFSeW_fintelISS202 }
