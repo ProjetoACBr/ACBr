@@ -48,6 +48,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 02/12/2025
+-- ACBrPIXPSPPagSeguro --
+[*] Alteração no método 'SolicitarCertificado' para retornar corretamente os arquivos Certificado 
+    e Chave Privada através de parâmetros out.
+    por: Elias Cesar
+
+02/12/2025
 -- ACBrPIXSchemasCob, ACBrPIXSchemasCobV, ACBrPIXSchemasCobR, ACBrPIXSchemasDevolucao --
 [*] Ajustes para não ocorrer AV, pois verifica se propriedades tipo objeto estão instanciadas 
     antes de utilizar método Clear.

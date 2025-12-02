@@ -90,7 +90,8 @@ type
 
     function SolicitarCredenciais(const aNomeAplicacao: String; var aClientID: String; var aClientSecret: String): Boolean;
     function SolicitarDesafioCertificado(out Challenge: String; out TokenChallenge: String): Boolean;
-    function SolicitarCertificado(const aToken: String; aChallenge: String): String;
+    function SolicitarCertificado(const aToken: String; const aChallenge: String; out idCertificado: String;
+      out Certificado: AnsiString; out ChavePrivada: AnsiString): Boolean;
   published
     property TokenPay: String read fTokenPay write fTokenPay;
   end;
@@ -349,12 +350,19 @@ begin
     DispararExcecao(EACBrPixHttpException.CreateFmt(sErroHttp, [Http.ResultCode, ChttpMethodPOST, aURL]));
 end;
 
-function TACBrPSPPagSeguro.SolicitarCertificado(const aToken: String; aChallenge: String): String;
+function TACBrPSPPagSeguro.SolicitarCertificado(const aToken: String; const aChallenge: String;
+  out idCertificado: String; out Certificado: AnsiString; out ChavePrivada: AnsiString): Boolean;
 var
-  aURL: String;
+  aURL, CertB64, ChaveB64: String;
   wRespostaHttp: AnsiString;
   wResultCode: Integer;
+  jo: TACBrJSONObject;
 begin
+  CertB64 := EmptyStr;
+  ChaveB64 := EmptyStr;
+  Certificado := EmptyStr;
+  ChavePrivada := EmptyStr;
+  idCertificado := EmptyStr;
   VerificarPIXCDAtribuido;
 
   if EstaVazio(aToken) then
@@ -374,10 +382,21 @@ begin
   Http.Protocol := '1.1';
 
   TransmitirHttp(ChttpMethodPOST, aURL, wResultCode, wRespostaHttp);
-
-  Result := EmptyStr;
-  if (wResultCode in [HTTP_OK, HTTP_CREATED]) then
-    Result := StreamToAnsiString(Http.OutputStream)
+  Result := (wResultCode in [HTTP_OK, HTTP_CREATED]);
+  if Result then
+  begin
+    try                                        
+      jo := TACBrJSONObject.Parse(wRespostaHttp);
+      jo.Value('id', idCertificado)
+        .Value('pem', CertB64)
+        .Value('key', ChaveB64);
+      Certificado := DecodeBase64(CertB64);
+      ChavePrivada := DecodeBase64(ChaveB64);
+    finally
+      if Assigned(jo) then
+        jo.Free;
+    end;
+  end
   else
     DispararExcecao(EACBrPixHttpException.CreateFmt(sErroHttp, [Http.ResultCode, ChttpMethodPOST, aURL]));
 end;
