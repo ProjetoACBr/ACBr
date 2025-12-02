@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 02/12/2025
+-- IPM.GravarXml --
+[*] ACBR-8510 - Ajustes por conta da alteração nos schemas disponibilizado pelo provedor.
+   Por: marciost
 -- Diversos --
 [*] Varias alterações visando atender os provedores: Betha, Città, E&L, Pronim, SimplISS,
     Tiplan, SilTecnologia, RLZ, Infisc no que se refere a adoção ao layout da NFS-e
