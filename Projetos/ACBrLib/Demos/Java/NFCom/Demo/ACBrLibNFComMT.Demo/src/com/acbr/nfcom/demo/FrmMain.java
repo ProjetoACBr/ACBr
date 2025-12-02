@@ -2051,7 +2051,7 @@ public class FrmMain extends javax.swing.JFrame {
             lote = ""; chave = ""; cnpj = ""; justificativa = "";
         }
         
-        final String eLote = lote;
+        int eLote = Integer.parseInt(lote);
         final String eChave = chave;
         final String eCNPJ = cnpj;
         final String aJustificativa = justificativa;
@@ -2061,7 +2061,7 @@ public class FrmMain extends javax.swing.JFrame {
         SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
             @Override
             protected String doInBackground() throws Exception {
-                return acbrNFCom.cancelar(eChave, aJustificativa);
+                return acbrNFCom.cancelar(eChave, aJustificativa, eCNPJ, eLote);
             }
             @Override
             protected void done() {
@@ -2326,7 +2326,7 @@ public class FrmMain extends javax.swing.JFrame {
             acbrNFCom.limparLista(); 
             acbrNFCom.carregarIni(chooser.getSelectedFile().getAbsolutePath());            
             
-            String ret = acbrNFCom.enviar(1, false, false);
+            String ret = acbrNFCom.enviar(1, false);
             rtbRespostas.append(ret);   
             
         } catch (Exception ex) {
@@ -2414,7 +2414,7 @@ public class FrmMain extends javax.swing.JFrame {
              String aLote = JOptionPane.showInputDialog("Digite o lote");
              int lote = Integer.parseInt(aLote);
              
-             String ret = acbrNFCom.enviar(lote, false, true);
+             String ret = acbrNFCom.enviar(lote, false);
              rtbRespostas.append(ret);
              
         } catch (Exception ex){

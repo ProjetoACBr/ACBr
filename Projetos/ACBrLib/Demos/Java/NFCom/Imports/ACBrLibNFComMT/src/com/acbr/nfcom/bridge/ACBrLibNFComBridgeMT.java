@@ -13,8 +13,12 @@ import com.sun.jna.ptr.PointerByReference;
 import java.nio.ByteBuffer;
 
 /**
- * ACBrLibNFComBridge é a interface que mapeia os métodos nativos da ACBrLibNFCom Multi-Thread
- * @see <a href="https://acbr.sourceforge.io/ACBrLib/ACBrLibNFCom.html">Documentação ACBrLibNFCom</a>
+ * ACBrLibNFComBridge é a interface que mapeia os métodos nativos da
+ * ACBrLibNFCom Multi-Thread
+ *
+ * @see
+ * <a href="https://acbr.sourceforge.io/ACBrLib/ACBrLibNFCom.html">Documentação
+ * ACBrLibNFCom</a>
  *
  */
 public interface ACBrLibNFComBridgeMT extends Library {
@@ -88,13 +92,13 @@ public interface ACBrLibNFComBridgeMT extends Library {
 
     int NFCom_ValidarRegrasdeNegocios(Pointer handle, ByteBuffer buffer, IntByReference bufferSize);
 
-    int NFCom_Enviar(Pointer handle, int ALote, boolean AImprimir, boolean ASincrono, ByteBuffer buffer, IntByReference bufferSize);
+    int NFCom_Enviar(Pointer handle, int ALote, boolean AImprimir, ByteBuffer buffer, IntByReference bufferSize);
 
     int NFCom_EnviarEvento(Pointer handle, ByteBuffer buffer, IntByReference bufferSize);
 
     int NFCom_Consultar(Pointer handle, String eChaveOuNFCom, boolean AExtrairEventos, ByteBuffer buffer, IntByReference bufferSize);
 
-    int NFCom_Cancelar(Pointer handle, String eChaveOuNFCom, String eJustificativa, ByteBuffer buffer, IntByReference bufferSize);
+    int NFCom_Cancelar(Pointer handle, String eChaveOuNFCom, String eJustificativa, String cpfouCnpj, int lote, ByteBuffer buffer, IntByReference bufferSize);
 
     int NFCom_StatusServico(Pointer handlePointer, ByteBuffer buffer, IntByReference bufferSize);
 

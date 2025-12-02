@@ -198,14 +198,14 @@ public class ACBrLibNFComMT extends ACBrLibBase {
     }
 
     public String enviar(int lote) throws Exception {
-        return enviar(lote, false, false);
+        return enviar(lote, false);
     }
 
-    public String enviar(int lote, boolean imprimir, boolean sincrono) throws Exception {
+    public String enviar(int lote, boolean imprimir) throws Exception {
         ByteBuffer buffer = ByteBuffer.allocate(STR_BUFFER_LEN);
         IntByReference bufferLen = new IntByReference(STR_BUFFER_LEN);
 
-        int ret = acbrLibNFComBridge.NFCom_Enviar(getHandle(), lote, imprimir, sincrono, buffer, bufferLen);
+        int ret = acbrLibNFComBridge.NFCom_Enviar(getHandle(), lote, imprimir, buffer, bufferLen);
         checkResult(ret);
 
         return processResult(buffer, bufferLen);
@@ -235,11 +235,11 @@ public class ACBrLibNFComMT extends ACBrLibBase {
         return processResult(buffer, bufferLen);
     }
 
-    public String cancelar(String eChaveOuNFCom, String eJustificativa) throws Exception {
+    public String cancelar(String eChaveOuNFCom, String eJustificativa,String cpfouCnpj, int lote) throws Exception {
         ByteBuffer buffer = ByteBuffer.allocate(STR_BUFFER_LEN);
         IntByReference bufferLen = new IntByReference(STR_BUFFER_LEN);
 
-        int ret = acbrLibNFComBridge.NFCom_Cancelar(getHandle(), toUTF8(eChaveOuNFCom), toUTF8(eJustificativa), buffer, bufferLen);
+        int ret = acbrLibNFComBridge.NFCom_Cancelar(getHandle(), toUTF8(eChaveOuNFCom), toUTF8(eJustificativa),cpfouCnpj,lote, buffer, bufferLen);
         checkResult(ret);
 
         return processResult(buffer, bufferLen);
