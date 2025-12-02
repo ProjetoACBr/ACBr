@@ -572,11 +572,11 @@ begin
 
   LJsonPagadorObject := TACBrJSONObject.Create;
   try
-    LJsonPagadorObject.AddPair('tipoInscricao', StrToInt(IfThen(Length( OnlyNumber(ATitulo.Sacado.CNPJCPF)) = 11,'1','2')));
-    LJsonPagadorObject.AddPair('numeroInscricao', StrToInt64(OnlyNumber(ATitulo.Sacado.CNPJCPF)));
+    LJsonPagadorObject.AddPair('tipoInscricao', StrToIntDef(IfThen(Length( OnlyNumber(ATitulo.Sacado.CNPJCPF)) = 11,'1','2'),0));
+    LJsonPagadorObject.AddPair('numeroInscricao', StrToInt64Def(OnlyNumber(ATitulo.Sacado.CNPJCPF),0));
     LJsonPagadorObject.AddPair('nome', ATitulo.Sacado.NomeSacado);
     LJsonPagadorObject.AddPair('endereco', ATitulo.Sacado.Logradouro + ' ' + ATitulo.Sacado.Numero);
-    LJsonPagadorObject.AddPair('cep', StrToInt(OnlyNumber(ATitulo.Sacado.CEP)));
+    LJsonPagadorObject.AddPair('cep', StrToInt64Def(OnlyNumber(ATitulo.Sacado.CEP),0));
     LJsonPagadorObject.AddPair('cidade', ATitulo.Sacado.Cidade);
     LJsonPagadorObject.AddPair('bairro', ATitulo.Sacado.Bairro);
     LJsonPagadorObject.AddPair('uf', ATitulo.Sacado.UF);
