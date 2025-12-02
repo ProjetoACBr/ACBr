@@ -25,13 +25,13 @@
 				</xs:element>
 				<xs:element name="tpAutor">
 					<xs:annotation>
-						<xs:documentation>Informar 1=Empresa emitente
+						<xs:documentation>Informar 2=Empresa destinatario
 													Valores: 1=Empresa Emitente, 2=Empresa destinatária; 3=Empresa; 5=Fisco;6=RFB; 9=Outros Órgãos;
 						</xs:documentation>
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
-							<xs:enumeration value="1"/>
+							<xs:enumeration value="2"/>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
