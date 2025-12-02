@@ -445,25 +445,16 @@
 			<xsd:whiteSpace value="collapse" />
 		</xsd:restriction>
 	</xsd:simpleType>
-
-	<xsd:simpleType name="tsDescTpEnteGov">
-		<xsd:restriction base="xsd:string">
-			<xsd:maxLength value="100" />
-			<xsd:minLength value="0" />
-			<xsd:whiteSpace value="collapse" />
-		</xsd:restriction>
-	</xsd:simpleType>
 	
     <xsd:simpleType name="tsTpEnteGov">
         <xsd:annotation>
-            <xsd:documentation>Tipo de ente governamental. Para administração pública direta e suas autarquias e fundações: 1 - União; 2 - Estado; 3 - Distrito Federal; 4 - Município; 9 - Outro;</xsd:documentation>
+            <xsd:documentation>Tipo de ente governamental. Para administração pública direta e suas autarquias e fundações: 1 - União; 2 - Estado; 3 - Distrito Federal; 4 - Município;</xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="1" />
             <xsd:enumeration value="2" />
             <xsd:enumeration value="3" />
             <xsd:enumeration value="4" />
-            <xsd:enumeration value="9" />
         </xsd:restriction>
     </xsd:simpleType>
 	
@@ -475,6 +466,19 @@
             <xsd:whiteSpace value="preserve" />
             <xsd:maxLength value="6" />
             <xsd:pattern value="[0-9]{6}" />
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+    <xsd:simpleType name="tsTpOper">
+        <xsd:annotation>
+            <xsd:documentation>Tipo de Operação com Entes Governanementais ou outros serviços sobre bens imóveis: 1 – Fornecimento com pagamento posterior; 2 - Recebimento do pagamento com fornecimento já realizado; 3 – Fornecimento com pagamento já realizado; 4 – Recebimento do pagamento com fornecimento posterior; 5 – Fornecimento e recebimento do pagamento concomitantes.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="1" />
+            <xsd:enumeration value="2" />
+            <xsd:enumeration value="3" />
+            <xsd:enumeration value="4" />
+            <xsd:enumeration value="5" />
         </xsd:restriction>
     </xsd:simpleType>
 	
@@ -700,6 +704,13 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
+	<xsd:simpleType name="tsChaveAcessoNfse">
+		<xsd:restriction base="xsd:string">
+            <xsd:minLength value="50" />
+            <xsd:pattern value="[0-9]{0,50}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
 	<xsd:simpleType name="tsIdentificacaoDocumento">
 		<xsd:restriction base="xsd:string">
 			<xsd:maxLength value="255" />
@@ -842,6 +853,7 @@
 			<xsd:element name="MunicipioIncidencia" type="tsCodigoMunicipioIbge" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="NumeroProcesso" type="tsNumeroProcesso" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="IBSCBS" type="tcIBSCBS" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="Obra" type="tcObra" minOccurs="0" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -941,6 +953,17 @@
 			<xsd:element name="DataEmissao" type="xsd:date" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="ValorDedutivel" type="tsValor" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="ValorUtilizadoDeducao" type="tsValor" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tcObra">
+		<xsd:sequence>
+			<xsd:element name="Cep" type="tsCep" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="CodigoMunicipio" type="tsCodigoMunicipioIbge" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="Endereco" type="tsEndereco" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="Bairro" type="tsBairro" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="Numero" type="tsNumeroEndereco" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="Complemento" type="tsCpl" minOccurs="0" maxOccurs="1"/>
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -1571,6 +1594,15 @@
         </xsd:sequence>
     </xsd:complexType>
 
+	<xsd:complexType name="tcGRefNFSe">
+		<xsd:annotation>
+			<xsd:documentation>Grupo de NFS-e referenciadas.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element type="tsChaveAcessoNfse" name="refNFSe" minOccurs="1" maxOccurs="99" />
+		</xsd:sequence>
+	</xsd:complexType>
+
     <xsd:complexType name="tcIBSCBS_DPS">
         <xsd:annotation>
             <xsd:documentation>Grupo de informações declaradas pelo emitente referentes ao IBS e à CBS (Incluídas no grupo da DPS)</xsd:documentation>
@@ -1579,8 +1611,9 @@
             <xsd:element type="tsFinNFSe" name="finNFSe" minOccurs="1" maxOccurs="1" />
             <xsd:element type="tsSimNao" name="indFinal" minOccurs="1" maxOccurs="1" />
             <xsd:element type="tsIndOp" name="cIndOp" minOccurs="1" maxOccurs="1" />
+            <xsd:element type="tsTpOper" name="tpOper" minOccurs="0" maxOccurs="1" />
+			<xsd:element type="tcGRefNFSe" name="gRefNFSe" minOccurs="0" maxOccurs="1" />
             <xsd:element type="tsTpEnteGov" name="tpEnteGov" minOccurs="0" maxOccurs="1" />
-            <xsd:element type="tsDescTpEnteGov" name="xTpEnteGov" minOccurs="0" maxOccurs="1" />
             <xsd:element type="tcImovel" name="imovel" minOccurs="0" maxOccurs="1" />
             <xsd:element type="tcValores_DPS" name="valores" minOccurs="1" maxOccurs="1" />
         </xsd:sequence>
@@ -1628,7 +1661,7 @@
 			<xsd:documentation>Grupo de valores referentes ao crédito presumido para IBS</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element type="tsAliquota" name="pCredPresIBS" minOccurs="0" maxOccurs="1" />
+			<xsd:element type="tsAliquota" name="pCredPresIBS" minOccurs="1" maxOccurs="1" />
 			<xsd:element type="tsValor" name="vCredPresIBS" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -1659,7 +1692,7 @@
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element type="tsValor" name="vIBSTot" minOccurs="1" maxOccurs="1" />
-            <xsd:element type="tcgIBSCredPres" name="gIBSCredPres" minOccurs="1" maxOccurs="1" />
+            <xsd:element type="tcgIBSCredPres" name="gIBSCredPres" minOccurs="0" maxOccurs="1" />
             <xsd:element type="tcgIBSUFTot" name="gIBSUFTot" minOccurs="1" maxOccurs="1" />
             <xsd:element type="tcgIBSMunTot"  name="gIBSMunTot" minOccurs="1" maxOccurs="1" />
         </xsd:sequence>
@@ -1670,7 +1703,7 @@
 			<xsd:documentation>Grupo de valores referentes ao crédito presumido para CBS</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element type="tsAliquota" name="pCredPresCBS" minOccurs="0" maxOccurs="1" />
+			<xsd:element type="tsAliquota" name="pCredPresCBS" minOccurs="1" maxOccurs="1" />
 			<xsd:element type="tsValor" name="vCredPresCBS" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -1680,7 +1713,7 @@
             <xsd:documentation>Grupo de totalizadores referentes ao CBS</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element type="tcgCBSCredPres" name="gCBSCredPres" minOccurs="1" maxOccurs="1" />
+            <xsd:element type="tcgCBSCredPres" name="gCBSCredPres" minOccurs="0" maxOccurs="1" />
             <xsd:element type="tsValor" name="vDifCBS" minOccurs="1" maxOccurs="1" />
             <xsd:element type="tsValor" name="vCBS" minOccurs="1" maxOccurs="1" />
         </xsd:sequence>
