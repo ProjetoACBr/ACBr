@@ -20,6 +20,7 @@ object frmACBrNFSe: TfrmACBrNFSe
     Height = 643
     Align = alLeft
     TabOrder = 0
+    ExplicitHeight = 635
     object lblColaborador: TLabel
       Left = 18
       Top = 540
@@ -962,15 +963,15 @@ object frmACBrNFSe: TfrmACBrNFSe
               ParentFont = False
             end
             object Label45: TLabel
-              Left = 150
-              Top = 389
+              Left = 8
+              Top = 408
               Width = 37
               Height = 13
               Caption = 'Vers'#227'o:'
             end
             object lblVersaoSchemas: TLabel
-              Left = 203
-              Top = 390
+              Left = 61
+              Top = 409
               Width = 53
               Height = 13
               Caption = 'lblVersao'
@@ -1713,6 +1714,8 @@ object frmACBrNFSe: TfrmACBrNFSe
     Height = 643
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 567
+    ExplicitHeight = 635
     object pgRespostas: TPageControl
       Left = 1
       Top = 204
@@ -1721,6 +1724,8 @@ object frmACBrNFSe: TfrmACBrNFSe
       ActivePage = TabSheet8
       Align = alClient
       TabOrder = 0
+      ExplicitWidth = 565
+      ExplicitHeight = 430
       object TabSheet8: TTabSheet
         Caption = 'Log'
         ImageIndex = 2
@@ -1738,6 +1743,8 @@ object frmACBrNFSe: TfrmACBrNFSe
           ParentFont = False
           ScrollBars = ssVertical
           TabOrder = 0
+          ExplicitWidth = 557
+          ExplicitHeight = 402
         end
       end
       object TabSheet9: TTabSheet
@@ -1750,8 +1757,10 @@ object frmACBrNFSe: TfrmACBrNFSe
           Height = 410
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 699
+          ExplicitHeight = 513
           ControlData = {
-            4C000000C6390000602A00000000000000000000000000000000000000000000
+            4C000000382E0000E62100000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126200000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -1768,8 +1777,10 @@ object frmACBrNFSe: TfrmACBrNFSe
           Height = 410
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 699
+          ExplicitHeight = 513
           ControlData = {
-            4C000000C6390000602A00000000000000000000000000000000000000000000
+            4C000000382E0000E62100000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126200000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -1785,8 +1796,10 @@ object frmACBrNFSe: TfrmACBrNFSe
           Height = 410
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 699
+          ExplicitHeight = 513
           ControlData = {
-            4C000000C6390000602A00000000000000000000000000000000000000000000
+            4C000000382E0000E62100000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126200000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -1799,9 +1812,10 @@ object frmACBrNFSe: TfrmACBrNFSe
       Top = 41
       Width = 567
       Height = 163
-      ActivePage = tsDemais
+      ActivePage = tsPadraoNacional
       Align = alTop
       TabOrder = 1
+      ExplicitWidth = 565
       object tsDemais: TTabSheet
         Caption = 'Demais Provedores'
         object pgcBotoes: TPageControl
@@ -2165,6 +2179,7 @@ object frmACBrNFSe: TfrmACBrNFSe
           ActivePage = tsEnvios1
           Align = alTop
           TabOrder = 0
+          ExplicitWidth = 557
           object tsEnvios1: TTabSheet
             Caption = 'Envios'
             ImageIndex = 2
@@ -2438,6 +2453,7 @@ object frmACBrNFSe: TfrmACBrNFSe
         'N'#227'o')
       ParentFont = False
       TabOrder = 2
+      ExplicitWidth = 565
     end
   end
   object OpenDialog1: TOpenDialog
@@ -2475,6 +2491,7 @@ object frmACBrNFSe: TfrmACBrNFSe
     Configuracoes.Geral.Emitente.DadosEmitente.Email = 'contato@provedor.com.br'
     Configuracoes.Geral.FormatoDiscriminacao = fdTabulado
     Configuracoes.Arquivos.OrdenacaoPath = <>
+    Configuracoes.Arquivos.TabServicosExt = True
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
