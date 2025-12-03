@@ -943,6 +943,7 @@ begin
     begin
       xItemListaServico := ItemListaServicoDescricao(ItemListaServico);
       CodigoTributacaoMunicipio := ObterConteudo(ANodes[i].Childrens.FindAnyNs('CodigoTributacaoMunicipio'), tcStr);
+      CodigoServicoNacional := ObterConteudo(ANodes[i].Childrens.FindAnyNs('CodigoServicoNacional'), tcStr);
       CodigoNBS := ObterConteudo(ANodes[i].Childrens.FindAnyNs('CodigoNbs'), tcStr);
       CodigoMunicipio := ObterConteudo(ANodes[i].Childrens.FindAnyNs('CodigoMunicipio'), tcStr);
       CodigoPais := ObterConteudo(ANodes[i].Childrens.FindAnyNs('CodigoPais'), tcInt);
@@ -1021,6 +1022,7 @@ begin
       xItemListaServico         := ItemListaServicoDescricao(ItemListaServico);
       CodigoCnae                := ObterConteudo(AuxNode.Childrens.FindAnyNs('CodigoCnae'), tcStr);
       CodigoTributacaoMunicipio := ObterConteudo(AuxNode.Childrens.FindAnyNs('CodigoTributacaoMunicipio'), tcStr);
+      CodigoServicoNacional := ObterConteudo(AuxNode.Childrens.FindAnyNs('CodigoServicoNacional'), tcStr);
       CodigoNBS                 := ObterConteudo(AuxNode.Childrens.FindAnyNs('CodigoNbs'), tcStr);
       Discriminacao             := ObterConteudo(AuxNode.Childrens.FindAnyNs('Discriminacao'), tcStr);
       Discriminacao := StringReplace(Discriminacao, FpQuebradeLinha,
@@ -1613,6 +1615,7 @@ begin
     NFSe.Servico.xItemListaServico := AINIRec.ReadString(LSecao, 'xItemListaServico', '');
     NFSe.Servico.CodigoCnae := AINIRec.ReadString(LSecao, 'CodigoCnae', '');
     NFSe.Servico.CodigoTributacaoMunicipio := AINIRec.ReadString(LSecao, 'CodigoTributacaoMunicipio', '');
+    NFSe.Servico.CodigoServicoNacional := AINIRec.ReadString(LSecao, 'CodigoServicoNacional', '');
     NFSe.Servico.Discriminacao := ChangeLineBreak(AINIRec.ReadString(LSecao, 'Discriminacao', ''), FpAOwner.ConfigGeral.QuebradeLinha);
     NFSe.Servico.CodigoMunicipio := AINIRec.ReadString(LSecao, 'CodigoMunicipio', '');
     NFSe.Servico.CodigoNBS := AINIRec.ReadString(LSecao, 'CodigoNBS', '');

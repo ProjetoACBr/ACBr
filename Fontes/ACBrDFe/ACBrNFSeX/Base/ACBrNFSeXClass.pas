@@ -859,6 +859,7 @@ type
     FCodigoNCM: string;
     FcClassTrib: string;
     FINDOP: string;
+    FCodigoServicoNacional: string;
 
     procedure SetItemServico(Value: TItemServicoCollection);
     procedure SetDeducao(const Value: TDeducaoCollection);
@@ -923,6 +924,8 @@ type
     // Provedor ISSSalvador
     property cClassTrib: string read FcClassTrib write FcClassTrib;
     property INDOP: string read FINDOP write FINDOP;
+
+    property CodigoServicoNacional: string read FCodigoServicoNacional write FCodigoServicoNacional;
   end;
 
   TDadosPessoa = class(TObject)

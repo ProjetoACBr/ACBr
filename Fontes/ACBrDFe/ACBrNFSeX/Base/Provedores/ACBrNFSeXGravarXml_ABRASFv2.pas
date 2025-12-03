@@ -738,6 +738,9 @@ begin
     Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, NrOcorrCodTribMun_2,
                      NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
 
+    Result.AppendChild(AddNode(tcStr, '#31', 'CodigoServicoNacional', 1, 20, 0,
+                         NFSe.Servico.CodigoServicoNacional, DSC_CSERVTRIBMUN));
+
     Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, NrOcorrCodigoNBS,
                                  OnlyNumber(NFSe.Servico.CodigoNBS), DSC_CMUN));
 
@@ -1340,6 +1343,7 @@ begin
   AINIRec.WriteString(FpSecao, 'xItemListaServico', NFSe.Servico.xItemListaServico);
   AINIRec.WriteString(FpSecao, 'CodigoCnae', NFSe.Servico.CodigoCnae);
   AINIRec.WriteString(FpSecao, 'CodigoTributacaoMunicipio', NFSe.Servico.CodigoTributacaoMunicipio);
+  AINIRec.WriteString(FpSecao, 'CodigoServicoNacional', NFSe.Servico.CodigoServicoNacional);
   AINIRec.WriteString(FpSecao, 'Discriminacao', ChangeLineBreak(NFSe.Servico.Discriminacao, FpAOwner.ConfigGeral.QuebradeLinha));
   AINIRec.WriteString(FpSecao, 'CodigoMunicipio', NFSe.Servico.CodigoMunicipio);
   AINIRec.WriteInteger(FpSecao, 'MunicipioIncidencia', NFSe.Servico.MunicipioIncidencia);

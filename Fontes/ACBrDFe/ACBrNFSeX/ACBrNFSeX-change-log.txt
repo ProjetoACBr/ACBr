@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 03/12/2025
+-- ACBrNFSeXConfiguracoes/ACBrNFSeXClass/ACBrNFSeXGravarXml_ABRASFv2 --
+-- ACBrNFSeXLerXml_ABRASFv1/ACBrNFSeXLerXml_ABRASFv2 --
+[-] Correção para não gerar de forma indevida o grupo de Endereço no Exterior.
+   Por: Italo Giurizzato Junior
 -- ISSSaoPaulo.GravarXml/ISSSaoPaulo.Provider --
 [*] ACBR-8525 - Ajustes na geração do campo Assinatura, pois a versão 2 é diferente.
    Por: Hunes/Italo Giurizzato Junior

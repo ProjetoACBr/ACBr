@@ -576,20 +576,17 @@ begin
 
   FProvedor := StrToProvedor(FxProvedor);
 
-  if FLayoutNFSe = lnfsPadraoNacionalv1 then
+  if (FLayoutNFSe = lnfsPadraoNacionalv1) or
+     (FLayoutNFSe = lnfsPadraoNacionalv101) then
   begin
     FxProvedor := 'PadraoNacional';
+    FProvedor := proPadraoNacional;
     FVersao := ve100;
-    FProvedor := proPadraoNacional;
+
+    if FLayoutNFSe = lnfsPadraoNacionalv101 then
+      FVersao := ve101;
   end;
-  {
-  if (FLayoutNFSe = lnfsPadraoNacionalv101) or FAPIPropria then
-  begin
-    FxProvedor := 'PadraoNacional';
-    FVersao := ve101;
-    FProvedor := proPadraoNacional;
-  end;
-  }
+
   if FProvedor = proNenhum then
     raise EACBrNFSeException.Create('Código do Município [' + CodIBGE +
             '] não Encontrado.');
