@@ -894,7 +894,7 @@ begin
         toRemessaOutrasOcorrencias,
         toRemessaAlterarOutrosDados            : ATipoOcorrencia := '31';
         toRemessaNegativacaoSemProtesto        : ATipoOcorrencia := '45';
-        toRemessaExcluirNegativacaoManterEmCarteira
+        toRemessaExcluirNegativacaoManterEmCarteira,
           toRemessaExcluirNegativacaoBaixar    : ATipoOcorrencia := '46';
         toRemessaAlterarValorTitulo            : ATipoOcorrencia := '47';
       else
