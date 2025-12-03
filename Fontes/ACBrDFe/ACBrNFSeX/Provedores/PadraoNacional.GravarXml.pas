@@ -1540,12 +1540,15 @@ begin
       Result.AppendChild(GerarXMLPercentualTotalTributos)
     else
     begin
-      if NFSe.Servico.Valores.totTrib.indTotTrib <> indSim then
-        Result.AppendChild(AddNode(tcStr, '#1', 'indTotTrib', 1, 1, 1,
-                  indTotTribToStr(NFSe.Servico.Valores.totTrib.indTotTrib), ''))
-      else
+      if NFSe.Servico.Valores.totTrib.pTotTribSN > 0 then
         Result.AppendChild(AddNode(tcDe2, '#1', 'pTotTribSN', 1, 5, 1,
-                                  NFSe.Servico.Valores.totTrib.pTotTribSN, ''));
+                                   NFSe.Servico.Valores.totTrib.pTotTribSN, ''))
+      else
+      begin
+        if NFSe.Servico.Valores.totTrib.indTotTrib <> indSim then
+          Result.AppendChild(AddNode(tcStr, '#1', 'indTotTrib', 1, 1, 1,
+                 indTotTribToStr(NFSe.Servico.Valores.totTrib.indTotTrib), ''));
+      end;
     end;
   end;
 end;
