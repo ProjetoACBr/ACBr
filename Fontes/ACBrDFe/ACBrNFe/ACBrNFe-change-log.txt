@@ -43,6 +43,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+03/12/2025
+-- ACBrNFe.IniReader.pas --
+[+] Ajustado a leitura do da propriedade indDoacao da seção IBSCBS do metodo Ler_IBSCBS()
+  Por: Daniel de Morais InfoCodidiano
 
 27/11/2025
 -- ACBrNFe.EnvEvento --
