@@ -41,7 +41,8 @@ uses
   ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXGravarXml_ABRASFv1,
-  ACBrNFSeXGravarXml_ABRASFv2;
+  ACBrNFSeXGravarXml_ABRASFv2,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_ISSNet }
@@ -63,6 +64,15 @@ type
 
   public
     function GerarXml: Boolean; Override;
+  end;
+
+  { TNFSeW_ISSNetAPIPropria }
+
+  TNFSeW_ISSNetAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
+
+  public
+
   end;
 
 implementation

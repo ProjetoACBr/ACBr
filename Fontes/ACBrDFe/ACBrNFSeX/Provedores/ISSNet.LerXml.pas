@@ -38,7 +38,9 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXLerXml_ABRASFv1, ACBrNFSeXLerXml_ABRASFv2;
+  ACBrNFSeXLerXml_ABRASFv1,
+  ACBrNFSeXLerXml_ABRASFv2,
+  PadraoNacional.LerXml;
 
 type
   { TNFSeR_ISSNet }
@@ -57,6 +59,15 @@ type
   protected
 
     function NormatizarXml(const aXml: string): string; override;
+  public
+
+  end;
+
+  { TNFSeR_ISSNetAPIPropria }
+
+  TNFSeR_ISSNetAPIPropria = class(TNFSeR_PadraoNacional)
+  protected
+
   public
 
   end;

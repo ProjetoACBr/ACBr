@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 03/12/2025
+-- Diversos --
+[*] ACBR-8511/8496 - Varias alterações visando atender o provedor: ISSNet no que se refere a 
+    adoção ao layout da NFS-e Padrão Nacional
+   Por: Italo Giurizzato Junior
 -- PadraoNacional.GravarXml --
 [-] Possível solução para a geração do grupo: totTrib.
    Por: Italo Giurizzato Junior

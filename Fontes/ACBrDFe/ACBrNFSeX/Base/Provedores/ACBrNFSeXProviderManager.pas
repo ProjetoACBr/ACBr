@@ -485,11 +485,16 @@ begin
 
       proISSNet:
         begin
-          case Versao of
-            ve100: Result := TACBrNFSeProviderISSNet.Create(ACBrNFSe);
-            ve204: Result := TACBrNFSeProviderISSNet204.Create(ACBrNFSe);
+          if APIPropria then
+            Result := TACBrNFSeProviderISSNetAPIPropria.Create(ACBrNFSe)
           else
-            Result := nil;
+          begin
+            case Versao of
+              ve100: Result := TACBrNFSeProviderISSNet.Create(ACBrNFSe);
+              ve204: Result := TACBrNFSeProviderISSNet204.Create(ACBrNFSe);
+            else
+              Result := nil;
+            end;
           end;
         end;
 
