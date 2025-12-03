@@ -97,6 +97,15 @@ type
     procedure Ler_autXML(const ANode: TACBrXmlNode);
     procedure Ler_detPag(const ANode: TACBrXmlNode);
     procedure Ler_itemPedido(const ANode: TACBrXmlNode);
+    procedure Ler_gConsumoZFM(const ANode: TACBrXmlNode; const AIndice: Integer);
+    procedure Ler_gPerecimentoForn(const ANode: TACBrXMLNode; const AIndice: Integer);
+    procedure Ler_gItemNaoFornecido(const ANode: TACBrXMLNode; const AIndice: Integer);
+    procedure Ler_gCredPres(const ANode: TACBrXMLNode; const AIndice: Integer);
+    procedure Ler_gConsumo(const ANode: TACBrXMLNode; const AIndice: Integer);
+    procedure Ler_gPerecimento(const ANode: TACBrXMLNode; const AIndice: Integer);
+    procedure Ler_gImobilizacao(const ANode: TACBrXMLNode; const AIndice: Integer);
+    procedure Ler_gConsumoComb(const ANode: TACBrXMLNode; const AIndice: Integer);
+    procedure Ler_gCredito(const ANode: TACBrXMLNode; const AIndice: Integer);
   public
     constructor Create;
     destructor Destroy; override;
@@ -246,6 +255,193 @@ begin
   Item.UFReceb := ObterConteudoTag(ANode.Childrens.FindAnyNs('UFReceb'), tcStr);
 end;
 
+procedure TRetEventoNFe.Ler_gConsumo(const ANode: TACBrXMLNode; const AIndice: Integer);
+var
+  lItem: TgConsumoCollectionItem;
+  lAuxNode: TACBrXMLNode;
+begin
+  if not Assigned(ANode) then
+    exit;
+  lItem := InfEvento.detEvento.gConsumo.New;
+  lItem.nItem := AIndice;
+  lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
+  lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
+  lAuxNode := ANode.Childrens.FindAnyNs('gControleEstoque');
+  if Assigned(lAuxNode) then
+  begin
+    lItem.gControleEstoque.qConsumo := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('qConsumo'), tcDe4);
+    lItem.gControleEstoque.uConsumo := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('uConsumo'), tcStr);
+  end;
+  lAuxNode := ANode.Childrens.FindAnyNs('DFeReferenciado');
+  if Assigned(lAuxNode) then
+  begin
+    lItem.DFeReferenciado.nItem := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('nItem'), tcInt);
+    lItem.DFeReferenciado.chaveAcesso := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('chaveAcesso'), tcStr);
+  end;
+end;
+
+procedure TRetEventoNFe.Ler_gConsumoComb(const ANode: TACBrXMLNode; const AIndice: Integer);
+var
+  lItem: TgConsumoCombCollectionItem;
+  lAuxNode: TACBrXmlNode;
+begin
+  if not Assigned(ANode) then
+    exit;
+  lItem := InfEvento.detEvento.gConsumoComb.New;
+  lItem.nItem := AIndice;
+  lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
+  lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
+
+  lAuxNode := ANode.Childrens.FindAnyNs('gControleEstoque');
+  if Assigned(lAuxNode) then
+  begin
+    lItem.gControleEstoque.qComb := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('qComb'), tcDe4);
+    lItem.gControleEstoque.uComb := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('uComb'), tcStr);
+  end;
+end;
+
+procedure TRetEventoNFe.Ler_gConsumoZFM(const ANode: TACBrXmlNode; const AIndice: Integer);
+var
+  lItem: TgConsumoZFMCollectionItem;
+  lAuxNode: TACBrXmlNode;
+begin
+  if not Assigned(ANode) then
+    exit;
+  lItem := InfEvento.detEvento.gConsumoZFM.New;
+  lItem.nItem := AIndice;
+  lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
+  lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
+
+  lAuxNode := ANode.Childrens.FindAnyNs('gControleEstoque');
+  if Assigned(lAuxNode) then
+  begin
+    lItem.gControleEstoque.qtde := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('qtde'), tcDe4);
+    lItem.gControleEstoque.unidade := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('unidade'), tcStr);
+  end;
+end;
+
+procedure TRetEventoNFe.Ler_gCredito(const ANode: TACBrXMLNode; const AIndice: Integer);
+var
+  lItem: TgCreditoCollectionItem;
+begin
+  if not Assigned(ANode) then
+    exit;
+  lItem := infEvento.detEvento.gCredito.New;
+  lItem.nItem := AIndice;
+  lItem.vCredIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCredIBS'), tcDe2);
+  lItem.vCredCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCredCBS'), tcDe2);
+end;
+
+procedure TRetEventoNFe.Ler_gCredPres(const ANode: TACBrXMLNode; const AIndice: Integer);
+var
+  lItem: TgCredPresCollectionItem;
+  lAuxNode: TACBrXMLNode;
+begin
+  if not Assigned(ANode) then
+    exit;
+  lItem := infEvento.detEvento.gCredPres.New;
+  lItem.nItem := AIndice;
+  lItem.vBC := ObterConteudoTag(ANode.Childrens.FindAnyNs('vBC'), tcDe2);
+
+  lAuxNode := ANode.Childrens.FindAnyNs('gIBS');
+  if Assigned(lAuxNode) then
+  begin
+    lItem.gIBS.cCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('cCredPres'), tcStr);
+    lItem.gIBS.pCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('pCredPres'), tcDe2);
+    lItem.gIBS.vCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('vCredPres'), tcDe2);
+  end;
+  lAuxNode := ANode.Childrens.FindAnyNs('gCBS');
+  if Assigned(lAuxNode) then
+  begin
+    lItem.gCBS.cCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('cCredPres'), tcStr);
+    lItem.gCBS.pCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('pCredPres'), tcDe2);
+    lItem.gCBS.vCredPres := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('vCredPres'), tcDe2);
+  end;
+end;
+
+procedure TRetEventoNFe.Ler_gImobilizacao(const ANode: TACBrXMLNode; const AIndice: Integer);
+var
+  lItem: TgImobilizacaoCollectionItem;
+  lAuxNode: TACBrXMLNode;
+begin
+  if not Assigned(ANode) then
+    exit;
+
+  lItem := infEvento.detEvento.gImobilizacao.New;
+  lItem.nItem := AIndice;
+  lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
+  lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
+  lAuxNode := ANode.Childrens.FindAnyNs('gControleEstoque');
+  if Assigned(lAuxNode) then
+  begin
+    lItem.gControleEstoque.qImobilizado := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('qImobilizado'), tcDe4);
+    lItem.gControleEstoque.uImobilizado := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('uImobilizado'), tcStr);
+  end;
+end;
+
+procedure TRetEventoNFe.Ler_gItemNaoFornecido(const ANode: TACBrXMLNode; const AIndice: Integer);
+var
+  lItem: TgItemNaoFornecidoCollectionItem;
+  lAuxNode: TACBrXMLNode;
+begin
+  if not Assigned(ANode) then
+    exit;
+
+  lItem := infEvento.detEvento.gItemNaoFornecido.New;
+  lItem.nItem := AIndice;
+  lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
+  lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
+  lAuxNode := ANode.Childrens.FindAnyNs('gControleEstoque');
+  if Assigned(lAuxNode) then
+  begin
+    lItem.gControleEstoque.qNaoFornecida := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('qNaoFornecida'), tcDe4);
+    lItem.gControleEstoque.uNaoFornecida := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('uNaoFornecida'), tcStr);
+  end;
+end;
+
+procedure TRetEventoNFe.Ler_gPerecimento(const ANode: TACBrXMLNode;
+  const AIndice: Integer);
+var
+  lItem: TgPerecimentoCollectionItem;
+  lAuxNode: TACBrXmlNode;
+begin
+  if not Assigned(ANode) then
+    exit;
+
+  lItem := infEvento.detEvento.gPerecimento.New;
+  lItem.nItem := AIndice;
+  lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
+  lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
+  lAuxNode := ANode.Childrens.FindAnyNs('gControleEstoque');
+  if Assigned(lAuxNode) then
+  begin
+    lItem.gControleEstoque.qPerecimento := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('qPerecimento'), tcDe4);
+    lItem.gControleEstoque.uPerecimento := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('uPerecimento'), tcStr);
+  end;
+end;
+
+procedure TRetEventoNFe.Ler_gPerecimentoForn(const ANode: TACBrXMLNode; const AIndice: Integer);
+var
+  lItem: TgPerecimentoFornCollectionItem;
+  lAuxNode: TACBrXmlNode;
+begin
+  if not Assigned(ANode) then
+    exit;
+
+  lItem := infEvento.detEvento.gPerecimentoForn.New;
+  lItem.nItem := AIndice;
+  lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
+  lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
+  lAuxNode := ANode.Childrens.FindAnyNs('gControleEstoque');
+  if Assigned(lAuxNode) then
+  begin
+    lItem.gControleEstoque.qPerecimento := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('qPerecimento'), tcDe4);
+    lItem.gControleEstoque.uPerecimento := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('uPerecimento'), tcStr);
+    lItem.gControleEstoque.vIBS := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('vIBS'), tcDe2);
+    lItem.gControleEstoque.vCBS := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('vCBS'), tcDe2);
+  end;
+end;
+
 procedure TRetEventoNFe.Ler_DetEvento(const ANode: TACBrXmlNode);
 var
   ok: Boolean;
@@ -311,6 +507,94 @@ begin
   ANodes := ANode.Childrens.FindAll('detPag');
   for i := 0 to Length(ANodes) - 1 do
     Ler_detPag(ANodes[i]);
+
+  case infEvento.tpEvento of
+    teCancGenerico:
+      begin
+        infEvento.detEvento.tpEventoAut := ObterConteudoTag(ANode.Childrens.FindAnyNs('tpEventoAut'), tcStr);
+        infEvento.detEvento.nProtEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('nProtEvento'), tcStr);
+      end;
+
+    tePagIntegLibCredPresAdq:
+      begin
+        //IndQuitacao é gerado automático e não tem propriedade, o resto já é lido.
+      end;
+
+    teImporALCZFM:
+      begin
+        ANodes := ANode.Childrens.FindAll('gConsumo');
+        for i := 0 to Length(ANodes) - 1 do
+          Ler_gConsumoZFM(ANodes[i], i+1);
+      end;
+
+    tePerecPerdaRouboFurtoTranspContratFornec:
+      begin
+        ANodes := ANode.Childrens.FindAll('gPerecimento');
+        for i := 0 to Length(ANodes) - 1 do
+          Ler_gPerecimentoForn(ANodes[i], i+1);
+      end;
+
+    teFornecNaoRealizPagAntec:
+      begin
+        ANodes := ANode.Childrens.FindAll('gItemNaoFornecido');
+        for i := 0 to Length(ANodes) - 1 do
+          Ler_gItemNaoFornecido(ANodes[i], i+1);
+      end;
+
+    teAtualizacaoDataPrevisaoEntrega:
+      begin
+        infEvento.detEvento.dPrevEntrega := ObterConteudoTag(ANode.Childrens.FindAnyNs('dPrevEntrega'), tcDat);
+      end;
+
+    teSolicApropCredPres:
+      begin
+        ANodes := ANode.Childrens.FindAll('gCredPres');
+        for i := 0 to Length(ANodes) - 1 do
+          Ler_gCredPres(ANodes[i], i+1);
+      end;
+
+    teDestItemConsPessoal:
+      begin
+        ANodes := ANode.Childrens.FindAll('gConsumo');
+        for i := 0 to Length(ANodes) - 1 do
+          Ler_gConsumo(ANodes[i], i+1);
+      end;
+
+    tePerecPerdaRouboFurtoTranspContratAqu:
+      begin
+        ANodes := ANode.Childrens.FindAll('gPerecimento');
+        for i := 0 to Length(ANodes) - 1 do
+          Ler_gPerecimento(ANodes[i], i+1);
+      end;
+
+    teAceiteDebitoApuracaoNotaCredito,
+    teManifPedTransfCredIBSSucessao,
+    teManifPedTransfCredCBSSucessao:
+      begin
+        infEvento.detEvento.indAceitacao := StrToIndAceitacao(ObterConteudoTag(ANode.Childrens.FindAnyNs('indAceitacao'), tcStr));
+      end;
+
+    teImobilizacaoItem:
+      begin
+        ANodes := ANode.Childrens.FindAll('gImobilizacao');
+        for i := 0 to Length(ANodes) - 1 do
+          Ler_gImobilizacao(ANodes[i], i+1);
+      end;
+
+    teSolicApropCredCombustivel:
+      begin
+        ANodes := ANode.Childrens.FindAll('gConsumoComb');
+        for i := 0 to Length(ANodes) - 1 do
+          Ler_gConsumoComb(ANodes[i], i+1);
+      end;
+
+    teSolicApropCredBensServicos:
+      begin
+        ANodes := ANode.Childrens.FindAll('gCredito');
+        for i := 0 to Length(ANodes) - 1 do
+          Ler_gCredito(ANodes[i], i+1);
+      end;
+  end;
 end;
 
 procedure TRetEventoNFe.Ler_InfEvento(const ANode: TACBrXmlNode);

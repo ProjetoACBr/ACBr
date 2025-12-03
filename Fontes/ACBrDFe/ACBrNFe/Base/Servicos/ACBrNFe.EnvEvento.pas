@@ -1243,6 +1243,154 @@ begin
         end;
       end;
 
+      case RetEventoNFe.InfEvento.tpEvento of
+        teCancGenerico:
+          begin
+            infEvento.detEvento.tpEventoAut := RetEventoNFe.InfEvento.detEvento.tpEventoAut;
+            infEvento.detEvento.nProtEvento := RetEventoNFe.InfEvento.detEvento.nProtEvento;
+          end;
+
+        tePagIntegLibCredPresAdq:
+          begin
+            //IndQuitacao é gerado automático e não tem propriedade, o resto já é lido.
+          end;
+
+        teImporALCZFM:
+          begin
+            for i := 0 to RetEventoNFe.InfEvento.detEvento.gConsumoZFM.Count - 1 do
+            begin
+              infEvento.detEvento.gConsumoZFM.New;
+              infEvento.detEvento.gConsumoZFM[i].nItem := RetEventoNFe.InfEvento.detEvento.gConsumoZFM[i].nItem;
+              infEvento.detEvento.gConsumoZFM[i].vIBS := RetEventoNFe.InfEvento.detEvento.gConsumoZFM[i].vIBS;
+              infEvento.detEvento.gConsumoZFM[i].vCBS := RetEventoNFe.InfEvento.detEvento.gConsumoZFM[i].vCBS;
+              infEvento.detEvento.gConsumoZFM[i].gControleEstoque.qtde := RetEventoNFe.InfEvento.detEvento.gConsumoZFM[i].gControleEstoque.qtde;
+              infEvento.detEvento.gConsumoZFM[i].gControleEstoque.unidade := RetEventoNFe.InfEvento.detEvento.gConsumoZFM[i].gControleEstoque.unidade;
+            end;
+          end;
+
+        tePerecPerdaRouboFurtoTranspContratFornec:
+          begin
+            for i := 0 to RetEventoNFe.InfEvento.detEvento.gPerecimentoForn.Count - 1 do
+            begin
+              infEvento.detEvento.gPerecimentoForn.New;
+              infEvento.detEvento.gPerecimentoForn[i].nItem := RetEventoNFe.InfEvento.detEvento.gPerecimentoForn[i].nItem;
+              infEvento.detEvento.gPerecimentoForn[i].vIBS := RetEventoNFe.InfEvento.detEvento.gPerecimentoForn[i].vIBS;
+              infEvento.detEvento.gPerecimentoForn[i].vCBS := RetEventoNFe.InfEvento.detEvento.gPerecimentoForn[i].vCBS;
+              infEvento.detEvento.gPerecimentoForn[i].gControleEstoque.qPerecimento := RetEventoNFe.InfEvento.detEvento.gPerecimentoForn[i].gControleEstoque.qPerecimento;
+              infEvento.detEvento.gPerecimentoForn[i].gControleEstoque.uPerecimento := RetEventoNFe.InfEvento.detEvento.gPerecimentoForn[i].gControleEstoque.uPerecimento;
+              infEvento.detEvento.gPerecimentoForn[i].gControleEstoque.vIBS := RetEventoNFe.InfEvento.detEvento.gPerecimentoForn[i].gControleEstoque.vIBS;
+              infEvento.detEvento.gPerecimentoForn[i].gControleEstoque.vCBS := RetEventoNFe.InfEvento.detEvento.gPerecimentoForn[i].gControleEstoque.vCBS;
+            end;
+          end;
+
+        teFornecNaoRealizPagAntec:
+          begin
+            for i := 0 to RetEventoNFe.InfEvento.detEvento.gItemNaoFornecido.Count - 1 do
+            begin
+              infEvento.detEvento.gItemNaoFornecido.New;
+              infEvento.detEvento.gItemNaoFornecido[i].nItem := RetEventoNFe.InfEvento.detEvento.gItemNaoFornecido[i].nItem;
+              infEvento.detEvento.gItemNaoFornecido[i].vIBS := RetEventoNFe.InfEvento.detEvento.gItemNaoFornecido[i].vIBS;
+              infEvento.detEvento.gItemNaoFornecido[i].vCBS := RetEventoNFe.InfEvento.detEvento.gItemNaoFornecido[i].vCBS;
+              infEvento.detEvento.gItemNaoFornecido[i].gControleEstoque.qNaoFornecida := RetEventoNFe.InfEvento.detEvento.gItemNaoFornecido[i].gControleEstoque.qNaoFornecida;
+              infEvento.detEvento.gItemNaoFornecido[i].gControleEstoque.uNaoFornecida := RetEventoNFe.InfEvento.detEvento.gItemNaoFornecido[i].gControleEstoque.uNaoFornecida;
+            end;
+          end;
+
+        teAtualizacaoDataPrevisaoEntrega:
+          begin
+            infEvento.detEvento.dPrevEntrega := RetEventoNFe.InfEvento.detEvento.dPrevEntrega;
+          end;
+
+        teSolicApropCredPres:
+          begin
+            for i := 0 to RetEventoNFe.InfEvento.detEvento.gCredPres.Count - 1 do
+            begin
+              infEvento.detEvento.gCredPres.New;
+              infEvento.detEvento.gCredPres[i].nItem := RetEventoNFe.InfEvento.detEvento.gCredPres[i].nItem;
+              infEvento.detEvento.gCredPres[i].vBC := RetEventoNFe.infEvento.detEvento.gCredPres[i].vBC;
+              infEvento.detEvento.gCredPres[i].gIBS.cCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gIBS.cCredPres;
+              infEvento.detEvento.gCredPres[i].gIBS.pCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gIBS.pCredPres;
+              infEvento.detEvento.gCredPres[i].gIBS.vCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gIBS.vCredPres;
+              infEvento.detEvento.gCredPres[i].gCBS.cCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gCBS.cCredPres;
+              infEvento.detEvento.gCredPres[i].gCBS.pCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gCBS.pCredPres;
+              infEvento.detEvento.gCredPres[i].gCBS.vCredPres := RetEventoNFe.infEvento.detEvento.gCredPres[i].gCBS.vCredPres;
+            end;
+          end;
+
+        teDestItemConsPessoal:
+          begin
+            for i := 0 to RetEventoNFe.InfEvento.detEvento.gConsumo.Count - 1 do
+            begin
+              infEvento.detEvento.gConsumo.New;
+              infEvento.detEvento.gConsumo[i].nItem := RetEventoNFe.infEvento.detEvento.gConsumo[i].nItem;
+              infEvento.detEvento.gConsumo[i].vIBS := RetEventoNFe.infEvento.detEvento.gConsumo[i].vIBS;
+              infEvento.detEvento.gConsumo[i].vCBS := RetEventoNFe.infEvento.detEvento.gConsumo[i].vCBS;
+              infEvento.detEvento.gConsumo[i].gControleEstoque.qConsumo := RetEventoNFe.infEvento.detEvento.gConsumo[i].gControleEstoque.qConsumo;
+              infEvento.detEvento.gConsumo[i].gControleEstoque.uConsumo := RetEventoNFe.infEvento.detEvento.gConsumo[i].gControleEstoque.uConsumo;
+              infEvento.detEvento.gConsumo[i].DFeReferenciado.nItem := RetEventoNFe.infEvento.detEvento.gConsumo[i].DFeReferenciado.nItem;
+              infEvento.detEvento.gConsumo[i].DFeReferenciado.chaveAcesso := RetEventoNFe.infEvento.detEvento.gConsumo[i].DFeReferenciado.chaveAcesso;
+            end;
+          end;
+
+        tePerecPerdaRouboFurtoTranspContratAqu:
+          begin
+            for i := 0 to RetEventoNFe.InfEvento.detEvento.gPerecimento.Count - 1 do
+            begin
+              infEvento.detEvento.gPerecimento.New;
+              infEvento.detEvento.gPerecimento[i].nItem := RetEventoNFe.InfEvento.detEvento.gPerecimento[i].nItem;
+              infEvento.detEvento.gPerecimento[i].vIBS := RetEventoNFe.InfEvento.detEvento.gPerecimento[i].vIBS;
+              infEvento.detEvento.gPerecimento[i].vCBS := RetEventoNFe.InfEvento.detEvento.gPerecimento[i].vCBS;
+              infEvento.detEvento.gPerecimento[i].gControleEstoque.qPerecimento := RetEventoNFe.InfEvento.detEvento.gPerecimento[i].gControleEstoque.qPerecimento;
+              infEvento.detEvento.gPerecimento[i].gControleEstoque.uPerecimento := RetEventoNFe.InfEvento.detEvento.gPerecimento[i].gControleEstoque.uPerecimento;
+            end;
+          end;
+
+        teAceiteDebitoApuracaoNotaCredito,
+        teManifPedTransfCredIBSSucessao,
+        teManifPedTransfCredCBSSucessao:
+          begin
+            infEvento.detEvento.indAceitacao := RetEventoNFe.InfEvento.detEvento.indAceitacao;
+          end;
+
+        teImobilizacaoItem:
+          begin
+            for i := 0 to RetEventoNFe.InfEvento.detEvento.gImobilizacao.Count - 1 do
+            begin
+              infEvento.detEvento.gImobilizacao.New;
+              infEvento.detEvento.gImobilizacao[i].nItem := RetEventoNFe.InfEvento.detEvento.gImobilizacao[i].nItem;
+              infEvento.detEvento.gImobilizacao[i].vIBS := RetEventoNFe.InfEvento.detEvento.gImobilizacao[i].vIBS;
+              infEvento.detEvento.gImobilizacao[i].vCBS := RetEventoNFe.InfEvento.detEvento.gImobilizacao[i].vCBS;
+              infEvento.detEvento.gImobilizacao[i].gControleEstoque.qImobilizado := RetEventoNFe.InfEvento.detEvento.gImobilizacao[i].gControleEstoque.qImobilizado;
+              infEvento.detEvento.gImobilizacao[i].gControleEstoque.uImobilizado := RetEventoNFe.InfEvento.detEvento.gImobilizacao[i].gControleEstoque.uImobilizado;
+            end;
+          end;
+
+        teSolicApropCredCombustivel:
+          begin
+            for i := 0 to RetEventoNFe.InfEvento.detEvento.gConsumoComb.Count - 1 do
+            begin
+              infEvento.detEvento.gConsumoComb.New;
+              infEvento.detEvento.gConsumoComb[i].nItem := RetEventoNFe.InfEvento.detEvento.gConsumoComb[i].nItem;
+              infEvento.detEvento.gConsumoComb[i].vIBS := RetEventoNFe.InfEvento.detEvento.gConsumoComb[i].vIBS;
+              infEvento.detEvento.gConsumoComb[i].vCBS := RetEventoNFe.InfEvento.detEvento.gConsumoComb[i].vCBS;
+              infEvento.detEvento.gConsumoComb[i].gControleEstoque.qComb := RetEventoNFe.InfEvento.detEvento.gConsumoComb[i].gControleEstoque.qComb;
+              infEvento.detEvento.gConsumoComb[i].gControleEstoque.uComb := RetEventoNFe.InfEvento.detEvento.gConsumoComb[i].gControleEstoque.uComb;
+            end;
+          end;
+
+        teSolicApropCredBensServicos:
+          begin
+            for i := 0 to RetEventoNFe.InfEvento.detEvento.gCredito.Count - 1 do
+            begin
+              infEvento.detEvento.gCredito.New;
+              infEvento.detEvento.gCredito[i].nItem := RetEventoNFe.InfEvento.detEvento.gCredito[i].nItem;
+              infEvento.detEvento.gCredito[i].vCredIBS := RetEventoNFe.InfEvento.detEvento.gCredito[i].vCredIBS;
+              infEvento.detEvento.gCredito[i].vCredCBS := RetEventoNFe.InfEvento.detEvento.gCredito[i].vCredCBS;
+            end;
+          end;
+      end;
+
+
       signature.URI := RetEventoNFe.signature.URI;
       signature.DigestValue := RetEventoNFe.signature.DigestValue;
       signature.SignatureValue := RetEventoNFe.signature.SignatureValue;

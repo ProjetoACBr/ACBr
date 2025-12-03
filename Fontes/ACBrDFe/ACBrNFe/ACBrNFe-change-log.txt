@@ -43,7 +43,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
 03/12/2025
+-- ACBrNFe.EnvEvento, ACBrNFe.RetEnvEvento --
+[+] #ACBR-8514 - Implementado a leitura de XML dos eventos da Reforma Tributária
+  Por: Diego Folieni
 -- ACBrNFe.IniReader.pas --
 [+] Ajustado a leitura do da propriedade indDoacao da seção IBSCBS do metodo Ler_IBSCBS()
   Por: Daniel de Morais InfoCodidiano
