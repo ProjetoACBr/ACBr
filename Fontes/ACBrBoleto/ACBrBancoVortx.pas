@@ -367,6 +367,8 @@ end;
 
 procedure TACBrBancoVortx.LerRetorno400(ARetorno: TStringList);
 var
+  LCodOcorrencia,
+  LIdxMotivo,
   LContLinha: Integer;
   Linha, LNomeCedente: string;
   LACBrTitulo: TACBrTitulo;
@@ -395,22 +397,43 @@ begin
 
     if ACBrBanco.ACBrBoleto.LeCedenteRetorno then
     begin
+      ACBrBanco.ACBrBoleto.Cedente.CodigoCedente := Copy(ARetorno[0], 39, 8);
+
       LNomeCedente := Trim(Copy(ARetorno[0], 47, 30));
       ACBrBanco.ACBrBoleto.Cedente.Nome := LNomeCedente;
-      LACBrTitulo.Carteira := Copy(Linha, 21, 3);
-      ACBrBanco.ACBrBoleto.Cedente.Agencia := Copy(Linha, 25, 5);
-      ACBrBanco.ACBrBoleto.Cedente.Conta := Copy(Linha, 30, 7);
-      ACBrBanco.ACBrBoleto.Cedente.ContaDigito := Copy(Linha, 37, 1);
+      LACBrTitulo.Carteira := Copy(Linha, 22, 3);
+      ACBrBanco.ACBrBoleto.Cedente.Agencia := Copy(Linha, 26, 4);
+      ACBrBanco.ACBrBoleto.Cedente.Conta := Copy(ARetorno[0], 39, 7);
+      ACBrBanco.ACBrBoleto.Cedente.ContaDigito := Copy(ARetorno[0], 46, 1);
     end;
 
-    LACBrTitulo.SeuNumero := Copy(Linha, 38, 25);
-    LACBrTitulo.NumeroDocumento := Copy(Linha, 117, 10);
+    LACBrTitulo.SeuNumero        := Copy(Linha, 38, 25);
+    LACBrTitulo.NossoNumero      := Copy(Linha, 71, 11);
+    LACBrTitulo.NumeroDocumento  := Copy(Linha, 117, 10);
+
+    LCodOcorrencia := StrToIntDef(Copy(Linha,109,2),0);
+    LACBrTitulo.OcorrenciaOriginal.Tipo := CodOcorrenciaToTipo(LCodOcorrencia);
+
+    if LCodOcorrencia in [3,24,27,32] then
+    begin
+      LIdxMotivo := 319;
+      while LIdxMotivo < 328 do
+      begin
+        if Copy(Linha, LIdxMotivo, 2) <> '00' then
+        begin
+          LACBrTitulo.MotivoRejeicaoComando.Add(Copy(Linha, LIdxMotivo, 2));
+          LACBrTitulo.DescricaoMotivoRejeicaoComando.Add(CodMotivoRejeicaoToDescricao(LACBrTitulo.OcorrenciaOriginal.Tipo, Trim(Copy(Linha, LIdxMotivo, 2))));
+        end;
+        Inc(LIdxMotivo, 2);
+      end;
+    end;
 
     LACBrTitulo.DataOcorrencia := StringToDateTimeDef(Copy(Linha, 111, 2) + '/' +
                                                       Copy(Linha, 113, 2) + '/' +
                                                       Copy(Linha, 115, 2), 0, 'DD/MM/YY');
+
     LACBrTitulo.EspecieDoc := Copy(Linha, 174, 2);
-    if LACBrTitulo.EspecieDoc = '' then
+    if Trim(LACBrTitulo.EspecieDoc) = '' then
       LACBrTitulo.EspecieDoc := 'DM';
 
     if (StrToIntDef(Copy(Linha, 147, 6), 0) <> 0) then
@@ -418,9 +441,13 @@ begin
                                                     Copy(Linha, 149, 2) + '/' +
                                                     Copy(Linha, 151, 2), 0, 'DD/MM/YY');
 
-    LACBrTitulo.ValorDocumento := StrToFloatDef(Copy(Linha, 153, 13), 0) / 100;
-    LACBrTitulo.ValorRecebido := StrToFloatDef(Copy(Linha, 254, 13), 0) / 100;
-    LACBrTitulo.NossoNumero := Copy(Linha, 72, 11);
+    LACBrTitulo.ValorDocumento   := StrToFloatDef(Copy(Linha, 153, 13), 0) / 100;
+
+    LACBrTitulo.ValorDesconto    := StrToFloatDef(Copy(Linha, 241, 13), 0) / 100;
+
+    LACBrTitulo.ValorRecebido    := StrToFloatDef(Copy(Linha, 254, 13), 0) / 100;
+
+    LACBrTitulo.ValorMoraJuros   := StrToFloatDef(Copy(Linha, 267, 13), 0) / 100;
 
     if (StrToIntDef(Copy(Linha, 296, 6), 0) <> 0) then
       LACBrTitulo.DataCredito := StringToDateTimeDef(Copy(Linha, 296, 2) + '/' +
@@ -692,7 +719,7 @@ end;
 
 function TACBrBancoVortx.CalcularDigitoVerificador(const ACBrTitulo: TACBrTitulo): String;
 begin
-  Result := CalcularDV(PadLeft(IntToStr(StrToInt(ACBrTitulo.NossoNumero)), 10, '0'));
+  Result := CalcularDV(PadLeft(IntToStr(StrToInt(ACBrTitulo.NossoNumero)), 11, '0'));
 end;
 
 function TACBrBancoVortx.CalcularNomeArquivoRemessa: string;
