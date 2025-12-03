@@ -532,6 +532,7 @@ begin
        Cedente.AgenciaDigito:= '0';
        Cedente.Conta   := rConta;
        Cedente.ContaDigito:= rDigitoConta;
+       Cedente.CodigoCedente:= rConta+rDigitoConta;
      end;
      Cedente.Conta := RemoveZerosEsquerda(Cedente.Conta);
 
@@ -885,11 +886,17 @@ begin
         toRemessaDispensarJuros                : ATipoOcorrencia := '13';
         toRemessaAlterarMulta                  : ATipoOcorrencia := '14';
         toRemessaDispensarMulta                : ATipoOcorrencia := '15';
+        toRemessaAlterarDesconto               : ATipoOcorrencia := '16';
+        toRemessaNaoConcederDesconto           : ATipoOcorrencia := '17';
         toRemessaAlterarPrazoLimiteRecebimento : ATipoOcorrencia := '19';
         toRemessaDispensarPrazoLimiteRecebimento:ATipoOcorrencia := '20';
         toRemessaAlterarDadosPagador           : ATipoOcorrencia := '23';
         toRemessaOutrasOcorrencias,
-          toRemessaAlterarOutrosDados          : ATipoOcorrencia := '31';
+        toRemessaAlterarOutrosDados            : ATipoOcorrencia := '31';
+        toRemessaNegativacaoSemProtesto        : ATipoOcorrencia := '45';
+        toRemessaExcluirNegativacaoManterEmCarteira
+          toRemessaExcluirNegativacaoBaixar    : ATipoOcorrencia := '46';
+        toRemessaAlterarValorTitulo            : ATipoOcorrencia := '47';
       else
        ATipoOcorrencia := '01';
       end;

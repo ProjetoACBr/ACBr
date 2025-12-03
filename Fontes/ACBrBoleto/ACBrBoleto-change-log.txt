@@ -50,9 +50,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 03/12/2025
--- ACBrBancoVortx  --
+-- ACBrBancoVortx --
 [*] ACBR-8383 - Correções na leitura do retorno https://www.projetoacbr.com.br/forum/topic/87229-erro-ao-processar-retorno-banco-vortx/
    Por: Desenv. AT Info Sistemas / Renato Rubinho
+-- ACBrBancoSicoob --
+[*] ACBR-8335 - Adicionados códigos de movimento de remessa que faltavam https://www.projetoacbr.com.br/forum/topic/86969-sicoob-negativa%C3%A7%C3%A3o/
+   Por: Cleomar Pacheco / Renato Rubinho
 
 01/12/2025
 -- ACBrBancoVortx  --
