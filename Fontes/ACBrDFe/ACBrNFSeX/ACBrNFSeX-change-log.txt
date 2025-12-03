@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 03/12/2025
+-- ACBrNFSeXServicos --
+[*] ACBR-8527 - Alterado a versão da cidade São José do Cedro/SC, o provedor continua o mesmo.
+   Por: C4Dev
 -- ACBrNFSeXConfiguracoes/ACBrNFSeXClass/ACBrNFSeXGravarXml_ABRASFv2 --
 -- ACBrNFSeXLerXml_ABRASFv1/ACBrNFSeXLerXml_ABRASFv2 --
 [-] Correção para não gerar de forma indevida o grupo de Endereço no Exterior.
