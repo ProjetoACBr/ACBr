@@ -108,12 +108,23 @@ function TNFSeW_ISSSaoPaulo.GerarCPFCNPJIntermediario: TACBrXmlNode;
 begin
   Result := nil;
 
-  if OnlyNumber(NFSe.Intermediario.Identificacao.CpfCnpj) <> '' then
+  if (OnlyNumber(NFSe.Intermediario.Identificacao.CpfCnpj) <> '') or
+     (NFSe.Intermediario.Identificacao.Nif <> '') then
   begin
     Result := CreateElement('CPFCNPJIntermediario');
 
-    Result.AppendChild(AddNodeCNPJCPF('#1', '#2',
-                         OnlyNumber(NFSe.Intermediario.Identificacao.CpfCnpj)));
+    if NFSe.Intermediario.Identificacao.CpfCnpj <> '' then
+      Result.AppendChild(AddNodeCNPJCPF('#1', '#1',
+                                     NFSe.Intermediario.Identificacao.CpfCnpj))
+    else
+    begin
+      if NFSe.Intermediario.Identificacao.Nif <> '' then
+        Result.AppendChild(AddNode(tcStr, '#1', 'NIF', 1, 40, 1,
+                                     NFSe.Intermediario.Identificacao.Nif, ''))
+      else
+        Result.AppendChild(AddNode(tcStr, '#1', 'NaoNIF', 1, 1, 1,
+                   NaoNIFToStr(NFSe.Intermediario.Identificacao.cNaoNIF), ''));
+    end;
   end;
 end;
 
@@ -121,12 +132,23 @@ function TNFSeW_ISSSaoPaulo.GerarCPFCNPJTomador: TACBrXmlNode;
 begin
   Result := nil;
 
-  if OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj) <> '' then
+  if (OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj) <> '') or
+     (NFSe.Tomador.IdentificacaoTomador.Nif <> '') then
   begin
     Result := CreateElement('CPFCNPJTomador');
 
-    Result.AppendChild(AddNodeCNPJCPF('#1', '#2',
-                        OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj)));
+    if NFSe.Tomador.IdentificacaoTomador.CpfCnpj <> '' then
+      Result.AppendChild(AddNodeCNPJCPF('#1', '#1',
+                                     NFSe.Tomador.IdentificacaoTomador.CpfCnpj))
+    else
+    begin
+      if NFSe.Tomador.IdentificacaoTomador.Nif <> '' then
+        Result.AppendChild(AddNode(tcStr, '#1', 'NIF', 1, 40, 1,
+                                     NFSe.Tomador.IdentificacaoTomador.Nif, ''))
+      else
+        Result.AppendChild(AddNode(tcStr, '#1', 'NaoNIF', 1, 1, 1,
+                   NaoNIFToStr(NFSe.Tomador.IdentificacaoTomador.cNaoNIF), ''));
+    end;
   end;
 end;
 

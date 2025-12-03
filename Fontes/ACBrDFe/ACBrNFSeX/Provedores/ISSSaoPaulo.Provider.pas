@@ -126,7 +126,8 @@ uses
 procedure TACBrNFSeProviderISSSaoPaulo.AssinaturaAdicional(Nota: TNotaFiscal);
 var
   sSituacao, sISSRetido, sCPFCNPJTomador, sIndTomador, sTomador,
-  sCPFCNPJInter, sIndInter, sISSRetidoInter, sInter, sAssinatura: string;
+  sCPFCNPJInter, sIndInter, sISSRetidoInter, sInter, sAssinatura, sNIF: string;
+  iTamanhoIM: Integer;
 begin
   with Nota do
   begin
@@ -138,36 +139,54 @@ begin
     // Tomador do Serviço
     sCPFCNPJTomador := OnlyNumber(NFSe.Tomador.IdentificacaoTomador.CpfCnpj);
 
-    if Length(sCPFCNPJTomador) = 11 then
-      sIndTomador := '1'
+    if sCPFCNPJTomador = '' then
+      sIndTomador := '3'
     else
-      if Length(sCPFCNPJTomador) = 14 then
-        sIndTomador := '2'
+      if Length(sCPFCNPJTomador) <= 11 then
+        sIndTomador := '1'
       else
-        sIndTomador := '3';
+        if Length(sCPFCNPJTomador) <= 14 then
+          sIndTomador := '2';
 
     sTomador := sIndTomador + Poem_Zeros(sCPFCNPJTomador, 14);
 
     // Prestador Intermediario
     sCPFCNPJInter := OnlyNumber(NFSe.Intermediario.Identificacao.CpfCnpj);
 
-    if Length(sCPFCNPJInter) = 11 then
-      sIndInter := '1'
+    if sCPFCNPJInter = '' then
+      sIndInter := '3'
     else
-      if Length(sCPFCNPJInter) = 14 then
-        sIndInter := '2'
+      if Length(sCPFCNPJInter) <= 11 then
+        sIndInter := '1'
       else
-        sIndInter := '3';
+        if Length(sCPFCNPJInter) <= 14 then
+          sIndInter := '2';
 
     sISSRetidoInter := EnumeradoToStr(NFSe.Intermediario.IssRetido,
                                       ['N', 'S'], [stNormal, stRetencao]);
 
-    if sIndInter <> '3' then
-      sInter := sIndInter + Poem_Zeros(sCPFCNPJInter, 14) + sISSRetidoInter
-    else
-      sInter := '';
+    sNIF := trim(NFSe.Intermediario.Identificacao.Nif);
 
-    sAssinatura := Poem_Zeros(NFSe.Prestador.IdentificacaoPrestador.InscricaoMunicipal, 8) +
+    if sIndInter = '3' then
+      sNIF := NaoNIFToStr(NFSe.Intermediario.Identificacao.cNaoNIF);
+
+    if FPVersaoDFe = '2' then
+    begin
+      sInter := sIndInter + Poem_Zeros(sCPFCNPJInter, 14) + sISSRetidoInter  +
+                sNIF;
+      iTamanhoIM := 12;
+    end
+    else
+    begin
+      if sIndInter <> '3' then
+        sInter := sIndInter + Poem_Zeros(sCPFCNPJInter, 14) + sISSRetidoInter
+      else
+        sInter := '';
+
+      iTamanhoIM := 8;
+    end;
+
+    sAssinatura := Poem_Zeros(NFSe.Prestador.IdentificacaoPrestador.InscricaoMunicipal, iTamanhoIM) +
                    PadRight(NFSe.IdentificacaoRps.Serie, 5, ' ') +
                    Poem_Zeros(NFSe.IdentificacaoRps.Numero, 12) +
                    FormatDateTime('yyyymmdd', NFse.DataEmissao) +

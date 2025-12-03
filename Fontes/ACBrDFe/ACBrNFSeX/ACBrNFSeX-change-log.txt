@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 03/12/2025
+-- ISSSaoPaulo.GravarXml/ISSSaoPaulo.Provider --
+[*] ACBR-8525 - Ajustes na geração do campo Assinatura, pois a versão 2 é diferente.
+   Por: Hunes/Italo Giurizzato Junior
 -- Diversos --
 [*] ACBR-8511/8496 - Varias alterações visando atender o provedor: ISSNet no que se refere a 
     adoção ao layout da NFS-e Padrão Nacional
