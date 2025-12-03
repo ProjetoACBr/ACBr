@@ -38,9 +38,12 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
+  ACBrDFe.Conversao,
   ACBrNFSeXConversao,
   ACBrNFSeXGravarXml_ABRASFv1,
-  ACBrNFSeXGravarXml_ABRASFv2;
+  ACBrNFSeXGravarXml_ABRASFv2,
+  ACBrXmlDocument;
+
 
 type
   { TNFSeW_WebISS }
@@ -56,6 +59,8 @@ type
   TNFSeW_WebISS202 = class(TNFSeW_ABRASFv2)
   protected
     procedure Configuracao; override;
+
+    function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
 
   public
     function GerarXml: Boolean; Override;
@@ -90,6 +95,18 @@ begin
   inherited Configuracao;
 
   FormatoItemListaServico := filsSemFormatacao;
+end;
+
+function TNFSeW_WebISS202.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
+begin
+  Result := inherited GerarInfDeclaracaoPrestacaoServico;
+
+  // Reforma Tributária
+  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+     (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
+    Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 end;
 
 function TNFSeW_WebISS202.GerarXml: Boolean;

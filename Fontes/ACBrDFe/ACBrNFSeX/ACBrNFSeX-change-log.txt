@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 03/12/2025
+-- WebISS.GravarXml --
+[+] ACBR-8529 - Realizada alterações visando gerar o grupo IBSCBS.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-8527 - Alterado a versão da cidade São José do Cedro/SC, o provedor continua o mesmo.
    Por: C4Dev
