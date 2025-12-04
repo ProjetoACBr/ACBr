@@ -813,11 +813,13 @@ begin
         GerarTagNifTomador := True;
         GerarEnderecoExterior := True;
 
+        NrOcorrCodigoNBS := 0;
         NrOcorrCodigoMunicInterm := 1;
+
+        NrOcorrCodTribMun_1 := -1;
         NrOcorrDiscriminacao_1 := -1;
         NrOcorrCodigoMunic_1 := -1;
 
-        NrOcorrCodigoNBS := 0;
         NrOcorrCodTribMun_2 := 0;
         NrOcorrDiscriminacao_2 := 0;
         NrOcorrCodigoMunic_2 := 0;
