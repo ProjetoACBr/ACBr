@@ -79,6 +79,7 @@ type
 
   TNFSeW_BethaAPIPropria = class(TNFSeW_PadraoNacional)
   protected
+    procedure Configuracao; override;
 
   end;
 
@@ -226,6 +227,15 @@ begin
     NrOcorrCodigoPaisTomador := -1;
 
   Result := inherited GerarXml;
+end;
+
+{ TNFSeW_BethaAPIPropria }
+
+procedure TNFSeW_BethaAPIPropria.Configuracao;
+begin
+  inherited Configuracao;
+
+  PrefixoPadrao := 'dps';
 end;
 
 end.

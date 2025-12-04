@@ -823,14 +823,14 @@ begin
 
   Request := RemoverDeclaracaoXML(AMSG);
 
-//  Request := RetornarConteudoEntre(Request,
-//    '<DPS xmlns="http://www.sped.fazenda.gov.br/nfse" versao="1.01">',
-//    '</DPS>', False);
+  Request := RetornarConteudoEntre(Request,
+    '<dps:DPS xmlns:dps="http://www.sped.fazenda.gov.br/nfse" versao="1.01">',
+    '</dps:DPS>', False);
 
   Request := '<dps:RecepcionarDpsEnvio>' +
-//               '<dps:DPS versao="1.0">' +
+               '<dps:DPS versao="1.0">' +
                   Request +
-//               '</dps:DPS>' +
+               '</dps:DPS>' +
              '</dps:RecepcionarDpsEnvio>';
 
   Result := Executar('http://www.betha.com.br/e-nota-dps-service/RecepcionarDps',
@@ -849,6 +849,7 @@ begin
 
   with ConfigGeral do
   begin
+    Identificador := 'id';
     QuebradeLinha := '|';
     ConsultaLote := False;
     FormatoArqEnvio := tfaXml;
