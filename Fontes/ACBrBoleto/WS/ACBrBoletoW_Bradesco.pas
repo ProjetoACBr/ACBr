@@ -590,18 +590,18 @@ begin
       LJsonObject.AddPair('ctrlCPFCNPJ',  Copy(OnlyNumber(Boleto.Cedente.CNPJCPF), 10, 2));
     end;
     LJsonObject.AddPair('idProduto', ATitulo.Carteira);
-    LJsonObject.AddPair('nuNegociação', AgenciaContaFormatada(18));
-    LJsonObject.AddPair('nuTítulo', OnlyNumber(ATitulo.NossoNumero));
+    LJsonObject.AddPair('nuNegociacao', AgenciaContaFormatada(18));
+    LJsonObject.AddPair('nuTitulo', OnlyNumber(ATitulo.NossoNumero));
     LJsonObject.AddPair('nuCliente', Trim(IfThen(ATitulo.NumeroDocumento <> '',
                                            ATitulo.NumeroDocumento,
                                            IfThen(ATitulo.SeuNumero <> '',
                                                   ATitulo.SeuNumero,
                                                   OnlyNumber(ATitulo.NossoNumero)))));
-    LJsonObject.AddPair('dtEmissãoTítulo', DateTimeToDateBradesco(ATitulo.DataDocumento));
-    LJsonObject.AddPair('dtVencimentoTítulo', DateTimeToDateBradesco(ATitulo.Vencimento));
+    LJsonObject.AddPair('dtEmissaoTitulo', DateTimeToDateBradesco(ATitulo.DataDocumento));
+    LJsonObject.AddPair('dtVencimentoTitulo', DateTimeToDateBradesco(ATitulo.Vencimento));
     LJsonObject.AddPair('tpVencimento', 0);//FIXO.
-    LJsonObject.AddPair('vlNominalTítulo', ATitulo.ValorDocumento*100);
-    LJsonObject.AddPair('cdEspécieTítulo', EspecieDocumento);
+    LJsonObject.AddPair('vlNominalTitulo', ATitulo.ValorDocumento*100);
+    LJsonObject.AddPair('cdEspecieTitulo', EspecieDocumento);
 
 
     //LJsonObject.AddPair('tpProtestoAutomáticoNegativação', );
@@ -630,10 +630,10 @@ begin
 
 
 
-    //LJsonObject.AddPair('prazoBonificação', 0);
-    //LJsonObject.AddPair('percentualBonificação', 0);
-    //LJsonObject.AddPair('vlBonificação', 0);
-    //LJsonObject.AddPair('dtLimiteBonificação', );
+    //LJsonObject.AddPair('prazoBonificacao', 0);
+    //LJsonObject.AddPair('percentualBonificacao', 0);
+    //LJsonObject.AddPair('vlBonificacao', 0);
+    //LJsonObject.AddPair('dtLimiteBonificacao', );
     LJsonObject.AddPair('vlAbatimento',  ATitulo.ValorAbatimento * 100);
     LJsonObject.AddPair('vlIOF', ATitulo.ValorIOF * 100);
 
@@ -647,7 +647,7 @@ begin
     LJsonObject.AddPair('cepPagador', Copy(OnlyNumber(ATitulo.Sacado.CEP), 1, 5));
     LJsonObject.AddPair('complementoCepPagador', Copy(OnlyNumber(ATitulo.Sacado.CEP), 6, 8));
     LJsonObject.AddPair('bairroPagador', Copy(TiraAcentos(ATitulo.Sacado.Bairro), 1, 40));
-    LJsonObject.AddPair('municípioPagador', Copy(TiraAcentos(ATitulo.Sacado.Cidade), 1, 30));
+    LJsonObject.AddPair('municipioPagador', Copy(TiraAcentos(ATitulo.Sacado.Cidade), 1, 30));
     LJsonObject.AddPair('ufPagador', Copy(TiraAcentos(ATitulo.Sacado.UF), 1, 2));
     LJsonObject.AddPair('cdIndCpfcnpjPagador', IfThen(ATitulo.Sacado.Pessoa = pJuridica, '2', '1'));
     LJsonObject.AddPair('nuCpfcnpjPagador', OnlyNumber(ATitulo.Sacado.CNPJCPF));
@@ -922,11 +922,11 @@ begin
   AJsonObject.AddPair('cepSacadorAvalista', Copy(ATitulo.Sacado.SacadoAvalista.CEP, 1, 5));
   AJsonObject.AddPair('complementoCepSacadorAvalista', Copy(ATitulo.Sacado.SacadoAvalista.CEP, 6, 8));
   AJsonObject.AddPair('bairroSacadorAvalista', Copy(TiraAcentos(ATitulo.Sacado.SacadoAvalista.Bairro), 1, 40));
-  AJsonObject.AddPair('municípioSacadorAvalista', Copy(TiraAcentos(ATitulo.Sacado.SacadoAvalista.Cidade), 1, 40));
+  AJsonObject.AddPair('municipioSacadorAvalista', Copy(TiraAcentos(ATitulo.Sacado.SacadoAvalista.Cidade), 1, 40));
   AJsonObject.AddPair('ufSacadorAvalista', Copy(TiraAcentos(ATitulo.Sacado.SacadoAvalista.UF), 1, 2));
   AJsonObject.AddPair('cdIndCpfcnpjSacadorAvalista', IfThen(aTitulo.Sacado.SacadoAvalista.Pessoa = pJuridica, '2', '1'));
   AJsonObject.AddPair('nuCpfcnpjSacadorAvalista', Copy(OnlyNumber(ATitulo.Sacado.SacadoAvalista.CNPJCPF), 1, 14));
-  AJsonObject.AddPair('endEletrônicoSacadorAvalista', Copy(ATitulo.Sacado.SacadoAvalista.Email, 1, 70));
+  AJsonObject.AddPair('endEletronicoSacadorAvalista', Copy(ATitulo.Sacado.SacadoAvalista.Email, 1, 70));
 end;
 
 procedure TBoletoW_Bradesco.GerarBenificiarioFinalHibrido(AJsonObject: TACBrJSONObject);
