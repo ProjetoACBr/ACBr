@@ -44,6 +44,8 @@ Símbolo : Significado
 
 04/12/2025
 -- ACBrNFSeXServicos --
+[*] A cidade Ribeirão Pires/SP mudou de provedor, agora é Giss
+   Por: Raquel Basani
 [*] ACBR-8378 - A cidade Jacareí/SP mudou de provedor, agora é PadraoNacional
    Por: Raphael Sanini
 

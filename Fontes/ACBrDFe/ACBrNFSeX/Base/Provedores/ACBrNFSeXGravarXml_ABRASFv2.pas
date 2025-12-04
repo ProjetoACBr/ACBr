@@ -390,6 +390,7 @@ begin
   FNrOcorrInscMunTomador := 0;
   FNrOcorrCodigoPaisServico := 0;
   FNrOcorrRespRetencao := 0;
+  FNrOcorrValorInss := 0;
 
   // Por padrão as tags abaixo são obrigatórias
   FNrOcorrIssRetido := 1;
