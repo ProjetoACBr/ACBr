@@ -273,7 +273,7 @@ begin
   NF3e.gSub.nNF := ObterConteudo(ANode.Childrens.Find('nNF'), tcInt);
 
   xData := ObterConteudo(ANode.Childrens.Find('CompetEmis'), tcStr);
-  if xData <> '' then
+  if (xData <> '') and (xData <> '000000') then
   begin
     xData := '01/' + Copy(xData, 5, 2) + '/' + Copy(xData, 1, 4);
     NF3e.gSub.CompetEmis := StrToDate(xData);
@@ -282,7 +282,7 @@ begin
     NF3e.gSub.CompetEmis := 0;
 
   xData := ObterConteudo(ANode.Childrens.Find('CompetApur'), tcStr);
-  if xData <> '' then
+  if (xData <> '') and (xData <> '000000') then
   begin
     xData := '01/' + Copy(xData, 5, 2) + '/' + Copy(xData, 1, 4);
     NF3e.gSub.CompetApur := StrToDate(xData);
@@ -346,7 +346,7 @@ begin
   Item.vCredExpirar := ObterConteudo(ANode.Childrens.Find('vCredExpirar'), tcDe4);
 
   xData := ObterConteudo(ANode.Childrens.Find('CompetExpirar'), tcStr);
-  if xData <> '' then
+  if (xData <> '') and (xData <> '000000') then
   begin
     xData := '01/' + Copy(xData, 5, 2) + '/' + Copy(xData, 1, 4);
     Item.CompetExpirar := StrToDate(xData);
@@ -372,7 +372,7 @@ begin
   Item.vCredExpirar := ObterConteudo(ANode.Childrens.Find('vCredExpirar'), tcDe4);
 
   xData := ObterConteudo(ANode.Childrens.Find('CompetExpirar'), tcStr);
-  if xData <> '' then
+  if (xData <> '') and (xData <> '000000') then
   begin
     xData := '01/' + Copy(xData, 5, 2) + '/' + Copy(xData, 1, 4);
     Item.CompetExpirar := StrToDate(xData);
@@ -913,7 +913,7 @@ begin
   if not Assigned(ANode) then Exit;
 
   xData := ObterConteudo(ANode.Childrens.Find('CompetFat'), tcStr);
-  if xData <> '' then
+  if (xData <> '') and (xData <> '000000') then
   begin
     xData := '01/' + Copy(xData, 5, 2) + '/' + Copy(xData, 1, 4);
     NF3e.gFat.CompetFat := StrToDate(xData);
@@ -997,7 +997,7 @@ begin
   Item := NF3e.gANEEL.gHistFat[I].gGrandFat.New;
 
   xData := ObterConteudo(ANode.Childrens.Find('CompetFat'), tcStr);
-  if xData <> '' then
+  if (xData <> '') and (xData <> '000000') then
   begin
     xData := '01/' + Copy(xData, 5, 2) + '/' + Copy(xData, 1, 4);
     Item.CompetFat := StrToDate(xData);

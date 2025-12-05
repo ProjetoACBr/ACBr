@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/12/2025
+-- ACBrNF3eXmlReader --
+[-] Corrige leitura dos dados da tag Compet* tarefa ACBR-8542
+   Por: Italo Giurizzato Junior
+   
 22/10/2025
 -- ACBrNF3eXmlWriter --
 [*] Ajuste na função que gera ou não o grupo IBSCBSTot para não gerar um
