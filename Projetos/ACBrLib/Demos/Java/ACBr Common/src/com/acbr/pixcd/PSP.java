@@ -24,7 +24,13 @@ public enum PSP {
         pspAilos (11),
         pspMatera (12),
         pspCielo (13),
-        pspMercadoPago (14);
+        pspMercadoPago (14),
+        pspGate2All(15),
+        pspBanrisul(16),
+        pspC6Bank(17),
+        pspAppLess(18)
+     
+        ;
     
     private static final Map<Integer, PSP> map;
     private final int enumValue;
