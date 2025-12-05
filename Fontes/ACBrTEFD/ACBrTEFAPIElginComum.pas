@@ -270,7 +270,7 @@ var
   var
     s: string;
   begin
-    s := JsonKey(Key);
+    s := Trim(JsonKey(Key));
     Result := ACBrUtil.DateTime.StringToDateTime(s, 'dd/mm/yyyy hh:mm:ss');
   end;
 
