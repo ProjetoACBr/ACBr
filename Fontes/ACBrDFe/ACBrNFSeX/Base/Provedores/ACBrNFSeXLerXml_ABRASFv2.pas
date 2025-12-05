@@ -71,7 +71,7 @@ type
 
     procedure LerOrgaoGerador(const ANode: TACBrXmlNode);
     procedure LerDeclaracaoPrestacaoServico(const ANode: TACBrXmlNode);
-    procedure LerInfDeclaracaoPrestacaoServico(const ANode: TACBrXmlNode);
+    procedure LerInfDeclaracaoPrestacaoServico(const ANode: TACBrXmlNode); virtual;
 
     procedure LerRps(const ANode: TACBrXmlNode);
     procedure LerIdentificacaoRps(const ANode: TACBrXmlNode);
@@ -1388,6 +1388,10 @@ begin
     LerINISecaoCondicaoPagamento(LINIRec);
     LerINISecaoOrgaoGerador(LINIRec);
     LerINISecaoParcelas(LINIRec);
+
+    // Ler os campos do arquivo INI referente a Reforma Tributária
+    LerINIIBSCBS(LINIRec, NFSe.IBSCBS);
+
     Result := True;
   finally
     LIniRec.Free;

@@ -1003,6 +1003,10 @@ begin
     LerINISecaoCondicaoPagamento(LINIRec);
     LerINISecaoOrgaoGerador(LINIRec);
     LerINISecaoParcelas(LINIRec);
+
+    // Ler os campos do arquivo INI referente a Reforma Tributária
+    LerINIIBSCBS(LINIRec, NFSe.IBSCBS);
+
     Result := True;
   finally
     LIniRec.Free;

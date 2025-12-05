@@ -38,7 +38,9 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-   ACBrNFSeXLerXml_ABRASFv1, ACBrNFSeXLerXml_ABRASFv2;
+  ACBrXmlDocument,
+  ACBrNFSeXLerXml_ABRASFv1,
+  ACBrNFSeXLerXml_ABRASFv2;
 
 type
   { TNFSeR_WebISS }
@@ -54,6 +56,7 @@ type
 
   TNFSeR_WebISS202 = class(TNFSeR_ABRASFv2)
   protected
+    procedure LerInfDeclaracaoPrestacaoServico(const ANode: TACBrXmlNode); override;
 
   public
 
@@ -65,5 +68,16 @@ implementation
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:
 //     WebISS
 //==============================================================================
+
+{ TNFSeR_WebISS202 }
+
+procedure TNFSeR_WebISS202.LerInfDeclaracaoPrestacaoServico(
+  const ANode: TACBrXmlNode);
+begin
+  inherited LerInfDeclaracaoPrestacaoServico(ANode);
+
+  // Reforma Tributária
+  LerXMLIBSCBSDPS(ANode.Childrens.FindAnyNs('IBSCBS'), NFSe.IBSCBS);
+end;
 
 end.
