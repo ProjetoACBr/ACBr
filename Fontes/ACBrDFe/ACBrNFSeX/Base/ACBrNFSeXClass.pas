@@ -1651,6 +1651,9 @@ type
     Fender: Tender;
     Ffone: string;
     Femail: string;
+    FIE: string;
+    FIM: string;
+    FxPais: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1662,6 +1665,10 @@ type
     property ender: Tender read Fender write Fender;
     property fone: string read Ffone write Ffone;
     property email: string read Femail write Femail;
+    // Incluido para atender o provedor SigISSWeb
+    property IE: string read FIE write FIE;
+    property IM: string read FIM write FIM;
+    property xPais: string read FxPais write FxPais;
   end;
 
   { TgCompraGov }
@@ -1917,6 +1924,10 @@ type
     Fdest: TDadosdaPessoa;
     Fimovel: TDadosimovel;
     Fvalores: Tvalorestrib;
+    FOperExterior: TIndicador;
+    FOperUF: string;
+    FOperxCidade: string;
+    FConsumoPessoal: TIndicador;
 
     procedure SetgRefNFSe(const Value: TgRefNFSeCollection);
   public
@@ -1933,6 +1944,11 @@ type
     property dest: TDadosdaPessoa read Fdest write Fdest;
     property imovel: TDadosimovel read Fimovel write Fimovel;
     property valores: Tvalorestrib read Fvalores write Fvalores;
+    // Incluido para atender o provedor SigISSWeb
+    property OperExterior: TIndicador read FOperExterior write FOperExterior;
+    property OperUF: string read FOperUF write FOperUF;
+    property OperxCidade: string read FOperxCidade write FOperxCidade;
+    property ConsumoPessoal: TIndicador read FConsumoPessoal write FConsumoPessoal;
   end;
 
   TNFSe = class(TPersistent)

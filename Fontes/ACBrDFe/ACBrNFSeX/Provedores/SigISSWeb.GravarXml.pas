@@ -69,7 +69,8 @@ uses
 function TNFSeW_SigISSWeb.GerarXml: Boolean;
 var
   NFSeNode: TACBrXmlNode;
-  tomadorIdentificado, tipoPessoa, item, cnpjCpfDestinatario: string;
+  tomadorIdentificado, tipoPessoa, item, cnpjCpfDestinatario,
+  xCidade, xUF: string;
 begin
   Configuracao;
 
@@ -364,6 +365,80 @@ begin
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'email_intermediario', 1, 60, 1,
                                          NFSe.Intermediario.Contato.Email, ''));
+  end;
+
+  // Reforma Tributária
+  if (NFSe.IBSCBS.dest.xNome <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib <> '') then
+  begin
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'c_classtrib', 6, 6, 1,
+                              NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib, ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'ind_op', 6, 6, 1,
+                                                       NFSe.IBSCBS.cIndOp, ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'exterior_op', 1, 1, 1,
+                                TIndicadorToStr(NFSe.IBSCBS.OperExterior), ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'uf_local_op', 2, 2, 1,
+                                                       NFSe.IBSCBS.OperUF, ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cidade_local_op', 1, 60, 1,
+                                                  NFSe.IBSCBS.OperxCidade, ''));
+
+    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'consumo_pessoal', 1, 1, 1,
+                              TIndicadorToStr(NFSe.IBSCBS.ConsumoPessoal), ''));
+
+    if NFSe.IBSCBS.dest.xNome <> '' then
+    begin
+      if Length(NFSe.IBSCBS.dest.CNPJCPF) = 14 then
+        NFSeNode.AppendChild(AddNode(tcStr, '#1', 'pessoa_destinatario_cbsibs', 1, 1, 1,
+                                                                       'J', ''))
+      else
+        NFSeNode.AppendChild(AddNode(tcStr, '#1', 'pessoa_destinatario_cbsibs', 1, 1, 1,
+                                                                      'F', ''));
+
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cnpj_cpf_destinatario_cbsibs', 1, 14, 1,
+                                                 NFSe.IBSCBS.dest.CNPJCPF, ''));
+
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'ie_destinatario_cbsibs', 1, 14, 1,
+                                                      NFSe.IBSCBS.dest.IE, ''));
+
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'im_destinatario_cbsibs', 1, 14, 1,
+                                                      NFSe.IBSCBS.dest.IM, ''));
+
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'razao_social_destinatario_cbsibs', 1, 60, 1,
+                                                   NFSe.IBSCBS.dest.xNome, ''));
+
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'endereco_destinatario_cbsibs', 1, 60, 1,
+                                              NFSe.IBSCBS.dest.ender.xLgr, ''));
+
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'numero_ende_destinatario_cbsibs', 1, 60, 1,
+                                               NFSe.IBSCBS.dest.ender.nro, ''));
+
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'complemento_ende_destinatario_cbsibs', 1, 60, 1,
+                                              NFSe.IBSCBS.dest.ender.xCpl, ''));
+
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'bairro_destinatario_cbsibs', 1, 60, 1,
+                                           NFSe.IBSCBS.dest.ender.xBairro, ''));
+
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cep_destinatario_cbsibs', 1, 60, 1,
+                                        NFSe.IBSCBS.dest.ender.endNac.CEP, ''));
+
+      xCidade := ObterNomeMunicipioUF(NFSe.IBSCBS.dest.ender.endNac.cMun, xUF);
+
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cidade_destinatario_cbsibs', 1, 60, 1,
+                                                                  xCidade, ''));
+
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'uf_destinatario_cbsibs', 1, 60, 1,
+                                                                      xUF, ''));
+
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'pais_destinatario_cbsibs', 1, 60, 1,
+                                                   NFSe.IBSCBS.dest.xPais, ''));
+
+      NFSeNode.AppendChild(AddNode(tcStr, '#1', 'email_destinatario_cbsibs', 1, 60, 1,
+                                                   NFSe.IBSCBS.dest.email, ''));
+    end;
   end;
 
   Result := True;

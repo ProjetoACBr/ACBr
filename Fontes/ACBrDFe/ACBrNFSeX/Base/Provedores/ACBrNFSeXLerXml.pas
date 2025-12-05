@@ -1776,6 +1776,12 @@ begin
     IBSCBS.tpEnteGov := StrTotpEnteGov(AINIRec.ReadString(sSecao, 'tpEnteGov', ''));
     IBSCBS.indDest := StrToindDest(AINIRec.ReadString(sSecao, 'indDest', ''));
 
+    // Incluido para atender o provedor SigISSWeb
+    IBSCBS.OperExterior := StrToTIndicador(AINIRec.ReadString(sSecao, 'OperExterior', '0'));
+    IBSCBS.OperUF := AINIRec.ReadString(sSecao, 'OperUF', '');
+    IBSCBS.OperxCidade := AINIRec.ReadString(sSecao, 'OperxCidade', '');
+    IBSCBS.ConsumoPessoal := StrToTIndicador(AINIRec.ReadString(sSecao, 'ConsumoPessoal', '0'));
+
     LerINIgRefNFSe(AINIRec, IBSCBS.gRefNFSe);
     LerINIDestinatario(AINIRec, IBSCBS.dest);
     LerINIImovel(AINIRec, IBSCBS.imovel);
@@ -1813,6 +1819,11 @@ begin
     Dest.Nif := AINIRec.ReadString(sSecao, 'NIF', '');
     Dest.cNaoNIF := StrToNaoNIF(Ok, AINIRec.ReadString(sSecao, 'cNaoNIF', '0'));
     Dest.xNome := AINIRec.ReadString(sSecao, 'xNome', '');
+
+    // Incluido para atender o provedor SigISSWeb
+    Dest.IE := AINIRec.ReadString(sSecao, 'IE', '');
+    Dest.IM := AINIRec.ReadString(sSecao, 'IM', '');
+    Dest.xPais := AINIRec.ReadString(sSecao, 'xPais', '');
 
     Dest.ender.endNac.CEP := AINIRec.ReadString(sSecao, 'CEP', '');
     Dest.ender.endNac.cMun := AINIRec.ReadInteger(sSecao, 'cMun', 0);
