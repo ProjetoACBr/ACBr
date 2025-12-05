@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+05/12/2025
+-- ACBrNFe.EnvEvento --
+[-] #ACBR-8506 - Ajuste para que os eventos de Manifestação sobre Pedido de Transferência de Crédito tanto para o IBS quanto para o CBS não tenham seus acentos removidos.
+  Por: C4Dev
+
 03/12/2025
 -- ACBrNFe.EnvEvento, ACBrNFe.RetEnvEvento --
 [+] #ACBR-8514 - Implementado a leitura de XML dos eventos da Reforma Tributária

@@ -953,7 +953,8 @@ var
        teSolicApropCredPres, teDestItemConsPessoal,
        tePerecPerdaRouboFurtoTranspContratAqu, teAceiteDebitoApuracaoNotaCredito,
        teImobilizacaoItem, teSolicApropCredCombustivel,
-       teSolicApropCredBensServicos, teAtualizacaoDataPrevisaoEntrega];
+       teSolicApropCredBensServicos, teAtualizacaoDataPrevisaoEntrega,
+       teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao];
   end;
 begin
   Result := CreateElement('infEvento');
