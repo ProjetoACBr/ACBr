@@ -1383,7 +1383,7 @@ object frmACBrNFSe: TfrmACBrNFSe
               Top = 0
               Width = 210
               Height = 17
-              Caption = 'Salvar Arquivos em Pastas Separadas'
+              Caption = 'Salvar Arquivos'
               TabOrder = 0
             end
             object cbxPastaMensal: TCheckBox
@@ -1812,7 +1812,7 @@ object frmACBrNFSe: TfrmACBrNFSe
       Top = 41
       Width = 567
       Height = 163
-      ActivePage = tsPadraoNacional
+      ActivePage = tsDemais
       Align = alTop
       TabOrder = 1
       ExplicitWidth = 565
@@ -1826,6 +1826,7 @@ object frmACBrNFSe: TfrmACBrNFSe
           ActivePage = tsEnvios
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 557
           object tsEnvios: TTabSheet
             Caption = 'Envios'
             ImageIndex = 2
@@ -2179,7 +2180,6 @@ object frmACBrNFSe: TfrmACBrNFSe
           ActivePage = tsEnvios1
           Align = alTop
           TabOrder = 0
-          ExplicitWidth = 557
           object tsEnvios1: TTabSheet
             Caption = 'Envios'
             ImageIndex = 2
@@ -2349,6 +2349,15 @@ object frmACBrNFSe: TfrmACBrNFSe
               Caption = 'Consultar DFe'
               TabOrder = 4
               OnClick = btnConsultarDFeClick
+            end
+            object btnConsultarDPSporNumeroPN: TButton
+              Left = 369
+              Top = 10
+              Width = 177
+              Height = 25
+              Caption = 'Consultar DPS por Numero'
+              TabOrder = 5
+              OnClick = btnConsultarDPSporNumeroPNClick
             end
           end
           object tsConsultarParametros: TTabSheet

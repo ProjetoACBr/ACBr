@@ -280,6 +280,7 @@ type
     Label51: TLabel;
     cbFormatoDiscr: TComboBox;
     rgReformaTributaria: TRadioGroup;
+    btnConsultarDPSporNumeroPN: TButton;
 
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
@@ -373,6 +374,7 @@ type
     procedure btnLerINIPNClick(Sender: TObject);
     procedure btnGerarArqINIPNClick(Sender: TObject);
     procedure btnInformacoesClick(Sender: TObject);
+    procedure btnConsultarDPSporNumeroPNClick(Sender: TObject);
   private
     CidAC: Integer;
     CidAL: Integer;
@@ -628,6 +630,7 @@ begin
         // tePadraoNacional, teProprio
         infNFSe.tpEmis := teProprio;
 
+        Prestador.RazaoSocial := 'Nome do Prestador';
         Prestador.Endereco.Endereco := edtEmitLogradouro.Text;
         Prestador.Endereco.Numero := edtEmitNumero.Text;
         Prestador.Endereco.Complemento := edtEmitComp.Text;
@@ -1916,7 +1919,7 @@ begin
         proISSSalvador:
           Servico.CodigoTributacaoMunicipio := '0901001';
 
-        proIPM, proSystemPro:
+        proSystemPro:
           Servico.CodigoTributacaoMunicipio := '';
       else
         Servico.CodigoTributacaoMunicipio := '63194';
@@ -1945,6 +1948,9 @@ begin
       Servico.CodigoNBS := '115021000';
       Servico.cClassTrib := '000001';
       Servico.INDOP := '123456';
+
+      // Provedor Tecnos
+      Servico.CodigoServicoNacional := '010101';
 
       {=========================================================================
         Dados do Prestador de Serviço
@@ -1989,7 +1995,7 @@ begin
         Tomador.IdentificacaoTomador.InscricaoEstadual := '';
       end;
 
-      Tomador.RazaoSocial := 'INSCRICAO DE TESTE & TESTE';
+      Tomador.RazaoSocial := 'INSCRICAO DE TESTE E TESTE';
 
       Tomador.Endereco.TipoLogradouro := 'RUA';
       Tomador.Endereco.Endereco := 'RUA PRINCIPAL';
@@ -2143,6 +2149,14 @@ begin
           xTpReeRepRes := '';
           vlrReeRepRes := 0;
         end;
+
+        // Para o provedor Tecnos
+        IBSCBS.valores.IbsMunicipal := 0;
+        IBSCBS.valores.ValorIbsMunicipal := 0;
+        IBSCBS.valores.IbsEstadual := 0.1;
+        IBSCBS.valores.ValorIbsEstadual := 100;
+        IBSCBS.valores.Cbs := 0.9;
+        IBSCBS.valores.ValorCbs := 100;
 
         // cst000, cst010, cst011, cst200, cst210, cst221, cst400, cst410
         // cst510, cst550, cst800, cst820
@@ -4787,6 +4801,25 @@ begin
                                 CodVerif, sNumNFSeSub);
 
   ChecarResposta(tmSubstituirNFSe);
+end;
+
+procedure TfrmACBrNFSe.btnConsultarDPSporNumeroPNClick(Sender: TObject);
+var
+  xTitulo, xNumero, xSerie: String;
+begin
+  xTitulo := 'Consultar DPS por Numero/Serie - Provedor Pronim - API Própria';
+
+  xNumero := '';
+  if not (InputQuery(xTitulo, 'Numero do DPS:', xNumero)) then
+    exit;
+
+  xSerie := '';
+  if not (InputQuery(xTitulo, 'Serie do DPS:', xSerie)) then
+    exit;
+
+  ACBrNFSeX1.ConsultarDPSPorNumero(xNumero, xSerie);
+
+  ChecarResposta(tmConsultarNFSePorRps);
 end;
 
 procedure TfrmACBrNFSe.btnConsultarNFSeServicoTomadoPorPeriodoClick(Sender: TObject);
