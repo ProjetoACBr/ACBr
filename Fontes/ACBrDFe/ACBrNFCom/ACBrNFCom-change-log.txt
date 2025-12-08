@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+08/12/2025
+-- ACBrNFComXmlWriter --
+[*] ACBR-8552 - Alterado a geração da tag IE do Destinatário, pois se indIEDest for 9
+    o não contribuinte pode ter ou não a inscrição estadual.
+   Por: Julio Francis
 21/11/2025
 -- ACBrNFComXmlReader/ACBrNFComXmlWriter --
 [*] Alteração visando gerar as tagas vItem e vProd com 8 casas decimais.

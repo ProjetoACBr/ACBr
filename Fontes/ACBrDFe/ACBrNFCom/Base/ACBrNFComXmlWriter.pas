@@ -570,21 +570,18 @@ begin
   Result.AppendChild(AddNode(tcStr, '#46', 'indIEDest', 1, 1, 1,
                           indIEDestToStr(NFCom.Dest.indIEDest), DSC_INDIEDEST));
 
-  if NFCom.Dest.indIEDest <> inNaoContribuinte then
+  nIE := NFCom.Dest.IE;
+
+  if nIE <> '' then
   begin
-    nIE := NFCom.Dest.IE;
+    if nIE <> 'ISENTO' then
+      nIE := OnlyNumber(NFCom.Dest.IE);
 
-    if nIE <> '' then
-    begin
-      if nIE <> 'ISENTO' then
-        nIE := OnlyNumber(NFCom.Dest.IE);
+    Result.AppendChild(AddNode(tcStr, '#47', 'IE', 0, 14, 1, nIE, DSC_IE));
 
-      Result.AppendChild(AddNode(tcStr, '#47', 'IE', 0, 14, 1, nIE, DSC_IE));
-
-      if (Opcoes.ValidarInscricoes) and (nIE <> 'ISENTO') then
-        if not ValidarIE(nIE, UF) then
-          wAlerta('#47', 'IE', DSC_IE, ERR_MSG_INVALIDO);
-    end;
+    if (Opcoes.ValidarInscricoes) and (nIE <> 'ISENTO') then
+      if not ValidarIE(nIE, UF) then
+        wAlerta('#47', 'IE', DSC_IE, ERR_MSG_INVALIDO);
   end;
 
   Result.AppendChild(AddNode(tcStr, '#48', 'IM', 1, 15, 0,
