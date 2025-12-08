@@ -390,6 +390,7 @@ type
     FValorMulta: Double;
     FValorJuros: Double;
     FValorIPI: Double;
+    FUnidadeServico: string;
 
     procedure SetDocDeducao(const Value: TDocDeducaoCollection);
   public
@@ -468,6 +469,8 @@ type
     property ValorMulta: Double read FValorMulta write FValorMulta;
     property ValorJuros: Double read FValorJuros write FValorJuros;
     property ValorIPI: Double read FValorIPI write FValorIPI;
+    // Provedor Publica
+    property UnidadeServico: string read FUnidadeServico write FUnidadeServico;
   end;
 
   TDadosDeducao = class(TObject)
@@ -860,6 +863,7 @@ type
     FcClassTrib: string;
     FINDOP: string;
     FCodigoServicoNacional: string;
+    FCodigoMunicipioLocalPrestacao: Integer;
 
     procedure SetItemServico(Value: TItemServicoCollection);
     procedure SetDeducao(const Value: TDeducaoCollection);
@@ -926,6 +930,8 @@ type
     property INDOP: string read FINDOP write FINDOP;
 
     property CodigoServicoNacional: string read FCodigoServicoNacional write FCodigoServicoNacional;
+    // Provedor Publica
+    property CodigoMunicipioLocalPrestacao: Integer read FCodigoMunicipioLocalPrestacao write FCodigoMunicipioLocalPrestacao;
   end;
 
   TDadosPessoa = class(TObject)
@@ -1628,6 +1634,8 @@ type
     Fnro: string;
     FxCpl: string;
     FxBairro: string;
+    FUF: string;
+    FDescricaoMunicipio: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1638,6 +1646,9 @@ type
     property nro: string read Fnro write Fnro;
     property xCpl: string read FxCpl write FxCpl;
     property xBairro: string read FxBairro write FxBairro;
+    // Usado pelo provedor Pulica
+    property UF: string read FUF write FUF;
+    property DescricaoMunicipio: string read FDescricaoMunicipio write FDescricaoMunicipio;
   end;
 
   { TDadosdaPessoa }
@@ -1654,6 +1665,7 @@ type
     FIE: string;
     FIM: string;
     FxPais: string;
+    FTipoServico: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1669,6 +1681,8 @@ type
     property IE: string read FIE write FIE;
     property IM: string read FIM write FIM;
     property xPais: string read FxPais write FxPais;
+    // Incluido para atender o provedor Publica
+    property TipoServico: string read FTipoServico write FTipoServico;
   end;
 
   { TgCompraGov }
@@ -1861,6 +1875,9 @@ type
     Fnro: string;
     FxCpl: string;
     FxBairro: string;
+    FUF: string;
+    FDescricaoMunicipio: string;
+    FCodigoMunicipio: Integer;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1871,6 +1888,10 @@ type
     property nro: string read Fnro write Fnro;
     property xCpl: string read FxCpl write FxCpl;
     property xBairro: string read FxBairro write FxBairro;
+    // Usado pelo provedor Pulica
+    property UF: string read FUF write FUF;
+    property DescricaoMunicipio: string read FDescricaoMunicipio write FDescricaoMunicipio;
+    property CodigoMunicipio: Integer read FCodigoMunicipio write FCodigoMunicipio;
   end;
 
   { TDadosimovel }

@@ -115,6 +115,7 @@ resourcestring
   DSC_CPF = 'CPF';
   DSC_IE = 'Inscrição Estadual';
   DSC_IM = 'Inscrição Municipal';
+  DSC_NIF = 'NIF';
 
   // Descrição de Identificação do Documento Fiscal - Futuramente vai para ACBrDFeConst
   DSC_TPAMB = 'Identificação do Ambiente';

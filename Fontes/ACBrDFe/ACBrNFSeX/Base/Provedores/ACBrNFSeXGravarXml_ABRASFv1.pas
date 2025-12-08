@@ -104,6 +104,8 @@ type
     function GerarConstrucaoCivil: TACBrXmlNode; virtual;
     function GerarCondicaoPagamento: TACBrXmlNode; virtual;
     function GerarParcelas: TACBrXmlNodeArray; virtual;
+    function GerarDestinatario: TACBrXmlNode; virtual;
+    function GerarImovel: TACBrXmlNode; virtual;
 
     function GerarServicoCodigoMunicipio: TACBrXmlNode; virtual;
     function GerarCodigoMunicipioUF: TACBrXmlNodeArray; virtual;
@@ -330,8 +332,10 @@ begin
   Result.AppendChild(GerarPrestador);
   Result.AppendChild(GerarTomador);
   Result.AppendChild(GerarIntermediarioServico);
-  Result.AppendChild(GerarConstrucaoCivil);
+  Result.AppendChild(GerarDestinatario);
+  Result.AppendChild(GerarImovel);
   Result.AppendChild(GerarCondicaoPagamento);
+  Result.AppendChild(GerarConstrucaoCivil);
 end;
 
 function TNFSeW_ABRASFv1.GerarIdentificacaoRPS: TACBrXmlNode;
@@ -560,6 +564,9 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#38', 'InscricaoEstadual', 1, 20, NrocorrInscEstTomador,
                   NFSe.Tomador.IdentificacaoTomador.InscricaoEstadual, DSC_IE));
+
+  Result.AppendChild(AddNode(tcStr, '#39', 'Nif', 1, 40, 0,
+                  NFSe.Tomador.IdentificacaoTomador.Nif, DSC_NIF));
 end;
 
 function TNFSeW_ABRASFv1.GerarEnderecoTomador: TACBrXmlNode;
@@ -655,6 +662,18 @@ begin
     Result.AppendChild(AddNode(tcStr, '#52', 'Art', 1, 15, 1,
                                             NFSe.ConstrucaoCivil.Art, DSC_ART));
   end;
+end;
+
+function TNFSeW_ABRASFv1.GerarDestinatario: TACBrXmlNode;
+begin
+  // Aqui não fazer nada
+  Result := nil;
+end;
+
+function TNFSeW_ABRASFv1.GerarImovel: TACBrXmlNode;
+begin
+  // Aqui não fazer nada
+  Result := nil;
 end;
 
 function TNFSeW_ABRASFv1.GerarCondicaoPagamento: TACBrXmlNode;

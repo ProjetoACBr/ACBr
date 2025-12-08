@@ -1825,6 +1825,9 @@ begin
     Dest.IM := AINIRec.ReadString(sSecao, 'IM', '');
     Dest.xPais := AINIRec.ReadString(sSecao, 'xPais', '');
 
+    // Incluido para atender o provedor Publica
+    Dest.TipoServico := AINIRec.ReadString(sSecao, 'TipoServico', '');
+
     Dest.ender.endNac.CEP := AINIRec.ReadString(sSecao, 'CEP', '');
     Dest.ender.endNac.cMun := AINIRec.ReadInteger(sSecao, 'cMun', 0);
     Dest.ender.endExt.cPais := AINIRec.ReadInteger(sSecao, 'cPais', 0);
