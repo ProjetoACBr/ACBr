@@ -2689,8 +2689,7 @@ end;
 procedure TForm1.btPagSeguroGerarChavesClick(Sender: TObject);
 var
   wErros: TStringList;
-  wPathPublic, wPathPrivate: String;
-  wPublicKey, wPrivateKey: AnsiString;
+  wPathPublic, wPathPrivate, wPublicKey, wPrivateKey: String;
 begin
   wErros := TStringList.Create;
   try
