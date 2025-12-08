@@ -123,8 +123,13 @@ type
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
 
+    procedure LerNFSe(NFSeXml: string);
+
     procedure PrepararEmitir(Response: TNFSeEmiteResponse); override;
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
+
+    procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
+    procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
 
     procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
   end;
@@ -138,6 +143,7 @@ uses
   synacode,
   ACBrUtil.XMLHTML,
   ACBrUtil.Strings,
+  ACBrUtil.Base,
   ACBrDFeException,
   ACBrNFSeX,
   ACBrNFSeXConfiguracoes,
@@ -627,7 +633,11 @@ begin
   URL := GetWebServiceURL(AMetodo);
 
   if URL <> '' then
+  begin
+    URL := URL + Path;
+
     Result := TACBrNFSeXWebservicePronimAPIPropria.Create(FAOwner, AMetodo, URL, Method)
+  end
   else
   begin
     if ConfigGeral.Ambiente = taProducao then
@@ -635,6 +645,11 @@ begin
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
   end;
+end;
+
+procedure TACBrNFSeProviderPronimAPIPropria.LerNFSe(NFSeXml: string);
+begin
+
 end;
 
 procedure TACBrNFSeProviderPronimAPIPropria.PrepararEmitir(
@@ -797,13 +812,159 @@ begin
 
       if NFSeXml <> '' then
       begin
-        NFSeXml := DeCompress(DecodeBase64(NFSeXml));
+        NFSeXml := DecodeToString(DeCompress(DecodeBase64(NFSeXml)), True);
 
         AResumo.XmlRetorno := NFSeXml;
 
         LerNFSe(NFSeXml);
       end;
     end;
+  end;
+end;
+
+procedure TACBrNFSeProviderPronimAPIPropria.PrepararConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+  CnpjCpf: string;
+begin
+  if EstaVazio(Response.NumeroRps) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod102;
+    AErro.Descricao := ACBrStr(Desc102);
+    Exit;
+  end;
+
+  if EstaVazio(Response.SerieRps) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod103;
+    AErro.Descricao := ACBrStr(Desc103);
+    Exit;
+  end;
+
+  CnpjCpf := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+
+  Path := '/ConsultarDPS/' + CnpjCpf + '/' + Response.SerieRps + '/' +
+          Response.NumeroRps;
+  Response.ArquivoEnvio := Path;
+  Method := 'GET';
+end;
+
+procedure TACBrNFSeProviderPronimAPIPropria.TratarRetornoConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  Document, JSon: TACBrJSONObject;
+  AErro: TNFSeEventoCollectionItem;
+  JSonLote: TACBrJSONArray;
+  i: Integer;
+  AResumo: TNFSeResumoCollectionItem;
+  NFSeXml: string;
+  DocumentXml: TACBrXmlDocument;
+  ANode: TACBrXmlNode;
+  NumNFSe, NumDps, CodVerif: string;
+  DataAut: TDateTime;
+  ANota: TNotaFiscal;
+
+  procedure LerNFSe(NFSeXml: string);
+  begin
+    if NFSeXml = '' then
+    begin
+      AErro := Response.Erros.New;
+      AErro.Codigo := Cod203;
+      AErro.Descricao := ACBrStr(Desc203);
+      Exit
+    end;
+
+    DocumentXml := TACBrXmlDocument.Create;
+
+    try
+      try
+        DocumentXml.LoadFromXml(NFSeXml);
+
+        ANode := DocumentXml.Root.Childrens.FindAnyNs('infNFSe');
+
+        CodVerif := OnlyNumber(ObterConteudoTag(ANode.Attributes.Items['Id']));
+        NumNFSe := ObterConteudoTag(ANode.Childrens.FindAnyNs('nNFSe'), tcStr);
+        DataAut := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhProc'), tcDatHor);
+
+        ANode := ANode.Childrens.FindAnyNs('DPS');
+        ANode := ANode.Childrens.FindAnyNs('infDPS');
+        NumDps := ObterConteudoTag(ANode.Childrens.FindAnyNs('nDPS'), tcStr);
+
+        with Response do
+        begin
+          NumeroNota := NumNFSe;
+          Data := DataAut;
+          XmlRetorno := NFSeXml;
+        end;
+
+        ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumDps);
+
+        ANota := CarregarXmlNfse(ANota, DocumentXml.Root.OuterXml);
+        SalvarXmlNfse(ANota);
+      except
+        on E:Exception do
+        begin
+          AErro := Response.Erros.New;
+          AErro.Codigo := Cod999;
+          AErro.Descricao := ACBrStr(Desc999 + E.Message);
+        end;
+      end;
+    finally
+      FreeAndNil(DocumentXml);
+    end;
+  end;
+begin
+  if Response.ArquivoRetorno = '' then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod201;
+    AErro.Descricao := ACBrStr(Desc201);
+    Exit
+  end;
+
+  Document := TACBrJsonObject.Parse(Response.ArquivoRetorno);
+
+  try
+    try
+      ProcessarMensagemDeErros(Document, Response);
+      Response.Sucesso := (Response.Erros.Count = 0);
+
+      JSonLote := Document.AsJSONArray['notas'];
+
+      if JSonLote.Count > 0 then
+      begin
+        for i := 0 to JSonLote.Count-1 do
+        begin
+          JSon := JSonLote.ItemAsJSONObject[i];
+
+          AResumo := Response.Resumos.New;
+          AResumo.Link := JSon.AsString['chave'];
+
+          NFSeXml := JSon.AsString['xmlGZipB64'];
+
+          if NFSeXml <> '' then
+          begin
+            NFSeXml := DecodeToString(DeCompress(DecodeBase64(NFSeXml)), True);
+
+            AResumo.XmlRetorno := NFSeXml;
+
+            LerNFSe(NFSeXml);
+          end;
+        end;
+      end;
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
   end;
 end;
 
@@ -819,7 +980,8 @@ begin
     case aMetodo of
       tmGerar:
         begin
-          Response.ArquivoEnvio := '{"loteXmlGZipB64":["' + Response.ArquivoEnvio + '"]}'
+          Response.ArquivoEnvio := '{"loteXmlGZipB64":["' + Response.ArquivoEnvio + '"]}';
+          Path := '/EnviarSincrono';
         end;
 
       tmEnviarEvento:

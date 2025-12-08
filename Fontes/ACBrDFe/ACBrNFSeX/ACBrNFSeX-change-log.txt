@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 08/12/2025
+-- Pronim.Provider --
+[+] ACBR-8541 - Implementado a Consulta ao DPS por numero e serie do mesmo.
+    Consulta exclusiva para o provedor Pronim - API Própria.
+   Por: Italo Giurizzato Junior
 -- PadraoNacional.GravarXml --
 [*] ACBR-8551 - Alterado a condição para gerar o grupo comExt, pois o valor do serviço pode ser zero.
    Por: Leonardo Gomes

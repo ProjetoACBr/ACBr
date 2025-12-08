@@ -198,6 +198,8 @@ type
     procedure ConsultarParametros(ATipoParamMunic: TParamMunic;
       const ACodigoServico: string = ''; ACompetencia: TDateTime = 0;
       const ANumeroBeneficio: string = '');
+    // Usado pelo provedor Pronim (API Propria)
+    procedure ConsultarDPSPorNumero(const aNumero, aSerie: string);
 
     function GetNomeModeloDFe: String; override;
     function GetNameSpaceURI: String; override;
@@ -645,6 +647,18 @@ begin
 
   FWebService.ConsultaNFSeporRps.Clear;
   FWebService.ConsultaNFSeporRps.NumeroRps := aChave;
+
+  FProvider.ConsultaNFSeporRps;
+end;
+
+procedure TACBrNFSeX.ConsultarDPSPorNumero(const aNumero, aSerie: string);
+begin
+  if not Assigned(FProvider) then
+    raise EACBrNFSeException.Create(ERR_SEM_PROVEDOR);
+
+  FWebService.ConsultaNFSeporRps.Clear;
+  FWebService.ConsultaNFSeporRps.NumeroRps := aNumero;
+  FWebService.ConsultaNFSeporRps.SerieRps := aSerie;
 
   FProvider.ConsultaNFSeporRps;
 end;
