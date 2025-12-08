@@ -1857,12 +1857,25 @@ type
   private
     FgReeRepRes: TgReeRepRes;
     Ftrib: Ttrib;
+    FValorIbsMunicipal: Double;
+    FCbs: Double;
+    FIbsEstadual: Double;
+    FValorCbs: Double;
+    FValorIbsEstadual: Double;
+    FIbsMunicipal: Double;
   public
     constructor Create;
     destructor Destroy; override;
 
     property gReeRepRes: TgReeRepRes read FgReeRepRes write FgReeRepRes;
     property trib: Ttrib read Ftrib write Ftrib;
+    // Incluido para atender o provedor Tecnos
+    property IbsMunicipal: Double read FIbsMunicipal write FIbsMunicipal;
+    property ValorIbsMunicipal: Double read FValorIbsMunicipal write FValorIbsMunicipal;
+    property IbsEstadual: Double read FIbsEstadual write FIbsEstadual;
+    property ValorIbsEstadual: Double read FValorIbsEstadual write FValorIbsEstadual;
+    property Cbs: Double read FCbs write FCbs;
+    property ValorCbs: Double read FValorCbs write FValorCbs;
   end;
 
   { TenderImovel }

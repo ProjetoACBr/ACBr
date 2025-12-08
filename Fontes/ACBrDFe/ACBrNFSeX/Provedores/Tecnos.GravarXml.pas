@@ -195,10 +195,31 @@ end;
 function TNFSeW_Tecnos201.GerarValores: TACBrXmlNode;
 var
   item: string;
+  Valores: TACBrXmlNode;
 begin
   Result := CreateElement('tcDadosServico');
 
-  Result.AppendChild(inherited GerarValores);
+  Valores := inherited GerarValores;
+
+  Valores.AppendChild(AddNode(tcDe2, '#29', 'IbsMunicipal', 1, 5, 0,
+                                         NFSe.IBSCBS.valores.IbsMunicipal, ''));
+
+  Valores.AppendChild(AddNode(tcDe2, '#29', 'ValorIbsMunicipal', 1, 15, 0,
+                                    NFSe.IBSCBS.valores.ValorIbsMunicipal, ''));
+
+  Valores.AppendChild(AddNode(tcDe2, '#29', 'IbsEstadual', 1, 5, 0,
+                                          NFSe.IBSCBS.valores.IbsEstadual, ''));
+
+  Valores.AppendChild(AddNode(tcDe2, '#29', 'ValorIbsEstadual', 1, 15, 0,
+                                     NFSe.IBSCBS.valores.ValorIbsEstadual, ''));
+
+  Valores.AppendChild(AddNode(tcDe2, '#29', 'Cbs', 1, 5, 0,
+                                                  NFSe.IBSCBS.valores.Cbs, ''));
+
+  Valores.AppendChild(AddNode(tcDe2, '#29', 'ValorCbs', 1, 15, 0,
+                                             NFSe.IBSCBS.valores.ValorCbs, ''));
+
+  Result.AppendChild(Valores);
 
   Result.AppendChild(AddNode(tcStr, '#20', 'IssRetido', 1, 01, 1,
     FpAOwner.SituacaoTributariaToStr(NFSe.Servico.Valores.IssRetido), DSC_INDISSRET));
@@ -235,6 +256,12 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#37', 'NumeroProcesso', 1, 30, 1,
                                    NFSe.Servico.NumeroProcesso, DSC_NPROCESSO));
+
+  Result.AppendChild(AddNode(tcStr, '#37', 'CodigoNBS', 1, 30, 0,
+                                                   NFSe.Servico.CodigoNBS, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#37', 'CodigoServicoNacional', 1, 30, 0,
+                                       NFSe.Servico.CodigoServicoNacional, ''));
 end;
 
 end.

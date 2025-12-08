@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 08/12/2025
+-- ACBrNFSeXClass/Tecnos.GravarXml --
+[*] ACBR-8458 - Alterações para atender o provedor Tecnos no que se refere a Reforma Tributária.
+   Por: Italo Giurizzato Junior
 -- Diversos --
 [*] ACBR-8508/8520 - Alterações em diversas units para atender o provedor Publica no 
     que se refere a Reforma Tributária.
