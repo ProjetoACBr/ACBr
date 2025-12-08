@@ -307,11 +307,12 @@ procedure TACBrPSPPixPDV.PostQrRefund(const aQrCodeId: string);
 var
   wBody, wURL: String;
   wRespostaHttp: AnsiString;
-  wResultCode: Integer;
+  wLen, wResultCode: Integer;
   wJs: TACBrJSONObject;
   wOk: Boolean;
 begin
-  if EstaVazio(aQrCodeId) then
+  wLen := Length(aQrCodeId);
+  if EstaVazio(aQrCodeId) or (wLen > 36) then
     DispararExcecao(EACBrPixException.CreateFmt(ACBrStr(sErroParametroInvalido), ['QRCode_ID']));
 
   wJs := TACBrJSONObject.Create;

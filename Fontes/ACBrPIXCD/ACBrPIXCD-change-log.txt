@@ -47,6 +47,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/12/2025
+-- ACBrPIXPSPPixPDV --
+[*] Ajuste para validar tamanho do campo qrcodeId para no máximo 36 caracteres. Alteração solicitada
+    por José Nilton, devido a envios constantes de conteúdo inválido.
+    por: Elias Cesar
+
 02/12/2025
 -- ACBrPIXPSPPagSeguro --
 [*] Alteração no método 'SolicitarCertificado' para retornar corretamente os arquivos Certificado 
