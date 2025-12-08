@@ -1261,10 +1261,10 @@ begin
                 LPermitePagamentoParcial                                + // 394-394 Se permite pagamento parcial; (manual 7 posicoes)
 
                 IntToStrZero( aRemessa.Count + 1, 6 );
-
+        aRemessa.Add(UpperCase(wLinha));
        if ATipoOcorrencia = '01' then
        begin
-         wLinha:= wLinha + sLineBreak                            +
+         wLinha:=
                 '5'                                              + //Tipo Registro
                 '99'                                             + //Tipo de Serviço (Cobrança de Multa)
                 IfThen((PercentualMulta > 0),
@@ -1275,10 +1275,9 @@ begin
                 IntToStrZero( round( PercentualMulta * 100), 12) + //Perc. Multa
                 sDiasBaixa                                       + //Qtd dias Recebimento após vencimento
                 Space(369)                                       + //Brancos
-                IntToStrZero(aRemessa.Count + 2 ,6);
+                IntToStrZero(aRemessa.Count + 1 ,6);
+               aRemessa.Add(UpperCase(wLinha));
        end;
-
-       aRemessa.Text := aRemessa.Text + UpperCase(wLinha);
 
        if (StrToIntDef(ATipoOcorrencia,0) in [1,85,86]) and ((Instrucao1 = '88') or (Instrucao2 = '88')) then
        begin
