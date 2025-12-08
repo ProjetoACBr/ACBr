@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 08/12/2025
+-- EL.GravarXml --
+[-] Correção para evitar erro de validação.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXLerXml --
 [-] Correção para evitar loop infinito.
    Por: Italo Giurizzato Junior
