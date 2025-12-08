@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 08/12/2025
+-- PadraoNacional.GravarXml --
+[*] ACBR-8551 - Alterado a condição para gerar o grupo comExt, pois o valor do serviço pode ser zero.
+   Por: Leonardo Gomes
 -- ISSSaoPaulo.Provider --
 [*] ACBR-8550 - Se não tem Intermediário não é necessário incluir na assinatura adicional.
    Por: Leonardo Gomes

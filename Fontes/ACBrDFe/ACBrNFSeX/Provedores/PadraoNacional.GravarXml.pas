@@ -873,7 +873,7 @@ function TNFSeW_PadraoNacional.GerarXMLComercioExterior: TACBrXmlNode;
 begin
   Result := nil;
 
-  if NFSe.Servico.comExt.vServMoeda > 0 then
+  if NFSe.Servico.comExt.tpMoeda > 0 then
   begin
     Result := CreateElement('comExt');
 
