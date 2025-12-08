@@ -172,8 +172,11 @@ begin
 
     if FPVersaoDFe = '2' then
     begin
-      sInter := sIndInter + Poem_Zeros(sCPFCNPJInter, 14) + sISSRetidoInter  +
-                sNIF;
+      if (sCPFCNPJInter <> '') then
+        sInter := sIndInter + Poem_Zeros(sCPFCNPJInter, 14) + sISSRetidoInter + sNIF
+      else
+        sInter := '';
+
       iTamanhoIM := 12;
     end
     else

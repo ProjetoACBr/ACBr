@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 08/12/2025
+-- ISSSaoPaulo.Provider --
+[*] ACBR-8550 - Se não tem Intermediário não é necessário incluir na assinatura adicional.
+   Por: Leonardo Gomes
 -- ACBrNFSeXClass/Tecnos.GravarXml --
 [*] ACBR-8458 - Alterações para atender o provedor Tecnos no que se refere a Reforma Tributária.
    Por: Italo Giurizzato Junior
