@@ -1080,6 +1080,7 @@ begin
         Aliquota := StringToFloatDef(AINIRec.ReadString(sSecao, 'Aliquota', ''), 0);
         Valor := StringToFloatDef(sFim, 0);
       end;
+
       Inc(i);
     end;
 
@@ -1804,6 +1805,8 @@ begin
       break;
 
     gRefNFSe.New.refNFSe := sFim;
+
+    inc(i);
   end;
 end;
 
@@ -1917,6 +1920,8 @@ begin
       xTpReeRepRes := AINIRec.ReadString(sSecao, 'xTpReeRepRes', '');
       vlrReeRepRes := StringToFloatDef(AINIRec.ReadString(sSecao, 'vlrReeRepRes', ''), 0);
     end;
+
+    inc(i);
   end;
 end;
 

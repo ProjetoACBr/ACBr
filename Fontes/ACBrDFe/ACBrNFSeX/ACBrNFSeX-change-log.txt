@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 08/12/2025
+-- ACBrNFSeXLerXml --
+[-] Correção para evitar loop infinito.
+   Por: Italo Giurizzato Junior
 -- Pronim.Provider --
 [+] ACBR-8541 - Implementado a Consulta ao DPS por numero e serie do mesmo.
     Consulta exclusiva para o provedor Pronim - API Própria.
