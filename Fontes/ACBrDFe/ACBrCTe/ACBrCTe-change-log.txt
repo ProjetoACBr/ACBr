@@ -45,11 +45,15 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+09/12/2025
+-- ACBrCTeWebServices --
+[*] Ajuste para retornar a data/hora de recebimento do envio do CT-e.
+  Por: Italo Giurizzato Junior
+
 10/11/2025
 -- ACBrCTe.IniWriter/ACBrCTe.XmlWriter --
 [-] Correção para emitir CTe Simplificado com os novos campos do IBS CBS.
   Por: Italo Giurizzato Junior
-
 
 03/11/2025
 -- ACBrCTe.XmlWriter --

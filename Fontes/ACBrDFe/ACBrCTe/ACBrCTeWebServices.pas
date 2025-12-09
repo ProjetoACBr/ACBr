@@ -1170,6 +1170,7 @@ begin
 
           FcUF  := FCTeRetornoSincrono.cUF;
           chCTe := FCTeRetornoSincrono.ProtCTe.chDFe;
+          FdhRecbto := FCTeRetornoSincrono.protCTe.dhRecbto;
 
           if (FCTeRetornoSincrono.protCTe.cStat > 0) then
             FcStat := FCTeRetornoSincrono.protCTe.cStat
