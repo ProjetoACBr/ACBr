@@ -391,6 +391,7 @@ begin
   FNrOcorrCodigoPaisServico := 0;
   FNrOcorrRespRetencao := 0;
   FNrOcorrValorInss := 0;
+  FNrOcorrCodigoNBS := 0;
 
   // Por padrão as tags abaixo são obrigatórias
   FNrOcorrIssRetido := 1;
@@ -456,7 +457,6 @@ begin
   FNrOcorrRetidoCsll := -1;
   FNrOcorrValorTTS := -1;
   FNrOcorrQuantDiarias := -1;
-  FNrOcorrCodigoNBS := -1;
   FNrOcorrDataPagamento := -1;
   FNrOcorrValorCpp := -1;
   FNrOcorrAliquotaCpp := -1;

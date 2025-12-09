@@ -66,7 +66,6 @@ procedure TNFSeW_ISSe201.Configuracao;
 begin
   inherited Configuracao;
 
-  NrOcorrCodigoNBS := 0;
   NrOcorrDataPagamento := 0;
   NrOcorrValorPis := 1;
   NrOcorrValorCofins := 1;

@@ -93,9 +93,6 @@ begin
   NrOcorrCodigoPaisTomador := -1;
   NrOcorrcCredPres := -1;
 
-  if Now >= EncodeDate(2026, 1, 1) then
-    NrOcorrCodigoNBS := 1;
-
   GerarDest := False;
   GerarImovel := False;
   GerarTribRegular := False;

@@ -151,7 +151,6 @@ begin
   FormatoAliq := tcDe2;
 
   NrOcorrCodTribMun_1 := 0;
-  NrOcorrCodigoNBS := 0;
   NrOcorrInformacoesComplemetares := 0;
 
   NrOcorrDiscriminacao_2 := 1;

@@ -95,8 +95,6 @@ begin
   inherited Configuracao;
 
   FormatoItemListaServico := filsSemFormatacao;
-
-  NrOcorrCodigoNBS := 0;
 end;
 
 function TNFSeW_WebISS202.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;

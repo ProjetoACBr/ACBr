@@ -45,6 +45,9 @@ Símbolo : Significado
 
 
 09/12/2025
+-- Diversos --
+[*] Ajustes para gerar a tag CodigoNbs para os provedores que usam a versão 2 do layout da ABRASF.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXConversao --
 [*] Acrescentado as Naturezas de Operação: 602 e 603.
    Por: Italo Giurizzato Junior
