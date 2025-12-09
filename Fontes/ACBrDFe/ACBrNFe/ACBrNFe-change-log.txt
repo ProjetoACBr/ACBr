@@ -45,6 +45,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 09/12/2025
+-- ACBrNFe.XmlWriter --
+[-] Possível solução para gerar corretamente o grupo Entrega.
+  Por: Italo Giurizzato Junior
 -- ACBrNFeNotasFiscais/ACBrNFeWebServices/ACBrNFe.XmlReader --
 [*] Melhorias na leitura do XML da NF-e.
   Por: Diego Folieni/Italo Giurizzato Junior

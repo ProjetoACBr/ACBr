@@ -976,7 +976,7 @@ begin
   Result := nil;
   if trim(NFe.Retirada.xLgr) <> '' then
   begin
-    AjustarMunicipioUF(xUF, xMun, cMun, NFe.Emit.EnderEmit.cPais,
+    AjustarMunicipioUF(xUF, xMun, cMun, NFe.Retirada.cPais,
       NFe.Retirada.UF, NFe.Retirada.xMun, NFe.Retirada.cMun);
     Result := FDocument.CreateElement('retirada');
     Result.AppendChild(AddNodeCNPJCPF('F02', 'F02a', NFe.Retirada.CNPJCPF, True, False));
@@ -1024,8 +1024,9 @@ begin
   Result := nil;
   if trim(NFe.Entrega.xLgr) <> '' then
   begin
-    AjustarMunicipioUF(xUF, xMun, cMun, NFe.Emit.EnderEmit.cPais,
+    AjustarMunicipioUF(xUF, xMun, cMun, NFe.Entrega.cPais,
       NFe.Entrega.UF, NFe.Entrega.xMun, NFe.Entrega.cMun);
+
     Result := FDocument.CreateElement('entrega');
     Result.AppendChild(AddNodeCNPJCPF('G02', 'G02a', NFe.Entrega.CNPJCPF, True, False));
     Result.AppendChild(AddNode(tcStr, 'G02b', 'xNome', 02, 60, 0,
