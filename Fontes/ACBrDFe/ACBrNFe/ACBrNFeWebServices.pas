@@ -2504,10 +2504,11 @@ begin
 
               FRetNFeDFe := '';
 
-              if (NaoEstaVazio(SeparaDados(FPRetWS, 'procEventoNFe'))) then
+              Inicio := Pos('<procEventoNFe', FPRetWS);
+
+              if Inicio > 0 then
               begin
-                Inicio := Pos('<procEventoNFe', FPRetWS);
-                Fim    := Pos('</retConsSitNFe', FPRetWS) -1;
+                Fim := Pos('</retConsSitNFe', FPRetWS) -1;
 
                 aEventos := Copy(FPRetWS, Inicio, Fim - Inicio + 1);
                 VersaoEventos := RetornarConteudoEntre(aEventos, 'versao="', '"');
@@ -2517,9 +2518,9 @@ begin
                                '<procNFe versao="' + FVersao + '">' +
                                  SeparaDados(XMLOriginal, 'nfeProc') +
                                '</procNFe>' +
-                               '<procEventoNFe versao="' + VersaoEventos + '">' +
+//                               '<procEventoNFe versao="' + VersaoEventos + '">' +
                                  aEventos +
-                               '</procEventoNFe>' +
+//                               '</procEventoNFe>' +
                               '</NFeDFe>';
               end;
 

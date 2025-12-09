@@ -1075,11 +1075,24 @@ function TNotasFiscais.LoadFromString(const AXMLString: String;
   AGerarNFe: Boolean): Boolean;
 var
   ANFeXML, XMLStr: AnsiString;
-  P, N: integer;
+  P, Abre, Fecha, AbreProc: integer;
 
-  function PosNFe: integer;
+  function PosFechaNFe: integer;
   begin
     Result := pos('</NFe>', XMLStr);
+  end;
+
+  function PosAbreNFe: integer;
+  begin
+    Result := pos('<NFe', XMLStr);
+  end;
+
+  function PosAbreProc: integer;
+  begin
+    Result := pos('<nfeProc', XMLStr);
+
+    if Result = 0 then
+      Result := pos('<procNFe', XMLStr);
   end;
 
 begin
@@ -1094,8 +1107,10 @@ begin
   else
     XMLStr := ConverteXMLtoNativeString(AXMLString);
 
-  N := PosNFe;
-  while N > 0 do
+  XMLStr := RemoverDeclaracaoXML(XMLStr);
+
+  Fecha := PosFechaNFe;
+  while Fecha > 0 do
   begin
     P := pos('</nfeProc>', XMLStr);
 
@@ -1104,13 +1119,17 @@ begin
 
     if P > 0 then
     begin
-      ANFeXML := copy(XMLStr, 1, P + 10);
+      AbreProc := PosAbreProc;
+
+      ANFeXML := copy(XMLStr, AbreProc, (P - AbreProc) + 10);
       XMLStr := Trim(copy(XMLStr, P + 10, length(XMLStr)));
     end
     else
     begin
-      ANFeXML := copy(XMLStr, 1, N + 6);
-      XMLStr := Trim(copy(XMLStr, N + 6, length(XMLStr)));
+      Abre := PosAbreNFe;
+
+      ANFeXML := copy(XMLStr, Abre, (Fecha - Abre) + 6);
+      XMLStr := Trim(copy(XMLStr, Fecha + 6, length(XMLStr)));
     end;
 
     with Self.Add do
@@ -1121,7 +1140,7 @@ begin
         GerarXML;
     end;
 
-    N := PosNFe;
+    Fecha := PosFechaNFe;
   end;
 
   Result := Self.Count > 0;

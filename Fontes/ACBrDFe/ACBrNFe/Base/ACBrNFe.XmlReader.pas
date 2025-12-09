@@ -166,7 +166,7 @@ begin
   Document.Clear();
   Document.LoadFromXml(Arquivo);
 
-  if Document.Root.Name = 'nfeProc' then
+  if (Document.Root.Name = 'nfeProc') or (Document.Root.Name = 'procNFe') then
   begin
     LerProtNFe(Document.Root.Childrens.Find('protNFe'));
     NFeNode := Document.Root.Childrens.Find('NFe');
