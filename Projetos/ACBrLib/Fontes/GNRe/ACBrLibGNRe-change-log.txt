@@ -41,6 +41,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+09/12/2025
+--- ACBrGNReGuiaRLClass, ACBrLibGNRe.lpi, ACBrLibGNReTest.lpi, ACBrLibGNReTestCase ---
+[*] ACBR-8303 - Corrigida geração da Guia em pdf e implementado teste unitário do método
+    Por: Renato Rubinho
+
 21/10/2025
 --- ACBrLibGNReConfig --
 [-] Adicionado removida a propriedade tamanhoPapel para compilação jenkins

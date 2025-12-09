@@ -60,6 +60,7 @@ type
     procedure Test_GNRe_Versao;
     procedure Test_GNRe_ConfigLerValor;
     procedure Test_GNRe_ConfigGravarValor;
+    procedure Test_GNRe_ImprimirPDF;
 
     procedure Test_GNRe_LimparLista;
     procedure Test_GNRe_CarregarINI;
@@ -188,6 +189,18 @@ begin
   AssertEquals(ErrOk, GNRe_ConfigLerValor(CSessaoPrincipal, CChaveLogNivel, PChar(AStr), Bufflen));
   AStr := copy(AStr,1,Bufflen);
   AssertEquals('Erro ao Mudar configuração', '4', AStr);
+end;
+
+procedure TTestACBrGNReLib.Test_GNRe_ImprimirPDF;
+begin
+  AssertEquals(ErrOk, GNRe_Inicializar('',''));
+  try
+    AssertEquals(ErrOk, GNRE_LimparListaGuiaRetorno());
+    AssertEquals(ErrOk, GNRE_CarregarGuiaRetorno('C:\ACBr\trunk2\Projetos\ACBrLib\Testes\GNRe\bin\guia.xml'));
+    AssertEquals(ErrOk, GNRE_ImprimirPDF());
+  finally
+    AssertEquals(ErrOk, GNRe_Finalizar());
+  end;
 end;
 
 procedure TTestACBrGNReLib.Test_GNRe_LimparLista;

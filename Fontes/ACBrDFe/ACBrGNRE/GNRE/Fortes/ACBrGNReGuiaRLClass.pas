@@ -141,10 +141,7 @@ procedure TACBrGNReGuiaRL.ImprimirGuiaPDF(AGNRE: TGNRERetorno = nil);
 var
   NomeArq: string;
   i: integer;
-  frlGuiaRLRetrato: TfrlGuiaRLRetrato;
 begin
-  frlGuiaRLRetrato := TfrlGuiaRLRetrato.Create(Self);
-
   if AGNRE = nil then
   begin
     for i := 0 to TACBrGNRE(ACBrGNRE).GuiasRetorno.Count -1 do
@@ -153,7 +150,7 @@ begin
                  OnlyNumber(TACBrGNRE(ACBrGNRE).GuiasRetorno.Items[i].GNRE.IdentificadorGuia) +
                  '-guia.pdf', Self.ArquivoPDF);
 
-      frlGuiaRLRetrato.SavePDF(Self,
+      TfrlGuiaRLRetrato.SavePDF(Self,
           NomeArq,
           TACBrGNRE(ACBrGNRE).GuiasRetorno.Items[i].GNRE,
           Email,
@@ -174,7 +171,7 @@ begin
                                  OnlyNumber(AGNRE.IdentificadorGuia) + '-guia.pdf',
                                  Self.ArquivoPDF);
 
-    frlGuiaRLRetrato.SavePDF(Self,
+    TfrlGuiaRLRetrato.SavePDF(Self,
           NomeArq,
           AGNRE,
           Email,
@@ -188,9 +185,6 @@ begin
           MargemEsquerda,
           MargemDireita);
   end;
-
-  if frlGuiaRLRetrato.RLGNRe <> nil then
-    frlGuiaRLRetrato.Free;
 end;
 
 end.
