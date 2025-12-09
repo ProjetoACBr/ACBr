@@ -43,6 +43,19 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+
+09/12/2025
+-- ACBrNFSeXConversao --
+[*] Acrescentado as Naturezas de Operação: 602 e 603.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXGravarXml/Citta.GravarXml/Citta.Provider --
+-- PadraoNacional.GravarXml/PadraoNacional.Provider --
+[*] Possível solução para atender a API Própria do provedor Citta.
+   Por: Italo Giurizzato Junior
+-- WebISS.LerXml --
+[*] Alteração visando a leitura correta do grupo IBSCBS.
+   Por: Tiago  Tecchio
+
 08/12/2025
 -- EL.GravarXml --
 [-] Correção para evitar erro de validação.

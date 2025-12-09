@@ -56,6 +56,7 @@ type
   private
 
   protected
+    procedure Configuracao; override;
 
   public
     function GerarXml: Boolean; override;
@@ -82,6 +83,15 @@ begin
 end;
 
 { TNFSeW_CittaAPIPropria }
+
+procedure TNFSeW_CittaAPIPropria.Configuracao;
+begin
+  inherited Configuracao;
+
+  NrOcorrtpAmb := -1;
+  NrOcorrxNome := -1;
+  GerarNSRps := False;
+end;
 
 function TNFSeW_CittaAPIPropria.GerarXml: Boolean;
 var

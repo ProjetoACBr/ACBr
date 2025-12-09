@@ -73,11 +73,15 @@ implementation
 
 procedure TNFSeR_WebISS202.LerInfDeclaracaoPrestacaoServico(
   const ANode: TACBrXmlNode);
+var
+  node : TACBrXmlNode;
 begin
   inherited LerInfDeclaracaoPrestacaoServico(ANode);
 
   // Reforma Tributária
-  LerXMLIBSCBSDPS(ANode.Childrens.FindAnyNs('IBSCBS'), NFSe.IBSCBS);
+  node := ANode.Childrens.FindAnyNs('InfDeclaracaoPrestacaoServico');
+  if node <> nil then
+     LerXMLIBSCBSDPS(node.Childrens.FindAnyNs('IBSCBS'), NFSe.IBSCBS);
 end;
 
 end.

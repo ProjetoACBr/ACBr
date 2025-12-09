@@ -281,7 +281,7 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'IM', 1, 15, 0,
                  NFSe.Prestador.IdentificacaoPrestador.InscricaoMunicipal, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'xNome', 1, 300, 0,
+  Result.AppendChild(AddNode(tcStr, '#1', 'xNome', 1, 300, NrOcorrxNome,
                                                NFSe.Prestador.RazaoSocial, ''));
 
   Result.AppendChild(GerarXMLEnderecoEmitente);
@@ -403,7 +403,7 @@ begin
 
   Result.AppendChild(AddNode(tcInt, '#1', 'cStat', 1, 3, 1, '100', ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'tpAmb', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpAmb', 1, 1, NrOcorrtpAmb,
                                               TipoAmbienteToStr(Ambiente), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'dhProc', 25, 25, 1,

@@ -105,6 +105,8 @@ type
     FGerargReeRepRes: Boolean;
     FGerarTribRegular: Boolean;
     FGerargDif: Boolean;
+    FNrOcorrtpAmb: Integer;
+    FNrOcorrxNome: Integer;
 
     function GetOpcoes: TACBrXmlWriterOptions;
     procedure SetOpcoes(AValue: TACBrXmlWriterOptions);
@@ -229,6 +231,8 @@ type
     property NrOcorrCST: Integer read FNrOcorrCST write FNrOcorrCST;
     property NrOcorrcCredPres: Integer read FNrOcorrcCredPres write FNrOcorrcCredPres;
     property NrOcorrCSTReg: Integer read FNrOcorrCSTReg write FNrOcorrCSTReg;
+    property NrOcorrtpAmb: Integer read FNrOcorrtpAmb write FNrOcorrtpAmb;
+    property NrOcorrxNome: Integer read FNrOcorrxNome write FNrOcorrxNome;
 
     property GerarDest: Boolean read FGerarDest write FGerarDest;
     property GerarImovel: Boolean read FGerarImovel write FGerarImovel;
@@ -315,6 +319,8 @@ begin
   FNrOcorrCST := 1;
   FNrOcorrcCredPres := 0;
   FNrOcorrCSTReg := 1;
+  FNrOcorrtpAmb := 1;
+  FNrOcorrxNome := 0;
 
   FGerarDest := True;
   FGerarImovel := True;
