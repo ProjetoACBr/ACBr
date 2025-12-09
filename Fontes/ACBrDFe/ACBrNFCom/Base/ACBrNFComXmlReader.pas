@@ -268,6 +268,7 @@ begin
   NFCom.Ide.nSiteAutoriz := StrToSiteAutorizator(ObterConteudo(ANode.Childrens.FindAnyNs('nSiteAutoriz'), tcStr));
   NFCom.ide.cMunFG := ObterConteudo(ANode.Childrens.FindAnyNs('cMunFG'), tcInt);
   NFCom.Ide.finNFCom := StrToFinNFCom(ObterConteudo(ANode.Childrens.FindAnyNs('finNFCom'), tcStr));
+  NFCom.Ide.tpFat := StrToTipoFaturamento(ObterConteudo(ANode.Childrens.FindAnyNs('tpFat'), tcStr));
   NFCom.Ide.verProc := ObterConteudo(ANode.Childrens.FindAnyNs('verProc'), tcStr);
 
   sAux := ObterConteudo(ANode.Childrens.FindAnyNs('indPrePago'), tcStr);

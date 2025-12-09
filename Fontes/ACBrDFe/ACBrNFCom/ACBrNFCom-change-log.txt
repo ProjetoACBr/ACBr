@@ -42,6 +42,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+09/12/2025
+-- ACBrNFComXmlReader --
+[*] ACBR-8500 - Implementada leitura da tag tpFat do xml
+   Por: ArecoDesenv
 
 08/12/2025
 -- ACBrNFComXmlWriter --
