@@ -44,6 +44,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+10/12/2025
+-- ACBrCTeWebServices --
+[-] Ajuste visando sanar AV ao ler arquivo de retorno de DistribuiçãoDFe.
+  Por: Diego Folieni
 
 09/12/2025
 -- ACBrCTeWebServices --

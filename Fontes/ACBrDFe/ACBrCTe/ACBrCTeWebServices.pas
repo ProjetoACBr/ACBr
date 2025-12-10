@@ -3605,6 +3605,7 @@ begin
   inherited Create(AOwner);
 
   FOwner := AOwner;
+  FretDistDFeInt := TretDistDFeInt.Create(AOwner, 'CTe');
 end;
 
 destructor TDistribuicaoDFe.Destroy;
