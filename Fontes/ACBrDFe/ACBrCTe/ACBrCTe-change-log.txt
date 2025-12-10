@@ -48,6 +48,9 @@ Símbolo : Significado
 -- ACBrCTeWebServices --
 [-] Ajuste visando sanar AV ao ler arquivo de retorno de DistribuiçãoDFe.
   Por: Diego Folieni
+-- ACBrCTeDACTeRLRetrato --
+[-] ACBR-8440 / ACBR-8546 - Corrigida exibição da mensagem de DACTE em homologação ou cancelado.
+  Por: Renato Rubinho
 
 09/12/2025
 -- ACBrCTeWebServices --

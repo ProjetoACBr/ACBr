@@ -605,7 +605,7 @@ inherited frmDACTeRLRetrato: TfrmDACTeRLRetrato
       end
       object rllMsgTeste: TRLLabel
         Left = 50
-        Top = 29
+        Top = 8
         Width = 640
         Height = 26
         Alignment = taCenter
