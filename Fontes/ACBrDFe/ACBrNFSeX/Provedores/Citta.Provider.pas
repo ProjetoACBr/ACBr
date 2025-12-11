@@ -597,9 +597,9 @@ begin
 
   Document := TACBrJsonObject.Parse(Response.ArquivoRetorno);
 
-  Response.Data := Document.AsISODateTime['dataHoraProcessamento'];
+  Response.Data := Document.AsISODateTime['DataHoraProcessamento'];
 
-  JSonLote := Document.AsJSONArray['lote'];
+  JSonLote := Document.AsJSONArray['Lote'];
 
   if JSonLote.Count > 0 then
   begin
@@ -612,7 +612,7 @@ begin
 
       AResumo := Response.Resumos.New;
       AResumo.idNota := JSon.AsString['id'];
-      AResumo.Link := JSon.AsString['chaveAcesso'];
+      AResumo.Link := JSon.AsString['ChaveAcesso'];
 
       NFSeXml := JSon.AsString['xmlGZipB64'];
 

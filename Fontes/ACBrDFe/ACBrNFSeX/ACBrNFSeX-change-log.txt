@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 11/12/2025
+-- Diversos --
+[*] Ajustes para emitir uma NFS-e usando a API própria do provedor Citta.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-8558 - A cidade Mogi das Cruzes/SP mudou de provedor, agora é SilTecnologia
    Por: Marcos Pereda

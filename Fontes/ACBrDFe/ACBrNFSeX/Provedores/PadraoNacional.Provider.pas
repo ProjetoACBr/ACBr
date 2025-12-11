@@ -466,7 +466,8 @@ begin
 
       if NFSeXml <> '' then
       begin
-        NFSeXml := DecodeToString(DeCompress(DecodeBase64(NFSeXml)), True);
+//        NFSeXml := DecodeToString(DeCompress(DecodeBase64(NFSeXml)), True);
+        NFSeXml := DeCompress(DecodeBase64(NFSeXml));
         LerNFSe(NFSeXml);
       end;
     except

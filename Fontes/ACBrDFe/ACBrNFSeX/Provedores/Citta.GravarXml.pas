@@ -89,7 +89,7 @@ begin
   inherited Configuracao;
 
   NrOcorrtpAmb := -1;
-  NrOcorrxNome := -1;
+
   GerarNSRps := False;
 end;
 

@@ -2095,6 +2095,7 @@ type
     FEqptoRecibo: string;
     FVencimento: TDateTime;
     FtpXML: TtpXML;
+    FEmitente: TDadosPrestador;
 
     procedure Setemail(const Value: TemailCollection);
     procedure SetInformacoesComplementares(const Value: string);
@@ -2228,6 +2229,8 @@ type
     // Utilizado para detectar se os dados que se encontram nas classes foram
     // lidos de um XML RPS ou NFS-e
     property tpXML: TtpXML read FtpXML write FtpXML;
+    // Provedor Citta e SilTecnologia
+    property Emitente: TDadosPrestador read FEmitente write FEmitente;
   end;
 
   TSubstituicaoNfse = class(TObject)
@@ -2457,6 +2460,7 @@ begin
   FIBSCBS := TIBSCBSDPS.Create;
 
   FinfNFSe := TinfNFSe.Create;
+  FEmitente := TDadosPrestador.Create;
 
   Clear;
 end;
@@ -2487,6 +2491,7 @@ begin
   FIBSCBS.Free;
 
   FinfNFSe.Free;
+  FEmitente.Free;
 
   inherited Destroy;
 end;
