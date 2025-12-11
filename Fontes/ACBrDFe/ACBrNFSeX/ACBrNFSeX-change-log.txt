@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 11/12/2025
+-- ACBrNFSeXServicos --
+[*] ACBR-8565 - Incluída a cidade Harmonia/RS, o provedor é Tecnos versão 2.01
+   Por: C4Dev
 -- ISSSaoPaulo.GravarXml --
 [-] No XML só deve constar o CPF/CNP do Intermediário.
    Por: Italo Giurizzato Junior
