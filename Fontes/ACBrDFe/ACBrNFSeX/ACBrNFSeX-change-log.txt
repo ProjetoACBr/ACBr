@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 11/12/2025
+-- ISSSaoPaulo.GravarXml --
+[-] No XML só deve constar o CPF/CNP do Intermediário.
+   Por: Italo Giurizzato Junior
 -- Bauhaus.GravarJson/Bauhaus.LerJson --
 [-] Não estava lendo a seção Itens.
    Por: Italo Giurizzato Junior
