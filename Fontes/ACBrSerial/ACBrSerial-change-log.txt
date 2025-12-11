@@ -38,6 +38,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/12/2025
+-- ACBrAbecsPinPad --
+[*] Adicionado o método 'CKE', para leitura de Trilha Completa
+  https://www.projetoacbr.com.br/forum/topic/88113-leitura-completa-da-trilha2-no-acbrabecspinpad
+  (por: eliandro.may)
+
 28/10/2025
 -- ACBrDIS, ACBrDISGertecTEC55lib --
 {+] Adicionado modelo GertecTEC55 aos displays

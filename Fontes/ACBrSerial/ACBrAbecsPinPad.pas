@@ -235,6 +235,27 @@ const
                         // “RR” = Number of open digits on the right.
   SPE_PBKMOD   = $0024; // B256 RSA public key modulus (2048 bits).
   SPE_PBKEXP   = $0025; // B..3 RSA public key exponent.
+  SPE_GCDOPT   = $0026; // Opções do comando “GCD”:
+                        // “0xxx” = Entrada numérica;
+                        // “1xxx” = Entrada alfanumérica;
+                        // “x000” = RUF.
+
+  (*
+  CKE_KEY      = $0027; // Controls a keystroke event.
+                        // “0” = Ignore keys.
+                        // “1” = Check key press.
+  CKE_MAG      = $0028; // Controls magnetic card swipe event.
+                        // “0” = Ignore magnetic card.
+                        // “1” = Check the card swipe.
+  CKE_ICC      = $0029; // Controls ICC insertion/removal event.
+                        // “0” = Ignores ICC.
+                        // “1” = Checks ICC insertion.
+                        // “2” = Checks ICC removal.
+  CKE_CTLS     = $002A; // Controls CTLS presentation event.
+                        // “0” = Does not activate the antenna.
+                        // “1” = Activates the antenna and checks for the presence of a CTLS.
+                        // (optional!)
+  *)
 
 
   // List of return data fields
@@ -721,6 +742,10 @@ type
       ASPE_TIMEOUT: Byte = 0): String; overload;
     procedure RMC(const RMC_MSG: String = ''); overload;
     procedure RMC(const Line1: String; Line2: String); overload;
+    procedure CKE(ACKE_KEY: String; ACKE_MAG: String;
+      ACKE_ICC: String; ACKE_CTLS: String); overload;
+    procedure CKE( VerifyKey: Boolean; VerifyMagnetic: Boolean;
+      VerifyICCInsertion: Boolean; VerifyICCRemoval: Boolean; VerifyCTLSPresence: Boolean); overload;
 
     // Multimidia Commands
     procedure MLI(const ASPE_MFNAME: String; const ASPE_MFINFO: AnsiString); overload;
@@ -2729,6 +2754,78 @@ begin
   fCommand.IsBlocking := True;
   fCommand.AddParamFromData(FormatMSG_S32(RMC_MSG));
   ExecCommand;
+end;
+
+procedure TACBrAbecsPinPad.CKE(ACKE_KEY: String; ACKE_MAG: String;
+  ACKE_ICC: String; ACKE_CTLS: String);
+var
+  s: String;
+  AComando : string;
+  l: Integer;
+begin
+  if (Self.LogLevel > 0) then
+    RegisterLog(Format('CKE( %s, %s, %s, %s )',[ACKE_KEY, ACKE_MAG, ACKE_ICC, ACKE_CTLS]));
+  fCommand.Clear;
+  fCommand.ID := 'CKE';
+  fCommand.IsBlocking := True;
+
+  s := trim(ACKE_KEY);
+  l := Length(s);
+  if (l <> 1) or (not StrIsNumber(s)) then
+    DoException(Format(CERR_INVALID_PARAM, ['CKE_KEY']));
+
+  AComando:=s;
+
+  s := trim(ACKE_MAG);
+  l := Length(s);
+  if (l <> 1) or (not StrIsNumber(s)) then
+    DoException(Format(CERR_INVALID_PARAM, ['CKE_MAG']));
+
+  AComando:=AComando+s;
+
+  s := trim(ACKE_ICC);
+  l := Length(s);
+  if (l <> 1) or (not StrIsNumber(s)) then
+    DoException(Format(CERR_INVALID_PARAM, ['CKE_ICC']));
+
+  AComando:=AComando+s;
+
+  if (ACKE_CTLS <> '') then
+  begin
+    s := trim(ACKE_CTLS);
+    l := Length(s);
+    if (l <> 1) or (not StrIsNumber(s)) then
+      DoException(Format(CERR_INVALID_PARAM, ['CKE_CTLS']));
+
+    AComando:=AComando+s;
+    fCommand.AddParamFromData(AComando);
+  end;
+  ExecCommand;
+end;
+
+procedure TACBrAbecsPinPad.CKE( VerifyKey: Boolean; VerifyMagnetic: Boolean;
+  VerifyICCInsertion: Boolean; VerifyICCRemoval: Boolean; VerifyCTLSPresence: Boolean);
+var
+  ACKE_KEY: String;
+  ACKE_MAG: String;
+  ACKE_ICC: String;
+  ACKE_CTLS: String;
+begin
+  if (Self.LogLevel > 0) then
+    RegisterLog('CKE: VerifyKey: '+BoolToStr(VerifyKey)+
+                   ', VerifyMagnetic: '+BoolToStr(VerifyMagnetic)+
+                   ', VerifyICCInsertion: '+BoolToStr(VerifyICCInsertion)+
+                   ', VerifyICCRemoval: '+BoolToStr(VerifyICCRemoval)+
+                   ', VerifyCTLSPresence: '+BoolToStr(VerifyCTLSPresence));
+
+  ACKE_KEY := IfThen(VerifyKey, '1', '0');
+  ACKE_MAG := IfThen(VerifyMagnetic, '1', '0');
+  ACKE_ICC := IfThen(VerifyICCInsertion, '1', '0');
+  if VerifyICCRemoval then
+     ACKE_ICC := '2';
+  ACKE_CTLS := IfThen(VerifyCTLSPresence, '1', '0');
+
+  CKE( ACKE_KEY, ACKE_MAG, ACKE_ICC, ACKE_CTLS);
 end;
 
 procedure TACBrAbecsPinPad.RMC(const Line1: String; Line2: String);
