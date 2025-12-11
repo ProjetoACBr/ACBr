@@ -473,6 +473,7 @@ begin
   LerINIDadosTomador(AINIRec);
   LerINIIdentificacaoRps(AINIRec);
   LerINIDadosServico(AINIRec);
+  LerINIListaServico(AINIRec);
   LerINIDadosValores(AINIRec);
 end;
 

@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 11/12/2025
+-- Bauhaus.GravarJson/Bauhaus.LerJson --
+[-] Não estava lendo a seção Itens.
+   Por: Italo Giurizzato Junior
 -- Diversos --
 [*] Ajustes para emitir uma NFS-e usando a API própria do provedor Citta.
    Por: Italo Giurizzato Junior
