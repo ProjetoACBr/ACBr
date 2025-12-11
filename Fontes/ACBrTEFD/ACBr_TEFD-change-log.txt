@@ -45,6 +45,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+11/12/2025
+-- ACBrTEFAPIComum --
+[*] Alteração do momento de criação da lista de Respostas;
+[+] Inclusão de validações para verificar se o componente está ativo antes de 
+    executar os principais métodos.
+
 27/11/2025
 -- ACBrTEFAPIElginComum.pas --
 [*] Contribuição Leitura de Voucher TEF Elgin - ACBR-8494

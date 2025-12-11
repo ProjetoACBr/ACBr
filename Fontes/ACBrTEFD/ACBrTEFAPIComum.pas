@@ -59,6 +59,7 @@ resourcestring
                                        'não implementado para o TEF: %s';
   sACBrTEFAPIEventoInvalidoException = 'Evento %s não foi implementado na sua aplicação';
   sACBrTEFAPIComponenteInicializadoException = '%s não pode ser modificado após TEF Inicializado';
+  sACBrTEFAPIComponenteNaoInicializadoException = 'Componente não está inicializado';
   sACBrTEFAPIArquivoNaoExistenteException = 'Arquivo %s não Encontrado';
   sACBrTEFAPIDiretorioInvalido = 'Diretorio %s não existe';
   sACBrTEFAPISemTransacaoPendenteException = 'Não há transação Pendente';
@@ -1096,6 +1097,7 @@ end;
 procedure TACBrTEFAPIComum.Inicializar;
 begin
   GravarLog('Inicializar');
+  CriarListaTEFResp;
 
   if not Assigned( fQuandoFinalizarOperacao )  then
     DoException( Format( ACBrStr(sACBrTEFAPIEventoInvalidoException),
@@ -1115,7 +1117,6 @@ begin
   fpInicializando := True;
   try
     fpTEFAPIClass.Inicializar;
-    CriarListaTEFResp;
 
     // Verificando se ficou alguma Transação Pendente, no Diretório de Trabalho
     if (TratamentoTransacaoInicializacao = tefopiCancelarOuEstornar) then
@@ -1228,6 +1229,9 @@ function TACBrTEFAPIComum.EfetuarAdministrativa(const Operacao: string;
   const IdentificadorTransacao: string): Boolean;
 begin
   GravarLog('EfetuarAdministrativa( '+Operacao+', '+IdentificadorTransacao+' )');
+  
+  if (not Inicializado) then
+    DoException(ACBrStr(sACBrTEFAPIComponenteNaoInicializadoException));
 
   fRespostasTEF.IdentificadorTransacao := IdentificadorTransacao;
 
@@ -1245,6 +1249,9 @@ begin
   GravarLog('EfetuarAdministrativa( '+
             GetEnumName(TypeInfo(TACBrTEFOperacao), integer(Operacao) )+', '+
             IdentificadorTransacao+' )');
+     
+  if (not Inicializado) then
+    DoException(ACBrStr(sACBrTEFAPIComponenteNaoInicializadoException));
 
   fRespostasTEF.IdentificadorTransacao := IdentificadorTransacao;
 
@@ -1287,6 +1294,9 @@ begin
             IfThen(DadosAdicionais = '', '', ', '+DadosAdicionais)+
             ' )');
 
+  if (not Inicializado) then
+    DoException(ACBrStr(sACBrTEFAPIComponenteNaoInicializadoException));
+
   fRespostasTEF.IdentificadorTransacao := IdentificadorTransacao;
 
   fpTEFAPIClass.InicializarChamadaAPI(tefmtdPagamento);
@@ -1312,6 +1322,9 @@ begin
              CodigoFinalizacao+', '+
              Rede+' )' );
 
+  if (not Inicializado) then
+    DoException(ACBrStr(sACBrTEFAPIComponenteNaoInicializadoException));
+
   fpTEFAPIClass.InicializarChamadaAPI(tefmtdCancelamento);
   try
     Result := fpTEFAPIClass.CancelarTransacao( NSU, CodigoAutorizacaoTransacao,
@@ -1333,6 +1346,9 @@ begin
              NSU+', '+
              CodigoFinalizacao+', '+
              GetEnumName(TypeInfo(TACBrTEFStatusTransacao), integer(AStatus))+' )');
+
+  if (not Inicializado) then
+    DoException(ACBrStr(sACBrTEFAPIComponenteNaoInicializadoException));
 
   fpTEFAPIClass.FinalizarTransacao(Rede, NSU, CodigoFinalizacao, AStatus);
 
