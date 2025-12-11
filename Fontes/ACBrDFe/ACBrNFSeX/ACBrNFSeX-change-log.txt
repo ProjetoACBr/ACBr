@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+11/12/2025
+-- ACBrNFSeXServicos --
+[*] ACBR-8558 - A cidade Mogi das Cruzes/SP mudou de provedor, agora é SilTecnologia
+   Por: Marcos Pereda
+[*] ACBR-8562 - Incluído as URLs da API própria para cidade Macaé/RJ, o provedor continua o mesmo.
+   Por: cezar.sakugawa
 
 09/12/2025
 -- Diversos --
