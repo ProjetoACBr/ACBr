@@ -45,6 +45,13 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+11/12/2025
+-- ACBrNFeDANFeRLEtiqueta --
+[*] Ajuste no layout de etiqueta NFe - ACBR-8567
+    https://www.projetoacbr.com.br/forum/topic/88215-ajuste-no-layout-de-etiqueta-nfe-usando-fortes/
+    Contribuição: C4Dev, Rev: Antonio Carlos Junior
+
 15/10/2025
 -- ACBrNFeDANFeRLSimplificado (pas, lfm e dfm) -- 
 [*] Quando nao for etiqueta, ativa autosize e muda o alinhamento para impressao completa do texto.

@@ -7,6 +7,8 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
   Font.Height = -8
   Font.Name = 'Arial'
   Font.Style = [fsBold]
+  ExplicitWidth = 1114
+  ExplicitHeight = 895
   TextHeight = 10
   inherited RLNFe: TRLReport
     Tag = 1
@@ -24,9 +26,13 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
     UnlimitedHeight = True
     BeforePrint = RLNFeBeforePrint
     OnDataRecord = RLNFeDataRecord
+    ExplicitLeft = 176
+    ExplicitTop = 24
+    ExplicitWidth = 416
+    ExplicitHeight = 605
     object rlb01_Chave: TRLBand
       Left = 38
-      Top = 200
+      Top = 197
       Width = 340
       Height = 116
       AutoSize = True
@@ -126,7 +132,8 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
       Left = 38
       Top = 38
       Width = 340
-      Height = 162
+      Height = 159
+      AutoSize = True
       BandType = btTitle
       Borders.Sides = sdCustom
       Borders.DrawLeft = False
@@ -523,6 +530,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
         Width = 190
         Height = 21
         Alignment = taCenter
+        Anchors = [fkRight]
         AutoSize = False
         Caption = 'DANFE Simplificada'
         Color = clBlack
@@ -541,6 +549,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
         Width = 146
         Height = 19
         Alignment = taCenter
+        Anchors = [fkRight]
         Caption = 'EMISS'#195'O NORMAL'
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
@@ -557,6 +566,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
         Width = 186
         Height = 16
         Alignment = taCenter
+        Anchors = [fkRight]
         AutoSize = False
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
@@ -573,6 +583,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
         Width = 186
         Height = 16
         Alignment = taCenter
+        Anchors = [fkRight]
         AutoSize = False
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
@@ -588,6 +599,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
         Top = 47
         Width = 107
         Height = 12
+        Anchors = [fkRight]
         Caption = '0 - ENTRADA / 1 - SA'#205'DA'
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
@@ -603,6 +615,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
         Top = 43
         Width = 22
         Height = 22
+        Anchors = [fkRight]
         Brush.Style = bsClear
       end
       object rllEntradaSaida: TRLLabel
@@ -611,6 +624,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
         Width = 14
         Height = 15
         Alignment = taCenter
+        Anchors = [fkRight]
         AutoSize = False
         Caption = 'rllTransModFrete'
         Color = clWhite
@@ -625,7 +639,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
     end
     object rlb05c_Lin_Itens: TRLBand
       Left = 38
-      Top = 417
+      Top = 414
       Width = 340
       Height = 1
       BandType = btFooter
@@ -640,7 +654,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
     end
     object rlb04_Destinatario: TRLBand
       Left = 38
-      Top = 316
+      Top = 313
       Width = 340
       Height = 50
       AutoSize = True
@@ -707,7 +721,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
     end
     object RLBand1: TRLBand
       Left = 38
-      Top = 366
+      Top = 363
       Width = 340
       Height = 51
       AutoSize = True
