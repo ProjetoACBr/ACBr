@@ -630,7 +630,15 @@ begin
 
   docZip[Indice].XML := InserirDeclaracaoXMLSeNecessario(ANode.OuterXml);
 
-  AuxNode := ANode.Childrens.FindAnyNs(FptpDFe);
+  if FptpDFe = 'CTe' then
+  begin
+    AuxNode := ANode.Childrens.FindAnyNs(FptpDFe);
+
+    if AuxNode = nil then
+      AuxNode := ANode.Childrens.FindAnyNs(FptpDFe + 'OS');
+  end
+  else
+    AuxNode := ANode.Childrens.FindAnyNs(FptpDFe);
 
   if Assigned(AuxNode) then
   begin
