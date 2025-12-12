@@ -6,10 +6,7 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
   ClientWidth = 1098
   Font.Height = -8
   Font.Name = 'Arial'
-  Font.Style = [fsBold]
-  ExplicitWidth = 1114
-  ExplicitHeight = 895
-  TextHeight = 10
+  Font.Style = [fsBold]  
   inherited RLNFe: TRLReport
     Tag = 1
     Left = 176
@@ -26,10 +23,6 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
     UnlimitedHeight = True
     BeforePrint = RLNFeBeforePrint
     OnDataRecord = RLNFeDataRecord
-    ExplicitLeft = 176
-    ExplicitTop = 24
-    ExplicitWidth = 416
-    ExplicitHeight = 605
     object rlb01_Chave: TRLBand
       Left = 38
       Top = 197
@@ -525,9 +518,9 @@ inherited frlDANFeRLEtiqueta: TfrlDANFeRLEtiqueta
         Transparent = False
       end
       object RLLabel17: TRLLabel
-        Left = 152
+        Left = 136
         Top = 4
-        Width = 190
+        Width = 206
         Height = 21
         Alignment = taCenter
         Anchors = [fkRight]
