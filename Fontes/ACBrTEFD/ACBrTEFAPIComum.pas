@@ -283,6 +283,8 @@ type
       const DirTrabalho: String; GravarRespostas: Boolean;
       LimparRespostasPorTransacao: Boolean);
     destructor Destroy; override;
+    procedure Clear;
+    procedure Assign(Source: TACBrTEFAPIRespostas);
 
     function AdicionarRespostaTEF(ATEFResp: TACBrTEFResp): Integer;
     procedure SalvarRespostasTEF;
@@ -615,6 +617,20 @@ begin
   inherited;
 end;
 
+procedure TACBrTEFAPIRespostas.Clear;
+begin
+  fTEFRespList.Clear;
+end;
+
+procedure TACBrTEFAPIRespostas.Assign(Source: TACBrTEFAPIRespostas);
+var
+  i: Integer;
+begin
+  Clear;
+  for i := 0 to Source.Count-1 do
+    AddClone(Source.Items[i]);
+end;
+
 function TACBrTEFAPIRespostas.AcharTransacao(const Rede, NSU: String;
   const CodigoFinalizacao: String): Integer;
 var
@@ -687,7 +703,7 @@ var
 begin
   VerificarDiretorioTrabalho;
 
-  fTEFRespList.Clear;
+  Clear;
   SL := TStringList.Create;
   try
     FindFiles(ObterMascaraTodosArquivosDiretorioTrabalho, SL, True, fstFileName, fsdAscending );
@@ -1510,7 +1526,7 @@ begin
                                                      fDiretorioTrabalho,
                                                      False, False);
   try
-    fpTEFAPIClass.CarregarRespostasPendentes( RespostasTEFAtuais );
+    RespostasTEFAtuais.Assign(fRespostasTEF);
 
     p := 0;  // No Passo 0, vamos processar primeiro os CNCs e ADMs, e as Não Confirmadas, depois Todas
     i := 0;

@@ -46,6 +46,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/12/2025
+-- ACBrTEFAPIComum --
+[+] Adição dos métodos: 'TACBrTEFAPIRespostas.Assign' e 'TACBrTEFAPIRespostas.Clear'
+
 -- ACBrTEFAPIPayKit --
 [-] Correção no tratamento do JSon retornado em 'ConteudoToProperty', para
     leitura de informações sobre a última transação
