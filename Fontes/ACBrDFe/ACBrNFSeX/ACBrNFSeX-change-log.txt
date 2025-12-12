@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 12/12/2025
+-- Pronim.Provider --
+[*] Alteração visando sanar o erro de UTF-8 ao ler o retorno.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] Incluído as URLs de homologação e produção da API própria do provedor RLZ as cidades
     que vão continuar com o provedor.

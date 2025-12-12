@@ -812,7 +812,7 @@ begin
 
       if NFSeXml <> '' then
       begin
-        NFSeXml := DecodeToString(DeCompress(DecodeBase64(NFSeXml)), True);
+        NFSeXml := DeCompress(DecodeBase64(NFSeXml));
 
         AResumo.XmlRetorno := NFSeXml;
 
@@ -947,7 +947,7 @@ begin
 
           if NFSeXml <> '' then
           begin
-            NFSeXml := DecodeToString(DeCompress(DecodeBase64(NFSeXml)), True);
+            NFSeXml := DeCompress(DecodeBase64(NFSeXml));
 
             AResumo.XmlRetorno := NFSeXml;
 
