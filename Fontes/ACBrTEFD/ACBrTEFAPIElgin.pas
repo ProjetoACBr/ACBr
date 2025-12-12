@@ -440,6 +440,14 @@ begin
       begin
         TefAPI.GravarLog('Mensagem Operador: QRcode');
         TefAPI.QuandoExibirQRCode(coletaMensagem);
+        
+		Cancelado := False;
+        TefAPI.QuandoEsperarOperacao(opapiLeituraQRCode, Cancelado);
+         if Cancelado then
+         begin
+           fCancelarColeta := '9';
+           vJson.AddPair('automacao_coleta_retorno', fCancelarColeta);
+         end;		
       end
       else
       begin
