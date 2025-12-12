@@ -440,8 +440,8 @@ begin
       begin
         TefAPI.GravarLog('Mensagem Operador: QRcode');
         TefAPI.QuandoExibirQRCode(coletaMensagem);
-        
-		Cancelado := False;
+
+        Cancelado := False;
         TefAPI.QuandoEsperarOperacao(opapiLeituraQRCode, Cancelado);
          if Cancelado then
          begin
