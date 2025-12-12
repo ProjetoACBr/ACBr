@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+12/12/2025
+-- ACBrNFSeXServicos --
+[*] Incluído as URLs de homologação e produção da API própria do provedor RLZ as cidades
+    que vão continuar com o provedor.
+   Por: Italo Giurizzato Junior
+
 11/12/2025
 -- ACBrNFSeXServicos --
 [*] ACBR-8565 - Incluída a cidade Harmonia/RS, o provedor é Tecnos versão 2.01
