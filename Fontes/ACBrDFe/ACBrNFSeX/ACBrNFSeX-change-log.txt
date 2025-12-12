@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 12/12/2025
+-- Infisc.Provider/PadraoNacional.Provider --
+[*] ACBR-8574 - Possível solução para o método ObterDANFSE do provedor Infisc.
+   Por: Italo Giurizzato Junior
 -- Pronim.Provider --
 [*] Alteração visando sanar o erro de UTF-8 ao ler o retorno.
    Por: Italo Giurizzato Junior

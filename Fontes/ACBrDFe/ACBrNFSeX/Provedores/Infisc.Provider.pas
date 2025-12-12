@@ -162,6 +162,8 @@ type
     function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+
+    procedure PrepararObterDANFSE(Response: TNFSeObterDANFSEResponse); override;
   end;
 
 implementation
@@ -1320,6 +1322,26 @@ begin
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
   end;
+end;
+
+procedure TACBrNFSeProviderInfiscAPIPropria.PrepararObterDANFSE(
+  Response: TNFSeObterDANFSEResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+begin
+  if EstaVazio(Response.ChaveNFSe) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod118;
+    AErro.Descricao := ACBrStr(Desc118);
+    Exit;
+  end;
+
+  Path := '/nfse/pdf/' + Response.ChaveNFSe;
+  Response.Metodo := tmObterDANFSE;
+
+  Response.ArquivoEnvio := Path;
+  Method := 'GET';
 end;
 
 end.
