@@ -46,6 +46,15 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/12/2025
+-- ACBrTEFAPIPayKit --
+[-] Correção no tratamento do JSon retornado em 'ConteudoToProperty', para
+    leitura de informações sobre a última transação
+
+-- ACBrTEFPayKitAPI --
+[-] Correção no retorno dos CallBacks, no mover String para PAnsiChar em Delphi 12+
+    https://www.projetoacbr.com.br/forum/topic/84257-tef-dtef-da-linx/?&_rid=61#findComment-572507
+    (por: DSA)
+
 -- ACBrTEFAPIElgin --
 [*] Ajuste para permitir o Cancelamento pela aplicação na leitura de QRCode do PIX
     https://www.projetoacbr.com.br/forum/topic/88249-cancelamento-de-pix-no-tef-elgin/

@@ -505,6 +505,7 @@ type
 
   function GetTEFPayKitAPI: TACBrTEFPayKitAPI;
   procedure LimparDefinicaoCampo(out Adef: TACBrTEFPayKitDefinicaoCampo);
+  procedure MoverStringParaPAnsiChar(const AString: AnsiString; APAnsiChar: PAnsiChar);
 
   procedure CallBackDisplayTerminal(pMensagem: PAnsiChar);
     {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
@@ -589,6 +590,14 @@ begin
   Adef.ValorMinimo := 0;
   Adef.ValorMaximo := 0;
   Adef.ValorInicial := '';
+end;
+
+procedure MoverStringParaPAnsiChar(const AString: AnsiString; APAnsiChar: PAnsiChar);
+var
+  s: AnsiString;
+begin
+  s := AString + #0;
+  move(s[1], APAnsiChar^, Length(s));
 end;
 
 procedure CallBackDisplayTerminal(pMensagem: PAnsiChar); {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
@@ -694,7 +703,7 @@ begin
     PerguntarCampo(def, resp, acao);
     Result := acao;
     if (acao >= 0) then
-      move(resp[1], pCartao^, Length(resp)+1);
+      MoverStringParaPAnsiChar(resp, pCartao);
 
     GravarLog('    ret:'+IntToStr(Result)+', Cartao:'+String(pCartao))
   end;
@@ -721,7 +730,7 @@ begin
     resp := OnlyNumber(resp);
     Result := acao;
     if (acao >= 0) then
-      move(resp[1], pDataValidade^, Length(resp)+1);
+      MoverStringParaPAnsiChar(resp, pDataValidade);
 
     GravarLog('    ret:'+IntToStr(Result)+', DataValidade:'+String(pDataValidade));
   end;
@@ -747,7 +756,7 @@ begin
     PerguntarCampo(def, resp, acao);
     Result := acao;
     if (acao >= 0) then
-      move(resp[1], pData^, Length(resp)+1);
+      MoverStringParaPAnsiChar(resp, pData);
 
     GravarLog('    ret:'+IntToStr(Result)+', Data:'+String(pData))
   end;
@@ -774,7 +783,7 @@ begin
     PerguntarCampo(def, resp, acao);
     Result := acao;
     if (acao >= 0) then
-      move(resp[1], pEntraCodigoSeguranca^, Length(resp)+1);
+      MoverStringParaPAnsiChar(resp, pEntraCodigoSeguranca);
 
     GravarLog('    ret:'+IntToStr(Result)+', Cod:'+String(pEntraCodigoSeguranca));
   end;
@@ -850,7 +859,7 @@ begin
     resp := Format('%.12d',[StrToIntDef(OnlyNumber(resp), 0)]) ;
     Result := acao;
     if (acao >= 0) then
-      move(resp[1], pValor^, Length(resp)+1);
+      MoverStringParaPAnsiChar(resp, pValor);
 
     GravarLog('    ret:'+IntToStr(Result)+', Valor:'+String(pValor));
   end;
@@ -891,7 +900,7 @@ begin
     PerguntarCampo(def, resp, acao);
     Result := acao;
     if (acao >= 0) then
-      move(resp[1], pNumero^, Length(resp)+1);
+      MoverStringParaPAnsiChar(resp, pNumero);
 
     GravarLog('    ret:'+IntToStr(Result)+', Valor:'+String(pNumero));
   end;
@@ -950,7 +959,7 @@ begin
     PerguntarCampo(def, resp, acao);
     Result := acao;
     if (acao >= 0) then
-      move(resp[1], pString^, Length(resp)+1);
+      MoverStringParaPAnsiChar(resp, pString);
 
     GravarLog('    ret:'+IntToStr(Result)+', String:'+String(pString));
   end;
@@ -1013,7 +1022,7 @@ begin
       PerguntarCampo(def, resp, acao);
       Result := acao;
       if (acao >= 0) then
-        move(resp[1], pCampo^, Length(resp)+1);
+        MoverStringParaPAnsiChar(resp, pCampo);
 
       GravarLog('    ret:'+IntToStr(Result)+', Campo:'+String(pCampo));
     end;
@@ -1041,7 +1050,7 @@ begin
       PerguntarCampo(def, resp, acao);
       Result := acao;
       if (acao >= 0) then
-        move(resp[1], pCampo^, Length(resp)+1);
+        MoverStringParaPAnsiChar(resp, pCampo);
 
       GravarLog('    ret:'+IntToStr(Result)+', Campo:'+String(pCampo));
     end;
@@ -1138,7 +1147,7 @@ begin
     resp := Format('%.12d',[StrToIntDef(OnlyNumber(resp), 0)]) ;
     Result := acao;
     if (acao >= 0) then
-      move(resp[1], pValor^, Length(resp)+1);
+      MoverStringParaPAnsiChar(resp, pValor);
 
     GravarLog('    ret:'+IntToStr(Result)+', Valor:'+String(pValor));
   end;

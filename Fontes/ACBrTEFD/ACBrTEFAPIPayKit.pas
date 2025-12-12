@@ -156,7 +156,7 @@ begin
   ImagemComprovante2aVia.Text := cupom;
   Confirmar := (cupom <> '');
 
-  json := Conteudo.LeInformacao(899,200).AsString;
+  json := Trim(Conteudo.LeInformacao(899,200).AsString);
   jso := TACBrJSONObject.Parse(json);
   try
     jsLog := jso.AsJSONObject['LogTransacao'];
