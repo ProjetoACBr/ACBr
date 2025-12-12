@@ -54,17 +54,6 @@ resourcestring
     'No caso da Cielo, utilize apenas os 6 últimos dígitos';
   CACBrTEFCliSiTef_NaoInicializado = 'CliSiTEF não inicializado';
   CACBrTEFCliSiTef_NaoConcluido = 'Requisição anterior não concluida';
-  CACBrTEFCliSiTef_Erro_IP_Invalido = 'Endereço IP inválido ou não resolvido';
-  CACBrTEFCliSiTef_Erro_CodLoja_invalido = 'Código da loja inválido';
-  CACBrTEFCliSiTef_Erro_CodTerm_Invalido = 'Código de terminal inválido';
-  CACBrTEFCliSiTef_Erro_Init_TCP = 'Erro na inicialização do TCP/IP';
-  CACBrTEFCliSiTef_Erro_Falta_Memoria = 'Falta de memória';
-  CACBrTEFCliSiTef_Erro_CliSiTef_NaoEncontrada = 'Não encontrou a CliSiTef ou ela está com problemas na inicialização';
-  CACBrTEFCliSiTef_Erro_Acesso_Pasta_CliSiTef = 'Erro de acesso na pasta CliSiTef';
-  CACBrTEFCliSiTef_Erro_Dados_Invalidos = 'Dados inválidos passados pela automação.';
-  CACBrTEFCliSiTef_Erro_Modo_Seguro_Nao_Ativo = 'Modo seguro não ativo';
-  CACBrTEFCliSiTef_Erro_DLL_Path_Invalido = 'Caminho da Biblioteca é inválido';
-
 const
   CACBrTEFCliSiTef_ImprimeGerencialConcomitante = False;
 {$IFDEF LINUX}
@@ -84,13 +73,18 @@ const
   CSITEF_ESPERA_MINIMA_MSG_FINALIZACAO = 5000;
   CSITEF_OP_DadosPinPadAberto = 789;
 
-  CSITEF_RestricoesCueque = '10';
-  CSITEF_RestricoesCredito = '24;26;27;28;29;30;34;35;44;73';
-  CSITEF_RestricoesDebito = '16;17;18;19;42;43';
+  CSITEF_RestricoesCheque = '10';
+  //CSITEF_RestricoesCredito = '24;26;27;28;29;30;34;35;44;73';
+  //CSITEF_RestricoesDebito = '16;17;18;19;42;43';
   CSITEF_RestricoesAVista = '16;24;26;34';
   CSITEF_RestricoesParcelado = '18;35;44';
+  CSITEF_RestricoesPreDatado = '17;45';
   CSITEF_RestricoesParcelaEstabelecimento = '27;3988';
   CSITEF_RestricoesParcelaAministradora = '28;3988';
+  CSITEF_RestricoesConsultaCredito = '36;3004;3049;3052;3053;3480';
+  CSITEF_RestricoesConsultaDebito = '19;3003;3024;3031';
+  // 19 - remove CONSULTA PARCELAS CDC
+  // 3031 - remove COMPRA E SAQUE
 
 type
   EACBrTEFCliSiTef = class(EACBrTEFErro);
@@ -147,6 +141,8 @@ type
                ContinuaNavegacao: Integer ): integer;
                {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
 
+    xEscreveMensagemPinPad: function(Mensagem:PAnsiChar):Integer;
+               {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
     xEscreveMensagemPermanentePinPad: function(Mensagem:PAnsiChar):Integer;
                {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
 
@@ -193,6 +189,12 @@ type
 
     xObtemVersao: function(VersaoCliSiTef: PAnsiChar; VersaoCliSiTefI: PAnsiChar): Integer;
               {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
+
+    xLeSimNaoPinPad: function(MensagemDisplay: PAnsiChar): Integer;
+               {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
+
+    xObtemInformacoesPinPad: function(InfoPinPad: PAnsiChar): Integer;
+               {$IfDef MSWINDOWS}stdcall{$Else}cdecl{$EndIf};
 
     procedure SetInicializada(AValue: Boolean);
 
@@ -241,7 +243,8 @@ type
                 pHoraFiscal: PAnsiChar;
                 pParamAdic: PAnsiChar);
 
-    Function DefineMensagemPermanentePinPad(Mensagem:AnsiString):Integer;
+    Function EscreveMensagemPinPad(const Mensagem:AnsiString): Integer;
+    Function DefineMensagemPermanentePinPad(const Mensagem:AnsiString): Integer;
     Function ObtemQuantidadeTransacoesPendentes(Data:TDateTime;
        CupomFiscal:AnsiString):Integer;
     function EnviaRecebeSiTefDireto(RedeDestino: SmallInt; FuncaoSiTef: SmallInt;
@@ -251,13 +254,14 @@ type
     function ValidaCampoCodigoEmBarras(Dados: AnsiString;
        var Tipo: SmallInt): Integer;
     function VerificaPresencaPinPad: Boolean;
-    function ObtemDadoPinPadDiretoEx(TipoDocumento: Integer; ChaveAcesso,
+    function ObtemDadoPinPadDiretoEx(TipoDocumento: Integer; const ChaveAcesso,
       Identificador: AnsiString): AnsiString;
-    function LeDigitoPinPad(MensagemDisplay: AnsiString): AnsiString;
     function ObtemVersao(out VersaoCliSiTef: String; out VersaoCliSiTefI: String):Integer;
+    function LeDigitoPinPad(const MensagemDisplay: AnsiString): AnsiString;
+    function LeSimNaoPinPad(const MensagemDisplay: AnsiString): Integer;
+    function ObtemInformacoesPinPad(out InfoPinPad: string): Integer;
 
     property OnGravarLog: TACBrGravarLog read fOnGravarLog write fOnGravarLog;
-
     property PathDLL: string read fPathDLL write fPathDLL;
     property Inicializada: Boolean read fInicializada write SetInicializada;
   end;
@@ -584,15 +588,17 @@ begin
   CliSiTefFunctionDetect(sLibName, 'ContinuaFuncaoSiTefInterativo', @xContinuaFuncaoSiTefInterativo);
   CliSiTefFunctionDetect(sLibName, 'FinalizaFuncaoSiTefInterativo', @xFinalizaFuncaoSiTefInterativo);
   CliSiTefFunctionDetect(sLibName, 'EscreveMensagemPermanentePinPad',@xEscreveMensagemPermanentePinPad);
+  CliSiTefFunctionDetect(sLibName, 'EscreveMensagemPinPad', @xEscreveMensagemPinPad);
   CliSiTefFunctionDetect(sLibName, 'ObtemQuantidadeTransacoesPendentes',@xObtemQuantidadeTransacoesPendentes);
   CliSiTefFunctionDetect(sLibName, 'ValidaCampoCodigoEmBarras',@xValidaCampoCodigoEmBarras);
   CliSiTefFunctionDetect(sLibName, 'EnviaRecebeSiTefDireto',@xEnviaRecebeSiTefDireto);
   CliSiTefFunctionDetect(sLibName, 'VerificaPresencaPinPad',@xVerificaPresencaPinPad);
-  CliSiTefFunctionDetect(sLibName, 'KeepAlivePinPad',@xKeepAlivePinPad, False);
-  CliSiTefFunctionDetect(sLibName, 'ObtemDadoPinPadDiretoEx', @xObtemDadoPinPadDiretoEx);
-  CliSiTefFunctionDetect(sLibName, 'LeDigitoPinPad', @xLeDigitoPinPad);
   CliSiTefFunctionDetect(sLibName, 'ObtemVersao', @xObtemVersao);
-
+  CliSiTefFunctionDetect(sLibName, 'KeepAlivePinPad',@xKeepAlivePinPad, False);
+  CliSiTefFunctionDetect(sLibName, 'ObtemDadoPinPadDiretoEx', @xObtemDadoPinPadDiretoEx, False);
+  CliSiTefFunctionDetect(sLibName, 'LeDigitoPinPad', @xLeDigitoPinPad, False);
+  CliSiTefFunctionDetect(sLibName, 'LeSimNaoPinPad', @xLeSimNaoPinPad, False);
+  CliSiTefFunctionDetect(sLibName, 'ObtemInformacoesPinPad', @xObtemInformacoesPinPad, False);
   fInicializada := True;
 end ;
 
@@ -614,19 +620,24 @@ end;
 
 procedure TACBrTEFCliSiTefAPI.ClearMethodPointers;
 begin
-  xConfiguraIntSiTefInterativoEx := nil;
-  xIniciaFuncaoSiTefInterativo := nil;
-  xContinuaFuncaoSiTefInterativo := nil;
-  xFinalizaFuncaoSiTefInterativo := nil;
-  xEscreveMensagemPermanentePinPad := nil;
-  xObtemQuantidadeTransacoesPendentes := nil;
-  xValidaCampoCodigoEmBarras := nil;
-  xEnviaRecebeSiTefDireto := nil;
-  xVerificaPresencaPinPad := nil;
-  xKeepAlivePinPad := nil;
-  xObtemDadoPinPadDiretoEx := nil;
-  xLeDigitoPinPad := nil;
-  xObtemVersao := nil;
+  xConfiguraIntSiTefInterativoEx := Nil;
+  xIniciaFuncaoSiTefInterativo := Nil;
+  xContinuaFuncaoSiTefInterativo := Nil;
+  xFinalizaFuncaoSiTefInterativo := Nil;
+  xEscreveMensagemPermanentePinPad := Nil;
+  xEscreveMensagemPinPad := Nil;
+  xObtemQuantidadeTransacoesPendentes := Nil;
+  xValidaCampoCodigoEmBarras := Nil;
+  xEnviaRecebeSiTefDireto := Nil;
+  xVerificaPresencaPinPad := Nil;
+  xKeepAlivePinPad := Nil;
+  xObtemDadoPinPadDiretoEx := Nil;
+  xLeDigitoPinPad := Nil;
+  xLeDigitoPinPad := Nil;
+  xObtemDadoPinPadDiretoEx := Nil;
+  xObtemVersao := Nil;
+  xLeSimNaoPinPad := Nil;
+  xObtemInformacoesPinPad := Nil;
 end;
 
 procedure TACBrTEFCliSiTefAPI.DoException(const AErrorMsg: String);
@@ -657,55 +668,63 @@ begin
 end;
 
 function TACBrTEFCliSiTefAPI.TraduzirErroInicializacao(Sts: Integer): String;
+var
+  s: String;
 begin
   Case Sts of
-     1 : Result := CACBrTEFCliSiTef_Erro_IP_Invalido;
-     2 : Result := CACBrTEFCliSiTef_Erro_CodLoja_invalido;
-     3 : Result := CACBrTEFCliSiTef_Erro_CodTerm_Invalido;
-     6 : Result := CACBrTEFCliSiTef_Erro_Init_TCP;
-     7 : Result := CACBrTEFCliSiTef_Erro_Falta_Memoria;
-     8 : Result := CACBrTEFCliSiTef_Erro_CliSiTef_NaoEncontrada;
-    10 : Result := CACBrTEFCliSiTef_Erro_Acesso_Pasta_CliSiTef;
-    11 : Result := CACBrTEFCliSiTef_Erro_Dados_Invalidos;
-    12 : Result := CACBrTEFCliSiTef_Erro_Modo_Seguro_Nao_Ativo;
-    13 : Result := CACBrTEFCliSiTef_Erro_DLL_Path_Invalido;
+     1 : s := 'Endereço IP inválido ou não resolvido';
+     2 : s := 'Código da loja inválido';
+     3 : s := 'Código de terminal inválido';
+     6 : s := 'Erro na inicialização do TCP/IP';
+     7 : s := 'Falta de memória';
+     8 : s := 'Não encontrou a CliSiTef ou ela está com problemas na inicialização';
+    10 : s := 'Erro de acesso na pasta CliSiTef';
+    11 : s := 'Dados inválidos passados pela automação.';
+    12 : s := 'Modo seguro não ativo';
+    13 : s := 'Caminho da Biblioteca é inválido';
   else
-    Result := '';
+    s := '';
   end;
+
+  Result := s;
 end;
 
 function TACBrTEFCliSiTefAPI.TraduzirErroTransacao(Sts: Integer): String;
+var
+  s: String;
 begin
-  Result := '' ;
+  s := '' ;
   Case Sts of
-    0 : Result := '';
-   -1 : Result := 'Módulo não inicializado' ;
-   -2 : Result := 'Operação cancelada pelo operador' ;
-   -3 : Result := 'Fornecido um código de função inválido' ;
-   -4 : Result := 'Falta de memória para rodar a função' ;
-   -5 : Result := 'Sem comunicação com o SiTef' ;
-   -6 : Result := 'Operação cancelada pelo usuário no PinPad' ;
-   -8 : Result := 'A CliSiTef não possui a implementação da função necessária, provavelmente está desatualizada';
-   -9 : Result := 'A automação chamou a rotina ContinuaFuncaoSiTefInterativo sem antes iniciar uma função iterativa';
-   -10: Result := 'Algum parâmetro obrigatório não foi passado pela automação comercial';
-   -12: Result := 'Erro na execução da rotina iterativa. Provavelmente o processo iterativo anterior não foi executado até o final';
-   -13: Result := 'Documento fiscal não encontrado nos registros da CliSiTef.';
-   -15: Result := 'Operação cancelada pela automação comercial';
-   -20: Result := 'Parâmetro inválido passado para a função';
-   -21: Result := 'Utilizada uma palavra proibida, por exemplo SENHA, para coletar dados em aberto no pinpad.';
-   -25: Result := 'Erro no Correspondente Bancário: Deve realizar sangria.';
-   -30: Result := 'Erro de acesso a arquivo';
-   -40: Result := 'Transação negada pelo SiTef';
-   -41: Result := 'Dados inválidos';
-   -43: Result := 'Problema na execução de alguma das rotinas no pinpad';
-   -50: Result := 'Transação não segura';
-   -100:Result := 'Result interno do módulo';
+    0 : s := '';
+   -1 : s := 'Módulo não inicializado' ;
+   -2 : s := 'Operação cancelada pelo operador' ;
+   -3 : s := 'Fornecido um código de função inválido' ;
+   -4 : s := 'Falta de memória para rodar a função' ;
+   -5 : s := 'Sem comunicação com o SiTef' ;
+   -6 : s := 'Operação cancelada pelo usuário no PinPad' ;
+   -8 : s := 'A CliSiTef não possui a implementação da função necessária, provavelmente está desatualizada';
+   -9 : s := 'A automação chamou a rotina ContinuaFuncaoSiTefInterativo sem antes iniciar uma função iterativa';
+   -10: s := 'Algum parâmetro obrigatório não foi passado pela automação comercial';
+   -12: s := 'Erro na execução da rotina iterativa. Provavelmente o processo iterativo anterior não foi executado até o final';
+   -13: s := 'Documento fiscal não encontrado nos registros da CliSiTef.';
+   -15: s := 'Operação cancelada pela automação comercial';
+   -20: s := 'Parâmetro inválido passado para a função';
+   -21: s := 'Utilizada uma palavra proibida, por exemplo SENHA, para coletar dados em aberto no pinpad.';
+   -25: s := 'Erro no Correspondente Bancário: Deve realizar sangria.';
+   -30: s := 'Erro de acesso a arquivo';
+   -40: s := 'Transação negada pelo SiTef';
+   -41: s := 'Dados inválidos';
+   -43: s := 'Problema na execução de alguma das rotinas no pinpad';
+   -50: s := 'Transação não segura';
+   -100:s := 'Result interno do módulo';
   else
-    if Sts < 0 then
-      Result := 'Erros detectados internamente pela rotina ('+IntToStr(Sts)+')'
+    if (Sts < 0) then
+      s := 'Erros detectados internamente pela rotina ('+IntToStr(Sts)+')'
     else
-      Result := 'Negada pelo autorizador ('+IntToStr(Sts)+')' ;
+      s := 'Negada pelo autorizador ('+IntToStr(Sts)+')' ;
   end;
+
+  Result := s;
 end ;
 
 function TACBrTEFCliSiTefAPI.ConfiguraIntSiTefInterativo(
@@ -755,20 +774,10 @@ function TACBrTEFCliSiTefAPI.ContinuaFuncaoSiTefInterativo(
   var ProximoComando: SmallInt; var TipoCampo: LongInt;
   var TamanhoMinimo: SmallInt; var TamanhoMaximo: SmallInt; pBuffer: PAnsiChar;
   TamMaxBuffer: Integer; ContinuaNavegacao: Integer): integer;
-
-  function LogParams: String;
-  begin
-    Result := 'ProximoComando:'+IntToStr(ProximoComando)+
-              ', TipoCampo:'+IntToStr(TipoCampo)+
-              ', TamanhoMinimo:'+IntToStr(TamanhoMinimo)+
-              ', TamanhoMaximo:'+IntToStr(TamanhoMaximo)+
-              ', Buffer: '+String(pBuffer);
-  end;
-
 begin
   LoadDLLFunctions;
   GravarLog('- ContinuaFuncaoSiTefInterativo - ' +
-            LogParams +
+            'Buffer: ['+String(pBuffer)+']'+
             ', TamMaxBuffer: '+IntToStr(TamMaxBuffer)+
             ', ContinuaNavegacao: '+IntToStr(ContinuaNavegacao)   );
 
@@ -779,7 +788,12 @@ begin
                                             pBuffer,
                                             TamMaxBuffer,
                                             ContinuaNavegacao );
-  GravarLog('  Ret: '+IntToStr(Result)+' - '+LogParams );
+  GravarLog('  Ret: '+IntToStr(Result)+
+            ', ProximoComando: '+IntToStr(ProximoComando)+
+            ', TipoCampo: '+IntToStr(TipoCampo)+
+            ', TamanhoMinimo: '+IntToStr(TamanhoMinimo)+
+            ', TamanhoMaximo: '+IntToStr(TamanhoMaximo)+
+            ', Buffer: ['+String(pBuffer)+']' );
 end;
 
 procedure TACBrTEFCliSiTefAPI.FinalizaFuncaoSiTefInterativo(
@@ -801,7 +815,21 @@ begin
                                   pParamAdic);
 end;
 
-function TACBrTEFCliSiTefAPI.DefineMensagemPermanentePinPad(Mensagem:AnsiString):Integer;
+function TACBrTEFCliSiTefAPI.EscreveMensagemPinPad(const Mensagem: AnsiString): Integer;
+begin
+  LoadDLLFunctions;
+  if Assigned(xEscreveMensagemPinPad) then
+  begin
+    GravarLog('- EscreveMensagemPinPad( '+Mensagem+' )');
+    Result := xEscreveMensagemPinPad(PAnsiChar(Mensagem));
+    GravarLog('  Ret: '+IntToStr(Result));
+  end
+  else
+    Result := -1;
+end;
+
+function TACBrTEFCliSiTefAPI.DefineMensagemPermanentePinPad(
+  const Mensagem: AnsiString): Integer;
 begin
   LoadDLLFunctions;
   if Assigned(xEscreveMensagemPermanentePinPad) then
@@ -943,8 +971,8 @@ begin
     Result := False;
 end;
 
-function TACBrTEFCliSiTefAPI.ObtemDadoPinPadDiretoEx(TipoDocumento: Integer; ChaveAcesso,
-  Identificador: AnsiString): AnsiString;
+function TACBrTEFCliSiTefAPI.ObtemDadoPinPadDiretoEx(TipoDocumento: Integer;
+  const ChaveAcesso, Identificador: AnsiString): AnsiString;
 var
   Saida: array [0..22] of AnsiChar;
   Retorno: Integer;
@@ -981,23 +1009,53 @@ begin
   end;
 end;
 
-function TACBrTEFCliSiTefAPI.LeDigitoPinPad(MensagemDisplay: AnsiString): AnsiString;
+function TACBrTEFCliSiTefAPI.LeDigitoPinPad(const MensagemDisplay: AnsiString): AnsiString;
 var
-  Saida: array [0..5] of AnsiChar;
-  Retorno: Integer;
+  lNumeroDigitado: array [0..5] of AnsiChar;
+  ret: Integer;
 begin
   Result := '';
-
+  LoadDLLFunctions;
   if Assigned(xLeDigitoPinPad) then
   begin
-    Retorno := xLeDigitoPinPad(PAnsiChar(MensagemDisplay),
-                    Saida);
-
-    if Retorno = 0 then
-    begin
-      Result := TrimRight(Saida);
-    end;
+    GravarLog('- LeDigitoPinPad('+MensagemDisplay+')');
+    ret := xLeDigitoPinPad(PAnsiChar(MensagemDisplay), lNumeroDigitado);
+    GravarLog('  Ret: '+IntToStr(ret)+', NumeroDigitado: '+String(lNumeroDigitado));
+    if (ret = 0) then
+      Result := TrimRight(lNumeroDigitado);
   end;
+end;
+
+function TACBrTEFCliSiTefAPI.LeSimNaoPinPad(const MensagemDisplay: AnsiString): Integer;
+begin
+  {Retornos: 0: Tecla Cancela; 1: Tecla Enter; -1: Erro }
+  LoadDLLFunctions;
+  if Assigned(xLeSimNaoPinPad) then
+  begin
+    GravarLog('- LeSimNaoPinPad('+MensagemDisplay+')');
+    Result := xLeSimNaoPinPad(PAnsiChar(MensagemDisplay));
+    GravarLog('  Ret: '+IntToStr(Result));
+  end
+  else
+    Result := -1;
+end;
+
+function TACBrTEFCliSiTefAPI.ObtemInformacoesPinPad(out InfoPinPad: string): Integer;
+var
+  lInfoPinPad: array [0..1024] of AnsiChar;
+begin
+  LoadDLLFunctions;
+  InfoPinPad := '';
+  if Assigned(xObtemInformacoesPinPad) then
+  begin
+    GravarLog('- ObtemInformacoesPinPad');
+    Result := xObtemInformacoesPinPad(lInfoPinPad);
+    GravarLog('  Ret: '+IntToStr(Result)+', InfoPinPad: '+String(lInfoPinPad));
+    if (Result = 0) then
+      InfoPinPad := TrimRight(lInfoPinPad);
+  end
+  else
+    Result := -1;
 end;
 
 end.
