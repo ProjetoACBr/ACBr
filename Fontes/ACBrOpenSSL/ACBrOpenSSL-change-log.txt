@@ -38,6 +38,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/12/2025
+- OpenSSLExt --
+[-] Ajuste para atribuir corretamente o Search Path para o Legacy
+    http://www.projetoacbr.com.br/forum/index.php?showtopic=88247
+    (Por: Grupo IN4)
+
 18/03/2025
 -- ACBrOpenSSLUtils --
 [+] Inclusão de parâmetro para permitir seleção do tipo de saída da função HMACFromString();

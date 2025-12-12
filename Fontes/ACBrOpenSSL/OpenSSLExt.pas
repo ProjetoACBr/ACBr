@@ -1721,7 +1721,6 @@ begin
 end;
 
 function InitSSLInterface(AVerboseLoading: Boolean): Boolean ; deprecated;
-
 Var
   B : Boolean;
 
@@ -6528,6 +6527,9 @@ begin
 end;
 
 function InitSSLInterface: Boolean;
+var
+  vPath: PAnsiChar;
+  vPaths: AnsiString;
 begin
   Result:=SSLLoaded;
   if Result then
@@ -6580,7 +6582,11 @@ begin
     if IsOpenSSL3 then
     begin
       if ((SSLLibFile) <> '') then
-        OSSL_PROVIDER_set_default_search_path(nil, PAnsiChar(ExtractFilePath(SSLLibFile)));
+      begin
+        vPaths := ExtractFilePath(SSLLibFile);
+        vPath := PAnsiChar(vPaths);
+        OSSL_PROVIDER_set_default_search_path(nil, vPath);
+      end;
 
       OSSL_PROVIDER_load(Nil, 'legacy'); // Loading legacy.dll
     end;
