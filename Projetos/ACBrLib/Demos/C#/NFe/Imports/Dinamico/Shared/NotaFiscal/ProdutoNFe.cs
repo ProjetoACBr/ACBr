@@ -303,6 +303,8 @@ namespace ACBrLib.NFe
 
         public IndBemMovelUsado IndBemMovelUsado { get; set; }
 
+        public TipoCredPresIBSZFM tpCredPresIBSZFM { get; set; }
+
         #endregion Properties
     }
 
@@ -341,5 +343,6 @@ namespace ACBrLib.NFe
         public string nProcesso { get; set; }
 
         public IndIncentivo indIncentivo { get; set; }
+        
     }
 }

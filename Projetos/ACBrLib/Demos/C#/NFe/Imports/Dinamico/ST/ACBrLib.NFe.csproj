@@ -160,6 +160,9 @@
     <Compile Include="..\Shared\NotaFiscal\Defensivo.cs" Link="NotaFiscal\Defensivo.cs" />
 	<Compile Include="..\Shared\NotaFiscal\GuiaTransito.cs" Link="NotaFiscal\GuiaTransito.cs" />
 	<Compile Include="..\Shared\NotaFiscal\tpGuiaTransito.cs" Link="NotaFiscal\tpGuiaTransito.cs" />
+	<Compile Include="..\Shared\NotaFiscal\gCredPresOper.cs" Link="NotaFiscal\gCredPresOper.cs" />
+	<Compile Include="..\Shared\NotaFiscal\gAjusteCompet.cs" Link="NotaFiscal\gAjusteCompet.cs" />
+	<Compile Include="..\Shared\NotaFiscal\gEstornoCred.cs" Link="NotaFiscal\gEstornoCred.cs" />	  
 	<Compile Include="..\Shared\Respostas\CancelamentoResposta.cs" Link="Respostas\CancelamentoResposta.cs" />
     <Compile Include="..\Shared\Respostas\ConsultaNFeDetEventoResposta.cs" Link="Respostas\ConsultaNFeDetEventoResposta.cs" />
     <Compile Include="..\Shared\Respostas\ConsultaNFeInfCanResposta.cs" Link="Respostas\ConsultaNFeInfCanResposta.cs" />
@@ -169,7 +172,7 @@
     <Compile Include="..\Shared\Respostas\ConsultaNFeRetEventoResposta.cs" Link="Respostas\ConsultaNFeRetEventoResposta.cs" />
     <Compile Include="..\Shared\Respostas\EventoItemResposta.cs" Link="Respostas\EventoItemResposta.cs" />
     <Compile Include="..\Shared\Respostas\EventoResposta.cs" Link="Respostas\EventoResposta.cs" />
-    <Compile Include="..\Shared\Respostas\InutilizarNFeResposta.cs" Link="Respostas\InutilizarNFeResposta.cs" />
+    <Compile Include="..\Shared\Respostas\InutilizarNFeResposta.cs" Link="Respostas\InutilizarNFeResposta.cs" />	
   </ItemGroup>
 
   <ItemGroup>

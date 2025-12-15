@@ -213,6 +213,8 @@ namespace ACBrLib.NFe
 
         public List<gPagAntecipado> gPagAntecipado { get; } = new List<gPagAntecipado>();
 
+        public DateTime dPrevEntrega {  get; set; }
+
         #endregion Properties
     }
 }

@@ -18,6 +18,9 @@ namespace ACBrLib.NFe
             gMonoDif = new gMonoDif();
             gTransfCred = new gTransfCred();
             gCredPresIBSZFM = new gCredPresIBSZFM();
+            gCredPresOper = new gCredPresOper();
+            gAjusteCompet = new gAjusteCompet();
+            gEstornoCred = new gEstornoCred();
 
         }
         #endregion Constructors
@@ -51,6 +54,14 @@ namespace ACBrLib.NFe
         public gTransfCred gTransfCred { get; }      
         
         public gCredPresIBSZFM gCredPresIBSZFM { get; }
+
+        public gCredPresOper gCredPresOper { get; }
+
+        public gAjusteCompet gAjusteCompet { get; }
+
+        public gEstornoCred gEstornoCred { get; }
+
+        public IndDoacao indDoacao { get; set; }
 
         #endregion Properties
     }

@@ -8,6 +8,7 @@
             gIBS = new gIBSTot();
             gCBS = new gCBSTot();
             gMono = new gIBSCBSMonoTot();
+            gEstornoCredTot = new gEstornoCred();
 
         }
         #endregion Constructors
@@ -29,6 +30,8 @@
         public gCBSTot gCBS { get; }
 
         public gIBSCBSMonoTot gMono { get; }
+
+        public gEstornoCred gEstornoCredTot { get; }
        
 
         #endregion Properties
