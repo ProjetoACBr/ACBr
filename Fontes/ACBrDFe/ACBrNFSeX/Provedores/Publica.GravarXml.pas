@@ -61,6 +61,7 @@ type
     function GerarPisCofins: TACBrXmlNode;
     function GerartribMun: TACBrXmlNode;
     function GerarServico: TACBrXmlNode; override;
+    function GerarConstrucaoCivil: TACBrXmlNode; override;
 
     procedure GerarINISecaoParcelas(const AINIRec: TMemIniFile); override;
   end;
@@ -406,6 +407,82 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'cNBS', 1, 10, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
+end;
+
+function TNFSeW_Publica.GerarConstrucaoCivil: TACBrXmlNode;
+var
+  NodeEnd: TACBrXmlNode;
+begin
+  Result := nil;
+
+  with NFSe.ConstrucaoCivil do
+  begin
+    // só gera se tiver Tipo válido
+    if not (Tipo in [1, 2]) then
+      Exit;
+
+    Result := CreateElement('ConstrucaoCivil');
+
+    // 1) TipoIdentificacaoObra (1 = Endereço, 2 = CNO/CEI)
+    Result.AppendChild(AddNode(tcStr, '#51', 'TipoIdentificacaoObra', 1, 1, 1,
+                                                              Tipo, DSC_TOBRA));
+
+    // ============================
+    // Tipo = 2  -> CNO / CEI
+    // ============================
+    if (Tipo = 2) then
+    begin
+      if Trim(CodigoObra) <> '' then
+        Result.AppendChild(AddNode(tcStr, '#52', 'CodigoObra', 1, 15, 1,
+                                                        CodigoObra, DSC_COBRA));
+    end;
+
+    // ============================
+    // Tipo = 1 -> Endereço completo
+    // ============================
+    if (Tipo = 1) then
+    begin
+      if (Trim(Endereco.CEP) <> '') or (Trim(Endereco.Endereco) <> '') then
+      begin
+        NodeEnd := CreateElement('EnderecoCompleto');
+        Result.AppendChild(NodeEnd);
+
+        // aqui usei os mesmos padrões que o ACBr costuma usar
+        NodeEnd.AppendChild(AddNode(tcStr, '#60', 'Cep', 8, 8, 1,
+                                                    Endereco.CEP, DSC_CEPOBRA));
+
+        NodeEnd.AppendChild(AddNode(tcStr, '#61', 'Logradouro', 1, 125, 1,
+                                                 Endereco.Endereco, DSC_EOBRA));
+
+        NodeEnd.AppendChild(AddNode(tcStr, '#62', 'Numero', 1, 10, 1,
+                                                  Endereco.Numero, DSC_NEOBRA));
+
+        NodeEnd.AppendChild(AddNode(tcStr, '#63', 'Bairro', 1, 60, 1,
+                                                  Endereco.Bairro, DSC_BEOBRA));
+
+        NodeEnd.AppendChild(AddNode(tcStr, '#64', 'CodigoMunicipio', 1, 7, 1,
+                                     Endereco.CodigoMunicipio, DSC_CODMUNOBRA));
+
+        NodeEnd.AppendChild(AddNode(tcStr, '#65', 'Complemento', 0, 60, 0,
+                                             Endereco.Complemento, DSC_CEOBRA));
+
+        NodeEnd.AppendChild(AddNode(tcStr, '#66', 'Uf', 2, 2, 1,
+                                                      Endereco.UF, DSC_UFOBRA));
+
+        NodeEnd.AppendChild(AddNode(tcStr, '#67', 'CodigoPais', 8, 8, 1,
+                                                          '1055', DSC_CEPOBRA));
+      end;
+    end;
+
+    // 3) (comum para os dois tipos, se informado)
+    if Trim(Art) <> '' then
+      Result.AppendChild(AddNode(tcStr, '#53', 'Art', 1, 15, 1,
+                                                                 Art, DSC_ART));
+
+    If Trim(inscImobFisc) <> '' then
+      Result.AppendChild(AddNode(tcStr, '#54', 'InscImob', 1, 60, 1,
+                                                    inscImobFisc, DSC_INSCMOB));
+  end;
 end;
 
 procedure TNFSeW_Publica.GerarINISecaoParcelas(const AINIRec: TMemIniFile);

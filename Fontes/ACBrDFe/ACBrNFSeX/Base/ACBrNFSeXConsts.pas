@@ -54,7 +54,16 @@ resourcestring
   DSC_MUNINCI = 'Municipio de Incidencia';
   DSC_INDRESPRET = 'Indicador de Responsável pela Retenção';
   DSC_COBRA = 'Código da Obra';
+  DSC_TOBRA = 'Tipo Identificação Obra';
+  DSC_EOBRA = 'Endereço da obra';
+  DSC_NEOBRA = 'Número do endereço da obra';
+  DSC_CEOBRA = 'Complemento do endereço da obra';
+  DSC_BEOBRA = 'Bairro do endereço da obra';
+  DSC_CODMUNOBRA = 'Código do município da obra';
+  DSC_CEPOBRA = 'Cep do endereço da obra';
+  DSC_UFOBRA = 'UF do endereço da obra';
   DSC_ART = 'Arte';
+  DSC_INSCMOB = 'Inscricao imobiliária da obra';
   DSC_QPARC = 'Quantidade de Parcelas';
   DSC_NPARC = 'Numero da Parcela';
   DSC_VPARC = 'Valor da Parcela';
@@ -101,6 +110,7 @@ resourcestring
   DSC_VDESCINCOND = 'Valor Desconto Incondicionado';
   DSC_VDESCCOND = 'Valor Desconto Condicionado';
   DSC_VDESC = 'Valor do desconto';
+  DSC_CNBS = 'Codigo da lista de Nomenclatura Brasileira de Serviços (NBS)';
 
   DSC_INDISS = 'Indicador da Exigibilidade do ISS';
   DSC_NPROCESSO = 'Número do Processo';

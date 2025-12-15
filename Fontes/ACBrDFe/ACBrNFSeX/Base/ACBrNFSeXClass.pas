@@ -1059,6 +1059,7 @@ type
     FnMatri: string;
     FnNumeroEncapsulamento: string;
     FinscImobFisc: String;
+    FTipo: Integer;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1073,6 +1074,8 @@ type
     property nNumeroEncapsulamento: string read FnNumeroEncapsulamento write FnNumeroEncapsulamento;
     // Provedor PadraoNacional
     property inscImobFisc: String read FinscImobFisc write FinscImobFisc;
+    // Provedor Publica
+    property Tipo: Integer read FTipo write FTipo;
   end;
 
   TParcelasCollectionItem = class(TObject)

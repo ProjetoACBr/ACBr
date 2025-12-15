@@ -931,28 +931,42 @@ begin
         INIRec.WriteString(sSecao, 'vTipoFreteTrans', TipoFreteToStr(Transportadora.vTipoFreteTrans));
       end;
 
-      if ConstrucaoCivil.CodigoObra <> '' then
+      if (ConstrucaoCivil.CodigoObra <> '') or (ConstrucaoCivil.nCei <> '') or
+         (ConstrucaoCivil.Endereco.CEP <> '') then
       begin
         sSecao:= 'ConstrucaoCivil';
-        INIRec.WriteString(sSecao, 'CodigoObra', ConstrucaoCivil.CodigoObra);
-        INIRec.WriteString(sSecao, 'Art', ConstrucaoCivil.Art);
-        INIRec.WriteString(sSecao, 'nCei', ConstrucaoCivil.nCei);
-        INIRec.WriteString(sSecao, 'nProj', ConstrucaoCivil.nProj);
-        INIRec.WriteString(sSecao, 'nMatri', ConstrucaoCivil.nMatri);
-        INIRec.WriteString(sSecao, 'nNumeroEncapsulamento', ConstrucaoCivil.nNumeroEncapsulamento);
-        //Padrão Nacional
-        INIRec.WriteString(sSecao, 'inscImobFisc', ConstrucaoCivil.inscImobFisc);
 
-        //Padrão Nacional
-        if (ConstrucaoCivil.Endereco.Endereco <> '') or (ConstrucaoCivil.Endereco.CEP <> '') then
+        if ConstrucaoCivil.Tipo > 0 then
         begin
-          INIRec.WriteString(sSecao, 'CEP', ConstrucaoCivil.Endereco.CEP);
-          INIRec.WriteString(sSecao, 'xMunicipio', ConstrucaoCivil.Endereco.XMunicipio);
-          INIRec.WriteString(sSecao, 'UF', ConstrucaoCivil.Endereco.UF);
-          INIRec.WriteString(sSecao, 'Logradouro', ConstrucaoCivil.Endereco.Endereco);
-          INIRec.WriteString(sSecao, 'Numero', ConstrucaoCivil.Endereco.Numero);
-          INIRec.WriteString(sSecao, 'Complemento', ConstrucaoCivil.Endereco.Complemento);
-          INIRec.WriteString(sSecao, 'Bairro', ConstrucaoCivil.Endereco.Bairro);
+          INIRec.WriteInteger(sSecao, 'TipoIdentificacaoObra', ConstrucaoCivil.Tipo);
+
+          if (ConstrucaoCivil.Tipo = 2) and (ConstrucaoCivil.CodigoObra <> '') then
+            INIRec.WriteString(sSecao, 'CodigoObra', ConstrucaoCivil.CodigoObra);
+
+          if (ConstrucaoCivil.Tipo = 2) and (ConstrucaoCivil.nCei <> '') then
+            INIRec.WriteString(sSecao, 'CodigoObra', ConstrucaoCivil.nCei);
+
+          if (ConstrucaoCivil.Tipo = 1) then
+          begin
+            if (ConstrucaoCivil.Endereco.Endereco <> '') or (ConstrucaoCivil.Endereco.CEP <> '') then
+            begin
+              INIRec.WriteString(sSecao, 'CEP', ConstrucaoCivil.Endereco.CEP);
+              INIRec.WriteString(sSecao, 'xMunicipio', ConstrucaoCivil.Endereco.XMunicipio);
+              INIRec.WriteString(sSecao, 'UF', ConstrucaoCivil.Endereco.UF);
+              INIRec.WriteString(sSecao, 'Logradouro', ConstrucaoCivil.Endereco.Endereco);
+              INIRec.WriteString(sSecao, 'Numero', ConstrucaoCivil.Endereco.Numero);
+              INIRec.WriteString(sSecao, 'Complemento', ConstrucaoCivil.Endereco.Complemento);
+              INIRec.WriteString(sSecao, 'Bairro', ConstrucaoCivil.Endereco.Bairro);
+            end;
+          end;
+
+          INIRec.WriteString(sSecao, 'Art', ConstrucaoCivil.Art);
+          INIRec.WriteString(sSecao, 'nCei', ConstrucaoCivil.nCei);
+          INIRec.WriteString(sSecao, 'nProj', ConstrucaoCivil.nProj);
+          INIRec.WriteString(sSecao, 'nMatri', ConstrucaoCivil.nMatri);
+          INIRec.WriteString(sSecao, 'nNumeroEncapsulamento', ConstrucaoCivil.nNumeroEncapsulamento);
+          //Padrão Nacional
+          INIRec.WriteString(sSecao, 'inscImobFisc', ConstrucaoCivil.inscImobFisc);
         end;
       end;
 

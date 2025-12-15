@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 15/12/2025
+-- Diversos --
+[*] Ajustes para o provedor Publica no que se refere a Construção Civil.
+   Por: Ivan
 -- Giss.GravarXml --
 [*] Ajustes para não ocorrer erro de validação com o novo campo CodigoNBS.
    Por: Italo Giurizzato Junior

@@ -75,6 +75,8 @@ type
     procedure PrepararConsultaNFSe(Response: TNFSeConsultaNFSeResponse); override;
 
     procedure PrepararCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
+    procedure GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse;
+      Params: TNFSeParamsResponse); override;
   public
     function NaturezaOperacaoDescricao(const t: TnfseNaturezaOperacao): string; override;
   end;
@@ -628,8 +630,54 @@ begin
   Response.InfCancelamento.NumeroNFSe := FormatFloat('000000000000000', NumNFSe);
 
   ConfigAssinar.IncluirURI := False;
+
   inherited PrepararCancelaNFSe(Response);
+
   ConfigAssinar.IncluirURI := True;
+end;
+
+procedure TACBrNFSeProviderPublica.GerarMsgDadosCancelaNFSe(
+  Response: TNFSeCancelaNFSeResponse; Params: TNFSeParamsResponse);
+var
+  Emitente: TEmitenteConfNFSe;
+  InfoCanc: TInfCancelamento;
+  AnoExercicio : String;
+  NumeroNota: String;
+begin
+  Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+  InfoCanc := Response.InfCancelamento;
+
+  AnoExercicio := FormatDateTime('yyyy', InfoCanc.DataEmissaoNFSe);
+  NumeroNota := AnoExercicio + Copy(InfoCanc.NumeroNFSe, 5, Length(InfoCanc.NumeroNFSe));
+
+  with Params do
+  begin
+    Response.ArquivoEnvio := '<' + Prefixo + 'CancelarNfseEnvio ' + NameSpace + '>' +
+                               '<' + Prefixo + 'Pedido>' +
+                                 '<' + Prefixo2 + 'InfPedidoCancelamento' + IdAttr + '>' +
+                                   '<' + Prefixo2 + 'IdentificacaoNfse>' +
+                                     '<' + Prefixo2 + 'Numero>' +
+                                       NumeroNota +
+                                     '</' + Prefixo2 + 'Numero>' +
+                                     '<' + Prefixo2 + 'Cnpj>' +
+                                       OnlyNumber(Emitente.CNPJ) +
+                                     '</' + Prefixo2 + 'Cnpj>' +
+                                     GetInscMunic(Emitente.InscMun, Prefixo2) +
+                                     '<' + Prefixo2 + 'CodigoMunicipio>' +
+                                        ConfigGeral.CodIBGE +
+                                     '</' + Prefixo2 + 'CodigoMunicipio>' +
+                                     '<' + Prefixo2 + 'CodigoVerificacao>' +
+                                        InfoCanc.CodVerificacao +
+                                     '</' + Prefixo2 + 'CodigoVerificacao>' +
+                                   '</' + Prefixo2 + 'IdentificacaoNfse>' +
+                                   '<' + Prefixo2 + 'CodigoCancelamento>' +
+                                      InfoCanc.CodCancelamento +
+                                   '</' + Prefixo2 + 'CodigoCancelamento>' +
+                                   Motivo +
+                                 '</' + Prefixo2 + 'InfPedidoCancelamento>' +
+                               '</' + Prefixo + 'Pedido>' +
+                             '</' + Prefixo + 'CancelarNfseEnvio>';
+  end;
 end;
 
 end.
