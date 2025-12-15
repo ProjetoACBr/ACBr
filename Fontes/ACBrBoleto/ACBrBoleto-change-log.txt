@@ -49,6 +49,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/12/2025
+-- ACBrBancoVortx --
+[*] ACBR-8584 - Correções na leitura do retorno https://www.projetoacbr.com.br/forum/topic/87229-acbr-8584-erro-ao-processar-retorno-banco-vortx
+   Por: Desenv. AT Info Sistemas
+
 03/12/2025
 -- ACBrBancoVortx --
 [*] ACBR-8383 - Correções na leitura do retorno https://www.projetoacbr.com.br/forum/topic/87229-erro-ao-processar-retorno-banco-vortx/

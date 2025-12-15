@@ -105,7 +105,7 @@ var
 begin
   LDigito := CalcularDigitoVerificador(ACBrTitulo);
   LAgencia := IntToStr(StrToInt(ACBrTitulo.ACBrBoleto.Cedente.Agencia));
-  LCodigoCedente := IntToStr(StrToInt(ACBrTitulo.ACBrBoleto.Cedente.CodigoCedente));
+  LCodigoCedente := IntToStr(StrToInt(ACBrTitulo.ACBrBoleto.Cedente.Conta + ACBrTitulo.ACBrBoleto.Cedente.ContaDigito));
   LNossoNumero := IntToStr(StrToInt(ACBrTitulo.NossoNumero));
 
   LCampoLivre := PadLeft(LAgencia, 4, '0') +
@@ -145,7 +145,7 @@ begin
     'REMESSA' +                                                 // 003 a 009 Literal remessa
     '01' +                                                      // 010 a 011 Código de serviço
     PadRight('COBRANCA', 15, ' ') +                             // 012 a 026 Literal serviço
-    PadLeft(LBeneficiario.CodigoCedente, 20, '0') +             // 027 a 046 Código da Empresa
+    PadLeft(LBeneficiario.CodigoTransmissao, 20, '0') +         // 027 a 046 Código da Empresa
     PadRight(TiraAcentos(LBeneficiario.Nome), 30, ' ') +        // 047 a 076 Nome da Empresa
     IntToStrZero(ACBrBanco.Numero, 3) +                         // 077 a 079 Número da Vórtx na câmara de compensação
     PadRight('Vortx', 15, ' ') +                                // 080 a 094 Nome do banco por extenso
@@ -303,10 +303,9 @@ begin
     PadLeft(OnlyNumber(ACBrTitulo.ACBrBoleto.Cedente.CNPJCPF), 14, '0') + // 004 a 017 CNPJ do beneficiário
     PadLeft(LCarteira, 7, '0') +                                          // 018 a 024 Código da Carteira
                                                                           // Identificação da empresa beneficiária no Vórtx
-    PadLeft(IntToStr(StrToInt(LBoleto.Cedente.Agencia)), 4, '0') +        // 025 a 028 Código da Agência
-    PadLeft(LBoleto.Cedente.AgenciaDigito, 1, '0') +                      // 029 a 029 DV Agência
-    PadLeft(IntToStr(StrToInt(LBoleto.Cedente.Conta)), 7, '0') +          // 030 a 036 Conta Corrente
-    PadLeft(IntToStr(StrToInt(LBoleto.Cedente.ContaDigito)), 1, '0') +    // 037 a 037 Dígito da Agência
+    PadLeft(IntToStr(StrToInt(LBoleto.Cedente.Agencia)), 5, '0') +        // 025 a 029 Zero + Código da Agência(5)
+    PadLeft(LBoleto.Cedente.AgenciaDigito, 1, '0') +                      // 030 a 030 DV Agência
+    PadLeft(IntToStr(StrToInt(LBoleto.Cedente.Conta)), 7, '0') +          // 031 a 037 Conta Corrente sem o dígito
     PadRight(ACBrTitulo.SeuNumero, 25, ' ') +                             // 038 a 062 Número de controle para uso da empresa.
     '310' +                                                               // 063 a 065 Código da Vórtx a ser debitado na Câmara de Compensação
     IfThen((ACBrTitulo.PercentualMulta > 0), '2', '0') +                  // 066 a 066 Campo de multa
@@ -397,14 +396,13 @@ begin
 
     if ACBrBanco.ACBrBoleto.LeCedenteRetorno then
     begin
-      ACBrBanco.ACBrBoleto.Cedente.CodigoCedente := Copy(ARetorno[0], 39, 8);
+      ACBrBanco.ACBrBoleto.Cedente.CodigoCedente := Copy(Linha, 31, 7);
 
       LNomeCedente := Trim(Copy(ARetorno[0], 47, 30));
       ACBrBanco.ACBrBoleto.Cedente.Nome := LNomeCedente;
       LACBrTitulo.Carteira := Copy(Linha, 22, 3);
       ACBrBanco.ACBrBoleto.Cedente.Agencia := Copy(Linha, 26, 4);
-      ACBrBanco.ACBrBoleto.Cedente.Conta := Copy(ARetorno[0], 39, 7);
-      ACBrBanco.ACBrBoleto.Cedente.ContaDigito := Copy(ARetorno[0], 46, 1);
+      ACBrBanco.ACBrBoleto.Cedente.Conta := Copy(Linha, 31, 7);
     end;
 
     LACBrTitulo.SeuNumero        := Copy(Linha, 38, 25);
@@ -704,8 +702,8 @@ begin
   Modulo.Documento := AValor;
   Modulo.Calcular;
 
-  if Modulo.ModuloFinal in[0, 10] then
-    LDigito := '1'
+  if Modulo.ModuloFinal in[0, 10, 11] then
+    LDigito := '0'
   else
     LDigito := IntToStr(Modulo.ModuloFinal);
 
