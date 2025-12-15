@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+15/12/2025
+-- Citta.Provider --
+[+] ACBR-8575 - Implementado a Consulta da NFSe pela chave do RPS.
+   Por: Italo Giurizzato Junior
+
 12/12/2025
 -- Infisc.Provider/PadraoNacional.Provider --
 [*] ACBR-8574 - Possível solução para o método ObterDANFSE do provedor Infisc.
