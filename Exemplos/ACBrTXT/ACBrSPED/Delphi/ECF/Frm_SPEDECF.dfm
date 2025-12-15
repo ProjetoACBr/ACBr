@@ -10,11 +10,13 @@ object FrmSPEDECF: TFrmSPEDECF
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   Position = poScreenCenter
   OnCreate = FormCreate
   DesignSize = (
     747
     595)
+  PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
     Left = 8
@@ -140,7 +142,6 @@ object FrmSPEDECF: TFrmSPEDECF
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      ExplicitWidth = 341
     end
     object Label9: TLabel
       Left = 622
@@ -221,7 +222,6 @@ object FrmSPEDECF: TFrmSPEDECF
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      ExplicitWidth = 450
     end
     object btnB_0: TButton
       Left = 16

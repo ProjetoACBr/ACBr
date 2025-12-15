@@ -10,7 +10,9 @@ object Form1: TForm1
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  OldCreateOrder = True
   OnCreate = FormCreate
+  PixelsPerInch = 96
   TextHeight = 13
   object PanelClient: TPanel
     Left = 289
@@ -20,8 +22,6 @@ object Form1: TForm1
     Align = alClient
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 678
-    ExplicitHeight = 628
     object Label1: TLabel
       Left = 12
       Top = 16
@@ -104,7 +104,6 @@ object Form1: TForm1
     ActivePage = TabConfiguracoes
     Align = alLeft
     TabOrder = 1
-    ExplicitHeight = 628
     object TabConfiguracoes: TTabSheet
       Caption = 'Configura'#231#245'es'
       object Panel1: TPanel
@@ -115,7 +114,6 @@ object Form1: TForm1
         Align = alBottom
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitTop = 529
         object Shape1: TShape
           Left = 0
           Top = 0
@@ -123,7 +121,6 @@ object Form1: TForm1
           Height = 1
           Align = alTop
           Pen.Color = clSilver
-          ExplicitWidth = 274
         end
         object Label18: TLabel
           Left = 72
@@ -175,7 +172,6 @@ object Form1: TForm1
         ActivePage = TabGeral
         Align = alClient
         TabOrder = 1
-        ExplicitHeight = 529
         object TabGeral: TTabSheet
           Caption = 'Geral'
           Font.Charset = DEFAULT_CHARSET

@@ -10,8 +10,10 @@ object frmACBrNFSe: TfrmACBrNFSe
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   Position = poScreenCenter
   OnCreate = FormCreate
+  PixelsPerInch = 96
   TextHeight = 13
   object pnlMenus: TPanel
     Left = 0
@@ -20,7 +22,6 @@ object frmACBrNFSe: TfrmACBrNFSe
     Height = 643
     Align = alLeft
     TabOrder = 0
-    ExplicitHeight = 635
     object lblColaborador: TLabel
       Left = 18
       Top = 540
@@ -1714,8 +1715,6 @@ object frmACBrNFSe: TfrmACBrNFSe
     Height = 643
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 567
-    ExplicitHeight = 635
     object pgRespostas: TPageControl
       Left = 1
       Top = 204
@@ -1724,8 +1723,6 @@ object frmACBrNFSe: TfrmACBrNFSe
       ActivePage = TabSheet8
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 565
-      ExplicitHeight = 430
       object TabSheet8: TTabSheet
         Caption = 'Log'
         ImageIndex = 2
@@ -1743,8 +1740,6 @@ object frmACBrNFSe: TfrmACBrNFSe
           ParentFont = False
           ScrollBars = ssVertical
           TabOrder = 0
-          ExplicitWidth = 557
-          ExplicitHeight = 402
         end
       end
       object TabSheet9: TTabSheet
@@ -1757,8 +1752,6 @@ object frmACBrNFSe: TfrmACBrNFSe
           Height = 410
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 699
-          ExplicitHeight = 513
           ControlData = {
             4C000000382E0000E62100000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
@@ -1777,8 +1770,6 @@ object frmACBrNFSe: TfrmACBrNFSe
           Height = 410
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 699
-          ExplicitHeight = 513
           ControlData = {
             4C000000382E0000E62100000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
@@ -1796,8 +1787,6 @@ object frmACBrNFSe: TfrmACBrNFSe
           Height = 410
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 699
-          ExplicitHeight = 513
           ControlData = {
             4C000000382E0000E62100000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
@@ -1815,7 +1804,6 @@ object frmACBrNFSe: TfrmACBrNFSe
       ActivePage = tsDemais
       Align = alTop
       TabOrder = 1
-      ExplicitWidth = 565
       object tsDemais: TTabSheet
         Caption = 'Demais Provedores'
         object pgcBotoes: TPageControl
@@ -1826,7 +1814,6 @@ object frmACBrNFSe: TfrmACBrNFSe
           ActivePage = tsEnvios
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 557
           object tsEnvios: TTabSheet
             Caption = 'Envios'
             ImageIndex = 2
@@ -2462,7 +2449,6 @@ object frmACBrNFSe: TfrmACBrNFSe
         'N'#227'o')
       ParentFont = False
       TabOrder = 2
-      ExplicitWidth = 565
     end
   end
   object OpenDialog1: TOpenDialog

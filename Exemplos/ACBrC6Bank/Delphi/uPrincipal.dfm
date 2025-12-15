@@ -14,11 +14,13 @@ object frmPrincipal: TfrmPrincipal
   Font.Height = -10
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OldCreateOrder = True
   Position = poDesigned
   OnCreate = FormCreate
   DesignSize = (
     1056
     600)
+  PixelsPerInch = 96
   TextHeight = 12
   object Label27: TLabel
     Left = 13
@@ -44,7 +46,6 @@ object frmPrincipal: TfrmPrincipal
     Color = clBlack
     ParentBackground = False
     TabOrder = 0
-    ExplicitHeight = 677
     object imgLogo: TImage
       Left = 13
       Top = 6
@@ -483,8 +484,6 @@ object frmPrincipal: TfrmPrincipal
     Anchors = [akLeft, akTop, akRight, akBottom]
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitWidth = 957
-    ExplicitHeight = 677
     object pagPrincipal: TPageControl
       Left = 0
       Top = 0
@@ -497,7 +496,6 @@ object frmPrincipal: TfrmPrincipal
       ActivePage = tabnenhum
       Align = alClient
       TabOrder = 0
-      ExplicitHeight = 677
       object tabnenhum: TTabSheet
         Margins.Left = 2
         Margins.Top = 2
@@ -516,8 +514,6 @@ object frmPrincipal: TfrmPrincipal
           Align = alClient
           Color = clWhite
           TabOrder = 0
-          ExplicitWidth = 949
-          ExplicitHeight = 650
           object Label3: TLabel
             Left = 106
             Top = 217
@@ -558,8 +554,6 @@ object frmPrincipal: TfrmPrincipal
           Color = clWhite
           ParentBackground = False
           TabOrder = 12
-          ExplicitWidth = 949
-          ExplicitHeight = 650
           DesignSize = (
             869
             560)
@@ -703,7 +697,6 @@ object frmPrincipal: TfrmPrincipal
             ParentShowHint = False
             ShowHint = True
             OnClick = btnConfigBoletoClick
-            ExplicitLeft = 743
           end
         end
         object pnpBolAcrescDesconto: TPanel
@@ -2005,8 +1998,6 @@ object frmPrincipal: TfrmPrincipal
           Color = clWhite
           ParentBackground = False
           TabOrder = 0
-          ExplicitWidth = 949
-          ExplicitHeight = 650
           DesignSize = (
             869
             560)
@@ -2124,8 +2115,6 @@ object frmPrincipal: TfrmPrincipal
             ParentShowHint = False
             ShowHint = True
             OnClick = btnConfigPixClick
-            ExplicitLeft = 949
-            ExplicitTop = 15
           end
           object pnFluxoPagto: TPanel
             Left = 16
@@ -2361,7 +2350,6 @@ object frmPrincipal: TfrmPrincipal
                   Constraints.MinHeight = 140
                   Proportional = True
                   Stretch = True
-                  ExplicitWidth = 352
                 end
               end
               object pnFluxoBotoes: TPanel
@@ -2735,7 +2723,6 @@ object frmPrincipal: TfrmPrincipal
                     Margins.Bottom = 2
                     Anchors = [akTop, akRight]
                     Visible = False
-                    ExplicitLeft = 426
                   end
                   object Label52: TLabel
                     Left = 6
@@ -2780,7 +2767,6 @@ object frmPrincipal: TfrmPrincipal
                     Anchors = [akTop, akRight]
                     Flat = True
                     Visible = False
-                    ExplicitLeft = 423
                   end
                   object imgErrNome: TImage
                     Left = 314
@@ -2793,7 +2779,6 @@ object frmPrincipal: TfrmPrincipal
                     Margins.Bottom = 2
                     Anchors = [akTop, akRight]
                     Visible = False
-                    ExplicitLeft = 315
                   end
                   object Label85: TLabel
                     Left = 333
@@ -2937,7 +2922,6 @@ object frmPrincipal: TfrmPrincipal
                     Anchors = [akTop, akRight]
                     GroupIndex = 1
                     Flat = True
-                    ExplicitLeft = 195
                   end
                   object edtProxyHost: TEdit
                     Left = 6
@@ -3149,7 +3133,6 @@ object frmPrincipal: TfrmPrincipal
                     Margins.Bottom = 2
                     Anchors = [akTop, akRight]
                     Visible = False
-                    ExplicitLeft = 135
                   end
                   object Label49: TLabel
                     Left = 16
@@ -3328,7 +3311,6 @@ object frmPrincipal: TfrmPrincipal
                 Caption = 'Tipo Chave'
                 Color = clBtnFace
                 ParentColor = False
-                ExplicitLeft = 525
               end
               object lbC6BankClientSecret: TLabel
                 Left = 19
@@ -3377,7 +3359,6 @@ object frmPrincipal: TfrmPrincipal
                 Margins.Bottom = 2
                 Anchors = [akTop, akRight]
                 Visible = False
-                ExplicitLeft = 655
               end
               object lbC6BankChavePrivada: TLabel
                 Left = 19
@@ -3434,7 +3415,6 @@ object frmPrincipal: TfrmPrincipal
                 ParentShowHint = False
                 ShowHint = True
                 OnClick = btC6BankAcharChavePrivadaClick
-                ExplicitLeft = 655
               end
               object btC6BankAcharCertificado: TSpeedButton
                 Left = 654
@@ -3456,7 +3436,6 @@ object frmPrincipal: TfrmPrincipal
                 ParentShowHint = False
                 ShowHint = True
                 OnClick = btC6BankAcharCertificadoClick
-                ExplicitLeft = 655
               end
               object imC6BankErroCertificado: TImage
                 Left = 2
@@ -3624,8 +3603,6 @@ object frmPrincipal: TfrmPrincipal
           Color = clWhite
           ParentBackground = False
           TabOrder = 6
-          ExplicitWidth = 949
-          ExplicitHeight = 650
           object Label4: TLabel
             Left = 4
             Top = 1
@@ -4777,8 +4754,6 @@ object frmPrincipal: TfrmPrincipal
           Margins.Bottom = 2
           Align = alRight
           MinSize = 24
-          ExplicitLeft = 479
-          ExplicitHeight = 484
         end
         object pgTestes: TPageControl
           Left = 0
@@ -4794,8 +4769,6 @@ object frmPrincipal: TfrmPrincipal
           TabHeight = 20
           TabOrder = 0
           TabWidth = 160
-          ExplicitWidth = 654
-          ExplicitHeight = 650
           object tsEndPoints: TTabSheet
             Margins.Left = 2
             Margins.Top = 2
@@ -4816,8 +4789,6 @@ object frmPrincipal: TfrmPrincipal
               Align = alClient
               TabOrder = 0
               TabWidth = 96
-              ExplicitWidth = 646
-              ExplicitHeight = 620
               object tsEndPointPix: TTabSheet
                 Margins.Left = 2
                 Margins.Top = 2
@@ -4836,8 +4807,6 @@ object frmPrincipal: TfrmPrincipal
                   ActivePage = tsConsultarPixRecebidos
                   Align = alClient
                   TabOrder = 0
-                  ExplicitWidth = 638
-                  ExplicitHeight = 593
                   object tsConsultarPix: TTabSheet
                     Margins.Left = 2
                     Margins.Top = 2
@@ -4856,7 +4825,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 0
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         70)
@@ -4881,7 +4849,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 0
-                        ExplicitWidth = 450
                       end
                       object btConsultarPix: TBitBtn
                         Left = 388
@@ -4896,7 +4863,6 @@ object frmPrincipal: TfrmPrincipal
                         Caption = 'Consultar'
                         TabOrder = 1
                         OnClick = btConsultarPixClick
-                        ExplicitLeft = 468
                       end
                     end
                     object mConsultarPix: TMemo
@@ -4911,8 +4877,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 630
-                      ExplicitHeight = 472
                     end
                     object Panel3: TPanel
                       Left = 0
@@ -4925,8 +4889,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 2
-                      ExplicitTop = 542
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         24)
@@ -4942,7 +4904,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 569
                       end
                     end
                   end
@@ -4964,7 +4925,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 0
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         102)
@@ -5008,7 +4968,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Right = 2
                         Anchors = [akTop, akRight]
                         Caption = 'CPF / CNPJ'
-                        ExplicitLeft = 236
                       end
                       object lPagina: TLabel
                         Left = 460
@@ -5020,7 +4979,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Right = 2
                         Anchors = [akTop, akRight]
                         Caption = 'P'#225'gina'
-                        ExplicitLeft = 370
                       end
                       object lPagina1: TLabel
                         Left = 326
@@ -5032,7 +4990,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Right = 2
                         Anchors = [akTop, akRight]
                         Caption = 'Itens por P'#225'g'
-                        ExplicitLeft = 236
                       end
                       object edtConsultarPixRecebidosTxId: TEdit
                         Left = 6
@@ -5045,7 +5002,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 2
-                        ExplicitWidth = 382
                       end
                       object btConsultarPixRecebidos: TBitBtn
                         Left = 460
@@ -5060,7 +5016,6 @@ object frmPrincipal: TfrmPrincipal
                         Caption = 'Consultar'
                         TabOrder = 6
                         OnClick = btConsultarPixRecebidosClick
-                        ExplicitLeft = 540
                       end
                       object dtConsultarPixRecebidosInicio: TDateTimePicker
                         Left = 6
@@ -5103,7 +5058,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akTop, akRight]
                         TabOrder = 3
-                        ExplicitLeft = 406
                       end
                       object seConsultarPixRecebidosPagina: TSpinEdit
                         Left = 460
@@ -5119,7 +5073,6 @@ object frmPrincipal: TfrmPrincipal
                         MinValue = 0
                         TabOrder = 5
                         Value = 1
-                        ExplicitLeft = 540
                       end
                       object seConsultarPixRecebidosItensPagina: TSpinEdit
                         Left = 326
@@ -5135,7 +5088,6 @@ object frmPrincipal: TfrmPrincipal
                         MinValue = 0
                         TabOrder = 4
                         Value = 10
-                        ExplicitLeft = 406
                       end
                     end
                     object mConsultarPixRecebidos: TMemo
@@ -5150,8 +5102,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 630
-                      ExplicitHeight = 440
                     end
                     object Panel4: TPanel
                       Left = 0
@@ -5164,8 +5114,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 2
-                      ExplicitTop = 542
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         24)
@@ -5181,7 +5129,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 524
                       end
                     end
                   end
@@ -5203,7 +5150,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 0
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         134)
@@ -5227,7 +5173,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Right = 2
                         Anchors = [akTop, akRight]
                         Caption = 'Identificador Devolu'#231#227'o'
-                        ExplicitLeft = 236
                       end
                       object Label105: TLabel
                         Left = 13
@@ -5270,7 +5215,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 0
-                        ExplicitWidth = 375
                       end
                       object btSolicitarDevolucaoPix: TBitBtn
                         Left = 468
@@ -5285,7 +5229,6 @@ object frmPrincipal: TfrmPrincipal
                         Caption = 'Solicitar'
                         TabOrder = 4
                         OnClick = btSolicitarDevolucaoPixClick
-                        ExplicitLeft = 548
                       end
                       object edtSolicitarDevolucaoPix_id: TEdit
                         Left = 326
@@ -5298,7 +5241,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akTop, akRight]
                         TabOrder = 1
-                        ExplicitLeft = 406
                       end
                       object cbxSolicitarDevolucaoPix_Natureza: TComboBox
                         Left = 115
@@ -5323,7 +5265,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 3
-                        ExplicitWidth = 357
                       end
                       object feSolicitarDevolucaoPix_Valor: TEdit
                         Left = 13
@@ -5350,8 +5291,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 630
-                      ExplicitHeight = 408
                     end
                     object Panel6: TPanel
                       Left = 0
@@ -5364,8 +5303,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 2
-                      ExplicitTop = 542
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         24)
@@ -5381,7 +5318,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 535
                       end
                     end
                   end
@@ -5403,7 +5339,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 0
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         134)
@@ -5438,7 +5373,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 0
-                        ExplicitWidth = 604
                       end
                       object btConsultarDevolucaoPix: TBitBtn
                         Left = 460
@@ -5453,7 +5387,6 @@ object frmPrincipal: TfrmPrincipal
                         Caption = 'Consultar'
                         TabOrder = 2
                         OnClick = btConsultarDevolucaoPixClick
-                        ExplicitLeft = 540
                       end
                       object edtConsultarDevolucaoPix_id: TEdit
                         Left = 13
@@ -5466,7 +5399,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 1
-                        ExplicitWidth = 604
                       end
                     end
                     object mConsultarDevolucaoPix: TMemo
@@ -5481,8 +5413,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 630
-                      ExplicitHeight = 408
                     end
                     object Panel5: TPanel
                       Left = 0
@@ -5495,8 +5425,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 2
-                      ExplicitTop = 542
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         24)
@@ -5512,7 +5440,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 491
                       end
                     end
                   end
@@ -5536,8 +5463,6 @@ object frmPrincipal: TfrmPrincipal
                   ActivePage = tsCancelarCobranca
                   Align = alClient
                   TabOrder = 0
-                  ExplicitWidth = 638
-                  ExplicitHeight = 593
                   object tsCriarCobrancaImediata: TTabSheet
                     Margins.Left = 2
                     Margins.Top = 2
@@ -5557,8 +5482,6 @@ object frmPrincipal: TfrmPrincipal
                       Center = True
                       Proportional = True
                       Stretch = True
-                      ExplicitLeft = 345
-                      ExplicitHeight = 252
                     end
                     object Splitter2: TSplitter
                       Left = 431
@@ -5571,8 +5494,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alRight
                       MinSize = 24
-                      ExplicitLeft = 341
-                      ExplicitHeight = 252
                     end
                     object pCriarCobrancaImediata: TPanel
                       Left = 0
@@ -5586,7 +5507,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 0
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         134)
@@ -5620,7 +5540,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Right = 2
                         Anchors = [akTop, akRight]
                         Caption = 'CPF / CNPJ'
-                        ExplicitLeft = 248
                       end
                       object lConsultarDevolucaoPixIdentificadorDevolucao2: TLabel
                         Left = 13
@@ -5666,7 +5585,6 @@ object frmPrincipal: TfrmPrincipal
                         Caption = 'Criar'
                         TabOrder = 5
                         OnClick = btCriarCobrancaImediataClick
-                        ExplicitLeft = 552
                       end
                       object edtCriarCobrancaImediata_NomeDevedor: TEdit
                         Left = 13
@@ -5679,7 +5597,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 0
-                        ExplicitWidth = 392
                       end
                       object edtCriarCobrancaImediata_CPF_CNPJ: TEdit
                         Left = 338
@@ -5693,7 +5610,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop, akRight]
                         Enabled = False
                         TabOrder = 1
-                        ExplicitLeft = 418
                       end
                       object chCriarCobrancaImediata_PermiterAlterarValor: TCheckBox
                         Left = 250
@@ -5754,8 +5670,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 511
-                      ExplicitHeight = 408
                     end
                     object Panel9: TPanel
                       Left = 0
@@ -5768,8 +5682,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 2
-                      ExplicitTop = 542
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         24)
@@ -5785,7 +5697,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 534
                       end
                     end
                   end
@@ -5807,7 +5718,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 0
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         90)
@@ -5831,7 +5741,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Right = 2
                         Anchors = [akTop, akRight]
                         Caption = 'Revis'#227'o'
-                        ExplicitLeft = 370
                       end
                       object edtConsultarCobrancaImediata_TxId: TEdit
                         Left = 13
@@ -5844,7 +5753,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 0
-                        ExplicitWidth = 503
                       end
                       object btConsultarCobrancaImediata: TBitBtn
                         Left = 460
@@ -5859,7 +5767,6 @@ object frmPrincipal: TfrmPrincipal
                         Caption = 'Consultar'
                         TabOrder = 1
                         OnClick = btConsultarCobrancaImediataClick
-                        ExplicitLeft = 540
                       end
                       object seConsultarCobrancaImediata_Revisao: TSpinEdit
                         Left = 460
@@ -5875,7 +5782,6 @@ object frmPrincipal: TfrmPrincipal
                         MinValue = 0
                         TabOrder = 2
                         Value = 0
-                        ExplicitLeft = 540
                       end
                     end
                     object mConsultarCobrancaImediata: TMemo
@@ -5890,8 +5796,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 630
-                      ExplicitHeight = 452
                     end
                     object Panel10: TPanel
                       Left = 0
@@ -5904,8 +5808,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 2
-                      ExplicitTop = 542
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         24)
@@ -5921,7 +5823,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 524
                       end
                     end
                   end
@@ -5943,7 +5844,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 0
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         122)
@@ -5977,7 +5877,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Right = 2
                         Anchors = [akTop, akRight]
                         Caption = 'CPF / CNPJ'
-                        ExplicitLeft = 116
                       end
                       object lPagina3: TLabel
                         Left = 354
@@ -5989,7 +5888,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Right = 2
                         Anchors = [akTop, akRight]
                         Caption = 'P'#225'gina'
-                        ExplicitLeft = 264
                       end
                       object lPagina4: TLabel
                         Left = 354
@@ -6001,7 +5899,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Right = 2
                         Anchors = [akTop, akRight]
                         Caption = 'Itens por P'#225'g'
-                        ExplicitLeft = 264
                       end
                       object Label108: TLabel
                         Left = 106
@@ -6026,7 +5923,6 @@ object frmPrincipal: TfrmPrincipal
                         Caption = 'Consultar'
                         TabOrder = 7
                         OnClick = btConsultarCobrancasClick
-                        ExplicitLeft = 508
                       end
                       object dtConsultarCobrancas_Inicio: TDateTimePicker
                         Left = 6
@@ -6069,7 +5965,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akTop, akRight]
                         TabOrder = 2
-                        ExplicitLeft = 286
                       end
                       object seConsultarCobrancas_Pagina: TSpinEdit
                         Left = 354
@@ -6085,7 +5980,6 @@ object frmPrincipal: TfrmPrincipal
                         MinValue = 0
                         TabOrder = 6
                         Value = 1
-                        ExplicitLeft = 434
                       end
                       object seConsultarCobrancas_ItensPagina: TSpinEdit
                         Left = 354
@@ -6101,7 +5995,6 @@ object frmPrincipal: TfrmPrincipal
                         MinValue = 0
                         TabOrder = 5
                         Value = 10
-                        ExplicitLeft = 434
                       end
                       object chConsultarCobrancas_ComLocation: TCheckBox
                         Left = 330
@@ -6140,8 +6033,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 630
-                      ExplicitHeight = 420
                     end
                     object Panel11: TPanel
                       Left = 0
@@ -6154,8 +6045,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 2
-                      ExplicitTop = 542
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         24)
@@ -6171,7 +6060,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 491
                       end
                     end
                   end
@@ -6193,7 +6081,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 0
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         70)
@@ -6218,7 +6105,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 0
-                        ExplicitWidth = 503
                       end
                       object btCancelarCobranca: TBitBtn
                         Left = 460
@@ -6233,7 +6119,6 @@ object frmPrincipal: TfrmPrincipal
                         Caption = 'Cancelar'
                         TabOrder = 1
                         OnClick = btCancelarCobrancaClick
-                        ExplicitLeft = 540
                       end
                     end
                     object mmCancelarCobranca: TMemo
@@ -6248,8 +6133,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 630
-                      ExplicitHeight = 472
                     end
                     object pnCancelarCobrancaRodape: TPanel
                       Left = 0
@@ -6262,8 +6145,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 2
-                      ExplicitTop = 542
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         24)
@@ -6279,7 +6160,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 526
                       end
                     end
                   end
@@ -6303,8 +6183,6 @@ object frmPrincipal: TfrmPrincipal
                   ActivePage = tsCobVCancelarCobranca
                   Align = alClient
                   TabOrder = 0
-                  ExplicitWidth = 638
-                  ExplicitHeight = 593
                   object tsCobVCriarCobranca: TTabSheet
                     Margins.Left = 2
                     Margins.Top = 2
@@ -6460,7 +6338,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       Caption = 'Multa'
                       TabOrder = 5
-                      ExplicitWidth = 630
                       object pnCobVMulta: TPanel
                         Left = 2
                         Top = 14
@@ -6473,7 +6350,6 @@ object frmPrincipal: TfrmPrincipal
                         Align = alClient
                         BevelOuter = bvNone
                         TabOrder = 0
-                        ExplicitWidth = 626
                         object lbCobVMultaModalidade: TLabel
                           Left = 12
                           Top = 0
@@ -6532,7 +6408,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       Caption = 'Juros'
                       TabOrder = 6
-                      ExplicitWidth = 630
                       object pnCobVJuros: TPanel
                         Left = 2
                         Top = 14
@@ -6545,7 +6420,6 @@ object frmPrincipal: TfrmPrincipal
                         Align = alClient
                         BevelOuter = bvNone
                         TabOrder = 0
-                        ExplicitWidth = 626
                         object lbCobVJurosModalidade: TLabel
                           Left = 12
                           Top = 0
@@ -6604,7 +6478,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       Caption = 'Desconto'
                       TabOrder = 7
-                      ExplicitWidth = 630
                       object pnCobVDesconto: TPanel
                         Left = 2
                         Top = 14
@@ -6617,7 +6490,6 @@ object frmPrincipal: TfrmPrincipal
                         Align = alClient
                         BevelOuter = bvNone
                         TabOrder = 0
-                        ExplicitWidth = 626
                         object lbCobVDescModalidade: TLabel
                           Left = 12
                           Top = 0
@@ -6676,7 +6548,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       Caption = 'Comprador'
                       TabOrder = 8
-                      ExplicitWidth = 630
                       object pnCobVComprador: TPanel
                         Left = 2
                         Top = 14
@@ -6689,7 +6560,6 @@ object frmPrincipal: TfrmPrincipal
                         Align = alClient
                         BevelOuter = bvNone
                         TabOrder = 0
-                        ExplicitWidth = 626
                         object lbCobVCompradorNome: TLabel
                           Left = 12
                           Top = 0
@@ -6755,7 +6625,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 0
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         90)
@@ -6779,7 +6648,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Right = 2
                         Anchors = [akTop, akRight]
                         Caption = 'Revis'#227'o'
-                        ExplicitLeft = 370
                       end
                       object edCobVConsultarTxID: TEdit
                         Left = 13
@@ -6792,7 +6660,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 0
-                        ExplicitWidth = 503
                       end
                       object btCobVConsultar: TBitBtn
                         Left = 460
@@ -6807,7 +6674,6 @@ object frmPrincipal: TfrmPrincipal
                         Caption = 'Consultar'
                         TabOrder = 1
                         OnClick = btCobVConsultarClick
-                        ExplicitLeft = 540
                       end
                       object edCobVConsultarRevisao: TSpinEdit
                         Left = 460
@@ -6823,7 +6689,6 @@ object frmPrincipal: TfrmPrincipal
                         MinValue = 0
                         TabOrder = 2
                         Value = 0
-                        ExplicitLeft = 540
                       end
                     end
                     object mmCobVConsultar: TMemo
@@ -6838,8 +6703,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 630
-                      ExplicitHeight = 444
                     end
                     object pnCobVConsultarRodape: TPanel
                       Left = 0
@@ -6852,8 +6715,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 2
-                      ExplicitTop = 534
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         32)
@@ -6869,7 +6730,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 524
                       end
                     end
                   end
@@ -6890,8 +6750,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 0
-                      ExplicitTop = 534
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         32)
@@ -6907,7 +6765,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 526
                       end
                     end
                     object mmCobVConsultarLista: TMemo
@@ -6922,8 +6779,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 630
-                      ExplicitHeight = 432
                     end
                     object pnCobVConsultarParams: TPanel
                       Left = 0
@@ -6937,7 +6792,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 2
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         102)
@@ -6971,7 +6825,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Right = 2
                         Anchors = [akTop, akRight]
                         Caption = 'CPF / CNPJ'
-                        ExplicitLeft = 116
                       end
                       object lbCobVConsultarPagina: TLabel
                         Left = 339
@@ -6983,7 +6836,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Right = 2
                         Anchors = [akTop, akRight]
                         Caption = 'P'#225'gina'
-                        ExplicitLeft = 249
                       end
                       object lbCobVConsultarItensPag: TLabel
                         Left = 339
@@ -6995,7 +6847,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Right = 2
                         Anchors = [akTop, akRight]
                         Caption = 'Itens por P'#225'g'
-                        ExplicitLeft = 249
                       end
                       object lbCobVConsultarStatus: TLabel
                         Left = 109
@@ -7020,7 +6871,6 @@ object frmPrincipal: TfrmPrincipal
                         Caption = 'Consultar'
                         TabOrder = 7
                         OnClick = btCobVConsultarListaClick
-                        ExplicitLeft = 528
                       end
                       object edCobVConsultarInicio: TDateTimePicker
                         Left = 6
@@ -7063,7 +6913,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akTop, akRight]
                         TabOrder = 2
-                        ExplicitLeft = 286
                       end
                       object edCobVConsultarPagina: TSpinEdit
                         Left = 339
@@ -7079,7 +6928,6 @@ object frmPrincipal: TfrmPrincipal
                         MinValue = 0
                         TabOrder = 6
                         Value = 1
-                        ExplicitLeft = 419
                       end
                       object edCobVConsultarItensPag: TSpinEdit
                         Left = 339
@@ -7095,7 +6943,6 @@ object frmPrincipal: TfrmPrincipal
                         MinValue = 0
                         TabOrder = 5
                         Value = 10
-                        ExplicitLeft = 419
                       end
                       object cbCobVConsultarLocation: TCheckBox
                         Left = 346
@@ -7141,7 +6988,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 0
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         64)
@@ -7166,7 +7012,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 0
-                        ExplicitWidth = 508
                       end
                       object btCobVCancelar: TBitBtn
                         Left = 460
@@ -7181,7 +7026,6 @@ object frmPrincipal: TfrmPrincipal
                         Caption = 'Cancelar'
                         TabOrder = 1
                         OnClick = btCobVCancelarClick
-                        ExplicitLeft = 540
                       end
                     end
                     object mmCobVCancelar: TMemo
@@ -7196,8 +7040,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 630
-                      ExplicitHeight = 470
                     end
                     object pnCobVCancelarRodape: TPanel
                       Left = 0
@@ -7210,8 +7052,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 2
-                      ExplicitTop = 534
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         32)
@@ -7227,7 +7067,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 526
                       end
                     end
                   end
@@ -7252,8 +7091,6 @@ object frmPrincipal: TfrmPrincipal
                   Align = alClient
                   TabOrder = 0
                   TabWidth = 93
-                  ExplicitWidth = 638
-                  ExplicitHeight = 593
                   object tsBBSimularPagamento: TTabSheet
                     Margins.Left = 2
                     Margins.Top = 2
@@ -7271,8 +7108,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 0
-                      ExplicitTop = 542
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         24)
@@ -7288,7 +7123,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 536
                       end
                     end
                     object mBBSimulaPagamento: TMemo
@@ -7303,8 +7137,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 630
-                      ExplicitHeight = 472
                     end
                     object pBBSimulaPagamento: TPanel
                       Left = 0
@@ -7318,7 +7150,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 2
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         70)
@@ -7343,7 +7174,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 0
-                        ExplicitWidth = 521
                       end
                       object btBBSimulaPagamento_Executar: TBitBtn
                         Left = 470
@@ -7357,7 +7187,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop, akRight]
                         Caption = 'Pagar'
                         TabOrder = 1
-                        ExplicitLeft = 550
                       end
                     end
                   end
@@ -7378,8 +7207,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 0
-                      ExplicitTop = 542
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         24)
@@ -7395,7 +7222,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 536
                       end
                     end
                     object mmPagSeguroResp: TMemo
@@ -7410,8 +7236,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 630
-                      ExplicitHeight = 440
                     end
                     object pnPagSeguroCabecalho: TPanel
                       Left = 0
@@ -7425,7 +7249,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 2
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         102)
@@ -7460,7 +7283,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 0
-                        ExplicitWidth = 521
                       end
                       object btPagSeguroPagar: TBitBtn
                         Left = 467
@@ -7474,7 +7296,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop, akRight]
                         Caption = 'Pagar'
                         TabOrder = 1
-                        ExplicitLeft = 547
                       end
                       object edPagSeguroTokenPay: TEdit
                         Left = 13
@@ -7487,7 +7308,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 2
-                        ExplicitWidth = 521
                       end
                     end
                   end
@@ -7509,7 +7329,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alTop
                       BevelOuter = bvNone
                       TabOrder = 0
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         70)
@@ -7536,7 +7355,6 @@ object frmPrincipal: TfrmPrincipal
                         Margins.Bottom = 2
                         Anchors = [akLeft, akTop, akRight]
                         TabOrder = 0
-                        ExplicitWidth = 521
                       end
                       object btPixPDVSimularPagto: TBitBtn
                         Left = 467
@@ -7550,7 +7368,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop, akRight]
                         Caption = 'Pagar'
                         TabOrder = 1
-                        ExplicitLeft = 547
                       end
                     end
                     object mmPixPDVSimularPagto: TMemo
@@ -7565,8 +7382,6 @@ object frmPrincipal: TfrmPrincipal
                       Align = alClient
                       ScrollBars = ssBoth
                       TabOrder = 1
-                      ExplicitWidth = 630
-                      ExplicitHeight = 472
                     end
                     object pnPixPDVSimularPagtoLimpar: TPanel
                       Left = 0
@@ -7579,8 +7394,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alBottom
                       TabOrder = 2
-                      ExplicitTop = 542
-                      ExplicitWidth = 630
                       DesignSize = (
                         550
                         24)
@@ -7596,7 +7409,6 @@ object frmPrincipal: TfrmPrincipal
                         Anchors = [akTop]
                         Caption = 'Limpar'
                         TabOrder = 0
-                        ExplicitLeft = 536
                       end
                     end
                   end
@@ -7617,8 +7429,6 @@ object frmPrincipal: TfrmPrincipal
                       Margins.Bottom = 2
                       Align = alClient
                       TabOrder = 0
-                      ExplicitWidth = 630
-                      ExplicitHeight = 566
                       object lbMateraSimularPagamento: TLabel
                         Left = 83
                         Top = 19
@@ -7663,8 +7473,6 @@ object frmPrincipal: TfrmPrincipal
               Align = alClient
               TabOrder = 0
               TabWidth = 160
-              ExplicitWidth = 646
-              ExplicitHeight = 620
               object tsQRCodeEstatico: TTabSheet
                 Margins.Left = 2
                 Margins.Top = 2
@@ -7683,7 +7491,6 @@ object frmPrincipal: TfrmPrincipal
                   Align = alTop
                   BevelOuter = bvNone
                   TabOrder = 0
-                  ExplicitWidth = 638
                   DesignSize = (
                     558
                     160)
@@ -7728,7 +7535,6 @@ object frmPrincipal: TfrmPrincipal
                     Margins.Bottom = 2
                     Anchors = [akLeft, akTop, akRight]
                     TabOrder = 0
-                    ExplicitWidth = 478
                   end
                   object edtQRETxId: TEdit
                     Left = 13
@@ -7741,7 +7547,6 @@ object frmPrincipal: TfrmPrincipal
                     Margins.Bottom = 2
                     Anchors = [akLeft, akTop, akRight]
                     TabOrder = 1
-                    ExplicitWidth = 613
                   end
                   object fleQREValor: TEdit
                     Left = 13
@@ -7768,7 +7573,6 @@ object frmPrincipal: TfrmPrincipal
                     Caption = 'Gerar QRCode'
                     TabOrder = 3
                     OnClick = btQREGerarClick
-                    ExplicitLeft = 476
                   end
                 end
                 object pQREGerado: TPanel
@@ -7782,8 +7586,6 @@ object frmPrincipal: TfrmPrincipal
                   Margins.Bottom = 2
                   Align = alClient
                   TabOrder = 1
-                  ExplicitWidth = 638
-                  ExplicitHeight = 433
                   object imgQRE: TImage
                     Left = 1
                     Top = 1
@@ -7797,7 +7599,6 @@ object frmPrincipal: TfrmPrincipal
                     Center = True
                     Proportional = True
                     Stretch = True
-                    ExplicitHeight = 246
                   end
                   object pQREMemo: TPanel
                     Left = 239
@@ -7811,8 +7612,6 @@ object frmPrincipal: TfrmPrincipal
                     Align = alClient
                     BevelOuter = bvNone
                     TabOrder = 0
-                    ExplicitWidth = 398
-                    ExplicitHeight = 405
                     object mQRE: TMemo
                       Left = 0
                       Top = 0
@@ -7827,8 +7626,6 @@ object frmPrincipal: TfrmPrincipal
                       ScrollBars = ssBoth
                       TabOrder = 0
                       WantReturns = False
-                      ExplicitWidth = 398
-                      ExplicitHeight = 405
                     end
                   end
                   object Panel1: TPanel
@@ -7842,8 +7639,6 @@ object frmPrincipal: TfrmPrincipal
                     Margins.Bottom = 2
                     Align = alBottom
                     TabOrder = 1
-                    ExplicitTop = 406
-                    ExplicitWidth = 636
                     DesignSize = (
                       556
                       26)
@@ -7860,7 +7655,6 @@ object frmPrincipal: TfrmPrincipal
                       Caption = 'Copiar'
                       TabOrder = 0
                       OnClick = btQREColarClick
-                      ExplicitLeft = 431
                     end
                     object btQREAnalisar: TBitBtn
                       Left = 465
@@ -7875,7 +7669,6 @@ object frmPrincipal: TfrmPrincipal
                       Caption = 'Analisar'
                       TabOrder = 1
                       OnClick = btQREAnalisarClick
-                      ExplicitLeft = 537
                     end
                   end
                 end
@@ -7898,7 +7691,6 @@ object frmPrincipal: TfrmPrincipal
                   Align = alTop
                   BevelOuter = bvNone
                   TabOrder = 0
-                  ExplicitWidth = 638
                   DesignSize = (
                     558
                     122)
@@ -7933,7 +7725,6 @@ object frmPrincipal: TfrmPrincipal
                     Margins.Bottom = 2
                     Anchors = [akLeft, akTop, akRight]
                     TabOrder = 0
-                    ExplicitWidth = 613
                   end
                   object btQRDGerar: TBitBtn
                     Left = 407
@@ -7948,7 +7739,6 @@ object frmPrincipal: TfrmPrincipal
                     Caption = 'Gerar QRCode'
                     TabOrder = 1
                     OnClick = btQRDGerarClick
-                    ExplicitLeft = 474
                   end
                   object edQRDTxID: TEdit
                     Left = 13
@@ -7961,7 +7751,6 @@ object frmPrincipal: TfrmPrincipal
                     Margins.Bottom = 2
                     Anchors = [akLeft, akTop, akRight]
                     TabOrder = 2
-                    ExplicitWidth = 465
                   end
                 end
                 object pQREGerado1: TPanel
@@ -7975,8 +7764,6 @@ object frmPrincipal: TfrmPrincipal
                   Margins.Bottom = 2
                   Align = alClient
                   TabOrder = 1
-                  ExplicitWidth = 638
-                  ExplicitHeight = 471
                   object imgQRD: TImage
                     Left = 1
                     Top = 1
@@ -7990,7 +7777,6 @@ object frmPrincipal: TfrmPrincipal
                     Center = True
                     Proportional = True
                     Stretch = True
-                    ExplicitHeight = 285
                   end
                   object pQRDMemo: TPanel
                     Left = 239
@@ -8004,8 +7790,6 @@ object frmPrincipal: TfrmPrincipal
                     Align = alClient
                     BevelOuter = bvNone
                     TabOrder = 0
-                    ExplicitWidth = 398
-                    ExplicitHeight = 444
                     object mQRD: TMemo
                       Left = 0
                       Top = 0
@@ -8020,8 +7804,6 @@ object frmPrincipal: TfrmPrincipal
                       ScrollBars = ssBoth
                       TabOrder = 0
                       WantReturns = False
-                      ExplicitWidth = 398
-                      ExplicitHeight = 444
                     end
                   end
                   object Panel8: TPanel
@@ -8035,8 +7817,6 @@ object frmPrincipal: TfrmPrincipal
                     Margins.Bottom = 2
                     Align = alBottom
                     TabOrder = 1
-                    ExplicitTop = 445
-                    ExplicitWidth = 636
                     DesignSize = (
                       556
                       25)
@@ -8052,7 +7832,6 @@ object frmPrincipal: TfrmPrincipal
                       Anchors = [akTop]
                       Caption = 'Copiar'
                       TabOrder = 0
-                      ExplicitLeft = 447
                     end
                     object btQRDAnalisar: TBitBtn
                       Left = 465
@@ -8066,7 +7845,6 @@ object frmPrincipal: TfrmPrincipal
                       Anchors = [akTop]
                       Caption = 'Analisar'
                       TabOrder = 1
-                      ExplicitLeft = 537
                     end
                   end
                 end
@@ -8085,19 +7863,16 @@ object frmPrincipal: TfrmPrincipal
           Margins.Bottom = 2
           Align = alRight
           TabOrder = 1
-          ExplicitLeft = 658
-          ExplicitHeight = 650
           object Label111: TLabel
             Left = 1
             Top = 1
-            Width = 289
+            Width = 85
             Height = 12
             Margins.Left = 2
             Margins.Top = 2
             Margins.Right = 2
             Align = alTop
             Caption = 'Log das Opera'#231#245'es'
-            ExplicitWidth = 85
           end
           object mLog: TMemo
             Left = 1
@@ -8124,7 +7899,6 @@ object frmPrincipal: TfrmPrincipal
             Margins.Bottom = 2
             Align = alBottom
             TabOrder = 1
-            ExplicitTop = 605
             DesignSize = (
               289
               44)

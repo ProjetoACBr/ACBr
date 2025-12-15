@@ -10,8 +10,10 @@ object frmACBrGTIN: TfrmACBrGTIN
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   Position = poScreenCenter
   OnCreate = FormCreate
+  PixelsPerInch = 96
   TextHeight = 13
   object pnlMenus: TPanel
     Left = 0
@@ -20,7 +22,6 @@ object frmACBrGTIN: TfrmACBrGTIN
     Height = 612
     Align = alLeft
     TabOrder = 0
-    ExplicitHeight = 611
     object lblColaborador: TLabel
       Left = 18
       Top = 540
@@ -746,8 +747,6 @@ object frmACBrGTIN: TfrmACBrGTIN
     Height = 612
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 565
-    ExplicitHeight = 611
     object pgcBotoes: TPageControl
       Left = 1
       Top = 1
@@ -756,7 +755,6 @@ object frmACBrGTIN: TfrmACBrGTIN
       ActivePage = tsConsultas
       Align = alTop
       TabOrder = 1
-      ExplicitWidth = 563
       object tsConsultas: TTabSheet
         Caption = 'Consultas'
         ImageIndex = 3
@@ -779,8 +777,6 @@ object frmACBrGTIN: TfrmACBrGTIN
       ActivePage = TabSheet8
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 563
-      ExplicitHeight = 412
       object TabSheet8: TTabSheet
         Caption = 'Log'
         ImageIndex = 2
@@ -792,8 +788,6 @@ object frmACBrGTIN: TfrmACBrGTIN
           Align = alClient
           ScrollBars = ssVertical
           TabOrder = 0
-          ExplicitWidth = 555
-          ExplicitHeight = 384
         end
       end
     end

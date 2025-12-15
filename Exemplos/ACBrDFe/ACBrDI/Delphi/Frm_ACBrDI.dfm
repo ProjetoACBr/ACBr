@@ -10,7 +10,9 @@ object frmACBrDI: TfrmACBrDI
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OldCreateOrder = True
   Position = poScreenCenter
+  PixelsPerInch = 96
   TextHeight = 15
   object PanelTop: TPanel
     Left = 0
@@ -25,7 +27,6 @@ object frmACBrDI: TfrmACBrDI
     ParentBackground = False
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 547
     object Shape1: TShape
       Left = 0
       Top = 48
@@ -33,8 +34,6 @@ object frmACBrDI: TfrmACBrDI
       Height = 1
       Align = alBottom
       Pen.Color = clSilver
-      ExplicitTop = -7
-      ExplicitWidth = 516
     end
     object BtnLerMultiplosXML: TBitBtn
       Left = 179
@@ -72,8 +71,6 @@ object frmACBrDI: TfrmACBrDI
     ActivePage = TabXMLDI
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 547
-    ExplicitHeight = 410
     object TabXMLDI: TTabSheet
       Caption = 'XML da DI'
       object MemoXML: TMemo
@@ -86,8 +83,6 @@ object frmACBrDI: TfrmACBrDI
           'MemoXML')
         ScrollBars = ssVertical
         TabOrder = 0
-        ExplicitWidth = 539
-        ExplicitHeight = 380
       end
     end
     object TabLogs: TTabSheet

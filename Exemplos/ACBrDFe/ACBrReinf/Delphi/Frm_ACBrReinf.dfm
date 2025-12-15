@@ -10,8 +10,10 @@ object frmACBrReinf: TfrmACBrReinf
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   Position = poScreenCenter
   OnCreate = FormCreate
+  PixelsPerInch = 96
   TextHeight = 13
   object pnlMenus: TPanel
     Left = 0
@@ -20,7 +22,6 @@ object frmACBrReinf: TfrmACBrReinf
     Height = 612
     Align = alLeft
     TabOrder = 0
-    ExplicitHeight = 611
     object lblColaborador: TLabel
       Left = 18
       Top = 540
@@ -1120,8 +1121,6 @@ object frmACBrReinf: TfrmACBrReinf
     Height = 612
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 581
-    ExplicitHeight = 611
     object pgcBotoes: TPageControl
       Left = 1
       Top = 1
@@ -1130,7 +1129,6 @@ object frmACBrReinf: TfrmACBrReinf
       ActivePage = tbsEventos
       Align = alTop
       TabOrder = 0
-      ExplicitWidth = 579
       object tbsEventos: TTabSheet
         Caption = 'Eventos'
         ImageIndex = 4
@@ -1511,8 +1509,6 @@ object frmACBrReinf: TfrmACBrReinf
       ActivePage = tsFormaEnvio
       Align = alClient
       TabOrder = 1
-      ExplicitWidth = 579
-      ExplicitHeight = 294
       object tsFormaEnvio: TTabSheet
         Caption = 'Forma de Envio'
         ImageIndex = 7
@@ -1717,8 +1713,6 @@ object frmACBrReinf: TfrmACBrReinf
           Height = 267
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 571
-          ExplicitHeight = 266
           ControlData = {
             4C0000006E3B0000981B00000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
@@ -1737,8 +1731,6 @@ object frmACBrReinf: TfrmACBrReinf
           Height = 267
           Align = alClient
           TabOrder = 0
-          ExplicitWidth = 571
-          ExplicitHeight = 266
           ControlData = {
             4C0000006E3B0000981B00000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800

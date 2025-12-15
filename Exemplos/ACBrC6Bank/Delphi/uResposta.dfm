@@ -10,7 +10,9 @@ object frmResposta: TfrmResposta
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OldCreateOrder = True
   Position = poMainFormCenter
+  PixelsPerInch = 96
   TextHeight = 15
   object Panel1: TPanel
     Left = 0
@@ -29,9 +31,6 @@ object frmResposta: TfrmResposta
     ParentBackground = False
     ParentFont = False
     TabOrder = 0
-    ExplicitLeft = 112
-    ExplicitTop = 16
-    ExplicitWidth = 185
   end
   object Memo1: TMemo
     Left = 0
