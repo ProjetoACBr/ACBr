@@ -73,7 +73,7 @@ namespace ACBrLib.NFe.Demo
                 cbbPaginaCodigo.EnumDataSource(PosPaginaCodigo.pc850);
 
                 // Altera as config de log
-                ACBrNFe.Config.Principal.LogNivel = NivelLog.logCompleto;
+                ACBrNFe.Config.Principal.LogNivel = NivelLog.logParanoico;
 
                 var logPath = Path.Combine(Application.StartupPath, "Logs");
                 if (!Directory.Exists(logPath))
@@ -124,14 +124,15 @@ namespace ACBrLib.NFe.Demo
             notaFiscal.Identificacao.indIntermed = IndIntermed.iiSemOperacao;
             notaFiscal.Identificacao.verProc = "ACBrNFe";
             //Reforma tributária
-            /*
+            
             notaFiscal.Identificacao.cMunFGIBS = 3554003;
-            notaFiscal.Identificacao.tpNFCredito = TipoNFeCredito.tcApropriacaoCreditoPresumido;
+            notaFiscal.Identificacao.tpNFCredito = TipoNFeCredito.tcTransferenciaCreditoSucessao;
             notaFiscal.Identificacao.tpNFDebito = TipoNFeDebito.tdNenhum;
-            notaFiscal.Identificacao.tpEnteGov = TipoEnteGov.tcgNenhum;
+            notaFiscal.Identificacao.tpEnteGov = TipoEnteGov.tcgUniao;
             notaFiscal.Identificacao.pRedutor = 2.5m;
             notaFiscal.Identificacao.tpOperGov = TipoOperGov.togFornecimento;
-            */
+            notaFiscal.Identificacao.dPrevEntrega = DateTime.Now;
+            
             //--
 
             // Emitente
@@ -200,16 +201,17 @@ namespace ACBrLib.NFe.Demo
             produto.vProd = totalProdutos;
 
             //Reforma tributária
-            /*
+            
             produto.IndBemMovelUsado = IndBemMovelUsado.tieNenhum;
+            produto.tpCredPresIBSZFM = TipoCredPresIBSZFM.tcpBensConsumoFinal;
             produto.vItem = 100;
-            */
+            
             //--
             //Reforma tributária
-            /*
+            
             produto.DFeReferenciado.nItem = 100;
             produto.DFeReferenciado.chaveAcesso = "35250518760540000139550010000000011374749890";
-            */
+            
 
             //--
 
@@ -234,7 +236,7 @@ namespace ACBrLib.NFe.Demo
             produto.infAdProd = "Informação adicional do produto";
 
             //Reforma tributária
-            /*
+            
             produto.IS.CSTIS = CSTIS.cstis000;
             produto.IS.cClassTribIS = "000000" ;
             produto.IS.vBCIS = 100;
@@ -243,8 +245,7 @@ namespace ACBrLib.NFe.Demo
             produto.IS.uTrib = "UNIDAD";
             produto.IS.qTrib = 10;
             produto.IS.vIS = 100;
-            */
-
+            
             //Reforma tributária
 
             //Utilize os CST(cst000, cst200, cst220, cst510 e cst550) e os cClassTrib correspondentes para gerar o grupo IBSCBS
@@ -255,13 +256,13 @@ namespace ACBrLib.NFe.Demo
             // Exemplo normal cst000 // 000001
             // Exemplo monofasico cst620 // 620001
 
-            /*
-            produto.IBSCBS.CST = CSTIBSCBS.cst000;
-            produto.IBSCBS.cClassTrib = "000000";
-            */
+            
+            produto.IBSCBS.CST = CSTIBSCBS.cst620;
+            produto.IBSCBS.cClassTrib = "620000";
+            produto.IBSCBS.indDoacao = IndDoacao.tieSim;
             
             // Produto tributacao regular reforma tributaria
-            /*
+            
              
             produto.IBSCBS.gIBSCBS.vBC = 100; 
             produto.IBSCBS.gIBSCBS.vIBS = 100;
@@ -299,26 +300,15 @@ namespace ACBrLib.NFe.Demo
             produto.IBSCBS.gIBSCBS.gTribRegular.pAliqEfetRegCBS = 5;
             produto.IBSCBS.gIBSCBS.gTribRegular.vTribRegCBS = 100;
 
-            produto.IBSCBS.gIBSCBS.gIBSCredPres.cCredPres = TcCredPres.cp01;
-            produto.IBSCBS.gIBSCBS.gIBSCredPres.pCredPres = 5;
-            produto.IBSCBS.gIBSCBS.gIBSCredPres.vCredPres = 100;
-            produto.IBSCBS.gIBSCBS.gIBSCredPres.vCredPresCondSus = 100;
-
-            produto.IBSCBS.gIBSCBS.gCBSCredPres.cCredPres = TcCredPres.cp01;
-            produto.IBSCBS.gIBSCBS.gCBSCredPres.pCredPres = 5;
-            produto.IBSCBS.gIBSCBS.gCBSCredPres.vCredPres = 100;
-            produto.IBSCBS.gIBSCBS.gCBSCredPres.vCredPresCondSus = 100;
-
             produto.IBSCBS.gIBSCBS.gTribCompraGov.pAliqIBSUF = 5;
             produto.IBSCBS.gIBSCBS.gTribCompraGov.vTribIBSUF = 50;
             produto.IBSCBS.gIBSCBS.gTribCompraGov.pAliqIBSMun = 5;
             produto.IBSCBS.gIBSCBS.gTribCompraGov.vTribIBSMun = 50;
             produto.IBSCBS.gIBSCBS.gTribCompraGov.pAliqCBS = 5;
             produto.IBSCBS.gIBSCBS.gTribCompraGov.vTribCBS = 50;
-            */
 
             // Monofásico
-            /*
+
             produto.IBSCBS.gIBSCBSMono.vTotCBSMonoItem = 100;
             produto.IBSCBS.gIBSCBSMono.vTotIBSMonoItem = 100;
 
@@ -344,25 +334,42 @@ namespace ACBrLib.NFe.Demo
             produto.IBSCBS.gMonoDif.vIBSMonoDif = 100;
             produto.IBSCBS.gMonoDif.pDifCBS = 5;
             produto.IBSCBS.gMonoDif.vCBSMonoDif = 100;
-            
 
             // Reforma Transferencia de credito
-            /*
+
             produto.IBSCBS.gTransfCred.vIBS = 100;
             produto.IBSCBS.gTransfCred.vCBS = 100;
-            */
+
+            produto.IBSCBS.gAjusteCompet.competApur = DateTime.Now;
+            produto.IBSCBS.gAjusteCompet.vIBS = 100;
+            produto.IBSCBS.gAjusteCompet.vCBS = 100;
+
+            produto.IBSCBS.gEstornoCred.vIBSEstCred = 100;
+            produto.IBSCBS.gEstornoCred.vCBSEstCred = 100;
+
+            produto.IBSCBS.gCredPresOper.vBCCredPres = 5;
+            produto.IBSCBS.gCredPresOper.cCredPres = TcCredPres.cp01;
+
+            produto.IBSCBS.gCredPresOper.gIBSCredPres.pCredPres = 5;
+            produto.IBSCBS.gCredPresOper.gIBSCredPres.vCredPres = 100;
+            produto.IBSCBS.gCredPresOper.gIBSCredPres.vCredPresCondSus = 100;
+            
+            produto.IBSCBS.gCredPresOper.gCBSCredPres.pCredPres = 5;
+            produto.IBSCBS.gCredPresOper.gCBSCredPres.vCredPres = 100;
+            produto.IBSCBS.gCredPresOper.gCBSCredPres.vCredPresCondSus = 100;           
 
             // Reforma Credito Presumido IBS Zona Franca de Manaus
-            
-           // produto.IBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM = TipoCredPresIBSZFM.tcpBensInformaticaOutros;
-           // produto.IBSCBS.gCredPresIBSZFM.vCredPresIBSZFM = 100;
-            
+
+            produto.IBSCBS.gCredPresIBSZFM.tpCredPresIBSZFM = TipoCredPresIBSZFM.tcpBensInformaticaOutros;
+            produto.IBSCBS.gCredPresIBSZFM.vCredPresIBSZFM = 100;
+            produto.IBSCBS.gCredPresIBSZFM.competApur = DateTime.Now;
+
 
             notaFiscal.Produtos.Add(produto);
 
             notaFiscal.Agropecuario.Defensivo.Add(new Defensivo
             {
-                nReceituario = "12345678901234567890123456789012345678901234",
+                nReceituario = "123456789012345678901234567890",
                 CPFRespTec = "12345678901"
             });
 
@@ -377,10 +384,10 @@ namespace ACBrLib.NFe.Demo
             notaFiscal.Total.vNF = produto.vProd;
 
             //Reforma tributária
-            /*
+            
             notaFiscal.Total.ISTot.vIS = 100;
             notaFiscal.Total.IBSCBSTot.vBCIBSCBS = 100;
-            /*    
+                
             notaFiscal.Total.IBSCBSTot.gIBS.vIBS = 100;
             notaFiscal.Total.IBSCBSTot.gIBS.vCredPres = 100;
             notaFiscal.Total.IBSCBSTot.gIBS.vCredPresCondSus = 100;
@@ -397,17 +404,18 @@ namespace ACBrLib.NFe.Demo
             notaFiscal.Total.IBSCBSTot.gCBS.vDevTrib = 100;
             notaFiscal.Total.IBSCBSTot.gCBS.vCBS = 100;
             notaFiscal.Total.IBSCBSTot.gCBS.vCredPres = 100;
-            notaFiscal.Total.IBSCBSTot.gCBS.vCredPresCondSus = 100;
-            */
-
-            /*
+            notaFiscal.Total.IBSCBSTot.gCBS.vCredPresCondSus = 100;            
+            
             notaFiscal.Total.IBSCBSTot.gMono.vIBSMono = 100;
             notaFiscal.Total.IBSCBSTot.gMono.vCBSMono = 100;
             notaFiscal.Total.IBSCBSTot.gMono.vIBSMonoReten = 100;
             notaFiscal.Total.IBSCBSTot.gMono.vCBSMonoReten = 100;
             notaFiscal.Total.IBSCBSTot.gMono.vIBSMonoRet = 100;
             notaFiscal.Total.IBSCBSTot.gMono.vCBSMonoRet = 100;
-            */
+
+            notaFiscal.Total.IBSCBSTot.gEstornoCredTot.vIBSEstCred = 100;
+            notaFiscal.Total.IBSCBSTot.gEstornoCredTot.vCBSEstCred = 100;
+            
 
             notaFiscal.Total.vNFTot = 100;
             //--
