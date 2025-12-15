@@ -53,6 +53,9 @@ Símbolo : Significado
 -- ACBrBancoVortx --
 [*] ACBR-8584 - Correções na leitura do retorno https://www.projetoacbr.com.br/forum/topic/87229-acbr-8584-erro-ao-processar-retorno-banco-vortx
    Por: Desenv. AT Info Sistemas
+-- ACBrBancoSicoob --
+[*] ACBR-8499 - Adicionados códigos de movimento e ocorrência que faltavam https://www.projetoacbr.com.br/forum/topic/87716-acbr-8499-altera%C3%A7%C3%B5es-no-arquivo-do-bancosicoob/
+   Por: Rafael.Smt
 
 03/12/2025
 -- ACBrBancoVortx --
