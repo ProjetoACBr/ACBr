@@ -24,6 +24,9 @@
         tdPagamentoAntecipado = 06,
 
         [EnumValue("07")]
-        tdPerdaEmEstoque = 07
+        tdPerdaEmEstoque = 07,
+
+        [EnumValue("08")]
+        tdDesenquadramentodoSN = 08
     }
 }

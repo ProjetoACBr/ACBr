@@ -40,6 +40,9 @@ namespace ACBrLib.Core.DFe
         [EnumValue("510")]
         cst510,
 
+        [EnumValue("515")]
+        cst515,
+
         [EnumValue("550")]
         cst550,
 
@@ -51,6 +54,9 @@ namespace ACBrLib.Core.DFe
 
         [EnumValue("810")]
         cst810,
+
+        [EnumValue("811")]
+        cst811,
 
         [EnumValue("820")]
         cst820,

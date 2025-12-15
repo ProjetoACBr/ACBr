@@ -7,7 +7,13 @@
         [EnumValue("01")]
         tcMultaJuros,
         [EnumValue("02")]
-        tcApropriacaoCreditoPresumido
+        tcApropriacaoCreditoPresumido,
+        [EnumValue("03")]
+        tcRetorno,
+        [EnumValue("04")]
+        tcReducaoValores,
+        [EnumValue("05")]
+        tcTransferenciaCreditoSucessao
     }
 }
 

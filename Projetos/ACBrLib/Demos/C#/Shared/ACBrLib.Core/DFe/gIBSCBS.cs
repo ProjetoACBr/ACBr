@@ -16,8 +16,6 @@ namespace ACBrLib.NFe
             gIBSMun = new gIBSMun();
             gCBS = new gCBS();
             gTribRegular = new gTribRegular();
-            gIBSCredPres = new gCredPres();
-            gCBSCredPres = new gCredPres();
             gTribCompraGov = new gTribCompraGov();
         }
 
@@ -44,10 +42,6 @@ namespace ACBrLib.NFe
         public gCBS gCBS { get; }
 
         public gTribRegular gTribRegular { get; }
-
-        public gCredPres gIBSCredPres { get; }
-
-        public gCredPres gCBSCredPres { get; }
 
         public gTribCompraGov gTribCompraGov { get; }
 

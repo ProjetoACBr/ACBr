@@ -10,11 +10,6 @@ namespace ACBrLib.NFe
         #region Properties
 
         /// <summary>
-        /// Código de Classificação do Crédito Presumido
-        /// </summary>
-        public TcCredPres cCredPres { get; set; }
-
-        /// <summary>
         /// Percentual do Crédito Presumido
         /// </summary>
         public decimal pCredPres { get; set; }
