@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 15/12/2025
+-- PadraoNacional.GravarXml --
+[*] ACBR-8559 - Possível solução para gerar o ID corretamente após a carga do XML de um DPS.
+   Por: Italo Giurizzato Junior
 -- Citta.Provider --
 [+] ACBR-8575 - Implementado a Consulta da NFSe pela chave do RPS.
    Por: Italo Giurizzato Junior
