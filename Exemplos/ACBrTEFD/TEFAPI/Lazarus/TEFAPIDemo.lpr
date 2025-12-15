@@ -7,8 +7,8 @@ uses
   cthreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  sysutils,
-  Forms, frPrincipal, uVendaClass, frIncluirPagamento, frExibeMensagem;
+  sysutils, Forms, datetimectrls, frPrincipal, uVendaClass, frIncluirPagamento,
+  frExibeMensagem;
 
 {$R *.res}
 

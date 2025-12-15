@@ -36,14 +36,22 @@ uses
   Classes, SysUtils, contnrs, IniFiles;
 
 const
-  cPagamentos: array[0..6] of array [0..1] of String =
+  CITENS_FORMAS_PAGAMENTO: array[0..6] of array [0..1] of String =
      ( ('01','Dinheiro'),
        ('02','Cheque'),
        ('03','Cartão de Crédito'),
        ('04','Cartão de Débito'),
-       ('05','Carteira Digital'),
+       ('05','PIX / Cart.Digital'),
        ('06','Vale Refeição'),
        ('99','Outros') );
+
+  CITENS_MODALIDADE_PAGTO: array[0..2] of String =
+    ('Não Definido', 'Cartão', 'Carteira Virtual');
+
+  CITENS_TIPO_FINANCIAMENTO: array[0..5] of String =
+    ('Não Definido', 'A VISTA', 'Parcelado Emissor',
+     'Parcelado Estabelecimento', 'Pré Datado', 'Crédito Emissor');
+
 
 type
   TStatusVenda = (stsLivre, stsIniciada, stsEmPagamento, stsCancelada, stsAguardandoTEF, stsOperacaoTEF, stsFinalizada);
@@ -153,12 +161,12 @@ var
   l, i: Integer;
 begin
   Result := '';
-  l := Length(cPagamentos)-1;
+  l := Length(CITENS_FORMAS_PAGAMENTO)-1;
   For i := 0 to l do
   begin
-    if ATipoPagamento = cPagamentos[i,0] then
+    if ATipoPagamento = CITENS_FORMAS_PAGAMENTO[i,0] then
     begin
-      Result := cPagamentos[i,1];
+      Result := CITENS_FORMAS_PAGAMENTO[i,1];
       Break;
     end;
   end;
@@ -174,7 +182,7 @@ end;
 
 procedure TPagamento.Clear;
 begin
-  FTipoPagamento := cPagamentos[0,0];
+  FTipoPagamento := CITENS_FORMAS_PAGAMENTO[0,0];
   FHora := 0;
   FValorPago := 0;
   FNSU := '';

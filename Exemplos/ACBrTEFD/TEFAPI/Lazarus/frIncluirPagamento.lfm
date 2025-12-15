@@ -1,58 +1,57 @@
 object FormIncluirPagamento: TFormIncluirPagamento
   Left = 627
-  Height = 94
+  Height = 141
   Top = 239
-  Width = 340
+  Width = 510
   BorderStyle = bsDialog
   Caption = 'Incluir Pagamento'
-  ClientHeight = 94
-  ClientWidth = 340
-  OnCreate = FormCreate
+  ClientHeight = 141
+  ClientWidth = 510
+  DesignTimePPI = 144
   Position = poOwnerFormCenter
-  LCLVersion = '2.0.8.0'
+  LCLVersion = '4.4.0.0'
+  OnCreate = FormCreate
   object cbFormaPagamento: TComboBox
-    Left = 16
-    Height = 23
-    Top = 24
-    Width = 189
-    ItemHeight = 15
-    OnChange = seValorPagoChange
+    Left = 24
+    Height = 33
+    Top = 36
+    Width = 284
+    ItemHeight = 25
     Style = csDropDownList
     TabOrder = 0
+    OnChange = seValorPagoChange
   end
   object Label14: TLabel
-    Left = 16
-    Height = 15
-    Top = 8
-    Width = 114
+    Left = 24
+    Height = 25
+    Top = 12
+    Width = 171
     Caption = 'Forma de Pagamento'
     ParentColor = False
   end
   object Label16: TLabel
-    Left = 233
-    Height = 15
-    Top = 9
-    Width = 56
+    Left = 350
+    Height = 25
+    Top = 14
+    Width = 85
     Caption = 'Valor Pago'
     ParentColor = False
   end
   object seValorPago: TFloatSpinEdit
-    Left = 232
-    Height = 23
-    Top = 24
-    Width = 89
+    Left = 348
+    Height = 33
+    Top = 36
+    Width = 134
     Alignment = taRightJustify
     MaxValue = 100000
-    MinValue = 0
-    OnChange = seValorPagoChange
     TabOrder = 1
-    Value = 0
+    OnChange = seValorPagoChange
   end
   object btGravar: TBitBtn
-    Left = 232
-    Height = 28
-    Top = 56
-    Width = 89
+    Left = 348
+    Height = 42
+    Top = 84
+    Width = 134
     Caption = 'Gravar'
     Default = True
     Enabled = False
@@ -63,10 +62,10 @@ object FormIncluirPagamento: TFormIncluirPagamento
     TabOrder = 2
   end
   object btCancelar: TBitBtn
-    Left = 16
-    Height = 28
-    Top = 56
-    Width = 89
+    Left = 24
+    Height = 42
+    Top = 84
+    Width = 134
     Cancel = True
     Caption = 'Cancelar'
     ModalResult = 2

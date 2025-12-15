@@ -11,10 +11,8 @@ object FormIncluirPagamento: TFormIncluirPagamento
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  OldCreateOrder = True
   Position = poOwnerFormCenter
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 13
   object Label14: TLabel
     Left = 19
@@ -40,7 +38,6 @@ object FormIncluirPagamento: TFormIncluirPagamento
     Width = 182
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
     TabOrder = 0
     OnChange = seValorPagoChange
   end

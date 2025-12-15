@@ -7,13 +7,13 @@ object FormMenuTEF: TFormMenuTEF
   ClientHeight = 361
   ClientWidth = 608
   Font.Height = -19
-  OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '3.6.0.0'
+  LCLVersion = '4.4.0.0'
+  OnShow = FormShow
   object lbOpcoes: TListBox
     Left = 0
-    Height = 261
-    Top = 50
+    Height = 245
+    Top = 66
     Width = 283
     Align = alClient
     ExtendedSelect = False
@@ -27,12 +27,13 @@ object FormMenuTEF: TFormMenuTEF
   end
   object pTitulo: TPanel
     Left = 0
-    Height = 50
+    Height = 66
     Top = 0
     Width = 608
     Align = alTop
     Caption = 'pTitulo'
     TabOrder = 1
+    Wordwrap = True
   end
   object Panel2: TPanel
     Left = 0
@@ -73,7 +74,7 @@ object FormMenuTEF: TFormMenuTEF
       Left = 24
       Height = 35
       Top = 8
-      Width = 97
+      Width = 96
       Anchors = [akTop]
       AutoSize = True
       Caption = 'Voltar'
@@ -84,8 +85,8 @@ object FormMenuTEF: TFormMenuTEF
   end
   object mOpcao: TMemo
     Left = 288
-    Height = 261
-    Top = 50
+    Height = 245
+    Top = 66
     Width = 320
     Align = alRight
     Font.Height = -13
@@ -98,8 +99,8 @@ object FormMenuTEF: TFormMenuTEF
   end
   object Splitter1: TSplitter
     Left = 283
-    Height = 261
-    Top = 50
+    Height = 245
+    Top = 66
     Width = 5
     Align = alRight
     ResizeAnchor = akRight

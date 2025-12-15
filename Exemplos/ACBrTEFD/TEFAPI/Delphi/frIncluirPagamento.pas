@@ -71,9 +71,9 @@ var
   l, i: Integer;
 begin
   cbFormaPagamento.Clear;
-  l := Length(cPagamentos)-1;
+  l := Length(CITENS_FORMAS_PAGAMENTO)-1;
   for i := 0 to l do
-    cbFormaPagamento.Items.Add(cPagamentos[i,0] + ' - ' + cPagamentos[i,1]);
+    cbFormaPagamento.Items.Add(CITENS_FORMAS_PAGAMENTO[i,0] + ' - ' + CITENS_FORMAS_PAGAMENTO[i,1]);
 
   cbFormaPagamento.ItemIndex := 0;
   FormPrincipal.ImageList1.GetBitmap(11, btCancelar.Glyph);

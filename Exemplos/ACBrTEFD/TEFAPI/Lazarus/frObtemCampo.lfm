@@ -10,11 +10,11 @@ object FormObtemCampo: TFormObtemCampo
   Constraints.MinHeight = 170
   Constraints.MinWidth = 420
   Font.Height = -19
+  Position = poOwnerFormCenter
+  LCLVersion = '4.4.0.0'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
-  Position = poOwnerFormCenter
-  LCLVersion = '3.6.0.0'
   object edtResposta: TEdit
     Left = 32
     Height = 33
@@ -56,17 +56,17 @@ object FormObtemCampo: TFormObtemCampo
   end
   object pTitulo: TPanel
     Left = 0
-    Height = 27
+    Height = 75
     Top = 0
     Width = 422
     Align = alTop
     Anchors = [akTop, akLeft, akRight, akBottom]
-    ClientHeight = 27
+    ClientHeight = 75
     ClientWidth = 422
     TabOrder = 4
     object lTitulo: TLabel
       Left = 1
-      Height = 25
+      Height = 73
       Top = 1
       Width = 420
       Align = alClient
@@ -81,7 +81,7 @@ object FormObtemCampo: TFormObtemCampo
     Left = 32
     Height = 35
     Top = 146
-    Width = 97
+    Width = 96
     Anchors = [akLeft, akBottom]
     AutoSize = True
     Caption = 'Voltar'
