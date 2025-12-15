@@ -90,8 +90,15 @@ begin
   inherited Configuracao;
 
   NrOcorrCodigoPaisServico := 0;
+
   NrOcorrCodigoPaisTomador := -1;
   NrOcorrcCredPres := -1;
+  NrOcorrDiscriminacao_1 := -1;
+  NrOcorrCodigoMunic_1 := -1;
+
+  NrOcorrDiscriminacao_2 := 1;
+  NrOcorrCodigoMunic_2 := 1;
+  NrOcorrExigibilidadeISS := 1;
 
   GerarDest := False;
   GerarImovel := False;

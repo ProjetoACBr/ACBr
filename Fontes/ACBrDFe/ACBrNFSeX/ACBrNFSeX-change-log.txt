@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 15/12/2025
+-- Giss.GravarXml --
+[*] Ajustes para não ocorrer erro de validação com o novo campo CodigoNBS.
+   Por: Italo Giurizzato Junior
 -- PadraoNacional.GravarXml --
 [*] ACBR-8559 - Possível solução para gerar o ID corretamente após a carga do XML de um DPS.
    Por: Italo Giurizzato Junior
