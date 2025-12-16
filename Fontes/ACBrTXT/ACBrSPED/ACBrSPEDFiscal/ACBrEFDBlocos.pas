@@ -190,7 +190,8 @@ type
                          );
   /// Documento de importação
   TACBrDoctoImporta = (diImportacao,           // 0 – Declaração de Importação
-                       diSimplificadaImport    // 1 – Declaração Simplificada de Importação
+                       diSimplificadaImport,   // 1 – Declaração Simplificada de Importação
+                       diUnicaImport           // 2 – Declaração Única de Importação (DUIMP)
                        );
   /// Indicador do tipo de título de crédito
   TACBrTipoTitulo = (tcDuplicata,             // 00- Duplicata

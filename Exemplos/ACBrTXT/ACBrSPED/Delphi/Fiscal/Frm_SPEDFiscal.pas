@@ -544,6 +544,34 @@ begin
         IND_GIAF4 := 'N';
       end;
 
+      with Registro1300New do
+      begin
+        COD_ITEM := FCod_Item;
+        DT_FECH := ACBrSPEDFiscal1.DT_FIN;
+        ESTQ_ABERT := 0;
+        VOL_ENTR := 0;
+        VOL_DISP := 0;
+        VOL_SAIDAS := 0;
+        ESTQ_ESCR := 0;
+        VAL_AJ_PERDA := 0;
+        VAL_AJ_GANHO := 0;
+        FECH_FISICO := 0;
+
+        with Registro1310New do
+        begin
+          NUM_TANQUE := '001';
+          ESTQ_ABERT := 0;
+          VOL_ENTR := 0;
+          VOL_DISP := 0;
+          VOL_SAIDAS := 0;
+          ESTQ_ESCR := 0;
+          VAL_AJ_PERDA := 0;
+          VAL_AJ_GANHO := 0;
+          FECH_FISICO := 0;
+          CAP_TANQUE := 1000;
+        end;
+      end;
+
       with Registro1960New do
       begin
         IND_AP := '1';

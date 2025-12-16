@@ -855,6 +855,7 @@ end;
 procedure TBloco_1.WriteRegistro1310(Reg1300: TRegistro1300) ;
 var
   intFor: integer;
+  strLinha: String;
 begin
   if Assigned( Reg1300.Registro1310 ) then
   begin
@@ -862,7 +863,8 @@ begin
      begin
         with Reg1300.Registro1310.Items[intFor] do
         begin
-          Add( LFill('1310') +
+          strLinha :=
+               LFill('1310') +
                LFill( NUM_TANQUE ) +
                DFill( ESTQ_ABERT,3 ) +
                DFill( VOL_ENTR,3 ) +
@@ -871,7 +873,15 @@ begin
                DFill( ESTQ_ESCR,3 ) +
                DFill( VAL_AJ_PERDA,3 ) +
                DFill( VAL_AJ_GANHO,3 ) +
-               DFill( FECH_FISICO,3 ) ) ;
+               DFill( FECH_FISICO,3 );
+
+              if DT_INI >= EncodeDate(2026,01,01) then
+              begin
+                strLinha := strLinha +
+                  LFill(CAP_TANQUE, 6);
+              end;
+
+          Add(strLinha);
         end;
         /// Registro FILHOS do FILHO
         WriteRegistro1320( Reg1300.Registro1310.Items[intFor] );

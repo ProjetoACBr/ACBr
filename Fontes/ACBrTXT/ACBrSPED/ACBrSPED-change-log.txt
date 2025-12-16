@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/12/2025
+-- ACBrEFDBloco_1, ACBrEFDBloco_1_Class, ACBrEFDBlocos, Frm_SPEDFiscal.dfm, Frm_SPEDFiscal.pas --
+[+] #ACBR-6011 - EFDICMSIPI - Ajustes da versão 3.1.9 - https://www.projetoacbr.com.br/forum/topic/84220-publicada-vers%C3%A3o-319-do-guia-pr%C3%A1tico-da-efd-icms-ipi/
+    por: Renato Rubinho
+
 11/06/2025
 -- ACBrEFDBloco_C_Class --
 [*] #TK-7210 - EFDICMSIPI - C120 - Permitidos os campos PIS_IMP e COFINS IMP nulos - https://www.projetoacbr.com.br/forum/topic/83697-permitir-gerar-o-arquivo-c120-com-o-campo-vazio/

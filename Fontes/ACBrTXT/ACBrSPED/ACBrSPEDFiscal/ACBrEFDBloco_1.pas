@@ -490,6 +490,7 @@ type
     fVAL_AJ_PERDA: Double;     /// Valor da Perda, em litros
     fVAL_AJ_GANHO: Double;     /// Valor do ganho, em litros
     fFECH_FISICO:  Double;     /// Volume aferido no tanque, em litros. Estoque de fechamento físico do tanque
+    fCAP_TANQUE:   Integer;    /// Capacidade de armazenagem, em litros
 
     FRegistro1320: TRegistro1320List;  /// BLOCO 1 - Lista de Registro1320 (FILHO)
   public
@@ -505,6 +506,7 @@ type
     property VAL_AJ_PERDA: Double       read fVAL_AJ_PERDA write fVAL_AJ_PERDA;
     property VAL_AJ_GANHO: Double       read fVAL_AJ_GANHO write fVAL_AJ_GANHO;
     property FECH_FISICO : Double       read fFECH_FISICO  write fFECH_FISICO;
+    property CAP_TANQUE  : Integer      read fCAP_TANQUE   write fCAP_TANQUE;
 
     property Registro1320: TRegistro1320List read FRegistro1320 write FRegistro1320;
   end;
