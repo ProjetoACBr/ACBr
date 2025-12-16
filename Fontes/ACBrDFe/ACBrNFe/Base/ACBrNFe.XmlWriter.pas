@@ -978,8 +978,13 @@ begin
   begin
     AjustarMunicipioUF(xUF, xMun, cMun, NFe.Retirada.cPais,
       NFe.Retirada.UF, NFe.Retirada.xMun, NFe.Retirada.cMun);
+
     Result := FDocument.CreateElement('retirada');
-    Result.AppendChild(AddNodeCNPJCPF('F02', 'F02a', NFe.Retirada.CNPJCPF, True, False));
+
+    if NFe.Retirada.CNPJCPF <> '' then
+      Result.AppendChild(AddNodeCNPJCPF('F02', 'F02a',
+                                            NFe.Retirada.CNPJCPF, True, False));
+
     Result.AppendChild(AddNode(tcStr, 'F02b', 'xNome', 02, 60, 0,
       NFe.Retirada.xNome, DSC_XNOME));
     Result.AppendChild(AddNode(tcStr, 'F03', 'xLgr', 02, 60, 1,
@@ -1028,7 +1033,11 @@ begin
       NFe.Entrega.UF, NFe.Entrega.xMun, NFe.Entrega.cMun);
 
     Result := FDocument.CreateElement('entrega');
-    Result.AppendChild(AddNodeCNPJCPF('G02', 'G02a', NFe.Entrega.CNPJCPF, True, False));
+
+    if NFe.Entrega.CNPJCPF <> '' then
+      Result.AppendChild(AddNodeCNPJCPF('G02', 'G02a',
+                                             NFe.Entrega.CNPJCPF, True, False));
+
     Result.AppendChild(AddNode(tcStr, 'G02b', 'xNome', 02, 60, 0,
       NFe.Entrega.xNome, DSC_XNOME));
     Result.AppendChild(AddNode(tcStr, 'G03', 'xLgr', 02, 60, 1,
