@@ -123,6 +123,9 @@ begin
             if StrToIntDef(LJsonObject.AsString['codigo'], 0) > 0 then
             begin
               ARetornoWS.MsgRetorno := LJsonObject.AsString['mensagem'];
+              LListaRejeicao            := ARetornoWS.CriarRejeicaoLista;
+              LListaRejeicao.Codigo     := LJsonObject.AsString['codigo'] ;
+              LListaRejeicao.Mensagem   :=LJsonObject.AsString['mensagem'];
               LJsonArray := LJsonObject.AsJSONArray['campos'];
               for I := 0 to Pred(LJsonArray.Count) do
               begin
