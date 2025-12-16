@@ -414,7 +414,7 @@ begin
     //caRight:
     //  DrawRight(Args);
   else
-    //
+    DrawTopBottom(Args);
   end;
 
   // Para n o ser exibido nas pr ximas p ginas
@@ -429,7 +429,7 @@ begin
     prEsquerda:
       Width := 33;
   else
-    //
+    Height := 33;
   end;
 
   // Por causa do double pass
@@ -499,18 +499,15 @@ begin
     case FCTe.ide.modal of
       mdRodoviario:
         begin
-        //  if FCTe.ide.modelo = 67 then  //CTeOS
-        //ok    AddBand(TBlocoModalCTeOSCTe.Create(FCTeUtils))
-        //  else
-        //ok    AddBand(TBlocoModalRodoviarioCTe.Create(FCTeUtils)); //CTe
+        if FCTe.ide.modelo = 67 then  //CTeOS
+          AddBand(TBlocoModalCTeOSCTe.Create(FCTeUtils))
+        else
+          AddBand(TBlocoModalRodoviarioCTe.Create(FCTeUtils)); //CTe
         end;
-      mdAereo:
-        AddBand(TBlocoModalAereoCTe.Create(FCTeUtils));
-      mdAquaviario:
-        AddBand(TBlocoModalAquaviarioCTe.Create(FCTeUtils));
-//      mdFerroviario: AddBand(TBlocoModalFerroviarioCTe.Create(FCTeUtils));
+      mdAereo: AddBand(TBlocoModalAereoCTe.Create(FCTeUtils));
+      mdAquaviario: AddBand(TBlocoModalAquaviarioCTe.Create(FCTeUtils));
+      mdFerroviario: AddBand(TBlocoModalFerroviarioCTe.Create(FCTeUtils));
     end;
-    AddBand(TBlocoModalFerroviarioCTe.Create(FCTeUtils));
     AddBand(TBlocoRodape.Create(FCTeUtils));
     FInitialized := True;
   end;
@@ -669,6 +666,9 @@ constructor TBlocoDadosCTe.Create(ACTeUtils: TCTeUtilsFPDF; ALogo: TBytes; ALogo
 begin
   inherited Create(btData);
   FCTeUtils := ACTeUtils;
+  FLogo := ALogo;
+  FLogoStretched := ALogoStretched;
+  FLogoAlign := ALogoAlign;
 end;
 
 destructor TBlocoDadosCTe.Destroy;
