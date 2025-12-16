@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+16/12/2025
+-- ACBrNFSeXServicos --
+[*] A cidade Armação dos Búzios/RJ trocou de provedor, agora é EL versão 2.04.
+   Por: Light System Software
+
 15/12/2025
 -- Diversos --
 [*] Ajustes para o provedor Publica no que se refere a Construção Civil.

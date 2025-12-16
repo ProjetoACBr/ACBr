@@ -576,6 +576,9 @@ begin
 
   FProvedor := StrToProvedor(FxProvedor);
 
+  if FProvedor = proPadraoNacional then
+    FVersao := StrToVersaoNFSe(Ok, FPIniParams.ReadString('PadraoNacional', 'Versao', '1.00'));
+
   if (FLayoutNFSe = lnfsPadraoNacionalv1) or
      (FLayoutNFSe = lnfsPadraoNacionalv101) then
   begin
