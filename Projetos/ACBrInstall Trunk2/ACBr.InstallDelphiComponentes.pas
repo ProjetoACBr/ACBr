@@ -178,12 +178,12 @@ var
   Command, LastDate, Rev: string;
 begin
   Result := '';
-  Output := TStringList.Create;
   try
-    SA.nLength := SizeOf(SA);
-    SA.bInheritHandle := True;
-    SA.lpSecurityDescriptor := nil;
+    Output := TStringList.Create;
     try
+      SA.nLength := SizeOf(SA);
+      SA.bInheritHandle := True;
+      SA.lpSecurityDescriptor := nil;
       if not CreatePipe(StdOutRead, StdOutWrite, @SA, 0) then
         RaiseLastOSError;
 
@@ -237,11 +237,20 @@ begin
           Break;
         end;
       end;
-    except
+    finally
+      Output.Free;
     end;
-  finally
-    Output.Free;
+  except
+//    on E: EOSError do
+//    begin
+//      Result := 'Não foi possível obter informações SVN:' + E.Message;
+//    end;
+    on E: Exception do
+    begin
+      Result := 'Não foi possível obter informações SVN. Erro:' + E.Message;
+    end;
   end;
+
 end;
 
 function sVersaoInstalador: string;

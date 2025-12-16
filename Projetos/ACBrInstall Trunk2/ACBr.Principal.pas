@@ -307,7 +307,7 @@ end;
 
 procedure TfrmPrincipal.IniciaNovaInstalacao(const MaximoPassosProgresso: Integer; const
     NomeCaminhoArquivoLog: string; const Cabecalho: string);
-var LPath : String;
+//var LPath : String;
 begin
   // setar barra de progresso
   pgbInstalacao.Position := 0;

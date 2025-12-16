@@ -2547,7 +2547,6 @@ object framePacotes: TframePacotes
       Margins.Right = 0
       Margins.Bottom = 0
       Caption = 'ACBr_CTeDacteFPDF.dpk'
-      Enabled = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
