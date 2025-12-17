@@ -4257,7 +4257,8 @@ begin
 //  cst410 = Imunidade e não incidência usado em praticante todos DF-e mas não se calcula IBS/CBS
 //  cst820 = Tributação em declaração de regime especifico usado na NFSe
 
-    if (IBSCBS.gEstornoCred.vIBSEstCred > 0) or (IBSCBS.gEstornoCred.vCBSEstCred > 0) then
+    if (IBSCBS.gEstornoCred.vIBSEstCred > 0) or (IBSCBS.gEstornoCred.vCBSEstCred > 0) or
+      ((NFe.Ide.modelo = 55) and (NFe.Ide.tpNFDebito = tdPerdaEmEstoque)) then
       Result.AppendChild(Gerar_IBSCBS_gEstornoCred(IBSCBS.gEstornoCred));
 
     if (IBSCBS.gCredPresOper.cCredPres <> cpNenhum) then
