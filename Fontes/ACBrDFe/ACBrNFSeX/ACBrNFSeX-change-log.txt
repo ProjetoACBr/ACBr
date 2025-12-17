@@ -42,6 +42,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+17/12/2025
+-- ACBrNFSeXServicos --
+[*] Correção da HomLinkURL de produção restrita do padrão nacional
+   Por: Renato Rubinho
 
 16/12/2025
 -- ACBrNFSeXServicos --
