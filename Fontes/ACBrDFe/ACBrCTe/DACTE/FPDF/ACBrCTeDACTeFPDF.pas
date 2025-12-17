@@ -42,13 +42,18 @@ uses
   ACBr_fpdf_report, ACBrCTe.Classes, ACBrDFe.Conversao, pcteConversaoCTe,
   ACBrValidador, ACBrUtil.DateTime, ACBrUtil.Strings, ACBrUtil.FilesIO,
   ACBrDFeUtil, ACBrUtil.Compatibilidade, ACBrCTe, ACBrBase, ACBrCTeUtilsFPDF,
-  ACBrCTeDACTEClass, ACBrImage, DB, DBClient;
+  ACBrCTeDACTEClass, ACBrImage
+{$IFDEF FPC}
+  ,BufDataset
+{$ELSE}
+  ,DBClient
+{$ENDIF}, DB;
 
 type
   {$IFDEF RTL230_UP}
   [ComponentPlatformsAttribute(piacbrAllPlatforms)]
   {$ENDIF RTL230_UP}
-
+  TACBrDataSet = {$IFDEF FPC}TBufDataset{$ELSE}TClientDataSet{$ENDIF};
   { TCTeDACTeFPDF }
 
   TCTeDACTeFPDF = class(TFPDFReport)
@@ -232,6 +237,14 @@ type
     constructor Create(ACTeUtils: TCTeUtilsFPDF); reintroduce;
   end;
 
+{$IFDEF FPC}
+{ THBufDataset }
+  THBufDataset = class helper for TBufDataset // Cria-se o helper
+  public
+    procedure EmptyDataSet; // Declaração dos novos métodos
+  end;
+
+{$ENDIF}
 implementation
 
 const
@@ -1852,7 +1865,7 @@ begin
 
   LPDF.SetFont(7, '');
 
-  cdsDocAnt := TClientDataSet.Create(nil);
+  cdsDocAnt := TACBrDataSet.Create(nil);
   try
     cdsDocAnt.FieldDefs.Clear;
     cdsDocAnt.FieldDefs.Add('TipoDoc', ftString, 20);
@@ -3188,5 +3201,16 @@ begin
   Height := 1;
 end;
 
+{$IFDEF FPC}
+{ THBufDataset }
+procedure THBufDataset.EmptyDataSet;
+begin
+  TBufDataset(Self).Active := True;
+  TBufDataset(Self).First;
+  while not TBufDataset(Self).EOF do TBufDataset(Self).Delete;
+  TBufDataset(Self).Close;
+  TBufDataset(Self).Open;
+end;
+{$ENDIF}
 end.
 
