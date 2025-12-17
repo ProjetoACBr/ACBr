@@ -62,6 +62,7 @@ package ACBr_CTeDacteFPDF;
 {$IMPLICITBUILD OFF}
 
 requires
+  dsnap,
   rtl,
   ACBr_CTe;
 
