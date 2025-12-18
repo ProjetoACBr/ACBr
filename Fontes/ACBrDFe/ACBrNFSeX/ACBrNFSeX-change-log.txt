@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/12/2025
+-- ACBrNFSeXServicos --
+[*] Correção nas novas URLs o provedor RLZ
+   Por: Italo Giurizzato Junior
 -- PadraoNacional.GravarXml --
 [*] ACBR-8559 - Possível solução para gerar o ID corretamente após a carga do XML de um DPS.
    Por: Italo Giurizzato Junior
