@@ -55,7 +55,10 @@ type
 
   TACBrTEFAPIClassPayKit = class(TACBrTEFAPIClass)
   private
+    fPermiteAlteracao: Boolean;
     fTempoMsgPinPad: Integer;
+    fValorParcela: Double;
+    fValorTaxaServico: Double;
     function GetTEFPayKitAPI: TACBrTEFPayKitAPI;
 
     procedure QuandoGravarLogAPI(const ALogLine: String; var Tratado: Boolean);
@@ -128,6 +131,10 @@ type
 
     property TEFPayKitAPI: TACBrTEFPayKitAPI read GetTEFPayKitAPI;
     property TempoMsgPinPad: Integer read fTempoMsgPinPad write fTempoMsgPinPad default 5000;
+
+    property ValorParcela: Double read fValorParcela write fValorParcela;
+    property ValorTaxaServico: Double read fValorTaxaServico write fValorTaxaServico;
+    property PermiteAlteracao: Boolean read fPermiteAlteracao write fPermiteAlteracao;
   end;
 
 implementation
@@ -232,6 +239,9 @@ begin
 
   fpTEFRespClass := TACBrTEFRespPayKit;
   fTempoMsgPinPad := 5000;
+  fValorParcela := 0;
+  fValorTaxaServico := 0;
+  fPermiteAlteracao := False;
 
   with GetTEFPayKitAPI do
   begin
@@ -634,7 +644,9 @@ begin
         //  StrToIntDef(fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao, 0));
         NumeroControle := TransacaoCartaoCreditoCompleta( ValorPagto,
           StrToIntDef(fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao, 0),
-          TipoOp, Parcelas, 0, 0, False, DadosAdicionais);
+          TipoOp, Parcelas,
+          fValorParcela, fValorTaxaServico, fPermiteAlteracao,
+          DadosAdicionais);
       end
       else if (teftcDebito in CartoesAceitos) then
       begin
@@ -650,7 +662,9 @@ begin
         //  StrToIntDef(fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao, 0));
         NumeroControle := TransacaoCartaoDebitoCompleta( ValorPagto,
           StrToIntDef(fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao, 0),
-          TipoOp, Parcelas, 1, DataPreDatado, 0, 0, False, DadosAdicionais);
+          TipoOp, Parcelas, 1, DataPreDatado,
+          fValorParcela, fValorTaxaServico, fPermiteAlteracao,
+          DadosAdicionais);
       end
       else if (teftcVoucher in CartoesAceitos) then
       begin
@@ -685,6 +699,10 @@ begin
       fpACBrTEFAPI.DoException(Format(ACBrStr(sACBrTEFAPICapturaNaoSuportada),
         [GetEnumName(TypeInfo(TACBrTEFModalidadePagamento), integer(Modalidade) ), ClassName] ));
   end;
+
+  fValorParcela := 0;
+  fValorTaxaServico := 0;
+  fPermiteAlteracao := False;
 
   Result := (NumeroControle <> '');
 end;

@@ -46,6 +46,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 18/12/2025
+-- ACBrTEFAPIPayKit --
+[+] Adicionda as propriedades abaixo, para permitir informar valores na chamada
+    dos métodos 'TransacaoCartaoCreditoCompleta' e 'TransacaoCartaoDebitoCompleta'
+    property ValorParcela: Double
+    property ValorTaxaServico: Double
+    property PermiteAlteracao: Boolean
+
 -- ACBrTEFAPIAditum, ACBrTEFAPIDestaxa, ACBrTEFAPIDirectPin, ACBrTEFAPIPayKit,
 ACBrTEFAPIStoneAutoTEF, ACBrTEFDBanese, ACBrTEFDClass, ACBrTEFDCliDTEF,
 ACBrTEFDCliSiTef, ACBrTEFDPayGoWeb, ACBrTEFDTicketCar, ACBrTEFDVeSPague --
