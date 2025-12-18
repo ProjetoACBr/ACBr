@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+18/12/2025
+-- PadraoNacional.GravarXml --
+[*] ACBR-8559 - Possível solução para gerar o ID corretamente após a carga do XML de um DPS.
+   Por: Italo Giurizzato Junior
+
 17/12/2025
 -- ACBrNFSeXServicos --
 [*] Correção da HomLinkURL de produção restrita do padrão nacional
@@ -49,6 +54,8 @@ Símbolo : Significado
 
 16/12/2025
 -- ACBrNFSeXServicos --
+[*] ACBr-8587 Incluído o Params NaoAssinar para a cidade Avare/SP.
+   Por: Anderson Grolli
 [*] A cidade Armação dos Búzios/RJ trocou de provedor, agora é EL versão 2.04.
    Por: Light System Software
 

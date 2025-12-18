@@ -1524,6 +1524,7 @@ begin
 
       AWriter.CodMunEmit := Configuracoes.Geral.CodigoMunicipio;
       AWriter.CNPJPrefeitura := Configuracoes.Geral.CNPJPrefeitura;
+      AWriter.CNPJEmitente := Configuracoes.Geral.Emitente.Cnpj;
 
       AWriter.Usuario := Configuracoes.Geral.Emitente.WSUser;
       AWriter.Senha := Configuracoes.Geral.Emitente.WSSenha;

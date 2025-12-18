@@ -321,8 +321,8 @@ var
   chave, CodigoMun, CNPJ: string;
   xmlNode: TACBrXmlNode;
 begin
-  CodigoMun := IntToStr(TACBrNFSeX(FpAOwner).Configuracoes.Geral.CodigoMunicipio);
-  CNPJ := TACBrNFSeX(FpAOwner).Configuracoes.Geral.Emitente.Cnpj;
+  CodigoMun := IntToStr(CodMunEmit);
+  CNPJ := CNPJEmitente;
 
   if CNPJ = '' then
     CNPJ := NFSe.Prestador.IdentificacaoPrestador.CpfCnpj;
@@ -347,8 +347,8 @@ var
   chave, xLocEmi, xUF, xLocPrestacao, xLocIncid, CodigoMun, CNPJ: string;
   xmlNode: TACBrXmlNode;
 begin
-  CodigoMun := IntToStr(TACBrNFSeX(FpAOwner).Configuracoes.Geral.CodigoMunicipio);
-  CNPJ := TACBrNFSeX(FpAOwner).Configuracoes.Geral.Emitente.Cnpj;
+  CodigoMun := IntToStr(CodMunEmit);
+  CNPJ := CNPJEmitente;
 
   if CNPJ = '' then
     CNPJ := NFSe.Prestador.IdentificacaoPrestador.CpfCnpj;
@@ -1593,7 +1593,7 @@ end;
 function TNFSeW_PadraoNacional.GerarXml: Boolean;
 var
   NFSeNode, xmlNode: TACBrXmlNode;
-  chave: string;
+  chave, CodigoMun, CNPJ: string;
 begin
   Configuracao;
 
@@ -1603,8 +1603,14 @@ begin
 
   FpVersao := VersaoNFSeToStr(VersaoNFSe);
 
-  chave := GerarChaveDPS(NFSe.Prestador.Endereco.CodigoMunicipio,
-                         NFSe.Prestador.IdentificacaoPrestador.CpfCnpj,
+  CodigoMun := IntToStr(CodMunEmit);
+  CNPJ := CNPJEmitente;
+
+  if CNPJ = '' then
+    CNPJ := NFSe.Prestador.IdentificacaoPrestador.CpfCnpj;
+
+  chave := GerarChaveDPS(CodigoMun,
+                         CNPJ,
                          NFSe.IdentificacaoRps.Serie,
                          NFSe.IdentificacaoRps.Numero);
 
