@@ -775,13 +775,16 @@ end;
 procedure TRetDistDFeInt.LerEvento(const ANode: TACBrXmlNode; Indice: Integer);
 var
   Ok: Boolean;
-  AuxNode: TACBrXmlNode;
+  AuxNode, AuxNode1: TACBrXmlNode;
 begin
-  if not Assigned(ANode) then Exit;
+  AuxNode1 := ANode.Childrens.FindAnyNs('evento');
+  if not Assigned(AuxNode1) then
+    AuxNode1 := ANode.Childrens.FindAnyNs('evento' + FptpDFe);
+  if not Assigned(AuxNode1) then Exit;
 
   docZip[Indice].XML := InserirDeclaracaoXMLSeNecessario(ANode.OuterXml);
 
-  AuxNode := ANode.Childrens.FindAnyNs('infEvento');
+  AuxNode := AuxNode1.Childrens.FindAnyNs('infEvento');
 
   if Assigned(AuxNode) then
   begin
@@ -836,8 +839,7 @@ begin
 
       if ANode.Name = 'procEvento' + FptpDFe then
       begin
-        LerEvento(ANode.Childrens.FindAnyNs('evento'), Indice);
-        LerEvento(ANode.Childrens.FindAnyNs('evento' + FptpDFe), Indice);
+        LerEvento(ANode, Indice);
 
         LerGrupo_detEvento(ANode.Childrens.FindAnyNs('detEvento'), Indice);
         LerGrupo_retEvento(ANode.Childrens.FindAnyNs('retEvento'), Indice);
