@@ -182,7 +182,7 @@ var
   i: Integer;
 begin
   DestaxaResposta.Clear;
-  wResp := Conteudo.LeInformacao(899, 201).AsString;
+  wResp := Conteudo.LeInformacao(899, CTEF_RESP_JSON).AsString;
   if EstaVazio(wResp) then
     Exit;
 
@@ -425,7 +425,7 @@ begin
 
   AtualizarHeader;
   fpACBrTEFAPI.UltimaRespostaTEF.Clear;
-  fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, 201, resp);
+  fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_JSON, resp);
   fpACBrTEFAPI.UltimaRespostaTEF.DocumentoVinculado := fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao;
   fpACBrTEFAPI.UltimaRespostaTEF.ViaClienteReduzida := fpACBrTEFAPI.DadosAutomacao.ImprimeViaClienteReduzida;
   fpACBrTEFAPI.UltimaRespostaTEF.ConteudoToProperty;
@@ -678,7 +678,7 @@ begin
         ultNSU := DestaxaClient.ColetaResposta.transacao_nsu;
         wResp := TACBrTEFRespDestaxa.Create;
         try
-          wResp.Conteudo.GravaInformacao(899, 201, DestaxaClient.ColetaResposta.AsString);
+          wResp.Conteudo.GravaInformacao(899, CTEF_RESP_JSON, DestaxaClient.ColetaResposta.AsString);
           wResp.ConteudoToProperty;
 
           AListaRespostasTEF.AdicionarRespostaTEF(wResp);

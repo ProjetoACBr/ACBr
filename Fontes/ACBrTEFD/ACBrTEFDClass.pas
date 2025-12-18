@@ -536,8 +536,8 @@ begin
   if (ALinha.Identificacao = 899) then
   begin
     case ALinha.Sequencia of
-      2 : fpIndiceFPG_ECF  := ALinha.Informacao.AsString;
-      3 : fpOrdemPagamento := ALinha.Informacao.AsInteger;
+      CTEF_RESP_INDICE_PAGTO : fpIndiceFPG_ECF := ALinha.Informacao.AsString;
+      CTEF_RESP_ORDEM_PAGTO : fpOrdemPagamento := ALinha.Informacao.AsInteger;
     else
       inherited ProcessarTipoInterno(ALinha);
     end;
@@ -548,13 +548,13 @@ end;
 
 procedure TACBrTEFDResp.SetIndiceFPG_ECF(const AValue: String);
 begin
-  fpConteudo.GravaInformacao(899, 2, AValue);
+  fpConteudo.GravaInformacao(899, CTEF_RESP_INDICE_PAGTO, AValue);
   fpIndiceFPG_ECF := AValue;
 end;
 
 procedure TACBrTEFDResp.SetOrdemPagamento(const AValue: Integer);
 begin
-  fpConteudo.GravaInformacao(899, 3, IntToStr(AValue));
+  fpConteudo.GravaInformacao(899, CTEF_RESP_ORDEM_PAGTO, IntToStr(AValue));
   fpOrdemPagamento := AValue;
 end;
 
@@ -2109,9 +2109,9 @@ begin
      Self.Resp.IndiceFPG_ECF := IndiceFPG_ECF;
 
      { Cria Arquivo de Backup, contendo inclusive informações internas como :
-       899 - 001 : CNFEnviado (S, N)
-       899 - 002 : IndiceFPG_ECF : String
-       899 - 003 : OrdemPagamento : Integer
+       899 - CTEF_RESP_CONFIRMADO : CNFEnviado (S, N)
+       899 - CTEF_RESP_INDICE_PAGTO : IndiceFPG_ECF : String
+       899 - CTEF_RESP_ORDEM_PAGTO : OrdemPagamento : Integer
      }
      CopiarResposta ;
 

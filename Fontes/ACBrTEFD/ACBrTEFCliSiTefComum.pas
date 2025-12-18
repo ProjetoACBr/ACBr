@@ -66,10 +66,19 @@ const
   {$ENDIF}
 {$ENDIF}
 
-  CSITEF_OP_Venda = 0;
+  CSITEF_OP_Pagamento = 0;
+  CSITEF_OP_Cheque = 1;
+  CSITEF_OP_Debito = 2;
+  CSITEF_OP_Credito = 3;
+  CSITEF_OP_Cartao_Beneficio = 5;
+  CSITEF_OP_Cartao_Combustivel = 7;
+  CSITEF_OP_Cartao_Gift = 15;
   CSITEF_OP_Administrativo = 110;
+  CSITEF_OP_Carteira_Digitais_PIX = 122;
   CSITEF_OP_ConsultarTrasPendente = 130;
   CSITEF_OP_Cancelamento = 200;
+  CSITEF_OP_Cancelamento_Credito = 210;
+  CSITEF_OP_Cancelamento_Debito = 211;
   CSITEF_ESPERA_MINIMA_MSG_FINALIZACAO = 5000;
   CSITEF_OP_DadosPinPadAberto = 789;
 
@@ -82,9 +91,7 @@ const
   CSITEF_RestricoesParcelaEstabelecimento = '27;3988';
   CSITEF_RestricoesParcelaAministradora = '28;3988';
   CSITEF_RestricoesConsultaCredito = '36;3004;3049;3052;3053;3480';
-  CSITEF_RestricoesConsultaDebito = '19;3003;3024;3031';
-  // 19 - remove CONSULTA PARCELAS CDC
-  // 3031 - remove COMPRA E SAQUE
+  CSITEF_RestricoesConsultaDebito = '19;3003;3024;3031';  // 19 - remove CONSULTA PARCELAS CDC, 3031 - remove COMPRA E SAQUE
 
 type
   EACBrTEFCliSiTef = class(EACBrTEFErro);
@@ -309,6 +316,7 @@ begin
         100:
         begin
           ModalidadePagto := LinStr;
+          Finalizacao := LinStr;
 
           case StrToIntDef(Copy(ModalidadePagto, 1, 2), 0) of
             01: Debito := True;
@@ -439,8 +447,8 @@ begin
     end;
 
     QtdLinhasComprovante := max(ImagemComprovante1aVia.Count, ImagemComprovante2aVia.Count);
-    Confirmar := (QtdLinhasComprovante > 0) or (LeInformacao(899, 110).AsInteger = CSITEF_OP_ConsultarTrasPendente);
-
+    Confirmar := (QtdLinhasComprovante > 0) or
+                 (LeInformacao(899, CTEF_RESP_FUNCAO).AsInteger = CSITEF_OP_ConsultarTrasPendente);
 
     Sucesso := (NSU_TEF <> '') or Confirmar;
 
@@ -804,7 +812,6 @@ begin
  GravarLog('- FinalizaFuncaoSiTefInterativo'+
            ' - Confirma:'+IntToStr(pConfirma)+
            ', CupomFiscal:'+String(pCupomFiscal)+
-           ', pDataFiscal:'+String(pDataFiscal)+
            ', DataFiscal:'+String(pDataFiscal)+
            ', HoraFiscal: '+String(pHoraFiscal)+
            ', ParamAdic: '+String(pParamAdic) );

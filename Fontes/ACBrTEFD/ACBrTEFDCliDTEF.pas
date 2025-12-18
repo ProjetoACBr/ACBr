@@ -896,12 +896,12 @@ begin
                 MontaArquivoResposta(pNumeroControle, ArquivoResposta);
 
                 Conteudo.Conteudo.Text := ArquivoResposta.Text;
-                Conteudo.GravaInformacao(899,100, AHeader ) ;
-                Conteudo.GravaInformacao(899,101, IntToStr(fpIDSeq) ) ;
-                Conteudo.GravaInformacao(899,102, Documento ) ;
-                Conteudo.GravaInformacao(899,103, IntToStr(Trunc(SimpleRoundTo( Valor * 100 ,0))) );
-                Conteudo.GravaInformacao(899,104, IntToStr(Funcao) );
-                Conteudo.GravaInformacao(899,130, 'IMPRIMINDO...' ) ;
+                Conteudo.GravaInformacao(899, CTEF_RESP_HEADER, AHeader ) ;
+                Conteudo.GravaInformacao(899, CTEF_RESP_ID, IntToStr(fpIDSeq) ) ;
+                Conteudo.GravaInformacao(899, CTEF_RESP_DOCTO_VINCULADO, Documento ) ;
+                Conteudo.GravaInformacao(899, CTEF_RESP_VALOR_TRANSACAO, IntToStr(Trunc(SimpleRoundTo( Valor * 100 ,0))) );
+                Conteudo.GravaInformacao(899, CTEF_RESP_REDE, IntToStr(Funcao) );
+                Conteudo.GravaInformacao(899, CTEF_RESP_TEXTO_OPERADOR, 'IMPRIMINDO...' ) ;
 
                 Resp.TipoGP := fpTipo;
               end;

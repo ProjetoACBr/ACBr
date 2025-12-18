@@ -703,9 +703,9 @@ begin
     if ADocumentoVinculado = '' then
       ADocumentoVinculado := IntToStr(fpIDSeq) ;
 
-    Conteudo.GravaInformacao(899,100, AHeader ) ;
-    Conteudo.GravaInformacao(899,101, IntToStr(fpIDSeq) ) ;
-    Conteudo.GravaInformacao(899,102, ADocumentoVinculado ) ;
+    Conteudo.GravaInformacao(899, CTEF_RESP_HEADER, AHeader ) ;
+    Conteudo.GravaInformacao(899, CTEF_RESP_ID, IntToStr(fpIDSeq) ) ;
+    Conteudo.GravaInformacao(899, CTEF_RESP_DOCTO_VINCULADO, ADocumentoVinculado ) ;
 
     Resp.TipoGP := fpTipo;
   end;

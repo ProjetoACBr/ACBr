@@ -487,11 +487,11 @@ begin
                fConteudoResp.GravaInformacao(121,000, BinaryStringToString(ArquivoResposta.Text));
 
                Conteudo.Conteudo.Text := fConteudoResp.Conteudo.Text;
-               Conteudo.GravaInformacao(899,100, AHeader ) ;
-               Conteudo.GravaInformacao(899,101, IntToStr(fpIDSeq) ) ;
-               Conteudo.GravaInformacao(899,102, IndiceFPG_ECF ) ;
-               Conteudo.GravaInformacao(899,103, IntToStr(Trunc(SimpleRoundTo( Valor * 100 ,0))) );
-               Conteudo.GravaInformacao(899,104, AHeader );
+               Conteudo.GravaInformacao(899, CTEF_RESP_HEADER, AHeader ) ;
+               Conteudo.GravaInformacao(899, CTEF_RESP_ID, IntToStr(fpIDSeq) ) ;
+               Conteudo.GravaInformacao(899, CTEF_RESP_DOCTO_VINCULADO, IndiceFPG_ECF ) ;
+               Conteudo.GravaInformacao(899, CTEF_RESP_VALOR_TRANSACAO, IntToStr(Trunc(SimpleRoundTo( Valor * 100 ,0))) );
+               Conteudo.GravaInformacao(899, CTEF_RESP_REDE, AHeader );
 
                Resp.TipoGP := fpTipo;
              end;

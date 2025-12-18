@@ -60,7 +60,6 @@ const
   CInstallmentType_Emissor = 'Issuer';
   CInstallmentType_Estabelecimento = 'Merchant';
 
-
 resourcestring
   sACBrAditumNaoAtivo = CAditumTEF+' não está ativo';
   sACBrAditumSemActivationCode = '"Activation Code" deve ser informado em "DadosTerminal.CodTerminal"';
@@ -189,9 +188,9 @@ var
   jsReceipt: TACBrJSONArray;
   isApproved, isCanceled: Boolean;
 begin
-  fpCNFEnviado := (UpperCase(Conteudo.LeInformacao(899,1).AsString) = 'S');
-  fpHeader := Conteudo.LeInformacao(899,100).AsString;
-  s := Conteudo.LeInformacao(899,200).AsString;
+  fpCNFEnviado := (UpperCase(Conteudo.LeInformacao(899, CTEF_RESP_CONFIRMADO).AsString) = 'S');
+  fpHeader := Conteudo.LeInformacao(899, CTEF_RESP_HEADER).AsString;
+  s := Conteudo.LeInformacao(899, CTEF_RESP_JSON).AsString;
   js := TACBrJSONObject.Parse(s);
   try
     jsHostInfo := js.AsJSONObject['hostInfo'];
@@ -744,7 +743,7 @@ begin
   with fpACBrTEFAPI.UltimaRespostaTEF do
   begin
     Clear;
-    Conteudo.GravaInformacao(899,200,FHTTPResponse);
+    Conteudo.GravaInformacao(899, CTEF_RESP_JSON, FHTTPResponse);
     AtualizarHeader;
     ConteudoToProperty;
   end;
@@ -782,8 +781,8 @@ begin
           RespTEFPendente := TACBrTEFRespAditum.Create;
           try
             jscharge := jsCharges.ItemAsJSONObject[i];
-            RespTEFPendente.Conteudo.GravaInformacao(899,100,'CRT');
-            RespTEFPendente.Conteudo.GravaInformacao(899,200, '{"charge": '+jscharge.ToJSON+'}');
+            RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_HEADER,'CRT');
+            RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_JSON, '{"charge": '+jscharge.ToJSON+'}');
             RespTEFPendente.ConteudoToProperty;
             AListaRespostasTEF.AdicionarRespostaTEF(RespTEFPendente); // Cria Clone interno
           finally

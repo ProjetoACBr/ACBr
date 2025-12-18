@@ -148,15 +148,15 @@ var
   jso, jsLog: TACBrJSONObject;
   dh: TDateTime;
 begin
-  fpCNFEnviado := (UpperCase(Conteudo.LeInformacao(899,1).AsString) = 'S');
-  fpHeader := Conteudo.LeInformacao(899,100).AsString;
+  fpCNFEnviado := (UpperCase(Conteudo.LeInformacao(899, CTEF_RESP_CONFIRMADO).AsString) = 'S');
+  fpHeader := Conteudo.LeInformacao(899, CTEF_RESP_HEADER).AsString;
 
-  cupom := StringToBinaryString(Conteudo.LeInformacao(899,300).AsString);
+  cupom := StringToBinaryString(Conteudo.LeInformacao(899, CTEF_RESP_TEXTO_CUPOM).AsString);
   ImagemComprovante1aVia.Text := cupom;
   ImagemComprovante2aVia.Text := cupom;
   Confirmar := (cupom <> '');
 
-  json := Trim(Conteudo.LeInformacao(899,200).AsString);
+  json := Trim(Conteudo.LeInformacao(899, CTEF_RESP_JSON).AsString);
   jso := TACBrJSONObject.Parse(json);
   try
     jsLog := jso.AsJSONObject['LogTransacao'];
@@ -345,8 +345,8 @@ begin
   with fpACBrTEFAPI.UltimaRespostaTEF do
   begin
     Clear;
-    Conteudo.GravaInformacao(899,200, json);
-    Conteudo.GravaInformacao(899,300, BinaryStringToString(Cupom) );
+    Conteudo.GravaInformacao(899, CTEF_RESP_JSON, json);
+    Conteudo.GravaInformacao(899, CTEF_RESP_TEXTO_CUPOM, BinaryStringToString(Cupom) );
     DocumentoVinculado := fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao;
     AtualizarHeader;
     ConteudoToProperty;

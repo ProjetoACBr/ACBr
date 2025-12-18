@@ -1241,10 +1241,10 @@ begin
 
      { Adiciona Campos já conhecidos em Resp, para processa-los em
        métodos que manipulam "RespostasPendentes" (usa códigos do G.P.)  }
-     Conteudo.GravaInformacao(899,100, AHeader ) ;
-     Conteudo.GravaInformacao(899,101, IntToStr(ReqVS.Sequencial) ) ;
-     Conteudo.GravaInformacao(899,102, Documento ) ;
-     Conteudo.GravaInformacao(899,103, IntToStr(Trunc(SimpleRoundTo( Valor * 100 ,0))) );
+     Conteudo.GravaInformacao(899, CTEF_RESP_HEADER, AHeader ) ;
+     Conteudo.GravaInformacao(899, CTEF_RESP_ID, IntToStr(ReqVS.Sequencial) ) ;
+     Conteudo.GravaInformacao(899, CTEF_RESP_DOCTO_VINCULADO, Documento ) ;
+     Conteudo.GravaInformacao(899, CTEF_RESP_VALOR_TRANSACAO, IntToStr(Trunc(SimpleRoundTo( Valor * 100 ,0))) );
 
      // Grava valor de "Transacao|Sequencia" em 27(Finalizacao) para usar no CNF, NCN
      Conteudo.GravaInformacao(27,0, Transacao+'|'+IntToStr(ReqVS.Sequencial) );
@@ -1283,7 +1283,7 @@ begin
         if Result in [0,1] then
         begin
            // modifica o numero da Resp.ID para o Valor retornado
-           Self.Resp.Conteudo.GravaInformacao(899,101, IntToStr(RespVS.Sequencial) ) ;
+           Self.Resp.Conteudo.GravaInformacao(899, CTEF_RESP_ID, IntToStr(RespVS.Sequencial) ) ;
 
            // Salvando dados do comprovante em ACBrTEFD.Resp //
            For I := 0 to RespVS.Params.Count-1 do

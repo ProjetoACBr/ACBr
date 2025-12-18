@@ -187,9 +187,9 @@ var
   i: Integer;
   s: String;
 begin
-  fpCNFEnviado := (UpperCase(Conteudo.LeInformacao(899,1).AsString) = 'S');
-  fpHeader := Conteudo.LeInformacao(899,100).AsString;
-  s := Conteudo.LeInformacao(899,200).AsString;
+  fpCNFEnviado := (UpperCase(Conteudo.LeInformacao(899, CTEF_RESP_CONFIRMADO).AsString) = 'S');
+  fpHeader := Conteudo.LeInformacao(899, CTEF_RESP_HEADER).AsString;
+  s := Conteudo.LeInformacao(899, CTEF_RESP_JSON).AsString;
   js := TACBrJSONObject.Parse(s);
   try
     Rede := 'STONE';
@@ -520,7 +520,7 @@ begin
   with fpACBrTEFAPI.UltimaRespostaTEF do
   begin
     Clear;
-    Conteudo.GravaInformacao(899,200,FHTTPResponse);
+    Conteudo.GravaInformacao(899, CTEF_RESP_JSON, FHTTPResponse);
     DocumentoVinculado := fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao;
     SerialPOS := PartnerName();
     if OperacaoEmAndamento in [tefmtdPagamento, tefmtdCancelamento] then

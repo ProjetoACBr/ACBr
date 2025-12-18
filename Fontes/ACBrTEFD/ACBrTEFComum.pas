@@ -49,6 +49,26 @@ uses
   {$IfEnd}
   ACBrBase;
 
+const
+  CTEF_RESP_CONFIRMADO      = 1;
+  CTEF_RESP_INDICE_PAGTO    = 2;
+  CTEF_RESP_ORDEM_PAGTO     = 3;
+  CTEF_RESP_HEADER          = 100;
+  CTEF_RESP_ID              = 101;
+  CTEF_RESP_DOCTO_VINCULADO = 102;
+  CTEF_RESP_VALOR_TRANSACAO = 103;
+  CTEF_RESP_REDE            = 104;
+  CTEF_RESP_CONFIRMAR       = 105;
+  CTEF_RESP_DATA_HORA       = 106;
+  CTEF_RESP_FUNCAO          = 110;
+  CTEF_RESP_TEXTO_OPERADOR  = 130;
+  CTEF_RESP_JSON            = 200;
+  CTEF_RESP_TEXTO_CUPOM     = 300;
+  CTEF_RESP_ID_PAGAMENTO    = 500;
+  CTEF_RESP_RESPOSTA_FISCAL = 501;
+  CTEF_RESP_SERIAL_POS      = 502;
+  CTEF_RESP_ESTABELECIMENTO = 503;
+
 type
 
   TACBrTEFTipoCartao = ( teftcNaoDefinido,
@@ -1209,7 +1229,7 @@ end;
 
 procedure TACBrTEFResp.SetCNFEnviado(const AValue: Boolean);
 begin
-  fpConteudo.GravaInformacao(899, 1, IfThen(AValue, 'S', 'N'));
+  fpConteudo.GravaInformacao(899, CTEF_RESP_CONFIRMADO, IfThen(AValue, 'S', 'N'));
   fpCNFEnviado := AValue;
 end;
 
@@ -1228,17 +1248,17 @@ begin
   if (ALinha.Identificacao = 899) then
   begin
     case ALinha.Sequencia of
-        1 : fpCNFEnviado         := (UpperCase( ALinha.Informacao.AsString ) = 'S' );
-      100 : fpHeader             := ALinha.Informacao.AsString;
-      101 : fpID                 := ALinha.Informacao.AsInteger;
-      102 : fpDocumentoVinculado := ALinha.Informacao.AsString;
-      104 : fpRede               := ALinha.Informacao.AsString ;
-      103 : fpValorTotal         := fpValorTotal + ALinha.Informacao.AsFloat;
-      105 : fpConfirmar          := (ALinha.Informacao.AsString = 'True');
-      500 : fpIdPagamento        := ALinha.Informacao.AsInteger ;
-      501 : fpIdRespostaFiscal   := ALinha.Informacao.AsInteger ;
-      502 : fpSerialPOS          := ALinha.Informacao.AsString ;
-      503 : fpEstabelecimento    := ALinha.Informacao.AsString ;
+      CTEF_RESP_CONFIRMADO : fpCNFEnviado := (UpperCase( ALinha.Informacao.AsString ) = 'S' );
+      CTEF_RESP_HEADER : fpHeader := ALinha.Informacao.AsString;
+      CTEF_RESP_ID : fpID := ALinha.Informacao.AsInteger;
+      CTEF_RESP_DOCTO_VINCULADO : fpDocumentoVinculado := ALinha.Informacao.AsString;
+      CTEF_RESP_REDE : fpRede := ALinha.Informacao.AsString ;
+      CTEF_RESP_VALOR_TRANSACAO : fpValorTotal := fpValorTotal + ALinha.Informacao.AsFloat;
+      CTEF_RESP_CONFIRMAR : fpConfirmar := (ALinha.Informacao.AsString = 'True');
+      CTEF_RESP_ID_PAGAMENTO : fpIdPagamento := ALinha.Informacao.AsInteger ;
+      CTEF_RESP_RESPOSTA_FISCAL : fpIdRespostaFiscal := ALinha.Informacao.AsInteger ;
+      CTEF_RESP_SERIAL_POS : fpSerialPOS := ALinha.Informacao.AsString ;
+      CTEF_RESP_ESTABELECIMENTO : fpEstabelecimento := ALinha.Informacao.AsString ;
     end;
   end;
 end;

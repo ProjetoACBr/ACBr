@@ -167,7 +167,7 @@ end;
 
 procedure TACBrTEFDRespBanese.ProcessarTipoInterno(ALinha: TACBrTEFLinha);
 begin
-  if (ALinha.Identificacao = 899) and (ALinha.Sequencia = 130) then
+  if (ALinha.Identificacao = 899) and (ALinha.Sequencia = CTEF_RESP_TEXTO_OPERADOR) then
     fpTextoEspecialOperador := ALinha.Informacao.AsString
   else
     inherited ProcessarTipoInterno(ALinha);
@@ -526,12 +526,12 @@ begin
 
 								{Grava informações utilizadas pelas rotinas de impressão do ACBr}
 								Conteudo.Conteudo.Text := ArquivoResposta.Text;
-								Conteudo.GravaInformacao(899,100, AHeader ) ;
-								Conteudo.GravaInformacao(899,101, IntToStr(fpIDSeq) ) ;
-								Conteudo.GravaInformacao(899,102, IndiceFPG_ECF ) ;
-								Conteudo.GravaInformacao(899,103, IntToStr(Trunc(SimpleRoundTo( Valor * 100 ,0))) );
-								Conteudo.GravaInformacao(899,104, AHeader );
-								Conteudo.GravaInformacao(899,130, 'IMPRIMINDO...' ) ;
+								Conteudo.GravaInformacao(899, CTEF_RESP_HEADER, AHeader ) ;
+								Conteudo.GravaInformacao(899, CTEF_RESP_ID, IntToStr(fpIDSeq) ) ;
+								Conteudo.GravaInformacao(899, CTEF_RESP_DOCTO_VINCULADO, IndiceFPG_ECF ) ;
+								Conteudo.GravaInformacao(899, CTEF_RESP_VALOR_TRANSACAO, IntToStr(Trunc(SimpleRoundTo( Valor * 100 ,0))) );
+								Conteudo.GravaInformacao(899, CTEF_RESP_REDE, AHeader );
+								Conteudo.GravaInformacao(899, CTEF_RESP_TEXTO_OPERADOR, 'IMPRIMINDO...' ) ;
 
 								Resp.TipoGP := fpTipo;
 							end;

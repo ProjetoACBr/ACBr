@@ -115,10 +115,10 @@ var
   s, sjs: String;
   js: TACBrJSONObject;
 begin
-  fpCNFEnviado := (UpperCase(Conteudo.LeInformacao(899,1).AsString) = 'S');
-  fpHeader := Conteudo.LeInformacao(899,100).AsString;
+  fpCNFEnviado := (UpperCase(Conteudo.LeInformacao(899, CTEF_RESP_CONFIRMADO).AsString) = 'S');
+  fpHeader := Conteudo.LeInformacao(899, CTEF_RESP_HEADER).AsString;
   Confirmar := False;
-  sjs := Conteudo.LeInformacao(899,200).AsString;
+  sjs := Conteudo.LeInformacao(899, CTEF_RESP_JSON).AsString;
   js := TACBrJSONObject.Parse(sjs);
   try
     Sucesso := js.AsBoolean['result'];
@@ -211,7 +211,7 @@ begin
   with fpACBrTEFAPI.UltimaRespostaTEF do
   begin
     Clear;
-    Conteudo.GravaInformacao(899,200, fUltimaResposta);
+    Conteudo.GravaInformacao(899, CTEF_RESP_JSON, fUltimaResposta);
     DocumentoVinculado := fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao;
     if OperacaoEmAndamento in [tefmtdPagamento, tefmtdCancelamento] then
       CNFEnviado := True;

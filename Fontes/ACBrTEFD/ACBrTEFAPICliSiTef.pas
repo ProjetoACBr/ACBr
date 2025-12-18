@@ -64,6 +64,7 @@ const
   CPARAM_TipoComunicacaoExterna = 'TipoComunicacaoExterna';
   CPARAM_TokenRegistro = 'TokenRegistro';
   CPARAM_ExibeMsgOperadorPinpad = 'ExibeMsgOperadorPinpad';
+  CPARAM_DevolveStringQRCode = 'DevolveStringQRCode';
 
   CPARAM_CONT_ENCERRA = -1;
   CPARAM_CONT_CONTINUA = 0;
@@ -71,6 +72,7 @@ const
   CPARAM_CONT_CANCELA = 2;
   CPARAM_CONT_CONTINUA_SEM_COLETA = 10000;
 
+  CRET_SUCESSO = 0;
   CRET_ITERATIVO_CONTINUA = 10000;
 
 // https://dev.softwareexpress.com.br/docs/clisitef/clisitef_documento_principal/
@@ -83,8 +85,6 @@ type
   private
     fIniciouRequisicao: Boolean;
     fUltimoRetornoAPI: Integer;
-    fReimpressao: Boolean;
-    fCancelamento: Boolean;
     fDocumentosFinalizados: String;
     fParamAdicConfig: TACBrTEFParametros;
     fParamAdicFinalizacao: TACBrTEFParametros;
@@ -98,6 +98,7 @@ type
     fFinalizarTransacaoIndividual: Boolean;
   private
     function ExecutarTransacaoSiTef(Funcao: Integer; Valor: Double): Boolean;
+
     procedure FazerRequisicaoSiTef(Funcao: Integer; Valor: Double);
     procedure ContinuarRequisicaoSiTef;
     procedure FinalizarTransacaoSiTef(Confirma: Boolean; const DocumentoVinculado: String = '';
@@ -168,7 +169,7 @@ type
     property TEFCliSiTefAPI: TACBrTEFCliSiTefAPI read fTEFCliSiTefAPI;
 
     property OperacaoVenda: Integer read fOperacaoVenda
-      write fOperacaoVenda default CSITEF_OP_Venda;
+      write fOperacaoVenda default CSITEF_OP_Pagamento;
     property OperacaoAdministrativa: Integer read fOperacaoAdministrativa
       write fOperacaoAdministrativa default CSITEF_OP_Administrativo;
     property OperacaoCancelamento: Integer read fOperacaoCancelamento
@@ -204,13 +205,13 @@ begin
 
   fpTEFRespClass := TACBrTEFRespCliSiTef;
 
-  fOperacaoVenda := CSITEF_OP_Venda;
+  fOperacaoVenda := CSITEF_OP_Pagamento;
   fOperacaoAdministrativa := CSITEF_OP_Administrativo;
   fOperacaoCancelamento := CSITEF_OP_Cancelamento;
 
   fIniciouRequisicao := False;
   fDocumentosFinalizados := '';
-  fUltimoRetornoAPI := 0;
+  fUltimoRetornoAPI := CRET_SUCESSO;
   fAutorizador := '';
   fFinalizarTransacaoIndividual := False;
 
@@ -338,7 +339,7 @@ begin
   end;
 
   // https://dev.softwareexpress.com.br/en/docs/clisitef-interface-android/habilitando_comunicacao_tls_clisitef
-  if (fpACBrTEFAPI.DadosTerminal.Ambiente = ambProducao) then
+  if (Ambiente = ambProducao) then
   begin
     TEFParam := TACBrTEFParametros.Create;
     try
@@ -402,24 +403,33 @@ begin
   inherited;
 end;
 
-function TACBrTEFAPIClassCliSiTef.ExecutarTransacaoSiTef(Funcao: Integer;
-  Valor: Double): Boolean;
+function TACBrTEFAPIClassCliSiTef.ExecutarTransacaoSiTef(Funcao: Integer; Valor: Double): Boolean;
+var
+  s: String;
 begin
   FazerRequisicaoSiTef(Funcao, Valor);
   if (fUltimoRetornoAPI = CRET_ITERATIVO_CONTINUA) then
     ContinuarRequisicaoSiTef;
 
-  Result := (fUltimoRetornoAPI = 0);
+  Result := (fUltimoRetornoAPI = CRET_SUCESSO);
+
+  fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_FUNCAO, IntToStr(Funcao));
+  s := Trim(fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.LeInformacao(899, CTEF_RESP_CONFIRMAR).AsString);
+  if (s = '') then
+    fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_CONFIRMAR,
+      IfThen(OperacaoEmAndamento in [tefmtdPagamento, tefmtdCancelamento], 'True', 'False') );
 
   if Result then
-    fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899,103, IntToStr(Trunc(SimpleRoundTo( Valor * 100 ,0))) );
+    fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_VALOR_TRANSACAO, IntToStr(Trunc(SimpleRoundTo( Valor * 100 ,0))) );
 
-  fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, 102, fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao);
-  fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, 110, IntToStr(Funcao));
+  //if (OperacaoEmAndamento = tefmtdPagamento) then
+  //begin
+  //  fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_DOCTO_VINCULADO, fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao);
+  //  fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_DATA_HORA, FormatDateTime('YYYYMMDDHHNNSS', fpACBrTEFAPI.RespostasTEF.DataHoraIdentificador) );
+  //end;
 end;
 
-procedure TACBrTEFAPIClassCliSiTef.FazerRequisicaoSiTef(Funcao: Integer;
-  Valor: Double);
+procedure TACBrTEFAPIClassCliSiTef.FazerRequisicaoSiTef(Funcao: Integer; Valor: Double);
 Var
   ValorStr, DataStr, HoraStr, DoctoStr, OperadorStr, ParamAdicStr: AnsiString;
   DataHora: TDateTime;
@@ -430,44 +440,52 @@ begin
   if fIniciouRequisicao then
     fpACBrTEFAPI.DoException(ACBrStr(CACBrTEFCliSiTef_NaoConcluido));
 
-  //TODO: Verificar se precisa disso (não consta no manual atual)
-  //if (pos('{TipoTratamento=4}',ListaRestricoes) = 0) and
-  //   (pos(AHeader,'CRT,CHQ') > 0 ) and
-  //   SuportaDesconto then
-  //begin
-  //   ListaRestricoes := ListaRestricoes + '{TipoTratamento=4}';
-  //end;
+  if (OperacaoEmAndamento = tefmtdPagamento) then
+  begin
+    DataHora := fpACBrTEFAPI.RespostasTEF.DataHoraIdentificador;
+    DoctoStr := fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao;
+  end
+  else
+  begin
+    DataHora := Now;
+    DoctoStr := FormatDateTime('YYYYMMDDHHNNSS', DataHora );
+  end;
 
-   DataHora := Now;
-   DataStr := FormatDateTime('YYYYMMDD', DataHora );
-   HoraStr := FormatDateTime('HHNNSS', DataHora );
-   ValorStr := FormatFloatBr( Valor );
-   if (fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao = '') then
-     fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao := DataStr + HoraStr;
+  DataStr := FormatDateTime('YYYYMMDD', DataHora );
+  HoraStr := FormatDateTime('HHNNSS', DataHora );
+  ValorStr := FormatFloatBr( Valor );
+  OperadorStr := fpACBrTEFAPI.DadosTerminal.Operador;
 
-   DoctoStr := fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao;
-   OperadorStr := fpACBrTEFAPI.DadosTerminal.Operador;
-   if not ParamTemChave(ParamAdicFuncao, CPARAM_ExibeMsgOperadorPinpad) then
-     if fpACBrTEFAPI.DadosAutomacao.AutoAtendimento then
-       ParamAdicFuncao.Values[CPARAM_ExibeMsgOperadorPinpad] := '1';
+  // Só tem a tela do PinPad ?
+  if fpACBrTEFAPI.DadosAutomacao.AutoAtendimento then
+    if not ParamTemChave(ParamAdicFuncao, CPARAM_ExibeMsgOperadorPinpad) then
+      ParamAdicFuncao.Values[CPARAM_ExibeMsgOperadorPinpad] := '1';
 
-   ParamAdicStr := StringReplace(Trim(ParamAdicFuncao.Text), sLineBreak, ';', [rfReplaceAll]);
-   fDocumentosFinalizados := '' ;
+  // Exibe QRCode na tela ?
+  // https://dev.softwareexpress.com.br/docs/clisitef-interface-aplicacao/parametro-adicional-tratamento-de-qrcode
+  if (TACBrTEFAPI(fpACBrTEFAPI).ExibicaoQRCode = qrapiExibirAplicacao) then
+    if not ParamTemChave(ParamAdicFuncao, CPARAM_DevolveStringQRCode) then
+      ParamAdicFuncao.Values[CPARAM_DevolveStringQRCode] := '1';
 
-   fpACBrTEFAPI.UltimaRespostaTEF.Clear;
-   fUltimoRetornoAPI := fTEFCliSiTefAPI.IniciaFuncaoSiTefInterativo(
-                          Funcao,
-                          PAnsiChar(ValorStr),
-                          PAnsiChar(DoctoStr),
-                          PAnsiChar(DataStr),
-                          PAnsiChar(HoraStr),
-                          PAnsiChar(OperadorStr),
-                          PAnsiChar(ParamAdicStr) ) ;
+  ParamAdicStr := StringReplace(Trim(ParamAdicFuncao.Text), sLineBreak, ';', [rfReplaceAll]);
+  fDocumentosFinalizados := '' ;
 
-   fIniciouRequisicao := True;
-   fCancelamento := False ;
-   fReimpressao := False;
-   fParamAdicFuncao.Clear;
+  fpACBrTEFAPI.UltimaRespostaTEF.Clear;
+  fUltimoRetornoAPI := fTEFCliSiTefAPI.IniciaFuncaoSiTefInterativo(
+                         Funcao,
+                         PAnsiChar(ValorStr),
+                         PAnsiChar(DoctoStr),
+                         PAnsiChar(DataStr),
+                         PAnsiChar(HoraStr),
+                         PAnsiChar(OperadorStr),
+                         PAnsiChar(ParamAdicStr) ) ;
+
+  fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_DOCTO_VINCULADO, DoctoStr);
+  fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.GravaInformacao(899, CTEF_RESP_DATA_HORA, FormatDateTime('YYYYMMDDHHNNSS', DataHora ) );
+
+  fIniciouRequisicao := True;
+  fParamAdicFuncao.Clear;
+  fParamAdicFinalizacao.Clear;
 end;
 
 procedure TACBrTEFAPIClassCliSiTef.ContinuarRequisicaoSiTef;
@@ -495,8 +513,6 @@ var
 
 begin
   fIniciouRequisicao := True ;
-  fCancelamento := False ;
-  fReimpressao := False;
   EhCarteiraDigital := False;
   ContinuaNavegacao := CPARAM_CONT_CONTINUA;
   RespBuffer := '';
@@ -544,12 +560,12 @@ begin
                 RespCliSiTef.GravaInformacao(TipoCampo, 'True'); //Selecionou Credito;
               29:
                 RespCliSiTef.GravaInformacao(TipoCampo, 'True'); //Cartão Digitado;
-              56, 57, 58:
-                fReimpressao := True;
+              56, 57, 58:  // Reimpressao, NÃO deve confirmar
+                RespCliSiTef.Conteudo.GravaInformacao(899, CTEF_RESP_CONFIRMAR, 'False');
               107:
                 EhCarteiraDigital := True;
-              110:
-                fCancelamento:= True;
+              110:  // Cancelamento, precisa confirmar
+                RespCliSiTef.Conteudo.GravaInformacao(899, CTEF_RESP_CONFIRMAR, 'True');
             end;
           end;
 
@@ -691,6 +707,7 @@ begin
     until (fUltimoRetornoAPI <> CRET_ITERATIVO_CONTINUA);
 
   finally
+    fRespostasPorTipo.Clear;
     fIniciouRequisicao := False;
     Freemem(pBuffer);
     DoExibirMensagem('', telaTodas, -1);
@@ -703,37 +720,28 @@ Var
   DataStr, HoraStr, DoctoStr, ParamAdic: AnsiString;
   Finalizacao: SmallInt;
 begin
-   fRespostasPorTipo.Clear;
-   fIniciouRequisicao := False;
+  if (DocumentoVinculado = '') then
+    DoctoStr := fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao
+  else
+    DoctoStr := DocumentoVinculado;
 
-   // Re-Impressão não precisa de Finalização
-   if fReimpressao then
-     Exit;
-
-   // Já Finalizou este Documento por outra Transação ?
-   if (DocumentoVinculado <> '') then
-     DoctoStr := DocumentoVinculado
-   else
-     DoctoStr := fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao;
-
-   if (not fFinalizarTransacaoIndividual) and (pos(DoctoStr, fDocumentosFinalizados) > 0) then
-     Exit;
-
-  fDocumentosFinalizados := fDocumentosFinalizados + DocumentoVinculado + '|' ;
   if (DataHora = 0) then
+    DataHora := fpACBrTEFAPI.RespostasTEF.DataHoraIdentificador;
+
+  if (not fFinalizarTransacaoIndividual) then
   begin
-    // Leu com sucesso o arquivo pendente. Transações com mais de três dias são finalizadas automaticamente pela SiTef
-    if (fpACBrTEFAPI.UltimaRespostaTEF.DataHoraTransacaoComprovante > (date - 3)) then
-      DataHora := fpACBrTEFAPI.UltimaRespostaTEF.DataHoraTransacaoComprovante
-    else
-      DataHora := Now;
+    // Já Finalizou este Documento por outra Transação ?
+    if (pos(DoctoStr, fDocumentosFinalizados) > 0) then
+      Exit;
+
+    fDocumentosFinalizados := fDocumentosFinalizados + DocumentoVinculado + '|' ;
   end;
 
   // acertar quebras de linhas e abertura e fechamento da lista de parametros
   ParamAdic := StringReplace(Trim(ParamAdicFinalizacao.Text), sLineBreak, '', [rfReplaceAll]);
   DataStr := FormatDateTime('YYYYMMDD', DataHora);
   HoraStr := FormatDateTime('HHNNSS', DataHora);
-  Finalizacao := ifthen(Confirma or fCancelamento, 1, 0);
+  Finalizacao := IfThen(Confirma, 1, 0);
 
   fTEFCliSiTefAPI.FinalizaFuncaoSiTefInterativo( Finalizacao,
                                                  PAnsiChar(DoctoStr),
@@ -986,11 +994,10 @@ begin
   //D Verificar segurança de log abaixo
   fpACBrTEFAPI.GravarLog( fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.Conteudo.Text );
   fpACBrTEFAPI.UltimaRespostaTEF.ViaClienteReduzida := fpACBrTEFAPI.DadosAutomacao.ImprimeViaClienteReduzida;
-  fpACBrTEFAPI.UltimaRespostaTEF.Sucesso := (fUltimoRetornoAPI = 0);
-
+  fpACBrTEFAPI.UltimaRespostaTEF.Sucesso := (fUltimoRetornoAPI = CRET_SUCESSO);
 
   fpACBrTEFAPI.UltimaRespostaTEF.ConteudoToProperty;
-  if (fUltimoRetornoAPI <> 0) then
+  if (fUltimoRetornoAPI <> CRET_SUCESSO) then
     fpACBrTEFAPI.UltimaRespostaTEF.TextoEspecialOperador := ACBrStr(fTEFCliSiTefAPI.TraduzirErroTransacao(fUltimoRetornoAPI));
 end;
 
@@ -1035,13 +1042,15 @@ begin
       RespTEFPendente :=  TACBrTEFRespCliSiTef.Create;
       InfValor := TACBrInformacao.Create;
       try
-        RespTEFPendente.Conteudo.GravaInformacao(899,100,'CRT');
-        RespTEFPendente.Conteudo.GravaInformacao(899,102, CupomFiscal);
-        RespTEFPendente.Conteudo.GravaInformacao(899,500, NumIdent);
-        RespTEFPendente.Conteudo.GravaInformacao(105,000, DataFiscal + HoraFiscal);
+        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_HEADER,'CRT');
+        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_DOCTO_VINCULADO, CupomFiscal);
+        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_ID_PAGAMENTO, NumIdent);
+        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_DATA_HORA, DataFiscal + HoraFiscal);
+        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_CONFIRMAR, 'True');
+        RespTEFPendente.Conteudo.GravaInformacao(105, 000, DataFiscal + HoraFiscal);
         InfValor.AsFloat := ValorTransacao;
-        RespTEFPendente.Conteudo.GravaInformacao(899,103, InfValor);
-        RespTEFPendente.Conteudo.GravaInformacao(899,110, IntToStr(CSITEF_OP_ConsultarTrasPendente));
+        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_VALOR_TRANSACAO, InfValor);
+        RespTEFPendente.Conteudo.GravaInformacao(899, CTEF_RESP_FUNCAO, IntToStr(CSITEF_OP_ConsultarTrasPendente));
 
         RespTEFPendente.Finalizacao := CupomFiscal;
         RespTEFPendente.DocumentoVinculado := CupomFiscal;
@@ -1068,7 +1077,7 @@ var
 begin
   case OperacaoAdm of
     tefopPagamento:
-      Op := CSITEF_OP_Venda;
+      Op := CSITEF_OP_Pagamento;
     tefopAdministrativo:
       Op := CSITEF_OP_Administrativo;
     tefopTesteComunicacao, tefopVersao:
@@ -1122,34 +1131,28 @@ begin
   Op := fOperacaoVenda;
   case Modalidade of
     tefmpDinheiro:
-      Op := 0;    // Pagamento genérico
+      Op := CSITEF_OP_Pagamento;
     tefmpCheque:
-      Op := 1;    // Cheque
+      Op := CSITEF_OP_Cheque;
     tefmpCarteiraVirtual:
-      Op := 122;  // Venda via Carteira Digital
+      Op := CSITEF_OP_Carteira_Digitais_PIX;  // Venda via Carteira Digital
   else
     if (CartoesAceitos = []) then
-      Op := 0   // Pagamento genérico.
+      Op := CSITEF_OP_Pagamento
     else if (teftcCredito in CartoesAceitos) and (teftcDebito in CartoesAceitos) then
-      Op := 0   // Pagamento genérico.
+      Op := CSITEF_OP_Pagamento
     else if (teftcDebito in CartoesAceitos) then
-      Op := 2   // Débito
+      Op := CSITEF_OP_Debito
     else if (teftcCredito in CartoesAceitos) then
-      Op := 3   // Crédito
+      Op := CSITEF_OP_Credito
     else if (teftcVoucher in CartoesAceitos) then
-      Op := 5   // Cartão Benefício
+      Op := CSITEF_OP_Cartao_Beneficio
     else if (teftcFrota in CartoesAceitos) then
-      Op := 7   // Cartão Combustível
+      Op := CSITEF_OP_Cartao_Combustivel
     else if (teftcPrivateLabel in CartoesAceitos) then
-      Op := 15  // Venda com cartão Gift
+      Op := CSITEF_OP_Cartao_Gift
     else
-      Op := 0;  // Pagamento genérico.
-  end;
-
-  if (TACBrTEFAPI(fpACBrTEFAPI).ExibicaoQRCode = qrapiExibirAplicacao) then
-  begin
-    if (pos('DevolveStringQRCode', fParamAdicConfig.Text) = 0) then
-      fParamAdicConfig.Add('{DevolveStringQRCode=1}');
+      Op := CSITEF_OP_Pagamento;
   end;
 
   Restricoes := '';
@@ -1173,12 +1176,12 @@ begin
   if (Restricoes = '') then
   begin
     // Aplicando Restriçoes conhecidas internamente
-    if (Op <> 0) and (Op <> 1) then       // 0-Generico, 1-Cheque
+    if (Op <> CSITEF_OP_Pagamento) and (Op <> CSITEF_OP_Cheque) then
       Restricoes := Restricoes + CSITEF_RestricoesCheque + ';';
 
-    if (Op = 2) then       // 2-Débito
+    if (Op = CSITEF_OP_Debito) then
       Restricoes := Restricoes + CSITEF_RestricoesConsultaDebito + ';'
-    else if (Op = 3) then  // 3-Crédito
+    else if (Op = CSITEF_OP_Credito) then
       Restricoes := Restricoes + CSITEF_RestricoesConsultaCredito + ';';
 
     if (Financiamento = tefmfAVista) then
@@ -1187,6 +1190,11 @@ begin
       Restricoes := Restricoes + CSITEF_RestricoesPreDatado + ';';
       Restricoes := Restricoes + CSITEF_RestricoesParcelaAministradora + ';';
       Restricoes := Restricoes + CSITEF_RestricoesParcelaEstabelecimento + ';';
+      if (Op = CSITEF_OP_Pagamento) then  // 0-Generico
+      begin
+        Restricoes := Restricoes + CSITEF_RestricoesConsultaDebito + ';';
+        Restricoes := Restricoes + CSITEF_RestricoesConsultaCredito + ';';
+      end;
     end
     else if (Financiamento = tefmfParceladoEmissor) then
     begin
@@ -1266,24 +1274,26 @@ end;
 procedure TACBrTEFAPIClassCliSiTef.FinalizarTransacao(const Rede, NSU,
   CodigoFinalizacao: String; AStatus: TACBrTEFStatusTransacao);
 var
-  Confirma: Boolean;
+  Confirma, Finalizar: Boolean;
   i, p: Integer;
   DocumentoVinculado: String;
   DataHora: TDateTime;
 begin
-  // CliSiTEF não usa Rede, NSU e Finalizacao
   DocumentoVinculado := '';
   DataHora := 0;
   p := -1;
+  Finalizar := True;
   Confirma := (AStatus in [tefstsSucessoAutomatico, tefstsSucessoManual]);
-  if (NSU = '') and (CodigoFinalizacao <> '') then  // capturado por 130 em CarregarRespostasPendentes ?
+
+  if (NSU = '') and (CodigoFinalizacao <> '') then  // capturado por "CSITEF_OP_ConsultarTrasPendente" em CarregarRespostasPendentes ?
   begin
     DocumentoVinculado := CodigoFinalizacao;
     for i := 0 to fpACBrTEFAPI.RespostasTEF.Count-1 do
     begin
       if fpACBrTEFAPI.RespostasTEF[i].DocumentoVinculado = DocumentoVinculado then
       begin
-        DataHora := fpACBrTEFAPI.RespostasTEF[i].DataHoraTransacaoComprovante;
+        DataHora := fpACBrTEFAPI.RespostasTEF[i].LeInformacao(899, CTEF_RESP_DATA_HORA).AsTimeStampSQL;
+        Finalizar := (fpACBrTEFAPI.RespostasTEF[i].LeInformacao(899, CTEF_RESP_CONFIRMAR).AsString = 'True');
         Break;
       end;
     end;
@@ -1294,17 +1304,21 @@ begin
     if (i >= 0) then
     begin
       DocumentoVinculado := fpACBrTEFAPI.RespostasTEF[i].DocumentoVinculado;
-      DataHora := fpACBrTEFAPI.RespostasTEF[i].DataHoraTransacaoComprovante;
+      DataHora := fpACBrTEFAPI.RespostasTEF[i].LeInformacao(899, CTEF_RESP_DATA_HORA).AsTimeStampSQL;
+      Finalizar := (fpACBrTEFAPI.RespostasTEF[i].LeInformacao(899, CTEF_RESP_CONFIRMAR).AsString = 'True');
 
       if fFinalizarTransacaoIndividual then
         p := ParamAdicFinalizacao.Add('{NumeroPagamentoCupom='+IntToStr(fpACBrTEFAPI.RespostasTEF[i].IdPagamento)+'}');
     end;
   end;
 
-  FinalizarTransacaoSiTef(Confirma, DocumentoVinculado, DataHora);
-  
+  if Finalizar then
+    FinalizarTransacaoSiTef(Confirma, DocumentoVinculado, DataHora);
+
   if (p >= 0) then
     ParamAdicFinalizacao.Delete(p);
+
+  fIniciouRequisicao := False;
 end;
 
 procedure TACBrTEFAPIClassCliSiTef.ResolverTransacaoPendente(
@@ -1350,6 +1364,7 @@ function TACBrTEFAPIClassCliSiTef.CancelarTransacao(const NSU,
   Valor: Double; const CodigoFinalizacao: string; const Rede: string): Boolean;
 var
    ValorStr: String;
+   Op: Integer;
 begin
   ValorStr := FormatFloat('0.00',Valor);
   fRespostasPorTipo.ValueInfo[146] := ValorStr;
@@ -1357,7 +1372,16 @@ begin
   fRespostasPorTipo.ValueInfo[515] := FormatDateTime('DDMMYYYY',DataHoraTransacao) ;
   fRespostasPorTipo.ValueInfo[516] := NSU ;
 
-  Result := ExecutarTransacaoSiTef(fOperacaoCancelamento, Valor);
+  Op := fOperacaoCancelamento;
+  if (CodigoFinalizacao <> '') then
+  begin
+    case StrToIntDef(Copy(CodigoFinalizacao, 1, 2), 0) of
+      01: Op := CSITEF_OP_Cancelamento_Debito;
+      02: Op := CSITEF_OP_Cancelamento_Credito;
+    end;
+  end;
+
+  Result := ExecutarTransacaoSiTef(Op, Valor);
 end;
 
 procedure TACBrTEFAPIClassCliSiTef.ExibirMensagemPinPad(const MsgPinPad: String);
