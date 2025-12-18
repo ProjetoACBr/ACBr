@@ -770,7 +770,7 @@ begin
         IBSCBS.indFinal := ifSim;
         IBSCBS.cIndOp := '123456';
         // togNenhum, togFornecimento, togRecebimentoPag
-        IBSCBS.tpOper := togNenhum;
+        IBSCBS.tpOper := TtpOperGovNFSe.togNenhum;
 
         // Grupo de NFS-e referenciadas.
         {
@@ -1931,8 +1931,8 @@ begin
         IBSCBS.finNFSe := fnfsRegular;
         IBSCBS.indFinal := ifSim;
         IBSCBS.cIndOp := '123456';
-        // togNenhum, togFornecimento, togRecebimentoPag
-        IBSCBS.tpOper := togNenhum;
+        // TtpOperGovNFSe.togNenhum, togFornecimento, togRecebimentoPag
+        IBSCBS.tpOper := TtpOperGovNFSe.togNenhum;
 
         // Grupo de NFS-e referenciadas.
         {
