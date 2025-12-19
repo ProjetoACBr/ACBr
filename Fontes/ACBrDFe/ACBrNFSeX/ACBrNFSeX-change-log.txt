@@ -42,6 +42,22 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+19/12/2025
+-- ACBrNFSeXServicos --
+[*] ACBr-8605 Criada a seção AbasePN para conter as URLs de homologação e produção a ser utilizadas
+    pelo provedor ABase em sua API própria (falta implementar a API própria no componente).
+   Por: Eduardo Zils
+[*] ACBr-8603 A cidade Lagoa da Prata/MG mudou de versão e URLs, o provedor continua o mesmo.
+   Por: João Antônio
+[*] ACBr-8602 A cidade Rio das Antas/SC mudou de versão e URLs, o provedor continua o mesmo.
+   Por: Wesley Lamb
+[*] ACBr-8601 A cidade Criciúma/SC mudou para o PadraoNacional.
+   Por: BluData
+[*] ACBr-8598 Incluída  URL de homologação da cidade de Mercedes/PR.
+   Por: Arthur Haupt Pacheco
+[*] ACBr-8594 Correção na URLs da cidade de Cáceres/MT, o provedor continua o mesmo.
+   Por: Fernando Henrique
+
 18/12/2025
 -- ACBrNFSeXServicos --
 [*] Correção nas novas URLs o provedor RLZ
