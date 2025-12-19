@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/12/2025
+-- ACBrNFSeXConversao/ACBrNFSeXProviderBase --
+[*] ACBr-8614 Incluído a Natureza da Operação 305.
+   Por: Gustavo Totta
 -- ACBrNFSeXClass/ACBrNFSeXLerXml/ACBrNFSeXLerXml_ABRASFv2/Tecnos.GravarXml --
 [*] ACBr-8611 Alteração visando gerar e ler a tag DataFatoGerador.
    Por: Italo Giurizzato Junior

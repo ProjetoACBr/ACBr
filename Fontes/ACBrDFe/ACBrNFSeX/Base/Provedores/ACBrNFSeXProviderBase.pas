@@ -1746,6 +1746,7 @@ begin
     no121 : Result := '121 - ISS Fixo (Sociedade de Profissionais)';
     no201 : Result := '201 - ISS retido pelo tomador ou intermediário do serviço';
     no301 : Result := '301 - Operação imune, isenta ou não tributada';
+    no305 : Result := '305 - Imunidade Tributária';
     no501 : Result := '501 - ISS devido no município (Simples Nacional)';
     no511 : Result := '511 - Prestação de serviço no município - iss mensal sem retenção na fonte';
     no512 : Result := '512 - Prestação de serviço no município - iss mensal com retenção na fonte';
