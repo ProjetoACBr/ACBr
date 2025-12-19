@@ -2452,6 +2452,7 @@ begin
       end;
     end;
 
+    QRCodeLateral := FDANFEClassOwner.ImprimeQRCodeLateral;
     AddBand(btData, 10, BlocoCabecalho);
     AddBand(btData, 10, BlocoMensagemFiscal);
     if ExibirItens then
