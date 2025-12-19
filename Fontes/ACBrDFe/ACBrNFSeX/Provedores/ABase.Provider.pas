@@ -38,10 +38,17 @@ interface
 
 uses
   SysUtils, Classes,
-  ACBrXmlBase, ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
-  ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
+  ACBrBase,
+  ACBrXmlBase,
+  ACBrXmlDocument,
+  ACBrNFSeXClass,
+  ACBrNFSeXConversao,
+  ACBrNFSeXGravarXml,
+  ACBrNFSeXLerXml,
   ACBrNFSeXProviderABRASFv2,
-  ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse;
+  ACBrNFSeXWebserviceBase,
+  ACBrNFSeXWebservicesResponse,
+  PadraoNacional.Provider;
 
 type
   TACBrNFSeXWebserviceABase201 = class(TACBrNFSeXWebserviceSoap11)
@@ -66,13 +73,52 @@ type
     procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
   end;
 
+  TACBrNFSeXWebserviceABaseAPIPropria = class(TACBrNFSeXWebserviceRest)
+  protected
+    procedure SetHeaders(aHeaderReq: THTTPHeader); override;
+
+  public
+    function GerarNFSe(const ACabecalho, AMSG: string): string; override;
+
+    function TratarXmlRetornado(const aXML: string): string; override;
+  end;
+
+  TACBrNFSeProviderABaseAPIPropria = class(TACBrNFSeProviderPadraoNacional)
+  private
+
+  protected
+    procedure Configuracao; override;
+
+    function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
+    function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
+    function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+
+    function VerificarAlerta(const ACodigo, AMensagem, ACorrecao: string): Boolean;
+    function VerificarErro(const ACodigo, AMensagem, ACorrecao: string): Boolean;
+
+    procedure ProcessarMensagemErros(RootNode: TACBrXmlNode;
+                                     Response: TNFSeWebserviceResponse;
+                                     const AListTag: string = 'Erros';
+                                     const AMessageTag: string = 'Erro'); override;
+
+    procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
+
+    procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
+  end;
+
 implementation
 
 uses
-  ACBrUtil.XMLHTML, ACBrUtil.Strings, ACBrDFeException,
+  ACBrUtil.XMLHTML,
+  ACBrUtil.Strings,
+  ACBrDFeException,
   ACBrDFe.Conversao,
-  ACBrNFSeXConsts, ACBrNFSeX, ACBrNFSeXNotasFiscais,
-  ABase.GravarXml, ABase.LerXml;
+  ACBrNFSeXConsts,
+  ACBrNFSeX,
+  ACBrNFSeXNotasFiscais,
+  ACBrNFSeXConfiguracoes,
+  ABase.GravarXml,
+  ABase.LerXml;
 
 { TACBrNFSeXWebserviceABase201 }
 
@@ -333,6 +379,295 @@ begin
 
   Result := ParseText(Result);
   Result := RemoverDeclaracaoXML(Result);
+end;
+
+{ TACBrNFSeProviderABaseAPIPropria }
+
+procedure TACBrNFSeProviderABaseAPIPropria.Configuracao;
+begin
+  inherited Configuracao;
+
+  with ConfigGeral do
+  begin
+    ConsultaLote := False;
+    FormatoArqEnvio := tfaXml;
+    FormatoArqRetorno := tfaXml;
+    FormatoArqEnvioSoap := tfaXml;
+    FormatoArqRetornoSoap := tfaXml;
+  end;
+end;
+
+function TACBrNFSeProviderABaseAPIPropria.CriarGeradorXml(
+  const ANFSe: TNFSe): TNFSeWClass;
+begin
+  Result := TNFSeW_ABaseAPIPropria.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderABaseAPIPropria.CriarLeitorXml(
+  const ANFSe: TNFSe): TNFSeRClass;
+begin
+  Result := TNFSeR_ABaseAPIPropria.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderABaseAPIPropria.CriarServiceClient(
+  const AMetodo: TMetodo): TACBrNFSeXWebservice;
+var
+  URL: string;
+begin
+  URL := GetWebServiceURL(AMetodo);
+
+  if URL <> '' then
+  begin
+    URL := URL + Path;
+
+    Result := TACBrNFSeXWebserviceABaseAPIPropria.Create(FAOwner, AMetodo, URL,
+      Method, 'application/xml');
+  end
+  else
+  begin
+    if ConfigGeral.Ambiente = taProducao then
+      raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
+    else
+      raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
+end;
+
+function TACBrNFSeProviderABaseAPIPropria.VerificarAlerta(const ACodigo,
+  AMensagem, ACorrecao: string): Boolean;
+begin
+  Result := ((AMensagem <> '') or (ACorrecao <> '')) and (Pos('L000', ACodigo) > 0);
+end;
+
+function TACBrNFSeProviderABaseAPIPropria.VerificarErro(const ACodigo,
+  AMensagem, ACorrecao: string): Boolean;
+begin
+  Result := ((AMensagem <> '') or (ACorrecao <> '')) and (Pos('L000', ACodigo) = 0);
+end;
+
+procedure TACBrNFSeProviderABaseAPIPropria.ProcessarMensagemErros(
+  RootNode: TACBrXmlNode; Response: TNFSeWebserviceResponse; const AListTag,
+  AMessageTag: string);
+var
+  I: Integer;
+  ANode: TACBrXmlNode;
+  ANodeArray: TACBrXmlNodeArray;
+  AAlerta: TNFSeEventoCollectionItem;
+  Codigo, Mensagem: string;
+
+procedure ProcessarErro(ErrorNode: TACBrXmlNode; const ACodigo, AMensagem: string);
+var
+  Item: TNFSeEventoCollectionItem;
+  Correcao: string;
+begin
+  Correcao := ObterConteudoTag(ErrorNode.Childrens.FindAnyNs('Correcao'), tcStr);
+
+  if (ACodigo = '') and (AMensagem = '') then
+    Exit;
+
+  if VerificarAlerta(ACodigo, AMensagem, Correcao) then
+    Item := Response.Alertas.New
+  else if VerificarErro(ACodigo, AMensagem, Correcao) then
+    Item := Response.Erros.New
+  else
+    Exit;
+
+  Item.Codigo := ACodigo;
+  Item.Descricao := AMensagem;
+  Item.Correcao := Correcao;
+end;
+
+procedure ProcessarErros;
+var
+  I: Integer;
+begin
+  if Assigned(ANode) then
+  begin
+    ANodeArray := ANode.Childrens.FindAllAnyNs(AMessageTag);
+
+    if Assigned(ANodeArray) then
+    begin
+      for I := Low(ANodeArray) to High(ANodeArray) do
+      begin
+        Codigo := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Codigo'), tcStr);
+        Mensagem := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Descricao'), tcStr);
+
+        ProcessarErro(ANodeArray[I], Codigo, Mensagem);
+      end;
+    end
+    else
+    begin
+      Codigo := ObterConteudoTag(ANode.Childrens.FindAnyNs('Codigo'), tcStr);
+      Mensagem := ObterConteudoTag(ANode.Childrens.FindAnyNs('Descricao'), tcStr);
+
+      ProcessarErro(ANode, Codigo, Mensagem);
+    end;
+  end;
+end;
+
+begin
+  ANode := RootNode.Childrens.FindAnyNs(AListTag);
+
+  ProcessarErros;
+
+  ANode := RootNode.Childrens.FindAnyNs('Erros');
+
+  if Assigned(ANode) then
+  begin
+    ANodeArray := ANode.Childrens.FindAllAnyNs(AMessageTag);
+
+    if Assigned(ANodeArray) then
+    begin
+      for I := Low(ANodeArray) to High(ANodeArray) do
+      begin
+        Mensagem := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Descricao'), tcStr);
+
+        if Mensagem <> '' then
+        begin
+          AAlerta := Response.Alertas.New;
+          AAlerta.Codigo := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Codigo'), tcStr);
+          AAlerta.Descricao := Mensagem;
+          AAlerta.Correcao := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Correcao'), tcStr);
+        end;
+      end;
+    end
+    else
+    begin
+      Mensagem := ObterConteudoTag(ANode.Childrens.FindAnyNs('Erro'), tcStr);
+
+      if Mensagem <> '' then
+      begin
+        AAlerta := Response.Alertas.New;
+        AAlerta.Codigo := ObterConteudoTag(ANode.Childrens.FindAnyNs('Codigo'), tcStr);
+        AAlerta.Descricao := Mensagem;
+        AAlerta.Correcao := ObterConteudoTag(ANode.Childrens.FindAnyNs('Correcao'), tcStr);
+      end;
+    end;
+  end;
+end;
+
+procedure TACBrNFSeProviderABaseAPIPropria.TratarRetornoEmitir(
+  Response: TNFSeEmiteResponse);
+var
+  Document: TACBrXmlDocument;
+  AErro: TNFSeEventoCollectionItem;
+  ANode: TACBrXmlNode;
+begin
+  Document := TACBrXmlDocument.Create;
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit
+      end;
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+
+      ProcessarMensagemErros(Document.Root, Response);
+
+      ANode := Document.Root;
+
+      Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('DataHoraRecebimento'), tcDatHor);
+      Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('Protocolo'), tcStr);
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
+  end;
+end;
+
+procedure TACBrNFSeProviderABaseAPIPropria.ValidarSchema(
+  Response: TNFSeWebserviceResponse; aMetodo: TMetodo);
+begin
+  if aMetodo in [tmGerar, tmEnviarEvento] then
+  begin
+//    inherited ValidarSchema(Response, aMetodo);
+
+    Response.ArquivoEnvio := ChangeLineBreak(Response.ArquivoEnvio, '');
+
+    case aMetodo of
+      tmGerar:
+        begin
+          Path := '/recepcionardps';
+        end;
+
+      tmEnviarEvento:
+        begin
+          Response.ArquivoEnvio := '{"pedidoRegistroEventoXmlGZipB64":"' + Response.ArquivoEnvio + '"}';
+          Path := '/nfse/' + Chave + '/eventos';
+        end;
+    else
+      begin
+        Response.ArquivoEnvio := '';
+        Path := '';
+      end;
+    end;
+
+    Method := 'POST';
+  end;
+end;
+
+{ TACBrNFSeXWebserviceABaseAPIPropria }
+
+function TACBrNFSeXWebserviceABaseAPIPropria.GerarNFSe(const ACabecalho,
+  AMSG: string): string;
+var
+  Request: string;
+begin
+  FPMsgOrig := AMSG;
+
+  Request := AMSG;
+
+  Result := Executar('', Request, [], []);
+end;
+
+procedure TACBrNFSeXWebserviceABaseAPIPropria.SetHeaders(
+  aHeaderReq: THTTPHeader);
+var
+  Auth: string;
+begin
+  Auth := 'Bearer ' +
+               TConfiguracoesNFSe(FPConfiguracoes).Geral.Emitente.WSChaveAcesso;
+
+  aHeaderReq.AddHeader('Authorization', Auth);
+end;
+
+function TACBrNFSeXWebserviceABaseAPIPropria.TratarXmlRetornado(
+  const aXML: string): string;
+var
+  aMsg: string;
+begin
+  Result := inherited TratarXmlRetornado(aXML);
+
+  Result := RemoverCaracteresDesnecessarios(Result);
+  Result := ParseText(Result);
+  Result := RemoverIdentacao(Result);
+  Result := RemoverDeclaracaoXML(Result);
+
+  Result := RemoverPrefixosDesnecessarios(Result);
+
+  if Pos('<Erro>', Result) = 1 then
+  begin
+    aMsg := LerTagXML(Result, 'Erro');
+    Result := '<a>' +
+                '<Erros>' +
+                  '<Erro>' +
+                    '<Codigo></Codigo>' +
+                    '<Descricao>' + aMsg + '</Descricao>' +
+                  '</Erro>' +
+                '</Erros>' +
+              '</a>';
+  end;
 end;
 
 end.

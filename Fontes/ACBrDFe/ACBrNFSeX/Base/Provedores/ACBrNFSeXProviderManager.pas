@@ -224,7 +224,13 @@ begin
           end;
         end;
 
-      proABase: Result := TACBrNFSeProviderABase201.Create(ACBrNFSe);
+      proABase:
+        begin
+          if APIPropria then
+            Result := TACBrNFSeProviderABaseAPIPropria.Create(ACBrNFSe)
+          else
+            Result := TACBrNFSeProviderABase201.Create(ACBrNFSe);
+        end;
 
       proActcon:
         begin

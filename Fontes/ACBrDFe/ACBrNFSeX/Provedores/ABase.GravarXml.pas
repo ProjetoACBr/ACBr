@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXGravarXml_ABRASFv2;
+  ACBrNFSeXGravarXml_ABRASFv2,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_ABase201 }
@@ -46,6 +47,13 @@ type
   TNFSeW_ABase201 = class(TNFSeW_ABRASFv2)
   protected
     procedure Configuracao; override;
+
+  end;
+
+  { TNFSeW_ABaseAPIPropria }
+
+  TNFSeW_ABaseAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
 
   end;
 
