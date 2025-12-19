@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/12/2025
+-- Publica.Provider --
+[*] ACBr-8616 Alterado o método Configuração para assinar o Rps.
+   Por: leonardo.gomes
 -- ACBrNFSeXConversao/ACBrNFSeXProviderBase --
 [*] ACBr-8614 Incluído a Natureza da Operação 305.
    Por: Gustavo Totta
