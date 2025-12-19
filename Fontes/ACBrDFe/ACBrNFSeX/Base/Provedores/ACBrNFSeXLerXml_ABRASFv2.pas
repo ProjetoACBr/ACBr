@@ -585,6 +585,9 @@ begin
     LerServico(AuxNode);
     LerPrestador(AuxNode);
     LerTomadorServico(AuxNode);
+
+    NFSe.DataFatoGerador := ObterConteudo(AuxNode.Childrens.FindAnyNs('DataFatoGerador'), tcDat);
+
     LerIntermediarioServico(AuxNode);
     LerConstrucaoCivil(AuxNode);
 

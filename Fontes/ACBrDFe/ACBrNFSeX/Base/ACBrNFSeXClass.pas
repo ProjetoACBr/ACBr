@@ -2067,6 +2067,7 @@ type
     FTransacao: TnfseSimNao;
     FInformacoesComplementares: string;
 
+    FDataFatoGerador: TDateTime;
     FPercentualCargaTributaria: Double;
     FValorCargaTributaria: Double;
     FPercentualCargaTributariaMunicipal: Double;
@@ -2194,6 +2195,7 @@ type
     property RegRec: TRegRec read FRegRec write FRegRec;
     property FrmRec: TFrmRec read FFrmRec write FFrmRec;
     // Provedor Techos
+    property DataFatoGerador: TDateTime read FDataFatoGerador write FDataFatoGerador;
     property PercentualCargaTributaria: Double read FPercentualCargaTributaria write FPercentualCargaTributaria;
     property ValorCargaTributaria: Double read FValorCargaTributaria write FValorCargaTributaria;
     property PercentualCargaTributariaMunicipal: Double read FPercentualCargaTributariaMunicipal write FPercentualCargaTributariaMunicipal;

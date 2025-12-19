@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 19/12/2025
+-- ACBrNFSeXClass/ACBrNFSeXLerXml/ACBrNFSeXLerXml_ABRASFv2/Tecnos.GravarXml --
+[*] ACBr-8611 Alteração visando gerar e ler a tag DataFatoGerador.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXProviderManager/ABase.GravarXml/ABase.LerXml/ABase.Provider --
 [+] ACBr-8605 Implementado a API própria no provedor ABase, por enquanto somente o envio do DPS.
    Por: Italo Giurizzato Junior

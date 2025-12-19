@@ -749,6 +749,10 @@ begin
       if sData <> '' then
         dhRecebimento := StringToDateTimeDef(sData, 0);
 
+      sData := AINIRec.ReadString(sSecao, 'DataFatoGerador', '');
+      if sData <> '' then
+        DataFatoGerador := StringToDateTimeDef(sData, 0);
+
       NaturezaOperacao := StrToNaturezaOperacao(Ok, AINIRec.ReadString(sSecao, 'NaturezaOperacao', '0'));
 
       // Provedor Tecnos

@@ -52,6 +52,7 @@ type
     function DefinirNameSpaceDeclaracao: string; override;
 
     function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
+    function GerarInfDeclaracaoPrestacaoServ: TACBrXmlNode;
     function GerarValores: TACBrXmlNode; override;
 
     procedure Configuracao; override;
@@ -185,11 +186,120 @@ begin
   Result := 'http://www.abrasf.org.br/nfse.xsd';
 end;
 
+function TNFSeW_Tecnos201.GerarInfDeclaracaoPrestacaoServ: TACBrXmlNode;
+var
+  aNameSpace: string;
+  nodeArray: TACBrXmlNodeArray;
+  i: Integer;
+begin
+  aNameSpace := DefinirNameSpaceDeclaracao;
+
+  Result := CreateElement('InfDeclaracaoPrestacaoServico');
+
+  if aNameSpace <> '' then
+    Result.SetNamespace(aNameSpace);
+
+  DefinirIDDeclaracao;
+
+  if (FpAOwner.ConfigGeral.Identificador <> '') and GerarIDDeclaracao then
+    Result.SetAttribute(FpAOwner.ConfigGeral.Identificador, NFSe.infID.ID);
+
+  Result.AppendChild(AddNode(tcStr, '#4', 'Id', 1, 15, NrOcorrID,
+                                                            NFSe.infID.ID, ''));
+
+  if (NFSe.IdentificacaoRps.Numero <> '') and GerarTagRps then
+    Result.AppendChild(GerarRps);
+
+  Result.AppendChild(GerarListaServicos);
+
+  Result.AppendChild(AddNode(FormatoCompetencia, '#4', 'Competencia', 10, 10, NrOcorrCompetencia,
+                                                  NFSe.Competencia, DSC_DHEMI));
+
+  Result.AppendChild(GerarServico);
+
+  nodeArray := GerarServicos;
+  if nodeArray <> nil then
+  begin
+    for i := 0 to Length(nodeArray) - 1 do
+    begin
+      Result.AppendChild(nodeArray[i]);
+    end;
+  end;
+
+  Result.AppendChild(GerarPrestador);
+  Result.AppendChild(GerarTomador);
+
+  Result.AppendChild(AddNode(tcDat, '#9', 'DataFatoGerador', 10, 10, 0,
+                                                     NFSe.DataFatoGerador, ''));
+
+  Result.AppendChild(GerarIntermediarioServico);
+  Result.AppendChild(GerarConstrucaoCivil);
+
+  Result.AppendChild(AddNode(tcStr, '#6', 'RegimeEspecialTributacao', 1, 2, NrOcorrRegimeEspecialTributacao,
+   FpAOwner.RegimeEspecialTributacaoToStr(NFSe.RegimeEspecialTributacao), DSC_REGISSQN));
+
+  Result.AppendChild(AddNode(tcStr, '#7', 'NaturezaOperacao', 1, 3, NrOcorrNaturezaOperacao,
+                   NaturezaOperacaoToStr(NFSe.NaturezaOperacao), DSC_INDNATOP));
+
+  Result.AppendChild(AddNode(tcStr, '#7', 'OptanteSimplesNacional', 1, 1, NrOcorrOptanteSimplesNacional,
+               FpAOwner.SimNaoToStr(NFSe.OptanteSimplesNacional), DSC_INDOPSN));
+
+  Result.AppendChild(AddNode(tcStr, '#8', 'IncentivoFiscal', 1, 1, NrOcorrIncentCultural,
+              FpAOwner.SimNaoToStr(NFSe.IncentivadorCultural), DSC_INDINCCULT));
+
+  Result.AppendChild(AddNode(tcStr, '#9', 'PercentualCargaTributaria', 1, 5, NrOcorrPercCargaTrib,
+                                           NFSe.PercentualCargaTributaria, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#9', 'ValorCargaTributaria', 1, 15, NrOcorrValorCargaTrib,
+                                                NFSe.ValorCargaTributaria, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#9', 'PercentualCargaTributariaMunicipal', 1, 5, NrOcorrPercCargaTribMun,
+                                  NFSe.PercentualCargaTributariaMunicipal, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#9', 'ValorCargaTributariaMunicipal', 1, 15, NrOcorrValorCargaTribMun,
+                                       NFSe.ValorCargaTributariaMunicipal, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#9', 'PercentualCargaTributariaEstadual', 1, 5, NrOcorrPercCargaTribEst,
+                                   NFSe.PercentualCargaTributariaEstadual, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#9', 'ValorCargaTributariaEstadual', 1, 15, NrOcorrValorCargaTribEst,
+                                        NFSe.ValorCargaTributariaEstadual, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#9', 'OutrasInformacoes', 0, 255, NrOcorrOutrasInformacoes,
+    StringReplace(NFSe.OutrasInformacoes, Opcoes.QuebraLinha,
+           FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_OUTRASINF));
+
+  Result.AppendChild(AddNode(tcInt, '#9', 'TipoNota', 1, 3, NrOcorrTipoNota,
+                                                            NFSe.TipoNota, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#9', 'SiglaUF', 2, 2, NrOcorrSiglaUF,
+                                                             NFSe.SiglaUF, ''));
+
+  if NFSe.Prestador.Endereco.CodigoMunicipio <> '' then
+    Result.AppendChild(AddNode(tcStr, '#9', 'IdCidade', 7, 7, NrOcorrIdCidade,
+                             NFSe.Prestador.Endereco.CodigoMunicipio, DSC_CMUN))
+  else
+    Result.AppendChild(AddNode(tcStr, '#9', 'IdCidade', 7, 7, NrOcorrIdCidade,
+                                       NFSe.Servico.CodigoMunicipio, DSC_CMUN));
+
+  Result.AppendChild(AddNode(tcInt, '#9', 'EspecieDocumento', 1, 3, NrOcorrEspDoc,
+                                                    NFSe.EspecieDocumento, ''));
+
+  Result.AppendChild(AddNode(tcInt, '#9', 'SerieTalonario', 1, 3, NrOcorrSerieTal,
+                                                      NFSe.SerieTalonario, ''));
+
+  Result.AppendChild(AddNode(tcInt, '#9', 'FormaPagamento', 1, 3, NrOcorrFormaPag,
+                                                      NFSe.FormaPagamento, ''));
+
+  Result.AppendChild(AddNode(tcInt, '#9', 'NumeroParcelas', 1, 3, NrOcorrNumParcelas,
+                                                      NFSe.NumeroParcelas, ''));
+end;
+
 function TNFSeW_Tecnos201.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
 begin
   Result := CreateElement('tcDeclaracaoPrestacaoServico');
 
-  Result.AppendChild(inherited GerarInfDeclaracaoPrestacaoServico);
+  Result.AppendChild(GerarInfDeclaracaoPrestacaoServ);
 end;
 
 function TNFSeW_Tecnos201.GerarValores: TACBrXmlNode;
