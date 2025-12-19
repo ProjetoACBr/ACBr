@@ -1443,15 +1443,33 @@ begin
     Exit
   end;
 
-  Document := TACBrJsonObject.Parse(Response.ArquivoRetorno);
+  if not StringISPDF(Response.ArquivoRetorno) then
+  begin
+    Document := TACBrJsonObject.Parse(Response.ArquivoRetorno);
 
-  try
     try
-      ProcessarMensagemDeErros(Document, Response, 'Erros');
-      Response.Sucesso := (Response.Erros.Count = 0);
+      try
+        ProcessarMensagemDeErros(Document, Response, 'Erros');
+        Response.Sucesso := (Response.Erros.Count = 0);
 
-      if Response.Sucesso then
-        SalvarPDFNfse(Response.ChaveNFSe, Response.ArquivoRetorno);
+        if Response.Sucesso then
+          SalvarPDFNfse(Response.ChaveNFSe, Response.ArquivoRetorno);
+      except
+        on E:Exception do
+        begin
+          AErro := Response.Erros.New;
+          AErro.Codigo := Cod999;
+          AErro.Descricao := ACBrStr(Desc999 + E.Message);
+        end;
+      end;
+    finally
+      FreeAndNil(Document);
+    end;
+  end else
+  begin
+    try
+      Response.Sucesso := True;
+      SalvarPDFNfse(Response.ChaveNFSe, Response.ArquivoRetorno);
     except
       on E:Exception do
       begin
@@ -1460,8 +1478,6 @@ begin
         AErro.Descricao := ACBrStr(Desc999 + E.Message);
       end;
     end;
-  finally
-    FreeAndNil(Document);
   end;
 end;
 
