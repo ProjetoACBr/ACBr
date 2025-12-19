@@ -85,7 +85,7 @@ begin
   //Este processo varre os plugins de exportação deixando apenas 1 (o ultimo) TfrxPDFExport por rtti
   //Inserir na chamada do metodo Imprimir do Relatório
   //proposto por Marcos R Weimer / compatibilizado por BigWings
-  LCount := 0;
+  (*LCount := 0;
 
   for i := Pred(frxExportFilters.Count) downto 0 do
   begin
@@ -96,7 +96,7 @@ begin
       else
         Inc(LCount);
     end;
-  end;
+  end;*)
 end;
 
 procedure SetDefaultPrinter(var frxReport : TfrxReport);
