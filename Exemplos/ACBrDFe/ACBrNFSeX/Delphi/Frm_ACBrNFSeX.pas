@@ -281,6 +281,7 @@ type
     cbFormatoDiscr: TComboBox;
     rgReformaTributaria: TRadioGroup;
     btnConsultarDPSporNumeroPN: TButton;
+    btnLerXml: TButton;
 
     procedure FormCreate(Sender: TObject);
     procedure btnSalvarConfigClick(Sender: TObject);
@@ -375,6 +376,7 @@ type
     procedure btnGerarArqINIPNClick(Sender: TObject);
     procedure btnInformacoesClick(Sender: TObject);
     procedure btnConsultarDPSporNumeroPNClick(Sender: TObject);
+    procedure btnLerXmlClick(Sender: TObject);
   private
     CidAC: Integer;
     CidAL: Integer;
@@ -630,14 +632,28 @@ begin
         // tePadraoNacional, teProprio
         infNFSe.tpEmis := teProprio;
 
-        Prestador.RazaoSocial := 'Nome do Prestador';
-        Prestador.Endereco.Endereco := edtEmitLogradouro.Text;
-        Prestador.Endereco.Numero := edtEmitNumero.Text;
-        Prestador.Endereco.Complemento := edtEmitComp.Text;
-        Prestador.Endereco.Bairro := edtEmitBairro.Text;
-        Prestador.Endereco.xMunicipio := 'Cidade do Tomador';
-        Prestador.Endereco.UF := edtEmitUF.Text;
-        Prestador.Endereco.CEP := '18000000';
+        // Valores
+        infNFSe.Valores.BaseCalculo := 0;
+        infNFSe.Valores.Aliquota := 0;
+        infNFSe.Valores.ValorIss := 0;
+        infNFSe.Valores.vTotalRet := 0;
+        infNFSe.Valores.ValorLiquidoNfse := 100.35;
+
+        Emitente.IdentificacaoPrestador.CpfCnpj := edtEmitCNPJ.Text;
+        Emitente.IdentificacaoPrestador.InscricaoMunicipal := edtEmitIM.Text;
+        Emitente.RazaoSocial := edtEmitRazao.Text;
+
+        Emitente.Endereco.Endereco := edtEmitLogradouro.Text;
+        Emitente.Endereco.Numero := edtEmitNumero.Text;
+        Emitente.Endereco.Complemento := edtEmitComp.Text;
+        Emitente.Endereco.Bairro := edtEmitBairro.Text;
+        Emitente.Endereco.xMunicipio := edtEmitCidade.Text;
+        Emitente.Endereco.UF := edtEmitUF.Text;
+        Emitente.Endereco.CEP := edtEmitCEP.Text;
+        Emitente.Endereco.CodigoMunicipio := edtCodCidade.Text;
+
+        Emitente.Contato.Telefone := '1633445566';
+        Emitente.Contato.Email := 'nome@provedor.com';
       end;
 
       {=========================================================================
@@ -1945,12 +1961,18 @@ begin
       Servico.MunicipioIncidencia := StrToIntDef(edtCodCidade.Text, 0);
 
       // Provedor ISSSalvador
-      Servico.CodigoNBS := '115021000';
-      Servico.cClassTrib := '000001';
-      Servico.INDOP := '123456';
+      if ACBrNFSeX1.Configuracoes.Geral.Provedor = proISSSalvador then
+      begin
+        Servico.CodigoNBS := '115021000';
+        Servico.cClassTrib := '000001';
+        Servico.INDOP := '123456';
+      end;
 
       // Provedor Tecnos
-      Servico.CodigoServicoNacional := '010101';
+      if ACBrNFSeX1.Configuracoes.Geral.Provedor = proTecnos then
+        Servico.CodigoServicoNacional := '010101'
+      else
+        Servico.CodigoServicoNacional := '';
 
       {=========================================================================
         Dados do Prestador de Serviço
@@ -2378,8 +2400,7 @@ begin
             if IniCidades.ReadString(sCod, 'UF', '') = 'TO' then
               Inc(CidComProvTO);
 
-            if (IniCidades.ReadString(sCod, 'Provedor', '') = 'PadraoNacional') or
-               (IniCidades.ReadString(sCod, 'Provedor', '') = 'PadraoNacionalC') then
+            if (IniCidades.ReadString(sCod, 'Provedor', '') = 'PadraoNacional') then
               Inc(CidComPadroNacional);
           end;
         end;
@@ -4617,6 +4638,35 @@ begin
   end;
 end;
 
+procedure TfrmACBrNFSe.btnLerXmlClick(Sender: TObject);
+begin
+  OpenDialog1.Title := 'Selecione a NFSe';
+  OpenDialog1.DefaultExt := '*-NFSe.xml';
+  OpenDialog1.Filter :=
+    'Arquivos NFSe (*-NFSe.xml)|*-NFSe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
+  OpenDialog1.InitialDir := ACBrNFSeX1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrNFSeX1.NotasFiscais.Clear;
+
+    ACBrNFSeX1.NotasFiscais.LoadFromFile(OpenDialog1.FileName, True);
+
+    {
+       O método Emitir possui os seguintes parâmetros:
+       aNumLote (String)
+       aModEnvio [meAutomatico, meLoteAssincrono, meLoteSincrono, meUnitario]
+       aImprimir (Boolean) Valor Padrão = True, portanto imprime o DANFSE
+    }
+    // meUnitario: Ajusta o Emitir para enviar somente um Rps
+
+    // No caso do Padrão Nacional o envio é sempre unitário
+    ACBrNFSeX1.Emitir('1', meUnitario);
+
+    ChecarResposta(tmGerar);
+  end;
+end;
+
 procedure TfrmACBrNFSe.btnLinkNFSeClick(Sender: TObject);
 var
   xTitulo, xNumNFSe, xCodVerif, xID, sLink: String;
@@ -6103,7 +6153,7 @@ end;
 
 procedure TfrmACBrNFSe.ConfigurarComponente;
 var
-  Ok: Boolean;
+  Ok, Ano2026: Boolean;
   PathMensal: String;
 begin
   ACBrNFSeX1.Configuracoes.Certificados.ArquivoPFX  := '';
@@ -6219,6 +6269,13 @@ begin
     PathGer          := edtPathLogs.Text;
     PathMensal       := GetPathGer(0);
     PathSalvar       := PathMensal;
+
+    Ano2026 := True;
+
+    if Ano2026 then
+      IniServicos := 'C:\ACBr\trunk2\Exemplos\ACBrDFe\ACBrNFSeX\Delphi\ACBrNFSeXServicosRTC.ini'
+    else
+      IniServicos := '';
   end;
 
   if ACBrNFSeX1.DANFSE <> nil then
@@ -6277,7 +6334,8 @@ begin
     lblLayout.Caption := 'ABRASF'
   else
   begin
-    if ACBrNFSeX1.Configuracoes.Geral.APIPropria then
+    if ACBrNFSeX1.Configuracoes.Geral.APIPropria or
+       (ACBrNFSeX1.Configuracoes.Geral.Provedor = proPadraoNacional) then
       lblLayout.Caption := 'PadraoNacional'
     else
       lblLayout.Caption := 'Próprio';

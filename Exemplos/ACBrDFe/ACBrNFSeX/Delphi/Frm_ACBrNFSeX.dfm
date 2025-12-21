@@ -10,10 +10,8 @@ object frmACBrNFSe: TfrmACBrNFSe
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = True
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 13
   object pnlMenus: TPanel
     Left = 0
@@ -2202,6 +2200,21 @@ object frmACBrNFSe: TfrmACBrNFSe
               ParentFont = False
               TabOrder = 0
               OnClick = btnEmitirPNClick
+            end
+            object btnLerXml: TButton
+              Left = 3
+              Top = 40
+              Width = 177
+              Height = 25
+              Caption = 'Ler XML'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 3
+              OnClick = btnLerXmlClick
             end
           end
           object tsEventos1: TTabSheet
