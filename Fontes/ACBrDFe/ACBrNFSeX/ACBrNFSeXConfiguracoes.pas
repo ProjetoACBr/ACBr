@@ -536,8 +536,8 @@ end;
 
 procedure TGeralConfNFSe.LerParamsMunicipio;
 var
-  Ok, PadraoNacional: Boolean;
-  CodIBGE: string;
+  Ok: Boolean;
+  CodIBGE, aValor: string;
   ACBrNFSeXLocal: TACBrNFSeX;
 begin
   if not Assigned(fpConfiguracoes.Owner) then
@@ -562,23 +562,34 @@ begin
   FxUF := FPIniParams.ReadString(CodIBGE, 'UF', '');
   FxProvedor := FPIniParams.ReadString(CodIBGE, 'Provedor', '');
   FxProvedorOrigem := FxProvedor;
-  FVersao := StrToVersaoNFSe(Ok, FPIniParams.ReadString(CodIBGE, 'Versao', '1.00'));
-  FAPIPropria := (Pos('APIPropria:', FPIniParams.ReadString(CodIBGE, 'Params', '')) > 0);
-  PadraoNacional := (Pos('PN:', FPIniParams.ReadString(CodIBGE, 'Params', '')) > 0);
-
-  if PadraoNacional then
-    FxProvedorOrigem := FxProvedorOrigem + 'PN';
-
-
-  if (FxMunicipio <> '') and (FxProvedor = '') and (FLayoutNFSe = lnfsProvedor) then
-    raise EACBrNFSeException.Create('CodIBGE/Município: [' + CodIBGE +'/'+FxMunicipio +
-            '] não está associado a nenhum Provedor.');
-
   FProvedor := StrToProvedor(FxProvedor);
 
-  if FProvedor = proPadraoNacional then
-    FVersao := StrToVersaoNFSe(Ok, FPIniParams.ReadString('PadraoNacional', 'Versao', '1.00'));
+  {
+    Verifica se na seção do Provedor consta a versão,
+    caso contrario usa a versão da seção do município.
+  }
+  aValor := FPIniParams.ReadString(FxProvedor, 'Versao', '');
 
+  if aValor = '' then
+    FVersao := StrToVersaoNFSe(Ok, FPIniParams.ReadString(CodIBGE, 'Versao', '1.00'))
+  else
+    FVersao := StrToVersaoNFSe(Ok, aValor);
+
+  {
+    Verifica se na seção do Provedor consta o Params,
+    caso contrario usa o Params da seção do município.
+  }
+  aValor := FPIniParams.ReadString(FxProvedor, 'Params', '');
+
+  if aValor = '' then
+    FAPIPropria := (Pos('APIPropria:', FPIniParams.ReadString(CodIBGE, 'Params', '')) > 0)
+  else
+    FAPIPropria := (Pos('APIPropria:', aValor) > 0);
+
+  {
+    Verifica se o componente esta configurado com o layout PadraoNacionalv1 ou
+    PadraoNacionalv101.
+  }
   if (FLayoutNFSe = lnfsPadraoNacionalv1) or
      (FLayoutNFSe = lnfsPadraoNacionalv101) then
   begin
@@ -589,6 +600,10 @@ begin
     if FLayoutNFSe = lnfsPadraoNacionalv101 then
       FVersao := ve101;
   end;
+
+  if (FxMunicipio <> '') and (FxProvedor = '') and (FLayoutNFSe = lnfsProvedor) then
+    raise EACBrNFSeException.Create('CodIBGE/Município: [' + CodIBGE +'/'+FxMunicipio +
+            '] não está associado a nenhum Provedor.');
 
   if FProvedor = proNenhum then
     raise EACBrNFSeException.Create('Código do Município [' + CodIBGE +

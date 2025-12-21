@@ -42,6 +42,21 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+21/12/2025
+-- ACBrNFSeXConfiguracoes -- 
+[*] Alteração visando ler os campos Versao e Params da seção do provedor.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXGravarXml_ABRASFv2 --
+[*] Removido a função OnlyNumber do campo CodigoNbs.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXServicos --
+[*] Removido do arquivo as novas URLs para 2026.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXServicosRTC.ini --
+[+] Criado o novo arquivo somente com as novas URLs para 2026.
+   Por: Italo Giurizzato Junior
+
 19/12/2025
 -- PadraoNacional.Provider --
 [-] ACBR-8607 Ajuste visando sanar falha no retorno do ObterDANFSe quando o mesmo for um PDF.

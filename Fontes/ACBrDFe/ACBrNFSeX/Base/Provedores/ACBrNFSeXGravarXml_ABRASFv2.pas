@@ -743,7 +743,7 @@ begin
                                        NFSe.Servico.CodigoServicoNacional, ''));
 
     Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, NrOcorrCodigoNBS,
-                                 OnlyNumber(NFSe.Servico.CodigoNBS), DSC_CMUN));
+                                             NFSe.Servico.CodigoNBS, DSC_CMUN));
 
     Result.AppendChild(AddNode(tcStr, '#33', 'Discriminacao', 1, 2000, NrOcorrDiscriminacao_2,
       StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
