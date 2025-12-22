@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 22/12/2025
+-- ABase.Provider --
+[+] ACBR-8605: Implementado as Consultas por Lote e por chave do DPS.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicosRTC.ini --
 [*] Atualização, novas cidades que aderiram ao Padrão Nacional.
    Por: Italo Giurizzato Junior
