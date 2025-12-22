@@ -171,10 +171,14 @@ type
   { TConsultaLoteRpsResposta }
   TConsultaLoteRpsResposta = class(TLibNFSeServiceResposta)
   private
-      FLote: string;
-      FProtocolo: string;
-      FSituacao: string;
-      FCodVerificacao: string;
+    FDataCanc: TDateTime;
+    FDescSituacao: string;
+    FLote: string;
+    FNumNotaSubstituidora: String;
+    FProtocolo: string;
+    FSituacao: string;
+    FCodVerificacao: string;
+    FSucessoCanc: Boolean;
 
   public
     constructor Create(const ATipo: TACBrLibRespostaTipo; const AFormato: TACBrLibCodificacao); reintroduce;
@@ -186,7 +190,11 @@ type
     property Lote: string read FLote write FLote;
     property Protocolo: string read FProtocolo write FProtocolo;
     property Situacao: string read FSituacao write FSituacao;
+    property DescSituacao: string read FDescSituacao write FDescSituacao;
     property CodVerificacao: string read FCodVerificacao write FCodVerificacao;
+    property SucessoCanc: Boolean read FSucessoCanc write FSucessoCanc;
+    property DataCanc: TDateTime read FDataCanc write FDataCanc;
+    property NumNotaSubstituidora: String read FNumNotaSubstituidora write FNumNotaSubstituidora;
   end;
 
   { TConsultaNFSePorRpsResposta }
@@ -509,6 +517,22 @@ type
     property Particularidades: String read FParticularidades;
   end;
 
+  { TObterDANFSeResposta }
+
+  TObterDANFSeResposta = class(TLibNFSeServiceResposta)
+  private
+    FMetodo: TMetodo;
+    FString: String;
+  public
+    constructor Create(const ATipo: TACBrLibRespostaTipo; const AFormato: TACBrLibCodificacao); reintroduce;
+    destructor Destroy; override;
+
+    procedure Processar(const Response: TNFSeObterDANFSEResponse); reintroduce;
+  published
+    property Metodo: TMetodo read FMetodo write FMetodo;
+    property ChaveNFSe: String read FString write FString;
+  end;
+
 implementation
 
 uses
@@ -623,6 +647,26 @@ begin
   if Response.Particularidades.PermiteTagOutrasInformacoes then
     FParticularidades := FParticularidades + 'PermiteTagOutrasInformacoes|';
 
+end;
+
+{ TObterDANFSeResposta }
+
+constructor TObterDANFSeResposta.Create(const ATipo: TACBrLibRespostaTipo;
+  const AFormato: TACBrLibCodificacao);
+begin
+  inherited Create(CSessaoRespConsultaNFSe, ATipo, AFormato);
+end;
+
+destructor TObterDANFSeResposta.Destroy;
+begin
+  inherited Destroy;
+end;
+
+procedure TObterDANFSeResposta.Processar(const Response: TNFSeObterDANFSEResponse);
+begin
+  Metodo := Response.Metodo;
+  ChaveNFSe := Response.ChaveNFSe;
+  inherited Processar(Response);
 end;
 
 { TNFSeArquivoItem }
@@ -775,7 +819,11 @@ begin
   Lote:= Response.NumeroLote;
   Protocolo:= Response.Protocolo;
   Situacao:= Response.Situacao;
+  DescSituacao := Response.DescSituacao;
   CodVerificacao:= Response.CodigoVerificacao;
+  SucessoCanc := Response.SucessoCanc;
+  DataCanc := Response.DataCanc;
+  NumNotaSubstituidora := Response.NumNotaSubstituidora;
 end;
 
  { TConsultaNFSePorRpsResposta }

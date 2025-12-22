@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/12/2025
+-- ACBrLibNFSeBase, ACBrLibNFSeRespostas --
+[-] ACBr-8299 - Corrige resposta do ObterDANFSE e melhora resposta do ConsultarLoteRPS
+   Por: Diego Folieni
+
 13/11/2025
 -- ACBrLibNFSeBase --
 [-] ACBr-8300 - Ajuste visando correta devolução das informações no buffer de resposta do enviar evento.

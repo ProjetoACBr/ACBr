@@ -1840,7 +1840,7 @@ end;
 
 function TACBrLibNFSe.ObterDANFSE(const aChaveNFSe: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
 var
-  Resp: TConsultaNFSeResposta;
+  Resp: TObterDANFSeResposta;
   ChaveNFSe: String;
   Resposta: AnsiString;
 begin
@@ -1855,9 +1855,9 @@ begin
     NFSeDM.Travar;
     try
       NFSeDM.ACBrNFSeX1.ObterDANFSE(ChaveNFSe);
-      Resp := TConsultaNFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
+      Resp := TObterDANFSeResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
-        Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultaNFSe);
+        Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ObterDANFSe);
 
         Resp.XmlRetorno := EncodeBase64(Resp.XmlRetorno);
         Resposta:= Resp.Gerar;
