@@ -44,6 +44,14 @@ Símbolo : Significado
 
 
 22/12/2025
+-- ACBrNFSeXServicosRTC.ini --
+[*] ACBR-8636: A cidade Santo Antônio de Pádua/RJ mudou para o provedor PadraoNacional.
+   Por: Fernando Souza DNA
+[*] ACBR-8637: A cidade Atibaia/SP mudou para o provedor PadraoNacional.
+   Por: Luis AGSI
+-- ACBrNFSeXServicos --
+[*] ACBR-8627: A cidade Santo Antônio/RS mudou para o provedor IPM.
+   Por: HPR sistemas
 -- ABase.Provider --
 [+] ACBR-8605: Implementado as Consultas por Lote e por chave do DPS.
    Por: Italo Giurizzato Junior
