@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+22/12/2025
+-- ACBrNFSeXServicosRTC.ini --
+[*] Atualização, novas cidades que aderiram ao Padrão Nacional.
+   Por: Italo Giurizzato Junior
+
 21/12/2025
 -- ACBrNFSeXConfiguracoes -- 
 [*] Alteração visando ler os campos Versao e Params da seção do provedor.
