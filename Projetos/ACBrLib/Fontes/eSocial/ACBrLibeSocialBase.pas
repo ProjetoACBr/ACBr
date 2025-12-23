@@ -140,7 +140,6 @@ begin
     try
       eSocialDM.ACBreSocial1.Eventos.LoadFromFile(AArqIni, False);
       Result := SetRetorno(ErrOK);
-
     finally
      eSocialDM.Destravar;
     end;
@@ -186,9 +185,8 @@ begin
 
       MoverStringParaPChar (AResposta, sResposta, esTamanho);
       Result := SetRetorno(ErrOK, AResposta);
-
     finally
-       eSocialDM.Destravar;
+      eSocialDM.Destravar;
     end;
 
   except
@@ -214,27 +212,25 @@ begin
     else
      GravarLog('eSocial_ConsultareSocial', logNormal);
 
-     eSocialDM.Travar;
+    eSocialDM.Travar;
+    try
+      eSocialDM.ACBreSocial1.Eventos.Clear;
+      esocialDM.ACBreSocial1.Consultar(AProtocolo);
+      AResposta:= '';
+
+      Resp := TConsulta.Create(Config.TipoResposta, Config.CodResposta);
       try
-        eSocialDM.ACBreSocial1.Eventos.Clear;
-        esocialDM.ACBreSocial1.Consultar(AProtocolo);
-        AResposta:= '';
-
-        Resp := TConsulta.Create(Config.TipoResposta, Config.CodResposta);
-        try
-          Resp.Processar(eSocialDM.ACBreSocial1);
-          AResposta := Resp.Gerar;
-        finally
-          Resp.Free;
-        end;
-
-        MoverStringParaPChar(AResposta, sResposta, esTamanho);
-        Result := SetRetorno(ErrOK, AResposta);
-
+        Resp.Processar(eSocialDM.ACBreSocial1);
+        AResposta := Resp.Gerar;
       finally
-        eSocialDM.Destravar;
+        Resp.Free;
       end;
-      
+
+      MoverStringParaPChar(AResposta, sResposta, esTamanho);
+      Result := SetRetorno(ErrOK, AResposta);
+    finally
+      eSocialDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
@@ -257,56 +253,53 @@ begin
   AIniFile:= AnsiString(eArqIni);
   Grupo:= aGrupo;
   try
+    if Config.Log.Nivel > logNormal then
+      GravarLog('eSocial_CriarEnviareSocial(' + AIniFile + ', ' + IntToStr(Grupo) + ' )', logCompleto, True)
+    else
+      GravarLog('eSocial_CriarEnviareSocial', logNormal);
 
-     if Config.Log.Nivel > logNormal then
-       GravarLog('eSocial_CriarEnviareSocial(' + AIniFile + ', ' + IntToStr(Grupo) + ' )', logCompleto, True)
-     else
-       GravarLog('eSocial_CriarEnviareSocial', logNormal);
+    if not FileExists(AIniFile) then
+      raise EACBrLibException.Create(ErrArquivoNaoExiste, ACBrStr(Format(SErroeSocialAbrir, [AIniFile])));
 
-     if not FileExists(AIniFile) then
-       raise EACBrLibException.Create(ErrArquivoNaoExiste, ACBrStr(Format(SErroeSocialAbrir, [AIniFile])));
+    eSocialDM.Travar;
+    try
+      eSocialDM.ACBreSocial1.Eventos.LoadFromIni(AIniFile);
+      ASalvar:= eSocialDM.ACBreSocial1.Configuracoes.Geral.Salvar;
+      AResposta:= '';
 
-        eSocialDM.Travar;
-        try
-           eSocialDM.ACBreSocial1.Eventos.LoadFromIni(AIniFile);
-           ASalvar:= eSocialDM.ACBreSocial1.Configuracoes.Geral.Salvar;
-           AResposta:= '';
+      if not ASalvar then
+      begin
+        ForceDirectories(PathWithDelim(ExtractFilePath(Application.ExeName)) + CChaveLogPath);
+        eSocialDM.ACBreSocial1.Configuracoes.Arquivos.PathSalvar:= PathWithDelim(ExtractFilePath(Application.ExeName)) + CChaveLogPath;
+      end;
 
-           if not ASalvar then
-            begin
-              ForceDirectories(PathWithDelim(ExtractFilePath(Application.ExeName)) + CChaveLogPath);
-              eSocialDM.ACBreSocial1.Configuracoes.Arquivos.PathSalvar:= PathWithDelim(ExtractFilePath(Application.ExeName)) + CChaveLogPath;
-            end;
+      iEvento:= eSocialDM.ACBreSocial1.Eventos.Gerados.Count - 1;
+      ArqeSocial:= eSocialDM.ACBreSocial1.Eventos.Gerados.Items[iEvento].PathNome + '.xml';
 
-           iEvento:= eSocialDM.ACBreSocial1.Eventos.Gerados.Count - 1;
-           ArqeSocial:= eSocialDM.ACBreSocial1.Eventos.Gerados.Items[iEvento].PathNome + '.xml';
+      if not FileExists(ArqeSocial) then
+        raise EACBrLibException.Create(ErrArquivoNaoExiste, ACBrStr(Format(SErroeSocialAbrir, [ArqeSocial]) ));
 
-           if not FileExists(ArqeSocial) then
-            raise EACBrLibException.Create(ErrArquivoNaoExiste, ACBrStr(Format(SErroeSocialAbrir, [ArqeSocial]) ));
+      AResposta:= ArqeSocial + sLineBreak + ACBrStr(Format(SMsgeSocialEventoAdicionado, [TipoEventoToStr(eSocialDM.ACBreSocial1.Eventos.Gerados.Items[iEvento].TipoEvento)]) ) + sLineBreak;
 
-           AResposta:= ArqeSocial + sLineBreak + ACBrStr(Format(SMsgeSocialEventoAdicionado, [TipoEventoToStr(eSocialDM.ACBreSocial1.Eventos.Gerados.Items[iEvento].TipoEvento)]) ) + sLineBreak;
+      Result := SetRetorno(ErrOK, AResposta);
 
-           Result := SetRetorno(ErrOK, AResposta);
+      eSocialDM.ACBreSocial1.Enviar(TeSocialGrupo(Grupo));
+      Sleep(3000);
 
-           eSocialDM.ACBreSocial1.Enviar(TeSocialGrupo(Grupo));
-           Sleep(3000);
+      Resp := TEnvioResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resp.Processar(eSocialDM.ACBreSocial1);
+        AResposta := AResposta + sLineBreak + Resp.Gerar;
+      finally
+        Resp.Free;
+      end;
 
-           Resp := TEnvioResposta.Create(Config.TipoResposta, Config.CodResposta);
-           try
-             Resp.Processar(eSocialDM.ACBreSocial1);
-             AResposta := AResposta + sLineBreak + Resp.Gerar;
-           finally
-             Resp.Free;
-           end;
+      Result := SetRetorno(ErrOK, AResposta);
 
-           Result := SetRetorno(ErrOK, AResposta);
-
-           eSocialDM.ACBreSocial1.Eventos.Clear;
-
-        finally
-          eSocialDM.Destravar;
-        end;
-
+      eSocialDM.ACBreSocial1.Eventos.Clear;
+    finally
+      eSocialDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
     Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
@@ -321,18 +314,17 @@ function TACBrLibeSocial.LimpareSocial: Integer;
 begin
   try
     if Config.Log.Nivel > logNormal then
-     GravarLog('eSocial_Limpar', logCompleto, True)
-     else
+      GravarLog('eSocial_Limpar', logCompleto, True)
+    else
       GravarLog('eSocial_Limpar', logNormal);
 
-     eSocialDM.Travar;
-      try
-        eSocialDM.ACBreSocial1.Eventos.Clear;
-        Result := SetRetorno(ErrOK);
-      finally
-        eSocialDM.Destravar;
-      end;
-
+    eSocialDM.Travar;
+    try
+      eSocialDM.ACBreSocial1.Eventos.Clear;
+      Result := SetRetorno(ErrOK);
+    finally
+      eSocialDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
     Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
@@ -360,7 +352,6 @@ begin
       VerificarArquivoExiste(ArquivoOuXml);
 
     eSocialDM.Travar;
-
     try
       if EhArquivo then
       eSocialDM.ACBreSocial1.Eventos.LoadFromFile(ArquivoOuXml)
@@ -371,7 +362,6 @@ begin
     finally
       eSocialDM.Destravar;
     end;
-
   except
     on E: EACBrLibException do
       Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
@@ -379,7 +369,6 @@ begin
     on E: Exception do
       Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
   end;
-
 end;
 
 function TACBrLibeSocial.SetIDEmpregador (const aIdEmpregador: PAnsiChar): Integer;
@@ -397,14 +386,13 @@ begin
     if DirectoryExists(idEmpregador) then
       raise EACBrLibException.Create(ErrDiretorioNaoExiste, 'Diretorio não existe');
 
-      eSocialDM.Travar;
-      try
-        eSocialDM.ACBreSocial1.Configuracoes.Geral.IdEmpregador := idEmpregador;
-        Result := SetRetorno(ErrOK);
-      finally
-        eSocialDM.Destravar;
-      end;
-
+    eSocialDM.Travar;
+    try
+      eSocialDM.ACBreSocial1.Configuracoes.Geral.IdEmpregador := idEmpregador;
+      Result := SetRetorno(ErrOK);
+    finally
+      eSocialDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
        Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
@@ -421,58 +409,53 @@ begin
     idTransmissor:= ConverterStringEntrada(aIdTransmissor);
 
     if Config.Log.Nivel > logNormal then
-    GravarLog('eSocial_SetIDTransmissor(' + idTransmissor + ' ) ', logCompleto, True)
-     else
+      GravarLog('eSocial_SetIDTransmissor(' + idTransmissor + ' ) ', logCompleto, True)
+    else
       GravarLog('eSocial_SetIDTransmissor', logNormal);
 
     if EstaVazio(idTransmissor)then
-         raise EACBrLibException.Create(ErrParametroInvalido, 'Valor Nulo');
+      raise EACBrLibException.Create(ErrParametroInvalido, 'Valor Nulo');
 
-      eSocialDM.Travar;
-      try
-        eSocialDM.ACBreSocial1.Configuracoes.Geral.IdTransmissor := idTransmissor;
-        Result := SetRetorno(ErrOK);
-      finally
-        eSocialDM.Destravar;
-      end;
-
+    eSocialDM.Travar;
+    try
+      eSocialDM.ACBreSocial1.Configuracoes.Geral.IdTransmissor := idTransmissor;
+      Result := SetRetorno(ErrOK);
+    finally
+      eSocialDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
-    Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
 
     on E: Exception do
-    Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
   end;
-
 end;
 
 function TACBrLibeSocial.SetTipoEmpregador (aTipoEmpregador: integer):Integer;
 var
   tipoEmpregador: Integer;
 begin
-   tipoEmpregador:= aTipoEmpregador;
-   try
-     if Config.Log.Nivel > logNormal then
-     GravarLog('eSocial_SetTipoEmpregador(' + IntToStr(aTipoEmpregador) + ' ) ', logCompleto, True)
-     else
+  tipoEmpregador:= aTipoEmpregador;
+  try
+    if Config.Log.Nivel > logNormal then
+      GravarLog('eSocial_SetTipoEmpregador(' + IntToStr(aTipoEmpregador) + ' ) ', logCompleto, True)
+    else
       GravarLog('eSocial_SetTipoEmpregador', logNormal);
 
-        eSocialDM.Travar;
-       try
-         eSocialDM.ACBreSocial1.Configuracoes.Geral.TipoEmpregador := TEmpregador( tipoEmpregador );
-         Result := SetRetorno(ErrOK);
-       finally
-         eSocialDM.Destravar;
-       end;
-
-   except
-     on E: EACBrLibException do
-     Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
-
-     on E: Exception do
-     Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
-   end;
-
+    eSocialDM.Travar;
+    try
+      eSocialDM.ACBreSocial1.Configuracoes.Geral.TipoEmpregador := TEmpregador( tipoEmpregador );
+      Result := SetRetorno(ErrOK);
+    finally
+      eSocialDM.Destravar;
+    end;
+  except
+    on E: EACBrLibException do
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+    on E: Exception do
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+  end;
 end;
 
 function TACBrLibeSocial.SetVersaoDF (const sVersao: PAnsiChar):Integer;
@@ -487,22 +470,20 @@ begin
     else
       GravarLog('eSocial_SetVersaoDF', logNormal);
 
-      eSocialDM.Travar;
-      try
-        eSocialDM.ACBreSocial1.Configuracoes.Geral.VersaoDF := StrToVersaoeSocialEX(versao);
-        Result := SetRetorno(ErrOK);
-      finally
-        eSocialDM.Destravar;
-      end;
-
+    eSocialDM.Travar;
+    try
+      eSocialDM.ACBreSocial1.Configuracoes.Geral.VersaoDF := StrToVersaoeSocialEX(versao);
+      Result := SetRetorno(ErrOK);
+    finally
+      eSocialDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
-    Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
 
     on E: Exception do
-    Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
   end;
-
 end;
 
 function TACBrLibeSocial.ConsultaIdentificadoresEventosEmpregador (const aIdEmpregador: PAnsiChar; aTipoEvento: integer; aPeriodoApuracao: TDateTime; const sResposta: PAnsiChar; var esTamanho: Integer):Integer;
@@ -523,41 +504,37 @@ begin
     else
       GravarLog('eSocial_ConsultaIdentificadoresEventosEmpregador', logNormal);
 
-      eSocialDM.Travar;
-      try
+    eSocialDM.Travar;
+    try
+      if ((APerApur <= 0) or (EstaVazio(idEmpregador))) then
+       raise EACBrLibException.Create(ErrParametroInvalido, ACBrStr(SErroeSocialConsulta));
 
-        if ((APerApur <= 0) or (EstaVazio(idEmpregador))) then
-         raise EACBrLibException.Create(ErrParametroInvalido, ACBrStr(SErroeSocialConsulta));
-
-        AResposta:= '';
-        eSocialDM.ACBreSocial1.Eventos.Clear;
-        if eSocialDM.ACBreSocial1.ConsultaIdentificadoresEventosEmpregador(idEmpregador,
-                        TTipoEvento(ATpEvento), APerApur) then
-        begin
-          Resp := TConsultaTotEventos.Create(Config.TipoResposta, Config.CodResposta);
-          try
-            Resp.Processar(eSocialDM.ACBreSocial1);
-            AResposta := Resp.Gerar;
-          finally
-            Resp.Free;
-          end;
-
-          MoverStringParaPChar(AResposta, sResposta, esTamanho);
-          Result := SetRetorno(ErrOK, AResposta);
+      AResposta:= '';
+      eSocialDM.ACBreSocial1.Eventos.Clear;
+      if eSocialDM.ACBreSocial1.ConsultaIdentificadoresEventosEmpregador(idEmpregador,
+                      TTipoEvento(ATpEvento), APerApur) then
+      begin
+        Resp := TConsultaTotEventos.Create(Config.TipoResposta, Config.CodResposta);
+        try
+          Resp.Processar(eSocialDM.ACBreSocial1);
+          AResposta := Resp.Gerar;
+        finally
+          Resp.Free;
         end;
 
-      finally
-        eSocialDM.Destravar;
+        MoverStringParaPChar(AResposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, AResposta);
       end;
-
+    finally
+      eSocialDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
-    Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
 
     on E: Exception do
-    Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
   end;
-
 end;
 
 function TACBrLibeSocial.ConsultaIdentificadoresEventosTabela(const aIdEmpregador: PAnsiChar; aTipoEvento: integer; aChave: PAnsiChar; aDataInicial: TDateTime; aDataFinal: TDateTime; const sResposta: PAnsiChar; var esTamanho: Integer):Integer;
@@ -577,41 +554,39 @@ begin
 
   try
     if Config.Log.Nivel > logNormal then
-    GravarLog('eSocial_ConsultaIdentificadoresEventosTabela (' + aIdEmpregador + ', ' + IntToStr(aTipoEvento) + ', ' + aChave + ', ' + DateToStr(aDataInicial) + ', ' + DateToStr(aDataFinal) + ')', logCompleto, True)
+      GravarLog('eSocial_ConsultaIdentificadoresEventosTabela (' + aIdEmpregador + ', ' + IntToStr(aTipoEvento) + ', ' + aChave + ', ' + DateToStr(aDataInicial) + ', ' + DateToStr(aDataFinal) + ')', logCompleto, True)
     else
-     GravarLog('eSocial_ConsultaIdentificadoresEventosTabela', logNormal);
+      GravarLog('eSocial_ConsultaIdentificadoresEventosTabela', logNormal);
 
-      eSocialDM.Travar;
-      try
-        if ( (EstaVazio(idEmpregador)) or (EstaVazio(Chave)) or (DataInicial <= 0 ) or (DataFinal <= 0) ) then
-          raise EACBrLibException.Create(ErrParametroInvalido, ACBrStr(SErroeSocialConsulta));
+    eSocialDM.Travar;
+    try
+      if ( (EstaVazio(idEmpregador)) or (EstaVazio(Chave)) or (DataInicial <= 0 ) or (DataFinal <= 0) ) then
+        raise EACBrLibException.Create(ErrParametroInvalido, ACBrStr(SErroeSocialConsulta));
 
-        AResposta:= '';
-        eSocialDM.ACBreSocial1.Eventos.Clear;
-        if eSocialDM.ACBreSocial1.ConsultaIdentificadoresEventosTabela(idEmpregador, TTipoEvento(tpEvento), Chave, DataInicial, DataFinal) then
-        begin
-          Resp := TConsultaTotEventos.Create(Config.TipoResposta, Config.CodResposta);
-          try
-            Resp.Processar(eSocialDM.ACBreSocial1);
-            AResposta:= Resp.Gerar;
-          finally
-            Resp.Free;
-          end;
-
-          MoverStringParaPChar(AResposta, sResposta, esTamanho);
-          Result := SetRetorno(ErrOK, AResposta);
+      AResposta:= '';
+      eSocialDM.ACBreSocial1.Eventos.Clear;
+      if eSocialDM.ACBreSocial1.ConsultaIdentificadoresEventosTabela(idEmpregador, TTipoEvento(tpEvento), Chave, DataInicial, DataFinal) then
+      begin
+        Resp := TConsultaTotEventos.Create(Config.TipoResposta, Config.CodResposta);
+        try
+          Resp.Processar(eSocialDM.ACBreSocial1);
+          AResposta:= Resp.Gerar;
+        finally
+          Resp.Free;
         end;
 
-      finally
-        eSocialDM.Destravar;
+        MoverStringParaPChar(AResposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, AResposta);
       end;
-
+    finally
+      eSocialDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
-    Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
 
     on E: Exception do
-    Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
   end;
 end;
 
@@ -623,10 +598,10 @@ var
   Resp: TConsultaTotEventos;
   AResposta: String;
 begin
-  DataInicial:= aDataInicial;
-  DataFinal:= aDataFinal;
-  CPFTrabalhador:= AnsiString(aCPFTrabalhador);
-  idEmpregador:= AnsiString(aIdEmpregador);
+  DataInicial := aDataInicial;
+  DataFinal := aDataFinal;
+  CPFTrabalhador := AnsiString(aCPFTrabalhador);
+  idEmpregador := AnsiString(aIdEmpregador);
 
   try
     if Config.Log.Nivel > logNormal then
@@ -634,42 +609,38 @@ begin
     else
       GravarLog('eSocial_ConsultaIdentificadoresEventosTrabalhador', logNormal);
 
-      eSocialDM.Travar;
-      try
-        if ((EstaVazio(idEmpregador)) or (EstaVazio(CPFTrabalhador))
-           or (DataInicial <= 0)  or (DataFinal <= 0 )) then
-          raise EACBrLibException.Create(ErrParametroInvalido, ACBrStr(SErroeSocialConsulta));
+    eSocialDM.Travar;
+    try
+      if ((EstaVazio(idEmpregador)) or (EstaVazio(CPFTrabalhador))
+         or (DataInicial <= 0)  or (DataFinal <= 0 )) then
+        raise EACBrLibException.Create(ErrParametroInvalido, ACBrStr(SErroeSocialConsulta));
 
-        AResposta:= '';
-        eSocialDM.ACBreSocial1.Eventos.Clear;
-        if eSocialDM.ACBreSocial1.ConsultaIdentificadoresEventosTrabalhador(idEmpregador,
-                        CPFTrabalhador, DataInicial, DataFinal) then
-        begin
-          Resp := TConsultaTotEventos.Create(Config.TipoResposta, Config.CodResposta);
-          try
-            Resp.Processar(eSocialDM.ACBreSocial1);
-            AResposta:= Resp.Gerar;
-          finally
-            Resp.Free;
-          end;
-
-          MoverStringParaPChar(AResposta, sResposta, esTamanho);
-          Result := SetRetorno(ErrOK, AResposta);
+      AResposta := '';
+      eSocialDM.ACBreSocial1.Eventos.Clear;
+      if eSocialDM.ACBreSocial1.ConsultaIdentificadoresEventosTrabalhador(idEmpregador,
+                      CPFTrabalhador, DataInicial, DataFinal) then
+      begin
+        Resp := TConsultaTotEventos.Create(Config.TipoResposta, Config.CodResposta);
+        try
+          Resp.Processar(eSocialDM.ACBreSocial1);
+          AResposta:= Resp.Gerar;
+        finally
+          Resp.Free;
         end;
 
-      finally
-        eSocialDM.Destravar;
+        MoverStringParaPChar(AResposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, AResposta);
       end;
-
-
+    finally
+      eSocialDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
-    Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
 
     on E: Exception do
-    Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
   end;
-
 end;
 
 function TACBrLibeSocial.DownloadEventos (const aIdEmpregador: PAnsiChar; aCPFTrabalhador: PAnsiChar; aDataInicial: TDateTime; aDataFinal: TDateTime; const sResposta: PAnsiChar; var esTamanho: Integer):Integer;
@@ -689,45 +660,40 @@ begin
 
   try
     if Config.Log.Nivel > logNormal then
-     GravarLog('eSocial_DownloadEventos(' + aIdEmpregador + ', ' + aCPFTrabalhador + ',' + DateToStr(DataInicial) + ',' + DateToStr(DataFinal) + ')', logCompleto, True)
-     else
+      GravarLog('eSocial_DownloadEventos(' + aIdEmpregador + ', ' + aCPFTrabalhador + ',' + DateToStr(DataInicial) + ',' + DateToStr(DataFinal) + ')', logCompleto, True)
+    else
       GravarLog('eSocial_DownloadEventos', logNormal);
 
-     eSocialDM.Travar;
-      try
+    eSocialDM.Travar;
+    try
+      if ( (EstaVazio(idEmpregador)) ) then
+        raise EACBrLibException.Create(ErrParametroInvalido, ACBrStr(SErroeSocialConsulta));
 
-        if ( (EstaVazio(idEmpregador)) ) then
-          raise EACBrLibException.Create(ErrParametroInvalido, ACBrStr(SErroeSocialConsulta));
-
-        AResposta:= '';
-        eSocialDM.ACBreSocial1.Eventos.Clear;
-        if eSocialDM.ACBreSocial1.DownloadEventos(idEmpregador, AID, ANrRecibo) then
-        begin
-          Resp := TConsultaEventos.Create(Config.TipoResposta, Config.CodResposta);
-          try
-            Resp.Processar(eSocialDM.ACBreSocial1);
-            AResposta:= Resp.Gerar;
-          finally
-            Resp.Free;
-          end;
-
-          MoverStringParaPChar(AResposta, sResposta, esTamanho);
-          Result := SetRetorno(ErrOK, AResposta);
+      AResposta:= '';
+      eSocialDM.ACBreSocial1.Eventos.Clear;
+      if eSocialDM.ACBreSocial1.DownloadEventos(idEmpregador, AID, ANrRecibo) then
+      begin
+        Resp := TConsultaEventos.Create(Config.TipoResposta, Config.CodResposta);
+        try
+          Resp.Processar(eSocialDM.ACBreSocial1);
+          AResposta:= Resp.Gerar;
+        finally
+          Resp.Free;
         end;
 
-      finally
-        eSocialDM.Destravar;
+        MoverStringParaPChar(AResposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, AResposta);
       end;
-
-
+    finally
+      eSocialDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
-    Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
 
     on E: Exception do
-    Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
   end;
-
 end;
 
 function TACBrLibeSocial.ObterCertificados(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
@@ -738,7 +704,6 @@ begin
     GravarLog('eSocial_ObterCertificados', logNormal);
 
     eSocialDM.Travar;
-
     try
       Resposta := '';
       Resposta := ObterCerticados(eSocialDM.ACBreSocial1.SSL);

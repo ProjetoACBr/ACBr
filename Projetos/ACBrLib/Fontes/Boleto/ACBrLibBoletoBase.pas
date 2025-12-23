@@ -198,15 +198,14 @@ begin
       GravarLog('Boleto_IncluirTitulos', logNormal);
 
     BoletoDM.Travar;
-
     try
-{$IFDEF Demo}
-    if BoletoDM.ACBrBoleto1.ListadeBoletos.Count = 5 then
-    begin
-      Result := SetRetorno(ErrDemoExpirado,  'So pode adicionar 5 boletos na versão Demo.');
-      Exit;
-    end;
-{$ENDIF}
+    {$IFDEF Demo}
+      if BoletoDM.ACBrBoleto1.ListadeBoletos.Count = 5 then
+      begin
+        Result := SetRetorno(ErrDemoExpirado,  'So pode adicionar 5 boletos na versão Demo.');
+        Exit;
+      end;
+    {$ENDIF}
       BoletoDM.ConfigurarImpressao;
 
       try
@@ -554,17 +553,19 @@ begin
     else
       GravarLog('Boleto_GerarRemessaStream', logNormal);
 
-    AStream := TMemoryStream.Create;
     BoletoDM.Travar;
-
     try
-      BoletoDM.ACBrBoleto1.GerarRemessaStream( NumArquivo, AStream );
-      Resposta := StreamToBase64(AStream);
+      AStream := TMemoryStream.Create;
+      try
+        BoletoDM.ACBrBoleto1.GerarRemessaStream( NumArquivo, AStream );
+        Resposta := StreamToBase64(AStream);
 
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        AStream.Free;
+      end;
     finally
-      AStream.Free;
       BoletoDM.Destravar;
     end;
   except

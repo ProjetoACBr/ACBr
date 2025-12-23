@@ -147,7 +147,6 @@ begin
     GravarLog('GTIN_ObterCertificados', logNormal);
 
     GTINDM.Travar;
-
     try
       AResposta := '';
       AResposta := ObterCerticados(GTINDM.ACBrGTIN1.SSL);

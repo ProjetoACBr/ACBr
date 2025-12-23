@@ -948,7 +948,6 @@ var
   ArquivoInformado: Boolean;
 begin
   Travar;
-
   try
     if not EhMemory then
     begin
@@ -981,8 +980,9 @@ begin
 
     INIParaClasse;
     AplicarConfiguracoes;
-  finally
+
     TACBrLib(FOwner).GravarLog(ClassName + '.Ler - Feito', logParanoico);
+  finally
     Destravar;
   end;
 end;
@@ -1049,7 +1049,6 @@ begin
   if EhMemory then Exit;
 
   Travar;
-
   try
     TACBrLib(FOwner).GravarLog(ClassName + '.Gravar: ' + FNomeArquivo, logCompleto);
     VerificarNomeEPath(True);
@@ -1061,8 +1060,9 @@ begin
 
     FIni.UpdateFile;
     LerDataHoraArqIni;
-  finally
+
     TACBrLib(FOwner).GravarLog(ClassName + '.Gravar - Feito', logParanoico);
+  finally
     Destravar;
   end;
 end;

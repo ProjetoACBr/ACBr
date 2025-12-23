@@ -114,15 +114,18 @@ begin
     CEPDM.Travar;
     try
       Resp := TCepResposta.Create(Config.TipoResposta, Config.CodResposta);
-      CEPDM.ACBrCEP1.BuscarPorCEP(ACEP);
-      Resp.Processar(CEPDM.ACBrCEP1);
+      try
+        CEPDM.ACBrCEP1.BuscarPorCEP(ACEP);
+        Resp.Processar(CEPDM.ACBrCEP1);
 
-      AResposta := Resp.Gerar;
-      MoverStringParaPChar(AResposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, AResposta);
+        AResposta := Resp.Gerar;
+        MoverStringParaPChar(AResposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, AResposta);
+      finally
+        Resp.Free;
+      end;
     finally
       CEPDM.Destravar;
-      Resp.Free;
     end;
   except
     on E: EACBrLibException do
@@ -156,16 +159,18 @@ begin
     CEPDM.Travar;
     try
       Resp := TCepResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        CEPDM.ACBrCEP1.BuscarPorLogradouro(ACidade, ATipo_Logradouro, ALogradouro, AUF, ABairro);
+        Resp.Processar(CEPDM.ACBrCEP1);
 
-      CEPDM.ACBrCEP1.BuscarPorLogradouro(ACidade, ATipo_Logradouro, ALogradouro, AUF, ABairro);
-      Resp.Processar(CEPDM.ACBrCEP1);
-
-      AResposta := Resp.Gerar;
-      MoverStringParaPChar(AResposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, AResposta);
+        AResposta := Resp.Gerar;
+        MoverStringParaPChar(AResposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, AResposta);
+      finally
+        Resp.Free;
+      end;
     finally
       CEPDM.Destravar;
-      Resp.Free;
     end;
   except
     on E: EACBrLibException do

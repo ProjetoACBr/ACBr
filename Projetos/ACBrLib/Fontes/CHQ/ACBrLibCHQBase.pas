@@ -231,13 +231,16 @@ begin
       GravarLog('CHQ_ImprimirVerso', logNormal);
 
     CHQDM.Travar;
-    Linhas := TStringList.Create;
     try
-      StringToMemo( ALinha, Linhas ); {Linha separadas por | (pipe)}
-      CHQDM.ACBrCHQ1.ImprimirVerso(Linhas);
-      Result := SetRetorno(ErrOK);
+      Linhas := TStringList.Create;
+      try
+        StringToMemo( ALinha, Linhas ); {Linha separadas por | (pipe)}
+        CHQDM.ACBrCHQ1.ImprimirVerso(Linhas);
+        Result := SetRetorno(ErrOK);
+      finally
+        Linhas.Free;
+      end;
     finally
-      Linhas.Free;
       CHQDM.Destravar;
     end;
   except

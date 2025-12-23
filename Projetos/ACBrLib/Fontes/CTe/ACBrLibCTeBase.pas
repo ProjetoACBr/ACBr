@@ -635,7 +635,6 @@ begin
     GravarLog('CTE_ObterCertificados', logNormal);
 
     CTeDM.Travar;
-
     try
       Resposta := '';
       Resposta := ObterCerticados(CTeDM.ACBrCTe1.SSL);
@@ -665,7 +664,6 @@ begin
       GravarLog('CTE_GetPath', logNormal);
 
     CTeDM.Travar;
-
     try
       with CTeDM do
       begin
@@ -708,7 +706,6 @@ begin
       GravarLog('CTE_GetPathEvento', logNormal);
 
     CTeDM.Travar;
-
     try
       with CTeDM do
       begin
@@ -739,18 +736,21 @@ begin
     GravarLog('CTE_StatusServico', logNormal);
 
     CTeDM.Travar;
-    Resp := TStatusServicoResposta.Create(Config.TipoResposta, Config.CodResposta);
     try
-      with CTeDM do
-      begin
-        ACBrCTe1.WebServices.StatusServico.Executar;
-        Resp.Processar(CTeDM.ACBrCTe1);
-        Resposta := Resp.Gerar;
-        MoverStringParaPChar(Resposta, sResposta, esTamanho);
-        Result := SetRetorno(ErrOK, Resposta);
-      end
+      Resp := TStatusServicoResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        with CTeDM do
+        begin
+          ACBrCTe1.WebServices.StatusServico.Executar;
+          Resp.Processar(CTeDM.ACBrCTe1);
+          Resposta := Resp.Gerar;
+          MoverStringParaPChar(Resposta, sResposta, esTamanho);
+          Result := SetRetorno(ErrOK, Resposta);
+        end
+      finally
+        Resp.Free;
+      end;
     finally
-      Resp.Free;
       CTeDM.Destravar;
     end;
   except
@@ -777,42 +777,43 @@ begin
       GravarLog('CTE_Consultar', logNormal);
 
     CTeDM.Travar;
+    try
+      EhArquivo := StringEhArquivo(ChaveOuCTe);
 
-    EhArquivo := StringEhArquivo(ChaveOuCTe);
-
-    if EhArquivo and not ValidarChave(ChaveOuCTe) then
-    begin
-      VerificarArquivoExiste(ChaveOuCTe);
-      CTeDM.ACBrCTe1.Conhecimentos.LoadFromFile(ChaveOuCTe);
-    end;
-
-    with CTeDM.ACBrCTe1 do
-    begin
-      if Conhecimentos.Count = 0 then
+      if EhArquivo and not ValidarChave(ChaveOuCTe) then
       begin
-        if ValidarChave(ChaveOuCTe) then
-          WebServices.Consulta.CTeChave := ChaveOuCTe
-        else
-          raise EACBrLibException.Create(ErrChaveCTe, Format(SErrChaveInvalida, [ChaveOuCTe]));
-      end
-      else
-        WebServices.Consulta.CTeChave := StringReplace(Conhecimentos.Items[Conhecimentos.Count - 1].CTe.infCTe.ID,
-                                                       'CTe', '', [rfIgnoreCase]);
-
-      WebServices.Consulta.ExtrairEventos := AExtrairEventos;
-
-      Resp := TConsultaCTeResposta.Create(Config.TipoResposta, Config.CodResposta);
-
-      try
-        WebServices.Consulta.Executar;
-        Resp.Processar(CTeDM.ACBrCTe1);
-        Resposta := Resp.Gerar;
-        MoverStringParaPChar(Resposta, sResposta, esTamanho);
-        Result := SetRetorno(ErrOK, Resposta);
-      finally
-        Resp.Free;
-        CTeDM.Destravar;
+        VerificarArquivoExiste(ChaveOuCTe);
+        CTeDM.ACBrCTe1.Conhecimentos.LoadFromFile(ChaveOuCTe);
       end;
+
+      with CTeDM.ACBrCTe1 do
+      begin
+        if Conhecimentos.Count = 0 then
+        begin
+          if ValidarChave(ChaveOuCTe) then
+            WebServices.Consulta.CTeChave := ChaveOuCTe
+          else
+            raise EACBrLibException.Create(ErrChaveCTe, Format(SErrChaveInvalida, [ChaveOuCTe]));
+        end
+        else
+          WebServices.Consulta.CTeChave := StringReplace(Conhecimentos.Items[Conhecimentos.Count - 1].CTe.infCTe.ID,
+                                                         'CTe', '', [rfIgnoreCase]);
+
+        WebServices.Consulta.ExtrairEventos := AExtrairEventos;
+
+        Resp := TConsultaCTeResposta.Create(Config.TipoResposta, Config.CodResposta);
+        try
+          WebServices.Consulta.Executar;
+          Resp.Processar(CTeDM.ACBrCTe1);
+          Resposta := Resp.Gerar;
+          MoverStringParaPChar(Resposta, sResposta, esTamanho);
+          Result := SetRetorno(ErrOK, Resposta);
+        finally
+          Resp.Free;
+        end;
+      end;
+    finally
+      CTeDM.Destravar;
     end;
   except
     on E: EACBrLibException do
@@ -847,27 +848,30 @@ begin
       raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJInvalido, [ACNPJ]));
 
     CTeDM.Travar;
-    Resp := TInutilizarCTeResposta.Create(Config.TipoResposta, Config.CodResposta);
     try
-      with CTeDM.ACBrCTe1.WebServices do
-      begin
-        Inutilizacao.Clear;
-        Inutilizacao.CNPJ := CNPJ;
-        Inutilizacao.Justificativa := Justificativa;
-        Inutilizacao.Modelo := Modelo;
-        Inutilizacao.Serie := Serie;
-        Inutilizacao.Ano := Ano;
-        Inutilizacao.NumeroInicial := NumeroInicial;
-        Inutilizacao.NumeroFinal := NumeroFinal;
+      Resp := TInutilizarCTeResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        with CTeDM.ACBrCTe1.WebServices do
+        begin
+          Inutilizacao.Clear;
+          Inutilizacao.CNPJ := CNPJ;
+          Inutilizacao.Justificativa := Justificativa;
+          Inutilizacao.Modelo := Modelo;
+          Inutilizacao.Serie := Serie;
+          Inutilizacao.Ano := Ano;
+          Inutilizacao.NumeroInicial := NumeroInicial;
+          Inutilizacao.NumeroFinal := NumeroFinal;
 
-        Inutilizacao.Executar;
-        Resp.Processar(CTeDM.ACBrCTe1);
-        Resposta := Resp.Gerar;
-        MoverStringParaPChar(Resposta, sResposta, esTamanho);
-        Result := SetRetorno(ErrOK, Resposta);
+          Inutilizacao.Executar;
+          Resp.Processar(CTeDM.ACBrCTe1);
+          Resposta := Resp.Gerar;
+          MoverStringParaPChar(Resposta, sResposta, esTamanho);
+          Result := SetRetorno(ErrOK, Resposta);
+        end;
+      finally
+        Resp.Free;
       end;
     finally
-      Resp.Free;
       CTeDM.Destravar;
     end;
   except
@@ -1014,7 +1018,6 @@ begin
       GravarLog('CTE_ConsultarRecibo', logNormal);
 
     CTeDM.Travar;
-
     try
       with CTeDM.ACBrCTe1 do
       begin
@@ -1063,7 +1066,6 @@ begin
       GravarLog('CTE_Cancelar', logNormal);
 
     CTeDM.Travar;
-
     try
       if not ValidarChave(AChave) then
         raise EACBrLibException.Create(ErrChaveCTe, Format(SErrChaveInvalida, [AChave]))
@@ -1138,7 +1140,6 @@ begin
       GravarLog('CTE_EnviarEvento', logNormal);
 
     CTeDM.Travar;
-
     try
       with CTeDM.ACBrCTe1 do
       begin
@@ -1314,7 +1315,6 @@ begin
     end;
 
     CTeDM.Travar;
-
     try
       if ArquivoOuXml = '' then
         if not ValidarCNPJouCPF(ACNPJCPF) then
@@ -1410,7 +1410,6 @@ begin
       GravarLog('CTE_DistribuicaoDFePorNSU', logNormal);
 
     CTeDM.Travar;
-
     try
       if not ValidarCNPJouCPF(ACNPJCPF) then
         raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJCPFInvalido, [ACNPJCPF]));
@@ -1475,7 +1474,6 @@ begin
       GravarLog('CTE_DistribuicaoDFePorChave', logNormal);
 
     CTeDM.Travar;
-
     try
       if not ValidarCNPJouCPF(ACNPJCPF) then
         raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJCPFInvalido, [ACNPJCPF]));
@@ -1511,9 +1509,9 @@ begin
           raise EACBrLibException.Create(ErrRetorno, ACBrCTe1.WebServices.DistribuicaoDFe.retDistDFeInt.xMotivo);
         end;
       end;
-      finally
-        CTeDM.Destravar;
-      end;
+    finally
+      CTeDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
       Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
@@ -1546,9 +1544,7 @@ begin
       GravarLog('CTE_EnviarEmail', logNormal);
 
     CTeDM.Travar;
-
     try
-
       with CTeDM.ACBrCTe1 do
       begin
         EhArquivo := StringEhArquivo(AChaveCTe);
@@ -1643,97 +1639,96 @@ begin
     else
       GravarLog('CTE_EnviarEmailEvento', logNormal);
 
-      CTeDM.Travar;
+    CTeDM.Travar;
+    try
+      with CTeDM.ACBrCTe1 do
+      begin
+        EventoCTe.Evento.Clear;
+        Conhecimentos.Clear;
 
-      try
-        with CTeDM.ACBrCTe1 do
+        EhArquivo := StringEhArquivo(AChaveEvento);
+
+        if EhArquivo then
+          VerificarArquivoExiste(AChaveEvento);
+
+        if EhArquivo then
+          EventoCTe.LerXML(AChaveEvento)
+        else
+          EventoCTe.LerXMLFromString(AChaveEvento);
+
+        EhArquivo := StringEhArquivo(AChaveCTe);
+
+        if EhArquivo then
+          VerificarArquivoExiste(AChaveCTe);
+
+        if EhArquivo then
+          Conhecimentos.LoadFromFile(AchaveCTe)
+        else
+          Conhecimentos.LoadFromString(AchaveCTe);
+
+        if EventoCTe.Evento.Count = 0 then
+          raise EACBrLibException.Create(ErrEnvio, Format(SInfEventosCarregados, [EventoCTe.Evento.Count]))
+        else
         begin
-          EventoCTe.Evento.Clear;
-          Conhecimentos.Clear;
+          slMensagemEmail := TStringList.Create;
+          slCC := TStringList.Create;
+          slAnexos := TStringList.Create;
 
-          EhArquivo := StringEhArquivo(AChaveEvento);
+          try
+            if AEnviaPDF then
+            begin
+              try
+                CTeDM.ConfigurarImpressao('', True);
+                ImprimirEventoPDF;
 
-          if EhArquivo then
-            VerificarArquivoExiste(AChaveEvento);
-
-          if EhArquivo then
-            EventoCTe.LerXML(AChaveEvento)
-          else
-            EventoCTe.LerXMLFromString(AChaveEvento);
-
-          EhArquivo := StringEhArquivo(AChaveCTe);
-
-          if EhArquivo then
-            VerificarArquivoExiste(AChaveCTe);
-
-          if EhArquivo then
-            Conhecimentos.LoadFromFile(AchaveCTe)
-          else
-            Conhecimentos.LoadFromString(AchaveCTe);
-
-          if EventoCTe.Evento.Count = 0 then
-            raise EACBrLibException.Create(ErrEnvio, Format(SInfEventosCarregados, [EventoCTe.Evento.Count]))
-          else
-          begin
-            slMensagemEmail := TStringList.Create;
-            slCC := TStringList.Create;
-            slAnexos := TStringList.Create;
-
-            try
-              if AEnviaPDF then
-              begin
-                try
-                  CTeDM.ConfigurarImpressao('', True);
-                  ImprimirEventoPDF;
-
-                  ArqPDF := OnlyNumber(EventoCTe.Evento[0].Infevento.id);
-                  ArqPDF := PathWithDelim(DACTe.PathPDF)+ArqPDF+'-procEventoCTe.pdf';
-                except
-                  raise EACBrLibException.Create(ErrRetorno, 'Erro ao criar o arquivo PDF');
-                end;
+                ArqPDF := OnlyNumber(EventoCTe.Evento[0].Infevento.id);
+                ArqPDF := PathWithDelim(DACTe.PathPDF)+ArqPDF+'-procEventoCTe.pdf';
+              except
+                raise EACBrLibException.Create(ErrRetorno, 'Erro ao criar o arquivo PDF');
               end;
-
-              with mail do
-              begin
-                slMensagemEmail.DelimitedText:= sLineBreak;
-                slMensagemEmail.Text := StringReplace(AMensagem, ';', sLineBreak, [rfReplaceAll]);
-
-                slCC.DelimitedText:= sLineBreak;
-                slCC.Text := StringReplace(ACC, ';', sLineBreak, [rfReplaceAll]);
-
-                slAnexos.DelimitedText := sLineBreak;
-                slAnexos.Text := StringReplace(AAnexos, ';', sLineBreak, [rfReplaceAll]);
-
-                slAnexos.Add(AChaveEvento);
-
-                if AEnviaPDF then
-                  slAnexos.Add(ArqPDF);
-
-                try
-                  CTeDM.ACBrCTe1.EnviarEmail(
-                                            APara,
-                                            AAssunto,
-                                            slMensagemEmail,
-                                            slCC,      // Lista com emails que serão enviado cópias - TStrings
-                                            slAnexos); // Lista de slAnexos - TStrings
-
-                  Result := SetRetorno(ErrOK, 'Email enviado com sucesso');
-                except
-                  on E: Exception do
-                    raise EACBrLibException.Create(ErrRetorno, 'Erro ao enviar email' + sLineBreak + E.Message);
-                end;
-              end;
-            finally
-              slCC.Free;
-              slAnexos.Free;
-              slMensagemEmail.Free;
-              if AEnviaPDF then CTeDM.FinalizarImpressao;
             end;
+
+            with mail do
+            begin
+              slMensagemEmail.DelimitedText:= sLineBreak;
+              slMensagemEmail.Text := StringReplace(AMensagem, ';', sLineBreak, [rfReplaceAll]);
+
+              slCC.DelimitedText:= sLineBreak;
+              slCC.Text := StringReplace(ACC, ';', sLineBreak, [rfReplaceAll]);
+
+              slAnexos.DelimitedText := sLineBreak;
+              slAnexos.Text := StringReplace(AAnexos, ';', sLineBreak, [rfReplaceAll]);
+
+              slAnexos.Add(AChaveEvento);
+
+              if AEnviaPDF then
+                slAnexos.Add(ArqPDF);
+
+              try
+                CTeDM.ACBrCTe1.EnviarEmail(
+                                          APara,
+                                          AAssunto,
+                                          slMensagemEmail,
+                                          slCC,      // Lista com emails que serão enviado cópias - TStrings
+                                          slAnexos); // Lista de slAnexos - TStrings
+
+                Result := SetRetorno(ErrOK, 'Email enviado com sucesso');
+              except
+                on E: Exception do
+                  raise EACBrLibException.Create(ErrRetorno, 'Erro ao enviar email' + sLineBreak + E.Message);
+              end;
+            end;
+          finally
+            slCC.Free;
+            slAnexos.Free;
+            slMensagemEmail.Free;
+            if AEnviaPDF then CTeDM.FinalizarImpressao;
           end;
         end;
-      finally
-        CTeDM.Destravar;
       end;
+    finally
+      CTeDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
       Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
@@ -1762,19 +1757,21 @@ begin
       GravarLog('CTE_Imprimir', logNormal);
 
     CTeDM.Travar;
-
-    Resposta := TLibImpressaoResposta.Create(CTeDM.ACBrCTe1.Conhecimentos.Count, Config.TipoResposta, Config.CodResposta);
     try
-      CTeDM.ConfigurarImpressao(Impressora, False, Protocolo, MostrarPreview);
+      Resposta := TLibImpressaoResposta.Create(CTeDM.ACBrCTe1.Conhecimentos.Count, Config.TipoResposta, Config.CodResposta);
+      try
+        CTeDM.ConfigurarImpressao(Impressora, False, Protocolo, MostrarPreview);
 
-      if nNumCopias > 0 then
-        CTeDM.ACBrCTe1.DACTE.NumCopias := nNumCopias;
+        if nNumCopias > 0 then
+          CTeDM.ACBrCTe1.DACTE.NumCopias := nNumCopias;
 
-      CTeDM.ACBrCTe1.Conhecimentos.Imprimir;
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+        CTeDM.ACBrCTe1.Conhecimentos.Imprimir;
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        CTeDM.FinalizarImpressao;
+        Resposta.Free;
+      end;
     finally
-      CTeDM.FinalizarImpressao;
-      Resposta.Free;
       CTeDM.Destravar;
     end;
   except
@@ -1818,20 +1815,21 @@ begin
     GravarLog('CTE_SalvarPDF', logNormal);
 
     CTeDM.Travar;
-
-    AStream := TMemoryStream.Create;
-
     try
-      CTeDM.ConfigurarImpressao('', True);
+      AStream := TMemoryStream.Create;
+      try
+        CTeDM.ConfigurarImpressao('', True);
 
-      CTeDM.ACBrCTe1.Conhecimentos.ImprimirPDF(AStream);
-      Resposta := StreamToBase64(AStream);
+        CTeDM.ACBrCTe1.Conhecimentos.ImprimirPDF(AStream);
+        Resposta := StreamToBase64(AStream);
 
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        CTeDM.FinalizarImpressao;
+        AStream.Free;
+      end;
     finally
-      CTeDM.FinalizarImpressao;
-      AStream.Free;
       CTeDM.Destravar;
     end;
   except
@@ -1858,7 +1856,6 @@ begin
       GravarLog('CTE_ImprimirEvento', logNormal);
 
     CTeDM.Travar;
-
     try
       EhArquivo := StringEhArquivo(AArquivoXmlCTe);
 
@@ -1912,7 +1909,6 @@ begin
       GravarLog('CTE_ImprimirEventoPDF', logNormal);
 
     CTeDM.Travar;
-
     try
       EhArquivo := StringEhArquivo(AArquivoXmlCTe);
 
@@ -1969,39 +1965,41 @@ begin
       GravarLog('CTE_SalvarEventoPDF', logNormal);
 
     CTeDM.Travar;
-    AStream := TMemoryStream.Create;
-
     try
-      EhArquivo := StringEhArquivo(AArquivoXmlCTe);
+      AStream := TMemoryStream.Create;
+      try
+        EhArquivo := StringEhArquivo(AArquivoXmlCTe);
 
-      if EhArquivo then
-      VerificarArquivoExiste(AArquivoXmlCTe);
+        if EhArquivo then
+        VerificarArquivoExiste(AArquivoXmlCTe);
 
-      if EhArquivo then
-         CTeDM.ACBrCTe1.Conhecimentos.LoadFromFile(AArquivoXmlCTe)
-      else
-         CTeDM.ACBrCTe1.Conhecimentos.LoadFromString(AArquivoXmlCTe);
+        if EhArquivo then
+           CTeDM.ACBrCTe1.Conhecimentos.LoadFromFile(AArquivoXmlCTe)
+        else
+           CTeDM.ACBrCTe1.Conhecimentos.LoadFromString(AArquivoXmlCTe);
 
-      EhArquivo := StringEhArquivo(AArquivoXmlEvento);
+        EhArquivo := StringEhArquivo(AArquivoXmlEvento);
 
-      if EhArquivo then
-      VerificarArquivoExiste(AArquivoXmlEvento);
+        if EhArquivo then
+        VerificarArquivoExiste(AArquivoXmlEvento);
 
-      if EhArquivo then
-         CTeDM.ACBrCTe1.EventoCTe.LerXML(AArquivoXmlEvento)
-      else
-         CTeDM.ACBrCTe1.EventoCTe.LerXMLFromString(AArquivoXmlEvento);
+        if EhArquivo then
+           CTeDM.ACBrCTe1.EventoCTe.LerXML(AArquivoXmlEvento)
+        else
+           CTeDM.ACBrCTe1.EventoCTe.LerXMLFromString(AArquivoXmlEvento);
 
-      CTeDM.ConfigurarImpressao('', True);
-      CTeDM.ACBrCTe1.DACTE.ImprimirEventoPDF(AStream);
+        CTeDM.ConfigurarImpressao('', True);
+        CTeDM.ACBrCTe1.DACTE.ImprimirEventoPDF(AStream);
 
-      Resposta := StreamToBase64(AStream);
+        Resposta := StreamToBase64(AStream);
 
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        CTeDM.FinalizarImpressao;
+        AStream.Free;
+      end;
     finally
-      CTeDM.FinalizarImpressao;
-      AStream.Free;
       CTeDM.Destravar;
     end;
   except
@@ -2032,7 +2030,6 @@ begin
       VerificarArquivoExiste(AArquivoXml);
 
     CTeDM.Travar;
-
     try
       if EhArquivo then
         CTeDM.ACBrCTe1.InutCTe.LerXML(AArquivoXml)

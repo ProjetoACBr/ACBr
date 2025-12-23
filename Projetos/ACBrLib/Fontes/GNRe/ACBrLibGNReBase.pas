@@ -417,7 +417,6 @@ begin
     GravarLog('GNRE_ObterCertificados', logNormal);
 
     GNReDM.Travar;
-
     try
       Resposta := '';
       Resposta := ObterCerticados(GNReDM.ACBrGNRe1.SSL);
@@ -494,7 +493,6 @@ begin
       GravarLog('GNRE_Consultar', logNormal);
 
     GNReDM.Travar;
-
     try
       with GNReDM.ACBrGNRe1 do
       begin
@@ -544,7 +542,6 @@ begin
       GravarLog('GNRE_EnviarEmail', logNormal);
 
     GNReDM.Travar;
-
     try
       with GNReDM.ACBrGNRe1 do
       begin
@@ -659,9 +656,9 @@ begin
     GravarLog('GNRE_ImprimirPDF', logNormal);
 
     GNReDM.Travar;
-    with  GNReDM.ACBrGNRe1 do
-    begin
-      try
+    try
+      with GNReDM.ACBrGNRe1 do
+      begin
         if GuiasRetorno.Count = 0 then
           raise EACBrLibException.Create(ErrEnvio, Format(SInfGNReCarregados, [GuiasRetorno.Count]))
         else
@@ -670,10 +667,10 @@ begin
           GuiasRetorno.ImprimirPDF;
           Result := SetRetorno(ErrOK);
         end;
-      finally
-        GNReDM.FinalizarImpressao;
-        GNReDM.Destravar;
       end;
+    finally
+      GNReDM.FinalizarImpressao;
+      GNReDM.Destravar;
     end;
   except
     on E: EACBrLibException do

@@ -634,17 +634,18 @@ var
   Resposta: AnsiString;
 begin
   try
-     CaminhoImagem := ConverterStringEntrada(sCaminhoImagem);
+    CaminhoImagem := ConverterStringEntrada(sCaminhoImagem);
 
-     if Config.Log.Nivel > logNormal then
-        GravarLog('AbecsPinpad_MediaLoad(' + CaminhoImagem + ',' + IntToStr(aTipoImagem) + ' )', logCompleto, True)
-        else
-        GravarLog('AbecsPinpad_MediaLoad', logNormal);
+    if Config.Log.Nivel > logNormal then
+      GravarLog('AbecsPinpad_MediaLoad(' + CaminhoImagem + ',' + IntToStr(aTipoImagem) + ' )', logCompleto, True)
+    else
+      GravarLog('AbecsPinpad_MediaLoad', logNormal);
 
-     TipoImagem := TACBrAbecsPinPadMediaType(aTipoImagem);
-     AbecsPinpadDM.Travar;
-     AStream := TMemoryStream.Create;
-     try
+    TipoImagem := TACBrAbecsPinPadMediaType(aTipoImagem);
+    AbecsPinpadDM.Travar;
+    try
+      AStream := TMemoryStream.Create;
+      try
         ext := LowerCase(ExtractFileExt(CaminhoImagem));
         filename := StringReplace(ExtractFileName(CaminhoImagem), ext, '',[]);
         filename := AbecsPinpadDM.ACBrAbecsPinPad1.FormatSPE_MFNAME(filename);
@@ -653,19 +654,20 @@ begin
         AbecsPinpadDM.ACBrAbecsPinPad1.LMF;
         Resp := TLibAbecsPinpadRespostaLoadMedia.Create(Config.TipoResposta, Config.CodResposta);
         try
-           Resp.ProcessarLoadMedia(AbecsPinpadDM.ACBrAbecsPinPad1.Response);
-
-           Resposta := Resp.Gerar;
-           MoverStringParaPChar(Resposta, sResposta, esTamanho);
-           Result := SetRetorno(ErrOK, Resposta);
+          Resp.ProcessarLoadMedia(AbecsPinpadDM.ACBrAbecsPinPad1.Response);
+               Resposta := Resp.Gerar;
+          MoverStringParaPChar(Resposta, sResposta, esTamanho);
+          Result := SetRetorno(ErrOK, Resposta);
         finally
           Resp.Free;
         end;
         AbecsPinpadDM.ACBrAbecsPinPad1.DSI(filename);
-     finally
-       AStream.Free;
-       AbecsPinpadDM.Destravar;
-     end;
+      finally
+        AStream.Free;
+      end;
+    finally
+      AbecsPinpadDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
       Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));

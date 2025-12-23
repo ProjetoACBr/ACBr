@@ -109,39 +109,39 @@ var
 
 begin
   try
-    Path:= ConverterStringEntrada(ePathDownload);
+    Path := ConverterStringEntrada(ePathDownload);
 
     if Config.Log.Nivel > logNormal then
        GravarLog('CNPJ_ConsultarCaptcha ( ' + Path + ' )', logCompleto, True)
     else
        GravarLog('CNPJ_ConsultarCaptcha', logNormal);
 
-    ConsultaCNPJDM.Travar;
-
     if (Path <> '') and not( DirectoryExists( PathWithDelim( Path ) )) then
       raise Exception.Create('Diretorio: ' + PathWithDelim( Path ) +' não encontrado.');
 
-    AStream := TMemoryStream.Create;
-
+    ConsultaCNPJDM.Travar;
     try
-
-    ConsultaCNPJDM.ACBrConsultaCNPJ1.Captcha(AStream);
-    Resposta := StreamToBase64(AStream);
-
-    MoverStringParaPChar(Resposta, sResposta, esTamanho);
-    Result := SetRetorno(ErrOK, Resposta);
-
-    if (Path <> '') then
-    begin
+      AStream := TMemoryStream.Create;
       try
-        AStream.SaveToFile( PathWithDelim(Path) + CCAPTCHA_CNPJ + '.png');
-      except
-        raise Exception.Create(ACBrStr('Falha ao gravar arquivo ' + CCAPTCHA_CNPJ + '.png'));
-      end;
-    end;
+        ConsultaCNPJDM.ACBrConsultaCNPJ1.Captcha(AStream);
+        Resposta := StreamToBase64(AStream);
 
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+
+        if (Path <> '') then
+        begin
+          try
+            AStream.SaveToFile( PathWithDelim(Path) + CCAPTCHA_CNPJ + '.png');
+          except
+            raise Exception.Create(ACBrStr('Falha ao gravar arquivo ' + CCAPTCHA_CNPJ + '.png'));
+          end;
+        end;
+
+      finally
+        AStream.Free;
+      end;
     finally
-      AStream.Free;
       ConsultaCNPJDM.Destravar;
     end;
   except
@@ -170,14 +170,11 @@ begin
 
     ConsultaCNPJDM.Travar;
     try
-  
-
       ConsultaCNPJDM.ACBrConsultaCNPJ1.Consulta(CNPJ);
       AResposta:= '';
 
       Resp := TLibConsultaCNPJConsulta.Create(Config.TipoResposta, Config.CodResposta);
       try
-
         Resp.Processar(ConsultaCNPJDM.ACBrConsultaCNPJ1);
         AResposta:= Resp.Gerar;
       finally

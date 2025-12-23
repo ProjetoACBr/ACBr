@@ -599,7 +599,6 @@ begin
       GravarLog('MDFE_GerarChave', logNormal);
 
     MDFeDM.Travar;
-
     try
       Resposta := '';
       Resposta := GerarChaveAcesso(ACodigoUF, Emissao, CNPJCPF, ASerie, ANumero, ATpEmi, ACodigoNumerico, AModelo);
@@ -729,19 +728,22 @@ begin
     GravarLog('MDFE_StatusServico', logNormal);
 
     MDFeDM.Travar;
-    Resp := TStatusServicoResposta.Create(Config.TipoResposta, Config.CodResposta);
     try
-      with MDFeDM.ACBrMDFe1 do
-      begin
-        WebServices.StatusServico.Executar;
+      Resp := TStatusServicoResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        with MDFeDM.ACBrMDFe1 do
+        begin
+          WebServices.StatusServico.Executar;
 
-        Resp.Processar(MDFeDM.ACBrMDFe1);
-        Resposta := Resp.Gerar;
-        MoverStringParaPChar(Resposta, sResposta, esTamanho);
-        Result := SetRetorno(ErrOK, Resposta);
+          Resp.Processar(MDFeDM.ACBrMDFe1);
+          Resposta := Resp.Gerar;
+          MoverStringParaPChar(Resposta, sResposta, esTamanho);
+          Result := SetRetorno(ErrOK, Resposta);
+        end;
+      finally
+        Resp.Free;
       end;
     finally
-      Resp.Free;
       MDFeDM.Destravar;
     end;
   except
@@ -792,18 +794,20 @@ begin
 
       MDFeDM.ACBrMDFe1.WebServices.Consulta.ExtrairEventos := AExtrairEventos;
       Resp := TConsultaResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        with MDFeDM.ACBrMDFe1 do
+        begin
+          WebServices.Consulta.Executar;
+          Resp.Processar(MDFeDM.ACBrMDFe1);
 
-      with MDFeDM.ACBrMDFe1 do
-      begin
-        WebServices.Consulta.Executar;
-        Resp.Processar(MDFeDM.ACBrMDFe1);
-
-        Resposta := Resp.Gerar;
-        MoverStringParaPChar(Resposta, sResposta, esTamanho);
-        Result := SetRetorno(ErrOK, Resposta);
+          Resposta := Resp.Gerar;
+          MoverStringParaPChar(Resposta, sResposta, esTamanho);
+          Result := SetRetorno(ErrOK, Resposta);
+        end;
+      finally
+        Resp.Free;
       end;
     finally
-      Resp.Free;
       MDFeDM.Destravar;
     end;
   except
@@ -948,7 +952,6 @@ begin
       GravarLog('MDFE_ConsultarRecibo', logNormal);
 
     MDFeDM.Travar;
-
     try
       with MDFeDM.ACBrMDFe1 do
       begin
@@ -997,7 +1000,6 @@ begin
       GravarLog('MDFE_Cancelar', logNormal);
 
     MDFeDM.Travar;
-
     try
       if not ValidarChave(AChave) then
         raise EACBrLibException.Create(ErrChaveMDFe, Format(SErrChaveInvalida, [AChave]))
@@ -1071,7 +1073,6 @@ begin
       GravarLog('MDFE_EnviarEvento', logNormal);
 
     MDFeDM.Travar;
-
     try
       with MDFeDM.ACBrMDFe1 do
       begin
@@ -1142,8 +1143,8 @@ begin
         WebServices.EnvEvento.Executar;
       end;
 
+      Resp := TEventoResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
-        Resp := TEventoResposta.Create(Config.TipoResposta, Config.CodResposta);
         Resp.Processar(MDFeDM.ACBrMDFe1);
         Resposta := Resp.Gerar;
       finally
@@ -1185,7 +1186,6 @@ begin
       GravarLog('MDFE_EncerrarMDFe', logNormal);
 
     MDFeDM.Travar;
-
     try
       with MDFeDM.ACBrMDFe1 do
       begin
@@ -1256,7 +1256,6 @@ begin
 
         Resposta := '';
         Resp := TEncerramentoResposta.Create(Config.TipoResposta, Config.CodResposta);
-
         try
           Resp.Processar(MDFeDM.ACBrMDFe1);
           Resposta := Resp.Gerar;
@@ -1293,7 +1292,6 @@ begin
       GravarLog('MDFE_ConsultaMDFeNaoEnc', logNormal);
 
     MDFeDM.Travar;
-
     try
       if not ValidarCNPJouCPF(CNPJ) then
         raise EACBrLibException.Create(ErrCNPJ, 'CNPJ/CPF ' + CNPJ + ' invalido.');
@@ -1525,7 +1523,6 @@ begin
       GravarLog('MDFe_EnviarEmail', logNormal);
 
     MDFeDM.Travar;
-
     try
       with MDFeDM do
       begin
@@ -1737,18 +1734,19 @@ begin
       GravarLog('MDFe_Imprimir', logNormal);
 
     MDFeDM.Travar;
-
-    Resposta := TLibImpressaoResposta.Create(MDFeDM.ACBrMDFe1.Manifestos.Count, Config.TipoResposta, Config.CodResposta);
-
     try
-      MDFeDM.ConfigurarImpressao(Impressora, False, Protocolo, MostrarPreview);
-      if nNumCopias > 0 then
-        MDFeDM.ACBrMDFe1.DAMDFE.NumCopias := nNumCopias;
-      MDFeDM.ACBrMDFe1.Manifestos.Imprimir;
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+      Resposta := TLibImpressaoResposta.Create(MDFeDM.ACBrMDFe1.Manifestos.Count, Config.TipoResposta, Config.CodResposta);
+      try
+        MDFeDM.ConfigurarImpressao(Impressora, False, Protocolo, MostrarPreview);
+        if nNumCopias > 0 then
+          MDFeDM.ACBrMDFe1.DAMDFE.NumCopias := nNumCopias;
+        MDFeDM.ACBrMDFe1.Manifestos.Imprimir;
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        MDFeDM.FinalizarImpressao;
+        Resposta.Free;
+      end;
     finally
-      MDFeDM.FinalizarImpressao;
-      Resposta.Free;
       MDFeDM.Destravar;
     end;
   except
@@ -1768,18 +1766,19 @@ begin
     GravarLog('MDFe_ImprimirPDF', logNormal);
 
     MDFeDM.Travar;
-    Resposta := TLibImpressaoResposta.Create(MDFeDM.ACBrMDFe1.Manifestos.Count, Config.TipoResposta,
-                                               Config.CodResposta);
-
     try
-      MDFeDM.ConfigurarImpressao('', True);
-      MDFeDM.ACBrMDFe1.Manifestos.ImprimirPDF;
+      Resposta := TLibImpressaoResposta.Create(MDFeDM.ACBrMDFe1.Manifestos.Count, Config.TipoResposta,
+      try
+        MDFeDM.ConfigurarImpressao('', True);
+        MDFeDM.ACBrMDFe1.Manifestos.ImprimirPDF;
 
-      Resposta.Msg := MDFeDM.ACBrMDFe1.DAMDFE.ArquivoPDF;
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+        Resposta.Msg := MDFeDM.ACBrMDFe1.DAMDFE.ArquivoPDF;
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        Resposta.Free;
+        MDFeDM.FinalizarImpressao;
+      end;
     finally
-      Resposta.Free;
-      MDFeDM.FinalizarImpressao;
       MDFeDM.Destravar;
     end;
   except
@@ -1800,23 +1799,23 @@ begin
      GravarLog('MDFe_SalvarPDF', logNormal);
 
      MDFeDM.Travar;
-
-     AStream := TMemoryStream.Create;
-
      try
-       MDFeDM.ConfigurarImpressao('', True);
+       AStream := TMemoryStream.Create;
+       try
+         MDFeDM.ConfigurarImpressao('', True);
 
-       MDFeDM.ACBrMDFe1.Manifestos.ImprimirPDF(AStream);
-       Resposta := StreamToBase64(AStream);
+         MDFeDM.ACBrMDFe1.Manifestos.ImprimirPDF(AStream);
+         Resposta := StreamToBase64(AStream);
 
-       MoverStringParaPChar(Resposta, sResposta, esTamanho);
-       Result := SetRetorno(ErrOK, Resposta);
+         MoverStringParaPChar(Resposta, sResposta, esTamanho);
+         Result := SetRetorno(ErrOK, Resposta);
+       finally
+         MDFeDM.FinalizarImpressao;
+         AStream.Free;
+       end;
      finally
-       MDFeDM.FinalizarImpressao;
-       AStream.Free;
        MDFeDM.Destravar;
      end;
-
   except
     on E: EACBrLibException do
       Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
@@ -1842,37 +1841,38 @@ begin
       GravarLog('MDFe_ImprimirEvento', logNormal);
 
     MDFeDM.Travar;
-    Resposta := TLibImpressaoResposta.Create(MDFeDM.ACBrMDFe1.EventoMDFe.Evento.Count, Config.TipoResposta,
-                                               Config.CodResposta);
-
     try
-      EhArquivo := StringEhArquivo(AArquivoXmlMDFe);
+      Resposta := TLibImpressaoResposta.Create(MDFeDM.ACBrMDFe1.EventoMDFe.Evento.Count, Config.TipoResposta,
+        Config.CodResposta);
+      try
+        EhArquivo := StringEhArquivo(AArquivoXmlMDFe);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlMDFe);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlMDFe);
+        if EhArquivo then
+          MDFeDM.ACBrMDFe1.Manifestos.LoadFromFile(AArquivoXmlMDFe)
+        else
+          MDFeDM.ACBrMDFe1.Manifestos.LoadFromString(AArquivoXmlMDFe);
 
-      if EhArquivo then
-        MDFeDM.ACBrMDFe1.Manifestos.LoadFromFile(AArquivoXmlMDFe)
-      else
-        MDFeDM.ACBrMDFe1.Manifestos.LoadFromString(AArquivoXmlMDFe);
+        EhArquivo := StringEhArquivo(AArquivoXmlEvento);
 
-      EhArquivo := StringEhArquivo(AArquivoXmlEvento);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlEvento);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlEvento);
+        if EhArquivo then
+          MDFeDM.ACBrMDFe1.EventoMDFe.LerXML(AArquivoXmlEvento)
+        else
+          MDFeDM.ACBrMDFe1.EventoMDFe.LerXMLFromString(AArquivoXmlEvento);
 
-      if EhArquivo then
-        MDFeDM.ACBrMDFe1.EventoMDFe.LerXML(AArquivoXmlEvento)
-      else
-        MDFeDM.ACBrMDFe1.EventoMDFe.LerXMLFromString(AArquivoXmlEvento);
+        MDFeDM.ConfigurarImpressao;
+        MDFeDM.ACBrMDFe1.ImprimirEvento;
 
-      MDFeDM.ConfigurarImpressao;
-      MDFeDM.ACBrMDFe1.ImprimirEvento;
-
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        Resposta.Free;
+        MDFeDM.FinalizarImpressao;
+      end;
     finally
-      Resposta.Free;
-      MDFeDM.FinalizarImpressao;
       MDFeDM.Destravar;
     end;
   except
@@ -1900,37 +1900,40 @@ begin
       GravarLog('MDFe_ImprimirEventoPDF', logNormal);
 
     MDFeDM.Travar;
-    Resposta := TLibImpressaoResposta.Create(MDFeDM.ACBrMDFe1.EventoMDFe.Evento.Count, Config.TipoResposta,
-                                               Config.CodResposta);
     try
-      EhArquivo := StringEhArquivo(AArquivoXmlMDFe);
+      Resposta := TLibImpressaoResposta.Create(MDFeDM.ACBrMDFe1.EventoMDFe.Evento.Count, Config.TipoResposta,
+                                                 Config.CodResposta);
+      try
+        EhArquivo := StringEhArquivo(AArquivoXmlMDFe);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlMDFe);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlMDFe);
 
-      if EhArquivo then
-        MDFeDM.ACBrMDFe1.Manifestos.LoadFromFile(AArquivoXmlMDFe)
-      else
-        MDFeDM.ACBrMDFe1.Manifestos.LoadFromString(AArquivoXmlMDFe);
+        if EhArquivo then
+          MDFeDM.ACBrMDFe1.Manifestos.LoadFromFile(AArquivoXmlMDFe)
+        else
+          MDFeDM.ACBrMDFe1.Manifestos.LoadFromString(AArquivoXmlMDFe);
 
-      EhArquivo := StringEhArquivo(AArquivoXmlEvento);
+        EhArquivo := StringEhArquivo(AArquivoXmlEvento);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlEvento);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlEvento);
 
-      if EhArquivo then
-        MDFeDM.ACBrMDFe1.EventoMDFe.LerXML(AArquivoXmlEvento)
-      else
-        MDFeDM.ACBrMDFe1.EventoMDFe.LerXMLFromString(AArquivoXmlEvento);
+        if EhArquivo then
+          MDFeDM.ACBrMDFe1.EventoMDFe.LerXML(AArquivoXmlEvento)
+        else
+          MDFeDM.ACBrMDFe1.EventoMDFe.LerXMLFromString(AArquivoXmlEvento);
 
-      MDFeDM.ConfigurarImpressao('', True);
-      MDFeDM.ACBrMDFe1.ImprimirEventoPDF;
+        MDFeDM.ConfigurarImpressao('', True);
+        MDFeDM.ACBrMDFe1.ImprimirEventoPDF;
 
-      Resposta.Msg := MDFeDM.ACBrMDFe1.DAMDFE.ArquivoPDF;
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+        Resposta.Msg := MDFeDM.ACBrMDFe1.DAMDFE.ArquivoPDF;
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        Resposta.Free;
+        MDFeDM.FinalizarImpressao;
+      end;
     finally
-      Resposta.Free;
-      MDFeDM.FinalizarImpressao;
       MDFeDM.Destravar;
     end;
   except
@@ -1960,43 +1963,44 @@ begin
         GravarLog('MDFe_SalvarEventoPDF', logNormal);
 
     MDFeDM.Travar;
-    AStream := TMemoryStream.Create;
-
     try
-      EhArquivo := StringEhArquivo(AArquivoXmlMDFe);
+      AStream := TMemoryStream.Create;
+      try
+        EhArquivo := StringEhArquivo(AArquivoXmlMDFe);
 
-      if EhArquivo then
-      VerificarArquivoExiste(AArquivoXmlMDFe);
+        if EhArquivo then
+        VerificarArquivoExiste(AArquivoXmlMDFe);
 
-      if EhArquivo then
-      MDFeDM.ACBrMDFe1.Manifestos.LoadFromFile(AArquivoXmlMDFe)
-      else
-      MDFeDM.ACBrMDFe1.Manifestos.LoadFromString(AArquivoXmlMDFe);
+        if EhArquivo then
+        MDFeDM.ACBrMDFe1.Manifestos.LoadFromFile(AArquivoXmlMDFe)
+        else
+        MDFeDM.ACBrMDFe1.Manifestos.LoadFromString(AArquivoXmlMDFe);
 
-      EhArquivo := StringEhArquivo(AArquivoXmlEvento);
+        EhArquivo := StringEhArquivo(AArquivoXmlEvento);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlEvento);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlEvento);
 
-      if EhArquivo then
-        MDFeDM.ACBrMDFe1.EventoMDFe.LerXML(AArquivoXmlEvento)
-      else
-        MDFeDM.ACBrMDFe1.EventoMDFe.LerXMLFromString(AArquivoXmlEvento);
+        if EhArquivo then
+          MDFeDM.ACBrMDFe1.EventoMDFe.LerXML(AArquivoXmlEvento)
+        else
+          MDFeDM.ACBrMDFe1.EventoMDFe.LerXMLFromString(AArquivoXmlEvento);
 
-      MDFeDM.ConfigurarImpressao('', True);
-      MDFeDM.ACBrMDFe1.DAMDFE.ImprimirEVENTOPDF(AStream);
+        MDFeDM.ConfigurarImpressao('', True);
+        MDFeDM.ACBrMDFe1.DAMDFE.ImprimirEVENTOPDF(AStream);
 
-      Resposta := StreamToBase64(AStream);
+        Resposta := StreamToBase64(AStream);
 
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
 
+      finally
+        MDFeDM.FinalizarImpressao;
+        AStream.Free;
+      end;
     finally
-      MDFeDM.FinalizarImpressao;
-      AStream.Free;
       MDFeDM.Destravar;
     end;
-
   except
     on E: EACBrLibException do
       Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));

@@ -185,7 +185,6 @@ begin
       GravarLog('DIS_LimparLinha', logNormal);
 
     DISDM.Travar;
-
     try
       DISDM.ACBrDIS1.LimparLinha(Linha);
       Result := SetRetorno(ErrOK);

@@ -113,18 +113,19 @@ begin
     try
       IBGEDM.ACBrIBGE1.BuscarPorCodigo(ACodMun);
       Resp := TLibIBGEResposta.Create(1, Config.TipoResposta, Config.CodResposta);
-
-      if (IBGEDM.ACBrIBGE1.Cidades.Count > 0) then
-      begin
-        Resp.Processar(IBGEDM.ACBrIBGE1.Cidades[0]);
-        AResposta := Resp.Gerar;
+      try
+        if (IBGEDM.ACBrIBGE1.Cidades.Count > 0) then
+        begin
+          Resp.Processar(IBGEDM.ACBrIBGE1.Cidades[0]);
+          AResposta := Resp.Gerar;
+        end;
+      finally
+        Resp.Free;
       end;
-
       MoverStringParaPChar(AResposta, sResposta, esTamanho);
       Result := SetRetorno(IBGEDM.ACBrIBGE1.Cidades.Count, AResposta);
     finally
       IBGEDM.Destravar;
-      Resp.Free;
     end;
   except
     on E: EACBrLibException do
@@ -153,24 +154,22 @@ begin
       GravarLog('IBGE_BuscarPorNome', logNormal);
 
     IBGEDM.Travar;
-
     try
-       IBGEDM.ACBrIBGE1.BuscarPorNome(ACidade, AUF, Exata);
-       AResposta:='';
+      IBGEDM.ACBrIBGE1.BuscarPorNome(ACidade, AUF, Exata);
+      AResposta:='';
 
-       SetLength(Items, IBGEDM.ACBrIBGE1.Cidades.Count);
+      SetLength(Items, IBGEDM.ACBrIBGE1.Cidades.Count);
 
-       for I:= 0 to IBGEDM.ACBrIBGE1.Cidades.Count - 1 do
-       begin
+      for I:= 0 to IBGEDM.ACBrIBGE1.Cidades.Count - 1 do
+      begin
          Item := TLibIBGEResposta.Create(I+1, Config.TipoResposta, Config.CodResposta);
          Item.Processar(IBGEDM.ACBrIBGE1.Cidades[i]);
          Items[I] := Item;
-       end;
+      end;
 
-       AResposta := TACBrObjectSerializer.Gerar<TLibIBGEResposta>(Items, Config.TipoResposta, Config.CodResposta);
-       MoverStringParaPChar(AResposta, sResposta, esTamanho);
-       Result := SetRetorno(IBGEDM.ACBrIBGE1.Cidades.Count, AResposta);
-
+      AResposta := TACBrObjectSerializer.Gerar<TLibIBGEResposta>(Items, Config.TipoResposta, Config.CodResposta);
+      MoverStringParaPChar(AResposta, sResposta, esTamanho);
+      Result := SetRetorno(IBGEDM.ACBrIBGE1.Cidades.Count, AResposta);
   finally
     IBGEDM.Destravar;
     for I := 0 to Length(Items) - 1 do
@@ -178,13 +177,13 @@ begin
 
     Items := nil;
   end;
-    except
-      on E: EACBrLibException do
-      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+  except
+    on E: EACBrLibException do
+    Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
 
-    on E: Exception do
-      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
-    end;
+  on E: Exception do
+    Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+  end;
 end;
 
 end.
