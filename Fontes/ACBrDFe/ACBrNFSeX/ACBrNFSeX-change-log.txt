@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+23/12/2025
+-- Tiplan.GravarXml --
+[*] ACBR-8619: O provedor também fez alterações no layout em uso, ajustes no componente
+    visando essa alteração no layout.
+   Por: Luis AGSI
+
 22/12/2025
 -- ACBrNFSeXServicosRTC.ini --
 [*] ACBR-8636: A cidade Santo Antônio de Pádua/RJ mudou para o provedor PadraoNacional.
