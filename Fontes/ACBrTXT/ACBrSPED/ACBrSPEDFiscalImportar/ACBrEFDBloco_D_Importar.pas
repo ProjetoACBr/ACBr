@@ -56,6 +56,8 @@ type
     procedure RegD500;
     procedure RegD590;
     procedure RegD600;
+    procedure RegD700;
+    procedure RegD730;
     procedure AnalisaRegistro(const inDelimitador: TStrings); override;
   end;
 
@@ -88,7 +90,11 @@ begin
   else if (vHead = 'D590') then
     RegD590
   else if (vHead = 'D600') then
-    RegD600;
+    RegD600
+  else if (vHead = 'D700') then
+    RegD700
+  else if (vHead = 'D730') then
+    RegD730;
 end;
 
 procedure TACBrSpedFiscalImportar_BlocoD.RegD001;
@@ -232,6 +238,60 @@ begin
     VL_COFINS := ValorF;
     COD_CTA := Valor;
     TP_ASSINANTE := StrToTpAssinante(Valor);
+  end;
+end;
+
+procedure TACBrSpedFiscalImportar_BlocoD.RegD700;
+begin
+  with ACBrSpedFiscal.Bloco_D.RegistroD700New do
+  begin
+    IND_OPER        := StrToIndOper(Valor);
+    IND_EMIT        := StrToIndEmit(Valor);
+    COD_PART        := Valor;
+    COD_MOD         := Valor;
+    COD_SIT         := StrToCodSit(Valor);
+    SER             := Valor;
+    NUM_DOC         := Valor;
+    DT_DOC          := ValorD;
+    DT_E_S          := ValorD;
+    VL_DOC          := ValorF;
+    VL_DESC         := ValorF;
+    VL_SERV         := ValorF;
+    VL_SERV_NT      := ValorF;
+    VL_TERC         := ValorF;
+    VL_DA           := ValorF;
+    VL_BC_ICMS      := ValorF;
+    VL_ICMS         := ValorF;
+    COD_INF         := Valor;
+    VL_PIS          := ValorF;
+    VL_COFINS       := ValorF;
+
+    CHV_DOCe        := Valor;
+    FIN_DOCe        := StrToFinEmissaoFatElet(Valor);
+    TIP_FAT         := StrToTipoFaturamentoDOCe(Valor);
+    COD_MOD_DOC_REF := Valor;
+    CHV_DOCe_REF    := Valor;
+    HASH_DOC_REF    := Valor;
+    SER_DOC_REF     := Valor;
+    NUM_DOC_REF     := Valor;
+    MES_DOC_REF     := Valor;
+    COD_MUN_DEST    := Valor;
+    DED             := ValorF;
+  end;
+end;
+
+procedure TACBrSpedFiscalImportar_BlocoD.RegD730;
+begin
+  with ACBrSpedFiscal.Bloco_D.RegistroD730New do
+  begin
+    CST_ICMS      := Valor;
+    CFOP          := Valor;
+    ALIQ_ICMS     := ValorF;
+    VL_OPR        := ValorF;
+    VL_BC_ICMS    := ValorF;
+    VL_ICMS       := ValorF;
+    VL_RED_BC     := ValorF;
+    COD_OBS       := Valor;
   end;
 end;
 
