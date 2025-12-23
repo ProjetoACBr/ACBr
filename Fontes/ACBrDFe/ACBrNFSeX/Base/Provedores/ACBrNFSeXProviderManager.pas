@@ -284,7 +284,13 @@ begin
 
       proConam:     Result := TACBrNFSeProviderConam.Create(ACBrNFSe);
       proContass:   Result := TACBrNFSeProviderContass.Create(ACBrNFSe);
-      proCoplan:    Result := TACBrNFSeProviderCoplan201.Create(ACBrNFSe);
+      proCoplan:
+        begin
+          if APIPropria then
+            Result := TACBrNFSeProviderCoplanAPIPropria.Create(ACBrNFSe)
+          else
+            Result := TACBrNFSeProviderCoplan201.Create(ACBrNFSe);
+        end;
       proCTA:       Result := TACBrNFSeProviderCTA200.Create(ACBrNFSe);
 
       proCTAConsult:

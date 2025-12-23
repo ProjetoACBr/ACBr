@@ -43,10 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/12/2025
--- ACBrNFSeXGravarXml_ABRASFv2 --
-[*] ACBR-8643: Alteração na posição do campo CodigoNBS no xml.
-    por: ArecoDesenv
-
+-- ACBrNFSeXProviderManager/Coplan.GravarXml/Coplan.LerXml/Coplan.Provider --
+[*] ACBR-8631: Implementação da API Própria do Provedor Coplan que vai usar um WS Soap.
+   Por: Márcio Baroni
 23/12/2025
 -- Tiplan.GravarXml --
 [*] ACBR-8619: O provedor também fez alterações no layout em uso, ajustes no componente

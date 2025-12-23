@@ -38,12 +38,22 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXLerXml_ABRASFv2;
+  ACBrNFSeXLerXml_ABRASFv2,
+  PadraoNacional.LerXml;
 
 type
   { TNFSeR_Coplan201 }
 
   TNFSeR_Coplan201 = class(TNFSeR_ABRASFv2)
+  protected
+
+  public
+
+  end;
+
+  { TNFSeR_CoplanAPIPropria }
+
+  TNFSeR_CoplanAPIPropria = class(TNFSeR_PadraoNacional)
   protected
 
   public

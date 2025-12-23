@@ -40,7 +40,8 @@ uses
   SysUtils, Classes, StrUtils,
   ACBrXmlBase,
   ACBrNFSeXGravarXml_ABRASFv2,
-  ACBrNFSeXConversao;
+  ACBrNFSeXConversao,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_Coplan201 }
@@ -50,6 +51,13 @@ type
     procedure Configuracao; override;
   public
     function GerarXml: Boolean; override;
+  end;
+
+  { TNFSeW_CoplanAPIPropria }
+
+  TNFSeW_CoplanAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
+
   end;
 
 implementation
