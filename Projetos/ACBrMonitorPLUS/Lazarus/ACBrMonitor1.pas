@@ -7435,6 +7435,7 @@ begin
       ArquivoWebServicesGNRe    := edtArquivoWebServicesGNRe.Text;
       ArquivoWebServiceseSocial := edtArquivoWebServiceseSocial.Text;
       ArquivoWebServicesReinf   := edtArquivoWebServicesReinf.Text;
+      ArquivoWebServicesNFSe    := edtArquivoWebServicesNFSe.Text;
       ValidarDigest             := cbValidarDigest.Checked;
       TimeoutWebService         := edtTimeoutWebServices.Value;
       QuebraDeLinha             := edtQuebraDeLinha.Text;
