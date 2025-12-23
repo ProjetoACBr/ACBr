@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/12/2025
+-- ACBrNFe.EventoClass --
+[*] #ACBR-8532 - Complementa a rotina DescricaoTipoEvento utilizada para nomear o evento no impresso do Fast Reports.
+  Por: Diego Folieni
+
 16/12/2025
 -- ACBrNFe.XmlWriter --
 [*] No grupo Retirada e Entrega o CNPJ é opcional.

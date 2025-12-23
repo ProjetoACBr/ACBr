@@ -846,8 +846,8 @@ begin
     teImobilizacaoItem       : Result := 'Imobilização de Item';
     teSolicApropCredCombustivel : Result := 'Solicitação de Apropriação de Crédito de Combustível';
     teSolicApropCredBensServicos : Result := 'Solicitação de Apropriação de Crédito para bens e serviços que dependem de atividade do adquirente';
-    teManifPedTransfCredIBSSucessao : Result := '';
-    teManifPedTransfCredCBSSucessao : Result := '';
+    teManifPedTransfCredIBSSucessao : Result := 'Manifestação sobre Pedido de Transferência de Crédito de IBS em Operação de Sucessão';
+    teManifPedTransfCredCBSSucessao : Result := 'Manifestação sobre Pedido de Transferência de Crédito de CBS em Operação de Sucessão';
   else
     Result := 'Não Definido';
   end;

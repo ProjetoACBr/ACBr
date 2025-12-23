@@ -327,12 +327,11 @@ begin
     rlbCorrecao.Visible := True;
     RLLabel6.Visible := True;
     rlmCorrecao.Visible := True;
+    rllTitulo.Caption := InfEvento.detEvento.descEvento;
     // Preenche os campos específicos de acordo com o evento
     case InfEvento.tpEvento of
       teCCe:
       begin
-        rllTitulo.Caption := ACBrStr('CARTA DE CORREÇÃO ELETRÔNICA');
-
         // Preenche os campos - "Condições de uso"
         RLLabel21.Caption := ACBrStr('CONDIÇÕES DE USO');
         rlmCondUso.Lines.Clear;
@@ -345,35 +344,17 @@ begin
 
       teCancelamento:
       begin
-        rllTitulo.Caption := 'CANCELAMENTO DE NF-E';
         rlmJustificativa.Lines.Text := InfEvento.detEvento.xJust;
       end;
 
       teCancSubst:
       begin
-        rllTitulo.Caption := ACBrStr('CANCELAMENTO DE NF-E POR SUBSTITUIÇÃO');
         rlmJustificativa.Lines.Text := InfEvento.detEvento.xJust + sLineBreak +
                                     InfEvento.detEvento.chNFeRef;
       end;
 
-      teManifDestConfirmacao:
-      begin
-        rllTitulo.Caption := ACBrStr('CONFIRMAÇÃO DA OPERAÇÃO');
-      end;
-
-      teManifDestCiencia:
-      begin
-        rllTitulo.Caption := ACBrStr('CIÊNCIA DA EMISSÃO/OPERAÇÃO');
-      end;
-
-      teManifDestDesconhecimento:
-      begin
-        rllTitulo.Caption := ACBrStr('DESCONHECIMENTO DA OPERAÇÃO');
-      end;
-
       teManifDestOperNaoRealizada:
       begin
-        rllTitulo.Caption := ACBrStr('OPERAÇÃO NÃO REALIZADA');
         rlmJustificativa.Lines.Text := InfEvento.detEvento.xJust;
       end;
 
@@ -388,16 +369,9 @@ begin
         rlmCondUso.Lines.Add('Valor do ICMS ST: ' + FormatFloatBr(msk13x2, InfEvento.detEvento.vST));
       end;
 
-      tePedProrrog1,
-      tePedProrrog2:
-      begin
-        rllTitulo.Caption := ACBrStr('EVENTO DE PEDIDO DE PRORROGAÇÃO');
-      end;
-
       teCanPedProrrog1,
       teCanPedProrrog2:
       begin
-        rllTitulo.Caption := ACBrStr('EVENTO DE CANCELAMENTO DO PEDIDO DE PRORROGAÇÃO');
         RLLabel21.Caption := ACBrStr('Identificação do Pedido Cancelado');
         rlmCondUso.Lines.Clear;
         rlmCondUso.Lines.Add(InfEvento.detEvento.idPedidoCancelado);
@@ -405,7 +379,6 @@ begin
 
       teComprEntregaNFe:
       begin
-        rllTitulo.Caption := ACBrStr('EVENTO DE COMPROVANTE DE ENTREGA');
         RLLabel21.Caption := ACBrStr('DESCRIÇÃO');
         rlmCondUso.Lines.Clear;
         rlmCondUso.Lines.Add('Destinatário: ' + InfEvento.detEvento.xNome);
@@ -413,14 +386,8 @@ begin
         rlmCondUso.Lines.Add('Num. Doc.   : ' + InfEvento.detEvento.nDoc);
       end;
 
-      teCancComprEntregaNFe:
-      begin
-        rllTitulo.Caption := ACBrStr('EVENTO DE CANCELAMENTO DO COMPROVANTE DE ENTREGA');
-      end;
-
       teAtorInteressadoNFe:
       begin
-        rllTitulo.Caption := ACBrStr('EVENTO DE ATOR INTERESSADO');
         RLLabel21.Caption := ACBrStr('ATOR');
         rlmCondUso.Lines.Clear;
 
@@ -430,7 +397,6 @@ begin
 
       teInsucessoEntregaNFe:
       begin
-        rllTitulo.Caption := ACBrStr('INSUCESSO DE ENTREGA DE NFE');
         rlmJustificativa.Lines.Text := InfEvento.detEvento.xJustMotivo;
 
         RLDraw50.Visible := False;
@@ -444,7 +410,6 @@ begin
 
       teCancInsucessoEntregaNFe:
       begin
-        rllTitulo.Caption := ACBrStr('CANCELAMENTO DE INSUCESSO DE ENTREGA DE NFE');
         rlmJustificativa.Lines.Text := InfEvento.detEvento.xJustMotivo;
 
         RLDraw50.Visible := False;
@@ -456,22 +421,9 @@ begin
         rlmCorrecao.Visible := False;
       end;
 
-      teConcFinanceira:
-      begin
-        rllTitulo.Caption := ACBrStr('ECONF');
-
-        RLDraw50.Visible := False;
-        RLLabel21.Visible := False;
-        rlmCondUso.Visible := False;
-
-        rlbCorrecao.Visible := False;
-        RLLabel6.Visible := False;
-        rlmCorrecao.Visible := False;
-      end;
-
+      teConcFinanceira,
       teCancConcFinanceira:
       begin
-        rllTitulo.Caption := ACBrStr('CANCELAMENTO DE ECONF');
         RLDraw50.Visible := False;
         RLLabel21.Visible := False;
         rlmCondUso.Visible := False;
