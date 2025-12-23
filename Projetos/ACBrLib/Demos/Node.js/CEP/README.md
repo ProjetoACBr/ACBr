@@ -16,14 +16,26 @@
 npm install
 ```
 
-### 2️⃣ Prepare a estrutura de pastas
+
+### 2️⃣ Estrutura de pastas
 
 ```
 📦 CEP/
-├── 📄 main.js
-├── ⚙️ acbrlib.ini
-├── 🔧 libacbrcep64.so (Linux) ou ACBrCEP64.dll (Windows)
-└── 📂 node_modules/
+├── javascript/
+│   ├── main.js
+│   ├── ACBrLib.ini
+│   ├── lib_teste-acbrlibcep-mt.js
+│   └── package.json
+│
+├── typescript/
+│   ├── index.ts
+│   ├── ACBrLib.ini
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── src/
+│
+├── README.md
+└── ... (outros arquivos e pastas)
 ```
 
 > 📋 **Importante**: Copie a biblioteca `libacbrcep64.so` (Linux) ou `ACBrCEP64.dll` (Windows) para a **raiz** do projeto CEP.
@@ -36,7 +48,35 @@ node main.js
 
 > ⚠️ **Windows**: Use biblioteca CDECL MT (64 bits)
 
----
+
+## 🟦 Exemplo em TypeScript
+
+O diretório `typescript/` contém um exemplo de uso da ACBrLibCEP com TypeScript, utilizando ES Module, baseado nas configurações padrão do TypeScript 5.9.3
+
+> ℹ️ O arquivo `tsconfig.json` está configurado com `types: ["node"]` e `lib: ["esnext"]` para garantir compatibilidade com recursos modernos do Node.js e ECMAScript.
+
+### 1️⃣ Instale as dependências
+
+```bash
+cd typescript
+npm install
+```
+
+### 2️⃣ Compile o projeto
+
+```bash
+npx tsc
+```
+
+### 3️⃣ Execute o exemplo
+
+```bash
+node .
+```
+
+> 📋 **Importante**: Copie a biblioteca `libacbrcep64.so` (Linux) ou `ACBrCEP64.dll` (Windows) para a pasta `typescript/`.
+
+O código principal está em [`typescript/index.ts`](typescript/index.ts), demonstrando a inicialização da biblioteca, configuração do WebService e consulta de CEP.
 
 <div align="center">
   <p>Feito com ❤️ pela equipe Projeto ACBr</p>

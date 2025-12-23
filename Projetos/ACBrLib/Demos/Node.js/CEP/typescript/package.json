@@ -1,0 +1,10 @@
+{
+  "type":"module",
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@projetoacbr/acbrlib-cep-node": "^1.0.7"
+  }
+}
