@@ -729,6 +729,9 @@ begin
     Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, NrOcorrCodTribMun_1,
                      NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
 
+    Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, NrOcorrCodigoNBS,
+                                             NFSe.Servico.CodigoNBS, DSC_CMUN));
+
     Result.AppendChild(AddNode(tcStr, '#32', 'Discriminacao', 1, 2000, NrOcorrDiscriminacao_1,
       StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
                FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_DISCR));
@@ -741,9 +744,6 @@ begin
 
     Result.AppendChild(AddNode(tcStr, '#31', 'CodigoServicoNacional', 1, 20, 0,
                                        NFSe.Servico.CodigoServicoNacional, ''));
-
-    Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, NrOcorrCodigoNBS,
-                                             NFSe.Servico.CodigoNBS, DSC_CMUN));
 
     Result.AppendChild(AddNode(tcStr, '#33', 'Discriminacao', 1, 2000, NrOcorrDiscriminacao_2,
       StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,

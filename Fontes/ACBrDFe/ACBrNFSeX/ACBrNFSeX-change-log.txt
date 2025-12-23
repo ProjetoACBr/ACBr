@@ -42,6 +42,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/12/2025
+-- ACBrNFSeXGravarXml_ABRASFv2 --
+[*] ACBR-8643: Alteração na posição do campo CodigoNBS no xml.
+    por: ArecoDesenv
 
 23/12/2025
 -- Tiplan.GravarXml --
