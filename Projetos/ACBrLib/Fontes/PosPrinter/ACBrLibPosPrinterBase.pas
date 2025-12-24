@@ -621,8 +621,8 @@ begin
       GravarLog('POS_LerStatusImpressora', logNormal);
 
     PosDM.Travar;
-    status := 0;
     try
+      status := 0;
       RetStatus := PosDM.ACBrPosPrinter1.LerStatusImpressora(Tentativas);
       if RetStatus <> [] then
       begin
@@ -690,15 +690,17 @@ begin
       GravarLog('POS_RetornarTags', logNormal);
 
     PosDM.Travar;
-    Tags := TStringList.Create;
-
     try
-      PosDM.ACBrPosPrinter1.RetornarTags(Tags, IncluiAjuda);
-      Resposta := StringReplace(Tags.Text, sLineBreak, '|', [rfReplaceAll]);
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      Tags := TStringList.Create;
+      try
+        PosDM.ACBrPosPrinter1.RetornarTags(Tags, IncluiAjuda);
+        Resposta := StringReplace(Tags.Text, sLineBreak, '|', [rfReplaceAll]);
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        Tags.Free;
+      end;
     finally
-      Tags.Free;
       PosDM.Destravar;
     end;
   except
@@ -718,9 +720,8 @@ begin
     GravarLog('POS_AcharPortas', logNormal);
 
     PosDM.Travar;
-
-    Resposta := '';
     try
+      Resposta := '';
       Resposta := PortasSeriais(PosDM.ACBrPosPrinter1.Device);
 
       Portas := '';

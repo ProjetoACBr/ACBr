@@ -272,7 +272,6 @@ begin
       GravarLog('NFSE_ObterXml', logNormal);
 
     NFSeDM.Travar;
-
     try
       if (NFSeDM.ACBrNFSeX1.NotasFiscais.Count < 1) or (aIndex < 0) or
          (aIndex >= NFSeDM.ACBrNFSeX1.NotasFiscais.Count) then
@@ -307,7 +306,6 @@ begin
       GravarLog('NFSE_ObterXmlRps', logNormal);
 
     NFSeDM.Travar;
-
     try
       if (NFSeDM.ACBrNFSeX1.NotasFiscais.Count < 1) or (aIndex < 0) or
          (aIndex >= NFSeDM.ACBrNFSeX1.NotasFiscais.Count) then
@@ -480,7 +478,6 @@ begin
     GravarLog('NFSE_ObterCertificados', logNormal);
 
     NFSeDM.Travar;
-
     try
       Resposta := '';
       Resposta := ObterCerticados(NFSeDM.ACBrNFSeX1.SSL);
@@ -1008,9 +1005,9 @@ begin
         finally
           Resp.Free;
         end;
-    finally
-      InfConsultaNFSe.Free;
-    end;
+      finally
+        InfConsultaNFSe.Free;
+      end;
     finally
       NFSeDM.Destravar;
     end;
@@ -1055,9 +1052,9 @@ begin
         finally
           Resp.Free;
         end;
-    finally
-      InfConsultaLinkNFSe.Free;
-    end;
+      finally
+        InfConsultaLinkNFSe.Free;
+      end;
     finally
       NFSeDM.Destravar;
     end;
@@ -1102,47 +1099,47 @@ begin
 
         if EhArquivo then
           ACBrNFSeX1.NotasFiscais.LoadFromFile(AXmlNFSe)
-          else
+        else
           ACBrNFSeX1.NotasFiscais.LoadFromString(AXmlNFSe);
 
         if ACBrNFSeX1.NotasFiscais.Count = 0 then
           raise EACBrLibException.Create(ErrEnvio, Format(SInfNFSeCarregadas, [ACBrNFSeX1.NotasFiscais.Count]))
-          else
-          begin
-            slMensagemEmail := TStringList.Create;
-            slCC := TStringList.Create;
-            slAnexos := TStringList.Create;
-            Resp := TLibNFSeResposta.Create('EnviarEmail', Config.TipoResposta, Config.CodResposta);
-            try
-              with ACBrNFSeX1 do
-              begin
-                slMensagemEmail.DelimitedText := sLineBreak;
-                slMensagemEmail.Text := StringReplace(AMensagem, ';', sLineBreak, [rfReplaceAll]);
+        else
+        begin
+          slMensagemEmail := TStringList.Create;
+          slCC := TStringList.Create;
+          slAnexos := TStringList.Create;
+          Resp := TLibNFSeResposta.Create('EnviarEmail', Config.TipoResposta, Config.CodResposta);
+          try
+            with ACBrNFSeX1 do
+            begin
+              slMensagemEmail.DelimitedText := sLineBreak;
+              slMensagemEmail.Text := StringReplace(AMensagem, ';', sLineBreak, [rfReplaceAll]);
 
-                slCC.DelimitedText := sLineBreak;
-                slCC.Text := StringReplace(ACC, ';', sLineBreak, [rfReplaceAll]);
+              slCC.DelimitedText := sLineBreak;
+              slCC.Text := StringReplace(ACC, ';', sLineBreak, [rfReplaceAll]);
 
-                slAnexos.DelimitedText := sLineBreak;
-                slAnexos.Text := StringReplace(AAnexos, ';', sLineBreak, [rfReplaceAll]);
+              slAnexos.DelimitedText := sLineBreak;
+              slAnexos.Text := StringReplace(AAnexos, ';', sLineBreak, [rfReplaceAll]);
 
-                if (AEnviaPDF) then
-                  NFSeDM.ConfigurarImpressao('', True);
+              if (AEnviaPDF) then
+                NFSeDM.ConfigurarImpressao('', True);
 
-                NotasFiscais.Items[0].EnviarEmail(APara, AAssunto, slMensagemEmail, AEnviaPDF, slCC, slAnexos);
+              NotasFiscais.Items[0].EnviarEmail(APara, AAssunto, slMensagemEmail, AEnviaPDF, slCC, slAnexos);
 
-                Resp.Msg := 'Email enviado com sucesso';
-                Resposta := Resp.Gerar;
+              Resp.Msg := 'Email enviado com sucesso';
+              Resposta := Resp.Gerar;
 
-                Result := SetRetorno(ErrOK, Resposta);
-              end;
-            finally
-              Resp.Free;
-              slCC.Free;
-              slAnexos.Free;
-              slMensagemEmail.Free;
-              if (AEnviaPDF) then NFSeDM.FinalizarImpressao;
+              Result := SetRetorno(ErrOK, Resposta);
             end;
+          finally
+            Resp.Free;
+            slCC.Free;
+            slAnexos.Free;
+            slMensagemEmail.Free;
+            if (AEnviaPDF) then NFSeDM.FinalizarImpressao;
           end;
+        end;
       end;
     finally
       NFSeDM.Destravar;
@@ -1173,19 +1170,21 @@ begin
       GravarLog('NFSE_Imprimir', logNormal);
 
     NFSeDM.Travar;
-    Resposta := TLibImpressaoResposta.Create(NFSeDM.ACBrNFSeX1.NotasFiscais.Count, Config.TipoResposta, Config.CodResposta);
-
     try
-      NFSeDM.ConfigurarImpressao(Impressora, False, MostrarPreview, Cancelada);
-      if nNumCopias > 0 then
-        NFSeDM.ACBrNFSeX1.DANFSE.NumCopias := nNumCopias;
+      Resposta := TLibImpressaoResposta.Create(NFSeDM.ACBrNFSeX1.NotasFiscais.Count, Config.TipoResposta, Config.CodResposta);
+      try
+        NFSeDM.ConfigurarImpressao(Impressora, False, MostrarPreview, Cancelada);
+        if nNumCopias > 0 then
+          NFSeDM.ACBrNFSeX1.DANFSE.NumCopias := nNumCopias;
 
-      NFSeDM.ACBrNFSeX1.NotasFiscais.Imprimir;
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+        NFSeDM.ACBrNFSeX1.NotasFiscais.Imprimir;
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        NFSeDM.FinalizarImpressao;
+        Resposta.Free;
+      end;
     finally
-    NFSeDM.FinalizarImpressao;
-    Resposta.Free;
-    NFSeDM.Destravar;
+      NFSeDM.Destravar;
     end;
   except
     on E: EACBrLibException do
@@ -1204,7 +1203,6 @@ begin
     GravarLog('NFSE_ImprimirPDF', logNormal);
 
     NFSeDM.Travar;
-
     try
       Resposta := TLibImpressaoResposta.Create(NFSeDM.ACBrNFSeX1.NotasFiscais.Count, Config.TipoResposta, Config.CodResposta);
       try
@@ -1214,13 +1212,13 @@ begin
           Resposta.Msg := NFSeDM.ACBrNFSeX1.DANFSE.ArquivoPDF;
           Result := SetRetorno(ErrOK, Resposta.Gerar);
         finally
-        NFSeDM.FinalizarImpressao;
+          NFSeDM.FinalizarImpressao;
         end;
       finally
-      Resposta.Free;
+        Resposta.Free;
       end;
     finally
-    NFSeDM.Destravar;
+      NFSeDM.Destravar;
     end;
   except
     on E: EACBrLibException do
@@ -1240,20 +1238,21 @@ begin
     GravarLog('NFSE_SalvarPDF', logNormal);
 
     NFSeDM.Travar;
-
-    AStream := TMemoryStream.Create;
-
     try
-      NFSeDM.ConfigurarImpressao('', True);
+      AStream := TMemoryStream.Create;
+      try
+        NFSeDM.ConfigurarImpressao('', True);
 
-      NFSeDM.ACBrNFSeX1.NotasFiscais.ImprimirPDF(AStream);
-      Resposta := StreamToBase64(AStream);
+        NFSeDM.ACBrNFSeX1.NotasFiscais.ImprimirPDF(AStream);
+        Resposta := StreamToBase64(AStream);
 
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        NFSeDM.FinalizarImpressao;
+        AStream.Free;
+      end;
     finally
-      NFSeDM.FinalizarImpressao;
-      AStream.Free;
       NFSeDM.Destravar;
     end;
   except

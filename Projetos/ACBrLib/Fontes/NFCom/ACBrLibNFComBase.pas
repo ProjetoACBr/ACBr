@@ -694,19 +694,22 @@ begin
     GravarLog('NFCom_StatusServico', logNormal);
 
     NFComDM.Travar;
-    Resp := TStatusServicoResposta.Create(Config.TipoResposta, Config.CodResposta);
     try
-      with NFComDM.ACBrNFCom1 do
-      begin
-        WebServices.StatusServico.Executar;
+      Resp := TStatusServicoResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        with NFComDM.ACBrNFCom1 do
+        begin
+          WebServices.StatusServico.Executar;
 
-        Resp.Processar(NFComDM.ACBrNFCom1);
-        Resposta := Resp.Gerar;
-        MoverStringParaPChar(Resposta, sResposta, esTamanho);
-        Result := SetRetorno(ErrOK, Resposta);
+          Resp.Processar(NFComDM.ACBrNFCom1);
+          Resposta := Resp.Gerar;
+          MoverStringParaPChar(Resposta, sResposta, esTamanho);
+          Result := SetRetorno(ErrOK, Resposta);
+        end;
+      finally
+        Resp.Free;
       end;
     finally
-      Resp.Free;
       NFComDM.Destravar;
     end;
   except
@@ -843,42 +846,44 @@ begin
       GravarLog('NFCom_Consultar', logNormal);
 
     NFComDM.Travar;
-
-    EhArquivo := StringEhArquivo(ChaveOuNFCom);
-
-    if EhArquivo and not ValidarChave(ChaveOuNFCom) then
-      begin
-        VerificarArquivoExiste(ChaveOuNFCom);
-        NFComDM.ACBrNFCom1.NotasFiscais.LoadFromFile(ChaveOuNFCom);
-      end;
-
-    if NFComDM.ACBrNFCom1.NotasFiscais.Count = 0 then
-      begin
-        if ValidarChave(ChaveOuNFCom) then
-          NFComDM.ACBrNFCom1.WebServices.Consulta.NFComChave := ChaveOuNFCom
-        else
-          raise EACBrLibException.Create(ErrChaveNFCom, Format(SErrChaveInvalida, [ChaveOuNFCom]));
-      end
-    else
-    NFComDM.ACBrNFCom1.WebServices.Consulta.NFComChave := NFComDM.ACBrNFCom1.NotasFiscais.Items[NFComDM.ACBrNFCom1.NotasFiscais.Count - 1].NumID;
-
-    NFComDM.ACBrNFCom1.WebServices.Consulta.ExtrairEventos := AExtrairEventos;
-    Resp := TConsultaNFComResposta.Create(Config.TipoResposta, Config.CodResposta);
-
     try
-      with NFComDM.ACBrNFCom1 do
-      begin
-        WebServices.Consulta.Executar;
-        Resp.Processar(NFComDM.ACBrNFCom1);
+      EhArquivo := StringEhArquivo(ChaveOuNFCom);
 
-        Resposta := Resp.Gerar;
-        MoverStringParaPChar(Resposta, sResposta, esTamanho);
-        Result := SetRetorno(ErrOK, Resposta);
+      if EhArquivo and not ValidarChave(ChaveOuNFCom) then
+        begin
+          VerificarArquivoExiste(ChaveOuNFCom);
+          NFComDM.ACBrNFCom1.NotasFiscais.LoadFromFile(ChaveOuNFCom);
+        end;
+
+      if NFComDM.ACBrNFCom1.NotasFiscais.Count = 0 then
+        begin
+          if ValidarChave(ChaveOuNFCom) then
+            NFComDM.ACBrNFCom1.WebServices.Consulta.NFComChave := ChaveOuNFCom
+          else
+            raise EACBrLibException.Create(ErrChaveNFCom, Format(SErrChaveInvalida, [ChaveOuNFCom]));
+        end
+      else
+      NFComDM.ACBrNFCom1.WebServices.Consulta.NFComChave := NFComDM.ACBrNFCom1.NotasFiscais.Items[NFComDM.ACBrNFCom1.NotasFiscais.Count - 1].NumID;
+
+      NFComDM.ACBrNFCom1.WebServices.Consulta.ExtrairEventos := AExtrairEventos;
+      Resp := TConsultaNFComResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        with NFComDM.ACBrNFCom1 do
+        begin
+          WebServices.Consulta.Executar;
+          Resp.Processar(NFComDM.ACBrNFCom1);
+
+          Resposta := Resp.Gerar;
+          MoverStringParaPChar(Resposta, sResposta, esTamanho);
+          Result := SetRetorno(ErrOK, Resposta);
+        end;
+      finally
+        Resp.Free;
       end;
     finally
-      Resp.Free;
       NFComDM.Destravar;
     end;
+
   except
     on E: EACBrLibException do
       Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
@@ -1056,8 +1061,8 @@ begin
         WebServices.EnvEvento.Executar;
       end;
 
+      Resp := TEventoResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
-        Resp := TEventoResposta.Create(Config.TipoResposta, Config.CodResposta);
         Resp.Processar(NFComDM.ACBrNFCom1);
         Resposta := Resp.Gerar;
       finally
@@ -1105,30 +1110,30 @@ begin
       GravarLog('NFCom_EnviarEmail', logNormal);
 
     NFComDM.Travar;
-    LNFComEnviar := TACBrNFCom.Create(NFComDM.ACBrNFCom1);
-
     try
-      if (AEnviaPDF) then
-        NFComDM.ConfigurarImpressao('', True);
+      LNFComEnviar := TACBrNFCom.Create(NFComDM.ACBrNFCom1);
+      try
+        if (AEnviaPDF) then
+          NFComDM.ConfigurarImpressao('', True);
 
-      LNFComEnviar.MAIL := NFComDM.ACBrMail1;
-      LNFComEnviar.DANFCom := NFComDM.ACBrNFCom1.DANFCom;
+        LNFComEnviar.MAIL := NFComDM.ACBrMail1;
+        LNFComEnviar.DANFCom := NFComDM.ACBrNFCom1.DANFCom;
 
-      EhArquivo := StringEhArquivo(AXmlNFCom);
+        EhArquivo := StringEhArquivo(AXmlNFCom);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AXmlNFCom);
+        if EhArquivo then
+          VerificarArquivoExiste(AXmlNFCom);
 
-      if EhArquivo then
-        LXmlCarregado := LNFComEnviar.NotasFiscais.LoadFromFile(AXmlNFCom)
+        if EhArquivo then
+          LXmlCarregado := LNFComEnviar.NotasFiscais.LoadFromFile(AXmlNFCom)
         else
-        LXmlCarregado := LNFComEnviar.NotasFiscais.LoadFromString(AXmlNFCom);
+          LXmlCarregado := LNFComEnviar.NotasFiscais.LoadFromString(AXmlNFCom);
 
-      if not LXmlCarregado then
-        raise EACBrLibException.Create(ErrEnvio, 'Erro Caminho ou conteudo do XML inválido, não foi possível fazer a leitura do conteúdo do XML');
+        if not LXmlCarregado then
+          raise EACBrLibException.Create(ErrEnvio, 'Erro Caminho ou conteudo do XML inválido, não foi possível fazer a leitura do conteúdo do XML');
 
-      if LNFComEnviar.NotasFiscais.Count = 0 then
-        raise EACBrLibException.Create(ErrEnvio, Format(SInfNFComCarregadas, [LNFComEnviar.NotasFiscais.Count]))
+        if LNFComEnviar.NotasFiscais.Count = 0 then
+          raise EACBrLibException.Create(ErrEnvio, Format(SInfNFComCarregadas, [LNFComEnviar.NotasFiscais.Count]))
         else
         begin
           slMensagemEmail := TStringList.Create;
@@ -1166,9 +1171,11 @@ begin
             if (AEnviaPDF) then NFComDM.FinalizarImpressao;
           end;
         end;
+      finally
+        LNFComEnviar.Free;
+      end;
     finally
       NFComDM.Destravar;
-      LNFComEnviar.Free;
     end;
   except
     on E: EACBrLibException do
@@ -1217,7 +1224,7 @@ begin
         if EhArquivo then
           EventoNFCom.LerXML(AXmlEvento)
         else
-         EventoNFCom.LerXMLFromString(AXmlEvento);
+          EventoNFCom.LerXMLFromString(AXmlEvento);
 
         EhArquivo := StringEhArquivo(AXmlNFCom);
 
@@ -1231,7 +1238,7 @@ begin
 
         if EventoNFCom.Evento.Count = 0 then
           raise EACBrLibException.Create(ErrEnvio, Format(SInfEventosCarregados, [EventoNFCom.Evento.Count]))
-          else
+        else
         begin
           slMensagemEmail := TStringList.Create;
           slCC := TStringList.Create;
@@ -1320,18 +1327,20 @@ begin
       GravarLog('NFCom_Imprimir', logNormal);
 
     NFComDM.Travar;
-    Resposta := TLibImpressaoResposta.Create(NFComDM.ACBrNFCom1.NotasFiscais.Count, Config.TipoResposta, Config.CodResposta);
-
     try
-      NFComDM.ConfigurarImpressao(Impressora, False, MostrarPreview);
-      if nNumCopias > 0 then
-        NFComDM.ACBrNFCom1.DANFCom.NumCopias := nNumCopias;
+      Resposta := TLibImpressaoResposta.Create(NFComDM.ACBrNFCom1.NotasFiscais.Count, Config.TipoResposta, Config.CodResposta);
+      try
+        NFComDM.ConfigurarImpressao(Impressora, False, MostrarPreview);
+        if nNumCopias > 0 then
+          NFComDM.ACBrNFCom1.DANFCom.NumCopias := nNumCopias;
 
-      NFComDM.ACBrNFCom1.NotasFiscais.Imprimir;
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+        NFComDM.ACBrNFCom1.NotasFiscais.Imprimir;
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        NFComDM.FinalizarImpressao;
+        Resposta.Free;
+      end;
     finally
-      NFComDM.FinalizarImpressao;
-      Resposta.Free;
       NFComDM.Destravar;
     end;
   except
@@ -1387,19 +1396,23 @@ begin
     GravarLog('NFCom_SalvarPDF', logNormal);
 
     NFComDM.Travar;
-    AStream := TMemoryStream.Create;
     try
-      NFComDM.ConfigurarImpressao('', True);
+      AStream := TMemoryStream.Create;
+      try
+        NFComDM.ConfigurarImpressao('', True);
 
-      NFComDM.ACBrNFCom1.NotasFiscais.ImprimirPDF(AStream);
-      Resposta := StreamToBase64(AStream);
+        NFComDM.ACBrNFCom1.NotasFiscais.ImprimirPDF(AStream);
+        Resposta := StreamToBase64(AStream);
 
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        NFComDM.FinalizarImpressao;
+        AStream.Free;
+        NFComDM.Free;
+      end;
     finally
-      NFComDM.FinalizarImpressao;
-      AStream.Free;
-      NFComDM.Free;
+      NFComDM.Destravar;
     end;
   except
     on E: EACBrLibException do
@@ -1428,36 +1441,38 @@ begin
       GravarLog('NFCom_ImprimirEvento', logNormal);
 
     NFComDM.Travar;
-    Resposta := TLibImpressaoResposta.Create(NFComDM.ACBrNFCom1.EventoNFCom.Evento.Count, Config.TipoResposta, Config.CodResposta);
-
     try
-      EhArquivo := StringEhArquivo(AArquivoXmlNFCom);
+      Resposta := TLibImpressaoResposta.Create(NFComDM.ACBrNFCom1.EventoNFCom.Evento.Count, Config.TipoResposta, Config.CodResposta);
+      try
+        EhArquivo := StringEhArquivo(AArquivoXmlNFCom);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlNFCom);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlNFCom);
 
-      if EhArquivo then
-        NFComDM.ACBrNFCom1.NotasFiscais.LoadFromFile(AArquivoXmlNFCom)
-      else
-        NFComDM.ACBrNFCom1.NotasFiscais.LoadFromString(AArquivoXmlNFCom);
+        if EhArquivo then
+          NFComDM.ACBrNFCom1.NotasFiscais.LoadFromFile(AArquivoXmlNFCom)
+        else
+          NFComDM.ACBrNFCom1.NotasFiscais.LoadFromString(AArquivoXmlNFCom);
 
-      EhArquivo := StringEhArquivo(AArquivoXmlEvento);
+        EhArquivo := StringEhArquivo(AArquivoXmlEvento);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlEvento);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlEvento);
 
-      if EhArquivo then
-        NFComDM.ACBrNFCom1.EventoNFCom.LerXML(AArquivoXmlEvento)
-      else
-        NFComDM.ACBrNFCom1.EventoNFCom.LerXMLFromString(AArquivoXmlEvento);
+        if EhArquivo then
+          NFComDM.ACBrNFCom1.EventoNFCom.LerXML(AArquivoXmlEvento)
+        else
+          NFComDM.ACBrNFCom1.EventoNFCom.LerXMLFromString(AArquivoXmlEvento);
 
-      NFComDM.ConfigurarImpressao;
-      NFComDM.ACBrNFCom1.ImprimirEvento;
+        NFComDM.ConfigurarImpressao;
+        NFComDM.ACBrNFCom1.ImprimirEvento;
 
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        NFComDM.FinalizarImpressao;
+        Resposta.Free;
+      end;
     finally
-      NFComDM.FinalizarImpressao;
-      Resposta.Free;
       NFComDM.Destravar;
     end;
   except
@@ -1487,37 +1502,39 @@ begin
       GravarLog('NFCom_ImprimirEventoPDF', logNormal);
 
     NFComDM.Travar;
-    Resposta := TLibImpressaoResposta.Create(NFComDM.ACBrNFCom1.EventoNFCom.Evento.Count, Config.TipoResposta, Config.CodResposta);
-
     try
-      EhArquivo := StringEhArquivo(AArquivoXmlNFCom);
+      Resposta := TLibImpressaoResposta.Create(NFComDM.ACBrNFCom1.EventoNFCom.Evento.Count, Config.TipoResposta, Config.CodResposta);
+      try
+        EhArquivo := StringEhArquivo(AArquivoXmlNFCom);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlNFCom);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlNFCom);
 
-      if EhArquivo then
-        NFComDM.ACBrNFCom1.NotasFiscais.LoadFromFile(AArquivoXmlNFCom)
-      else
-        NFComDM.ACBrNFCom1.NotasFiscais.LoadFromString(AArquivoXmlNFCom);
+        if EhArquivo then
+          NFComDM.ACBrNFCom1.NotasFiscais.LoadFromFile(AArquivoXmlNFCom)
+        else
+          NFComDM.ACBrNFCom1.NotasFiscais.LoadFromString(AArquivoXmlNFCom);
 
-      EhArquivo := StringEhArquivo(AArquivoXmlEvento);
+        EhArquivo := StringEhArquivo(AArquivoXmlEvento);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlEvento);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlEvento);
 
-      if EhArquivo then
-        NFComDM.ACBrNFCom1.EventoNFCom.LerXML(AArquivoXmlEvento)
-      else
-        NFComDM.ACBrNFCom1.EventoNFCom.LerXMLFromString(AArquivoXmlEvento);
+        if EhArquivo then
+          NFComDM.ACBrNFCom1.EventoNFCom.LerXML(AArquivoXmlEvento)
+        else
+          NFComDM.ACBrNFCom1.EventoNFCom.LerXMLFromString(AArquivoXmlEvento);
 
-      NFComDM.ConfigurarImpressao('', True);
-      NFComDM.ACBrNFCom1.ImprimirEventoPDF;
+        NFComDM.ConfigurarImpressao('', True);
+        NFComDM.ACBrNFCom1.ImprimirEventoPDF;
 
-      Resposta.Msg := NFComDM.ACBrNFCom1.DANFCom.ArquivoPDF;
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+        Resposta.Msg := NFComDM.ACBrNFCom1.DANFCom.ArquivoPDF;
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        NFComDM.FinalizarImpressao;
+        Resposta.Free;
+      end;
     finally
-      NFComDM.FinalizarImpressao;
-      Resposta.Free;
       NFComDM.Destravar;
     end;
   except
@@ -1548,39 +1565,41 @@ begin
       GravarLog('NFCom_SalvarEventoPDF', logNormal);
 
     NFComDM.Travar;
-    AStream := TMemoryStream.Create;
-
     try
-      EhArquivo := StringEhArquivo(AArquivoXmlNFCom);
+      AStream := TMemoryStream.Create;
+      try
+        EhArquivo := StringEhArquivo(AArquivoXmlNFCom);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlNFCom);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlNFCom);
 
-      if EhArquivo then
-        NFComDM.ACBrNFCom1.NotasFiscais.LoadFromFile(AArquivoXmlNFCom)
-      else
-        NFComDM.ACBrNFCom1.NotasFiscais.LoadFromString(AArquivoXmlNFCom);
+        if EhArquivo then
+          NFComDM.ACBrNFCom1.NotasFiscais.LoadFromFile(AArquivoXmlNFCom)
+        else
+          NFComDM.ACBrNFCom1.NotasFiscais.LoadFromString(AArquivoXmlNFCom);
 
-      EhArquivo := StringEhArquivo(AArquivoXmlEvento);
+        EhArquivo := StringEhArquivo(AArquivoXmlEvento);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlEvento);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlEvento);
 
-      if EhArquivo then
-        NFComDM.ACBrNFCom1.EventoNFCom.LerXML(AArquivoXmlEvento)
-      else
-        NFComDM.ACBrNFCom1.EventoNFCom.LerXMLFromString(AArquivoXmlEvento);
+        if EhArquivo then
+          NFComDM.ACBrNFCom1.EventoNFCom.LerXML(AArquivoXmlEvento)
+        else
+          NFComDM.ACBrNFCom1.EventoNFCom.LerXMLFromString(AArquivoXmlEvento);
 
-      NFComDM.ConfigurarImpressao('', True);
-      NFComDM.ACBrNFCom1.DANFCom.ImprimirEVENTOPDF(AStream);
+        NFComDM.ConfigurarImpressao('', True);
+        NFComDM.ACBrNFCom1.DANFCom.ImprimirEVENTOPDF(AStream);
 
-      Resposta := StreamToBase64(AStream);
+        Resposta := StreamToBase64(AStream);
 
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        NFComDM.FinalizarImpressao;
+        AStream.Free;
+      end;
     finally
-      NFComDM.FinalizarImpressao;
-      AStream.Free;
       NFComDM.Destravar;
     end;
   except

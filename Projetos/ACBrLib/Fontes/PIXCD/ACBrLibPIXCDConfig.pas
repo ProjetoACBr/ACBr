@@ -683,7 +683,7 @@ begin
   if Assigned(Owner) then
     begin
       with TACBrLibPIXCD(Owner) do
-      PIXCDDM.Travar;
+        PIXCDDM.Travar;
     end;
 end;
 

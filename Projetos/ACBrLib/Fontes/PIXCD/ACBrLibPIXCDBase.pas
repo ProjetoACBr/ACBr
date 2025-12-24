@@ -1045,18 +1045,21 @@ begin
 
   try
     PIXCDDM.Travar;
-    LTokenResp := TLibPIXCDRetornoGerarToken.Create(CSessaoRespPIXCD, Config.TipoResposta, Config.CodResposta);
     try
-      PIXCDDM.ACBrPixCD1.PSP.GerarToken(LToken, LValidade);
-      LTokenResp.Processar(LToken, LValidade);
+      LTokenResp := TLibPIXCDRetornoGerarToken.Create(CSessaoRespPIXCD, Config.TipoResposta, Config.CodResposta);
+      try
+        PIXCDDM.ACBrPixCD1.PSP.GerarToken(LToken, LValidade);
+        LTokenResp.Processar(LToken, LValidade);
 
-      Resposta := LTokenResp.Gerar;
+        Resposta := LTokenResp.Gerar;
 
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        LTokenResp.Free;
+      end;
     finally
       PIXCDDM.Destravar;
-      LTokenResp.Free;
     end;
   except
     on E: EACBrLibException do
@@ -1108,12 +1111,12 @@ var
 begin
   try
     if Config.Log.Nivel > logNormal then
-       GravarLog('PIXCD_Matera_IncluirConta(' + aInfIncluirConta + ' )', logCompleto, True)
+      GravarLog('PIXCD_Matera_IncluirConta(' + aInfIncluirConta + ' )', logCompleto, True)
     else
-       GravarLog('PIXCD_Matera_IncluirConta', logNormal);
+      GravarLog('PIXCD_Matera_IncluirConta', logNormal);
 
     if StringEhArquivo(aInfIncluirConta) then
-    VerificarArquivoExiste(aInfIncluirConta);
+      VerificarArquivoExiste(aInfIncluirConta);
 
     PIXCDDM.Travar;
     try
@@ -1163,9 +1166,9 @@ begin
     accountid := ConverterStringEntrada(aAccountId);
 
     if Config.Log.Nivel > logNormal then
-       GravarLog('PIXCD_Matera_ConsultarConta(' + accountid + ' )', logCompleto, True)
-       else
-       GravarLog('PIXCD_Matera_ConsultarConta', logNormal);
+      GravarLog('PIXCD_Matera_ConsultarConta(' + accountid + ' )', logCompleto, True)
+    else
+      GravarLog('PIXCD_Matera_ConsultarConta', logNormal);
 
     PIXCDDM.Travar;
     try
@@ -1204,9 +1207,9 @@ begin
     accountid := ConverterStringEntrada(aAccountId);
 
     if Config.Log.Nivel > logNormal then
-       GravarLog('PIXCD_Matera_InativarConta(' + accountid + ' )', logCompleto, True)
-       else
-       GravarLog('PIXCD_Matera_InativarConta', logNormal);
+      GravarLog('PIXCD_Matera_InativarConta(' + accountid + ' )', logCompleto, True)
+    else
+      GravarLog('PIXCD_Matera_InativarConta', logNormal);
 
     PIXCDDM.Travar;
     try
@@ -1262,13 +1265,12 @@ begin
     externalid := ConverterStringEntrada(aExternalID);
 
     if Config.Log.Nivel > logNormal then
-       GravarLog('PIXCD_Matera_IncluirChavePix(' + accountid + ',' + externalid +' )', logCompleto, True)
-       else
-       GravarLog('PIXCD_Matera_IncluirChavePix', logNormal);
+      GravarLog('PIXCD_Matera_IncluirChavePix(' + accountid + ',' + externalid +' )', logCompleto, True)
+    else
+      GravarLog('PIXCD_Matera_IncluirChavePix', logNormal);
 
     PIXCDDM.Travar;
     try
-
       with PIXCDDM.ACBrPSPMatera1 do
       begin
         ChavePIXSolicitacao.externalIdentifier := externalid;
@@ -1325,9 +1327,9 @@ begin
     accountid := ConverterStringEntrada(aAccountId);
 
     if Config.Log.Nivel > logNormal then
-       GravarLog('PIXCD_Matera_ConsultarChavePix(' + accountid + ' )', logCompleto, True)
-       else
-       GravarLog('PIXCD_Matera_ConsultarChavePix', logNormal);
+      GravarLog('PIXCD_Matera_ConsultarChavePix(' + accountid + ' )', logCompleto, True)
+    else
+      GravarLog('PIXCD_Matera_ConsultarChavePix', logNormal);
 
     PIXCDDM.Travar;
     try
@@ -1367,9 +1369,9 @@ begin
     chavepix := ConverterStringEntrada(aChavePIX);
 
     if Config.Log.Nivel > logNormal then
-       GravarLog('PIXCD_Matera_ExcluirChavePix(' + accountid + ',' + chavepix + ' )', logCompleto, True)
-       else
-       GravarLog('PIXCD_Matera_ExcluirChavePix', logNormal);
+      GravarLog('PIXCD_Matera_ExcluirChavePix(' + accountid + ',' + chavepix + ' )', logCompleto, True)
+    else
+      GravarLog('PIXCD_Matera_ExcluirChavePix', logNormal);
 
     PIXCDDM.Travar;
     try
@@ -1420,12 +1422,12 @@ var
 begin
   try
     if Config.Log.Nivel > logNormal then
-       GravarLog('PIXCD_Matera_GerarQRCode(' + aInfQRCode + ' )', logCompleto, True)
+      GravarLog('PIXCD_Matera_GerarQRCode(' + aInfQRCode + ' )', logCompleto, True)
     else
-       GravarLog('PIXCD_Matera_GerarQRCode', logNormal);
+      GravarLog('PIXCD_Matera_GerarQRCode', logNormal);
 
     if StringEhArquivo(aInfQRCode) then
-    VerificarArquivoExiste(aInfQRCode);
+      VerificarArquivoExiste(aInfQRCode);
 
     PIXCDDM.Travar;
     try
@@ -1478,9 +1480,9 @@ begin
     transactionID := ConverterStringEntrada(aTransactionID);
 
     if Config.Log.Nivel > logNormal then
-       GravarLog('PIXCD_Matera_ConsultarTransacao(' + accountid + ',' + transactionID + ' )', logCompleto, True)
-       else
-       GravarLog('PIXCD_Matera_ConsultarTransacao', logNormal);
+      GravarLog('PIXCD_Matera_ConsultarTransacao(' + accountid + ',' + transactionID + ' )', logCompleto, True)
+    else
+      GravarLog('PIXCD_Matera_ConsultarTransacao', logNormal);
 
     PIXCDDM.Travar;
     try
@@ -1516,9 +1518,9 @@ begin
     accountid := ConverterStringEntrada(aAccountId);
 
     if Config.Log.Nivel > logNormal then
-       GravarLog('PIXCD_Matera_ConsultarSaldoEC(' + accountid + ' )', logCompleto, True)
-       else
-       GravarLog('PIXCD_Matera_ConsultarSaldoEC', logNormal);
+      GravarLog('PIXCD_Matera_ConsultarSaldoEC(' + accountid + ' )', logCompleto, True)
+    else
+      GravarLog('PIXCD_Matera_ConsultarSaldoEC', logNormal);
 
     PIXCDDM.Travar;
     try
@@ -1554,9 +1556,9 @@ begin
     accountid := ConverterStringEntrada(aAccountId);
 
     if Config.Log.Nivel > logNormal then
-       GravarLog('PIXCD_Matera_ConsultarExtratoEC(' + accountid + ',' + DateToStr(aInicio) + ',' + DateToStr(aFim) + ' )', logCompleto, True)
-       else
-       GravarLog('PIXCD_Matera_ConsultarExtratoEC', logNormal);
+      GravarLog('PIXCD_Matera_ConsultarExtratoEC(' + accountid + ',' + DateToStr(aInicio) + ',' + DateToStr(aFim) + ' )', logCompleto, True)
+    else
+      GravarLog('PIXCD_Matera_ConsultarExtratoEC', logNormal);
 
     PIXCDDM.Travar;
     try
@@ -1634,12 +1636,12 @@ begin
     transactionid := ConverterStringEntrada(aTransactionID);
 
     if Config.Log.Nivel > logNormal then
-       GravarLog('PIXCD_Matera_SolicitarDevolucao(' + aInfSolicitarDevolucao + ',' + accountid + ',' + transactionid + ' )', logCompleto, True)
+      GravarLog('PIXCD_Matera_SolicitarDevolucao(' + aInfSolicitarDevolucao + ',' + accountid + ',' + transactionid + ' )', logCompleto, True)
     else
-       GravarLog('PIXCD_Matera_SolicitarDevolucao', logNormal);
+      GravarLog('PIXCD_Matera_SolicitarDevolucao', logNormal);
 
     if StringEhArquivo(aInfSolicitarDevolucao) then
-    VerificarArquivoExiste(aInfSolicitarDevolucao);
+      VerificarArquivoExiste(aInfSolicitarDevolucao);
 
     PIXCDDM.Travar;
     try
@@ -1695,9 +1697,9 @@ begin
     alias := ConverterStringEntrada(aAlias);
 
     if Config.Log.Nivel > logNormal then
-       GravarLog('PIXCD_Matera_ConsultarAliasRetirada(' + accountid + ',' + alias + ' )', logCompleto, True)
-       else
-       GravarLog('PIXCD_Matera_ConsultarAliasRetirada', logNormal);
+      GravarLog('PIXCD_Matera_ConsultarAliasRetirada(' + accountid + ',' + alias + ' )', logCompleto, True)
+    else
+      GravarLog('PIXCD_Matera_ConsultarAliasRetirada', logNormal);
 
     PIXCDDM.Travar;
     try
@@ -1739,12 +1741,12 @@ begin
     accountid := ConverterStringEntrada(aAccountId);
 
     if Config.Log.Nivel > logNormal then
-       GravarLog('PIXCD_Matera_SolicitarRetirada(' + aInfSolicitarRetirada + ',' + accountid + ' )', logCompleto, True)
+      GravarLog('PIXCD_Matera_SolicitarRetirada(' + aInfSolicitarRetirada + ',' + accountid + ' )', logCompleto, True)
     else
-       GravarLog('PIXCD_Matera_SolicitarRetirada', logNormal);
+      GravarLog('PIXCD_Matera_SolicitarRetirada', logNormal);
 
     if StringEhArquivo(aInfSolicitarRetirada) then
-    VerificarArquivoExiste(aInfSolicitarRetirada);
+      VerificarArquivoExiste(aInfSolicitarRetirada);
 
     PIXCDDM.Travar;
     try

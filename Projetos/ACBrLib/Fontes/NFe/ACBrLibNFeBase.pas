@@ -247,7 +247,6 @@ begin
       VerificarArquivoExiste(ArquivoOuINI);
 
     NFeDM.Travar;
-
     try
       NFeDM.ACBrNFe1.NotasFiscais.LoadFromIni(ArquivoOuINI);
       Result := SetRetornoNFeCarregadas(NFeDM.ACBrNFe1.NotasFiscais.Count);
@@ -274,7 +273,6 @@ begin
       GravarLog('NFE_ObterXml', logNormal);
 
     NFeDM.Travar;
-
     try
       if (NFeDM.ACBrNFe1.NotasFiscais.Count < 1) or (AIndex < 0) or
          (AIndex >= NFeDM.ACBrNFe1.NotasFiscais.Count) then
@@ -655,7 +653,6 @@ begin
 
 
     NFeDM.Travar;
-
     try
       Resposta := '';
       Resposta := GerarChaveAcesso(ACodigoUF, Emissao, CNPJCPF, ASerie, ANumero, ATpEmi, ACodigoNumerico, AModelo);
@@ -682,7 +679,6 @@ begin
     GravarLog('NFE_ObterCertificados', logNormal);
 
     NFeDM.Travar;
-
     try
       Resposta := '';
       Resposta := ObterCerticados(NFeDM.ACBrNFe1.SSL);
@@ -712,7 +708,6 @@ begin
       GravarLog('NFE_GetPath', logNormal);
 
     NFeDM.Travar;
-
     try
       with NFeDM do
       begin
@@ -756,7 +751,6 @@ begin
       GravarLog('NFE_GetPathEvento', logNormal);
 
     NFeDM.Travar;
-
     try
       with NFeDM do
       begin
@@ -787,19 +781,22 @@ begin
     GravarLog('NFE_StatusServico', logNormal);
 
     NFeDM.Travar;
-    Resp := TStatusServicoResposta.Create(Config.TipoResposta, Config.CodResposta);
     try
-      with NFeDM.ACBrNFe1 do
-      begin
-        WebServices.StatusServico.Executar;
+      Resp := TStatusServicoResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        with NFeDM.ACBrNFe1 do
+        begin
+          WebServices.StatusServico.Executar;
 
-        Resp.Processar(NFeDM.ACBrNFe1);
-        Resposta := Resp.Gerar;
-        MoverStringParaPChar(Resposta, sResposta, esTamanho);
-        Result := SetRetorno(ErrOK, Resposta);
+          Resp.Processar(NFeDM.ACBrNFe1);
+          Resposta := Resp.Gerar;
+          MoverStringParaPChar(Resposta, sResposta, esTamanho);
+          Result := SetRetorno(ErrOK, Resposta);
+        end;
+      finally
+        Resp.Free;
       end;
     finally
-      Resp.Free;
       NFeDM.Destravar;
     end;
   except
@@ -833,40 +830,40 @@ begin
 
     NFeDM.Travar;
     try
+      EhArquivo := StringEhArquivo(ChaveOuNFe);
 
-    EhArquivo := StringEhArquivo(ChaveOuNFe);
-
-    if EhArquivo and not ValidarChave(ChaveOuNFe) then
-    begin
-      VerificarArquivoExiste(ChaveOuNFe);
-      NFeDM.ACBrNFe1.NotasFiscais.LoadFromFile(ChaveOuNFe);
-    end;
-
-    if NFeDM.ACBrNFe1.NotasFiscais.Count = 0 then
-    begin
-      if ValidarChave(ChaveOuNFe) then
-        NFeDM.ACBrNFe1.WebServices.Consulta.NFeChave := ChaveOuNFe
-      else
-        raise EACBrLibException.Create(ErrChaveNFe, Format(SErrChaveInvalida, [ChaveOuNFe]));
-    end
-    else
-      NFeDM.ACBrNFe1.WebServices.Consulta.NFeChave := NFeDM.ACBrNFe1.NotasFiscais.Items[NFeDM.ACBrNFe1.NotasFiscais.Count - 1].NumID;
-
-    NFeDM.ACBrNFe1.WebServices.Consulta.ExtrairEventos := AExtrairEventos;
-    Resp := TConsultaNFeResposta.Create(Config.TipoResposta, Config.CodResposta);
-
-
-      with NFeDM.ACBrNFe1 do
+      if EhArquivo and not ValidarChave(ChaveOuNFe) then
       begin
-        WebServices.Consulta.Executar;
-        Resp.Processar(NFeDM.ACBrNFe1);
+        VerificarArquivoExiste(ChaveOuNFe);
+        NFeDM.ACBrNFe1.NotasFiscais.LoadFromFile(ChaveOuNFe);
+      end;
 
-        Resposta := Resp.Gerar;
-        MoverStringParaPChar(Resposta, sResposta, esTamanho);
-        Result := SetRetorno(ErrOK, Resposta);
+      if NFeDM.ACBrNFe1.NotasFiscais.Count = 0 then
+      begin
+        if ValidarChave(ChaveOuNFe) then
+          NFeDM.ACBrNFe1.WebServices.Consulta.NFeChave := ChaveOuNFe
+        else
+          raise EACBrLibException.Create(ErrChaveNFe, Format(SErrChaveInvalida, [ChaveOuNFe]));
+      end
+      else
+        NFeDM.ACBrNFe1.WebServices.Consulta.NFeChave := NFeDM.ACBrNFe1.NotasFiscais.Items[NFeDM.ACBrNFe1.NotasFiscais.Count - 1].NumID;
+
+      NFeDM.ACBrNFe1.WebServices.Consulta.ExtrairEventos := AExtrairEventos;
+      Resp := TConsultaNFeResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        with NFeDM.ACBrNFe1 do
+        begin
+          WebServices.Consulta.Executar;
+          Resp.Processar(NFeDM.ACBrNFe1);
+
+          Resposta := Resp.Gerar;
+          MoverStringParaPChar(Resposta, sResposta, esTamanho);
+          Result := SetRetorno(ErrOK, Resposta);
+        end;
+      finally
+        Resp.Free;
       end;
     finally
-      Resp.Free;
       NFeDM.Destravar;
     end;
   except
@@ -903,30 +900,32 @@ begin
       raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJCPFInvalido, [CNPJCPF]));
 
     NFeDM.Travar;
-    Resp := TInutilizarNFeResposta.Create(Config.TipoResposta, Config.CodResposta);
-
     try
-      with NFeDM.ACBrNFe1 do
-      begin
-        with WebServices do
+      Resp := TInutilizarNFeResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        with NFeDM.ACBrNFe1 do
         begin
-          Inutilizacao.CNPJ := CNPJCPF;
-          Inutilizacao.Justificativa := Justificativa;
-          Inutilizacao.Modelo := Modelo;
-          Inutilizacao.Serie := Serie;
-          Inutilizacao.Ano := Ano;
-          Inutilizacao.NumeroInicial := NumeroInicial;
-          Inutilizacao.NumeroFinal := NumeroFinal;
+          with WebServices do
+          begin
+            Inutilizacao.CNPJ := CNPJCPF;
+            Inutilizacao.Justificativa := Justificativa;
+            Inutilizacao.Modelo := Modelo;
+            Inutilizacao.Serie := Serie;
+            Inutilizacao.Ano := Ano;
+            Inutilizacao.NumeroInicial := NumeroInicial;
+            Inutilizacao.NumeroFinal := NumeroFinal;
 
-          Inutilizacao.Executar;
-          Resp.Processar(NFeDM.ACBrNFe1);
-          Resposta := Resp.Gerar;
-          MoverStringParaPChar(Resposta, sResposta, esTamanho);
-          Result := SetRetorno(ErrOK, Resposta);
+            Inutilizacao.Executar;
+            Resp.Processar(NFeDM.ACBrNFe1);
+            Resposta := Resp.Gerar;
+            MoverStringParaPChar(Resposta, sResposta, esTamanho);
+            Result := SetRetorno(ErrOK, Resposta);
+          end;
         end;
+      finally
+        Resp.Free;
       end;
     finally
-      Resp.Free;
       NFeDM.Destravar;
     end;
   except
@@ -961,7 +960,6 @@ begin
 
 
     NFeDM.Travar;
-
     try
       with NFeDM.ACBrNFe1 do
       begin
@@ -969,7 +967,7 @@ begin
           raise EACBrLibException.Create(ErrEnvio, 'ERRO: Nenhuma NF-e adicionada ao Lote');
 
         if NotasFiscais.Count > 50 then
-           raise EACBrLibException.Create(ErrEnvio, 'ERRO: Conjunto de NF-e transmitidas (máximo de 50 NF-e)' +
+          raise EACBrLibException.Create(ErrEnvio, 'ERRO: Conjunto de NF-e transmitidas (máximo de 50 NF-e)' +
                                                     ' excedido. Quantidade atual: ' + IntToStr(NotasFiscais.Count));
 
         GravarLog('NFe_Enviar, Limpando Resp', logParanoico);
@@ -1097,7 +1095,6 @@ begin
       GravarLog('NFE_ConsultarRecibo', logNormal);
 
     NFeDM.Travar;
-
     try
       with NFeDM.ACBrNFe1 do
       begin
@@ -1105,7 +1102,6 @@ begin
         WebServices.Recibo.Executar;
 
         Resp := TReciboResposta.Create('NFe', Config.TipoResposta, Config.CodResposta);
-
         try
           Resp.Processar(WebServices.Recibo.NFeRetorno, WebServices.Recibo.Recibo);
           Resposta := Resp.Gerar;
@@ -1150,7 +1146,6 @@ begin
       GravarLog('NFe_Cancelar', logNormal);
 
     NFeDM.Travar;
-
     try
       if not ValidarChave(AChave) then
         raise EACBrLibException.Create(ErrChaveNFe, Format(SErrChaveInvalida, [AChave]))
@@ -1226,7 +1221,6 @@ begin
       GravarLog('NFe_EnviarEvento', logNormal);
 
     NFeDM.Travar;
-
     try
       with NFeDM.ACBrNFe1 do
       begin
@@ -1297,8 +1291,8 @@ begin
         WebServices.EnvEvento.Executar;
       end;
 
+      Resp := TEventoResposta.Create(Config.TipoResposta, Config.CodResposta);
       try
-        Resp := TEventoResposta.Create(Config.TipoResposta, Config.CodResposta);
         Resp.Processar(NFeDM.ACBrNFe1);
         Resposta := Resp.Gerar;
       finally
@@ -1353,7 +1347,6 @@ begin
 
       NFeDM.ACBrNFe1.WebServices.ConsultaCadastro.Executar;
       Resp := TConsultaCadastroResposta.Create(Config.TipoResposta, Config.CodResposta);
-
       try
         Resp.Processar(NFeDM.ACBrNFe1.WebServices.ConsultaCadastro.RetConsCad);
         Resposta := Resp.Gerar;
@@ -1413,7 +1406,6 @@ begin
     end;
 
     NFeDM.Travar;
-
     try
       if ArquivoOuXml = '' then
         if not ValidarCNPJouCPF(ACNPJCPF) then
@@ -1422,59 +1414,59 @@ begin
       with NFeDM do
       begin
         try
-        GravarLog('NFe_DistribuicaoDFePorUltNSU, Executar', logCompleto);
+          GravarLog('NFe_DistribuicaoDFePorUltNSU, Executar', logCompleto);
 
-        // Lê o arquivo selecionado
-        if ArquivoOuXml <> '' then
-        begin
-          try
-            ACBrNFe1.WebServices.DistribuicaoDFe.ListaArqs.Clear;
-            ACBrNFe1.WebServices.DistribuicaoDFe.Clear;
-            ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Clear;
+          // Lê o arquivo selecionado
+          if ArquivoOuXml <> '' then
+          begin
+            try
+              ACBrNFe1.WebServices.DistribuicaoDFe.ListaArqs.Clear;
+              ACBrNFe1.WebServices.DistribuicaoDFe.Clear;
+              ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Clear;
 
-            if EhArquivo then
-              ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.CarregarArquivo(ArquivoOuXml)
-            else
-              ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.XmlRetorno := ArquivoOuXml;
+              if EhArquivo then
+                ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.CarregarArquivo(ArquivoOuXml)
+              else
+                ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.XmlRetorno := ArquivoOuXml;
 
-            ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.LerXml;
+              ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.LerXml;
 
-            // Preenche a lista de arquivos extraídos da distribuição, pois a leitura não gera os arquivos individuais
-            while ACBrNFe1.WebServices.DistribuicaoDFe.ListaArqs.Count <
-                  ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count do
-              ACBrNFe1.WebServices.DistribuicaoDFe.ListaArqs.Add('');
+              // Preenche a lista de arquivos extraídos da distribuição, pois a leitura não gera os arquivos individuais
+              while ACBrNFe1.WebServices.DistribuicaoDFe.ListaArqs.Count <
+                    ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count do
+                ACBrNFe1.WebServices.DistribuicaoDFe.ListaArqs.Add('');
 
-            AultNSU := ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.ultNSU;
-          except
-            on E:Exception do
-              raise EACBrLibException.Create(ErrCNPJ, E.Message);
+              AultNSU := ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt.ultNSU;
+            except
+              on E:Exception do
+                raise EACBrLibException.Create(ErrCNPJ, E.Message);
+            end;
+          end
+          // Consulta o WebService
+          else
+          begin
+            ACBrNFe1.WebServices.DistribuicaoDFe.cUFAutor := AcUFAutor;
+            ACBrNFe1.WebServices.DistribuicaoDFe.CNPJCPF := ACNPJCPF;
+            ACBrNFe1.WebServices.DistribuicaoDFe.ultNSU := AultNSU;
+            ACBrNFe1.WebServices.DistribuicaoDFe.NSU := '';
+            ACBrNFe1.WebServices.DistribuicaoDFe.chNFe := '';
+            ACBrNFe1.WebServices.DistribuicaoDFe.Executar;
           end;
-        end
-        // Consulta o WebService
-        else
-        begin
-          ACBrNFe1.WebServices.DistribuicaoDFe.cUFAutor := AcUFAutor;
-          ACBrNFe1.WebServices.DistribuicaoDFe.CNPJCPF := ACNPJCPF;
-          ACBrNFe1.WebServices.DistribuicaoDFe.ultNSU := AultNSU;
-          ACBrNFe1.WebServices.DistribuicaoDFe.NSU := '';
-          ACBrNFe1.WebServices.DistribuicaoDFe.chNFe := '';
-          ACBrNFe1.WebServices.DistribuicaoDFe.Executar;
-        end;
 
-        GravarLog('NFe_DistribuicaoDFePorUltNSU, Proces.Resp DistribuicaoDFe', logParanoico);
-        Resp := TDistribuicaoDFeResposta.Create(Config.TipoResposta, Config.CodResposta);
-        try
-          Resp.Processar(ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt,
-                         ACBrNFe1.WebServices.DistribuicaoDFe.Msg,
-                         ACBrNFe1.WebServices.DistribuicaoDFe.NomeArq,
-                         ACBrNFe1.WebServices.DistribuicaoDFe.ListaArqs);
-          Resposta := Resp.Gerar;
-        finally
-          Resp.Free;
-        end;
+          GravarLog('NFe_DistribuicaoDFePorUltNSU, Proces.Resp DistribuicaoDFe', logParanoico);
+          Resp := TDistribuicaoDFeResposta.Create(Config.TipoResposta, Config.CodResposta);
+          try
+            Resp.Processar(ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt,
+                           ACBrNFe1.WebServices.DistribuicaoDFe.Msg,
+                           ACBrNFe1.WebServices.DistribuicaoDFe.NomeArq,
+                           ACBrNFe1.WebServices.DistribuicaoDFe.ListaArqs);
+            Resposta := Resp.Gerar;
+          finally
+            Resp.Free;
+          end;
 
-        MoverStringParaPChar(Resposta, sResposta, esTamanho);
-        Result := SetRetorno(ErrOK, Resposta);
+          MoverStringParaPChar(Resposta, sResposta, esTamanho);
+          Result := SetRetorno(ErrOK, Resposta);
         except
           on E: Exception do
           begin
@@ -1515,7 +1507,6 @@ begin
       GravarLog('NFe_DistribuicaoDFePorNSU', logNormal);
 
     NFeDM.Travar;
-
     try
       if not ValidarCNPJouCPF(ACNPJCPF) then
         raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJCPFInvalido, [ACNPJCPF]));
@@ -1531,7 +1522,6 @@ begin
         ACBrNFe1.WebServices.DistribuicaoDFe.Executar;
 
         Resp := TDistribuicaoDFeResposta.Create(Config.TipoResposta, Config.CodResposta);
-
         try
           Resp.Processar(ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt,
                          ACBrNFe1.WebServices.DistribuicaoDFe.Msg,
@@ -1577,7 +1567,6 @@ begin
       GravarLog('NFe_DistribuicaoDFePorChave', logNormal);
 
     NFeDM.Travar;
-
     try
       if not ValidarCNPJouCPF(ACNPJCPF) then
         raise EACBrLibException.Create(ErrCNPJ, Format(SErrCNPJCPFInvalido, [ACNPJCPF]));
@@ -1596,7 +1585,6 @@ begin
         ACBrNFe1.WebServices.DistribuicaoDFe.Executar;
 
         Resp := TDistribuicaoDFeResposta.Create(Config.TipoResposta, Config.CodResposta);
-
         try
           Resp.Processar(ACBrNFe1.WebServices.DistribuicaoDFe.retDistDFeInt,
                          ACBrNFe1.WebServices.DistribuicaoDFe.Msg,
@@ -1649,70 +1637,70 @@ begin
       GravarLog('NFe_EnviarEmail', logNormal);
 
     NFeDM.Travar;
-
-    LNFeEnviar := TACBrNFe.Create(Nil);
-
     try
-      EhArquivo := StringEhArquivo(AXmlNFe);
-
-      if EhArquivo then
-        VerificarArquivoExiste(AXmlNFe);
-
-      if EhArquivo then
-        LXmlCarregado := LNFeEnviar.NotasFiscais.LoadFromFile(AXmlNFe)
-      else
-        LXmlCarregado := LNFeEnviar.NotasFiscais.LoadFromString(AXmlNFe);
-
-      if not LXmlCarregado then
-         raise EACBrLibException.Create(ErrEnvio, 'Erro Caminho ou conteudo do XML inválido, não foi possível fazer a leitura do conteúdo do XML');
-
-      if LNFeEnviar.NotasFiscais.Count = 0 then
-        raise EACBrLibException.Create(ErrEnvio, Format(SInfNFeCarregadas, [LNFeEnviar.NotasFiscais.Count]));
-
-      slMensagemEmail := TStringList.Create;
-      slCC := TStringList.Create;
-      slAnexos := TStringList.Create;
-
-      Resp := TLibNFeResposta.Create('EnviaEmail', Config.TipoResposta, Config.CodResposta);
-
-      if (AEnviaPDF) then
-        NFeDM.ConfigurarImpressao('', True, LNFeEnviar);
-
-      LNFeEnviar.MAIL := NFeDM.ACBrMail1;
-
+      LNFeEnviar := TACBrNFe.Create(Nil);
       try
-        slMensagemEmail.DelimitedText := sLineBreak;
-        slMensagemEmail.Text := StringReplace(AMensagem, ';', sLineBreak, [rfReplaceAll]);
+        EhArquivo := StringEhArquivo(AXmlNFe);
 
-        slCC.DelimitedText := sLineBreak;
-        slCC.Text := StringReplace(ACC, ';', sLineBreak, [rfReplaceAll]);
+        if EhArquivo then
+          VerificarArquivoExiste(AXmlNFe);
 
-        slAnexos.DelimitedText := sLineBreak;
-        slAnexos.Text := StringReplace(AAnexos, ';', sLineBreak, [rfReplaceAll]);
+        if EhArquivo then
+          LXmlCarregado := LNFeEnviar.NotasFiscais.LoadFromFile(AXmlNFe)
+        else
+          LXmlCarregado := LNFeEnviar.NotasFiscais.LoadFromString(AXmlNFe);
 
-        LNFeEnviar.NotasFiscais[0].EnviarEmail(
-              APara,
-              AAssunto,
-              slMensagemEmail,
-              AEnviaPDF, // Enviar PDF junto
-              slCC,      // Lista com emails que serão enviado cópias - TStrings
-              slAnexos); // Lista de slAnexos - TStrings
+        if not LXmlCarregado then
+           raise EACBrLibException.Create(ErrEnvio, 'Erro Caminho ou conteudo do XML inválido, não foi possível fazer a leitura do conteúdo do XML');
 
-        Resp.Msg := 'Email enviado com sucesso';
-        Resposta := Resp.Gerar;
+        if LNFeEnviar.NotasFiscais.Count = 0 then
+          raise EACBrLibException.Create(ErrEnvio, Format(SInfNFeCarregadas, [LNFeEnviar.NotasFiscais.Count]));
 
-        Result := SetRetorno(ErrOK, Resposta);
+        slMensagemEmail := TStringList.Create;
+        slCC := TStringList.Create;
+        slAnexos := TStringList.Create;
+
+        Resp := TLibNFeResposta.Create('EnviaEmail', Config.TipoResposta, Config.CodResposta);
+
+        if (AEnviaPDF) then
+          NFeDM.ConfigurarImpressao('', True, LNFeEnviar);
+
+        LNFeEnviar.MAIL := NFeDM.ACBrMail1;
+        try
+          slMensagemEmail.DelimitedText := sLineBreak;
+          slMensagemEmail.Text := StringReplace(AMensagem, ';', sLineBreak, [rfReplaceAll]);
+
+          slCC.DelimitedText := sLineBreak;
+          slCC.Text := StringReplace(ACC, ';', sLineBreak, [rfReplaceAll]);
+
+          slAnexos.DelimitedText := sLineBreak;
+          slAnexos.Text := StringReplace(AAnexos, ';', sLineBreak, [rfReplaceAll]);
+
+          LNFeEnviar.NotasFiscais[0].EnviarEmail(
+                APara,
+                AAssunto,
+                slMensagemEmail,
+                AEnviaPDF, // Enviar PDF junto
+                slCC,      // Lista com emails que serão enviado cópias - TStrings
+                slAnexos); // Lista de slAnexos - TStrings
+
+          Resp.Msg := 'Email enviado com sucesso';
+          Resposta := Resp.Gerar;
+
+          Result := SetRetorno(ErrOK, Resposta);
+        finally
+          Resp.Free;
+          slCC.Free;
+          slAnexos.Free;
+          slMensagemEmail.Free;
+
+          if (AEnviaPDF) then NFeDM.FinalizarImpressao;
+        end;
       finally
-        Resp.Free;
-        slCC.Free;
-        slAnexos.Free;
-        slMensagemEmail.Free;
-
-        if (AEnviaPDF) then NFeDM.FinalizarImpressao;
+        LNFeEnviar.Free;
       end;
     finally
       NFeDM.Destravar;
-      LNFeEnviar.Free;
     end;
   except
     on E: EACBrLibException do
@@ -1748,7 +1736,6 @@ begin
       GravarLog('NFe_EnviarEmailEvento', logNormal);
 
     NFeDM.Travar;
-
     try
       with NFeDM.ACBrNFe1 do
       begin
@@ -1871,20 +1858,21 @@ begin
     else
       GravarLog('NFe_Imprimir', logNormal);
 
-
     NFeDM.Travar;
-    Resposta := TLibImpressaoResposta.Create(NFeDM.ACBrNFe1.NotasFiscais.Count, Config.TipoResposta, Config.CodResposta);
-
     try
-      NFeDM.ConfigurarImpressao(Impressora, False, nil, Protocolo, MostrarPreview, MarcaDagua, ViaConsumidor, Simplificado);
-      if nNumCopias > 0 then
-        NFeDM.ACBrNFe1.DANFE.NumCopias := nNumCopias;
+      Resposta := TLibImpressaoResposta.Create(NFeDM.ACBrNFe1.NotasFiscais.Count, Config.TipoResposta, Config.CodResposta);
+      try
+        NFeDM.ConfigurarImpressao(Impressora, False, nil, Protocolo, MostrarPreview, MarcaDagua, ViaConsumidor, Simplificado);
+        if nNumCopias > 0 then
+          NFeDM.ACBrNFe1.DANFE.NumCopias := nNumCopias;
 
-      NFeDM.ACBrNFe1.NotasFiscais.Imprimir;
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+        NFeDM.ACBrNFe1.NotasFiscais.Imprimir;
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        NFeDM.FinalizarImpressao;
+        Resposta.Free;
+      end;
     finally
-      NFeDM.FinalizarImpressao;
-      Resposta.Free;
       NFeDM.Destravar;
     end;
   except
@@ -1938,20 +1926,21 @@ begin
     GravarLog('NFe_SalvarPDF', logNormal);
 
     NFeDM.Travar;
-
-    AStream := TMemoryStream.Create;
-
     try
-      NFeDM.ConfigurarImpressao('', True);
+      AStream := TMemoryStream.Create;
+      try
+        NFeDM.ConfigurarImpressao('', True);
 
-      NFeDM.ACBrNFe1.NotasFiscais.ImprimirPDF(AStream);
-      Resposta := StreamToBase64(AStream);
+        NFeDM.ACBrNFe1.NotasFiscais.ImprimirPDF(AStream);
+        Resposta := StreamToBase64(AStream);
 
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        NFeDM.FinalizarImpressao;
+        AStream.Free;
+      end;
     finally
-      NFeDM.FinalizarImpressao;
-      AStream.Free;
       NFeDM.Destravar;
     end;
   except
@@ -1980,36 +1969,38 @@ begin
       GravarLog('NFe_ImprimirEvento', logNormal);
 
     NFeDM.Travar;
-    Resposta := TLibImpressaoResposta.Create(NFeDM.ACBrNFe1.EventoNFe.Evento.Count, Config.TipoResposta, Config.CodResposta);
-
     try
-      EhArquivo := StringEhArquivo(AArquivoXmlNFe);
+      Resposta := TLibImpressaoResposta.Create(NFeDM.ACBrNFe1.EventoNFe.Evento.Count, Config.TipoResposta, Config.CodResposta);
+      try
+        EhArquivo := StringEhArquivo(AArquivoXmlNFe);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlNFe);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlNFe);
 
-      if EhArquivo then
-        NFeDM.ACBrNFe1.NotasFiscais.LoadFromFile(AArquivoXmlNFe)
-      else
-        NFeDM.ACBrNFe1.NotasFiscais.LoadFromString(AArquivoXmlNFe);
+        if EhArquivo then
+          NFeDM.ACBrNFe1.NotasFiscais.LoadFromFile(AArquivoXmlNFe)
+        else
+          NFeDM.ACBrNFe1.NotasFiscais.LoadFromString(AArquivoXmlNFe);
 
-      EhArquivo := StringEhArquivo(AArquivoXmlEvento);
+        EhArquivo := StringEhArquivo(AArquivoXmlEvento);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlEvento);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlEvento);
 
-      if EhArquivo then
-        NFeDM.ACBrNFe1.EventoNFe.LerXML(AArquivoXmlEvento)
-      else
-        NFeDM.ACBrNFe1.EventoNFe.LerXMLFromString(AArquivoXmlEvento);
+        if EhArquivo then
+          NFeDM.ACBrNFe1.EventoNFe.LerXML(AArquivoXmlEvento)
+        else
+          NFeDM.ACBrNFe1.EventoNFe.LerXMLFromString(AArquivoXmlEvento);
 
-      NFeDM.ConfigurarImpressao;
-      NFeDM.ACBrNFe1.ImprimirEvento;
+        NFeDM.ConfigurarImpressao;
+        NFeDM.ACBrNFe1.ImprimirEvento;
 
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        NFeDM.FinalizarImpressao;
+        Resposta.Free;
+      end;
     finally
-      NFeDM.FinalizarImpressao;
-      Resposta.Free;
       NFeDM.Destravar;
     end;
   except
@@ -2038,37 +2029,39 @@ begin
       GravarLog('NFe_ImprimirEventoPDF', logNormal);
 
     NFeDM.Travar;
-    Resposta := TLibImpressaoResposta.Create(NFeDM.ACBrNFe1.EventoNFe.Evento.Count, Config.TipoResposta, Config.CodResposta);
-
     try
-      EhArquivo := StringEhArquivo(AArquivoXmlNFe);
+      Resposta := TLibImpressaoResposta.Create(NFeDM.ACBrNFe1.EventoNFe.Evento.Count, Config.TipoResposta, Config.CodResposta);
+      try
+        EhArquivo := StringEhArquivo(AArquivoXmlNFe);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlNFe);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlNFe);
 
-      if EhArquivo then
-        NFeDM.ACBrNFe1.NotasFiscais.LoadFromFile(AArquivoXmlNFe)
-      else
-        NFeDM.ACBrNFe1.NotasFiscais.LoadFromString(AArquivoXmlNFe);
+        if EhArquivo then
+          NFeDM.ACBrNFe1.NotasFiscais.LoadFromFile(AArquivoXmlNFe)
+        else
+          NFeDM.ACBrNFe1.NotasFiscais.LoadFromString(AArquivoXmlNFe);
 
-      EhArquivo := StringEhArquivo(AArquivoXmlEvento);
+        EhArquivo := StringEhArquivo(AArquivoXmlEvento);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlEvento);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlEvento);
 
-      if EhArquivo then
-        NFeDM.ACBrNFe1.EventoNFe.LerXML(AArquivoXmlEvento)
-      else
-        NFeDM.ACBrNFe1.EventoNFe.LerXMLFromString(AArquivoXmlEvento);
+        if EhArquivo then
+          NFeDM.ACBrNFe1.EventoNFe.LerXML(AArquivoXmlEvento)
+        else
+          NFeDM.ACBrNFe1.EventoNFe.LerXMLFromString(AArquivoXmlEvento);
 
-      NFeDM.ConfigurarImpressao('', True);
-      NFeDM.ACBrNFe1.ImprimirEventoPDF;
+        NFeDM.ConfigurarImpressao('', True);
+        NFeDM.ACBrNFe1.ImprimirEventoPDF;
 
-      Resposta.Msg := NFeDM.ACBrNFe1.DANFE.ArquivoPDF;
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+        Resposta.Msg := NFeDM.ACBrNFe1.DANFE.ArquivoPDF;
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        NFeDM.FinalizarImpressao;
+        Resposta.Free;
+      end;
     finally
-      NFeDM.FinalizarImpressao;
-      Resposta.Free;
       NFeDM.Destravar;
     end;
   except
@@ -2098,39 +2091,41 @@ begin
       GravarLog('NFe_SalvarEventoPDF', logNormal);
 
     NFeDM.Travar;
-    AStream := TMemoryStream.Create;
-
     try
-      EhArquivo := StringEhArquivo(AArquivoXmlNFe);
+      AStream := TMemoryStream.Create;
+      try
+        EhArquivo := StringEhArquivo(AArquivoXmlNFe);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlNFe);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlNFe);
 
-      if EhArquivo then
-        NFeDM.ACBrNFe1.NotasFiscais.LoadFromFile(AArquivoXmlNFe)
-      else
-        NFeDM.ACBrNFe1.NotasFiscais.LoadFromString(AArquivoXmlNFe);
+        if EhArquivo then
+          NFeDM.ACBrNFe1.NotasFiscais.LoadFromFile(AArquivoXmlNFe)
+        else
+          NFeDM.ACBrNFe1.NotasFiscais.LoadFromString(AArquivoXmlNFe);
 
-      EhArquivo := StringEhArquivo(AArquivoXmlEvento);
+        EhArquivo := StringEhArquivo(AArquivoXmlEvento);
 
-      if EhArquivo then
-        VerificarArquivoExiste(AArquivoXmlEvento);
+        if EhArquivo then
+          VerificarArquivoExiste(AArquivoXmlEvento);
 
-      if EhArquivo then
-        NFeDM.ACBrNFe1.EventoNFe.LerXML(AArquivoXmlEvento)
-      else
-        NFeDM.ACBrNFe1.EventoNFe.LerXMLFromString(AArquivoXmlEvento);
+        if EhArquivo then
+          NFeDM.ACBrNFe1.EventoNFe.LerXML(AArquivoXmlEvento)
+        else
+          NFeDM.ACBrNFe1.EventoNFe.LerXMLFromString(AArquivoXmlEvento);
 
-      NFeDM.ConfigurarImpressao('', True);
-      NFeDM.ACBrNFe1.DANFE.ImprimirEventoPDF(AStream);
+        NFeDM.ConfigurarImpressao('', True);
+        NFeDM.ACBrNFe1.DANFE.ImprimirEventoPDF(AStream);
 
-      Resposta := StreamToBase64(AStream);
+        Resposta := StreamToBase64(AStream);
 
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        NFeDM.FinalizarImpressao;
+        AStream.Free;
+      end;
     finally
-      NFeDM.FinalizarImpressao;
-      AStream.Free;
       NFeDM.Destravar;
     end;
   except
@@ -2162,21 +2157,23 @@ begin
       VerificarArquivoExiste(AArquivoXml);
 
     NFeDM.Travar;
-    Resposta := TLibImpressaoResposta.Create(1, Config.TipoResposta, Config.CodResposta);
-
     try
-      if EhArquivo then
-        NFeDM.ACBrNFe1.InutNFe.LerXML(AArquivoXml)
-      else
-        NFeDM.ACBrNFe1.InutNFe.LerXMLFromString(AArquivoXml);
+      Resposta := TLibImpressaoResposta.Create(1, Config.TipoResposta, Config.CodResposta);
+      try
+        if EhArquivo then
+          NFeDM.ACBrNFe1.InutNFe.LerXML(AArquivoXml)
+        else
+          NFeDM.ACBrNFe1.InutNFe.LerXMLFromString(AArquivoXml);
 
-      NFeDM.ConfigurarImpressao;
-      NFeDM.ACBrNFe1.ImprimirInutilizacao;
+        NFeDM.ConfigurarImpressao;
+        NFeDM.ACBrNFe1.ImprimirInutilizacao;
 
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        NFeDM.FinalizarImpressao;
+        Resposta.Free;
+      end;
     finally
-      NFeDM.FinalizarImpressao;
-      Resposta.Free;
       NFeDM.Destravar;
     end;
   except
@@ -2208,20 +2205,23 @@ begin
       VerificarArquivoExiste(AArquivoXml);
 
     NFeDM.Travar;
-    Resposta := TLibImpressaoResposta.Create(1, Config.TipoResposta, Config.CodResposta);
     try
-      if EhArquivo then
-        NFeDM.ACBrNFe1.InutNFe.LerXML(AArquivoXml)
-      else
-        NFeDM.ACBrNFe1.InutNFe.LerXMLFromString(AArquivoXml);
+      Resposta := TLibImpressaoResposta.Create(1, Config.TipoResposta, Config.CodResposta);
+      try
+        if EhArquivo then
+          NFeDM.ACBrNFe1.InutNFe.LerXML(AArquivoXml)
+        else
+          NFeDM.ACBrNFe1.InutNFe.LerXMLFromString(AArquivoXml);
 
-      NFeDM.ConfigurarImpressao('', True);
-      NFeDM.ACBrNFe1.ImprimirInutilizacaoPDF;
+        NFeDM.ConfigurarImpressao('', True);
+        NFeDM.ACBrNFe1.ImprimirInutilizacaoPDF;
 
-      Result := SetRetorno(ErrOK, Resposta.Gerar);
+        Result := SetRetorno(ErrOK, Resposta.Gerar);
+      finally
+        NFeDM.FinalizarImpressao;
+        Resposta.Free;
+      end;
     finally
-      NFeDM.FinalizarImpressao;
-      Resposta.Free;
       NFeDM.Destravar;
     end;
   except
@@ -2254,24 +2254,26 @@ begin
       VerificarArquivoExiste(AArquivoXml);
 
     NFeDM.Travar;
-    AStream := TMemoryStream.Create;
-
     try
-      if EhArquivo then
-        NFeDM.ACBrNFe1.InutNFe.LerXML(AArquivoXml)
-      else
-        NFeDM.ACBrNFe1.InutNFe.LerXMLFromString(AArquivoXml);
+      AStream := TMemoryStream.Create;
+      try
+        if EhArquivo then
+          NFeDM.ACBrNFe1.InutNFe.LerXML(AArquivoXml)
+        else
+          NFeDM.ACBrNFe1.InutNFe.LerXMLFromString(AArquivoXml);
 
-      NFeDM.ConfigurarImpressao('', True);
-      NFeDM.ACBrNFe1.DANFE.ImprimirINUTILIZACAOPDF(AStream);
+        NFeDM.ConfigurarImpressao('', True);
+        NFeDM.ACBrNFe1.DANFE.ImprimirINUTILIZACAOPDF(AStream);
 
-      Resposta := StreamToBase64(AStream);
+        Resposta := StreamToBase64(AStream);
 
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        NFeDM.FinalizarImpressao;
+        AStream.Free;
+      end;
     finally
-      NFeDM.FinalizarImpressao;
-      AStream.Free;
       NFeDM.Destravar;
     end;
   except
