@@ -211,18 +211,20 @@ begin
       GravarLog('SAT_AtivarSAT', logNormal);
 
     SatDM.Travar;
-
-    RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
     try
-     Resposta := '';
-     SatDM.ACBrSAT1.AtivarSAT(1, CNPJ, cUF);
-     RespSat.Processar(SatDM.ACBrSAT1);
-     Resposta := RespSat.Gerar;
+      RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+       Resposta := '';
+       SatDM.ACBrSAT1.AtivarSAT(1, CNPJ, cUF);
+       RespSat.Processar(SatDM.ACBrSAT1);
+       Resposta := RespSat.Gerar;
 
-     MoverStringParaPChar(Resposta, sResposta, esTamanho);
-     Result := SetRetorno(ErrOK, Resposta);
+       MoverStringParaPChar(Resposta, sResposta, esTamanho);
+       Result := SetRetorno(ErrOK, Resposta);
+      finally
+        RespSat.Free;
+      end;
     finally
-      RespSat.Free;
       SatDM.Destravar;
     end;
   except
@@ -250,18 +252,20 @@ begin
       GravarLog('SAT_AssociarAssinatura', logNormal);
 
     SatDM.Travar;
-
-    RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
     try
-     Resposta := '';
-     SatDM.ACBrSAT1.AssociarAssinatura(CNPJ, Assinatura);
-     RespSat.Processar(SatDM.ACBrSAT1);
-     Resposta := RespSat.Gerar;
+      RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+       Resposta := '';
+       SatDM.ACBrSAT1.AssociarAssinatura(CNPJ, Assinatura);
+       RespSat.Processar(SatDM.ACBrSAT1);
+       Resposta := RespSat.Gerar;
 
-     MoverStringParaPChar(Resposta, sResposta, esTamanho);
-     Result := SetRetorno(ErrOK, Resposta);
+       MoverStringParaPChar(Resposta, sResposta, esTamanho);
+       Result := SetRetorno(ErrOK, Resposta);
+      finally
+        RespSat.Free;
+      end;
     finally
-      RespSat.Free;
       SatDM.Destravar;
     end;
   except
@@ -282,16 +286,19 @@ begin
     GravarLog('SAT_BloquearSAT', logNormal);
 
     SatDM.Travar;
-    RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
     try
-     Resposta := '';
-     SatDM.ACBrSAT1.BloquearSAT;
-     RespSat.Processar(SatDM.ACBrSAT1);
-     Resposta := RespSat.Gerar;
-     MoverStringParaPChar(Resposta, sResposta, esTamanho);
-     Result := SetRetorno(ErrOK, Resposta);
+      RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+       Resposta := '';
+       SatDM.ACBrSAT1.BloquearSAT;
+       RespSat.Processar(SatDM.ACBrSAT1);
+       Resposta := RespSat.Gerar;
+       MoverStringParaPChar(Resposta, sResposta, esTamanho);
+       Result := SetRetorno(ErrOK, Resposta);
+      finally
+        RespSat.Free;
+      end;
     finally
-      RespSat.Free;
       SatDM.Destravar;
     end;
   except
@@ -312,16 +319,19 @@ begin
     GravarLog('SAT_DesbloquearSAT', logNormal);
 
     SatDM.Travar;
-    RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
     try
-     Resposta := '';
-     SatDM.ACBrSAT1.DesbloquearSAT;
-     RespSat.Processar(SatDM.ACBrSAT1);
-     Resposta := RespSat.Gerar;
-     MoverStringParaPChar(Resposta, sResposta, esTamanho);
-     Result := SetRetorno(ErrOK, Resposta);
+      RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+       Resposta := '';
+       SatDM.ACBrSAT1.DesbloquearSAT;
+       RespSat.Processar(SatDM.ACBrSAT1);
+       Resposta := RespSat.Gerar;
+       MoverStringParaPChar(Resposta, sResposta, esTamanho);
+       Result := SetRetorno(ErrOK, Resposta);
+      finally
+        RespSat.Free;
+      end;
     finally
-      RespSat.Free;
       SatDM.Destravar;
     end;
   except
@@ -350,17 +360,19 @@ begin
       GravarLog('SAT_TrocarCodigoDeAtivacao', logNormal);
 
     SatDM.Travar;
-
-    RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
     try
-      Resposta := '';
-      SatDM.ACBrSAT1.TrocarCodigoDeAtivacao(CodigoAtivacao, opcao, NovoCodigoAtv);
-      RespSat.Processar(SatDM.ACBrSAT1);
-      Resposta := RespSat.Gerar;
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
+        SatDM.ACBrSAT1.TrocarCodigoDeAtivacao(CodigoAtivacao, opcao, NovoCodigoAtv);
+        RespSat.Processar(SatDM.ACBrSAT1);
+        Resposta := RespSat.Gerar;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        RespSat.Free;
+      end;
     finally
-      RespSat.Free;
       SatDM.Destravar;
     end;
   except
@@ -381,18 +393,19 @@ begin
     GravarLog('SAT_ConsultarSAT', logNormal);
 
     SatDM.Travar;
-
-    RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
-
     try
-      Resposta := '';
-      SatDM.ACBrSAT1.ConsultarSAT;
-      RespSat.Processar(SatDM.ACBrSAT1);
-      Resposta := RespSat.Gerar;
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
+        SatDM.ACBrSAT1.ConsultarSAT;
+        RespSat.Processar(SatDM.ACBrSAT1);
+        Resposta := RespSat.Gerar;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        RespSat.Free;
+      end;
     finally
-      RespSat.Free;
       SatDM.Destravar;
     end;
   except
@@ -413,18 +426,19 @@ begin
     GravarLog('SAT_ConsultarUltimaSessaoFiscal', logNormal);
 
     SatDM.Travar;
-
-    RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
-
     try
-      Resposta := '';
-      SatDM.ACBrSAT1.ConsultarUltimaSessaoFiscal;
-      RespSat.Processar(SatDM.ACBrSAT1);
-      Resposta := RespSat.Gerar;
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
+        SatDM.ACBrSAT1.ConsultarUltimaSessaoFiscal;
+        RespSat.Processar(SatDM.ACBrSAT1);
+        Resposta := RespSat.Gerar;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        RespSat.Free;
+      end;
     finally
-      RespSat.Free;
       SatDM.Destravar;
     end;
   except
@@ -446,26 +460,28 @@ begin
     GravarLog('SAT_ConsultarStatusOperacional', logNormal);
 
     SatDM.Travar;
-
-    RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
-    Resp := TRetornoStatusSAT.Create(Config.TipoResposta, Config.CodResposta);
     try
-      Resposta := '';
-      SatDM.ACBrSAT1.ConsultarStatusOperacional;
-      RespSat.Processar(SatDM.ACBrSAT1);
-      Resposta := RespSat.Gerar;
+      RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
+      Resp := TRetornoStatusSAT.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
+        SatDM.ACBrSAT1.ConsultarStatusOperacional;
+        RespSat.Processar(SatDM.ACBrSAT1);
+        Resposta := RespSat.Gerar;
 
-      if (SatDM.ACBrSAT1.Resposta.codigoDeRetorno = 10000) then
-      begin
-        Resp.Processar(SatDM.ACBrSAT1);
-        Resposta := Resposta + sLineBreak + Resp.Gerar;
+        if (SatDM.ACBrSAT1.Resposta.codigoDeRetorno = 10000) then
+        begin
+          Resp.Processar(SatDM.ACBrSAT1);
+          Resposta := Resposta + sLineBreak + Resp.Gerar;
+        end;
+
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        RespSat.Free;
+        Resp.Free;
       end;
-
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
     finally
-      RespSat.Free;
-      Resp.Free;
       SatDM.Destravar;
     end;
   except
@@ -492,43 +508,45 @@ begin
       GravarLog('SAT_ConsultarNumeroSessao', logNormal);
 
     SatDM.Travar;
-    RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
-
     try
-      Resposta := '';
-      SatDM.ACBrSAT1.CFe.Clear;
-      SatDM.ACBrSAT1.CFeCanc.Clear;
+      RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
+        SatDM.ACBrSAT1.CFe.Clear;
+        SatDM.ACBrSAT1.CFeCanc.Clear;
 
-      SatDM.ACBrSAT1.ConsultarNumeroSessao(cNumeroDeSessao);
-      RespSat.Processar(SatDM.ACBrSAT1);
-      Resposta := RespSat.Gerar;
+        SatDM.ACBrSAT1.ConsultarNumeroSessao(cNumeroDeSessao);
+        RespSat.Processar(SatDM.ACBrSAT1);
+        Resposta := RespSat.Gerar;
 
-      if SatDM.ACBrSAT1.Resposta.codigoDeRetorno = 6000 then
-      begin
-        Resp := TRetornoConsultarSessao.Create(Config.TipoResposta, Config.CodResposta);
-        try
-          Resp.Processar(SatDM.ACBrSAT1);
-          Resposta := Resposta + sLineBreak + Resp.Gerar;
-        finally
-          Resp.Free;
+        if SatDM.ACBrSAT1.Resposta.codigoDeRetorno = 6000 then
+        begin
+          Resp := TRetornoConsultarSessao.Create(Config.TipoResposta, Config.CodResposta);
+          try
+            Resp.Processar(SatDM.ACBrSAT1);
+            Resposta := Resposta + sLineBreak + Resp.Gerar;
+          finally
+            Resp.Free;
+          end;
         end;
-      end;
 
-      if SatDM.ACBrSAT1.Resposta.codigoDeRetorno = 7000 then
-      begin
-        RespCanc := TRetornoConsultarSessaoCancelado.Create(Config.TipoResposta, Config.CodResposta);
-        try
-          RespCanc.Processar(SatDM.ACBrSAT1);
-          Resposta := Resposta + sLineBreak + RespCanc.Gerar;
-        finally
-          RespCanc.Free;
+        if SatDM.ACBrSAT1.Resposta.codigoDeRetorno = 7000 then
+        begin
+          RespCanc := TRetornoConsultarSessaoCancelado.Create(Config.TipoResposta, Config.CodResposta);
+          try
+            RespCanc.Processar(SatDM.ACBrSAT1);
+            Resposta := Resposta + sLineBreak + RespCanc.Gerar;
+          finally
+            RespCanc.Free;
+          end;
         end;
+
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        RespSat.Free;
       end;
-     
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
     finally
-      RespSat.Free;
       SatDM.Destravar;
     end;
   except
@@ -578,17 +596,19 @@ begin
     GravarLog('SAT_AtualizarSoftwareSAT', logNormal);
 
     SatDM.Travar;
-    RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
-
     try
-      Resposta := '';
-      SatDM.ACBrSAT1.AtualizarSoftwareSAT;
-      RespSat.Processar(SatDM.ACBrSAT1);
-      Resposta := RespSat.Gerar;
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
+        SatDM.ACBrSAT1.AtualizarSoftwareSAT;
+        RespSat.Processar(SatDM.ACBrSAT1);
+        Resposta := RespSat.Gerar;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        RespSat.Free;
+      end;
     finally
-      RespSat.Free;
       SatDM.Destravar;
     end;
   except
@@ -614,18 +634,20 @@ begin
     else
       GravarLog('SAT_ComunicarCertificadoICPBRASIL', logNormal);
 
-
     SatDM.Travar;
-    RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
     try
-      Resposta := '';
-      SatDM.ACBrSAT1.ComunicarCertificadoICPBRASIL(cCertificado);
-      RespSat.Processar(SatDM.ACBrSAT1);
-      Resposta := RespSat.Gerar;
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      RespSat := TACBrLibSATResposta.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
+        SatDM.ACBrSAT1.ComunicarCertificadoICPBRASIL(cCertificado);
+        RespSat.Processar(SatDM.ACBrSAT1);
+        Resposta := RespSat.Gerar;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        RespSat.Free;
+      end;
     finally
-      RespSat.Free;
       SatDM.Destravar;
     end;
   except
@@ -681,16 +703,19 @@ begin
       GravarLog('SAT_TesteFimAFim', logNormal);
 
     SatDM.Travar;
-    Resp := TRetornoTesteFimaFim.Create(Config.TipoResposta, Config.CodResposta);
     try
-      Resposta := '';
-      Resp.Resultado := SatDM.ACBrSAT1.TesteFimAFim(ArquivoXmlVenda);
-      Resp.Processar(SatDM.ACBrSAT1);
-      Resposta := Resp.Gerar;
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      Resp := TRetornoTesteFimaFim.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
+        Resp.Resultado := SatDM.ACBrSAT1.TesteFimAFim(ArquivoXmlVenda);
+        Resp.Processar(SatDM.ACBrSAT1);
+        Resposta := Resp.Gerar;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        Resp.Free;
+      end;
     finally
-      Resp.Free;
       SatDM.Destravar;
     end;
   except
@@ -717,7 +742,6 @@ begin
       GravarLog('SAT_GerarAssinaturaSAT', logNormal);
 
     SatDM.Travar;
-
     try
       Resposta := '';
 
@@ -760,19 +784,22 @@ begin
       GravarLog('SAT_CriarCFe', logNormal);
 
     SatDM.Travar;
-    Resp := TRetornoCriarCFe.Create(Config.TipoResposta, Config.CodResposta);
     try
-      Resposta := '';
-      SatDM.ACBrSAT1.CFe.Clear;
-      SatDM.ACBrSAT1.InicializaCFe;
-      SatDM.ACBrSAT1.CFe.LoadFromIni(ArquivoIni);
-      SatDM.ACBrSAT1.CFe.GerarXML(True);
-      Resp.Processar(SatDM.ACBrSAT1);
-      Resposta := Resp.Gerar;
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+      Resp := TRetornoCriarCFe.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
+        SatDM.ACBrSAT1.CFe.Clear;
+        SatDM.ACBrSAT1.InicializaCFe;
+        SatDM.ACBrSAT1.CFe.LoadFromIni(ArquivoIni);
+        SatDM.ACBrSAT1.CFe.GerarXML(True);
+        Resp.Processar(SatDM.ACBrSAT1);
+        Resposta := Resp.Gerar;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        Resp.Free;
+      end;
     finally
-      Resp.Free;
       SatDM.Destravar;
     end;
   except
@@ -799,20 +826,23 @@ begin
       GravarLog('SAT_CriarEnviarCFe', logNormal);
 
     SatDM.Travar;
-    Resp := TRetornoEnvio.Create(Config.TipoResposta, Config.CodResposta);
     try
-      Resposta := '';
-      SatDM.ACBrSAT1.CFe.Clear;
-      SatDM.ACBrSAT1.InicializaCFe;
-      SatDM.ACBrSAT1.CFe.LoadFromIni(ArquivoIni);
+      Resp := TRetornoEnvio.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
+        SatDM.ACBrSAT1.CFe.Clear;
+        SatDM.ACBrSAT1.InicializaCFe;
+        SatDM.ACBrSAT1.CFe.LoadFromIni(ArquivoIni);
 
-      Resp.Resultado := SatDM.ACBrSAT1.EnviarDadosVenda;
-      Resp.Processar(SatDM.ACBrSAT1);
-      Resposta := Resp.Gerar;
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        Resp.Resultado := SatDM.ACBrSAT1.EnviarDadosVenda;
+        Resp.Processar(SatDM.ACBrSAT1);
+        Resposta := Resp.Gerar;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        Resp.Free;
+      end;
     finally
-      Resp.Free;
       SatDM.Destravar;
     end;
   except
@@ -933,21 +963,24 @@ begin
       GravarLog('SAT_EnviarCFe', logNormal);
 
     SatDM.Travar;
-    Resp := TRetornoEnvio.Create(Config.TipoResposta, Config.CodResposta);
     try
-      Resposta := '';
-      SatDM.ACBrSAT1.CFe.Clear;
-      SatDM.ACBrSAT1.InicializaCFe;
-      SatDM.CarregarDadosVenda(ArquivoXml);
+      Resp := TRetornoEnvio.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
+        SatDM.ACBrSAT1.CFe.Clear;
+        SatDM.ACBrSAT1.InicializaCFe;
+        SatDM.CarregarDadosVenda(ArquivoXml);
 
-      Resp.Resultado := SatDM.ACBrSAT1.EnviarDadosVenda;
-      Resp.Processar(SatDM.ACBrSAT1);
+        Resp.Resultado := SatDM.ACBrSAT1.EnviarDadosVenda;
+        Resp.Processar(SatDM.ACBrSAT1);
 
-      Resposta := Resp.Gerar;
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        Resposta := Resp.Gerar;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        Resp.Free;
+      end;
     finally
-      Resp.Free;
       SatDM.Destravar;
     end;
   except
@@ -974,21 +1007,24 @@ begin
       GravarLog('SAT_CancelarCFe', logNormal);
 
     SatDM.Travar;
-    Resp := TRetornoCancelarCFe.Create(Config.TipoResposta, Config.CodResposta);
     try
-      Resposta := '';
+      Resp := TRetornoCancelarCFe.Create(Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
 
-      SatDM.ACBrSAT1.CFe.Clear;
-      SatDM.ACBrSAT1.InicializaCFe;
-      SatDM.CarregarDadosVenda(ArquivoXml);
+        SatDM.ACBrSAT1.CFe.Clear;
+        SatDM.ACBrSAT1.InicializaCFe;
+        SatDM.CarregarDadosVenda(ArquivoXml);
 
-      Resp.Resultado := SatDM.ACBrSAT1.CancelarUltimaVenda;
-      Resp.Processar(SatDM.ACBrSAT1);
-      Resposta := Resp.Gerar;
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        Resp.Resultado := SatDM.ACBrSAT1.CancelarUltimaVenda;
+        Resp.Processar(SatDM.ACBrSAT1);
+        Resposta := Resp.Gerar;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        Resp.Free;
+      end;
     finally
-      Resp.Free;
       SatDM.Destravar;
     end;
   except
@@ -1014,7 +1050,6 @@ begin
       GravarLog('SAT_ImprimirExtratoVenda', logNormal);
 
     SatDM.Travar;
-
     try
       SatDM.ACBrSAT1.CFe.Clear;
       SatDM.CarregarDadosVenda(ArquivoXml);
@@ -1049,7 +1084,6 @@ begin
       GravarLog('SAT_ImprimirExtratoResumido', logNormal);
 
     SatDM.Travar;
-
     try
       SatDM.ACBrSAT1.CFe.Clear;
       SatDM.CarregarDadosVenda(ArquivoXml);
@@ -1086,7 +1120,6 @@ begin
       GravarLog('SAT_ImprimirExtratoCancelamento', logNormal);
 
     SatDM.Travar;
-
     try
       SatDM.ACBrSAT1.CFe.Clear;
       SatDM.CarregarDadosVenda(ArqXMLVenda);
@@ -1117,21 +1150,21 @@ begin
     GravarLog('SAT_SalvarPDF', logNormal);
 
     SatDM.Travar;
-
-    AStream := TMemoryStream.Create;
-
     try
-      SatDM.ConfigurarImpressao('', True);
+      AStream := TMemoryStream.Create;
+      try
+        SatDM.ConfigurarImpressao('', True);
 
-      SatDM.ACBrSAT1.Extrato.ImprimirExtrato(AStream);
-      Resposta := StreamToBase64(AStream);
+        SatDM.ACBrSAT1.Extrato.ImprimirExtrato(AStream);
+        Resposta := StreamToBase64(AStream);
 
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
-
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        SatDM.FinalizarImpressao;
+        AStream.Free;
+      end;
     finally
-      SatDM.FinalizarImpressao;
-      AStream.Free;
       SatDM.Destravar;
     end;
   except
@@ -1157,7 +1190,6 @@ begin
 
 
     SatDM.Travar;
-
     try
       Resposta := '';
       SatDM.CarregarDadosVenda(ArquivoXml);
@@ -1192,27 +1224,29 @@ begin
     else
       GravarLog('SAT_GerarPDFExtratoVenda', logNormal);
 
-
     SatDM.Travar;
-    Resp := TPadraoSATResposta.Create('CFe', Config.TipoResposta, Config.CodResposta);
     try
-      Resposta := '';
-      SatDM.CarregarDadosVenda(ArqXMLVenda);
-      SatDM.ConfigurarImpressao('', True, NomeArquivo);
+      Resp := TPadraoSATResposta.Create('CFe', Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
+        SatDM.CarregarDadosVenda(ArqXMLVenda);
+        SatDM.ConfigurarImpressao('', True, NomeArquivo);
 
-      SatDM.ACBrSAT1.ImprimirExtrato;
+        SatDM.ACBrSAT1.ImprimirExtrato;
 
-      Resp.Arquivo:= SatDM.ACBrSAT1.Extrato.ArquivoPDF;
-      Resp.XML:= SatDM.ACBrSAT1.CFe.XMLOriginal;
-      Resposta := Resp.Gerar;
+        Resp.Arquivo:= SatDM.ACBrSAT1.Extrato.ArquivoPDF;
+        Resp.XML:= SatDM.ACBrSAT1.CFe.XMLOriginal;
+        Resposta := Resp.Gerar;
 
-      SatDM.ACBrSAT1.Extrato := nil;
+        SatDM.ACBrSAT1.Extrato := nil;
 
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        Resp.Free;
+        SatDM.FinalizarImpressao;
+      end;
     finally
-      Resp.Free;
-      SatDM.FinalizarImpressao;
       SatDM.Destravar;
     end;
   except
@@ -1242,24 +1276,27 @@ begin
       GravarLog('SAT_GerarPDFCancelamento', logNormal);
 
     SatDM.Travar;
-    Resp := TPadraoSATResposta.Create('CFe', Config.TipoResposta, Config.CodResposta);
     try
-      Resposta := '';
-      SatDM.CarregarDadosVenda(ArqXMLVenda);
-      SatDM.CarregarDadosCancelamento(ArqXMLCancelamento);
-      SatDM.ConfigurarImpressao('', True, NomeArquivo);
+      Resp := TPadraoSATResposta.Create('CFe', Config.TipoResposta, Config.CodResposta);
+      try
+        Resposta := '';
+        SatDM.CarregarDadosVenda(ArqXMLVenda);
+        SatDM.CarregarDadosCancelamento(ArqXMLCancelamento);
+        SatDM.ConfigurarImpressao('', True, NomeArquivo);
 
-      SatDM.ACBrSAT1.ImprimirExtratoCancelamento;
+        SatDM.ACBrSAT1.ImprimirExtratoCancelamento;
 
-      Resp.Arquivo:= SatDM.ACBrSAT1.Extrato.ArquivoPDF;
-      Resp.XML:= SatDM.ACBrSAT1.CFeCanc.XMLOriginal;
-      Resposta := Resp.Gerar;
+        Resp.Arquivo:= SatDM.ACBrSAT1.Extrato.ArquivoPDF;
+        Resp.XML:= SatDM.ACBrSAT1.CFeCanc.XMLOriginal;
+        Resposta := Resp.Gerar;
 
-      SatDM.ACBrSAT1.Extrato := nil;
-      MoverStringParaPChar(Resposta, sResposta, esTamanho);
-      Result := SetRetorno(ErrOK, Resposta);
+        SatDM.ACBrSAT1.Extrato := nil;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        SatDM.FinalizarImpressao;
+      end;
     finally
-      SatDM.FinalizarImpressao;
       SatDM.Destravar;
     end;
   except
@@ -1292,13 +1329,11 @@ begin
     else
       GravarLog('SAT_EnviarEmail', logNormal);
 
-
     SatDM.Travar;
-
-    slMensagem := TStringList.Create;
-    slCC := TStringList.Create;
-    slAnexos := TStringList.Create;
-
+    try
+     slMensagem := TStringList.Create;
+     slCC := TStringList.Create;
+     slAnexos := TStringList.Create;
      try
        slMensagem.Text := Mensagem;
        slCC.Text := CC;
@@ -1319,8 +1354,10 @@ begin
        slCC.Free;
        slAnexos.Free;
        SatDM.FinalizarImpressao;
-       SatDM.Destravar;
      end;
+    finally
+      SatDM.Destravar;
+    end;
   except
     on E: EACBrLibException do
       Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));

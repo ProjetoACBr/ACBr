@@ -422,7 +422,6 @@ begin
       VerificarArquivoExiste(ArquivoOuXml);
 
     ReinfDM.Travar;
-
     try
       if EhArquivo then
         ReinfDM.ACBrReinf1.Eventos.LoadFromFile(ArquivoOuXml)
@@ -568,7 +567,6 @@ begin
     GravarLog('Reinf_ObterCertificados', logNormal);
 
     ReinfDM.Travar;
-
     try
       Resposta := '';
       Resposta := ConverterStringSaida( ObterCerticados(ReinfDM.ACBrReinf1.SSL) );

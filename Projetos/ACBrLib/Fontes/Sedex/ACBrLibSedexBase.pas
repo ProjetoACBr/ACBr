@@ -118,22 +118,22 @@ begin
     else
       GravarLog('Sedex_Consultar', logNormal);
 
-
     SedexDM.Travar;
-
     try
       if not SedexDM.ACBrSedex1.LerArqIni(AArqIni) then
         raise EACBrLibException.Create(-99, 'Erro ao ler o dados para consulta.');
 
       SedexDM.ACBrSedex1.Consultar;
       Resp := TLibSedexConsulta.Create(Config.TipoResposta, Config.CodResposta);
-      Resp.Processar(SedexDM.ACBrSedex1);
-      AResposta := Resp.Gerar;
-
+      try
+        Resp.Processar(SedexDM.ACBrSedex1);
+        AResposta := Resp.Gerar;
+      finally
+        Resp.Free;
+      end;
       MoverStringParaPChar(AResposta, sResposta, esTamanho);
       Result := SetRetorno(ErrOK, AResposta);
     finally
-      Resp.Free;
       SedexDM.Destravar;
     end;
   except
@@ -163,7 +163,6 @@ begin
       GravarLog('Sedex_Rastrear', logNormal);
 
     SedexDM.Travar;
-
     try
       SedexDM.ACBrSedex1.Rastrear(ACodRastreio);
       Resposta := '';
