@@ -61,6 +61,7 @@ type
 
     //======Arquivo INI===========================================
     procedure GerarINISecaoConstrucaoCivil(const AINIRec: TMemIniFile); override;
+    procedure GerarINISecaoServico(const AINIRec: TMemIniFile); override;
 
   end;
 
@@ -130,6 +131,7 @@ begin
   NrOcorrInscEstInter := 1;
 
   NrOcorrInscMunTomador := 1;
+  NrOcorrInscEstTomador_1 := 0;
 
   NrOcorrRespRetencao := 1;
   
@@ -279,7 +281,7 @@ begin
   Result.AppendChild(GerarPrestador);
   Result.AppendChild(GerarTomador);
 
-  Result.AppendChild(AddNode(tcDat, '#9', 'DataFatoGerador', 10, 10, 0,
+  Result.AppendChild(AddNode(tcDatHor, '#9', 'DataFatoGerador', 10, 10, 0,
                                                      NFSe.DataFatoGerador, ''));
 
   Result.AppendChild(GerarIntermediarioServico);
@@ -376,6 +378,30 @@ begin
   end;
 end;
 
+procedure TNFSeW_Tecnos201.GerarINISecaoServico(const AINIRec: TMemIniFile);
+var
+  lSecao: String;
+begin
+  lSecao := 'Servico';
+  AINIRec.WriteString(lSecao, 'ResponsavelRetencao', FpAOwner.ResponsavelRetencaoToStr(NFSe.Servico.ResponsavelRetencao));
+  AINIRec.WriteString(lSecao, 'ItemListaServico', NFSe.Servico.ItemListaServico);
+  AINIRec.WriteString(lSecao, 'xItemListaServico', NFSe.Servico.xItemListaServico);
+  AINIRec.WriteString(lSecao, 'CodigoCnae', NFSe.Servico.CodigoCnae);
+  AINIRec.WriteString(lSecao, 'CodigoTributacaoMunicipio', NFSe.Servico.CodigoTributacaoMunicipio);
+  AINIRec.WriteString(lSecao, 'xCodigoTributacaoMunicipio', NFSe.Servico.xCodigoTributacaoMunicipio);
+  AINIRec.WriteString(lSecao, 'Discriminacao', NFSe.Servico.Discriminacao);
+  AINIRec.WriteString(lSecao, 'CodigoMunicipio', NFSe.Servico.CodigoMunicipio);
+  AINIRec.WriteInteger(lSecao, 'CodigoPais', NFSe.Servico.CodigoPais);
+  AINIRec.WriteString(lSecao, 'ExigibilidadeISS', FpAOwner.ExigibilidadeISSToStr(NFSe.Servico.ExigibilidadeISS));
+  AINIRec.WriteInteger(lSecao, 'MunicipioIncidencia', NFSe.Servico.MunicipioIncidencia);
+  AINIRec.WriteString(lSecao, 'xMunicipioIncidencia', NFSe.Servico.xMunicipioIncidencia);
+  AINIRec.WriteString(lSecao, 'NumeroProcesso', NFSe.Servico.NumeroProcesso);
+  AINIRec.WriteString(lSecao, 'xPed', NFSe.Servico.xPed);
+  AINIRec.WriteString(lSecao, 'nItemPed', NFSE.Servico.nItemPed);
+  AINIRec.WriteString(lSecao, 'CodigoNBS', NFSe.Servico.CodigoNBS);
+  AINIRec.WriteString(lSecao, 'CodigoServicoNacional', NFSe.Servico.CodigoServicoNacional);
+end;
+
 function TNFSeW_Tecnos201.GerarValores: TACBrXmlNode;
 var
   item: string;
@@ -441,10 +467,16 @@ begin
   Result.AppendChild(AddNode(tcStr, '#37', 'NumeroProcesso', 1, 30, 1,
                                    NFSe.Servico.NumeroProcesso, DSC_NPROCESSO));
 
-  Result.AppendChild(AddNode(tcStr, '#37', 'CodigoNBS', 1, 30, 0,
+  Result.AppendChild(AddNode(tcStr, '#38', 'xPed', 1, 999, 0,
+                                                   NFSe.Servico.xPed, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#39', 'nItemPed', 1, 999, 0,
+                                                   NFSe.Servico.nItemPed, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#40', 'CodigoNBS', 1, 30, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#37', 'CodigoServicoNacional', 1, 30, 0,
+  Result.AppendChild(AddNode(tcStr, '#41', 'CodigoServicoNacional', 1, 30, 0,
                                        NFSe.Servico.CodigoServicoNacional, ''));
 end;
 

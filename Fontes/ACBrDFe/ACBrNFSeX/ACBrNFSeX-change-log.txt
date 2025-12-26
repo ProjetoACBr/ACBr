@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/12/2025
+-- ACBrNFSeXClass/Tecnos.GravarXML/Tecnos.LerXML --
+[*] ACBR-8593: Ajuste visando compatibilização com alteração feita pelo provedor para adequar a Reforma Tributária
+  Por: Diego Folieni
 -- ACBrNFSeXClass/ACBrNFSeXConsts/ACBrNFSeXLerXml_ABRASFv2/Tecnos.GravarXml/Tecnos.LerXml --
 [-] ACBR-8593: Adiciona a geração e a leitura dos campos faltantes para o grupo ConstrucaoCivil
   Por: Diego Folieni

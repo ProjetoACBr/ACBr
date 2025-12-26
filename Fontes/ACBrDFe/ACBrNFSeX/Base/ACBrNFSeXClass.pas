@@ -864,6 +864,8 @@ type
     FINDOP: string;
     FCodigoServicoNacional: string;
     FCodigoMunicipioLocalPrestacao: Integer;
+    FxPed: String;
+    FnItemPed: String;
 
     procedure SetItemServico(Value: TItemServicoCollection);
     procedure SetDeducao(const Value: TDeducaoCollection);
@@ -932,6 +934,9 @@ type
     property CodigoServicoNacional: string read FCodigoServicoNacional write FCodigoServicoNacional;
     // Provedor Publica
     property CodigoMunicipioLocalPrestacao: Integer read FCodigoMunicipioLocalPrestacao write FCodigoMunicipioLocalPrestacao;
+    // Provedor Tecnos
+    property xPed: String read FxPed write FxPed;
+    property nItemPed: String read FnItemPed write FnItemPed;
   end;
 
   TDadosPessoa = class(TObject)

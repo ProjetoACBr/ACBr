@@ -50,6 +50,7 @@ type
     procedure LerConstrucaoCivil(const ANode: TACBrXmlNode); override;
     //======Arquivo INI===========================================
     procedure LerINISecaoConstrucaoCivil(const AINIRec: TMemIniFile); override;
+    procedure LerINISecaoServico(const AINIRec: TMemIniFile); override;
 
   public
     function LerXmlNfse(const ANode: TACBrXmlNode): Boolean; override;
@@ -115,6 +116,34 @@ begin
     NFSe.ConstrucaoCivil.Endereco.Bairro := AINIRec.ReadString(lSecao, 'Bairro', EmptyStr);
     NFSe.ConstrucaoCivil.Endereco.CEP := AINIRec.ReadString(lSecao, 'CEP', EmptyStr);
     NFSe.ConstrucaoCivil.Endereco.Complemento := AINIRec.ReadString(lSecao, 'Complemento', EmptyStr);
+  end;
+end;
+
+procedure TNFSeR_Tecnos201.LerINISecaoServico(const AINIRec: TMemIniFile);
+var
+  lSecao: String;
+  Ok: Boolean;
+begin
+  lSecao := 'Servico';
+  if AINIRec.SectionExists(lSecao) then
+  begin
+    NFSe.Servico.ResponsavelRetencao := FpAOwner.StrToResponsavelRetencao(Ok, AINIRec.ReadString(lSecao, 'ResponsavelRetencao', FpAOwner.ResponsavelRetencaoToStr(NFSe.Servico.ResponsavelRetencao)));
+    NFSe.Servico.ItemListaServico := AINIRec.ReadString(lSecao, 'ItemListaServico', NFSe.Servico.ItemListaServico);
+    NFSe.Servico.xItemListaServico := AINIRec.ReadString(lSecao, 'xItemListaServico', NFSe.Servico.xItemListaServico);
+    NFSe.Servico.CodigoCnae := AINIRec.ReadString(lSecao, 'CodigoCnae', NFSe.Servico.CodigoCnae);
+    NFSe.Servico.CodigoTributacaoMunicipio := AINIRec.ReadString(lSecao, 'CodigoTributacaoMunicipio', NFSe.Servico.CodigoTributacaoMunicipio);
+    NFSe.Servico.xCodigoTributacaoMunicipio := AINIRec.ReadString(lSecao, 'xCodigoTributacaoMunicipio', NFSe.Servico.xCodigoTributacaoMunicipio);
+    NFSe.Servico.Discriminacao := AINIRec.ReadString(lSecao, 'Discriminacao', NFSe.Servico.Discriminacao);
+    NFSe.Servico.CodigoMunicipio := AINIRec.ReadString(lSecao, 'CodigoMunicipio', NFSe.Servico.CodigoMunicipio);
+    NFSe.Servico.CodigoPais := AINIRec.ReadInteger(lSecao, 'CodigoPais', NFSe.Servico.CodigoPais);
+    NFSe.Servico.ExigibilidadeISS := FpAOwner.StrToExigibilidadeISS(Ok, AINIRec.ReadString(lSecao, 'ExigibilidadeISS', FpAOwner.ExigibilidadeISSToStr(NFSe.Servico.ExigibilidadeISS)));
+    NFSe.Servico.MunicipioIncidencia := AINIRec.ReadInteger(lSecao, 'MunicipioIncidencia', NFSe.Servico.MunicipioIncidencia);
+    NFSe.Servico.xMunicipioIncidencia := AINIRec.ReadString(lSecao, 'xMunicipioIncidencia', NFSe.Servico.xMunicipioIncidencia);
+    NFSe.Servico.NumeroProcesso := AINIRec.ReadString(lSecao, 'NumeroProcesso', NFSe.Servico.NumeroProcesso);
+    NFSe.Servico.xPed := AINIRec.ReadString(lSecao, 'xPed', NFSe.Servico.xPed);
+    NFSE.Servico.nItemPed := AINIRec.ReadString(lSecao, 'nItemPed', NFSE.Servico.nItemPed);
+    NFSe.Servico.CodigoNBS := AINIRec.ReadString(lSecao, 'CodigoNBS', NFSe.Servico.CodigoNBS);
+    NFSe.Servico.CodigoServicoNacional := AINIRec.ReadString(lSecao, 'CodigoServicoNacional', NFSe.Servico.CodigoServicoNacional);
   end;
 end;
 
