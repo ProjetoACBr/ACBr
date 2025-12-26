@@ -6,5 +6,7 @@ namespace ACBrLib.MDFe
     {
         [IniKey("versao")]
         public VersaoMDFe Versao { get; set; } = VersaoMDFe.ve300;
+
+        public string ID { get; set; }
     }
 }
