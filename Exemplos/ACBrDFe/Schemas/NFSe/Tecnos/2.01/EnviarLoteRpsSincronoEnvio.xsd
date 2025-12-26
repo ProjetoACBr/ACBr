@@ -83,12 +83,12 @@
                                                         <xsd:element name="Aliquota" type="xsd:decimal" />
                                                         <xsd:element name="DescontoIncondicionado" type="xsd:decimal" />
                                                         <xsd:element name="DescontoCondicionado" type="xsd:decimal" />
-							<xsd:element name="IbsMunicipal" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
-							<xsd:element name="ValorIbsMunicipal" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
-							<xsd:element name="IbsEstadual" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
-							<xsd:element name="ValorIbsEstadual" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
-							<xsd:element name="Cbs" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
-							<xsd:element name="ValorCbs" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+														<xsd:element name="IbsMunicipal" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+														<xsd:element name="ValorIbsMunicipal" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+														<xsd:element name="IbsEstadual" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+														<xsd:element name="ValorIbsEstadual" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+														<xsd:element name="Cbs" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+														<xsd:element name="ValorCbs" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
                                                       </xsd:sequence>
                                                     </xsd:complexType>
                                                   </xsd:element>
@@ -103,8 +103,10 @@
                                                   <xsd:element name="ExigibilidadeISS" type="xsd:unsignedByte" />
                                                   <xsd:element name="MunicipioIncidencia" type="xsd:unsignedLong" />
                                                   <xsd:element name="NumeroProcesso" />
-						  <xsd:element name="CodigoNBS" type="xsd:unsignedLong" minOccurs="0" maxOccurs="1"/>
-						  <xsd:element name="CodigoServicoNacional" type="xsd:unsignedLong" minOccurs="0" maxOccurs="1"/>
+                                                  <xsd:element name="xPed" minOccurs="0" />
+                                                  <xsd:element name="nItemPed" minOccurs="0" />												  
+												  <xsd:element name="CodigoNBS" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+												  <xsd:element name="CodigoServicoNacional" type="xsd:unsignedLong" minOccurs="0" maxOccurs="1"/>
                                                 </xsd:sequence>
                                               </xsd:complexType>
                                             </xsd:element>
