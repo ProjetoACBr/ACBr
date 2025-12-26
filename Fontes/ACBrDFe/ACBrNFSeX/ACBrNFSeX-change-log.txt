@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/12/2025
+-- ACBrNFSeXClass/ACBrNFSeXConsts/ACBrNFSeXLerXml_ABRASFv2/Tecnos.GravarXml/Tecnos.LerXml --
+[-] ACBR-8593: Adiciona a geração e a leitura dos campos faltantes para o grupo ConstrucaoCivil
+  Por: Diego Folieni
+
 23/12/2025
 -- ACBrNFSeXProviderManager/Coplan.GravarXml/Coplan.LerXml/Coplan.Provider --
 [*] ACBR-8631: Implementação da API Própria do Provedor Coplan que vai usar um WS Soap.

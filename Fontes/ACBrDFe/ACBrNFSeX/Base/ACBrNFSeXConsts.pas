@@ -63,6 +63,8 @@ resourcestring
   DSC_CEPOBRA = 'Cep do endereço da obra';
   DSC_UFOBRA = 'UF do endereço da obra';
   DSC_ART = 'Arte';
+  DSC_LOCAL_CONSTRUCAO = 'Local Construção';
+  DSC_CIB = 'Cib';
   DSC_INSCMOB = 'Inscricao imobiliária da obra';
   DSC_QPARC = 'Quantidade de Parcelas';
   DSC_NPARC = 'Numero da Parcela';

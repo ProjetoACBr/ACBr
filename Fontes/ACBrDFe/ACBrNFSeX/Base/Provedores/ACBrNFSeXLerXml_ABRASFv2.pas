@@ -93,7 +93,7 @@ type
     procedure LerIntermediarioServico(const ANode: TACBrXmlNode);
     procedure LerIdentificacaoIntermediario(const ANode: TACBrXmlNode);
 
-    procedure LerConstrucaoCivil(const ANode: TACBrXmlNode);
+    procedure LerConstrucaoCivil(const ANode: TACBrXmlNode); virtual;
 
     procedure LerNfseCancelamento(const ANode: TACBrXmlNode);
     procedure LerConfirmacao(const ANode: TACBrXmlNode);

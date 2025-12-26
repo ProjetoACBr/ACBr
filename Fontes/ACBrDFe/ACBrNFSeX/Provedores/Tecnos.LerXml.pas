@@ -38,7 +38,8 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrXmlDocument,
+  ACBrXmlDocument, IniFiles,
+  ACBrDFe.Conversao,
   ACBrNFSeXLerXml_ABRASFv2;
 
 type
@@ -46,6 +47,9 @@ type
 
   TNFSeR_Tecnos201 = class(TNFSeR_ABRASFv2)
   protected
+    procedure LerConstrucaoCivil(const ANode: TACBrXmlNode); override;
+    //======Arquivo INI===========================================
+    procedure LerINISecaoConstrucaoCivil(const AINIRec: TMemIniFile); override;
 
   public
     function LerXmlNfse(const ANode: TACBrXmlNode): Boolean; override;
@@ -63,6 +67,56 @@ uses
 //==============================================================================
 
 { TNFSeR_Tecnos201 }
+
+procedure TNFSeR_Tecnos201.LerConstrucaoCivil(const ANode: TACBrXmlNode);
+var
+  lAuxNode: TACBrXmlNode;
+  Ok: Boolean;
+begin
+  if not Assigned(ANode) then Exit;
+
+  lAuxNode := ANode.Childrens.FindAnyNs('ConstrucaoCivil');
+
+  if Assigned(lAuxNode) then
+  begin
+    NFSe.ConstrucaoCivil.LocalConstrucao := ObterConteudo(lAuxNode.Childrens.FindAnyNs('LocalConstrucao'), tcStr);
+    NFSe.ConstrucaoCivil.CodigoObra := ObterConteudo(lAuxNode.Childrens.FindAnyNs('CodigoObra'), tcStr);
+    NFSe.ConstrucaoCivil.Art := ObterConteudo(lAuxNode.Childrens.FindAnyNs('Art'), tcStr);
+    NFSe.ConstrucaoCivil.ReformaCivil := FpAOwner.StrToSimNao(Ok, ObterConteudo(lAuxNode.Childrens.FindAnyNs('ReformaCivil'), tcStr));
+    NFSe.ConstrucaoCivil.Cib := ObterConteudo(lAuxNode.Childrens.FindAnyNs('Cib'), tcStr);
+    NFSe.ConstrucaoCivil.Endereco.UF := ObterConteudo(lAuxNode.Childrens.FindAnyNs('EstadoObra'), tcStr);
+    NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio := ObterConteudo(lAuxNode.Childrens.FindAnyNs('CidadeObra'), tcStr);
+    NFSe.ConstrucaoCivil.Endereco.Endereco := ObterConteudo(lAuxNode.Childrens.FindAnyNs('EnderecoObra'), tcStr);
+    NFSe.ConstrucaoCivil.Endereco.Numero := ObterConteudo(lAuxNode.Childrens.FindAnyNs('NumeroObra'), tcStr);
+    NFSe.ConstrucaoCivil.Endereco.Bairro := ObterConteudo(lAuxNode.Childrens.FindAnyNs('BairroObra'), tcStr);
+    NFSe.ConstrucaoCivil.Endereco.CEP := ObterConteudo(lAuxNode.Childrens.FindAnyNs('CepObra'), tcStr);
+    NFSe.ConstrucaoCivil.Endereco.Complemento := ObterConteudo(lAuxNode.Childrens.FindAnyNs('ComplementoObra'), tcStr);
+  end;
+end;
+
+procedure TNFSeR_Tecnos201.LerINISecaoConstrucaoCivil(const AINIRec: TMemIniFile);
+var
+  lSecao: String;
+  Ok: Boolean;
+begin
+  lSecao := 'ConstrucaoCivil';
+
+  if AINIRec.SectionExists(LSecao) then
+  begin
+    NFSe.ConstrucaoCivil.LocalConstrucao := AINIRec.ReadString(lSecao, 'LocalConstrucao', EmptyStr);
+    NFSe.ConstrucaoCivil.CodigoObra := AINIRec.ReadString(LSecao, 'CodigoObra', EmptyStr);
+    NFSe.ConstrucaoCivil.Art := AINIRec.ReadString(LSecao, 'Art', EmptyStr);
+    NFSE.ConstrucaoCivil.ReformaCivil := FpAOwner.StrToSimNao(Ok, AINIRec.ReadString(lSecao, 'ReformaCivil', EmptyStr));
+    NFSE.ConstrucaoCivil.Cib := AINIRec.ReadInteger(lSecao, 'Cib', 0);
+    NFSe.ConstrucaoCivil.Endereco.UF := AINIRec.ReadString(lSecao, 'UF', EmptyStr);
+    NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio := AINIRec.ReadString(lSecao, 'CodigoMunicipio', EmptyStr);
+    NFSe.ConstrucaoCivil.Endereco.Endereco := AINIRec.ReadString(lSecao, 'Logradouro', EmptyStr);
+    NFSE.ConstrucaoCivil.Endereco.Numero := AINIRec.ReadString(lSecao, 'Numero', '0');
+    NFSe.ConstrucaoCivil.Endereco.Bairro := AINIRec.ReadString(lSecao, 'Bairro', EmptyStr);
+    NFSe.ConstrucaoCivil.Endereco.CEP := AINIRec.ReadString(lSecao, 'CEP', EmptyStr);
+    NFSe.ConstrucaoCivil.Endereco.Complemento := AINIRec.ReadString(lSecao, 'Complemento', EmptyStr);
+  end;
+end;
 
 function TNFSeR_Tecnos201.LerXmlNfse(const ANode: TACBrXmlNode): Boolean;
 var

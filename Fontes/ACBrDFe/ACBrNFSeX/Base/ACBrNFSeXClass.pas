@@ -1060,6 +1060,9 @@ type
     FnNumeroEncapsulamento: string;
     FinscImobFisc: String;
     FTipo: Integer;
+    FReformaCivil: TnfseSimNao;
+    FLocalConstrucao: string;
+    FCib: Integer;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1076,6 +1079,10 @@ type
     property inscImobFisc: String read FinscImobFisc write FinscImobFisc;
     // Provedor Publica
     property Tipo: Integer read FTipo write FTipo;
+    //Provedor Tecnos
+    property ReformaCivil: TnfseSimNao read FReformaCivil write FReformaCivil;
+    property LocalConstrucao: string read FLocalConstrucao write FLocalConstrucao;
+    property Cib: Integer read FCib write FCib;
   end;
 
   TParcelasCollectionItem = class(TObject)

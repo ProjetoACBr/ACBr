@@ -37,7 +37,7 @@ unit Tecnos.GravarXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
+  SysUtils, Classes, StrUtils, IniFiles,
   ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXGravarXml_ABRASFv2;
@@ -54,9 +54,13 @@ type
     function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
     function GerarInfDeclaracaoPrestacaoServ: TACBrXmlNode;
     function GerarValores: TACBrXmlNode; override;
+    function GerarConstrucaoCivil: TACBrXmlNode; override;
 
     procedure Configuracao; override;
     procedure DefinirIDDeclaracao; override;
+
+    //======Arquivo INI===========================================
+    procedure GerarINISecaoConstrucaoCivil(const AINIRec: TMemIniFile); override;
 
   end;
 
@@ -130,6 +134,52 @@ begin
   NrOcorrRespRetencao := 1;
   
   GerarTagServicos := False;
+end;
+
+function TNFSeW_Tecnos201.GerarConstrucaoCivil: TACBrXmlNode;
+begin
+  if (Trim(NFSe.ConstrucaoCivil.LocalConstrucao) <> EmptyStr) or
+     (Trim(NFSe.ConstrucaoCivil.CodigoObra) <> EmptyStr) or
+     (Trim(NFSe.ConstrucaoCivil.Art) <> EmptyStr) then
+  begin
+    Result := CreateElement('ConstrucaoCivil');
+
+    Result.AppendChild(AddNode(tcStr, '#54', 'LocalConstrucao', 1,  50, 1,
+                                            NFSe.ConstrucaoCivil.LocalConstrucao, DSC_LOCAL_CONSTRUCAO));
+
+    Result.AppendChild(AddNode(tcStr, '#51', 'CodigoObra', 1, 15, 1,
+                                   NFSe.ConstrucaoCivil.CodigoObra, DSC_COBRA));
+
+    Result.AppendChild(AddNode(tcStr, '#52', 'Art', 1, 15, 1,
+                                            NFSe.ConstrucaoCivil.Art, DSC_ART));
+
+    Result.AppendChild(AddNode(tcInt, '#53', 'ReformaCivil', 1, 15, 1,
+                                            FpAOwner.SimNaoToStr(NFSe.ConstrucaoCivil.ReformaCivil), DSC_ART));
+
+    Result.AppendChild(AddNode(tcInt, '#55', 'Cib', 1, 50, 1,
+                                            NFSe.ConstrucaoCivil.Cib, DSC_CIB));
+
+    Result.AppendChild(AddNode(tcStr, '#56', 'EstadoObra', 1, 2, 1,
+                                            NFSe.ConstrucaoCivil.Endereco.UF, DSC_UFOBRA));
+
+    Result.AppendChild(AddNode(tcStr, '#56', 'CidadeObra', 1, 2, 1,
+                                            NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio, DSC_CODMUNOBRA));
+
+    Result.AppendChild(AddNode(tcStr, '#56', 'EnderecoObra', 1, 2, 1,
+                                            NFSe.ConstrucaoCivil.Endereco.Endereco, DSC_EOBRA));
+
+    Result.AppendChild(AddNode(tcInt, '#56', 'NumeroObra', 1, 2, 1,
+                                            NFSe.ConstrucaoCivil.Endereco.Numero, DSC_NEOBRA));
+
+    Result.AppendChild(AddNode(tcStr, '#56', 'BairroObra', 1, 2, 1,
+                                            NFSe.ConstrucaoCivil.Endereco.Bairro, DSC_BEOBRA));
+
+    Result.AppendChild(AddNode(tcInt, '#56', 'CepObra', 1, 2, 1,
+                                            NFSe.ConstrucaoCivil.Endereco.CEP, DSC_CEPOBRA));
+
+    Result.AppendChild(AddNode(tcStr, '#56', 'ComplementoObra', 1, 2, 1,
+                                            NFSe.ConstrucaoCivil.Endereco.Complemento, DSC_CEOBRA));
+  end;
 end;
 
 function TNFSeW_Tecnos201.GerarEnderecoTomador: TACBrXmlNode;
@@ -300,6 +350,30 @@ begin
   Result := CreateElement('tcDeclaracaoPrestacaoServico');
 
   Result.AppendChild(GerarInfDeclaracaoPrestacaoServ);
+end;
+
+procedure TNFSeW_Tecnos201.GerarINISecaoConstrucaoCivil(const AINIRec: TMemIniFile);
+var
+  lSecao: String;
+begin
+  if (Trim(NFSe.ConstrucaoCivil.CodigoObra) <> EmptyStr) or
+     (Trim(NFSe.ConstrucaoCivil.Art) <> EmptyStr) or
+     (Trim(NFSe.ConstrucaoCivil.LocalConstrucao) <> EmptyStr) then
+  begin
+    lSecao:= 'ConstrucaoCivil';
+    AINIRec.WriteString(lSecao, 'LocalConstrucao', NFSe.ConstrucaoCivil.LocalConstrucao);
+    AINIRec.WriteString(lSecao, 'CodigoObra', NFSe.ConstrucaoCivil.CodigoObra);
+    AINIRec.WriteString(lSecao, 'Art', NFSe.ConstrucaoCivil.Art);
+    AINIRec.WriteString(lSecao, 'ReformaCivil', FpAOwner.SimNaoToStr(NFSe.ConstrucaoCivil.ReformaCivil));
+    AINIRec.WriteInteger(lSecao, 'Cib', NFSe.ConstrucaoCivil.Cib);
+    AINIRec.WriteString(lSecao, 'UF', NFSe.ConstrucaoCivil.Endereco.UF);
+    AINIRec.WriteString(lSecao, 'CodigoMunicipio', NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio);
+    AINIRec.WriteString(lSecao, 'Logradouro', NFSe.ConstrucaoCivil.Endereco.Endereco);
+    AINIRec.WriteString(lSecao, 'Numero', NFSe.ConstrucaoCivil.Endereco.Numero);
+    AINIRec.WriteString(lSecao, 'Bairro', NFSe.ConstrucaoCivil.Endereco.Bairro);
+    AINIRec.WriteString(lSecao, 'CEP', NFSe.ConstrucaoCivil.Endereco.CEP);
+    AINIRec.WriteString(lSecao, 'Complemento', NFSe.ConstrucaoCivil.Endereco.Complemento);
+  end;
 end;
 
 function TNFSeW_Tecnos201.GerarValores: TACBrXmlNode;
