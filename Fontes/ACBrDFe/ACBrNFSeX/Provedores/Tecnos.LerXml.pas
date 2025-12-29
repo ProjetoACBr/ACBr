@@ -84,7 +84,7 @@ begin
     NFSe.ConstrucaoCivil.CodigoObra := ObterConteudo(lAuxNode.Childrens.FindAnyNs('CodigoObra'), tcStr);
     NFSe.ConstrucaoCivil.Art := ObterConteudo(lAuxNode.Childrens.FindAnyNs('Art'), tcStr);
     NFSe.ConstrucaoCivil.ReformaCivil := FpAOwner.StrToSimNao(Ok, ObterConteudo(lAuxNode.Childrens.FindAnyNs('ReformaCivil'), tcStr));
-    NFSe.ConstrucaoCivil.Cib := ObterConteudo(lAuxNode.Childrens.FindAnyNs('Cib'), tcStr);
+    NFSe.ConstrucaoCivil.Cib := ObterConteudo(lAuxNode.Childrens.FindAnyNs('Cib'), tcInt);
     NFSe.ConstrucaoCivil.Endereco.UF := ObterConteudo(lAuxNode.Childrens.FindAnyNs('EstadoObra'), tcStr);
     NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio := ObterConteudo(lAuxNode.Childrens.FindAnyNs('CidadeObra'), tcStr);
     NFSe.ConstrucaoCivil.Endereco.Endereco := ObterConteudo(lAuxNode.Childrens.FindAnyNs('EnderecoObra'), tcStr);

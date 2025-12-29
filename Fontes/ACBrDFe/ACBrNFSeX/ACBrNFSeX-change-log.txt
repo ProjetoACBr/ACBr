@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+29/12/2025
+-- Tecnos.LerXML --
+[-] Corrige a leitura do campo Cib do grupo ConstrucaoCivil
+  Por: MGWare Dev
+
 26/12/2025
 -- ACBrNFSeXClass/Tecnos.GravarXML/Tecnos.LerXML --
 [*] ACBR-8593: Ajuste visando compatibilização com alteração feita pelo provedor para adequar a Reforma Tributária
