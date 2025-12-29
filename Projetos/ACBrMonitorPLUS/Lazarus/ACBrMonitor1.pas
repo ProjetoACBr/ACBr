@@ -12355,6 +12355,7 @@ begin
   else if Configuracoes is TConfiguracoesNFSe then
   begin
     // Italo
+    TConfiguracoesBPe(Configuracoes).Arquivos.IniServicos := edtArquivoWebServicesNFSe.Text;
     TConfiguracoesNFSe(Configuracoes).Geral.FormaEmissao := StrToTpEmis(OK, IntToStr(cbFormaEmissaoNFe.ItemIndex + 1));
     TConfiguracoesNFSe(Configuracoes).Geral.ConsultaLoteAposEnvio := cbxConsultarLoteAposEnvio.Checked;
     TConfiguracoesNFSe(Configuracoes).Geral.ConsultaAposCancelar := cbxConsultarAposCancelar.Checked;

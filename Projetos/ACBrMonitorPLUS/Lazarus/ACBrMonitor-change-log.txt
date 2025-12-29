@@ -43,6 +43,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+29/12/2025
+--- DoACBrNFSeUnit, ACBrMonitorConsts, ACBrMonitor1 ---
+[+] Adicionado novo metodo NFSe.SetPathArquivoWebServices
+    Por: Daniel de Morais Infocotidiano
+
 23/12/2025
 --- ACBrMonitor1 ---
 [-] Adicionado No salvar ini a propriedade edtArquivoWebServicesNFSe.Text

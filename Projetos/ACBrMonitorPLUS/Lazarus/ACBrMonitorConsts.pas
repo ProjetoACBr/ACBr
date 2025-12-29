@@ -388,6 +388,8 @@ const
   CMetodoSetlogomarca =                'setlogomarca';
   CMetodoSetformaemissao =             'setformaemissao';
   CMetodoSetTipoImpressao =            'settipoimpressao';
+  CMetodoSetPathArquivoWebServices =   'SetPathArquivoWebServices';
+
   CMetodoSetversaodf =                 'setversaodf';
   CMetodoSetTipoContribuinte =         'settipocontribuinte';
   CMetodoLermdfe =                     'lermdfe';

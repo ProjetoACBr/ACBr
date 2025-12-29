@@ -335,6 +335,14 @@ public
   procedure Executar; override;
 end;
 
+{ TMetodoSetSet }
+
+TMetodoSetPathArquivoWebServices = class(TACBrMetodo)
+public
+  procedure Executar; override;
+end;
+
+
 implementation
 
 uses
@@ -382,6 +390,31 @@ begin
   end;
 
 end;
+
+{ TMetodoSetPathArquivoWebServices }
+
+{ 
+Params: 0 - Path Arquivo INI de Servicos
+}
+procedure TMetodoSetPathArquivoWebServices.Executar;
+var LPathArquivoINI: String;
+begin
+  LPathArquivoINI := fpCmd.Params(0);
+  with TACBrObjetoNFSe(fpObjetoDono) do
+  begin
+    // Aplicando no componente
+    ACBrNFSeX.Configuracoes.WebServices.Params.Clear;
+    ACBrNFSeX.Configuracoes.Arquivos.IniServicos := LPathArquivoINI;
+    ACBrNFSeX.LerCidades;
+    with MonitorConfig.DFE do
+    begin
+      // Aplicando na tela
+      ArquivoWebServicesNFSe := LPathArquivoINI;
+    end;
+    MonitorConfig.SalvarArquivo;
+  end;
+end;
+
 
 { TMetodoSetEmitente }
 
@@ -1863,6 +1896,7 @@ begin
   ListaDeMetodos.Add(CMetodoSetEmitente);
   ListaDeMetodos.Add(CMetodoSetAutenticacaoNFSe);
   ListaDeMetodos.Add(CMetodoConsultarLinkNFSe);
+  ListaDeMetodos.Add(CMetodoSetPathArquivoWebServices);
 
   // DoACBrUnit
   ListaDeMetodos.Add(CMetodoSavetofile);
@@ -1939,6 +1973,7 @@ begin
     40  : AMetodoClass := TMetodoSetEmitente;
     41  : AMetodoClass := TMetodoSetAutenticacaoNFSe;
     42  : AMetodoClass := TMetodoConsultarLinkNFSe;
+    43  : AMetodoClass := TMetodoSetPathArquivoWebServices;
 
     else
     begin
