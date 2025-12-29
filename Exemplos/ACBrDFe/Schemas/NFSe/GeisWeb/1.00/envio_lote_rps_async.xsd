@@ -1,9 +1,9 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-   targetNamespace="http://www.cidadedofuturo.com.br/xsd/envio_lote_rps_async.xsd"        
-    xmlns="http://www.cidadedofuturo.com.br/xsd/envio_lote_rps_async.xsd"  
+   targetNamespace="http://www.gerenciadecidades.com.br/xsd/envio_lote_rps_async.xsd"        
+    xmlns="http://www.gerenciadecidades.com.br/xsd/envio_lote_rps_async.xsd"  
    xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" attributeFormDefault="unqualified"
    elementFormDefault="qualified">
-<xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="http://www.cidadedofuturo.com.br/xsd/xmldsig-core-schema.xsd"/>
+<xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="http://www.gerenciadecidades.com.br/xsd/xmldsig-core-schema.xsd"/>
   <xsd:element name="EnviaLoteRpsAsync">
     <xsd:complexType>
       <xsd:sequence>
@@ -61,8 +61,8 @@
                                                                      <xsd:complexType>
                                                                            <xsd:sequence>
                                                                                  <xsd:element name="CnpjCpf" type="xsd:string"></xsd:element>
-                                                                                 <xsd:element name="NIF" type="xsd:string"></xsd:element>
-                                                                                 <xsd:element name="NaoNIF" type="xsd:string"></xsd:element>
+                                                                                 <xsd:element name="NIF" type="xsd:string" minOccurs="0"></xsd:element>
+                                                                                 <xsd:element name="NaoNIF" type="xsd:string" minOccurs="0"></xsd:element>
                                                                            </xsd:sequence>
                                                                      </xsd:complexType>
                                                                </xsd:element>
@@ -76,8 +76,8 @@
                                                                                  <xsd:element name="Cidade" type="xsd:string"></xsd:element>
                                                                                  <xsd:element name="Estado" type="xsd:string"></xsd:element>
                                                                                  <xsd:element name="Cep" type="xsd:string"></xsd:element>
-                                                                                 <xsd:element name="Pais" type="xsd:string"></xsd:element>
-                                                                                 <xsd:element name="ProvReg" type="xsd:string"></xsd:element>
+                                                                                 <xsd:element name="Pais" type="xsd:string" minOccurs="0"></xsd:element>
+                                                                                 <xsd:element name="ProvReg" type="xsd:string" minOccurs="0"></xsd:element>
                                                                                  <xsd:element name="Telefone" type="xsd:string" minOccurs="0"></xsd:element>
                                                                                  <xsd:element name="Email" type="xsd:string" minOccurs="0"></xsd:element>
                                                                            </xsd:sequence>
@@ -105,9 +105,9 @@
                                                          </xsd:sequence>
                                                    </xsd:complexType>
                                              </xsd:element>
-                                             <xsd:element name="NCM" type="xsd:string"></xsd:element>
-                                             <xsd:element name="NBS" type="xsd:string"></xsd:element>
-                                             <xsd:element name="IBSCBS">
+                                             <xsd:element name="NCM" type="xsd:string" minOccurs="0"></xsd:element>
+                                             <xsd:element name="NBS" type="xsd:string" minOccurs="0"></xsd:element>
+                                             <xsd:element name="IBSCBS" minOccurs="0">
                                                 <xsd:complexType>
                                                 <xsd:sequence>
                                                 <xsd:element name="valores">
