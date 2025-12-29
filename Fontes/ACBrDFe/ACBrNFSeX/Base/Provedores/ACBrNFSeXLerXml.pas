@@ -132,11 +132,11 @@ type
 
     //====== Ler o Arquivo INI===========================================
     // Reforma Tributária DPS
-    procedure LerINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS);
+    procedure LerINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS); virtual;
     procedure LerINIgRefNFSe(AINIRec: TMemIniFile; gRefNFSe: TgRefNFSeCollection);
     procedure LerINIDestinatario(AINIRec: TMemIniFile; Dest: TDadosdaPessoa);
     procedure LerINIImovel(AINIRec: TMemIniFile; Imovel: TDadosimovel);
-    procedure LerINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib);
+    procedure LerINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib); virtual;
     procedure LerINIDocumentos(AINIRec: TMemIniFile; Documentos: TdocumentosCollection);
     procedure LerINITributacao(AINIRec: TMemIniFile; Tributacao: Ttrib);
     procedure LerINIgIBSCBS(AINIRec: TMemIniFile; gIBSCBS: TgIBSCBS);

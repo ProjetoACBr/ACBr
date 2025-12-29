@@ -40,6 +40,7 @@ uses
   SysUtils, Classes, StrUtils, IniFiles,
   ACBrXmlBase,
   ACBrXmlDocument,
+  ACBrNFSeXClass,
   ACBrNFSeXGravarXml_ABRASFv2;
 
 type
@@ -62,7 +63,10 @@ type
     //======Arquivo INI===========================================
     procedure GerarINISecaoConstrucaoCivil(const AINIRec: TMemIniFile); override;
     procedure GerarINISecaoServico(const AINIRec: TMemIniFile); override;
-
+    procedure GerarINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS); override;
+    procedure GerarINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib); override;
+  public
+    function GerarIni: String; override;
   end;
 
 implementation
@@ -352,6 +356,68 @@ begin
   Result := CreateElement('tcDeclaracaoPrestacaoServico');
 
   Result.AppendChild(GerarInfDeclaracaoPrestacaoServ);
+end;
+
+function TNFSeW_Tecnos201.GerarIni: String;
+var
+  LINIRec: TMemIniFile;
+  LIniNFSe: TStringList;
+begin
+  Result := '';
+  LINIRec := TMemIniFile.Create('');
+  try
+    GerarINISecaoIdentificacaoNFSe(LINIRec);
+    GerarINISecaoIdentificacaoRps(LINIRec);
+    GerarINISecaoRpsSubstituido(LINIRec);
+    GerarINISecaoNFSeCancelamento(LINIRec);
+    GerarINISecaoPrestador(LINIRec);
+    GerarINISecaoTomador(LINIRec);
+    GerarINISecaoIntermediario(LINIRec);
+    GerarINISecaoConstrucaoCivil(LINIRec);
+    GerarINISecaoServico(LINIRec);
+    GerarINISecaoItens(LINIRec);
+    GerarINISecaoEvento(LINIRec);
+    GerarINISecaoInformacoesComplementares(LINIRec);
+    GerarINISecaoValores(LINIRec);
+    GerarINISecaoDocumentosDeducoes(LINIRec);
+    GerarINISecaoCondicaoPagamento(LINIRec);
+    GerarINISecaoOrgaoGerador(LINIRec);
+    GerarINISecaoParcelas(LINIRec);
+    GerarINIIBSCBS(LINIRec, NFSE.IBSCBS);
+  finally
+    LIniNFSe := TStringList.Create;
+    try
+      LINIRec.GetStrings(LIniNFSe);
+      LINIRec.Free;
+
+      Result := StringReplace(LIniNFSe.Text, sLineBreak + sLineBreak, sLineBreak, [rfReplaceAll]);
+    finally
+      LIniNFSe.Free;
+    end;
+  end;
+end;
+
+procedure TNFSeW_Tecnos201.GerarINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS);
+begin
+  GerarINIIBSCBSValores(AINIRec, IBSCBS.valores);
+end;
+
+procedure TNFSeW_Tecnos201.GerarINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib);
+var
+  lSecao: String;
+begin
+  if (NFSe.IBSCBS.valores.IbsMunicipal > 0) or (NFSe.IBSCBS.valores.ValorIbsMunicipal > 0) or
+     (NFSe.IBSCBS.valores.IbsEstadual > 0) or (NFSe.IBSCBS.valores.ValorIbsEstadual > 0) or
+     (NFSe.IBSCBS.valores.Cbs > 0) or (NFSe.IBSCBS.valores.ValorCbs > 0) then
+  begin
+    lSecao := 'IBSCBSValores';
+    AINIRec.WriteFloat(lSecao, 'IbsMunicipal', NFSe.IBSCBS.valores.IbsMunicipal);
+    AINIRec.WriteFloat(lSecao, 'ValorIbsMunicipal', NFSe.IBSCBS.valores.ValorIbsMunicipal);
+    AINIRec.WriteFloat(lSecao, 'IbsEstadual', NFSe.IBSCBS.valores.IbsEstadual);
+    AINIRec.WriteFloat(lSecao, 'ValorIbsEstadual', NFSe.IBSCBS.valores.ValorIbsEstadual);
+    AINIRec.WriteFloat(lSecao, 'Cbs', NFSe.IBSCBS.valores.Cbs);
+    AINIRec.WriteFloat(lSecao, 'ValorCbs', NFSe.IBSCBS.valores.ValorCbs);
+  end;
 end;
 
 procedure TNFSeW_Tecnos201.GerarINISecaoConstrucaoCivil(const AINIRec: TMemIniFile);

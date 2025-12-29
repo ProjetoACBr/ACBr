@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 29/12/2025
+-- ACBrNFSeXGravarXml/ACBrNFSeXLerXml/Tecnos.GravarXml/Tecnos.LerXml
+[*] ACBR-8599: Altera as rotinas de leitura e escrita do INI para receber as informações do IBSCBS e deixar mais fidedignas.
+  Por: Diego Folieni
 -- ACBrNFSeXGravarXml/EloTech.GravarXml --
 [*] ACBR-8630: Alteração visando atender a alteração feita pelo provedor para a Reforma Tributária.
   Por: Italo Giurizzato Junior

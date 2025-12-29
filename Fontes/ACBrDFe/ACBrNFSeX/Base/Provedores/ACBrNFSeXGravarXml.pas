@@ -170,11 +170,11 @@ type
     function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode;
     function GerarXMLgDif(gDif: TgDif): TACBrXmlNode;
     // Reforma Tributária DPS
-    procedure GerarINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS);
+    procedure GerarINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS); virtual;
     procedure GerarINIgRefNFSe(AINIRec: TMemIniFile; gRefNFSe: TgRefNFSeCollection);
     procedure GerarINIDestinatario(AINIRec: TMemIniFile; Dest: TDadosdaPessoa);
     procedure GerarINIImovel(AINIRec: TMemIniFile; Imovel: TDadosimovel);
-    procedure GerarINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib);
+    procedure GerarINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib); virtual;
     procedure GerarINIDocumentos(AINIRec: TMemIniFile; Documentos: TdocumentosCollection);
     procedure GerarINITributacao(AINIRec: TMemIniFile; Tributacao: Ttrib);
     procedure GerarINIgIBSCBS(AINIRec: TMemIniFile; gIBSCBS: TgIBSCBS);

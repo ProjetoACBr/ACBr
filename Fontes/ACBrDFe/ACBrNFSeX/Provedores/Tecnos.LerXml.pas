@@ -39,7 +39,7 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrXmlDocument, IniFiles,
-  ACBrDFe.Conversao,
+  ACBrDFe.Conversao, ACBrNFSeXClass,
   ACBrNFSeXLerXml_ABRASFv2;
 
 type
@@ -51,6 +51,8 @@ type
     //======Arquivo INI===========================================
     procedure LerINISecaoConstrucaoCivil(const AINIRec: TMemIniFile); override;
     procedure LerINISecaoServico(const AINIRec: TMemIniFile); override;
+    procedure LerINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS); override;
+    procedure LerINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib); override;
 
   public
     function LerXmlNfse(const ANode: TACBrXmlNode): Boolean; override;
@@ -92,6 +94,27 @@ begin
     NFSe.ConstrucaoCivil.Endereco.Bairro := ObterConteudo(lAuxNode.Childrens.FindAnyNs('BairroObra'), tcStr);
     NFSe.ConstrucaoCivil.Endereco.CEP := ObterConteudo(lAuxNode.Childrens.FindAnyNs('CepObra'), tcStr);
     NFSe.ConstrucaoCivil.Endereco.Complemento := ObterConteudo(lAuxNode.Childrens.FindAnyNs('ComplementoObra'), tcStr);
+  end;
+end;
+
+procedure TNFSeR_Tecnos201.LerINIIBSCBS(AINIRec: TMemIniFile; IBSCBS: TIBSCBSDPS);
+begin
+  LerINIIBSCBSValores(AINIRec, IBSCBS.valores);
+end;
+
+procedure TNFSeR_Tecnos201.LerINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib);
+var
+  lSecao: String;
+begin
+  lSecao := 'IBSCBSValores';
+  if AINIRec.SectionExists(lSecao) then
+  begin
+    NFSe.IBSCBS.valores.IbsMunicipal := AINIRec.ReadFloat(lSecao, 'IbsMunicipal', 0);
+    NFSe.IBSCBS.valores.ValorIbsMunicipal := AINIRec.ReadFloat(lSecao, 'ValorIbsMunicipal', 0);
+    NFSe.IBSCBS.valores.IbsEstadual := AINIRec.ReadFloat(lSecao, 'IbsEstadual', 0);
+    NFSe.IBSCBS.valores.ValorIbsEstadual := AINIRec.ReadFloat(lSecao, 'ValorIbsEstadual', 0);
+    NFSe.IBSCBS.valores.Cbs := AINIRec.ReadFloat(lSecao, 'Cbs', 0);
+    NFSe.IBSCBS.valores.ValorCbs := AINIRec.ReadFloat(lSecao, 'ValorCbs', 0);
   end;
 end;
 
