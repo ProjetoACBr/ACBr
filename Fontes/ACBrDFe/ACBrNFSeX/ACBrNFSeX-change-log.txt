@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 29/12/2025
+-- ACBrNFSeXGravarXml/GeisWeb.GravarXml/GeisWeb.LerXml/GeisWeb.Provider --
+[*] ACBR-8633: Alteração visando atender a alteração feita pelo provedor para a Reforma Tributária.
+  Por: Italo Giurizzato Junior
 -- Tecnos.LerXML --
 [-] Corrige a leitura do campo Cib do grupo ConstrucaoCivil
   Por: MGWare Dev

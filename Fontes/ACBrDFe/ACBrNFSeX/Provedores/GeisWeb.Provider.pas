@@ -134,6 +134,7 @@ begin
   ConfigAssinar.Rps := True;
 
   SetXmlNameSpace('http://www.gerenciadecidades.com.br/xsd/envio_lote_rps.xsd');
+//  SetXmlNameSpace('http://www.cidadedofuturo.com.br/xsd/envio_lote_rps.xsd');
 
   with ConfigMsgDados do
   begin

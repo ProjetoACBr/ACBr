@@ -82,6 +82,19 @@ var
 begin
   Configuracao;
 
+  NrOcorrfinNFSe := -1;
+  NrOcorrindFinal := -1;
+  NrOcorrcIndOp := -1;
+  NrOcorrtpOper := -1;
+  NrOcorrindDest := -1;
+  NrOcorrCST := -1;
+  NrOcorrcCredPres := -1;
+  NrOcorrCSTReg := -1;
+  GerarDest := False;
+  GerarImovel := False;
+  GerargReeRepRes := False;
+  GerargDif := False;
+
   ListaDeAlertas.Clear;
 
   FDocument.Clear();
@@ -111,6 +124,19 @@ begin
   xmlNode := GerarOutrosImpostos;
   NFSeNode.AppendChild(xmlNode);
 
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NCM', 1, 10, 0,
+                                                   NFSe.Servico.CodigoNCM, ''));
+
+  NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NBS', 1, 10, 0,
+                                                   NFSe.Servico.CodigoNBS, ''));
+
+  // Reforma Tributária
+  if NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum then
+  begin
+    xmlNode := GerarXmlIBSCBS(NFSe.IBSCBS);
+    NFSeNode.AppendChild(xmlNode);
+  end;
+
   Result := True;
 end;
 
@@ -135,6 +161,18 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'Cep', 1, 11, 1,
                                                 Nfse.Tomador.Endereco.CEP, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'Pais', 1, 11, 0,
+                                                Nfse.Tomador.Endereco.xPais, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'ProvReg', 1, 11, 0,
+                                                '', ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'Telefone', 1, 11, 0,
+                                            Nfse.Tomador.Contato.Telefone, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'Email', 1, 100, 0,
+                                               Nfse.Tomador.Contato.email, ''));
 end;
 
 function TNFSeW_GeisWeb.GerarIdentificacaoPrestador: TACBrXmlNode;
@@ -165,6 +203,13 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'CnpjCpf', 1, 14, 1,
                                 NFSe.Tomador.IdentificacaoTomador.CpfCnpj, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'NIF', 1, 40, 0,
+                                    NFSe.Tomador.IdentificacaoTomador.Nif, ''));
+
+  if NFSe.Tomador.IdentificacaoTomador.cNaoNIF <> tnnNaoInformado then
+    Result.AppendChild(AddNode(tcStr, '#1', 'NaoNIF', 1, 1, 0,
+                   NaoNIFToStr(NFSe.Tomador.IdentificacaoTomador.cNaoNIF), ''));
 end;
 
 function TNFSeW_GeisWeb.GerarOrgaoGerador: TACBrXmlNode;

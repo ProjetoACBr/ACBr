@@ -107,6 +107,9 @@ type
     FGerarTribRegular: Boolean;
     FGerargDif: Boolean;
     FNrOcorrtpAmb: Integer;
+    FNrOcorrindFinal: Integer;
+    FNrOcorrcIndOp: Integer;
+    FNrOcorrfinNFSe: Integer;
 
     function GetOpcoes: TACBrXmlWriterOptions;
     procedure SetOpcoes(AValue: TACBrXmlWriterOptions);
@@ -233,6 +236,9 @@ type
     property NrOcorrcCredPres: Integer read FNrOcorrcCredPres write FNrOcorrcCredPres;
     property NrOcorrCSTReg: Integer read FNrOcorrCSTReg write FNrOcorrCSTReg;
     property NrOcorrtpAmb: Integer read FNrOcorrtpAmb write FNrOcorrtpAmb;
+    property NrOcorrfinNFSe: Integer read FNrOcorrfinNFSe write FNrOcorrfinNFSe;
+    property NrOcorrindFinal: Integer read FNrOcorrindFinal write FNrOcorrindFinal;
+    property NrOcorrcIndOp: Integer read FNrOcorrcIndOp write FNrOcorrcIndOp;
 
     property GerarDest: Boolean read FGerarDest write FGerarDest;
     property GerarImovel: Boolean read FGerarImovel write FGerarImovel;
@@ -314,6 +320,9 @@ begin
   FGerarNSRps := True;
 
   // Reforma Tributária
+  FNrOcorrfinNFSe := 1;
+  FNrOcorrindFinal := 1;
+  FNrOcorrcIndOp := 1;
   FNrOcorrtpOper := 0;
   FNrOcorrindDest := 1;
   FNrOcorrCST := 1;
@@ -1423,13 +1432,13 @@ function TNFSeWClass.GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode;
 begin
   Result := CreateElement('IBSCBS');
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'finNFSe', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'finNFSe', 1, 1, NrOcorrfinNFSe,
                                              finNFSeToStr(IBSCBS.finNFSe), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'indFinal', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'indFinal', 1, 1, NrOcorrindFinal,
                                            indFinalToStr(IBSCBS.indFinal), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'cIndOp', 6, 6, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'cIndOp', 6, 6, NrOcorrcIndOp,
                                                             IBSCBS.cIndOp, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'tpOper', 1, 1, NrOcorrtpOper,
