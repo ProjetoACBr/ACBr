@@ -11,7 +11,8 @@
                                                          <xs:sequence>
                                                                <xs:element name="NumeroRps" type="xs:string"></xs:element>
                                                                <xs:element name="NumeroNfse" type="xs:string"></xs:element>
-															                  <xs:element name="CodigoVerificacao" type="xs:string"></xs:element>
+                                                               <xs:element name="CodigoVerificacao" type="xs:string"></xs:element>
+                                                               <xs:element name="ChaveNotaNacional" type="xs:string"></xs:element>
                                                          </xs:sequence>
                                                    </xs:complexType>
                                              </xs:element>
@@ -24,7 +25,7 @@
                                                                <xs:element name="Valores">
                                                                      <xs:complexType>
                                                                            <xs:sequence>
-																				                     <xs:element name="ValorServicos" type="xs:string"></xs:element>
+                                                                                 <xs:element name="ValorServicos" type="xs:string"></xs:element>
                                                                                  <xs:element name="BaseCalculo" type="xs:string"></xs:element>
                                                                                  <xs:element name="Aliquota" type="xs:string"></xs:element>
                                                                                  <xs:element name="IssDevido" type="xs:string"></xs:element>
@@ -82,6 +83,7 @@
                                                                      <xs:complexType>
                                                                            <xs:sequence>
                                                                                  <xs:element name="CnpjCpf" type="xs:string"></xs:element>
+                                                                                 <xs:element name="NIF" type="xs:string"></xs:element>
                                                                            </xs:sequence>
                                                                      </xs:complexType>
                                                                </xs:element>
@@ -95,6 +97,8 @@
                                                                                  <xs:element name="Cidade" type="xs:string"></xs:element>
                                                                                  <xs:element name="Estado" type="xs:string"></xs:element>
                                                                                  <xs:element name="Cep" type="xs:string"></xs:element>
+                                                                                 <xs:element name="Pais" type="xs:string"></xs:element>
+                                                                                 <xs:element name="ProvReg" type="xs:string"></xs:element>
                                                                            </xs:sequence>
                                                                      </xs:complexType>
                                                                </xs:element>
@@ -120,7 +124,7 @@
                                                          </xs:sequence>
                                                    </xs:complexType>
                                              </xs:element>
-											 <xs:element name="LinkConsulta" type="xs:string"></xs:element>
+                                             <xs:element name="LinkConsulta" type="xs:string"></xs:element>
                                        </xs:sequence>
                                  </xs:complexType>
                            </xs:element>
