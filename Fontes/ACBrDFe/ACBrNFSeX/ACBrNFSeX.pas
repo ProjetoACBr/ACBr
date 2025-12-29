@@ -439,7 +439,7 @@ procedure TACBrNFSeX.LerCidades;
 begin
   //if not fpCidadesJaCarregadas then
   //begin
-    LerParamsIni(True);
+    LerParamsIni(False);
   //  fpCidadesJaCarregadas := True;
   //end;
 end;

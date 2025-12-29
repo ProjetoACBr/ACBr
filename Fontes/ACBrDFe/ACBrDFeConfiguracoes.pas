@@ -311,9 +311,10 @@ type
     function GetIniServicos: String;
     function GetPathSalvar: String;
     function GetPathSchemas: String;
+    procedure SetIniServicos(const AValue : String);
     procedure SetSepararPorDia(const Value: Boolean);
     procedure SetSepararPorMes(const Value: Boolean);
-	procedure SetSepararPorAno(const Value: Boolean);
+	  procedure SetSepararPorAno(const Value: Boolean);
   protected
     fpConfiguracoes: TConfiguracoes;
   public
@@ -330,7 +331,7 @@ type
   published
     property PathSalvar: String read GetPathSalvar write FPathSalvar;
     property PathSchemas: String read GetPathSchemas write FPathSchemas;
-    property IniServicos: String read GetIniServicos write FIniServicos;
+    property IniServicos: String read GetIniServicos write SetIniServicos;
     // Arquivos.Salvar - trata-se de arquivos com validade jurídica.
     property Salvar: Boolean read FSalvar write FSalvar default True;
     property AdicionarLiteral: Boolean read FAdicionarLiteral write FAdicionarLiteral default False;
@@ -1249,6 +1250,12 @@ begin
   Result := FPathSchemas;
 end;
 
+procedure TArquivosConf.SetIniServicos(const AValue : String);
+begin
+  if FIniServicos <> AValue then
+    FIniServicos := AValue;
+end;
+
 procedure TArquivosConf.SetSepararPorAno(const Value: Boolean);
 begin
   FSepararPorAno := Value;
@@ -1270,10 +1277,9 @@ end;
 
 function TArquivosConf.GetIniServicos: String;
 begin
-  if FIniServicos = '' then
-    if Assigned(fpConfiguracoes.Owner) then
-      if not (csDesigning in fpConfiguracoes.Owner.ComponentState) then
-        FIniServicos := ApplicationPath + fpConfiguracoes.WebServices.ResourceName+'.ini';
+  if (FIniServicos = '') and Assigned(fpConfiguracoes.Owner) then
+    if not (csDesigning in fpConfiguracoes.Owner.ComponentState) then
+      FIniServicos := ApplicationPath + fpConfiguracoes.WebServices.ResourceName+'.ini';
 
   Result := FIniServicos;
 end;
