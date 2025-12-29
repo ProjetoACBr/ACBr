@@ -110,6 +110,9 @@ type
     FNrOcorrindFinal: Integer;
     FNrOcorrcIndOp: Integer;
     FNrOcorrfinNFSe: Integer;
+    FTagIBSCBS: string;
+    FTagCST: string;
+    FTagCSTReg: string;
 
     function GetOpcoes: TACBrXmlWriterOptions;
     procedure SetOpcoes(AValue: TACBrXmlWriterOptions);
@@ -145,7 +148,7 @@ type
     function GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode;
     function GerarXMLgRefNFSe(gRefNFSe: TgRefNFSeCollection): TACBrXmlNode;
 
-    function GerarXMLDestinatario(Dest: TDadosdaPessoa): TACBrXmlNode;
+    function GerarXMLDestinatario(Dest: TDadosdaPessoa): TACBrXmlNode; virtual;
     function GerarXMLEnderecoDestinatario(ender: Tender): TACBrXmlNode;
     function GerarXMLEnderecoNacionalDestinatario(endNac: TendNac): TACBrXmlNode;
     function GerarXMLEnderecoExteriorDestinatario(endExt: TendExt): TACBrXmlNode;
@@ -240,6 +243,10 @@ type
     property NrOcorrindFinal: Integer read FNrOcorrindFinal write FNrOcorrindFinal;
     property NrOcorrcIndOp: Integer read FNrOcorrcIndOp write FNrOcorrcIndOp;
 
+    property TagIBSCBS: string read FTagIBSCBS write FTagIBSCBS;
+    property TagCST: string read FTagCST write FTagCST;
+    property TagCSTReg: string read FTagCSTReg write FTagCSTReg;
+
     property GerarDest: Boolean read FGerarDest write FGerarDest;
     property GerarImovel: Boolean read FGerarImovel write FGerarImovel;
     property GerargReeRepRes: Boolean read FGerargReeRepRes write FGerargReeRepRes;
@@ -329,6 +336,10 @@ begin
   FNrOcorrcCredPres := 0;
   FNrOcorrCSTReg := 1;
   FNrOcorrtpAmb := 1;
+
+  FTagIBSCBS := 'IBSCBS';
+  FTagCST := 'CST';
+  FTagCSTReg := 'CSTReg';
 
   FGerarDest := True;
   FGerarImovel := True;
@@ -1430,7 +1441,7 @@ end;
 // Reforma Tributária
 function TNFSeWClass.GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode;
 begin
-  Result := CreateElement('IBSCBS');
+  Result := CreateElement(TagIBSCBS);
 
   Result.AppendChild(AddNode(tcStr, '#1', 'finNFSe', 1, 1, NrOcorrfinNFSe,
                                              finNFSeToStr(IBSCBS.finNFSe), ''));
@@ -1770,7 +1781,7 @@ function TNFSeWClass.GerarXMLgIBSCBS(
 begin
   Result := CreateElement('gIBSCBS');
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'CST', 3, 3, NrOcorrCST,
+  Result.AppendChild(AddNode(tcStr, '#1', TagCST, 3, 3, NrOcorrCST,
                                               CSTIBSCBSToStr(gIBSCBS.CST), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'cClassTrib', 6, 6, 1,
@@ -1792,7 +1803,7 @@ function TNFSeWClass.GerarXMLgTribRegular(
 begin
   Result := CreateElement('gTribRegular');
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'CSTReg', 3, 3, NrOcorrCSTReg,
+  Result.AppendChild(AddNode(tcStr, '#1', TagCSTReg, 3, 3, NrOcorrCSTReg,
                                       CSTIBSCBSToStr(gTribRegular.CSTReg), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'cClassTribReg', 6, 6, 1,

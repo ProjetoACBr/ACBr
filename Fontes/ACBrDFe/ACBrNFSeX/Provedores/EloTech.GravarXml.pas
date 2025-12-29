@@ -53,6 +53,8 @@ type
     function GerarListaItensServico: TACBrXmlNode; override;
     function GerarItemServico: TACBrXmlNodeArray; override;
     function GerarDadosDeducao(Item: Integer): TACBrXmlNode;
+    function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
+    function GerarXMLDestinatario(Dest: TDadosdaPessoa): TACBrXmlNode; override;
 
     procedure GerarINISecaoServicos(const AINIRec: TMemIniFile); override;
     procedure GerarINISecaoDadosDeducao(const AINIRec: TMemIniFile;
@@ -112,6 +114,11 @@ begin
   NrOcorrRetidoCpp := 0;
 
   GerarIDDeclaracao := False;
+  GerargReeRepRes := False;
+
+  TagIBSCBS := 'InfIbsCbs';
+  TagCST := 'Cst';
+  TagCSTReg := 'CstReg';
 end;
 
 function TNFSeW_Elotech203.GerarDadosDeducao(Item: Integer): TACBrXmlNode;
@@ -210,6 +217,29 @@ begin
   end;
 end;
 
+function TNFSeW_Elotech203.GerarXMLDestinatario(
+  Dest: TDadosdaPessoa): TACBrXmlNode;
+begin
+  Result := CreateElement('dest');
+
+  if Dest.CNPJCPF <> '' then
+    Result.AppendChild(GerarCPFCNPJ(Dest.CNPJCPF));
+
+  if Dest.Nif <> '' then
+    Result.AppendChild(AddNode(tcStr, '#1', 'NIF', 1, 40, 1, Dest.Nif, ''))
+  else
+    Result.AppendChild(AddNode(tcStr, '#1', 'cNaoNif', 1, 1, 1,
+                                                NaoNIFToStr(Dest.cNaoNIF), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'XNome', 1, 300, 1, Dest.xNome, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'fone', 6, 20, 0, Dest.fone, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'email', 1, 80, 0, Dest.email, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'end', 1, 125, 0, Dest.ender.xLgr, ''));
+end;
+
 procedure TNFSeW_Elotech203.GerarINISecaoServicos(const AINIRec: TMemIniFile);
 var
   I: Integer;
@@ -230,6 +260,17 @@ begin
 
     GerarINISecaoDadosDeducao(AINIRec, NFSe.Servico.ItemServico[I], I);
   end;
+end;
+
+function TNFSeW_Elotech203.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
+begin
+  Result := inherited GerarInfDeclaracaoPrestacaoServico;
+
+  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+     (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
+    Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 end;
 
 procedure TNFSeW_Elotech203.GerarINISecaoDadosDeducao(

@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 29/12/2025
+-- ACBrNFSeXGravarXml/EloTech.GravarXml --
+[*] ACBR-8630: Alteração visando atender a alteração feita pelo provedor para a Reforma Tributária.
+  Por: Italo Giurizzato Junior
 -- ACBrNFSeXGravarXml/GeisWeb.GravarXml/GeisWeb.LerXml/GeisWeb.Provider --
 [*] ACBR-8633: Alteração visando atender a alteração feita pelo provedor para a Reforma Tributária.
   Por: Italo Giurizzato Junior
