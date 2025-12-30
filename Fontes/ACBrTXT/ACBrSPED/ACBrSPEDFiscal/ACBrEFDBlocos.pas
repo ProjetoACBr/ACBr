@@ -82,12 +82,13 @@ type
                                   vlVersao115,  // Código 016 - Versão 115 Ato COTEPE 01/01/2022
                                   vlVersao116,  // Código 017 - Versão 116 Ato COTEPE 01/01/2023
                                   vlVersao117,  // Código 018 - Versão 117 Ato COTEPE 01/01/2024
-                                  vlVersao118   // Código 019 - Versão 118 Ato COTEPE 01/01/2025
+                                  vlVersao118,  // Código 019 - Versão 118 Ato COTEPE 01/01/2025
+                                  vlVersao119   // Código 020 - Versão 119 Ato COTEPE 01/01/2026
                                  );
   const
   TACBrVersaoLeiauteSPEDFiscalArrayofstrings: array[TACBrVersaoLeiauteSPEDFiscal] of string =
     ('001', '002', '003', '004', '005', '006', '007', '008', '009', '010', '011', '012', '013', '014',
-     '015', '016', '017', '018', '019');
+     '015', '016', '017', '018', '019', '020');
 
 type
   TACBrVersaoLeiaute = TACBrVersaoLeiauteSPEDFiscal {$IfDef DELPHI2009_UP} deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Esse tipo é obsoleto: Use o tipo TACBrVersaoLeiauteSPEDFiscal'{$EndIf}{$EndIf};

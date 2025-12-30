@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+30/12/2025
+-- ACBrEFDBlocos --
+[+] #ACBR-8194 - Novo leiaute 020 (vlVersao119) do EFD-ICMS/IPI com início em 01/2026
+    por: Renato Rubinho
+
 16/12/2025
 -- ACBrEFDBloco_1, ACBrEFDBloco_1_Class, ACBrEFDBlocos, Frm_SPEDFiscal.dfm, Frm_SPEDFiscal.pas --
 [+] #ACBR-6011 - EFDICMSIPI - Ajustes da versão 3.1.9 - https://www.projetoacbr.com.br/forum/topic/84220-publicada-vers%C3%A3o-319-do-guia-pr%C3%A1tico-da-efd-icms-ipi/
