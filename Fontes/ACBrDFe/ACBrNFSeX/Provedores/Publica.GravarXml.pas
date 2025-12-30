@@ -402,7 +402,10 @@ function TNFSeW_Publica.GerarServico: TACBrXmlNode;
 begin
   Result := inherited GerarServico;
 
-  Result.AppendChild(AddNode(tcInt, '#1', 'CodigoMunicipioLocalPestacao', 7, 7, 0,
+  Result.AppendChild(AddNode(tcInt, '#', 'CodigoPais', 4, 4, 0,
+                                           NFSe.Servico.CodigoPais, DSC_CPAIS));
+
+  Result.AppendChild(AddNode(tcInt, '#1', 'CodigoMunicipioLocalPrestacao', 7, 7, 0,
                                NFSe.Servico.CodigoMunicipioLocalPrestacao, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'cNBS', 1, 10, 0,
@@ -478,7 +481,6 @@ begin
     if Trim(Art) <> '' then
       Result.AppendChild(AddNode(tcStr, '#53', 'Art', 1, 15, 1,
                                                                  Art, DSC_ART));
-
     If Trim(inscImobFisc) <> '' then
       Result.AppendChild(AddNode(tcStr, '#54', 'InscImob', 1, 60, 1,
                                                     inscImobFisc, DSC_INSCMOB));

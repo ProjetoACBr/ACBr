@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 30/12/2025
+-- Publica.GravarXml --
+[*] ACBR-8676: Ajustes na geração do grupo Serviço.
+  Por: Suporte Bravus Sistemas
 -- Citta.Provider --
 [+] ACBR-8677: Implementação do método de Cancelamento da NFS-e.
   Por: Dalvan
