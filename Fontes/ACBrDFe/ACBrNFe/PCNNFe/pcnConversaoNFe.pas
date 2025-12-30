@@ -434,11 +434,11 @@ const
 
 type
   TCSTIS = (cstisNenhum,
-    cstis000);
+            cstis000, cstis100, cstis200, cstis300, cstis400, cstis500, cstis600);
 
 const
   TCSTISArrayStrings: array[TCSTIS] of string = ('',
-    '000');
+    '000', '100', '200', '300', '400','500', '600');
 
 type
   TTpCredPresIBSZFM = (tcpNenhum, tcpSemCredito, tcpBensConsumoFinal, tcpBensCapital,
@@ -537,6 +537,7 @@ function tpNFCreditoToStr(const t: TtpNFCredito): string;
 function StrTotpNFCredito(const s: string): TtpNFCredito;
 
 function CSTISToStr(const t: TCSTIS): string;
+function TryStrToCSTIS(const s: string; out Value: TCSTIS): Boolean;
 function StrToCSTIS(const s: string): TCSTIS;
 
 function TpCredPresIBSZFMToStr(const t: TTpCredPresIBSZFM): string;
@@ -1789,19 +1790,26 @@ begin
   Result := TCSTISArrayStrings[t];
 end;
 
-function StrToCSTIS(const s: string): TCSTIS;
+function TryStrToCSTIS(const s: string; out Value: TCSTIS): Boolean;
 var
   idx: TCSTIS;
 begin
-  for idx:= Low(TCSTISArrayStrings) to High(TCSTISArrayStrings) do
+  Result := False;
+  for idx := Low(TCSTISArrayStrings) to High(TCSTISArrayStrings) do
   begin
-    if(TCSTISArrayStrings[idx] = s)then
+    if TCSTISArrayStrings[idx] = s then
     begin
-      Result := idx;
-      exit;
+      Value := idx;
+      Result := True;
+      Exit;
     end;
   end;
-  raise EACBrException.CreateFmt('Valor string inválido para TCSTIS: %s', [s]);
+end;
+
+function StrToCSTIS(const s: string): TCSTIS;
+begin
+  if not TryStrToCSTIS(s, Result) then
+    raise EACBrException.CreateFmt('Valor string inválido para TCSTIS: %s', [s]);
 end;
 
 function TpCredPresIBSZFMToStr(const t: TTpCredPresIBSZFM): string;

@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+30/12/2025
+-- ACBrNFe.Conversao/pcnConversaoNFe --
+[*] #ACBR-8623 - Atualiza o enumerado do CSTIS e a respectiva função de conversão StrToCST.
+  Por: Daniel Ostoic / Diego Folieni
+
 23/12/2025
 -- ACBrNFe.EventoClass --
 [*] #ACBR-8532 - Complementa a rotina DescricaoTipoEvento utilizada para nomear o evento no impresso do Fast Reports.
