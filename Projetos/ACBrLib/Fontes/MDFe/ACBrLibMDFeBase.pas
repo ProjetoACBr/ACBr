@@ -1767,7 +1767,7 @@ begin
 
     MDFeDM.Travar;
     try
-      Resposta := TLibImpressaoResposta.Create(MDFeDM.ACBrMDFe1.Manifestos.Count, Config.TipoResposta,
+      Resposta := TLibImpressaoResposta.Create(MDFeDM.ACBrMDFe1.Manifestos.Count, Config.TipoResposta, Config.CodResposta);
       try
         MDFeDM.ConfigurarImpressao('', True);
         MDFeDM.ACBrMDFe1.Manifestos.ImprimirPDF;
