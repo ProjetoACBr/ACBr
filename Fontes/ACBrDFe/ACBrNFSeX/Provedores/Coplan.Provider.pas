@@ -116,10 +116,13 @@ type
     procedure GerarMsgDadosEmitir(Response: TNFSeEmiteResponse; Params: TNFSeParamsResponse); override;
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
 
+    procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
     procedure GerarMsgDadosConsultaporRps(Response: TNFSeConsultaNFSeporRpsResponse; Params: TNFSeParamsResponse); override;
     procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
 
+    procedure PrepararCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
     procedure GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse; Params: TNFSeParamsResponse); override;
+    procedure TratarRetornoCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
   end;
 
 implementation
@@ -647,6 +650,222 @@ begin
   Result := '<' + Prefixo + 'DPS>' + Copy(aXml, i, Length(aXml));
 end;
 
+procedure TACBrNFSeProviderCoplanAPIPropria.PrepararCancelaNFSe(Response: TNFSeCancelaNFSeResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+  aParams: TNFSeParamsResponse;
+  Emitente: TEmitenteConfNFSe;
+  InfoCanc: TInfCancelamento;
+  IdAttr, NameSpace, NameSpaceCanc, xMotivo, xCodVerif, Prefixo, PrefixoTS,
+  xSerie: string;
+begin
+  if EstaVazio(Response.InfCancelamento.NumeroNFSe) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod108;
+    AErro.Descricao := ACBrStr(Desc108);
+    Exit;
+  end;
+
+  if EstaVazio(Response.InfCancelamento.CodCancelamento) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod109;
+    AErro.Descricao := ACBrStr(Desc109);
+    Exit;
+  end;
+
+  Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+  InfoCanc := Response.InfCancelamento;
+  Prefixo := '';
+  PrefixoTS := '';
+
+  if EstaVazio(ConfigMsgDados.CancelarNFSe.xmlns) then
+  begin
+    NameSpace := '';
+    NameSpaceCanc := '';
+  end
+  else
+  begin
+    if ConfigMsgDados.Prefixo = '' then
+      NameSpace := ' xmlns="' + ConfigMsgDados.CancelarNFSe.xmlns + '"'
+    else
+    begin
+      NameSpace := ' xmlns:' + ConfigMsgDados.Prefixo + '="' + ConfigMsgDados.CancelarNFSe.xmlns + '"';
+      Prefixo := ConfigMsgDados.Prefixo + ':';
+    end;
+
+    NameSpaceCanc := NameSpace;
+  end;
+
+  if ConfigMsgDados.XmlRps.xmlns <> '' then
+  begin
+    if (ConfigMsgDados.XmlRps.xmlns <> ConfigMsgDados.CancelarNFSe.xmlns) and
+       ((ConfigMsgDados.Prefixo <> '') or (ConfigMsgDados.PrefixoTS <> '')) then
+    begin
+      if ConfigMsgDados.PrefixoTS = '' then
+        NameSpace := NameSpace + ' xmlns="' + ConfigMsgDados.XmlRps.xmlns + '"'
+      else
+      begin
+        NameSpace := NameSpace+ ' xmlns:' + ConfigMsgDados.PrefixoTS + '="' +
+                                            ConfigMsgDados.XmlRps.xmlns + '"';
+        PrefixoTS := ConfigMsgDados.PrefixoTS + ':';
+      end;
+    end
+    else
+    begin
+      if ConfigMsgDados.PrefixoTS <> '' then
+        PrefixoTS := ConfigMsgDados.PrefixoTS + ':';
+    end;
+  end;
+
+  IdAttr := DefinirIDCancelamento(OnlyNumber(Emitente.CNPJ),
+                                  OnlyNumber(Emitente.InscMun),
+                                  InfoCanc.NumeroNFSe);
+
+  if ConfigGeral.CancPreencherSerieNfse then
+  begin
+    if EstaVazio(InfoCanc.SerieNFSe) then
+    begin
+      AErro := Response.Erros.New;
+      AErro.Codigo := Cod112;
+      AErro.Descricao := ACBrStr(Desc112);
+      Exit;
+    end;
+
+    xSerie := '<' + PrefixoTS + 'Serie>' +
+                 Trim(InfoCanc.SerieNFSe) +
+               '</' + PrefixoTS + 'Serie>';
+  end
+  else
+    xSerie := '';
+
+  if ConfigGeral.CancPreencherMotivo then
+  begin
+    if EstaVazio(InfoCanc.MotCancelamento) then
+    begin
+      AErro := Response.Erros.New;
+      AErro.Codigo := Cod110;
+      AErro.Descricao := ACBrStr(Desc110);
+      Exit;
+    end;
+
+    xMotivo := '<' + Prefixo + 'MotivoCancelamento>' +
+                 Trim(InfoCanc.MotCancelamento) +
+               '</' + Prefixo + 'MotivoCancelamento>';
+  end
+  else
+    xMotivo := '';
+
+  if ConfigGeral.CancPreencherCodVerificacao then
+  begin
+    if EstaVazio(InfoCanc.CodVerificacao) then
+    begin
+      AErro := Response.Erros.New;
+      AErro.Codigo := Cod117;
+      AErro.Descricao := ACBrStr(Desc117);
+      Exit;
+    end;
+
+    xCodVerif := '<' + Prefixo + 'CodigoVerificacao>' +
+                   Trim(InfoCanc.CodVerificacao) +
+                 '</' + Prefixo + 'CodigoVerificacao>';
+  end
+  else
+    xCodVerif := '';
+
+  aParams := TNFSeParamsResponse.Create;
+  try
+    aParams.Clear;
+    aParams.Xml := '';
+    aParams.TagEnvio := '';
+    aParams.Prefixo := Prefixo;
+    aParams.Prefixo2 := PrefixoTS;
+    aParams.NameSpace := NameSpace;
+    aParams.NameSpace2 := NameSpaceCanc;
+    aParams.IdAttr := IdAttr;
+    aParams.Versao := '';
+    aParams.Serie := xSerie;
+    aParams.Motivo := xMotivo;
+    aParams.CodigoVerificacao := xCodVerif;
+
+    GerarMsgDadosCancelaNFSe(Response, aParams);
+  finally
+    aParams.Free;
+  end;
+end;
+
+procedure TACBrNFSeProviderCoplanAPIPropria.PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+  aParams: TNFSeParamsResponse;
+  NameSpace, TagEnvio, Prefixo, PrefixoTS: string;
+begin
+  if EstaVazio(Response.NumeroRps) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod102;
+    AErro.Descricao := ACBrStr(Desc102);
+    Exit;
+  end;
+
+  Prefixo := '';
+  PrefixoTS := '';
+
+  if EstaVazio(ConfigMsgDados.ConsultarNFSeRps.xmlns) then
+    NameSpace := ''
+  else
+  begin
+    if ConfigMsgDados.Prefixo = '' then
+      NameSpace := ' xmlns="' + ConfigMsgDados.ConsultarNFSeRps.xmlns + '"'
+    else
+    begin
+      NameSpace := ' xmlns:' + ConfigMsgDados.Prefixo + '="' + ConfigMsgDados.ConsultarNFSeRps.xmlns + '"';
+      Prefixo := ConfigMsgDados.Prefixo + ':';
+    end;
+  end;
+
+  if ConfigMsgDados.XmlRps.xmlns <> '' then
+  begin
+    if (ConfigMsgDados.XmlRps.xmlns <> ConfigMsgDados.ConsultarNFSeRps.xmlns) and
+       ((ConfigMsgDados.Prefixo <> '') or (ConfigMsgDados.PrefixoTS <> '')) then
+    begin
+      if ConfigMsgDados.PrefixoTS = '' then
+        NameSpace := NameSpace + ' xmlns="' + ConfigMsgDados.XmlRps.xmlns + '"'
+      else
+      begin
+        NameSpace := NameSpace+ ' xmlns:' + ConfigMsgDados.PrefixoTS + '="' +
+                                            ConfigMsgDados.XmlRps.xmlns + '"';
+        PrefixoTS := ConfigMsgDados.PrefixoTS + ':';
+      end;
+    end
+    else
+    begin
+      if ConfigMsgDados.PrefixoTS <> '' then
+        PrefixoTS := ConfigMsgDados.PrefixoTS + ':';
+    end;
+  end;
+
+  TagEnvio := ConfigMsgDados.ConsultarNFSeRps.DocElemento;
+
+  aParams := TNFSeParamsResponse.Create;
+  try
+    aParams.Clear;
+    aParams.Xml := '';
+    aParams.TagEnvio := TagEnvio;
+    aParams.Prefixo := Prefixo;
+    aParams.Prefixo2 := PrefixoTS;
+    aParams.NameSpace := NameSpace;
+    aParams.NameSpace2 := '';
+    aParams.IdAttr := '';
+    aParams.Versao := '';
+
+    GerarMsgDadosConsultaporRps(Response, aParams);
+  finally
+    aParams.Free;
+  end;
+end;
+
 procedure TACBrNFSeProviderCoplanAPIPropria.PrepararEmitir(
   Response: TNFSeEmiteResponse);
 var
@@ -1074,6 +1293,157 @@ begin
                                '</' + Prefixo + 'IdentificacaoDPS>' +
                                Prestador +
                              '</' + Prefixo + TagEnvio + '>';
+  end;
+end;
+
+procedure TACBrNFSeProviderCoplanAPIPropria.TratarRetornoCancelaNFSe(Response: TNFSeCancelaNFSeResponse);
+var
+  Document: TACBrXmlDocument;
+  ANode, AuxNode: TACBrXmlNode;
+  Ret: TRetCancelamento;
+  IdAttr, xCancelamento, xXMLNS, nomeArq: string;
+  AErro: TNFSeEventoCollectionItem;
+  Inicio, Fim: Integer;
+begin
+  Document := TACBrXmlDocument.Create;
+
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit
+      end;
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+
+      ProcessarMensagemErros(Document.Root, Response);
+
+      ANode := Document.Root.Childrens.FindAnyNs('RetCancelamento');
+
+      if ANode = nil then
+        ANode := Document.Root.Childrens.FindAnyNs('RetornoCancelamento');
+
+      if not Assigned(ANode) then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod209;
+        AErro.Descricao := ACBrStr(Desc209);
+        Exit;
+      end;
+
+      ProcessarMensagemErros(ANode, Response);
+
+      ANode := ANode.Childrens.FindAnyNs('NfseCancelamento');
+
+      if not Assigned(ANode) then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod210;
+        AErro.Descricao := ACBrStr(Desc210);
+        Exit;
+      end;
+
+      AuxNode := ANode.Childrens.FindAnyNs('Confirmacao');
+
+      if AuxNode = nil then
+        AuxNode := ANode.Childrens.FindAnyNs('ConfirmacaoCancelamento');
+
+      if AuxNode <> nil then
+        ANode := AuxNode;
+
+      if not Assigned(ANode) then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod204;
+        AErro.Descricao := ACBrStr(Desc204);
+        Exit;
+      end;
+
+      Ret := Response.RetCancelamento;
+      Ret.DataHora := ObterConteudoTag(ANode.Childrens.FindAnyNs('DataHora'), tcDatHor);
+
+      if ConfigAssinar.IncluirURI then
+        IdAttr := ConfigGeral.Identificador
+      else
+        IdAttr := 'ID';
+
+      AuxNode := ANode.Childrens.FindAnyNs('Pedido');
+
+      if AuxNode = nil then
+        AuxNode := ANode.Childrens.FindAnyNs('PedidoCancelamento');
+
+      if AuxNode <> nil then
+        ANode := AuxNode;
+
+      ANode := ANode.Childrens.FindAnyNs('InfPedidoCancelamento');
+      if not Assigned(ANode) then Exit;
+
+      Ret.Pedido.InfID.ID := ObterConteudoTag(ANode.Attributes.Items[IdAttr]);
+      Ret.Pedido.CodigoCancelamento := ObterConteudoTag(ANode.Childrens.FindAnyNs('CodigoCancelamento'), tcStr);
+
+      ANode := ANode.Childrens.FindAnyNs('IdentificacaoNfse');
+      if not Assigned(ANode) then Exit;
+
+      with Ret.Pedido.IdentificacaoNfse do
+      begin
+        Numero := ObterConteudoTag(ANode.Childrens.FindAnyNs('Numero'), tcStr);
+
+        AuxNode := ANode.Childrens.FindAnyNs('CpfCnpj');
+
+        if AuxNode <> nil then
+        begin
+          Cnpj := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Cnpj'), tcStr);
+
+          if Cnpj = '' then
+            Cnpj := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Cpf'), tcStr);
+        end
+        else
+          Cnpj := ObterConteudoTag(ANode.Childrens.FindAnyNs('Cnpj'), tcStr);
+
+        InscricaoMunicipal := ObterConteudoTag(ANode.Childrens.FindAnyNs('InscricaoMunicipal'), tcStr);
+        CodigoMunicipio := ObterConteudoTag(ANode.Childrens.FindAnyNs('CodigoMunicipio'), tcStr);
+      end;
+
+      if Ret.DataHora > 0 then
+      begin
+        Ret.Sucesso := 'Sim';
+        Ret.Situacao := 'Cancelado';
+
+        Inicio := Pos('CancelarNfseEnvio', Response.ArquivoEnvio) + 16;
+        Fim := Pos('>', Response.ArquivoEnvio);
+
+        if Inicio = Fim then
+          xXMLNS := ''
+        else
+          xXMLNS := trim(Copy(Response.ArquivoEnvio, Inicio + 1, Fim - (Inicio + 1)));
+
+        xCancelamento := '<Cancelamento ' + xXMLNS + '>' +
+                            SeparaDados(Response.ArquivoEnvio, 'Pedido', True) +
+                            SepararDados(Response.ArquivoRetorno, 'DataHora', True) +
+                         '</Cancelamento>';
+
+        nomeArq := '';
+        SalvarXmlCancelamento(Ret.Pedido.InfID.ID + '-procCancNFSe', xCancelamento, nomeArq);
+        Response.PathNome := nomeArq;
+      end
+      else
+      begin
+        Ret.Sucesso := '';
+        Ret.Situacao := '';
+      end;
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
   end;
 end;
 

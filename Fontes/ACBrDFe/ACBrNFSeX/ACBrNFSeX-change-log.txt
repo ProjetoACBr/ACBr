@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 29/12/2025
+-- Coplan.Provider --
+[*] ACBR-8631: Implementação de alguns métodos que estavam faltando.
+  Por: Márcio Baroni
 -- ACBrNFSeXGravarXml/ACBrNFSeXLerXml/Tecnos.GravarXml/Tecnos.LerXml
 [*] ACBR-8599: Altera as rotinas de leitura e escrita do INI para receber as informações do IBSCBS e deixar mais fidedignas.
   Por: Diego Folieni
