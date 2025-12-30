@@ -748,7 +748,7 @@
             <xsd:element name="InformacoesComplementares" type="tsInformacoesComplementares" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="CodigoMunicipio" type="tsCodigoMunicipioIbge" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="CodigoPais" type="tsCodigoPaisBacen" minOccurs="0" maxOccurs="1" />
-            <xsd:element name="CodigoMunicipioLocalPestacao" type="tsCodigoMunicipioIbge" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="CodigoMunicipioLocalPrestacao" type="tsCodigoMunicipioIbge" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="DiscriminacaoServicosCartaCorrecao" type="tsDiscriminacaoServicosCC" minOccurs="0" maxOccurs="1" />
             <xsd:element name="cNBS" type="TSCodNBS" minOccurs="0" maxOccurs="1" />
         </xsd:sequence>
