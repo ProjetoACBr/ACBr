@@ -757,7 +757,7 @@ begin
                      FormatDateTime('yyyy-mm-dd"T"hh:nn:ss', dhEvento) +
                      GetUTC(xUF, dhEvento) +
                '</dhProc>' +
-               '<nDFSe>'+nDFe.ToString+'</nDFSe>' +
+               '<nDFSe>'+IntToStr(nDFe)+'</nDFSe>' +
                '<pedRegEvento xmlns="' + ConfigMsgDados.EnviarEvento.xmlns +
                            '" versao="' + ConfigWebServices.VersaoAtrib + '">' +
                  '<infPedReg ' + IdAttr + '>' +
