@@ -584,9 +584,9 @@ function TACBrNFSeXWebserviceSilTecnologiaAPIPropria.TratarXmlRetornado(
 begin
   Result := inherited TratarXmlRetornado(aXML);
 
-//  Result := RemoverCaracteresDesnecessarios(Result);
-//  Result := ParseText(Result);
-//  Result := RemoverDeclaracaoXML(Result);
+  Result := RemoverCaracteresDesnecessarios(Result);
+  Result := ParseText(Result);
+  Result := RemoverDeclaracaoXML(Result);
 
   Result := RemoverPrefixosDesnecessarios(Result);
 end;
@@ -604,7 +604,7 @@ begin
                '<xml>' + IncluirCDATA(Request) + '</xml>' +
              '</nfse:NotaFiscalNacionalGerar>';
 
-  Result := Executar('', Request, ['return'],
+  Result := Executar('', Request, ['return', 'Retorno'],
     ['xmlns:nfse="http://webservices.sil.com/"']);
 end;
 
@@ -826,6 +826,18 @@ begin
         AAlerta.Descricao := Mensagem;
         AAlerta.Correcao := ObterConteudoTag(ANode.Childrens.FindAnyNs('correcao'), tcStr);
       end;
+    end;
+  end
+  else
+  begin
+    Mensagem := ObterConteudoTag(RootNode.Childrens.FindAnyNs('MensagemErro'), tcStr);
+
+    if Mensagem <> '' then
+    begin
+      AAlerta := Response.Alertas.New;
+      AAlerta.Codigo := ObterConteudoTag(RootNode.Childrens.FindAnyNs('codigo'), tcStr);
+      AAlerta.Descricao := Mensagem;
+      AAlerta.Correcao := ObterConteudoTag(RootNode.Childrens.FindAnyNs('correcao'), tcStr);
     end;
   end;
 end;
