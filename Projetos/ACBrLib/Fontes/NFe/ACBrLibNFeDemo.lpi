@@ -13,9 +13,7 @@
       <SessionStorage Value="InProjectDir"/>
       <Title Value="ACBrLibNFe"/>
       <ResourceType Value="res"/>
-      <XPManifest>
-        <DpiAware Value="True/PM"/>
-      </XPManifest>
+	  <UseXPManifest Value="True"/>
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
