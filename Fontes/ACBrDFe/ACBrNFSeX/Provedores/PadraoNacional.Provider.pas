@@ -682,8 +682,7 @@ begin
                       '</CNPJAutor>';
     end;
 
-    ID := chNFSe + OnlyNumber(tpEventoToStr(tpEvento)) +
-              FormatFloat('000', nPedRegEvento);
+    ID := chNFSe + OnlyNumber(tpEventoToStr(tpEvento));      
 
     IdAttr := 'Id="' + 'PRE' + ID + '"';
 
@@ -735,9 +734,6 @@ begin
                    '</dhEvento>' +
                    xAutorEvento +
                    '<chNFSe>' + chNFSe + '</chNFSe>' +
-                   '<nPedRegEvento>' +
-                     FormatFloat('000', nPedRegEvento) +
-                   '</nPedRegEvento>' +
                    '<' + tpEventoToStr(tpEvento) + '>' +
                      '<xDesc>' + tpEventoToDesc(tpEvento) + '</xDesc>' +
                      xCamposEvento +

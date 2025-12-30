@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 30/12/2025
+-- PadraoNacional.Provider --
+[-] ACBR-8678: Remove o elemento nPedRegEvento do evento e do Id.
+  Por: Diego Folieni / Italo Giurizzato Junior
 -- SilTecnologia.Provider --
 [*] Ajustes no Tratar XML Retornado.
   Por: Italo Giurizzato Junior
