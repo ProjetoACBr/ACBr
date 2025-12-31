@@ -41,6 +41,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+31/12/2025
+-- ACBrNFSeXLerXml.pas --
+[*] Adicionado campos utilizado provedor ISSSaoPaulo lerINI
+  Por: Italo Giurizzato Junior/ Daniel de Morais InfoCotidiano
 
 30/12/2025
 -- PadraoNacional.Provider --

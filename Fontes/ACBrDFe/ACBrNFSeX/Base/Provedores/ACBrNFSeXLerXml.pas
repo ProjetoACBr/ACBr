@@ -1044,6 +1044,10 @@ begin
       // Provedor ISSSalvador
       Servico.cClassTrib := AINIRec.ReadString(sSecao, 'cClassTrib', '');
       Servico.INDOP := AINIRec.ReadString(sSecao, 'INDOP', '');
+
+      //Provedor ISSSaoPaulo
+      Servico.CodigoNCM := AINIRec.ReadString(sSecao, 'CodigoNCM', '');
+      Servico.CodigoNBS := AINIRec.ReadString(sSecao, 'CodigoNBS', '');
     end;
 
     i := 1;
@@ -1305,6 +1309,10 @@ begin
 
       // Provedor Equiplano
       Servico.Valores.dsImpostos := AINIRec.ReadString(sSecao, 'dsImpostos', '');
+
+      // Provedor IssSaoPaulo
+      Servico.Valores.ValorIPI := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorIPI', ''), 0);
+
     end;
 
     sSecao := 'ValoresNFSe';
