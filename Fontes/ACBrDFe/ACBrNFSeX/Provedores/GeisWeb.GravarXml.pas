@@ -166,7 +166,7 @@ begin
                                                 Nfse.Tomador.Endereco.xPais, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'ProvReg', 1, 11, 0,
-                                                '', ''));
+                                                '.', ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'Telefone', 1, 11, 0,
                                             Nfse.Tomador.Contato.Telefone, ''));

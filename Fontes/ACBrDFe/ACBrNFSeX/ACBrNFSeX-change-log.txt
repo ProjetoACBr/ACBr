@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 02/01/2026
+-- GeisWeb.GravarXml/GeisWeb.Provider --
+[*] ACBR-8688: Alterações visando o novo webservice do provedor.
+  Por: Italo Giurizzato Junior
 -- Publica.GravarXml/Publica.LerXml --
 [*] ACBR-8689: Ajustes na geração do XML com os novos campos da Reforma Tributária
   Por: Roger Rodrigues
