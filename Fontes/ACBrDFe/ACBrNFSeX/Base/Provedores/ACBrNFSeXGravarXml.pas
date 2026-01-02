@@ -328,7 +328,7 @@ begin
 
   // Reforma Tributária
   FNrOcorrfinNFSe := 1;
-  FNrOcorrindFinal := 1;
+  FNrOcorrindFinal := 0;
   FNrOcorrcIndOp := 1;
   FNrOcorrtpOper := 0;
   FNrOcorrindDest := 1;
