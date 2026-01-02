@@ -391,6 +391,8 @@ type
     FValorJuros: Double;
     FValorIPI: Double;
     FUnidadeServico: string;
+    FValorFinalCobrado: Double;
+    FValorInicialCobrado: Double;
 
     procedure SetDocDeducao(const Value: TDocDeducaoCollection);
   public
@@ -469,6 +471,8 @@ type
     property ValorMulta: Double read FValorMulta write FValorMulta;
     property ValorJuros: Double read FValorJuros write FValorJuros;
     property ValorIPI: Double read FValorIPI write FValorIPI;
+    property ValorInicialCobrado: Double read FValorInicialCobrado write FValorInicialCobrado;
+    property ValorFinalCobrado: Double read FValorFinalCobrado write FValorFinalCobrado;
     // Provedor Publica
     property UnidadeServico: string read FUnidadeServico write FUnidadeServico;
   end;

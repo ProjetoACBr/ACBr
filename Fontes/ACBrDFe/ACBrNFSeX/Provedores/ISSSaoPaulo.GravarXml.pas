@@ -323,12 +323,12 @@ begin
 
   if VersaoNFSe = ve200 then
   begin
-    if NFSe.Servico.Valores.ValorServicos > 0 then
+    if NFSe.Servico.Valores.ValorInicialCobrado > 0 then
       NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorInicialCobrado', 1, 15, 1,
-                                        NFSe.Servico.Valores.ValorServicos, ''))
+                                  NFSe.Servico.Valores.ValorInicialCobrado, ''))
     else
       NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorFinalCobrado', 1, 15, 1,
-                                       NFSe.Servico.Valores.ValorServicos, ''));
+                                   NFSe.Servico.Valores.ValorFinalCobrado, ''));
   end;
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'ValorMulta', 1, 15, 0,
