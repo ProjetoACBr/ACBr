@@ -751,7 +751,7 @@ Obrigatoriamente > 1.
 										</xs:annotation>
 										<xs:complexType>
 											<xs:sequence>
-												<xs:element name="IBSCBS" type="TTribNF3e">
+												<xs:element name="IBSCBS" type="TTribNFAg">
 													<xs:annotation>
 														<xs:documentation>Grupo de informações do IBS e CBS</xs:documentation>
 													</xs:annotation>
