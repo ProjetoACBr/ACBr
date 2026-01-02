@@ -125,9 +125,18 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="xOutInf" type="TSDesc2000" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Uso da Administração Tributária Municipal.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="valores" type="TCValoresNFSe">
         <xs:annotation>
-          <xs:documentation>Grupo de valores referentes ao Serviço Prestado</xs:documentation>
+          <xs:documentation>
+            Grupo de valores referentes ao Serviço Prestado
+          </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="IBSCBS" type="TCRTCIBSCBS" minOccurs="0">
@@ -273,13 +282,6 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="xOutInf" type="TSDesc2000" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation>
-            Uso da Administração Tributária Municipal.
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
     </xs:sequence>
   </xs:complexType>
   <!--TIPO COMPLEXO IBSCBS-->
@@ -299,7 +301,7 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="pRedutor" type="TSDec2V2">
+      <xs:element name="pRedutor" type="TSDec2V2" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             Percentual de redução de aliquota em compra governamental
@@ -547,7 +549,7 @@
   <!--TIPO COMPLEXO DE TOTALIZADORES DOS VALORES IBS ESTADUAL-->
   <xs:complexType name="TCRTCTotalIBSUF">
     <xs:sequence>
-      <xs:element name="vDifUF" type="TSDec15V2">
+      <xs:element name="vDifUF" type="TSDec15V2" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             Total do Diferimento do IBS estadual
@@ -568,7 +570,7 @@
   <!--TIPO COMPLEXO DE TOTALIZADORES DOS VALORES IBS MUNICIPAL-->
   <xs:complexType name="TCRTCTotalIBSMun">
     <xs:sequence>
-      <xs:element name="vDifMun" type="TSDec15V2">
+      <xs:element name="vDifMun" type="TSDec15V2" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             Total do Diferimento do IBS municipal
@@ -596,7 +598,7 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="vDifCBS" type="TSDec15V2">
+      <xs:element name="vDifCBS" type="TSDec15V2" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             Total do Diferimento CBS
@@ -1289,11 +1291,6 @@
           <xs:documentation>Grupo de informações relativas à exportação/importação de serviço prestado</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="lsadppu" type="TCLocacaoSublocacao" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation>Grupo de informações relativas a atividades de Locação, sublocação, arrendamento, direito de passagem ou permissão de uso, compartilhado ou não, de ferrovia, rodovia, postes, cabos, dutos e condutos de qualquer natureza</xs:documentation>
-        </xs:annotation>
-      </xs:element>
       <xs:element name="obra" type="TCInfoObra" minOccurs="0">
         <xs:annotation>
           <xs:documentation>Grupo de informações do DPS relativas à serviço de obra</xs:documentation>
@@ -1385,7 +1382,8 @@
       </xs:element>
       <xs:element name="vincPrest" type="TSVincPrest">
         <xs:annotation>
-          <xs:documentation>Vínculo entre as partes no negócio:
+          <xs:documentation>
+            Vínculo entre as partes no negócio:
             0 - Sem vínculo com o Tomador/Prestador
             1 - Controlada;
             2 - Controladora;
@@ -1393,6 +1391,7 @@
             4 - Matriz;
             5 - Filial ou sucursal;
             6 - Outro vínculo;
+            9 - Desconhecido;
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -1537,31 +1536,6 @@
       <xs:element name="codContrato" type="TSCodContrato">
         <xs:annotation>
           <xs:documentation>Código de contrato gerado automaticamente pelo sistema nacional no cadastro da concessionária.</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-    </xs:sequence>
-  </xs:complexType>
-  <!--TIPO COMPLEXO PARA INFORMAÇÕES DE LOCAÇÃO, SUBLOCAÇÃO, ARRENDAMENTO, DIRETO DE PASSAGEM OU PERMISSÃO DE USO-->
-  <xs:complexType name="TCLocacaoSublocacao">
-    <xs:sequence>
-      <xs:element name="categ" type="TSCategoriaServico">
-        <xs:annotation>
-          <xs:documentation>Categoria do serviço</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="objeto" type="TCObjetoLocacao">
-        <xs:annotation>
-          <xs:documentation>Tipo de objetos da locação, sublocação, arrendamento, direito de passagem ou permissão de uso</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="extensao" type="TSExtensaoTotal">
-        <xs:annotation>
-          <xs:documentation>Extensão total da ferrovia, rodovia, cabos, dutos ou condutos</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="nPostes" type="TSNumeroPostes">
-        <xs:annotation>
-          <xs:documentation>Número total de postes</xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -2262,7 +2236,7 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="indFinal" type="TSRTCIndFinal">
+      <xs:element name="indFinal" type="TSRTCIndFinal" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             Indica operação de uso ou consumo pessoal (art. 57)
