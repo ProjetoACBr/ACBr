@@ -41,6 +41,7 @@ uses
   ACBrXmlBase,
   ACBrXmlDocument,
   ACBrNFSeXClass,
+  ACBrDFe.Conversao,
   ACBrNFSeXConversao,
   ACBrNFSeXGravarXml,
   ACBrNFSeXLerXml,
@@ -131,19 +132,22 @@ type
     procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
     procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
 
+    procedure PrepararEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
+    procedure TratarRetornoEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
+
     procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
   end;
 
 implementation
 
 uses
-  ACBrDFe.Conversao,
   ACBrJSON,
   ACBrCompress,
   synacode,
   ACBrUtil.XMLHTML,
   ACBrUtil.Strings,
   ACBrUtil.Base,
+  ACBrUtil.DateTime,
   ACBrDFeException,
   ACBrNFSeX,
   ACBrNFSeXConfiguracoes,
@@ -968,6 +972,229 @@ begin
   end;
 end;
 
+procedure TACBrNFSeProviderPronimAPIPropria.PrepararEnviarEvento(
+  Response: TNFSeEnviarEventoResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+  xEvento, xUF, xAutorEvento, IdAttr, xCamposEvento, nomeArq, CnpjCpf: string;
+begin
+  with Response.InfEvento.pedRegEvento do
+  begin
+    if chNFSe = '' then
+    begin
+      AErro := Response.Erros.New;
+      AErro.Codigo := Cod004;
+      AErro.Descricao := ACBrStr(Desc004);
+    end;
+
+    if Response.Erros.Count > 0 then Exit;
+
+    xUF := TACBrNFSeX(FAOwner).Configuracoes.WebServices.UF;
+
+    CnpjCpf := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+    if Length(CnpjCpf) < 14 then
+    begin
+      xAutorEvento := '<CPFAutor>' +
+                        CnpjCpf +
+                      '</CPFAutor>';
+    end
+    else
+    begin
+      xAutorEvento := '<CNPJAutor>' +
+                        CnpjCpf +
+                      '</CNPJAutor>';
+    end;
+
+    ID := chNFSe + OnlyNumber(tpEventoToStr(tpEvento)) +
+              FormatFloat('000', nPedRegEvento);
+
+    IdAttr := 'Id="' + 'PRE' + ID + '"';
+
+    case tpEvento of
+      teCancelamento:
+        xCamposEvento := '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
+                         '<xMotivo>' + xMotivo + '</xMotivo>';
+
+      teCancelamentoSubstituicao:
+        xCamposEvento := '<cMotivo>' + Formatfloat('00', cMotivo) + '</cMotivo>' +
+                         '<xMotivo>' + xMotivo + '</xMotivo>' +
+                         '<chSubstituta>' + chSubstituta + '</chSubstituta>';
+
+      teAnaliseParaCancelamento:
+        xCamposEvento := '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
+                         '<xMotivo>' + xMotivo + '</xMotivo>';
+
+      teRejeicaoPrestador:
+        xCamposEvento := '<infRej>' +
+                           '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
+                           '<xMotivo>' + xMotivo + '</xMotivo>' +
+                         '</infRej>';
+
+      teRejeicaoTomador:
+        xCamposEvento := '<infRej>' +
+                           '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
+                           '<xMotivo>' + xMotivo + '</xMotivo>' +
+                         '</infRej>';
+
+      teRejeicaoIntermediario:
+        xCamposEvento := '<infRej>' +
+                           '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
+                           '<xMotivo>' + xMotivo + '</xMotivo>' +
+                         '</infRej>';
+    else
+      // teConfirmacaoPrestador, teConfirmacaoTomador,
+      // ConfirmacaoIntermediario
+      xCamposEvento := '';
+    end;
+
+    xEvento := '<pedRegEvento xmlns="' + ConfigMsgDados.EnviarEvento.xmlns +
+                           '" versao="' + ConfigWebServices.VersaoAtrib + '">' +
+                 '<infPedReg ' + IdAttr + '>' +
+                   '<tpAmb>' + IntToStr(tpAmb) + '</tpAmb>' +
+                   '<verAplic>' + verAplic + '</verAplic>' +
+                   '<dhEvento>' +
+                     FormatDateTime('yyyy-mm-dd"T"hh:nn:ss', dhEvento) +
+                     GetUTC(xUF, dhEvento) +
+                   '</dhEvento>' +
+                   xAutorEvento +
+                   '<chNFSe>' + chNFSe + '</chNFSe>' +
+                   '<nPedRegEvento>' +
+                     FormatFloat('000', nPedRegEvento) +
+                   '</nPedRegEvento>' +
+                   '<' + tpEventoToStr(tpEvento) + '>' +
+                     '<xDesc>' + tpEventoToDesc(tpEvento) + '</xDesc>' +
+                     xCamposEvento +
+                   '</' + tpEventoToStr(tpEvento) + '>' +
+                 '</infPedReg>' +
+               '</pedRegEvento>';
+
+    xEvento := ConverteXMLtoUTF8(xEvento);
+    xEvento := ChangeLineBreak(xEvento, '');
+
+    Response.ArquivoEnvio := xEvento;
+
+    nomeArq := '';
+    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq);
+    Response.PathNome := nomeArq;
+
+    Response.ArquivoEnvio := EncodeBase64(GZipCompress(Response.ArquivoEnvio));
+  end;
+end;
+
+procedure TACBrNFSeProviderPronimAPIPropria.TratarRetornoEnviarEvento(
+  Response: TNFSeEnviarEventoResponse);
+var
+  Document, JSon: TACBrJSONObject;
+  AErro: TNFSeEventoCollectionItem;
+  EventoXml, IDEvento, nomeArq: string;
+  DocumentXml: TACBrXmlDocument;
+  ANode: TACBrXmlNode;
+  Ok: Boolean;
+  JSonLote: TACBrJSONArray;
+  i: Integer;
+  AResumo: TNFSeResumoCollectionItem;
+
+  procedure LerEvento(EventoXml: string);
+  begin
+    if EventoXml = '' then
+    begin
+      AErro := Response.Erros.New;
+      AErro.Codigo := Cod211;
+      AErro.Descricao := ACBrStr(Desc211);
+      Exit
+    end;
+
+    DocumentXml := TACBrXmlDocument.Create;
+
+    try
+      try
+        DocumentXml.LoadFromXml(EventoXml);
+
+        ANode := DocumentXml.Root.Childrens.FindAnyNs('infEvento');
+
+        IDEvento := OnlyNumber(ObterConteudoTag(ANode.Attributes.Items['Id']));
+
+        Response.nSeqEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('nSeqEvento'), tcInt);
+        Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhProc'), tcDatHor);
+        Response.idEvento := IDEvento;
+        Response.tpEvento := StrTotpEvento(Ok, Copy(IDEvento, 51, 6));
+        Response.XmlRetorno := EventoXml;
+
+        case Response.tpEvento of
+          teCancelamento:
+            begin
+              Response.SucessoCanc := True;
+              Response.DescSituacao := 'Nota Cancelada';
+            end
+        else
+          begin
+            Response.SucessoCanc := False;
+            Response.DescSituacao := '';
+          end;
+        end;
+
+        ANode := ANode.Childrens.FindAnyNs('pedRegEvento');
+        ANode := ANode.Childrens.FindAnyNs('infPedReg');
+
+        Response.idNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('chNFSe'), tcStr);
+
+        nomeArq := '';
+        SalvarXmlEvento(IDEvento + '-procEveNFSe', EventoXml, nomeArq);
+        Response.PathNome := nomeArq;
+      except
+        on E:Exception do
+        begin
+          AErro := Response.Erros.New;
+          AErro.Codigo := Cod999;
+          AErro.Descricao := ACBrStr(Desc999 + E.Message);
+        end;
+      end;
+    finally
+      FreeAndNil(DocumentXml);
+    end;
+  end;
+begin
+  if Response.ArquivoRetorno = '' then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod201;
+    AErro.Descricao := ACBrStr(Desc201);
+    Exit
+  end;
+
+  Document := TACBrJsonObject.Parse(Response.ArquivoRetorno);
+
+  Response.Data := Document.AsISODateTime['dataHoraProcessamento'];
+
+  JSonLote := Document.AsJSONArray['lote'];
+
+  if JSonLote.Count > 0 then
+  begin
+    for i := 0 to JSonLote.Count-1 do
+    begin
+      JSon := JSonLote.ItemAsJSONObject[i];
+
+      ProcessarMensagemDeErros(JSon, Response);
+      Response.Sucesso := (Response.Erros.Count = 0);
+
+      AResumo := Response.Resumos.New;
+      AResumo.idNota := JSon.AsString['id'];
+      AResumo.Link := JSon.AsString['chaveAcesso'];
+
+      EventoXml := JSon.AsString['xmlGZipB64'];
+
+      if EventoXml <> '' then
+      begin
+        EventoXml := DeCompress(DecodeBase64(EventoXml));
+
+        AResumo.XmlRetorno := EventoXml;
+
+        LerEvento(EventoXml);
+      end;
+    end;
+  end;
+end;
+
 procedure TACBrNFSeProviderPronimAPIPropria.ValidarSchema(
   Response: TNFSeWebserviceResponse; aMetodo: TMetodo);
 begin
@@ -978,16 +1205,11 @@ begin
     Response.ArquivoEnvio := ChangeLineBreak(Response.ArquivoEnvio, '');
 
     case aMetodo of
-      tmGerar:
+      tmGerar,
+      tmEnviarEvento:
         begin
           Response.ArquivoEnvio := '{"loteXmlGZipB64":["' + Response.ArquivoEnvio + '"]}';
           Path := '/EnviarSincrono';
-        end;
-
-      tmEnviarEvento:
-        begin
-          Response.ArquivoEnvio := '{"pedidoRegistroEventoXmlGZipB64":"' + Response.ArquivoEnvio + '"}';
-          Path := '/nfse/' + Chave + '/eventos';
         end;
     else
       begin

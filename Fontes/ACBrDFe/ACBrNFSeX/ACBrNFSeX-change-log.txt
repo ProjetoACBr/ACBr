@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 02/01/2026
+-- Pronim.Provider --
+[+] ACBR-8695: Implementado o envio de eventos.
+  Por: Italo Giurizzato Junior
 -- Giss.GravarXml --
 [*] ACBR-8597: Alterado a condição para gerar o grupo <trib>
   Por: Alessandro dos Santos/Marcelo DeSoft7
