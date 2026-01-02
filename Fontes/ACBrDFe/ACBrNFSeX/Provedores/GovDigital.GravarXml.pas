@@ -38,6 +38,8 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
+  ACBrXmlDocument,
+  ACBrDFe.Conversao,
   ACBrNFSeXGravarXml_ABRASFv2;
 
 type
@@ -46,6 +48,9 @@ type
   TNFSeW_GovDigital200 = class(TNFSeW_ABRASFv2)
   protected
     procedure Configuracao; override;
+
+    function GerarServico: TACBrXmlNode; override;
+    function GerarValores: TACBrXmlNode; override;
 
   end;
 
@@ -57,6 +62,9 @@ type
   end;
 
 implementation
+
+uses
+  ACBrNFSeXConsts;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva gerar o XML do RPS do provedor:
@@ -71,8 +79,29 @@ begin
 
   DivAliq100 := True;
 
+  NrOcorrCodigoNBS := -1;
+
   if FpAOwner.ConfigGeral.Params.TemParametro('NaoDividir100') then
     DivAliq100 := False;
+end;
+
+function TNFSeW_GovDigital200.GerarServico: TACBrXmlNode;
+begin
+  Result := inherited GerarServico;
+
+  Result.AppendChild(AddNode(tcInt, '#32', 'MunicipioPrestacao', 7, 7, 0,
+                               NFSe.Servico.CodigoMunicipioLocalPrestacao, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNBS', 1, 9, 0,
+                                                   NFSe.Servico.CodigoNBS, ''));
+end;
+
+function TNFSeW_GovDigital200.GerarValores: TACBrXmlNode;
+begin
+  Result := inherited GerarValores;
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CST', 3, 3, 0,
+                     CSTIBSCBSToStr(NFSe.IBSCBS.valores.trib.gIBSCBS.CST), ''));
 end;
 
 end.
