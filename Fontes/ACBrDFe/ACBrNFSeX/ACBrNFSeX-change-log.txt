@@ -41,6 +41,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+02/01/2026
+-- Giss.GravarXml --
+[*] ACBR-8597: Alterado a condição para gerar o grupo <trib>
+  Por: Alessandro dos Santos/Marcelo DeSoft7
+
 31/12/2025
 -- ACBrNFSeXLerXml.pas --
 [*] Adicionado campos utilizado provedor ISSSaoPaulo lerINI
