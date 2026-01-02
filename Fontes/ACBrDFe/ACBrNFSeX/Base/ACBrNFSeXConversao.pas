@@ -406,11 +406,11 @@ const
 
 type
   TvincPrest = (vpSemVinculo, vpControlada, vpControladora, vpColigada,
-                vpMatriz, vpFilial, vpOutro);
+                vpMatriz, vpFilial, vpOutro, vpDesconhecido);
 
 const
   TvincPrestArrayStrings: array[TvincPrest] of string = ('0', '1', '2', '3',
-    '4', '5', '6');
+    '4', '5', '6', '9');
 
 type
   TmecAFComexP = (mapsDesconhecido, mapsNenhum, mapsACC, mapsACE,
@@ -12970,17 +12970,19 @@ end;
 function vincPrestToStr(const t: TvincPrest): string;
 begin
   result := EnumeradoToStr(t,
-                           ['0', '1', '2', '3', '4', '5', '6'],
+                           ['0', '1', '2', '3', '4', '5', '6', '9'],
                            [vpSemVinculo, vpControlada, vpControladora,
-                            vpColigada, vpMatriz, vpFilial, vpOutro]);
+                            vpColigada, vpMatriz, vpFilial, vpOutro,
+                            vpDesconhecido]);
 end;
 
 function StrTovincPrest(out ok: Boolean; const s: string): TvincPrest;
 begin
   result := StrToEnumerado(ok, s,
-                           ['0', '1', '2', '3', '4', '5', '6'],
+                           ['0', '1', '2', '3', '4', '5', '6', '9'],
                            [vpSemVinculo, vpControlada, vpControladora,
-                            vpColigada, vpMatriz, vpFilial, vpOutro]);
+                            vpColigada, vpMatriz, vpFilial, vpOutro,
+                            vpDesconhecido]);
 end;
 
 function mecAFComexPToStr(const t: TmecAFComexP): string;

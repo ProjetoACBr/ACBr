@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 02/01/2026
+-- ACBrNFSeXConversao/SpeedGov.GravarXml/SpeedGov.Provider --
+[+] ACBR-8675: Alterações visando atender a Reforma Tibutária.
+  Por: Dorivan Sousa
 -- Pronim.Provider --
 [+] ACBR-8695: Implementado o envio de eventos.
   Por: Italo Giurizzato Junior

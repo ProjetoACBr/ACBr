@@ -213,6 +213,11 @@ begin
                       '</p:cabecalho>';
   end;
 
+  with ConfigGeral do
+  begin
+    Particularidades.AtendeReformaTributaria := True;
+  end;
+
   SetNomeXSD('***');
 
   with ConfigSchemas do
@@ -223,6 +228,16 @@ begin
     ConsultarNFSeRps := 'consultar_nfse_rps_envio_v1.xsd';
     ConsultarNFSe := 'consultar_nfse_envio_v1.xsd';
     CancelarNFSe := 'cancelar_nfse_envio_v1.xsd';
+  end;
+
+  with ConfigAssinar do
+  begin
+    Rps := False;
+    LoteRps := True;
+    CancelarNFSe := True;
+    RpsGerarNFSe := True;
+    RpsSubstituirNFSe := True;
+    SubstituirNFSe := True;
   end;
 end;
 
