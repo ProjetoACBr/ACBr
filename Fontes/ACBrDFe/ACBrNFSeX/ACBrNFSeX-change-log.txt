@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 02/01/2026
+-- ACBrNFSeXDANFSeRLRetrato --
+[*] ACBR-8687: Alteração visando não imprimir duas vezes as informações complementares do Padrão Nacional.
+  Por: João Vitor Bogo
 -- GeisWeb.GravarXml/GeisWeb.Provider --
 [*] ACBR-8688: Alterações visando o novo webservice do provedor.
   Por: Italo Giurizzato Junior
