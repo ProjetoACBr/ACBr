@@ -47,6 +47,7 @@ type
   TNFSeR_Publica = class(TNFSeR_ABRASFv1)
   protected
     procedure LerCondicaoPagamento(const ANode: TACBrXmlNode);
+    procedure LerConstrucaoCivil(const ANode: TACBrXmlNode); override;
     procedure LerInfNfse(const ANode: TACBrXmlNode); override;
 
     procedure LerINISecaoParcelas(const AINIRec: TMemIniFile); override;
@@ -93,6 +94,38 @@ begin
         CondicaoPagamento.Parcelas[i].Valor := ObterConteudo(ANodes[i].Childrens.FindAnyNs('Valor'), tcDe2);
         CondicaoPagamento.Parcelas[i].DataVencimento := ObterConteudo(ANodes[i].Childrens.FindAnyNs('DataVencimento'), tcDat);
       end;
+    end;
+  end;
+end;
+
+procedure TNFSeR_Publica.LerConstrucaoCivil(const ANode: TACBrXmlNode);
+var
+  AuxNode, NodeEndereco: TACBrXmlNode;
+begin
+  if not Assigned(ANode) then Exit;
+
+  AuxNode := ANode.Childrens.FindAnyNs('ConstrucaoCivil');
+
+  if AuxNode <> nil then
+  begin
+    with NFSe.ConstrucaoCivil do
+    begin
+        Tipo := ObterConteudo(AuxNode.Childrens.FindAnyNs('TipoIdentificacaoObra'), tcInt);
+      CodigoObra := ObterConteudo(AuxNode.Childrens.FindAnyNs('CodigoObra'), tcStr);
+      Art        := ObterConteudo(AuxNode.Childrens.FindAnyNs('Art'), tcStr);
+      NodeEndereco := AuxNode.Childrens.FindAnyNs('EnderecoCompleto');
+      if NodeEndereco <> nil then
+      begin
+        Endereco.CEP := ObterConteudo(NodeEndereco.Childrens.FindAnyNs('Cep'), tcStr);
+        Endereco.Endereco := ObterConteudo(NodeEndereco.Childrens.FindAnyNs('Logradouro'), tcStr);
+        Endereco.Numero := ObterConteudo(NodeEndereco.Childrens.FindAnyNs('Numero'), tcStr);
+        Endereco.Bairro := ObterConteudo(NodeEndereco.Childrens.FindAnyNs('Bairro'), tcStr);
+        Endereco.CodigoMunicipio := ObterConteudo(NodeEndereco.Childrens.FindAnyNs('CodigoMunicipio'), tcStr);
+        Endereco.Complemento := ObterConteudo(NodeEndereco.Childrens.FindAnyNs('Complemento'), tcStr);
+        Endereco.Uf := ObterConteudo(NodeEndereco.Childrens.FindAnyNs('Uf'), tcStr);
+        Endereco.CodigoPais := ObterConteudo(NodeEndereco.Childrens.FindAnyNs('CodigoPais'), tcStr);
+      end;
+      inscImobFisc := ObterConteudo(AuxNode.Childrens.FindAnyNs('Cib'), tcStr);
     end;
   end;
 end;

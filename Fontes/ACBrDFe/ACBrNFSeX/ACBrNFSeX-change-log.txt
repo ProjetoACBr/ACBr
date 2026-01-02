@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 02/01/2026
+-- Publica.GravarXml/Publica.LerXml --
+[*] ACBR-8689: Ajustes na geração do XML com os novos campos da Reforma Tributária
+  Por: Roger Rodrigues
 -- GovDigital.GravarXml --
 [+] ACBR-8671: Alterações visando atender a Reforma Tributária.
   Por: Italo Giurizzato Junior
