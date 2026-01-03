@@ -68,6 +68,17 @@ type
     procedure PrepararRequisicao(const AHeader: String); override;
     procedure ATV;
     function ADM: Boolean;
+    function CRT(Valor: Double; const DocumentoVinculado: String = ''; Moeda: Integer = 0): Boolean;
+    function CHQ(Valor: Double; const DocumentoVinculado: String = '';
+      CMC7: String = ''; TipoPessoa: AnsiChar = 'F'; DocumentoPessoa: String = '';
+      DataCheque: TDateTime = 0; Banco: String = '';
+      Agencia: String = ''; AgenciaDC : String = '';
+      Conta: String = ''; ContaDC: String = '';
+      Cheque: String = ''; ChequeDC: String = '';
+      Compensacao: String = '' ): Boolean;
+    Function CNC(Valor: Double; const Rede, NSU: String; DataHoraTransacao: TDateTime; DocumentoVinculado: String = ''): Boolean;
+    Procedure CNF(const Rede, NSU, Finalizacao: String; DocumentoVinculado: String = '');
+    Procedure NCN(const Rede, NSU, Finalizacao: String; Valor: Double = 0; const DocumentoVinculado: String = '') ;
 
     property Enviar_ATV_Antes: Boolean read fEnviarATV write fEnviarATV default True;
   end;
@@ -76,7 +87,7 @@ type
 implementation
 
 uses
-  Math,
+  DateUtils,
   ACBrUtil.Strings;
 
 { TACBrTEFTXTGerenciadorPadrao }
@@ -135,7 +146,7 @@ end;
 
 procedure TACBrTEFTXTGerenciadorPadrao.PrepararRequisicao(const AHeader: String);
 begin
-  if (AHeader <> CACBRTEFTXT_CMD_ATV) then
+  if fEnviarATV and (AHeader <> CACBRTEFTXT_CMD_ATV) then
     ATV;
 
   inherited PrepararRequisicao(AHeader);
@@ -151,8 +162,78 @@ function TACBrTEFTXTGerenciadorPadrao.ADM: Boolean;
 begin
   PrepararRequisicao(CACBRTEFTXT_CMD_ADM);
   EnviarRequisicao;
-
   Result := RespostaTransacaoComSucesso;
+end;
+
+function TACBrTEFTXTGerenciadorPadrao.CRT(Valor: Double;
+  const DocumentoVinculado: String; Moeda: Integer): Boolean;
+begin
+  PrepararRequisicao(CACBRTEFTXT_CMD_CRT);
+  Req.Campo[2,0].AsString := DocumentoVinculado;
+  Req.Campo[3,0].AsFloat := Valor;
+  Req.Campo[4,0].AsInteger := Moeda;
+  EnviarRequisicao;
+  Result := RespostaTransacaoComSucesso;
+end;
+
+function TACBrTEFTXTGerenciadorPadrao.CHQ(Valor: Double;
+  const DocumentoVinculado: String; CMC7: String; TipoPessoa: AnsiChar;
+  DocumentoPessoa: String; DataCheque: TDateTime; Banco: String;
+  Agencia: String; AgenciaDC: String; Conta: String; ContaDC: String;
+  Cheque: String; ChequeDC: String; Compensacao: String): Boolean;
+begin
+  PrepararRequisicao(CACBRTEFTXT_CMD_CHQ);
+  Req.Campo[02,0].AsString := DocumentoVinculado;
+  Req.Campo[03,0].AsFloat := Valor;
+  Req.Campo[05,0].AsString := CMC7;
+  Req.Campo[06,0].AsString := TipoPessoa;
+  Req.Campo[07,0].AsString := DocumentoPessoa;
+  Req.Campo[08,0].AsDate := DataCheque;
+  Req.Campo[33,0].AsString := Banco;
+  Req.Campo[34,0].AsString := Agencia;
+  Req.Campo[35,0].AsString := AgenciaDC;
+  Req.Campo[36,0].AsString := Conta;
+  Req.Campo[37,0].AsString := ContaDC;
+  Req.Campo[38,0].AsString := Cheque;
+  Req.Campo[39,0].AsString := ChequeDC;
+  EnviarRequisicao;
+  Result := RespostaTransacaoComSucesso;
+end;
+
+function TACBrTEFTXTGerenciadorPadrao.CNC(Valor: Double; const Rede,
+  NSU: String; DataHoraTransacao: TDateTime; DocumentoVinculado: String): Boolean;
+begin
+  PrepararRequisicao(CACBRTEFTXT_CMD_CNC);
+  Req.Campo[02,0].AsString := DocumentoVinculado;
+  Req.Campo[03,0].AsFloat := Valor;
+  Req.Campo[10,0].AsString := Rede;
+  Req.Campo[12,0].AsString := NSU;
+  Req.Campo[22,0].AsDate := DateOf(DataHoraTransacao);
+  Req.Campo[23,0].AsTime := TimeOf(DataHoraTransacao);
+  EnviarRequisicao;
+  Result := RespostaTransacaoComSucesso;
+end;
+
+procedure TACBrTEFTXTGerenciadorPadrao.CNF(const Rede, NSU,
+  Finalizacao: String; DocumentoVinculado: String);
+begin
+  PrepararRequisicao(CACBRTEFTXT_CMD_CNF);
+  Req.Campo[02,0].AsString := DocumentoVinculado;
+  Req.Campo[10,0].AsString := Rede;
+  Req.Campo[12,0].AsString := NSU;
+  Req.Campo[27,0].AsString := Finalizacao;
+  EnviarRequisicao;
+end;
+
+procedure TACBrTEFTXTGerenciadorPadrao.NCN(const Rede, NSU,
+  Finalizacao: String; Valor: Double; const DocumentoVinculado: String);
+begin
+  PrepararRequisicao(CACBRTEFTXT_CMD_NCN);
+  Req.Campo[02,0].AsString := DocumentoVinculado;
+  Req.Campo[10,0].AsString := Rede;
+  Req.Campo[12,0].AsString := NSU;
+  Req.Campo[27,0].AsString := Finalizacao;
+  EnviarRequisicao;
 end;
 
 end.
