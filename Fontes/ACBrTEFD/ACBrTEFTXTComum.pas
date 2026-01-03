@@ -3,7 +3,7 @@
 {  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
 { mentos de Automação Comercial utilizados no Brasil                           }
 {                                                                              }
-{ Direitos Autorais Reservados (c) 2025 Daniel Simoes de Almeida               }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 {                                                                              }
@@ -52,7 +52,7 @@ const
   CErroRenomearArquivo = 'Erro ao Renomear:' + sLineBreak + '%s para:' + sLineBreak + '%s';
 
   CErroGerenciadorNaoResponde = 'Gerenciador %s não está respondendo';
-  CErroRespostaStatusInvalida = 'Resposta de Status do Gerenciador %s, inválida';
+  CErroRespostaInvalida = 'Resposta do %s, inválida';
   CErroAguardandoRequisicaoAnterior = 'Requisição anterior não concluida';
   CErroEsperaDeArquivoInterrompida = 'Espera de Resposta interrompida pelo usuário';
 
@@ -159,7 +159,7 @@ type
 
 
   TACBrTEFTXTAguardaArquivo = procedure( ArquivoAguardado: String;
-    SegundosParaTimeOut : Integer; var Interromper : Boolean) of object ;
+    SegundosParaTimeOut: Double; var Interromper: Boolean) of object ;
 
   { TACBrTEFTXTClass }
 
@@ -216,12 +216,13 @@ type
     procedure SetStatus(AValue: TACBrTEFTXTStatus);
   protected
     procedure ApagarArquivosDeComunicacao; virtual;
-    procedure ApagarArquivoStatus;
+    procedure ApagarArquivoStatus; virtual;
+    procedure ApagarArquivoResposta; virtual;
     procedure LimparRequisicao; virtual;
     procedure LimparResposta; virtual;
     function ObterID(const AHeader: String): Integer;
   public
-    constructor Create;
+    constructor Create; virtual;
     destructor Destroy; override;
 
     procedure PrepararRequisicao(const AHeader: String); virtual;
@@ -229,9 +230,9 @@ type
 
     procedure GravarRequisicao; virtual;
     function AguardarStatus: Boolean; virtual;
-    function LerEVerificarArquivoStatus: Boolean; virtual;
     function AguardarResposta: Boolean; virtual;
-    procedure LerArquivoResposta; virtual;
+    procedure LerArquivoResposta(const AArq: String); virtual;
+    function VerificarRespostaValida: Boolean; virtual;
 
     property Status: TACBrTEFTXTStatus read fStatus write SetStatus;
     property QuandoMudarStatus: TNotifyEvent read fQuandoMudarStatus write fQuandoMudarStatus;
@@ -733,14 +734,17 @@ begin
     if not AguardarStatus then
       DoException(Format(ACBrStr(CErroGerenciadorNaoResponde), [ModeloTEF]));
 
-    if not LerEVerificarArquivoStatus then
-      DoException(Format(ACBrStr(CErroRespostaStatusInvalida), [ModeloTEF]));
+    LerArquivoResposta(ArqSts);
+    if not VerificarRespostaValida then
+      DoException(Format(ACBrStr(CErroRespostaInvalida), [ModeloTEF]));
 
     ApagarArquivoStatus;
     if not AguardarResposta then
       DoException(ACBrStr(CErroEsperaDeArquivoInterrompida));
 
-    LerArquivoResposta;
+    LerArquivoResposta(ArqResp);
+    if not VerificarRespostaValida then
+      DoException(Format(ACBrStr(CErroRespostaInvalida), [ModeloTEF]));
   finally
     Status := tefstLivre;
   end;
@@ -748,7 +752,7 @@ end;
 
 procedure TACBrTEFTXTBaseClass.GravarRequisicao;
 begin
-  GravarLog('GravarRequisicao: '+ArqReq)
+  GravarLog('GravarRequisicao: '+ArqReq);
   Status := tefstEnviandoRequisicao;
 
   GravarLog('  Gravando Temporario: '+ArqTemp);
@@ -787,6 +791,11 @@ begin
   ApagarArquivo(ArqSts);
 end;
 
+procedure TACBrTEFTXTBaseClass.ApagarArquivoResposta;
+begin
+  ApagarArquivo(ArqResp);
+end;
+
 procedure TACBrTEFTXTBaseClass.LimparRequisicao;
 begin
   GravarLog('LimparRequisicao');
@@ -803,7 +812,7 @@ function TACBrTEFTXTBaseClass.AguardarStatus: Boolean;
 var
   Interromper: Boolean;
   TempoFimEspera: TDateTime;
-  TempoRestante: Int64;
+  TempoRestante: Double;
 begin
   GravarLog('AguardarStatus: '+ArqSts);
   Status := tefstAguardandoSts;
@@ -816,8 +825,8 @@ begin
     Result := FileExists(ArqSts);
     if not Result then
     begin
-      TempoRestante := SecondsBetween(Now, TempoFimEspera);
-      GravarLog('  TempoRestante: '+IntToStr(TempoRestante)+' segundos');
+      TempoRestante := SecondSpan(Now, TempoFimEspera);
+      GravarLog('  Tempo Restante: '+FormatFloat('##0.000',TempoRestante)+' segundos');
       if Assigned(QuandoAguardarArquivo) then
       begin
         QuandoAguardarArquivo(ArqSts, TempoRestante, Interromper);
@@ -826,15 +835,6 @@ begin
       end;
     end;
   end;
-end;
-
-function TACBrTEFTXTBaseClass.LerEVerificarArquivoStatus: Boolean;
-begin
-  GravarLog('LerEVerificarArquivoStatus: '+ArqSts);
-  Resp.LerArquivo(ArqSts);
-  Result := (Resp.Campo[999,999].AsString <> '') and
-            (Resp.Campo[0,0].AsString = Req.Campo[0,0].AsString) and
-            (Resp.Campo[1,0].AsInt64 = Req.Campo[1,0].AsInt64);
   GravarLog('  '+ifthen(Result, 'OK', 'ERRO'));
 end;
 
@@ -842,7 +842,7 @@ function TACBrTEFTXTBaseClass.AguardarResposta: Boolean;
 var
   Interromper: Boolean;
   TempoInicio: TDateTime;
-  TempoPassado: Int64;
+  TempoPassado: Double;
 begin
   GravarLog('AguardarResposta: '+ArqResp);
   LimparResposta;
@@ -856,8 +856,8 @@ begin
     Result := FileExists(ArqResp);
     if not Result then
     begin
-      TempoPassado := SecondsBetween(TempoInicio, Now);
-      GravarLog('  TempoPassado: '+IntToStr(TempoPassado)+' segundos');
+      TempoPassado := SecondSpan(TempoInicio, Now);
+      GravarLog('  Tempo Passado: '+FormatFloat('##0.000',TempoPassado)+' segundos');
       if Assigned(QuandoAguardarArquivo) then
       begin
         QuandoAguardarArquivo(ArqResp, -TempoPassado, Interromper);
@@ -866,115 +866,23 @@ begin
       end;
     end;
   end;
+  GravarLog('  '+ifthen(Result, 'OK', 'ERRO'));
 end;
 
-procedure TACBrTEFTXTBaseClass.LerArquivoResposta;
+procedure TACBrTEFTXTBaseClass.LerArquivoResposta(const AArq: String);
 begin
-  GravarLog('LerArquivoResposta: '+ArqResp);
-  Resp.LerArquivo(ArqResp);
+  GravarLog('LerArquivoResposta: '+AArq);
+  Resp.LerArquivo(AArq);
+end;
+
+function TACBrTEFTXTBaseClass.VerificarRespostaValida: Boolean;
+begin
+  GravarLog('  VerificarRespostaValida');
+  Result := (Resp.Campo[999,999].AsString <> '') and
+            (Resp.Campo[0,0].AsString = Req.Campo[0,0].AsString) and
+            (Resp.Campo[1,0].AsInt64 = Req.Campo[1,0].AsInt64);
+  GravarLog('    '+ifthen(Result, 'OK', 'ERRO'));
 end;
 
 end.
 
-
-{ TACBrTEFTXTServidorComponent }
-
-TACBrTEFTXTServidorComponent = class( TACBrTEFTXTClass )
-public
-  procedure AguardarRequisicao; virtual;
-  procedure LerRequisicao; virtual;
-  procedure EnviarResposta; virtual;
-end;
-
-{ TACBrTEFTXTServidorComponent }
-
-procedure TACBrTEFTXTServidorComponent.AguardarRequisicao;
-begin
-  GravarLog('AguardarRequisicao');
-
-end;
-
-procedure TACBrTEFTXTServidorComponent.LerRequisicao;
-begin
-
-end;
-
-procedure TACBrTEFTXTServidorComponent.EnviarResposta;
-begin
-  GravarLog('EnviarResposta');
-
-end;
-
-end.
-
-
-TACBrTEFTXTModelo = (tefnenhum, tefGerenciadorPadrao, tefPayGo, tefSiTef);
-
-----------------------------------------------------------
-
-{ TACBrTEFTXTClienteClass }
-
-TACBrTEFTXTClienteClass = class( TPersistent )
-private
-  fCampos: TACBrTEFTXTArquivoClass;
-  fTEFTxt: TACBrTEFTXTClass;
-  function GetConfig: TACBrTEFTXTConfig;
-
-protected
-  function CreateCampos: TACBrTEFTXTArquivoClass; virtual;
-
-public
-  constructor Create(ATEFTxt: TACBrTEFTXTClass); reintroduce;
-  destructor Destroy; override;
-
-  property Config: TACBrTEFTXTConfig read GetConfig;
-  property Campos: TACBrTEFTXTArquivoClass read fCampos;
-end;
-
-
-{ TACBrTEFTXTClienteClass }
-
-function TACBrTEFTXTClienteClass.GetConfig: TACBrTEFTXTConfig;
-begin
-  Result := fTEFTxt.Config;
-end;
-
-function TACBrTEFTXTClienteClass.CreateCampos: TACBrTEFTXTArquivoClass;
-begin
-  Result := TACBrTEFTXTArquivoClass.Create;
-end;
-
-constructor TACBrTEFTXTClienteClass.Create(ATEFTxt: TACBrTEFTXTClass);
-begin
-  fTEFTxt := ATEFTxt;
-  fCampos := CreateCampos;
-end;
-
-destructor TACBrTEFTXTClienteClass.Destroy;
-begin
-  fCampos.Free;
-  inherited Destroy;
-end;
-
-----------------------------------------------------------
-
-  procedure TACBrTEFTXTArquivoClass.VerificarOperacaoValida(const AOperacao: String);
-  var
-    s: String;
-    a: TStringArray;
-    l, i: Integer;
-    ok: Boolean;
-  begin
-    s := Trim(UpperCase(AOperacao));
-    a := GetOperacoesValidas;
-    l := Length(a);
-    i := 0;
-    ok := False;
-    while (not ok) and (i < l) do
-      ok := (s = a[i]);
-
-    if not ok then
-      raise EACBrTEFArquivo.CreateFmt(ACBrStr(EOperacaoInvalida), [s, ModeloTEF]) ;
-  end;
-
-------------------------------------------------------------------
