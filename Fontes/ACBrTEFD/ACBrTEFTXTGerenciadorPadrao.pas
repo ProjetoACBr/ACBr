@@ -52,6 +52,17 @@ const
 
 type
 
+  { TACBrTEFRespTXT }
+
+  { TACBrTEFRespTXTGerenciadorPadrao }
+
+  TACBrTEFRespTXTGerenciadorPadrao = class( TACBrTEFResp )
+  protected
+    function AjustaLinhaImagemComprovante(const ALinha: String): String;
+  public
+    procedure ConteudoToProperty; override;
+  end;
+
   { TACBrTEFTXTGerenciadorPadrao }
 
   TACBrTEFTXTGerenciadorPadrao = class( TACBrTEFTXTBaseClass )
@@ -59,8 +70,7 @@ type
     fEnviarATV: Boolean;
   protected
     function RespostaTransacaoComSucesso: Boolean;
-    procedure RespostaRelatorio(sl: TStringList); virtual;
-    function AjustarLinhaRelatorio(const ALinha: String): String;
+    function GetModeloTEF: String; override;
   public
     constructor Create; override;
     destructor Destroy; override;
@@ -90,6 +100,136 @@ uses
   DateUtils,
   ACBrUtil.Strings;
 
+{ TACBrTEFRespTXTGerenciadorPadrao }
+
+function TACBrTEFRespTXTGerenciadorPadrao.AjustaLinhaImagemComprovante(const ALinha: String): String;
+var
+  l: Integer;
+begin
+  Result := ALinha;
+  if copy(Result, 1, 1) = '"' then
+    Delete(Result, 1, 1);
+  l := Length(Result);
+  if copy(Result, l, 1) = '"' then
+    Delete(Result, l, 1);
+end;
+
+procedure TACBrTEFRespTXTGerenciadorPadrao.ConteudoToProperty;
+var
+  i: Integer;
+  Linha: TACBrTEFLinha;
+  lin: String;
+  Parc: TACBrTEFRespParcela;
+begin
+  fpDataHoraTransacaoComprovante := 0 ;
+  fpImagemComprovante1aVia.Clear;
+  fpImagemComprovante2aVia.Clear;
+
+  for i := 0 to Conteudo.Count-1 do
+  begin
+    Linha := Conteudo.Linha[i];
+    case Linha.Identificacao of
+      0: fpHeader := Linha.Informacao.AsString;
+      1: fpID := Linha.Informacao.AsInteger;
+      2: fpDocumentoVinculado := Linha.Informacao.AsString;
+      3: fpValorTotal := Linha.Informacao.AsFloat;
+      4: fpMoeda := Linha.Informacao.AsInteger;
+      5: fpCMC7 := Linha.Informacao.AsString;
+      6: fpTipoPessoa := AnsiChar(PadRight(Linha.Informacao.AsString, 1 )[ 1 ]);
+      7: fpDocumentoPessoa := Linha.Informacao.AsString;
+      8: fpDataCheque := Linha.Informacao.AsDate;
+      9: fpStatusTransacao := Linha.Informacao.AsString;
+      10: fpRede := Linha.Informacao.AsString;
+      11: fpTipoTransacao := Linha.Informacao.AsInteger;
+      12: fpNSU := Linha.Informacao.AsString;
+      13: fpCodigoAutorizacaoTransacao := Linha.Informacao.AsString;
+      14: fpNumeroLoteTransacao := Linha.Informacao.AsInteger;
+      15: fpDataHoraTransacaoHost := Linha.Informacao.AsTimeStamp;
+      16: fpDataHoraTransacaoLocal := Linha.Informacao.AsTimeStamp;
+      17: fpTipoParcelamento := Linha.Informacao.AsInteger;
+      18: fpQtdParcelas := Linha.Informacao.AsInteger;
+      22: fpDataHoraTransacaoComprovante := fpDataHoraTransacaoComprovante + Linha.Informacao.AsDate;
+      23: fpDataHoraTransacaoComprovante := fpDataHoraTransacaoComprovante + Linha.Informacao.AsTime;
+      24: fpDataPreDatado := Linha.Informacao.AsDate;
+      25: fpNSUTransacaoCancelada := Linha.Informacao.AsString;
+      26: fpDataHoraTransacaoCancelada := Linha.Informacao.AsTimeStamp;
+      27: fpFinalizacao := Linha.Informacao.AsString;
+      28: fpQtdLinhasComprovante := Linha.Informacao.AsInteger;
+      30: fpTextoEspecialOperador := Linha.Informacao.AsString;
+      31: fpTextoEspecialCliente := Linha.Informacao.AsString;
+      32: fpAutenticacao := Linha.Informacao.AsString;
+      33: fpBanco := Linha.Informacao.AsString;
+      34: fpAgencia := Linha.Informacao.AsString;
+      35: fpAgenciaDC := Linha.Informacao.AsString;
+      36: fpConta := Linha.Informacao.AsString;
+      37: fpContaDC := Linha.Informacao.AsString;
+      38: fpCheque := Linha.Informacao.AsString;
+      39: fpChequeDC  := Linha.Informacao.AsString;
+      40: fpNomeAdministradora := Linha.Informacao.AsString;
+      999: fpTrailer := Linha.Informacao.AsString ;
+    else
+      ProcessarTipoInterno(Linha);
+    end;
+  end ;
+
+  // Processando as Vias dos Comprovantes //
+  if (fpQtdLinhasComprovante > 0) then
+  begin
+    i := 1;
+    while (i <= fpQtdLinhasComprovante) do
+    begin
+      lin := LeInformacao(29 , i).AsString;
+      fpImagemComprovante1aVia.Add( AjustaLinhaImagemComprovante(lin) );
+      Inc(i);
+    end;
+
+    fpImagemComprovante2aVia.Text := fpImagemComprovante1aVia.Text;
+  end;
+
+  case fpTipoParcelamento  of
+    0: fpParceladoPor := parcLoja;
+    1: fpParceladoPor := parcADM;
+  else
+    fpParceladoPor := parcNenhum;
+  end;
+
+  fpConfirmar := (fpQtdLinhasComprovante > 0);
+  fpSucesso := (fpStatusTransacao = '0');
+
+  fpParcelas.Clear;
+  for I := 1 to fpQtdParcelas do
+  begin
+    Parc := TACBrTEFRespParcela.create;
+    Parc.Vencimento := LeInformacao(19 , i).AsDate ;
+    Parc.Valor := LeInformacao(20 , i).AsFloat ;
+    Parc.NSUParcela := LeInformacao(21 , i).AsString ;
+    fpParcelas.Add(Parc);
+  end;
+
+  // Tipo da transação se foi Crédito ou Débito
+  fpDebito := ((fpTipoTransacao >= 20) and (fpTipoTransacao <= 25)) or (fpTipoTransacao = 40);
+  fpCredito := (fpTipoTransacao >= 10) and (fpTipoTransacao <= 12) ;
+
+  case fpTipoTransacao of
+    10,20,23:
+      fpTipoOperacao := opAvista;
+    11,12,22:
+      fpTipoOperacao := opParcelado;
+    21,24,25:
+      begin
+        fpTipoOperacao := opPreDatado;
+        fpDataPreDatado := LeInformacao(24).AsDate;
+      end;
+    40:
+      begin
+        fpTipoOperacao := opParcelado;
+        fpParceladoPor := parcADM;
+      end;
+  else
+    fpTipoOperacao := opOutras;
+  end;
+end;
+
 { TACBrTEFTXTGerenciadorPadrao }
 
 constructor TACBrTEFTXTGerenciadorPadrao.Create;
@@ -108,40 +248,9 @@ begin
   Result := (Resp.Campo[9,0].AsString = '0');
 end;
 
-procedure TACBrTEFTXTGerenciadorPadrao.RespostaRelatorio(sl: TStringList);
-var
-  nLin, i: Integer;
-  s: String;
+function TACBrTEFTXTGerenciadorPadrao.GetModeloTEF: String;
 begin
-  sl.Clear;
-  nLin := Resp.Campo[28,0].AsInteger;  // QUANTIDADE DE LINHAS DO COMPROVANTE
-  if (nLin > 0) then
-  begin
-    sl := TStringList.Create;
-    try
-      i := 1;
-      while i <= nLin do
-      begin
-        s := Resp.Campo[29,i].AsString;   // IMAGEM DE CADA LINHA DO COMPROVANTE
-        sl.Add( AjustarLinhaRelatorio(s) );
-      end;
-    finally
-      sl.Free;
-    end;
-  end;
-end;
-
-function TACBrTEFTXTGerenciadorPadrao.AjustarLinhaRelatorio(const ALinha: String): String;
-var
-  l: Integer;
-begin
-  Result := ALinha;
-  if copy(Result, 1, 1) = '"' then
-    Delete(Result, 1, 1);
-
-  l := Length(Result);
-  if copy(Result, l, 1) = '"' then
-    Delete(Result, l, 1);
+  Result := CACBRTEFTXT_NomeGerenciadorPadrao;
 end;
 
 procedure TACBrTEFTXTGerenciadorPadrao.PrepararRequisicao(const AHeader: String);
@@ -155,7 +264,7 @@ end;
 procedure TACBrTEFTXTGerenciadorPadrao.ATV;
 begin
   PrepararRequisicao(CACBRTEFTXT_CMD_ATV);
-  EnviarRequisicao;
+  EnviarRequisicao(False);
 end;
 
 function TACBrTEFTXTGerenciadorPadrao.ADM: Boolean;

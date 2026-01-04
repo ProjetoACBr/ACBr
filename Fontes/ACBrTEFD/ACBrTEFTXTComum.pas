@@ -41,6 +41,18 @@ uses
   ACBrBase, ACBrTEFComum;
 
 const
+  CACBRTEFTXT_NomeGerenciadorNenhum = 'Nenhum';
+  CACBrTEFTXT_TimeOutStatus = 7000;
+  CACBrTEFTXT_Sleep = 250;
+
+  CACBRTEFTXT_DIRREQ = 'C:\Client\Req\';
+  CACBRTEFTXT_DIRRESP = 'C:\Client\Resp\';
+  CACBRTEFTXT_ARQREQ = 'IntPos.001';
+  CACBRTEFTXT_ARQTEMP = 'IntPos.tmp';
+  CACBRTEFTXT_ARQSTS = 'IntPos.sts';
+  CACBRTEFTXT_ARQRESP = 'IntPos.001';
+
+resourcestring
   CErroLinhaArquivoTEFInvalida = 'Linha inválida para Arquivo TEF';
   CErroNomeArquivoNaoDefinido = 'Nome de Arquivo não definido';
   CErroNomeArquivoNaoExiste = 'Arquivo %s não existe';
@@ -56,16 +68,7 @@ const
   CErroAguardandoRequisicaoAnterior = 'Requisição anterior não concluida';
   CErroEsperaDeArquivoInterrompida = 'Espera de Resposta interrompida pelo usuário';
 
-  CACBRTEFTXT_NomeGerenciadorNenhum = 'Nenhum';
-  CACBrTEFTXT_TimeOutStatus = 7000;
-  CACBrTEFTXT_Sleep = 250;
-
-  CACBRTEFTXT_DIRREQ = 'C:\Client\Req\';
-  CACBRTEFTXT_DIRRESP = 'C:\Client\Resp\';
-  CACBRTEFTXT_ARQREQ = 'IntPos.001';
-  CACBRTEFTXT_ARQTEMP = 'IntPos.tmp';
-  CACBRTEFTXT_ARQSTS = 'IntPos.sts';
-  CACBRTEFTXT_ARQRESP = 'IntPos.001';
+  CInfoAguardandoResposta = 'Aguardando Resposta do %s (%s)';
 
 type
 
@@ -108,7 +111,8 @@ type
     procedure Clear; virtual;
 
     function LerArquivo(const ANomeArquivo: String): Boolean;
-    procedure SalvarArquivo(const ANomeArquivo: String);
+    procedure SalvarArquivo(const ANomeArquivo: String); overload;
+    procedure SalvarArquivo(TheStrings: TStrings); overload;
 
     property IgnorarVazios: Boolean read fIgnorarVazios write fIgnorarVazios default True;
 
@@ -175,12 +179,12 @@ type
     function GetArqResp: String;
     function GetArqSts: String;
     function GetArqTemp: String;
-    function GetModeloTEF: String;
     procedure SetConfig(AValue: TACBrTEFTXTConfig);
   protected
     procedure ApagarArquivo(const AArquivo: String);
     procedure GravarLog(const AString: AnsiString; Traduz: Boolean = False);
     procedure DoException(const AErrorMsg: String); virtual;
+    function GetModeloTEF: String; virtual;
   public
     constructor Create;
     destructor Destroy; override;
@@ -204,11 +208,13 @@ type
   TACBrTEFTXTStatus = (tefstLivre, tefstEnviandoRequisicao, tefstAguardandoSts, tefstAguardandoResp);
 
   TACBrTEFTXTObterID = procedure(AHeader: String; out ID: Integer) of object ;
+  TACBrTEFTXTAntesGravarRequisicao = procedure(AReq: TACBrTEFTXTArquivo) of object ;
 
   { TACBrTEFTXTBaseClass }
 
   TACBrTEFTXTBaseClass = class( TACBrTEFTXTClass )
   private
+    fAntesGravarRequisicao: TACBrTEFTXTAntesGravarRequisicao;
     fQuandoMudarStatus: TNotifyEvent;
     fQuandoObterID: TACBrTEFTXTObterID;
     fStatus: TACBrTEFTXTStatus;
@@ -226,7 +232,7 @@ type
     destructor Destroy; override;
 
     procedure PrepararRequisicao(const AHeader: String); virtual;
-    procedure EnviarRequisicao; virtual;
+    procedure EnviarRequisicao(AguardaResposta: Boolean = True); virtual;
 
     procedure GravarRequisicao; virtual;
     function AguardarStatus: Boolean; virtual;
@@ -237,6 +243,8 @@ type
     property Status: TACBrTEFTXTStatus read fStatus write SetStatus;
     property QuandoMudarStatus: TNotifyEvent read fQuandoMudarStatus write fQuandoMudarStatus;
     property QuandoObterID: TACBrTEFTXTObterID read fQuandoObterID write fQuandoObterID;
+    property AntesGravarRequisicao: TACBrTEFTXTAntesGravarRequisicao read fAntesGravarRequisicao
+      write fAntesGravarRequisicao;
   end;
 
 Procedure DecomporLinhaArquivoTEF(const ALinha: String; out AIdentificacao: Integer; out ASequencia: Integer; out AValor: String);
@@ -266,7 +274,7 @@ begin
     raise EACBrTEFArquivo.Create(ACBrStr(CErroLinhaArquivoTEFInvalida));
 
   pi := pf+1;
-  pf := PosEx('=', s, pi);
+  pf := PosEx('=', lin, pi);
   s := Trim(copy(lin, pi, pf-pi));
   ASequencia := StrToIntDef(s, -1);
   if (ASequencia < 0) then
@@ -409,8 +417,7 @@ end;
 procedure TACBrTEFTXTArquivo.SalvarArquivo(const ANomeArquivo: String);
 var
   sl: TStringList;
-  arq, lVal: String;
-  i: Integer;
+  arq: String;
 begin
   arq := Trim(ANomeArquivo);
   if (arq = '') then
@@ -421,18 +428,26 @@ begin
 
   sl := TStringList.Create;
   try
-    for i := 0 to fCampos.Count-1 do
-    begin
-      lVal := fCampos.Informacao[i].AsString;
-      if (not IgnorarVazios) or (lVal <> '') then
-        sl.Values[fCampos.Informacao[i].Nome] := lVal;
-    end;
-
+    SalvarArquivo(sl);
     sl.Sort;
     sl.SaveToFile(arq);
     FlushToDisk(arq);
   finally
     sl.Free;
+  end;
+end;
+
+procedure TACBrTEFTXTArquivo.SalvarArquivo(TheStrings: TStrings);
+var
+  lVal: String;
+  i: Integer;
+begin
+  TheStrings.Clear;
+  for i := 0 to fCampos.Count-1 do
+  begin
+    lVal := fCampos.Informacao[i].AsString;
+    if (not IgnorarVazios) or (lVal <> '') then
+      TheStrings.Values[fCampos.Informacao[i].Nome] := lVal;
   end;
 end;
 
@@ -670,6 +685,7 @@ begin
   inherited;
   fQuandoMudarStatus := Nil;
   fQuandoObterID := Nil;
+  fAntesGravarRequisicao := Nil;
   fStatus := tefstLivre;
   fIdSeq := 0;
 end;
@@ -722,7 +738,7 @@ begin
   Req.Campo[999,999].AsString := '0' ;
 end;
 
-procedure TACBrTEFTXTBaseClass.EnviarRequisicao;
+procedure TACBrTEFTXTBaseClass.EnviarRequisicao(AguardaResposta: Boolean);
 begin
   GravarLog('EnviarRequisicao');
   if (Status <> tefstLivre) then
@@ -737,14 +753,17 @@ begin
     LerArquivoResposta(ArqSts);
     if not VerificarRespostaValida then
       DoException(Format(ACBrStr(CErroRespostaInvalida), [ModeloTEF]));
-
     ApagarArquivoStatus;
-    if not AguardarResposta then
-      DoException(ACBrStr(CErroEsperaDeArquivoInterrompida));
 
-    LerArquivoResposta(ArqResp);
-    if not VerificarRespostaValida then
-      DoException(Format(ACBrStr(CErroRespostaInvalida), [ModeloTEF]));
+    if AguardaResposta then
+    begin
+      if not AguardarResposta then
+        DoException(ACBrStr(CErroEsperaDeArquivoInterrompida));
+
+      LerArquivoResposta(ArqResp);
+      if not VerificarRespostaValida then
+        DoException(Format(ACBrStr(CErroRespostaInvalida), [ModeloTEF]));
+    end;
   finally
     Status := tefstLivre;
   end;
@@ -754,6 +773,9 @@ procedure TACBrTEFTXTBaseClass.GravarRequisicao;
 begin
   GravarLog('GravarRequisicao: '+ArqReq);
   Status := tefstEnviandoRequisicao;
+
+  if Assigned(fAntesGravarRequisicao) then
+    fAntesGravarRequisicao(Req);
 
   GravarLog('  Gravando Temporario: '+ArqTemp);
   Req.SalvarArquivo( ArqTemp );
