@@ -229,10 +229,26 @@ begin
 end;
 
 procedure TACBrTEFAPIClassTXT.InterpretarRespostaAPI;
+var
+  i: Integer;
+  s: String;
+  sl: TStringList;
 begin
   fpACBrTEFAPI.UltimaRespostaTEF.Clear;
-  fTEFTXT.Resp.SalvarArquivo(fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.Conteudo);
-  //D Arrumar espacos
+  sl := TStringList.Create;
+  try
+    fTEFTXT.Resp.SalvarArquivo(sl);
+    for i := 0 to sl.Count-1 do
+    begin
+      s := sl[i];
+      s := StringReplace(s, '=', ' = ', []);
+      sl[i] := s;
+    end;
+
+    fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.Conteudo.Text := sl.Text;
+  finally
+    sl.Free;
+  end;
 
   fpACBrTEFAPI.UltimaRespostaTEF.ConteudoToProperty;
 end;

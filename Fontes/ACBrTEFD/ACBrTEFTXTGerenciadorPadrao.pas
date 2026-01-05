@@ -155,8 +155,8 @@ begin
       26: fpDataHoraTransacaoCancelada := Linha.Informacao.AsTimeStamp;
       27: fpFinalizacao := Linha.Informacao.AsString;
       28: fpQtdLinhasComprovante := Linha.Informacao.AsInteger;
-      30: fpTextoEspecialOperador := Linha.Informacao.AsString;
-      31: fpTextoEspecialCliente := Linha.Informacao.AsString;
+      30: fpTextoEspecialOperador := ACBrStr(Linha.Informacao.AsString);
+      31: fpTextoEspecialCliente := ACBrStr(Linha.Informacao.AsString);
       32: fpAutenticacao := Linha.Informacao.AsString;
       33: fpBanco := Linha.Informacao.AsString;
       34: fpAgencia := Linha.Informacao.AsString;
