@@ -1243,7 +1243,7 @@ var
   LTexto: string;
   PosicoesX: array[0..3] of Integer;
   LCNPJ, LXNome, LXFant, LIE, LXlgr, LNro, LXCpl, LXBairro, LCMun, LXMun, LUF, LCEP, LCPais, LXPais, LFone, LEmail, LNDoc, LTpDocAnt, LCNPJDocAnt, LSerieNumDocAnt: string;
-  cdsDocAnt: TClientDataSet;
+  cdsDocAnt: TACBrDataSet;
 begin
   inherited OnDraw(Args);
   LPDF := Args.PDF;
