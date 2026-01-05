@@ -313,7 +313,13 @@ begin
       proDesenvolve:
         Result := TACBrNFSeProviderDesenvolve203.Create(ACBrNFSe);
 
-      proDigifred: Result := TACBrNFSeProviderDigifred200.Create(ACBrNFSe);
+      proDigifred:
+        begin
+          if APIPropria then
+            Result := TACBrNFSeProviderDigifredAPIPropria.Create(ACBrNFSe)
+          else
+            Result := TACBrNFSeProviderDigifred200.Create(ACBrNFSe);
+        end;
 
       proDSF:
         begin

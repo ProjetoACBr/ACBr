@@ -41,10 +41,16 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
 05/01/2025
+-- ACBrNFSeXGravarXml/ACBrNFSeXProviderManager/PadraoNacional.GravarXml --
+-- Digifred.GravarXml/Digifred.LerXml/Digifred.Provider --
+[*] Alterações nas units do provedor Digifred visando a Reforma Tributária.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicosRTC.ini --
 [*] A cidade Sonora/MS mudou para o provedor PadraoNacional.
-	Por: Comsystem
+   Por: Comsystem
+
 02/01/2026
 -- ACBrNFSeXDANFSeRLRetrato --
 [*] ACBR-8687: Alteração visando não imprimir duas vezes as informações complementares do Padrão Nacional.

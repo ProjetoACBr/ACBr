@@ -39,7 +39,8 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrXmlBase,
-  ACBrNFSeXGravarXml_ABRASFv2;
+  ACBrNFSeXGravarXml_ABRASFv2,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_Digifred200 }
@@ -50,9 +51,19 @@ type
 
   end;
 
+  { TNFSeW_DigifredAPIPropria }
+
+  TNFSeW_DigifredAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
+
+  public
+    function GerarXml: Boolean; override;
+  end;
+
 implementation
 
 uses
+  ACBrXmlDocument,
   ACBrDFe.Conversao;
 
 //==============================================================================
@@ -70,6 +81,43 @@ begin
   FormatoCompetencia := tcDatHor;
   FormatoAliq := tcDe2;
   NrOcorrCodigoPaisServico := -1;
+end;
+
+{ TNFSeW_DigifredAPIPropria }
+
+function TNFSeW_DigifredAPIPropria.GerarXml: Boolean;
+var
+  NFSeNode: TACBrXmlNode;
+begin
+  Configuracao;
+
+  {
+    Alguns dados merecem atenção para não serem confundidos:
+    Os tags "nNFSe" e "nDFSe" devem aparecer no xml, porém, não devem ser preenchidos.
+    Os tags "infNFSe" e "infDPS" devem conter o "Id", este também deve estar vazio.
+    Como no exemplo 'infDPS Id=""' .Os tags "infNFSe" e "infDPS" devem conter o "Id",
+    este também deve estar vazio. Como no exemplo 'infDPS Id=""'.
+    Item de Serviço: A tag "cTribNac" - Item da Lista de Serviços deve ser informado
+    com o código da lista de serviços da Lei Complementar 116/2003 -
+    http://www.planalto.gov.br/ccivil_03/Leis/LCP/Lcp116.htm porém com 6 dígitos,
+    conforme o desdobro que consta na planilha do layout Nacional
+    ANEXO_B-NBS2-LISTA_SERVICO_NACIONAL-SNNFSe-v1.00-20251210 A atualização nos
+    Cadastros de Estabelecimentos, foram realizados por padrão, com desdobro
+    final 00. Após, o Fiscal deverá conferir e ajustar conforme melhor se adequar
+    para cada prestador.
+  }
+  ListaDeAlertas.Clear;
+
+  FDocument.Clear();
+
+  IDNFSeVazio := True;
+  IDDPSVazio := True;
+  GerarIBSCBSNFSe := True;
+
+  NFSeNode := GerarXMLNFSe;
+  FDocument.Root := NFSeNode;
+
+  Result := True;
 end;
 
 end.
