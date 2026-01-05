@@ -12,7 +12,6 @@ uses
   ACBrDFe, ACBrDFeReport, ACBrMail, ACBrNFSeX,
   ACBrXmlBase,
   ACBrDFe.Conversao,
-  pcnConversao,
   ACBrNFSeXConversao,
   ACBrNFSeXWebservicesResponse,
   ACBrNFSeXDANFSeClass, ACBrNFSeXDANFSeRLClass;
@@ -617,7 +616,8 @@ begin
       // TOptanteSN = (osnNaoOptante, osnOptanteMEI, osnOptanteMEEPP)
       OptanteSN := osnOptanteMEI; //osnOptanteMEEPP;
 
-      if ACBrNFSeX1.Configuracoes.Geral.Provedor in [proCitta, proSilTecnologia] then
+      if ACBrNFSeX1.Configuracoes.Geral.Provedor in [proCitta, proSilTecnologia,
+           proDigifred] then
       begin
         {
           Dados necessários para os provedores indicados acima pois eles
@@ -654,6 +654,32 @@ begin
 
         Emitente.Contato.Telefone := '1633445566';
         Emitente.Contato.Email := 'nome@provedor.com';
+      end;
+
+      if ACBrNFSeX1.Configuracoes.Geral.Provedor in [proDigifred] then
+      begin
+        infNFSe.IBSCBS.cLocalidadeIncid := StrToIntDef(edtCodCidade.Text, 0);
+        infNFSe.IBSCBS.xLocalidadeIncid := edtEmitCidade.Text;
+
+        infNFSe.IBSCBS.Valores.vBC := 100;
+
+        infNFSe.IBSCBS.Valores.uf.pIBSUF := 5;
+        infNFSe.IBSCBS.Valores.uf.pRedAliqUF := 5;
+        infNFSe.IBSCBS.Valores.uf.pAliqEfetUF := 5;
+
+        infNFSe.IBSCBS.Valores.mun.pIBSMun := 5;
+        infNFSe.IBSCBS.Valores.mun.pRedAliqMun := 5;
+        infNFSe.IBSCBS.Valores.mun.pAliqEfetMun := 5;
+
+        infNFSe.IBSCBS.Valores.fed.pCBS := 5;
+        infNFSe.IBSCBS.Valores.fed.pRedAliqCBS := 5;
+        infNFSe.IBSCBS.Valores.fed.pAliqEfetCBS := 5;
+
+        infNFSe.IBSCBS.totCIBS.vTotNF := 100;
+        infNFSe.IBSCBS.totCIBS.gIBS.vIBSTot := 100;
+        infNFSe.IBSCBS.totCIBS.gIBS.gIBSUFTot.vIBSUF := 100;
+        infNFSe.IBSCBS.totCIBS.gIBS.gIBSMunTot.vIBSMun := 100;
+        infNFSe.IBSCBS.totCIBS.gCBS.vCBS := 100;
       end;
 
       {=========================================================================
@@ -1028,7 +1054,7 @@ begin
       // snSim = Ambiente de Produção
       // snNao = Ambiente de Homologação
       {=== Usado pelo provedor Infisc, eGoverneISS ===}
-      if ACBrNFSeX1.Configuracoes.WebServices.Ambiente = TpcnTipoAmbiente(taProducao) then
+      if ACBrNFSeX1.Configuracoes.WebServices.Ambiente = taProducao then
         Producao := snSim
       else
         Producao := snNao;
@@ -1260,7 +1286,13 @@ begin
       end;
 
       // Provedor SigISSWeb
-      Servico.CodigoNBS := '123456789';
+      Servico.CodigoNBS := '';//'123456789';
+
+      if ACBrNFSeX1.Configuracoes.Geral.Provedor = proGeisWeb then
+      begin
+        Servico.CodigoNCM := '123';
+        Servico.CodigoNBS := '123456789';
+      end;
 
       Servico.Discriminacao := 'discriminacao I' +
         ACBrNFSeX1.Configuracoes.WebServices.QuebradeLinha +
@@ -1359,7 +1391,7 @@ begin
       Tomador.IdentificacaoTomador.CpfCnpj := '12345678901';
       Tomador.IdentificacaoTomador.InscricaoMunicipal := '';
       Tomador.IdentificacaoTomador.InscricaoEstadual := '';
-      Tomador.IdentificacaoTomador.Nif := '';
+      Tomador.IdentificacaoTomador.Nif := '123';
       // (tnnNaoInformado, tnnDispensado, tnnNaoExigencia);
       Tomador.IdentificacaoTomador.cNaoNIF := tnnDispensado;
 
@@ -1530,7 +1562,7 @@ begin
         // cp11, cp12, cp13
         IBSCBS.valores.trib.gIBSCBS.cCredPres := cpNenhum;
 
-        IBSCBS.valores.trib.gIBSCBS.gTribRegular.CSTReg := cstNenhum;
+        IBSCBS.valores.trib.gIBSCBS.gTribRegular.CSTReg := cst000;
         IBSCBS.valores.trib.gIBSCBS.gTribRegular.cClassTribReg := '';
 
         IBSCBS.valores.trib.gIBSCBS.gDif.pDifUF := 0.1;
@@ -1960,8 +1992,8 @@ begin
       Servico.CodigoPais := 1058; // Brasil
       Servico.MunicipioIncidencia := StrToIntDef(edtCodCidade.Text, 0);
 
-      // Provedor ISSSalvador
-      if ACBrNFSeX1.Configuracoes.Geral.Provedor = proISSSalvador then
+      if ACBrNFSeX1.Configuracoes.Geral.Provedor in [proISSSalvador,
+           proSilTecnologia] then
       begin
         Servico.CodigoNBS := '115021000';
         Servico.cClassTrib := '000001';
@@ -2195,6 +2227,24 @@ begin
         IBSCBS.valores.trib.gIBSCBS.gDif.pDifUF := 5;
         IBSCBS.valores.trib.gIBSCBS.gDif.pDifMun := 5;
         IBSCBS.valores.trib.gIBSCBS.gDif.pDifCBS := 5;
+
+        if ACBrNFSeX1.Configuracoes.Geral.Provedor in [proSpeedGov] then
+        begin
+          infNFSe.IBSCBS.valores.uf.pIBSUF := IBSCBS.valores.IbsEstadual;
+          infNFSe.IBSCBS.valores.uf.pRedAliqUF := 0;
+          infNFSe.IBSCBS.valores.uf.pAliqEfetUF := 0.1;
+          infNFSe.IBSCBS.valores.mun.pIBSMun := IBSCBS.valores.IbsMunicipal;
+          infNFSe.IBSCBS.valores.mun.pAliqEfetMun := 0;
+          infNFSe.IBSCBS.valores.mun.pRedAliqMun := 0;
+          infNFSe.IBSCBS.valores.fed.pCBS := 0.9;
+          infNFSe.IBSCBS.valores.fed.pRedAliqCBS := 0;
+          infNFSe.IBSCBS.valores.fed.pAliqEfetCBS := 0.9;
+          infNFSe.IBSCBS.cLocalidadeIncid := StrToInt(Servico.CodigoTributacaoMunicipio);
+          infNFSe.IBSCBS.xLocalidadeIncid := 'SAO PAULO';
+
+          Servico.Valores.ValorTotalNotaFiscal := Servico.Valores.ValorServicos + IBSCBS.valores.ValorIbsEstadual +
+            IBSCBS.valores.ValorIbsMunicipal + IBSCBS.valores.ValorCbs;
+        end;
       end;
     end;
   end;
@@ -5544,7 +5594,7 @@ var
     end;
   end;
 begin
-  Ambiente := TpAmbToStr(ACBrNFSeX1.Configuracoes.WebServices.Ambiente);
+  Ambiente := TipoAmbienteToStr(ACBrNFSeX1.Configuracoes.WebServices.Ambiente);
 
   if Ambiente = '1' then
     Ambiente := Ambiente + ' - Produção'
@@ -6179,7 +6229,7 @@ begin
     ExibirErroSchema := cbxExibirErroSchema.Checked;
     RetirarAcentos   := cbxRetirarAcentos.Checked;
     FormatoAlerta    := edtFormatoAlerta.Text;
-    FormaEmissao     := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
+    FormaEmissao     := TACBrTipoEmissao(cbFormaEmissao.ItemIndex);
 
     FormatoDiscriminacao := TFormatoDiscriminacao(cbFormatoDiscr.ItemIndex);
 
@@ -6226,7 +6276,7 @@ begin
     // Redefini a quebra de linha que por padrão é "|'
 //    QuebradeLinha := ';';
 
-    Ambiente   := StrToTpAmb(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
+    Ambiente   := StrToTipoAmbiente(IntToStr(rgTipoAmb.ItemIndex+1));
     Visualizar := cbxVisualizar.Checked;
     Salvar     := chkSalvarSOAP.Checked;
     UF         := edtEmitUF.Text;
@@ -6271,11 +6321,12 @@ begin
     PathSalvar       := PathMensal;
 
     Ano2026 := True;
-
+    {
     if Ano2026 then
-      IniServicos := 'C:\ACBr\trunk2\Exemplos\ACBrDFe\ACBrNFSeX\Delphi\ACBrNFSeXServicosRTC.ini'
+      IniServicos := 'C:\ACBr\trunk2\Fontes\ACBrDFe\ACBrNFSeX\ACBrNFSeXServicosRTC.ini'
     else
       IniServicos := '';
+    }
   end;
 
   if ACBrNFSeX1.DANFSE <> nil then
