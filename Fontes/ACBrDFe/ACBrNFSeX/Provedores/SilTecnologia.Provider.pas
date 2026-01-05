@@ -39,6 +39,7 @@ interface
 uses
   SysUtils, Classes,
   ACBrXmlBase,
+  ACBrDFe.Conversao,
   ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
   ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
   ACBrNFSeXWebserviceBase,
@@ -102,10 +103,10 @@ type
 
   public
     function GerarNFSe(const ACabecalho, AMSG: string): string; override;
+    function EnviarEvento(const ACabecalho, AMSG: string): string; override;
   {
     function ConsultarNFSePorRps(const ACabecalho, AMSG: string): string; override;
     function ConsultarNFSePorChave(const ACabecalho, AMSG: string): string; override;
-    function EnviarEvento(const ACabecalho, AMSG: string): string; override;
     function ConsultarEvento(const ACabecalho, AMSG: string): string; override;
     function ConsultarDFe(const ACabecalho, AMSG: string): string; override;
     function ConsultarParam(const ACabecalho, AMSG: string): string; override;
@@ -137,15 +138,16 @@ type
 
     procedure PrepararEmitir(Response: TNFSeEmiteResponse); override;
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
+
+    procedure PrepararEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
+    procedure TratarRetornoEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
+
     {
     procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
     procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
 
     procedure PrepararConsultaNFSeporChave(Response: TNFSeConsultaNFSeResponse); override;
     procedure TratarRetornoConsultaNFSeporChave(Response: TNFSeConsultaNFSeResponse); override;
-
-    procedure PrepararEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
-    procedure TratarRetornoEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
 
     procedure PrepararConsultarEvento(Response: TNFSeConsultarEventoResponse); override;
     procedure TratarRetornoConsultarEvento(Response: TNFSeConsultarEventoResponse); override;
@@ -169,9 +171,10 @@ type
 implementation
 
 uses
-  ACBrDFe.Conversao,
   ACBrUtil.XMLHTML,
   ACBrUtil.Strings,
+  ACBrUtil.Base,
+  ACBrUtil.DateTime,
   ACBrDFeException,
   ACBrNFSeX,
   ACBrNFSeXNotasFiscais,
@@ -608,7 +611,29 @@ begin
     ['xmlns:nfse="http://webservices.sil.com/"']);
 end;
 
-{ TACBrNFSeProviderPadraoNacionalAPIPropria }
+function TACBrNFSeXWebserviceSilTecnologiaAPIPropria.EnviarEvento(
+  const ACabecalho, AMSG: string): string;
+var
+  Request, aTag: string;
+begin
+  FPMsgOrig := AMSG;
+
+  Request := RemoverDeclaracaoXML(AMSG);
+
+  if Pos('e105102', Request) > 0 then
+    aTag := 'NotaFiscalNacionalSubstituir'
+  else
+    aTag := 'NotaFiscalNacionalCancelar';
+
+  Request := '<nfse:' + aTag + '>' +
+               '<xml>' + IncluirCDATA(Request) + '</xml>' +
+             '</nfse:' + aTag + '>';
+
+  Result := Executar('', Request, ['return', 'Retorno'],
+    ['xmlns:nfse="http://webservices.sil.com/"']);
+end;
+
+{ TACBrNFSeProviderSilTecnologiaAPIPropria }
 
 procedure TACBrNFSeProviderSilTecnologiaAPIPropria.Configuracao;
 var
@@ -658,8 +683,8 @@ begin
     XmlRps.InfElemento := 'infNFSe';
     XmlRps.DocElemento := 'NFSe';
 
-    EnviarEvento.InfElemento := 'infPedReg';
-    EnviarEvento.DocElemento := 'pedRegEvento';
+    EnviarEvento.InfElemento := 'evento ';
+    EnviarEvento.DocElemento := 'evento ';
   end;
 
   with ConfigAssinar do
@@ -916,6 +941,171 @@ end;
 
 procedure TACBrNFSeProviderSilTecnologiaAPIPropria.TratarRetornoEmitir(
   Response: TNFSeEmiteResponse);
+var
+  Document: TACBrXmlDocument;
+  AErro: TNFSeEventoCollectionItem;
+  ANode: TACBrXmlNode;
+begin
+  Document := TACBrXmlDocument.Create;
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit
+      end;
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+
+      ProcessarMensagemErros(Document.Root, Response);
+
+      ANode := Document.Root;
+
+      Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
+      Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('protocolo'), tcStr);
+      Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('status'), tcStr);
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
+  end;
+end;
+
+procedure TACBrNFSeProviderSilTecnologiaAPIPropria.PrepararEnviarEvento(
+  Response: TNFSeEnviarEventoResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+  xEvento, xUF, xAutorEvento, IdAttrPRE, IdAttrEVT, xCamposEvento, nomeArq,
+  CnpjCpf: string;
+begin
+  with Response.InfEvento.pedRegEvento do
+  begin
+    if chNFSe = '' then
+    begin
+      AErro := Response.Erros.New;
+      AErro.Codigo := Cod004;
+      AErro.Descricao := ACBrStr(Desc004);
+    end;
+
+    if Response.Erros.Count > 0 then Exit;
+
+    xUF := TACBrNFSeX(FAOwner).Configuracoes.WebServices.UF;
+
+    CnpjCpf := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+    if Length(CnpjCpf) < 14 then
+    begin
+      xAutorEvento := '<CPFAutor>' +
+                        CnpjCpf +
+                      '</CPFAutor>';
+    end
+    else
+    begin
+      xAutorEvento := '<CNPJAutor>' +
+                        CnpjCpf +
+                      '</CNPJAutor>';
+    end;
+
+    ID := chNFSe + OnlyNumber(tpEventoToStr(tpEvento)) +
+              FormatFloat('000', nPedRegEvento);
+
+    IdAttrPRE := 'Id="' + 'PRE' + ID + '"';
+    IdAttrEVT := 'Id="' + 'EVT' + ID + '"';
+
+    case tpEvento of
+      teCancelamento:
+        xCamposEvento := '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
+                         '<xMotivo>' + xMotivo + '</xMotivo>';
+
+      teCancelamentoSubstituicao:
+        xCamposEvento := '<cMotivo>' + Formatfloat('00', cMotivo) + '</cMotivo>' +
+                         '<xMotivo>' + xMotivo + '</xMotivo>' +
+                         '<chSubstituta>' + chSubstituta + '</chSubstituta>';
+
+      teAnaliseParaCancelamento:
+        xCamposEvento := '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
+                         '<xMotivo>' + xMotivo + '</xMotivo>';
+
+      teRejeicaoPrestador:
+        xCamposEvento := '<infRej>' +
+                           '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
+                           '<xMotivo>' + xMotivo + '</xMotivo>' +
+                         '</infRej>';
+
+      teRejeicaoTomador:
+        xCamposEvento := '<infRej>' +
+                           '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
+                           '<xMotivo>' + xMotivo + '</xMotivo>' +
+                         '</infRej>';
+
+      teRejeicaoIntermediario:
+        xCamposEvento := '<infRej>' +
+                           '<cMotivo>' + IntToStr(cMotivo) + '</cMotivo>' +
+                           '<xMotivo>' + xMotivo + '</xMotivo>' +
+                         '</infRej>';
+    else
+      // teConfirmacaoPrestador, teConfirmacaoTomador,
+      // ConfirmacaoIntermediario
+      xCamposEvento := '';
+    end;
+
+    xEvento := '<pedRegEvento xmlns="' + ConfigMsgDados.EnviarEvento.xmlns +
+                           '" versao="' + ConfigWebServices.VersaoAtrib + '">' +
+                 '<infPedReg ' + IdAttrPRE + '>' +
+                   '<tpAmb>' + IntToStr(tpAmb) + '</tpAmb>' +
+                   '<verAplic>' + verAplic + '</verAplic>' +
+                   '<dhEvento>' +
+                     FormatDateTime('yyyy-mm-dd"T"hh:nn:ss', dhEvento) +
+                     GetUTC(xUF, dhEvento) +
+                   '</dhEvento>' +
+                   xAutorEvento +
+                   '<chNFSe>' + chNFSe + '</chNFSe>' +
+                   '<' + tpEventoToStr(tpEvento) + '>' +
+                     '<xDesc>' + tpEventoToDesc(tpEvento) + '</xDesc>' +
+                     xCamposEvento +
+                   '</' + tpEventoToStr(tpEvento) + '>' +
+                 '</infPedReg>' +
+               '</pedRegEvento>';
+
+    xEvento := '<evento xmlns="' + ConfigMsgDados.EnviarEvento.xmlns +
+                           '" versao="' + ConfigWebServices.VersaoAtrib + '">' +
+                 '<infEvento ' + IdAttrEVT + '>' +
+                   '<verAplic>' + verAplic + '</verAplic>' +
+                   '<ambGer>' + '1' + '</ambGer>' +
+                   '<nSeqEvento>' + '001' + '</nSeqEvento>' +
+                   '<dhProc>' +
+                     FormatDateTime('yyyy-mm-dd"T"hh:nn:ss', dhEvento) +
+                     GetUTC(xUF, dhEvento) +
+                   '</dhProc>' +
+                   '<nDFSe>' + '0' + '</nDFSe>' +
+                    xEvento +
+                 '</infEvento>' +
+               '</evento>';
+
+    xEvento := ConverteXMLtoUTF8(xEvento);
+    xEvento := ChangeLineBreak(xEvento, '');
+
+    xEvento := FAOwner.SSL.Assinar(xEvento,
+                                   ConfigMsgDados.EnviarEvento.InfElemento,
+                                   ConfigMsgDados.EnviarEvento.DocElemento,
+                                   '', '', '', IdAttrEVT);
+    Response.ArquivoEnvio := xEvento;
+
+    nomeArq := '';
+    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq);
+    Response.PathNome := nomeArq;
+  end;
+end;
+
+procedure TACBrNFSeProviderSilTecnologiaAPIPropria.TratarRetornoEnviarEvento(
+  Response: TNFSeEnviarEventoResponse);
 var
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
