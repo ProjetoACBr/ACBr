@@ -1,33 +1,33 @@
 {******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
-{  Biblioteca multiplataforma de componentes Delphi para intera√ß√£o com equipa- }
-{ mentos de Automa√ß√£o Comercial utilizados no Brasil                           }
+{  Biblioteca multiplataforma de componentes Delphi para interaÁ„o com equipa- }
+{ mentos de AutomaÁ„o Comercial utilizados no Brasil                           }
 {                                                                              }
 { Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 {                                                                              }
-{  Voc√™ pode obter a √∫ltima vers√£o desse arquivo na pagina do  Projeto ACBr    }
+{  VocÍ pode obter a ˙ltima vers„o desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
 {                                                                              }
-{  Esta biblioteca √© software livre; voc√™ pode redistribu√≠-la e/ou modific√°-la }
-{ sob os termos da Licen√ßa P√∫blica Geral Menor do GNU conforme publicada pela  }
-{ Free Software Foundation; tanto a vers√£o 2.1 da Licen√ßa, ou (a seu crit√©rio) }
-{ qualquer vers√£o posterior.                                                   }
+{  Esta biblioteca È software livre; vocÍ pode redistribuÌ-la e/ou modific·-la }
+{ sob os termos da LicenÁa P˙blica Geral Menor do GNU conforme publicada pela  }
+{ Free Software Foundation; tanto a vers„o 2.1 da LicenÁa, ou (a seu critÈrio) }
+{ qualquer vers„o posterior.                                                   }
 {                                                                              }
-{  Esta biblioteca √© distribu√≠da na expectativa de que seja √∫til, por√©m, SEM   }
-{ NENHUMA GARANTIA; nem mesmo a garantia impl√≠cita de COMERCIABILIDADE OU      }
-{ ADEQUA√á√ÉO A UMA FINALIDADE ESPEC√çFICA. Consulte a Licen√ßa P√∫blica Geral Menor}
-{ do GNU para mais detalhes. (Arquivo LICEN√áA.TXT ou LICENSE.TXT)              }
+{  Esta biblioteca È distribuÌda na expectativa de que seja ˙til, porÈm, SEM   }
+{ NENHUMA GARANTIA; nem mesmo a garantia implÌcita de COMERCIABILIDADE OU      }
+{ ADEQUA«√O A UMA FINALIDADE ESPECÕFICA. Consulte a LicenÁa P˙blica Geral Menor}
+{ do GNU para mais detalhes. (Arquivo LICEN«A.TXT ou LICENSE.TXT)              }
 {                                                                              }
-{  Voc√™ deve ter recebido uma c√≥pia da Licen√ßa P√∫blica Geral Menor do GNU junto}
-{ com esta biblioteca; se n√£o, escreva para a Free Software Foundation, Inc.,  }
-{ no endere√ßo 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
-{ Voc√™ tamb√©m pode obter uma copia da licen√ßa em:                              }
+{  VocÍ deve ter recebido uma cÛpia da LicenÁa P˙blica Geral Menor do GNU junto}
+{ com esta biblioteca; se n„o, escreva para a Free Software Foundation, Inc.,  }
+{ no endereÁo 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
+{ VocÍ tambÈm pode obter uma copia da licenÁa em:                              }
 { http://www.opensource.org/licenses/lgpl-license.php                          }
 {                                                                              }
-{ Daniel Sim√µes de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
-{       Rua Coronel Aureliano de Camargo, 963 - Tatu√≠ - SP - 18270-170         }
+{ Daniel Simıes de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
+{       Rua Coronel Aureliano de Camargo, 963 - TatuÌ - SP - 18270-170         }
 {******************************************************************************}
 
 unit ACBrTEFAPITXT;
@@ -42,7 +42,7 @@ uses
   ACBrTEFComum, ACBrTEFAPI, ACBrTEFAPIComum, ACBrTEFTXTComum, ACBrTEFTXTGerenciadorPadrao;
 
 resourcestring
-  CINFOTEFTXT_EnviandoRequisicao = 'Enviando Requisi√ß√£o';
+  CINFOTEFTXT_EnviandoRequisicao = 'Enviando RequisiÁ„o';
   CINFOTEFTXT_AguardandoSts = 'Aguardando Status';
   CINFOTEFTXT_AguardandoResp ='Aguardando Resposta';
 
@@ -219,9 +219,9 @@ var
 begin
   msg := '';
   case fTEFTXT.Status of
-    tefstEnviandoRequisicao: msg := CINFOTEFTXT_EnviandoRequisicao;
-    tefstAguardandoSts: msg := CINFOTEFTXT_AguardandoSts;
-    tefstAguardandoResp: msg := CINFOTEFTXT_AguardandoResp;
+    tefstEnviandoRequisicao: msg := ACBrStr(CINFOTEFTXT_EnviandoRequisicao);
+    tefstAguardandoSts: msg := ACBrStr(CINFOTEFTXT_AguardandoSts);
+    tefstAguardandoResp: msg := ACBrStr(CINFOTEFTXT_AguardandoResp);
   end;
 
   fAguardandoResposta := (fTEFTXT.Status in [tefstAguardandoSts, tefstAguardandoResp]);
@@ -229,27 +229,9 @@ begin
 end;
 
 procedure TACBrTEFAPIClassTXT.InterpretarRespostaAPI;
-var
-  i: Integer;
-  s: String;
-  sl: TStringList;
 begin
   fpACBrTEFAPI.UltimaRespostaTEF.Clear;
-  sl := TStringList.Create;
-  try
-    fTEFTXT.Resp.SalvarArquivo(sl);
-    for i := 0 to sl.Count-1 do
-    begin
-      s := sl[i];
-      s := StringReplace(s, '=', ' = ', []);
-      sl[i] := s;
-    end;
-
-    fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.Conteudo.Text := sl.Text;
-  finally
-    sl.Free;
-  end;
-
+  fTEFTXT.Resp.SalvarArquivo(fpACBrTEFAPI.UltimaRespostaTEF.Conteudo.Conteudo);
   fpACBrTEFAPI.UltimaRespostaTEF.ConteudoToProperty;
 end;
 

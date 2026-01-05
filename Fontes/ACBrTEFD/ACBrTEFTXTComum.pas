@@ -1,33 +1,33 @@
 {******************************************************************************}
 { Projeto: Componentes ACBr                                                    }
-{  Biblioteca multiplataforma de componentes Delphi para intera√ß√£o com equipa- }
-{ mentos de Automa√ß√£o Comercial utilizados no Brasil                           }
+{  Biblioteca multiplataforma de componentes Delphi para interaÁ„o com equipa- }
+{ mentos de AutomaÁ„o Comercial utilizados no Brasil                           }
 {                                                                              }
 { Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
 {                                                                              }
 { Colaboradores nesse arquivo:                                                 }
 {                                                                              }
-{  Voc√™ pode obter a √∫ltima vers√£o desse arquivo na pagina do  Projeto ACBr    }
+{  VocÍ pode obter a ˙ltima vers„o desse arquivo na pagina do  Projeto ACBr    }
 { Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
 {                                                                              }
-{  Esta biblioteca √© software livre; voc√™ pode redistribu√≠-la e/ou modific√°-la }
-{ sob os termos da Licen√ßa P√∫blica Geral Menor do GNU conforme publicada pela  }
-{ Free Software Foundation; tanto a vers√£o 2.1 da Licen√ßa, ou (a seu crit√©rio) }
-{ qualquer vers√£o posterior.                                                   }
+{  Esta biblioteca È software livre; vocÍ pode redistribuÌ-la e/ou modific·-la }
+{ sob os termos da LicenÁa P˙blica Geral Menor do GNU conforme publicada pela  }
+{ Free Software Foundation; tanto a vers„o 2.1 da LicenÁa, ou (a seu critÈrio) }
+{ qualquer vers„o posterior.                                                   }
 {                                                                              }
-{  Esta biblioteca √© distribu√≠da na expectativa de que seja √∫til, por√©m, SEM   }
-{ NENHUMA GARANTIA; nem mesmo a garantia impl√≠cita de COMERCIABILIDADE OU      }
-{ ADEQUA√á√ÉO A UMA FINALIDADE ESPEC√çFICA. Consulte a Licen√ßa P√∫blica Geral Menor}
-{ do GNU para mais detalhes. (Arquivo LICEN√áA.TXT ou LICENSE.TXT)              }
+{  Esta biblioteca È distribuÌda na expectativa de que seja ˙til, porÈm, SEM   }
+{ NENHUMA GARANTIA; nem mesmo a garantia implÌcita de COMERCIABILIDADE OU      }
+{ ADEQUA«√O A UMA FINALIDADE ESPECÕFICA. Consulte a LicenÁa P˙blica Geral Menor}
+{ do GNU para mais detalhes. (Arquivo LICEN«A.TXT ou LICENSE.TXT)              }
 {                                                                              }
-{  Voc√™ deve ter recebido uma c√≥pia da Licen√ßa P√∫blica Geral Menor do GNU junto}
-{ com esta biblioteca; se n√£o, escreva para a Free Software Foundation, Inc.,  }
-{ no endere√ßo 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
-{ Voc√™ tamb√©m pode obter uma copia da licen√ßa em:                              }
+{  VocÍ deve ter recebido uma cÛpia da LicenÁa P˙blica Geral Menor do GNU junto}
+{ com esta biblioteca; se n„o, escreva para a Free Software Foundation, Inc.,  }
+{ no endereÁo 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
+{ VocÍ tambÈm pode obter uma copia da licenÁa em:                              }
 { http://www.opensource.org/licenses/lgpl-license.php                          }
 {                                                                              }
-{ Daniel Sim√µes de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
-{       Rua Coronel Aureliano de Camargo, 963 - Tatu√≠ - SP - 18270-170         }
+{ Daniel Simıes de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
+{       Rua Coronel Aureliano de Camargo, 963 - TatuÌ - SP - 18270-170         }
 {******************************************************************************}
 
 unit ACBrTEFTXTComum;
@@ -53,20 +53,20 @@ const
   CACBRTEFTXT_ARQRESP = 'IntPos.001';
 
 resourcestring
-  CErroLinhaArquivoTEFInvalida = 'Linha inv√°lida para Arquivo TEF';
-  CErroNomeArquivoNaoDefinido = 'Nome de Arquivo n√£o definido';
-  CErroNomeArquivoNaoExiste = 'Arquivo %s n√£o existe';
-  CErroNomeArquivoJaExiste = 'Arquivo %s j√° existe';
-  CErroDiretorioEstaVazio = 'Diret√≥rio de %s n√£o pode ser vazio';
-  CErroOperacaoInvalida = 'Opera√ß√£o %s inv√°lida para o TEF %s';
-  CErroValorInvalidoParaOCampo = 'Valor %s inv√°lido para o campo %s';
+  CErroLinhaArquivoTEFInvalida = 'Linha inv·lida para Arquivo TEF';
+  CErroNomeArquivoNaoDefinido = 'Nome de Arquivo n„o definido';
+  CErroNomeArquivoNaoExiste = 'Arquivo %s n„o existe';
+  CErroNomeArquivoJaExiste = 'Arquivo %s j· existe';
+  CErroDiretorioEstaVazio = 'DiretÛrio de %s n„o pode ser vazio';
+  CErroOperacaoInvalida = 'OperaÁ„o %s inv·lida para o TEF %s';
+  CErroValorInvalidoParaOCampo = 'Valor %s inv·lido para o campo %s';
   CErroApagarArquivo = 'Erro ao apagar o arquivo: %s';
   CErroRenomearArquivo = 'Erro ao Renomear:' + sLineBreak + '%s para:' + sLineBreak + '%s';
 
-  CErroGerenciadorNaoResponde = 'Gerenciador %s n√£o est√° respondendo';
-  CErroRespostaInvalida = 'Resposta do %s, inv√°lida';
-  CErroAguardandoRequisicaoAnterior = 'Requisi√ß√£o anterior n√£o concluida';
-  CErroEsperaDeArquivoInterrompida = 'Espera de Resposta interrompida pelo usu√°rio';
+  CErroGerenciadorNaoResponde = '%s n„o est· respondendo';
+  CErroRespostaInvalida = 'Resposta do %s, inv·lida';
+  CErroAguardandoRequisicaoAnterior = 'RequisiÁ„o anterior n„o concluida';
+  CErroEsperaDeArquivoInterrompida = 'Espera de Resposta interrompida pelo usu·rio';
 
   CInfoAguardandoResposta = 'Aguardando Resposta do %s (%s)';
 
@@ -159,6 +159,7 @@ type
     property ArqResp: String read fArqResp write SetArqResp;
 
     property ArqLog: String read fArqLog write SetArqLog;
+    //TODO criar LogLevel e gravar conte˙do dos arquivos
   end;
 
 
@@ -447,7 +448,7 @@ begin
   begin
     lVal := fCampos.Informacao[i].AsString;
     if (not IgnorarVazios) or (lVal <> '') then
-      TheStrings.Values[fCampos.Informacao[i].Nome] := lVal;
+      TheStrings.Add(fCampos.Informacao[i].Nome + ' = ' + lVal);
   end;
 end;
 
@@ -848,7 +849,7 @@ begin
     if not Result then
     begin
       TempoRestante := SecondSpan(Now, TempoFimEspera);
-      GravarLog('  Tempo Restante: '+FormatFloat('##0.000',TempoRestante)+' segundos');
+      GravarLog('  Tempo Restante: '+FormatFloat('##0',TempoRestante)+' segundos');
       if Assigned(QuandoAguardarArquivo) then
       begin
         QuandoAguardarArquivo(ArqSts, TempoRestante, Interromper);
@@ -879,7 +880,7 @@ begin
     if not Result then
     begin
       TempoPassado := SecondSpan(TempoInicio, Now);
-      GravarLog('  Tempo Passado: '+FormatFloat('##0.000',TempoPassado)+' segundos');
+      GravarLog('  Tempo Passado: '+FormatFloat('##0',TempoPassado)+' segundos');
       if Assigned(QuandoAguardarArquivo) then
       begin
         QuandoAguardarArquivo(ArqResp, -TempoPassado, Interromper);
