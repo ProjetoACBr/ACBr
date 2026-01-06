@@ -1940,6 +1940,8 @@ begin
         proSiapSistemas:
           // código padrão ABRASF acrescido de um sub-item
           Servico.ItemListaServico := '01.05.00';
+        proISSNatal:
+          Servico.ItemListaServico := '010500';
       else
         // código padrão da ABRASF
         Servico.ItemListaServico := '09.01';
@@ -1993,7 +1995,7 @@ begin
       Servico.MunicipioIncidencia := StrToIntDef(edtCodCidade.Text, 0);
 
       if ACBrNFSeX1.Configuracoes.Geral.Provedor in [proISSSalvador,
-           proSilTecnologia] then
+           proSilTecnologia, proISSNatal] then
       begin
         Servico.CodigoNBS := '115021000';
         Servico.cClassTrib := '000001';
@@ -2130,7 +2132,7 @@ begin
         IBSCBS.tpEnteGov := tcgNenhum;
         // idTomadorAdquirenteDestinatarioIguais, idTomadorAdquirenteIguais,
         IBSCBS.indDest := idTomadorAdquirenteDestinatarioIguais;
-
+        {
         IBSCBS.dest.CNPJCPF := '12345678901';
         IBSCBS.dest.Nif := '';
         IBSCBS.dest.cNaoNIF := tnnNaoInformado;
@@ -2143,7 +2145,8 @@ begin
         IBSCBS.dest.ender.nro := '100';
         IBSCBS.dest.ender.xCpl := '';
         IBSCBS.dest.ender.xBairro := 'CENTRO';
-
+        }
+        {
         IBSCBS.imovel.inscImobFisc := '12345678901';
         IBSCBS.imovel.cCIB := '12345678';
         IBSCBS.imovel.ender.cep := '14800000';
@@ -2154,7 +2157,7 @@ begin
         IBSCBS.imovel.ender.nro := '100';
         IBSCBS.imovel.ender.xCpl := '';
         IBSCBS.imovel.ender.xBairro := 'CENTRO';
-
+        }
         with IBSCBS.valores.gReeRepRes.documentos.New do
         begin
           {
@@ -2228,7 +2231,8 @@ begin
         IBSCBS.valores.trib.gIBSCBS.gDif.pDifMun := 5;
         IBSCBS.valores.trib.gIBSCBS.gDif.pDifCBS := 5;
 
-        if ACBrNFSeX1.Configuracoes.Geral.Provedor in [proSpeedGov] then
+        if ACBrNFSeX1.Configuracoes.Geral.Provedor in [proSpeedGov,
+             proISSNatal] then
         begin
           infNFSe.IBSCBS.valores.uf.pIBSUF := IBSCBS.valores.IbsEstadual;
           infNFSe.IBSCBS.valores.uf.pRedAliqUF := 0;
@@ -6321,12 +6325,11 @@ begin
     PathSalvar       := PathMensal;
 
     Ano2026 := True;
-    {
+
     if Ano2026 then
       IniServicos := 'C:\ACBr\trunk2\Fontes\ACBrDFe\ACBrNFSeX\ACBrNFSeXServicosRTC.ini'
     else
       IniServicos := '';
-    }
   end;
 
   if ACBrNFSeX1.DANFSE <> nil then
