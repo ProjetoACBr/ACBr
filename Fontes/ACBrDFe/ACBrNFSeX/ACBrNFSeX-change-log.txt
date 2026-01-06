@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/01/2026
+-- ACBrNFSeXGravarXml/ISSNatal.GravarXml --
+[*] ACBR-8681: Ajustes no provedor ISSNatal para atender a Reforma Tributária
+   Por: Italo Giurizzato Junior
 -- Tinus.Provider --
 [*] ACBR-8684: Ajustes no provedor Tinus para atender a Reforma Tributária
    Por: Italo Giurizzato Junior

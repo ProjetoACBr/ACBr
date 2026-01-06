@@ -148,7 +148,7 @@ type
     function ObterNomeMunicipioUF(ACodigoMunicipio: Integer; var xUF: string): string;
 
     // Reforma Tributária
-    function GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode;
+    function GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode; virtual;
     function GerarXMLgRefNFSe(gRefNFSe: TgRefNFSeCollection): TACBrXmlNode;
 
     function GerarXMLDestinatario(Dest: TDadosdaPessoa): TACBrXmlNode; virtual;

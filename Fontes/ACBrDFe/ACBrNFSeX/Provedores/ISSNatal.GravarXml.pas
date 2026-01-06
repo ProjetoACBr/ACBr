@@ -38,6 +38,9 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
+  ACBrXmlDocument,
+  ACBrDFe.Conversao,
+  ACBrNFSeXClass,
   ACBrNFSeXGravarXml_ABRASFv1;
 
 type
@@ -47,9 +50,26 @@ type
   protected
     procedure Configuracao; override;
 
+    function GerarServico: TACBrXmlNode; override;
+    function GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode; override;
+    function GerarXMLResumo: TACBrXmlNode;
+    function GerarXMLIBSCBSValores(Valores: TvaloresIBSCBS): TACBrXmlNode;
+    function GerarXMLIBSCBSValoresUF(ValoresUF: TUF): TACBrXmlNode;
+    function GerarXMLIBSCBSValoresMun(ValoresMun: TMun): TACBrXmlNode;
+    function GerarXMLIBSCBSValoresFed(ValoresFed: TFed): TACBrXmlNode;
+    function GerarXMLIBSCBSTotCIBS(totCIBS: TtotCIBS): TACBrXmlNode;
+    function GerarXMLIBSCBSTotCIBSgIBS(gIBS: TgIBS): TACBrXmlNode;
+    function GerarXMLIBSCBSTotCIBSgIBSUFTot(gIBSUFTot: TgIBSUFTot): TACBrXmlNode;
+    function GerarXMLIBSCBSTotCIBSgIBSMunTot(gIBSMunTot: TgIBSMunTot): TACBrXmlNode;
+    function GerarXMLIBSCBSTotCIBSgCBS(gCBS: TgCBS): TACBrXmlNode;
+
+
   end;
 
 implementation
+
+uses
+  ACBrUtil.Strings;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva gerar o XML do RPS do provedor:
@@ -64,6 +84,161 @@ begin
 
   NrOcorrBaseCalc := 1;
   DivAliq100 := True;
+end;
+
+function TNFSeW_ISSNatal.GerarServico: TACBrXmlNode;
+begin
+  Result := inherited GerarServico;
+
+  Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNbs', 1, 9, 1,
+                                       OnlyNumber(NFSe.Servico.CodigoNBS), ''));
+
+  // Reforma Tributária
+  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+     (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
+    Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
+end;
+
+function TNFSeW_ISSNatal.GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode;
+begin
+  Result := inherited GerarXMLIBSCBS(IBSCBS);
+
+  Result.AppendChild(GerarXMLResumo);
+end;
+
+function TNFSeW_ISSNatal.GerarXMLResumo: TACBrXmlNode;
+begin
+  Result := CreateElement('resumo');
+
+  Result.AppendChild(AddNode(tcInt, '#1', 'cLocalidadeIncid', 7, 7, 1,
+                                     NFSe.infNFSe.IBSCBS.cLocalidadeIncid, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xLocalidadeIncid', 1, 150, 1,
+                                     NFSe.infNFSe.IBSCBS.xLocalidadeIncid, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedutor', 1, 7, 1,
+                                             NFSe.infNFSe.IBSCBS.pRedutor, ''));
+
+  Result.AppendChild(GerarXMLIBSCBSValores(NFSe.infNFSe.IBSCBS.Valores));
+  Result.AppendChild(GerarXMLIBSCBSTotCIBS(NFSe.infNFSe.IBSCBS.totCIBS));
+end;
+
+function TNFSeW_ISSNatal.GerarXMLIBSCBSValores(
+  Valores: TvaloresIBSCBS): TACBrXmlNode;
+begin
+  Result := CreateElement('valores');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vBC', 1, 15, 1, Valores.vBC, ''));
+
+  Result.AppendChild(GerarXMLIBSCBSValoresUF(Valores.uf));
+  Result.AppendChild(GerarXMLIBSCBSValoresMun(Valores.mun));
+  Result.AppendChild(GerarXMLIBSCBSValoresFed(Valores.fed));
+end;
+
+function TNFSeW_ISSNatal.GerarXMLIBSCBSValoresUF(
+  ValoresUF: TUF): TACBrXmlNode;
+begin
+  Result := CreateElement('uf');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pIBSUF', 1, 7, 1,
+                                                         ValoresUF.pIBSUF, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedAliqUF', 1, 7, 1,
+                                                     ValoresUF.pRedAliqUF, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqEfetUF', 1, 7, 1,
+                                                    ValoresUF.pAliqEfetUF, ''));
+end;
+
+function TNFSeW_ISSNatal.GerarXMLIBSCBSValoresMun(
+  ValoresMun: TMun): TACBrXmlNode;
+begin
+  Result := CreateElement('mun');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pIBSMun', 1, 7, 1,
+                                                       ValoresMun.pIBSMun, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedAliqMun', 1, 7, 1,
+                                                   ValoresMun.pRedAliqMun, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqEfetMun', 1, 7, 1,
+                                                  ValoresMun.pAliqEfetMun, ''));
+end;
+
+function TNFSeW_ISSNatal.GerarXMLIBSCBSValoresFed(
+  ValoresFed: TFed): TACBrXmlNode;
+begin
+  Result := CreateElement('fed');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pCBS', 1, 7, 1,
+                                                          ValoresFed.pCBS, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pRedAliqCBS', 1, 7, 1,
+                                                   ValoresFed.pRedAliqCBS, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqEfetCBS', 1, 7, 1,
+                                                  ValoresFed.pAliqEfetCBS, ''));
+end;
+
+function TNFSeW_ISSNatal.GerarXMLIBSCBSTotCIBS(
+  totCIBS: TtotCIBS): TACBrXmlNode;
+begin
+  Result := CreateElement('totCIBS');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vTotNF', 1, 15, 1,
+                                                           totCIBS.vTotNF, ''));
+
+  Result.AppendChild(GerarXMLIBSCBSTotCIBSgIBS(totCIBS.gIBS));
+  Result.AppendChild(GerarXMLIBSCBSTotCIBSgCBS(totCIBS.gCBS));
+end;
+
+function TNFSeW_ISSNatal.GerarXMLIBSCBSTotCIBSgIBS(
+  gIBS: TgIBS): TACBrXmlNode;
+begin
+  Result := CreateElement('gIBS');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vIBSTot', 1, 15, 1,
+                                                             gIBS.vIBSTot, ''));
+
+  Result.AppendChild(GerarXMLIBSCBSTotCIBSgIBSUFTot(gIBS.gIBSUFTot));
+  Result.AppendChild(GerarXMLIBSCBSTotCIBSgIBSMunTot(gIBS.gIBSMunTot));
+end;
+
+function TNFSeW_ISSNatal.GerarXMLIBSCBSTotCIBSgIBSUFTot(
+  gIBSUFTot: TgIBSUFTot): TACBrXmlNode;
+begin
+  Result := CreateElement('gIBSUFTot');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vDifUF', 1, 15, 1,
+                                                         gIBSUFTot.vDifUF, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vIBSUF', 1, 15, 1,
+                                                         gIBSUFTot.vIBSUF, ''));
+end;
+
+function TNFSeW_ISSNatal.GerarXMLIBSCBSTotCIBSgIBSMunTot(
+  gIBSMunTot: TgIBSMunTot): TACBrXmlNode;
+begin
+  Result := CreateElement('gIBSMunTot');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vDifMun', 1, 15, 1,
+                                                       gIBSMunTot.vDifMun, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vIBSMun', 1, 15, 1,
+                                                       gIBSMunTot.vIBSMun, ''));
+end;
+
+function TNFSeW_ISSNatal.GerarXMLIBSCBSTotCIBSgCBS(
+  gCBS: TgCBS): TACBrXmlNode;
+begin
+  Result := CreateElement('gCBS');
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vDifCBS', 1, 15, 1,
+                                                             gCBS.vDifCBS, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vCBS', 1, 15, 1, gCBS.vCBS, ''));
 end;
 
 end.
