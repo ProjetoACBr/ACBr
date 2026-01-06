@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/01/2026
+-- ACBrNFSeXLerXml_ABRASFv2.pas --
+[*] ACBR-8673: Adicionado ler propriedade SituacaoTributariaPISCOFINS
+   https://www.projetoacbr.com.br/forum/topic/88675-erro-valida%C3%A7%C3%A3o-nfservi%C3%A7o-referente-situacaotributariapiscofins
+   Por: Daniel de Morais InfoCotidiano
+   
+06/01/2026
 -- PadraoNacional.GravarXml/SilTecnologia.GravarXml --
 [*] ACBR-8717: Alterações visando gerar corretamente o XML da NFS-e do provedor SilTecnologia.
    Por: Innovae Brasil Engenharia

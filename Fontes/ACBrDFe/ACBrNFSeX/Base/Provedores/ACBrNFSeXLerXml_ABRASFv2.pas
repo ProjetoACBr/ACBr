@@ -137,6 +137,8 @@ type
     procedure LerINISecaoCondicaoPagamento(const AINIRec: TMemIniFile); virtual;
     procedure LerINISecaoOrgaoGerador(const AINIRec: TMemIniFile); virtual;
     procedure LerINISecaoParcelas(const AINIRec: TMemIniFile); virtual;
+    procedure LerINIValoresTribFederal(AINIRec: TMemIniFile);
+
   public
     function LerXml: Boolean; override;
     function LerXmlRps(const ANode: TACBrXmlNode): Boolean;
@@ -1391,6 +1393,7 @@ begin
     LerINISecaoCondicaoPagamento(LINIRec);
     LerINISecaoOrgaoGerador(LINIRec);
     LerINISecaoParcelas(LINIRec);
+    LerINIValoresTribFederal(LINIRec);
 
     // Ler os campos do arquivo INI referente a Reforma Tributária
     LerINIIBSCBS(LINIRec, NFSe.IBSCBS);
@@ -1820,5 +1823,18 @@ procedure TNFSeR_ABRASFv2.LerINISecaoParcelas(const AINIRec: TMemIniFile);
 begin
   //Não faz nada neste leiaute...
 end;
+
+procedure TNFSeR_ABRASFv2.LerINIValoresTribFederal(AINIRec: TMemIniFile);
+var
+  sSecao: string;
+  Ok: Boolean;
+begin
+  sSecao := 'tribFederal';
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    NFSe.Servico.Valores.tribFed.CST := StrToCST(Ok, AINIRec.ReadString(sSecao, 'CST', ''));
+  end;
+end;
+
 
 end.
