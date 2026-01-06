@@ -505,7 +505,7 @@ begin
   cdsServicos.Close;
 
   cdsServicos.FieldDefs.Clear;
-  cdsServicos.FieldDefs.Add('ItemListaServico', ftString, 6);
+  cdsServicos.FieldDefs.Add('ItemListaServico', ftString, 8);
   cdsServicos.FieldDefs.Add('CodigoCnae', ftString, 15);
   cdsServicos.FieldDefs.Add('CodigoNbs', ftString, 9);
   cdsServicos.FieldDefs.Add('CodigoTributacaoMunicipio', ftString, 20);

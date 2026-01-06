@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/01/2026
+-- ACBrNFSeXDANFSeFR --
+[*] ACBR-8699: Ajustes para imprimir o Código do Item Lista Serviço com 8 caracteres.
+   Por: HUGO753
 -- ACBrNFSeXGravarXml/ISSNatal.GravarXml --
 [*] ACBR-8681: Ajustes no provedor ISSNatal para atender a Reforma Tributária
    Por: Italo Giurizzato Junior
