@@ -622,6 +622,7 @@
         4 - Matriz;
         5 - Filial ou sucursal;
         6 - Outro vínculo;
+        9 - Desconhecido;
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
@@ -633,6 +634,7 @@
       <xs:enumeration value="4"/>
       <xs:enumeration value="5"/>
       <xs:enumeration value="6"/>
+      <xs:enumeration value="9"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="TSMecAFComExPrest">
