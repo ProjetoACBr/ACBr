@@ -1582,9 +1582,6 @@ begin
   begin
     Result := CreateElement('BM');
 
-//    Result.AppendChild(AddNode(tcStr, '#1', 'tpBM', 1, 1, 1,
-//                             tpBMToStr(NFSe.Servico.Valores.tribMun.tpBM), ''));
-
     Result.AppendChild(AddNode(tcStr, '#1', 'nBM', 14, 14, 1,
                                          NFSe.Servico.Valores.tribMun.nBM, ''));
 
@@ -1592,7 +1589,7 @@ begin
       Result.AppendChild(AddNode(tcDe2, '#1', 'vRedBCBM', 1, 15, 1,
                                      NFSe.Servico.Valores.tribMun.vRedBCBM, ''))
     else
-      Result.AppendChild(AddNode(tcDe2, '#1', 'pRedBCBM', 1, 5, 1,
+      Result.AppendChild(AddNode(tcDe2, '#1', 'pRedBCBM', 1, 5, 0,
                                     NFSe.Servico.Valores.tribMun.pRedBCBM, ''));
   end;
 end;
@@ -1647,6 +1644,36 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'CST', 2, 2, 1,
                                CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
 
+  if not (NFSe.Servico.Valores.tribFed.CST in [cst08, cst09]) then
+  begin
+    //futuramente acredito que o cst07 tambem entre nessa condição
+    NOcorr := 0;
+
+    if NFSe.Servico.Valores.tribFed.CST in [cst04, cst06] then
+      NOcorr := 1;
+
+    Result.AppendChild(AddNode(tcDe2, '#1', 'vBCPisCofins', 1, 15, 0,
+                                NFSe.Servico.Valores.tribFed.vBCPisCofins, ''));
+
+    Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqPis', 1, 5, NOcorr,
+                                    NFSe.Servico.Valores.tribFed.pAliqPis, ''));
+
+    Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqCofins', 1, 5, NOcorr,
+                                 NFSe.Servico.Valores.tribFed.pAliqCofins, ''));
+
+    Result.AppendChild(AddNode(tcDe2, '#1', 'vPis', 1, 15, NOcorr,
+                                        NFSe.Servico.Valores.tribFed.vPis, ''));
+
+    Result.AppendChild(AddNode(tcDe2, '#1', 'vCofins', 1, 15, NOcorr,
+                                     NFSe.Servico.Valores.tribFed.vCofins, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'tpRetPisCofins', 1, 1, 0,
+         tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
+  end;
+
+
+
+  (*
   if (NFSe.Servico.Valores.tribFed.vBCPisCofins > 0) or
      (NFSe.Servico.Valores.tribFed.pAliqPis > 0) or
      (NFSe.Servico.Valores.tribFed.pAliqCofins > 0) or
@@ -1677,6 +1704,7 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'tpRetPisCofins', 1, 1, 0,
          tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
   end;
+  *)
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLTotalTributos: TACBrXmlNode;
