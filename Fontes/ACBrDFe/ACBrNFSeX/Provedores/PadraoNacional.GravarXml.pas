@@ -296,6 +296,9 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'xNome', 1, 300, 0,
                                                 NFSe.Emitente.RazaoSocial, ''));
 
+  Result.AppendChild(AddNode(tcStr, '#1', 'xFant', 1, 300, 0,
+                                               NFSe.Emitente.NomeFantasia, ''));
+
   Result.AppendChild(GerarXMLEnderecoEmitente);
 
   Result.AppendChild(AddNode(tcStr, '#1', 'fone', 6, 20, 0,
@@ -518,25 +521,25 @@ begin
     end;
   end;
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'xLocEmi', 1, 1, 1, xLocEmi, ''));
+  Result.AppendChild(AddNode(tcStr, '#1', 'xLocEmi', 1, 60, 1, xLocEmi, ''));
 
   xLocPrestacao := ObterNomeMunicipioUF(StrToIntDef(NFSe.Servico.CodigoMunicipio, 0), xUF);
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'xLocPrestacao', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'xLocPrestacao', 1, 60, 1,
                                                             xLocPrestacao, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'nNFSe', 1, 1, 1,
                                                        NFSe.infNFSe.nNFSe, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'cLocIncid', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'cLocIncid', 7, 7, 1,
                                   NFSe.Prestador.Endereco.CodigoMunicipio, ''));
 
   xLocIncid := ObterNomeMunicipioUF(StrToIntDef(NFSe.Prestador.Endereco.CodigoMunicipio, 0), xUF);
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'xLocIncid', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'xLocIncid', 1, 60, 1,
                                                             xLocIncid, ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'xTribNac', 1, 1, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'xTribNac', 1, 7, 1,
                                             NFSe.Servico.ItemListaServico, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'verAplic', 1, 20, 1,
@@ -607,10 +610,10 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'verAplic', 1, 20, 1,
                                                             NFSe.verAplic, ''));
 
-  Result.AppendChild(AddNode(tcInt, '#1', 'serie', 1, 5, 1,
+  Result.AppendChild(AddNode(tcInt, '#1', 'serie', 5, 5, 1,
                               StrToIntDef(NFSe.IdentificacaoRps.Serie, 0), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'nDPS', 15, 15, 1,
+  Result.AppendChild(AddNode(tcStr, '#1', 'nDPS', 1, 15, 1,
                                              NFSe.IdentificacaoRps.Numero, ''));
 
   Result.AppendChild(AddNode(tcDat, '#1', 'dCompet', 10, 10, 1,

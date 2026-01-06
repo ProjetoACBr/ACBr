@@ -105,6 +105,8 @@ var
 begin
   Configuracao;
 
+  NrOcorrtpAmb := -1;
+
   ListaDeAlertas.Clear;
 
   FDocument.Clear();
