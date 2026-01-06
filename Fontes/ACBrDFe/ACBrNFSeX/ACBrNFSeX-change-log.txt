@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 06/01/2026
+-- Tinus.Provider --
+[*] ACBR-8684: Ajustes no provedor Tinus para atender a Reforma Tributária
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXLerXml_ABRASFv2.pas --
 [*] ACBR-8673: Adicionado ler propriedade SituacaoTributariaPISCOFINS
    https://www.projetoacbr.com.br/forum/topic/88675-erro-valida%C3%A7%C3%A3o-nfservi%C3%A7o-referente-situacaotributariapiscofins
