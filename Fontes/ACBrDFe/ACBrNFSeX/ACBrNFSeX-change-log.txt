@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 07/01/2026
+-- Agili.GravarXml --
+[*] ACBR-8731: Alterações visando a reforma tributária.
+   Por: plenustech
 -- Diversos --
 [*] Ajustes para informar corretamente quando o provedor usa o layout do Padrão Nacional
    Por: Italo Giurizzato Junior

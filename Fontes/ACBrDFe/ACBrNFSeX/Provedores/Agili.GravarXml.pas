@@ -516,6 +516,11 @@ begin
       end;
   end;
 
+  if NFSe.Servico.CodigoNBS <> '' then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#1', 'CodigoNBS', 4, 12, 0, NFSe.Servico.CodigoNBS, ''));
+  end;
+
   xmlNode := GerarExigibilidadeISSQN;
   Result.AppendChild(xmlNode);
 
@@ -550,6 +555,12 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'ValorOutrasRetencoes', 1, 15, 1,
                                      NFSe.Servico.Valores.OutrasRetencoes, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'ValorIBS', 1, 15, 1, 0, ''));
+  Result.AppendChild(AddNode(tcDe2, '#1', 'AliquotaIBS', 1, 15, 1, 0, ''));
+  Result.AppendChild(AddNode(tcDe2, '#1', 'ValorCBS', 1, 15, 1, 0, ''));
+  Result.AppendChild(AddNode(tcDe2, '#1', 'AliquotaCBS', 1, 15, 1, 0, ''));
+  Result.AppendChild(AddNode(tcDe2, '#1', 'ValorBaseIBSeCBS', 1, 15, 1, 0, ''));
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'ValorBaseCalculoISSQN', 1, 15, 0,
                                          NFSe.Servico.Valores.BaseCalculo, ''));
