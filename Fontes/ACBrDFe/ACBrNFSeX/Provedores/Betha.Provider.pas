@@ -849,6 +849,7 @@ begin
 
   with ConfigGeral do
   begin
+    Layout := loPadraoNacional;
     Identificador := 'id';
     QuebradeLinha := '|';
     ConsultaLote := False;
@@ -856,8 +857,9 @@ begin
     FormatoArqRetorno := tfaXml;
     FormatoArqEnvioSoap := tfaXml;
     FormatoArqRetornoSoap := tfaXml;
-    {
+
     ServicosDisponibilizados.EnviarUnitario := True;
+    {
     ServicosDisponibilizados.ConsultarNfseChave := True;
     ServicosDisponibilizados.ConsultarRps := True;
     ServicosDisponibilizados.EnviarEvento := True;

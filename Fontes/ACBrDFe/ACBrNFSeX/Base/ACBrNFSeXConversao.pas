@@ -57,8 +57,6 @@ type
                      stNFSeConsultarParam, stNFSeConsultarSeqRps,
                      stNFSeConsultarLinkNFSe, stNFSEObterDANFSE);
 
-  TLayout =(loABRASF, loProprio);
-
   TStatusRPS = (srNormal, srCancelado);
 
   TtpXML = (txmlRPS, txmlNFSe, txmlEspelho);
@@ -72,6 +70,13 @@ type
   {
     Tipos que tem Funções de conversão, mas elas estão interfaceadas
   }
+type
+  TLayout =(loABRASF, loProprio, loPadraoNacional);
+
+const
+  TLayoutArrayStrings: array[TLayout] of string =
+    ('ABRASF', 'Próprio', 'Padrão Nacional');
+
 type
   TnfseExigibilidadeISS = (exiExigivel, exiNaoIncidencia, exiIsencao,
                            exiExportacao, exiImunidade,
@@ -873,6 +878,9 @@ function StrToLogradouroLocalPrestacaoServico(const s: string): TLogradouroLocal
 
 function cMotivoEmisTIToStr(t: TcMotivoEmisTI): string;
 function StrTocMotivoEmisTI(const s: string): TcMotivoEmisTI;
+
+function LayoutToStr(t: TLayout): string;
+function StrToLayout(const s: string): TLayout;
 
 // Reforma Tributária
 function finNFSeToStr(const t: TfinNFSe): string;
@@ -13519,6 +13527,26 @@ begin
     end;
   end;
   raise EACBrException.CreateFmt('Valor string inválido para TcMotivoEmisTI: %s', [s]);
+end;
+
+function LayoutToStr(t: TLayout): string;
+begin
+  Result := TLayoutArrayStrings[t];
+end;
+
+function StrToLayout(const s: string): TLayout;
+var
+  idx: TLayout;
+begin
+  for idx:= Low(TLayoutArrayStrings) to High(TLayoutArrayStrings) do
+  begin
+    if (TLayoutArrayStrings[idx] = s) then
+    begin
+      Result := idx;
+      exit;
+    end;
+  end;
+  raise EACBrException.CreateFmt('Valor string inválido para TLayout: %s', [s]);
 end;
 
 // Reforma Tributária

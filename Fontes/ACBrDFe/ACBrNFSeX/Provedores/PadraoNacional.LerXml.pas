@@ -835,7 +835,7 @@ begin
   if AuxNode <> nil then
   begin
     NFSe.infID.ID := OnlyNumber(ObterConteudoTag(AuxNode.Attributes.Items['Id']));
-    NFSe.DataEmissao := ObterConteudo(AuxNode.Childrens.FindAnyNs('dhEmi'), tcDatHor);
+    NFSe.DataEmissaoRPS := ObterConteudo(AuxNode.Childrens.FindAnyNs('dhEmi'), tcDatHor);
     NFSe.verAplic := ObterConteudo(AuxNode.Childrens.FindAnyNs('verAplic'), tcStr);
     NFSe.IdentificacaoRps.Serie := ObterConteudo(AuxNode.Childrens.FindAnyNs('serie'), tcStr);
     NFSe.IdentificacaoRps.Numero := ObterConteudo(AuxNode.Childrens.FindAnyNs('nDPS'), tcStr);
@@ -901,6 +901,7 @@ begin
 
     NFSe.Servico.MunicipioIncidencia := NFSe.infNFSe.cLocIncid;
     NFSe.Servico.xMunicipioIncidencia := NFSe.infNFSe.xLocIncid;
+    NFSe.DataEmissao := NFSe.infNFSe.dhProc;
 
     LerXMLEmitente(AuxNode);
     LerXMLValoresNFSe(AuxNode);

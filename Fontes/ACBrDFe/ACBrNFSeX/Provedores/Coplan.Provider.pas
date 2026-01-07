@@ -431,11 +431,14 @@ begin
 
   with ConfigGeral do
   begin
+    Layout := loPadraoNacional;
+    ModoEnvio := meUnitario;
+
     ServicosDisponibilizados.EnviarUnitario := True;
     ServicosDisponibilizados.EnviarLoteSincrono := True;
     ServicosDisponibilizados.ConsultarRps := True;
+
     Particularidades.AtendeReformaTributaria := True;
-    ModoEnvio := meUnitario;
   end;
 
   with ConfigWebServices do

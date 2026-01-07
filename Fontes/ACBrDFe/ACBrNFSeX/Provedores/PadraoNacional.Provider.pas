@@ -142,6 +142,7 @@ begin
 
   with ConfigGeral do
   begin
+    Layout := loPadraoNacional;
     QuebradeLinha := '\n';
     ModoEnvio := meUnitario;
     ConsultaLote := False;

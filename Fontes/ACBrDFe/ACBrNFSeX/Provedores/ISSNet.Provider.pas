@@ -1267,14 +1267,16 @@ begin
 
   with ConfigGeral do
   begin
+    Layout := loPadraoNacional;
     QuebradeLinha := '|';
     ConsultaLote := False;
     FormatoArqEnvio := tfaXml;
     FormatoArqRetorno := tfaXml;
     FormatoArqEnvioSoap := tfaXml;
     FormatoArqRetornoSoap := tfaXml;
-    {
+
     ServicosDisponibilizados.EnviarUnitario := True;
+    {
     ServicosDisponibilizados.ConsultarNfseChave := True;
     ServicosDisponibilizados.ConsultarRps := True;
     ServicosDisponibilizados.EnviarEvento := True;
