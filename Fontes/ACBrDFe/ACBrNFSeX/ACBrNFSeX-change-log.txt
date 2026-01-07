@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+07/01/2026
+-- ACBrNFSeXProviderManager/VersaTecnologia.GravarXml/VersaTecnologia.LerXml/VersaTecnologia.Provider --
+[+] ACBR-8731: Implementado a versão 2.04 
+   Por: Italo Giurizzato Junior
+
 06/01/2026
 -- ACBrNFSeXDANFSeFR --
 [*] ACBR-8699: Ajustes para imprimir o Código do Item Lista Serviço com 8 caracteres.

@@ -735,6 +735,7 @@ begin
             ve200: Result := TACBrNFSeProviderVersaTecnologia200.Create(ACBrNFSe);
             ve201: Result := TACBrNFSeProviderVersaTecnologia201.Create(ACBrNFSe);
             ve202: Result := TACBrNFSeProviderVersaTecnologia202.Create(ACBrNFSe);
+            ve204: Result := TACBrNFSeProviderVersaTecnologia204.Create(ACBrNFSe);
           else
             Result := nil;
           end;

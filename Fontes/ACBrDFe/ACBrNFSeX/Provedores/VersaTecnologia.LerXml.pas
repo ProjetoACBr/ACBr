@@ -68,6 +68,15 @@ type
 
   end;
 
+  { TNFSeR_VersaTecnologia204 }
+
+  TNFSeR_VersaTecnologia204 = class(TNFSeR_ABRASFv2)
+  protected
+
+  public
+
+  end;
+
 implementation
 
 //==============================================================================

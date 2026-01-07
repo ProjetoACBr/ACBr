@@ -67,6 +67,14 @@ type
 
   end;
 
+  { TNFSeW_VersaTecnologia204 }
+
+  TNFSeW_VersaTecnologia204 = class(TNFSeW_VersaTecnologia200)
+  protected
+    procedure Configuracao; override;
+
+  end;
+
 implementation
 
 //==============================================================================
@@ -127,6 +135,19 @@ begin
   inherited Configuracao;
 
   TagTomador := 'Tomador';
+end;
+
+{ TNFSeW_VersaTecnologia204 }
+
+procedure TNFSeW_VersaTecnologia204.Configuracao;
+begin
+  inherited Configuracao;
+
+  TagTomador := 'TomadorServico';
+  DivAliq100 := False;
+
+  NrOcorrRespRetencao := 0;
+  NrOcorrValorDeducoes := 1;
 end;
 
 end.
