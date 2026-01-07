@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 07/01/2026
+-- SilTecnologia.Provider --
+[*] Ajustes para realizar a assinatura do DPS quando informado que o modo de envio é automático.
+   Por: Diego Folieni
 -- ACBrNFSeXServicos --
 [*] Atualizado o arquivo ACBrNFSeXServicos com o conteúdo do ACBrNFSeXServicosRTC.
     Podemos agora remover da aplicação a configuração da propriedade IniServicos que apontava para
