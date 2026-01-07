@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 07/01/2026
+-- Pronim.Provider --
+[-] Correção no envio do evento.
+   Por: Italo Giurizzato Junior
 -- ISSSaoPaulo.Provider --
 [-] ACBR-8733: Ajuste na geração da AssinaturaAdicional da versão 2.00 para coincidir com manual.
    Por: Diego Folieni

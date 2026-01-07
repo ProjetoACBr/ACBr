@@ -1076,8 +1076,6 @@ begin
     nomeArq := '';
     SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq);
     Response.PathNome := nomeArq;
-
-    Response.ArquivoEnvio := EncodeBase64(GZipCompress(Response.ArquivoEnvio));
   end;
 end;
 
@@ -1203,6 +1201,9 @@ begin
 //    inherited ValidarSchema(Response, aMetodo);
 
     Response.ArquivoEnvio := ChangeLineBreak(Response.ArquivoEnvio, '');
+
+    if aMetodo = tmEnviarEvento then
+      Response.ArquivoEnvio := EncodeBase64(GZipCompress(Response.ArquivoEnvio));
 
     case aMetodo of
       tmGerar,
