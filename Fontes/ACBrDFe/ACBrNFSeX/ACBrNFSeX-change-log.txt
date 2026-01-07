@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 07/01/2026
+-- ISSSaoPaulo.Provider --
+[-] ACBR-8733: Ajuste na geração da AssinaturaAdicional da versão 2.00 para coincidir com manual.
+   Por: Diego Folieni
 -- Agili.GravarXml --
 [*] ACBR-8731: Alterações visando a reforma tributária.
    Por: plenustech

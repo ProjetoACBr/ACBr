@@ -126,7 +126,7 @@ uses
 procedure TACBrNFSeProviderISSSaoPaulo.AssinaturaAdicional(Nota: TNotaFiscal);
 var
   sSituacao, sISSRetido, sCPFCNPJTomador, sIndTomador, sTomador,
-  sCPFCNPJInter, sIndInter, sISSRetidoInter, sInter, sAssinatura, sNIF: string;
+  sCPFCNPJInter, sIndInter, sISSRetidoInter, sInter, sAssinatura, sNIF, sValorServicos: string;
   iTamanhoIM: Integer;
 begin
   with Nota do
@@ -178,6 +178,11 @@ begin
         sInter := '';
 
       iTamanhoIM := 12;
+
+      if NFSe.Servico.Valores.ValorInicialCobrado > 0 then
+        sValorServicos := Poem_Zeros(OnlyNumber(FormatFloat('#0.00', NFSe.Servico.Valores.ValorInicialCobrado)), 15)
+      else
+        sValorServicos := Poem_Zeros(OnlyNumber(FormatFloat('#0.00', NFSe.Servico.Valores.ValorFinalCobrado)), 15);
     end
     else
     begin
@@ -187,6 +192,8 @@ begin
         sInter := '';
 
       iTamanhoIM := 8;
+
+      sValorServicos := Poem_Zeros(OnlyNumber(FormatFloat('#0.00', NFSe.Servico.Valores.ValorServicos)), 15);
     end;
 
     sAssinatura := Poem_Zeros(NFSe.Prestador.IdentificacaoPrestador.InscricaoMunicipal, iTamanhoIM) +
@@ -196,7 +203,7 @@ begin
                    TipoTributacaoRPSToStr(NFSe.TipoTributacaoRPS) +
                    sSituacao +
                    sISSRetido +
-                   Poem_Zeros(OnlyNumber(FormatFloat('#0.00', NFSe.Servico.Valores.ValorServicos)), 15) +
+                   sValorServicos +
                    Poem_Zeros(OnlyNumber(FormatFloat('#0.00', NFSe.Servico.Valores.ValorDeducoes)), 15) +
                    Poem_Zeros(OnlyNumber(NFSe.Servico.ItemListaServico), 5) +
                    sTomador +
