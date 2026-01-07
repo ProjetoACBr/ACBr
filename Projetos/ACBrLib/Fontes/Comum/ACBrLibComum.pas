@@ -717,7 +717,7 @@ begin
     libHandle^.Lib := Nil;
     libHandle^.Lib := pLibClass.Create(ArqConfig, eChaveCrypt);
     libHandle^.Lib.Inicializar;
-    libHandle^.Lib.GravarLog('LIB_Inicializar( ' + IfThen(libHandle^.Lib.Config.EhMemory, CLibMemory, libHandle^.Lib.Config.NomeArquivo) + ', ' + StringOfChar('*', Length(ChaveCrypt)) + ' )', logSimples);
+    libHandle^.Lib.GravarLog('LIB_Inicializar( ' + IfThen(libHandle^.Lib.Config.EhMemory, CLibMemory, libHandle^.Lib.Config.NomeArquivo) + ',  *** ) ', logSimples);
     libHandle^.Lib.GravarLog('   ' + libHandle^.Lib.Nome + ' - ' + libHandle^.Lib.Versao + ' - ' + libHandle
     ^.Lib.informacaoAdicional, logSimples);
 

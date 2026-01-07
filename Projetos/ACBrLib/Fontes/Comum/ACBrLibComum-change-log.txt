@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+07/01/2026
+-- ACBrLibComum --
+[-] Previne vazamento de tamanho da eChaveCrypt no log da lib.
+ Por: doszapro
+
 29/09/2025
 -- ACBrLibDistribuicaoDFe --
 [*] Alteração visando usar as novas units do DistribuicaoDFe.
