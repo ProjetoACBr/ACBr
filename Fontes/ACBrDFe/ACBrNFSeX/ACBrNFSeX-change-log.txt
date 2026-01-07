@@ -44,6 +44,11 @@ Símbolo : Significado
 
 
 07/01/2026
+-- ACBrNFSeXServicos --
+[*] Atualizado o arquivo ACBrNFSeXServicos com o conteúdo do ACBrNFSeXServicosRTC.
+    Podemos agora remover da aplicação a configuração da propriedade IniServicos que apontava para
+    o arquivo ACBrNFSeXServicosRTC, pois ele foi removido SVN.
+   Por: Italo Giurizzato Junior
 -- ISSSaoPaulo.Provider --
 [+] ACBR-8702: Implementado o envio síncrono.
    Por: Leonardo Gomes
