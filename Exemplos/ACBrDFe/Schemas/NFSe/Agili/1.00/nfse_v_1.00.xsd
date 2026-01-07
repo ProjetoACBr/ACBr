@@ -33,6 +33,13 @@
 			<xsd:whiteSpace value="collapse" />
 		</xsd:restriction>
 	</xsd:simpleType>
+	<xsd:simpleType name="tsCodigoNBS">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="12" />
+			<xsd:minLength value="4" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
 	<xsd:simpleType name="tsListaServicoMunicipal">
 		<xsd:restriction base="xsd:string">
 			<xsd:maxLength value="140" />
@@ -106,6 +113,13 @@
 	<xsd:simpleType name="tsCodigoObra">
 		<xsd:restriction base="xsd:string">
 			<xsd:maxLength value="20" />
+			<xsd:minLength value="1" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsCodigoCIB">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="9" />
 			<xsd:minLength value="1" />
 			<xsd:whiteSpace value="collapse" />
 		</xsd:restriction>
@@ -415,7 +429,10 @@
 	<xsd:complexType name="tcDadosMaterialUsado">
 		<xsd:sequence>
 			<xsd:element name="CodigoObra" type="tsCodigoObra" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="CodigoCIB" type="tsCodigoCIB" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="Endereco" type="tcEndereco" minOccurs="0" maxOccurs="1"/>
 			<xsd:element name="Art" type="tsArt" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="InscImobObra" type="tsDescricao" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="ListaNotaUsada" type="ListaNotaUsada" minOccurs="1" maxOccurs="1"/>
 		</xsd:sequence>
 	</xsd:complexType>
@@ -450,6 +467,7 @@
 			<xsd:element name="DadosProfissionalParceiro" type="tcDadosProfissionalParceiro" minOccurs="0" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
+
 	<xsd:complexType name="tcDadosCartaCorrecao">
 		<xsd:sequence>
 			<xsd:element name="Sequencia" type="tsNumero" minOccurs="1" maxOccurs="1" />
@@ -488,6 +506,7 @@
 			<xsd:element name="CodigoListaServicoMunicipal" type="tsListaServicoMunicipal" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="CodigoCnaeAtividadeEconomica" type="tsCodigoCnae" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="ItemLei116AtividadeEconomica" type="tsItemLei116" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="CodigoNBS" type="tsCodigoNBS" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="ExigibilidadeISSQN" type="tcExigibilidadeISSQN" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="BeneficioProcesso" type="tsBeneficioProcesso" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="MunicipioIncidencia" type="tcIdentificacaoMunicipioIncidencia" minOccurs="0" maxOccurs="1" />
@@ -499,6 +518,11 @@
 			<xsd:element name="ValorIrrf" type="tsValor" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="ValorCsll" type="tsValor" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="ValorOutrasRetencoes" type="tsValor" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="ValorIBS" type="tsValor" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="AliquotaIBS" type="tsAliquota" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="ValorCBS" type="tsValor" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="AliquotaCBS" type="tsAliquota" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="ValorBaseIBSeCBS" type="tsValor" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="ValorBaseCalculoISSQN" type="tsValor" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="AliquotaISSQN" type="tsAliquota" minOccurs="0" maxOccurs="1" />
 			<xsd:element name="ValorISSQNCalculado" type="tsValor" minOccurs="0" maxOccurs="1" />
