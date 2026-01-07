@@ -26,8 +26,9 @@ uses
   ACBrDFe,
   ACBrDFeReport,
   ACBrMail,
-  ACBrNFSeX,
+  ACBrDFe.Conversao,
   ACBrNFSeXConversao,
+  ACBrNFSeX,
   ACBrNFSeXWebservicesResponse,
   ACBrNFSeXDANFSeRLClass;
 
@@ -478,13 +479,14 @@ implementation
 uses
   strutils, math, TypInfo, DateUtils, blcksock, FileCtrl, Grids, IniFiles, Printers,
   ACBrXmlBase,
-  ACBrDFe.Conversao,
-  ACBrOpenSSLUtils, OpenSSLExt,
-  ACBrDFeConfiguracoes, ACBrDFeSSL,
+  ACBrOpenSSLUtils,
+  OpenSSLExt,
+  ACBrUtil,
+  ACBrDFeConfiguracoes,
+  ACBrDFeSSL,
   ACBrDFeUtil,
   ACBrNFSeXWebserviceBase,
-  Frm_Status, Frm_SelecionarCertificado,
-  pcnConversao;
+  Frm_Status, Frm_SelecionarCertificado;
 
 const
   SELDIRHELP = 1000;
@@ -770,7 +772,7 @@ begin
         IBSCBS.indFinal := ifSim;
         IBSCBS.cIndOp := '123456';
         // togNenhum, togFornecimento, togRecebimentoPag
-        IBSCBS.tpOper := TtpOperGovNFSe.togNenhum;
+        IBSCBS.tpOper := togNenhum;
 
         // Grupo de NFS-e referenciadas.
         {
@@ -1004,7 +1006,7 @@ begin
       // snSim = Ambiente de Produção
       // snNao = Ambiente de Homologação
       {=== Usado pelo provedor Infisc, eGoverneISS ===}
-      if ACBrNFSeX1.Configuracoes.WebServices.Ambiente = TpcnTipoAmbiente(taProducao) then
+      if ACBrNFSeX1.Configuracoes.WebServices.Ambiente = TACBrTipoAmbiente(taProducao) then
         Producao := snSim
       else
         Producao := snNao;
@@ -1931,8 +1933,8 @@ begin
         IBSCBS.finNFSe := fnfsRegular;
         IBSCBS.indFinal := ifSim;
         IBSCBS.cIndOp := '123456';
-        // TtpOperGovNFSe.togNenhum, togFornecimento, togRecebimentoPag
-        IBSCBS.tpOper := TtpOperGovNFSe.togNenhum;
+        // togNenhum, togFornecimento, togRecebimentoPag
+        IBSCBS.tpOper := togNenhum;
 
         // Grupo de NFS-e referenciadas.
         {
@@ -5074,6 +5076,7 @@ begin
     Ini.WriteString('Emitente', 'UF',          edtEmitUF.Text);
     Ini.WriteString('Emitente', 'CNPJPref',    edtCNPJPrefeitura.Text);
 
+    Ini.WriteString('Email', 'From',    edtEmailRemetente.Text);
     Ini.WriteString('Email', 'Host',    edtSmtpHost.Text);
     Ini.WriteString('Email', 'Port',    edtSmtpPort.Text);
     Ini.WriteString('Email', 'User',    edtSmtpUser.Text);
@@ -5213,12 +5216,13 @@ begin
     edtEmitUF.Text         := Ini.ReadString('Emitente', 'UF',          '');
     edtCNPJPrefeitura.Text := Ini.ReadString('Emitente', 'CNPJPref',    '');
 
-    edtSmtpHost.Text     := Ini.ReadString('Email', 'Host',    '');
-    edtSmtpPort.Text     := Ini.ReadString('Email', 'Port',    '');
-    edtSmtpUser.Text     := Ini.ReadString('Email', 'User',    '');
-    edtSmtpPass.Text     := Ini.ReadString('Email', 'Pass',    '');
-    edtEmailAssunto.Text := Ini.ReadString('Email', 'Assunto', '');
-    cbEmailSSL.Checked   := Ini.ReadBool(  'Email', 'SSL',     False);
+    edtEmailRemetente.Text := Ini.ReadString('Email', 'From',    '');
+    edtSmtpHost.Text       := Ini.ReadString('Email', 'Host',    '');
+    edtSmtpPort.Text       := Ini.ReadString('Email', 'Port',    '');
+    edtSmtpUser.Text       := Ini.ReadString('Email', 'User',    '');
+    edtSmtpPass.Text       := Ini.ReadString('Email', 'Pass',    '');
+    edtEmailAssunto.Text   := Ini.ReadString('Email', 'Assunto', '');
+    cbEmailSSL.Checked     := Ini.ReadBool(  'Email', 'SSL',     False);
 
     StreamMemo := TMemoryStream.Create;
     Ini.ReadBinaryStream('Email', 'Mensagem', StreamMemo);
@@ -5337,7 +5341,7 @@ var
     end;
   end;
 begin
-  Ambiente := TpAmbToStr(ACBrNFSeX1.Configuracoes.WebServices.Ambiente);
+  Ambiente := TipoAmbienteToStr(ACBrNFSeX1.Configuracoes.WebServices.Ambiente);
 
   if Ambiente = '1' then
     Ambiente := Ambiente + ' - Produção'
@@ -5953,7 +5957,7 @@ begin
     ExibirErroSchema := cbxExibirErroSchema.Checked;
     RetirarAcentos   := cbxRetirarAcentos.Checked;
     FormatoAlerta    := edtFormatoAlerta.Text;
-    FormaEmissao     := TpcnTipoEmissao(cbFormaEmissao.ItemIndex);
+    FormaEmissao     := TACBrTipoEmissao(cbFormaEmissao.ItemIndex);
 
     FormatoDiscriminacao := TFormatoDiscriminacao(cbFormatoDiscr.ItemIndex);
 
@@ -6000,7 +6004,7 @@ begin
     // Redefini a quebra de linha que por padrão é "|'
     QuebradeLinha := ';';
 
-    Ambiente   := StrToTpAmb(Ok,IntToStr(rgTipoAmb.ItemIndex+1));
+    Ambiente   := StrToTipoAmbiente(IntToStr(rgTipoAmb.ItemIndex+1));
     Visualizar := cbxVisualizar.Checked;
     Salvar     := chkSalvarSOAP.Checked;
     UF         := edtEmitUF.Text;

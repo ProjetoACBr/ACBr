@@ -3,7 +3,7 @@ object frmACBrNFSe: TfrmACBrNFSe
   Height = 643
   Top = 118
   Width = 866
-  Caption = 'ACBrNFSeX - Programa Exemplo - Versão Delphi'
+  Caption = 'ACBrNFSeX - Programa Exemplo - Versão Lazarus'
   ClientHeight = 643
   ClientWidth = 866
   Color = clBtnFace
@@ -11,6 +11,7 @@ object frmACBrNFSe: TfrmACBrNFSe
   Font.Height = -11
   Font.Name = 'Tahoma'
   Position = poScreenCenter
+  LCLVersion = '4.2.0.0'
   OnCreate = FormCreate
   object pnlMenus: TPanel
     Left = 0
@@ -83,8 +84,8 @@ object frmACBrNFSe: TfrmACBrNFSe
       Height = 504
       Top = 1
       Width = 295
-      ActivePage = TabSheet1
-      TabIndex = 0
+      ActivePage = TabSheet14
+      TabIndex = 2
       TabOrder = 0
       object TabSheet1: TTabSheet
         Caption = 'Configurações'
