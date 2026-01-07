@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 07/01/2026
+-- ISSSaoPaulo.Provider --
+[+] ACBR-8702: Implementado o envio síncrono.
+   Por: Leonardo Gomes
 -- Pronim.Provider --
 [-] Correção no envio do evento.
    Por: Italo Giurizzato Junior
