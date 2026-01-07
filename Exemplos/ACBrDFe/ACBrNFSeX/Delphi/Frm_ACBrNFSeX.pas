@@ -4456,8 +4456,8 @@ begin
     memoLog.Lines.Add('------------------------------------');
     memoLog.Lines.Add('Informações sobre o provedor: ' + xProvedor +
             ' - Versão: ' + VersaoNFSeToStr(ACBrNFSeX1.Configuracoes.Geral.Versao) +
-            ' - Layout: ' + IfThen(ACBrNFSeX1.Configuracoes.Geral.Layout = loABRASF,
-                                   'ABRASF', 'Próprio'));
+            ' - Layout: ' + LayoutToStr(ACBrNFSeX1.Configuracoes.Geral.Layout));
+
     memoLog.Lines.Add('');
     memoLog.Lines.Add('Autenticação');
     memoLog.Lines.Add('');
@@ -6384,6 +6384,8 @@ begin
 
   lblSchemas.Caption := ACBrNFSeX1.Configuracoes.Geral.xProvedor;
 
+  lblLayout.Caption := LayoutToStr(ACBrNFSeX1.Configuracoes.Geral.Layout);
+  (*
   if ACBrNFSeX1.Configuracoes.Geral.Layout = loABRASF then
     lblLayout.Caption := 'ABRASF'
   else
@@ -6394,7 +6396,7 @@ begin
     else
       lblLayout.Caption := 'Próprio';
   end;
-
+  *)
   lblVersaoSchemas.Caption := VersaoNFSeToStr(ACBrNFSeX1.Configuracoes.Geral.Versao);
 
   if (ACBrNFSeX1.Configuracoes.Geral.Provedor = proPadraoNacional) or

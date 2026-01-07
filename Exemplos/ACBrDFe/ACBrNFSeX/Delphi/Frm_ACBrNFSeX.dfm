@@ -419,12 +419,11 @@ object frmACBrNFSe: TfrmACBrNFSe
                 Caption = 'Schemas do Provedor:'
               end
               object Label49: TLabel
-                Left = 5
+                Left = 6
                 Top = 279
-                Width = 80
+                Width = 70
                 Height = 13
-                Alignment = taRightJustify
-                Caption = 'Layout da NFS-e'
+                Caption = 'Layout do XML'
                 Color = clBtnFace
                 ParentColor = False
               end
