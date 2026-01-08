@@ -56,7 +56,7 @@ type
   private
     fAguardandoResposta: Boolean;
     fModelo: TACBrTEFTXTModelo;
-    fTEFTXT: TACBrTEFTXTBaseClass;
+    fTEFTXT: TACBrTEFTXTGerenciadorPadrao;
 
     procedure QuandoGravarLogAPI(const ALogLine: String; var Tratado: Boolean);
     procedure QuandoAguardarArquivoAPI( ArquivoAguardado: String;
@@ -99,24 +99,12 @@ type
       const Rede, NSU, CodigoFinalizacao: String;
       AStatus: TACBrTEFStatusTransacao = tefstsSucessoAutomatico); override;
 
-    procedure ResolverTransacaoPendente(AStatus: TACBrTEFStatusTransacao = tefstsSucessoManual); override;
-    procedure AbortarTransacaoEmAndamento; override;
-    procedure FinalizarVenda; override;
-
-    procedure ExibirMensagemPinPad(const MsgPinPad: String); override;
-    function ObterDadoPinPad(TipoDado: TACBrTEFAPIDadoPinPad;
-      TimeOut: Integer = 30000; MinLen: SmallInt = 0; MaxLen: SmallInt = 0): String; override;
-    function VerificarPresencaPinPad: Byte; override;
     function VersaoAPI: String; override;
 
-    procedure ObterListaImagensPinPad(ALista: TStrings); override;
+    procedure ResolverTransacaoPendente(AStatus: TACBrTEFStatusTransacao = tefstsSucessoManual); override;
+    procedure AbortarTransacaoEmAndamento; override;
 
-    procedure ExibirImagemPinPad(const NomeImagem: String); override;
-    procedure ApagarImagemPinPad(const NomeImagem: String); override;
-    procedure CarregarImagemPinPad(const NomeImagem: String; AStream: TStream;
-      TipoImagem: TACBrTEFAPIImagemPinPad ); override;
-
-    property TEFTXT: TACBrTEFTXTBaseClass read fTEFTXT;
+    property TEFTXT: TACBrTEFTXTGerenciadorPadrao read fTEFTXT;
     property Modelo: TACBrTEFTXTModelo read fModelo write SetModelo;
     property AguardandoResposta: Boolean read fAguardandoResposta;
   end;
@@ -203,12 +191,24 @@ procedure TACBrTEFAPIClassTXT.QuandoAguardarArquivoAPI(ArquivoAguardado: String;
   SegundosParaTimeOut: Double; var Interromper: Boolean);
 var
   msg: String;
+  Secs: Double;
 begin
-  msg := Format( ACBrStr(CInfoAguardandoResposta),
-                 [fTEFTXT.ModeloTEF, FormatFloat('##0',abs(SegundosParaTimeOut))] );
-  TACBrTEFAPI(fpACBrTEFAPI).QuandoExibirMensagem( msg, telaTodas, -1);
+  Secs := 0;
+  if (SegundosParaTimeOut < 0) then
+    Secs := abs(SegundosParaTimeOut)
+  else
+    Secs := ((fTEFTXT.Config.TempoLimiteEsperaStatus/1000) - SegundosParaTimeOut);
 
-  TACBrTEFAPI(fpACBrTEFAPI).QuandoEsperarOperacao(opapiAguardaUsuario, Interromper);
+  if (Secs >= 2) then  // So exibe msg se espera passar de 2 seg
+  begin
+    msg := Format( ACBrStr(CInfoAguardandoResposta),
+                   [fTEFTXT.ModeloTEF, FormatFloat('##0',abs(SegundosParaTimeOut))] );
+    TACBrTEFAPI(fpACBrTEFAPI).QuandoExibirMensagem( msg, telaTodas, -1);
+  end;
+
+  if (ArquivoAguardado <> fTEFTXT.ArqSts) then
+    TACBrTEFAPI(fpACBrTEFAPI).QuandoEsperarOperacao(opapiAguardaUsuario, Interromper);
+
   if not Interromper then
     Interromper := (fAguardandoResposta = False);
 end;
@@ -237,33 +237,57 @@ end;
 
 procedure TACBrTEFAPIClassTXT.CarregarRespostasPendentes(
   const AListaRespostasTEF: TACBrTEFAPIRespostas);
+var
+  Resp: TACBrTEFResp;
 begin
   inherited CarregarRespostasPendentes(AListaRespostasTEF);
+
+  if FileExists(fTEFTXT.ArqResp) then
+  begin
+    Resp := fpTEFRespClass.Create;
+    try
+      Resp.LeArquivo(fTEFTXT.ArqResp);
+      Resp.ConteudoToProperty;
+      Resp.ArqBackup := fTEFTXT.ArqResp;
+      fpACBrTEFAPI.RespostasTEF.AdicionarRespostaTEF(Resp);
+    finally
+      Resp.Free;
+    end;
+  end;
 end;
 
 function TACBrTEFAPIClassTXT.EfetuarPagamento(ValorPagto: Currency;
   Modalidade: TACBrTEFModalidadePagamento; CartoesAceitos: TACBrTEFTiposCartao;
   Financiamento: TACBrTEFModalidadeFinanciamento; Parcelas: Byte;
   DataPreDatado: TDateTime; DadosAdicionais: String): Boolean;
+var
+  Moeda: Integer;
 begin
-  Result := inherited EfetuarPagamento(ValorPagto, Modalidade, CartoesAceitos,
-    Financiamento, Parcelas, DataPreDatado, DadosAdicionais);
+  if (fpACBrTEFAPI.DadosAutomacao.MoedaISO4217 = CMODEDA_USD) then
+    Moeda := 1
+  else
+    Moeda := 0;
+
+  // Gerenciador padrão (original) não preve forma da passar parâmetros:
+  // CartoesAceitos, Financiamento, Parcelas, DataPreDatado
+
+  if (Modalidade = tefmpCheque) then
+    Result := fTEFTXT.CHQ( ValorPagto, fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao)
+  else
+    Result := fTEFTXT.CRT( ValorPagto, fpACBrTEFAPI.RespostasTEF.IdentificadorTransacao, Moeda);
 end;
 
 function TACBrTEFAPIClassTXT.EfetuarAdministrativa(CodOperacaoAdm: TACBrTEFOperacao): Boolean;
 begin
   Result := False;
-  if (fTEFTXT is TACBrTEFTXTGerenciadorPadrao) then
+  if (CodOperacaoAdm = tefopTesteComunicacao) then
   begin
-    if (CodOperacaoAdm = tefopTesteComunicacao) then
-    begin
-      TACBrTEFTXTGerenciadorPadrao(fTEFTXT).ATV;
-      Result := True;
-      TEFTXT.Resp.Campo[9,0].AsString := '0'; // Sinaliza como Sucesso
-    end
-    else
-      Result := TACBrTEFTXTGerenciadorPadrao(fTEFTXT).ADM;
-  end;
+    fTEFTXT.ATV;
+    Result := True;
+    TEFTXT.Resp.Campo[9,0].AsString := '0'; // Sinaliza como Sucesso
+  end
+  else
+    Result := fTEFTXT.ADM;
 end;
 
 function TACBrTEFAPIClassTXT.EfetuarAdministrativa(const CodOperacaoAdm: string): Boolean;
@@ -275,20 +299,28 @@ function TACBrTEFAPIClassTXT.CancelarTransacao(const NSU,
   CodigoAutorizacaoTransacao: string; DataHoraTransacao: TDateTime;
   Valor: Double; const CodigoFinalizacao: string; const Rede: string): Boolean;
 begin
-  Result := inherited CancelarTransacao(NSU, CodigoAutorizacaoTransacao,
-    DataHoraTransacao, Valor, CodigoFinalizacao, Rede);
+  Result := fTEFTXT.CNC( Valor, Rede, NSU, DataHoraTransacao);
 end;
 
 procedure TACBrTEFAPIClassTXT.FinalizarTransacao(const Rede, NSU,
   CodigoFinalizacao: String; AStatus: TACBrTEFStatusTransacao);
 begin
-  inherited FinalizarTransacao(Rede, NSU, CodigoFinalizacao, AStatus);
+  if (AStatus in [tefstsSucessoAutomatico, tefstsSucessoManual]) then
+    fTEFTXT.CNF(Rede, NSU, CodigoFinalizacao)
+  else
+    fTEFTXT.NCN(Rede, NSU, CodigoFinalizacao)
 end;
 
 procedure TACBrTEFAPIClassTXT.ResolverTransacaoPendente(
   AStatus: TACBrTEFStatusTransacao);
 begin
-  inherited ResolverTransacaoPendente(AStatus);
+  if fpACBrTEFAPI.UltimaRespostaTEF.Confirmar then
+  begin
+    FinalizarTransacao( fpACBrTEFAPI.UltimaRespostaTEF.Rede,
+                        fpACBrTEFAPI.UltimaRespostaTEF.NSU,
+                        fpACBrTEFAPI.UltimaRespostaTEF.Finalizacao,
+                        AStatus );
+  end;
 end;
 
 procedure TACBrTEFAPIClassTXT.AbortarTransacaoEmAndamento;
@@ -296,51 +328,9 @@ begin
   fAguardandoResposta := False;
 end;
 
-procedure TACBrTEFAPIClassTXT.FinalizarVenda;
-begin
-  inherited FinalizarVenda;
-end;
-
-procedure TACBrTEFAPIClassTXT.ExibirMensagemPinPad(const MsgPinPad: String);
-begin
-  inherited ExibirMensagemPinPad(MsgPinPad);
-end;
-
-function TACBrTEFAPIClassTXT.ObterDadoPinPad(TipoDado: TACBrTEFAPIDadoPinPad;
-  TimeOut: Integer; MinLen: SmallInt; MaxLen: SmallInt): String;
-begin
-  Result := inherited ObterDadoPinPad(TipoDado, TimeOut, MinLen, MaxLen);
-end;
-
-function TACBrTEFAPIClassTXT.VerificarPresencaPinPad: Byte;
-begin
-  Result := inherited VerificarPresencaPinPad;
-end;
-
 function TACBrTEFAPIClassTXT.VersaoAPI: String;
 begin
-  Result := inherited VersaoAPI;
-end;
-
-procedure TACBrTEFAPIClassTXT.ObterListaImagensPinPad(ALista: TStrings);
-begin
-  inherited ObterListaImagensPinPad(ALista);
-end;
-
-procedure TACBrTEFAPIClassTXT.ExibirImagemPinPad(const NomeImagem: String);
-begin
-  inherited ExibirImagemPinPad(NomeImagem);
-end;
-
-procedure TACBrTEFAPIClassTXT.ApagarImagemPinPad(const NomeImagem: String);
-begin
-  inherited ApagarImagemPinPad(NomeImagem);
-end;
-
-procedure TACBrTEFAPIClassTXT.CarregarImagemPinPad(const NomeImagem: String;
-  AStream: TStream; TipoImagem: TACBrTEFAPIImagemPinPad);
-begin
-  inherited CarregarImagemPinPad(NomeImagem, AStream, TipoImagem);
+  Result := fTEFTXT.VersaoTEF;
 end;
 
 end.

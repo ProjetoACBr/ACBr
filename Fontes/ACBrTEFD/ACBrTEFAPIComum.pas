@@ -125,7 +125,7 @@ type
       write fSuportaViasDiferenciadas default True;
     property UtilizaSaldoTotalVoucher: Boolean read fUtilizaSaldoTotalVoucher
       write fUtilizaSaldoTotalVoucher default False;
-    property MoedaISO4217: Integer read fMoedaISO4217 write fMoedaISO4217 default 986;
+    property MoedaISO4217: Integer read fMoedaISO4217 write fMoedaISO4217 default CMODEDA_BRL;
     property AutoAtendimento: Boolean read fAutoAtendimento write fAutoAtendimento;  // Ainda NÃO utilizado
   end;
 

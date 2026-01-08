@@ -195,6 +195,7 @@ type
     procedure GravarLog(const AString: AnsiString; Traduz: Boolean = False);
     procedure DoException(const AErrorMsg: String); virtual;
     function GetModeloTEF: String; virtual;
+    function GetVersaoTEF: String; virtual;
   public
     constructor Create;
     destructor Destroy; override;
@@ -209,6 +210,7 @@ type
     property Resp: TACBrTEFTXTArquivo read fResp;
 
     property ModeloTEF: String read GetModeloTEF;
+    property VersaoTEF: String read  GetVersaoTEF;
     property Config: TACBrTEFTXTConfig read fConfig write SetConfig;
 
     property QuandoGravarLog : TACBrGravarLog read fQuandoGravarLog write fQuandoGravarLog;
@@ -645,6 +647,11 @@ begin
   Result := CACBRTEFTXT_NomeGerenciadorNenhum;
 end;
 
+function TACBrTEFTXTClass.GetVersaoTEF: String;
+begin
+  Result := '0';
+end;
+
 procedure TACBrTEFTXTClass.ApagarArquivo(const AArquivo: String);
 begin
   if AArquivo = '' then
@@ -831,11 +838,11 @@ begin
   if Assigned(fAntesGravarRequisicao) then
     fAntesGravarRequisicao(Req);
 
-  if (NivelLog >= 2) then
+  if (NivelLog >= 3) then
     GravarLog('  Gravando Temporario: '+ArqTemp);
   Req.SalvarArquivo( ArqTemp );
 
-  if (NivelLog >= 2) then
+  if (NivelLog >= 3) then
     GravarLog(Format('  Renomeando: %s para %s ', [ArqTemp, ArqReq]));
   if not RenameFile( ArqTemp, ArqReq ) then
     DoException(Format( ACBrStr(CErroRenomearArquivo), [ArqTemp, ArqReq]));
@@ -861,7 +868,7 @@ procedure TACBrTEFTXTBaseClass.ApagarArquivosDeComunicacao;
     end;
   end;
 begin
-  if (NivelLog >= 2) then
+  if (NivelLog >= 3) then
     GravarLog('  ApagarArquivosDeComunicacao');
   VerificarEApagarArquivo(ArqTemp);
   VerificarEApagarArquivo(ArqReq);
@@ -912,8 +919,8 @@ begin
     if not Result then
     begin
       TempoRestante := SecondSpan(Now, TempoFimEspera);
-      if (NivelLog >= 2) then
-        GravarLog('  Tempo Restante: '+FormatFloat('##0',TempoRestante)+' segundos');
+      if (NivelLog >= 3) then
+        GravarLog('  Tempo Restante: '+FormatFloat('##0.000',TempoRestante)+' segundos');
       if Assigned(QuandoAguardarArquivo) then
       begin
         QuandoAguardarArquivo(ArqSts, TempoRestante, Interromper);
@@ -947,8 +954,8 @@ begin
     if not Result then
     begin
       TempoPassado := SecondSpan(TempoInicio, Now);
-      if (NivelLog >= 2) then
-        GravarLog('  Tempo Passado: '+FormatFloat('##0',TempoPassado)+' segundos');
+      if (NivelLog >= 3) then
+        GravarLog('  Tempo Passado: '+FormatFloat('##0.000',TempoPassado)+' segundos');
       if Assigned(QuandoAguardarArquivo) then
       begin
         QuandoAguardarArquivo(ArqResp, -TempoPassado, Interromper);

@@ -69,6 +69,10 @@ const
   CTEF_RESP_SERIAL_POS      = 502;
   CTEF_RESP_ESTABELECIMENTO = 503;
 
+  // https://pt.wikipedia.org/wiki/ISO_4217
+  CMODEDA_BRL = 986;
+  CMODEDA_USD = 840;
+
 type
 
   TACBrTEFTipoCartao = ( teftcNaoDefinido,

@@ -71,6 +71,7 @@ type
   protected
     function RespostaTransacaoComSucesso: Boolean;
     function GetModeloTEF: String; override;
+    function GetVersaoTEF: String; override;
   public
     constructor Create; override;
     destructor Destroy; override;
@@ -87,8 +88,8 @@ type
       Cheque: String = ''; ChequeDC: String = '';
       Compensacao: String = '' ): Boolean;
     Function CNC(Valor: Double; const Rede, NSU: String; DataHoraTransacao: TDateTime; DocumentoVinculado: String = ''): Boolean;
-    Procedure CNF(const Rede, NSU, Finalizacao: String; DocumentoVinculado: String = '');
-    Procedure NCN(const Rede, NSU, Finalizacao: String; Valor: Double = 0; const DocumentoVinculado: String = '') ;
+    Procedure CNF(const Rede, NSU, Finalizacao: String; const DocumentoVinculado: String = '');
+    Procedure NCN(const Rede, NSU, Finalizacao: String; const DocumentoVinculado: String = '') ;
 
     property Enviar_ATV_Antes: Boolean read fEnviarATV write fEnviarATV default True;
   end;
@@ -253,9 +254,17 @@ begin
   Result := ACBrStr(CACBRTEFTXT_NomeGerenciadorPadrao);
 end;
 
+function TACBrTEFTXTGerenciadorPadrao.GetVersaoTEF: String;
+begin
+  Result := ACBrStr('Versão 2.5 - 03/2010');
+end;
+
 procedure TACBrTEFTXTGerenciadorPadrao.PrepararRequisicao(const AHeader: String);
 begin
-  if fEnviarATV and (AHeader <> CACBRTEFTXT_CMD_ATV) then
+  if fEnviarATV and
+     (AHeader <> CACBRTEFTXT_CMD_ATV) and
+     (AHeader <> CACBRTEFTXT_CMD_CNF) and
+     (AHeader <> CACBRTEFTXT_CMD_NCN) then
     ATV;
 
   inherited PrepararRequisicao(AHeader);
@@ -313,7 +322,8 @@ function TACBrTEFTXTGerenciadorPadrao.CNC(Valor: Double; const Rede,
   NSU: String; DataHoraTransacao: TDateTime; DocumentoVinculado: String): Boolean;
 begin
   PrepararRequisicao(CACBRTEFTXT_CMD_CNC);
-  Req.Campo[02,0].AsString := DocumentoVinculado;
+  if (DocumentoVinculado <> '') then
+    Req.Campo[02,0].AsString := DocumentoVinculado;
   Req.Campo[03,0].AsFloat := Valor;
   Req.Campo[10,0].AsString := Rede;
   Req.Campo[12,0].AsString := NSU;
@@ -324,25 +334,27 @@ begin
 end;
 
 procedure TACBrTEFTXTGerenciadorPadrao.CNF(const Rede, NSU,
-  Finalizacao: String; DocumentoVinculado: String);
+  Finalizacao: String; const DocumentoVinculado: String);
 begin
   PrepararRequisicao(CACBRTEFTXT_CMD_CNF);
-  Req.Campo[02,0].AsString := DocumentoVinculado;
+  if (DocumentoVinculado <> '') then
+    Req.Campo[02,0].AsString := DocumentoVinculado;
   Req.Campo[10,0].AsString := Rede;
   Req.Campo[12,0].AsString := NSU;
   Req.Campo[27,0].AsString := Finalizacao;
-  EnviarRequisicao;
+  EnviarRequisicao(False);
 end;
 
 procedure TACBrTEFTXTGerenciadorPadrao.NCN(const Rede, NSU,
-  Finalizacao: String; Valor: Double; const DocumentoVinculado: String);
+  Finalizacao: String; const DocumentoVinculado: String);
 begin
   PrepararRequisicao(CACBRTEFTXT_CMD_NCN);
-  Req.Campo[02,0].AsString := DocumentoVinculado;
+  if (DocumentoVinculado <> '') then
+    Req.Campo[02,0].AsString := DocumentoVinculado;
   Req.Campo[10,0].AsString := Rede;
   Req.Campo[12,0].AsString := NSU;
   Req.Campo[27,0].AsString := Finalizacao;
-  EnviarRequisicao;
+  EnviarRequisicao(False);
 end;
 
 end.

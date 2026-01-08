@@ -47,7 +47,7 @@ Símbolo : Significado
 
 08/01/2025
 -- ACBrTEFAPI, ACBrTEFTXTComum, ACBrTEFTXTGerenciadorPadrao --
-[+] Iniciao do desenvolvimento de TEF por troca de Arquivos, com suporte a
+[+] Inicio do desenvolvimento de TEF por troca de Arquivos, com suporte a
     múltiplos Gerenciadores
     (por: DSA)
 
