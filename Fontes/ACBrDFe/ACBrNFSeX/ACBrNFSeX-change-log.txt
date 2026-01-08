@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 08/01/2026
+-- ACBrNFSeXConversao/ACBrNFSeXGravarXml/Ginfes.GravarXml/Giss.GravarXml/PadraoNacional.GravarXml --
+-- Etherium.GravarXml/Etherium.Provider/SigCorp.GravarXml/SigCorp.Provider --
+[*] ACBR-8639/8617: Alterações visando a Reforma Tributária para os provedores Etherium e SigCorp.
+   Por: Raphael Sanini/Italo Giurizzato Junior
 -- MetropolisWeb.GravarXml --
 [*] ACBR-8714: Alterações visando a Reforma Tributária.
    Por: Dino Rodrigo S. Moreira/Italo Giurizzato Junior

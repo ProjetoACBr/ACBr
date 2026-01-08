@@ -62,7 +62,7 @@ type
     function GerarcomExt: TACBrXmlNode;
     function GerarEnderecoExteriorTomador: TACBrXmlNode; override;
 
-    function GerarXMLIBSCBSValores(valores: Tvalorestrib): TACBrXmlNode; override;
+    function GerarXMLIBSCBSTribValores(valores: Tvalorestrib): TACBrXmlNode; override;
 
     procedure GerarINISecaoValores(const AINIRec: TMemIniFile); override;
     procedure GerarINIValoresTribFederal(AINIRec: TMemIniFile);
@@ -214,10 +214,10 @@ begin
     Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 end;
 
-function TNFSeW_Giss204.GerarXMLIBSCBSValores(
+function TNFSeW_Giss204.GerarXMLIBSCBSTribValores(
   valores: Tvalorestrib): TACBrXmlNode;
 begin
-  Result := inherited GerarXMLIBSCBSValores(valores);
+  Result := inherited GerarXMLIBSCBSTribValores(valores);
 
   Result.AppendChild(AddNode(tcInt, '#1', 'cLocalidadeIncid', 7, 7, 1,
                                      NFSe.infNFSe.IBSCBS.cLocalidadeIncid, ''));
