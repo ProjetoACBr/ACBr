@@ -45,6 +45,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/01/2025
+-- ACBrTEFAPI, ACBrTEFTXTComum, ACBrTEFTXTGerenciadorPadrao --
+[+] Iniciao do desenvolvimento de TEF por troca de Arquivos, com suporte a
+    múltiplos Gerenciadores
+    (por: DSA)
+
 18/12/2025
 -- ACBrTEFAPIPayKit --
 [+] Adicionda as propriedades abaixo, para permitir informar valores na chamada

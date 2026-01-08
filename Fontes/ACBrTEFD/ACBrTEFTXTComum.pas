@@ -37,8 +37,15 @@ unit ACBrTEFTXTComum;
 interface
 
 uses
-  Classes, SysUtils,Contnrs,
-  ACBrBase, ACBrTEFComum;
+  Classes, SysUtils,
+  ACBrBase, ACBrTEFComum,
+  {$IF DEFINED(HAS_SYSTEM_GENERICS)}
+   System.Generics.Collections, System.Generics.Defaults
+  {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
+   System.Contnrs
+  {$Else}
+   Contnrs
+  {$IfEnd};
 
 const
   CACBRTEFTXT_NomeGerenciadorNenhum = 'Nenhum';
@@ -74,7 +81,7 @@ type
 
   { TACBrTEFCampos }
 
-  TACBrTEFCampos = class(TObjectList{$IfDef HAS_SYSTEM_GENERICS}<TACBrTEFInformacao>{$EndIf})
+  TACBrTEFCampos = class(TObjectList{$IfDef HAS_SYSTEM_GENERICS}<TACBrInformacao>{$EndIf})
   private
     function GetCampoIdSeq(AIdentificacao, ASequencia: Integer): TACBrInformacao;
     function GetItem(Index: Integer): TACBrInformacao;
@@ -130,6 +137,7 @@ type
     fArqTemp: String;
     fDirReq: String;
     fDirResp: String;
+    fNivelLog: Byte;
     fTempoEsperaLacoVerificacaoArquivo: Integer;
     fTempoLimiteEsperaStatus: Integer;
     procedure SetArqLog(AValue: String);
@@ -159,7 +167,7 @@ type
     property ArqResp: String read fArqResp write SetArqResp;
 
     property ArqLog: String read fArqLog write SetArqLog;
-    //TODO criar LogLevel e gravar conteúdo dos arquivos
+    property NivelLog: Byte read fNivelLog write fNivelLog default 2;  // 1-Baixo, 2-Normal, 3-Alto
   end;
 
 
@@ -180,6 +188,7 @@ type
     function GetArqResp: String;
     function GetArqSts: String;
     function GetArqTemp: String;
+    function GetNivelLog: Byte;
     procedure SetConfig(AValue: TACBrTEFTXTConfig);
   protected
     procedure ApagarArquivo(const AArquivo: String);
@@ -194,6 +203,7 @@ type
     property ArqReq: String read GetArqReq;
     property ArqSts: String read GetArqSts;
     property ArqResp: String read GetArqResp;
+    property NivelLog: Byte read GetNivelLog;
 
     property Req: TACBrTEFTXTArquivo read fReq;
     property Resp: TACBrTEFTXTArquivo read fResp;
@@ -228,6 +238,8 @@ type
     procedure LimparRequisicao; virtual;
     procedure LimparResposta; virtual;
     function ObterID(const AHeader: String): Integer;
+    procedure GravarRequisicaoNoLog;
+    procedure GravarRespostaNoLog;
   public
     constructor Create; virtual;
     destructor Destroy; override;
@@ -478,6 +490,7 @@ begin
   fArqSts := CACBRTEFTXT_ARQSTS;
   fArqTemp := CACBRTEFTXT_ARQTEMP;
   fArqLog := '';
+  fNivelLog := 2;
 end;
 
 procedure TACBrTEFTXTConfig.Assign(Source: TACBrTEFTXTConfig);
@@ -622,6 +635,11 @@ begin
   Result := Config.DirReq + Config.ArqTemp;
 end;
 
+function TACBrTEFTXTClass.GetNivelLog: Byte;
+begin
+  Result := Config.NivelLog;
+end;
+
 function TACBrTEFTXTClass.GetModeloTEF: String;
 begin
   Result := CACBRTEFTXT_NomeGerenciadorNenhum;
@@ -634,7 +652,9 @@ begin
   if not FileExists(AArquivo) then
     Exit;
 
-  GravarLog('    Apagando: '+AArquivo);
+  if (NivelLog >= 2) then
+    GravarLog('    Apagando: '+AArquivo);
+
   SysUtils.DeleteFile(AArquivo);
   if FileExists(AArquivo) then
     DoException(Format(ACBrStr(CErroApagarArquivo), [AArquivo]));
@@ -675,7 +695,8 @@ begin
   if (s = '') then
     Exit;
 
-  GravarLog('EACBrTEFErro: '+AErrorMsg);
+  if (NivelLog >= 1) then
+    GravarLog('EACBrTEFErro: '+AErrorMsg);
   raise EACBrTEFErro.Create(AErrorMsg);
 end;
 
@@ -701,7 +722,8 @@ begin
   if fStatus = AValue then
     Exit;
 
-  GravarLog('  SetStatus: '+ GetEnumName(TypeInfo(TACBrTEFTXTStatus), Integer(AValue) ));
+  if (NivelLog >= 2) then
+    GravarLog('  SetStatus: '+ GetEnumName(TypeInfo(TACBrTEFTXTStatus), Integer(AValue) ));
   fStatus := AValue;
   if Assigned(fQuandoMudarStatus) then
     fQuandoMudarStatus(Self);
@@ -724,9 +746,38 @@ begin
   end;
 end;
 
+procedure TACBrTEFTXTBaseClass.GravarRequisicaoNoLog;
+var
+  sl: TStringList;
+begin
+  sl := TStringList.Create;
+  try
+    Req.SalvarArquivo(sl);
+    sl.Insert(0, ArqReq);
+    GravarLog(sl.Text);
+  finally
+    sl.Free;
+  end;
+end;
+
+procedure TACBrTEFTXTBaseClass.GravarRespostaNoLog;
+var
+  sl: TStringList;
+begin
+  sl := TStringList.Create;
+  try
+    Resp.SalvarArquivo(sl);
+    sl.Insert(0, ArqResp);
+    GravarLog(sl.Text);
+  finally
+    sl.Free;
+  end;
+end;
+
 procedure TACBrTEFTXTBaseClass.PrepararRequisicao(const AHeader: String);
 begin
-  GravarLog('PrepararRequisicao( '+AHeader+' )' );
+  if (NivelLog >= 1) then
+    GravarLog('PrepararRequisicao( '+AHeader+' )' );
   if (Status <> tefstLivre) then
     DoException(ACBrStr(CErroAguardandoRequisicaoAnterior));
 
@@ -741,7 +792,8 @@ end;
 
 procedure TACBrTEFTXTBaseClass.EnviarRequisicao(AguardaResposta: Boolean);
 begin
-  GravarLog('EnviarRequisicao');
+  if (NivelLog >= 1) then
+    GravarLog('EnviarRequisicao');
   if (Status <> tefstLivre) then
     DoException(ACBrStr(CErroAguardandoRequisicaoAnterior));
 
@@ -772,18 +824,24 @@ end;
 
 procedure TACBrTEFTXTBaseClass.GravarRequisicao;
 begin
-  GravarLog('GravarRequisicao: '+ArqReq);
+  if (NivelLog >= 1) then
+    GravarLog('GravarRequisicao: '+ArqReq);
   Status := tefstEnviandoRequisicao;
 
   if Assigned(fAntesGravarRequisicao) then
     fAntesGravarRequisicao(Req);
 
-  GravarLog('  Gravando Temporario: '+ArqTemp);
+  if (NivelLog >= 2) then
+    GravarLog('  Gravando Temporario: '+ArqTemp);
   Req.SalvarArquivo( ArqTemp );
 
-  GravarLog(Format('  Renomeando: %s para %s ', [ArqTemp, ArqReq]));
+  if (NivelLog >= 2) then
+    GravarLog(Format('  Renomeando: %s para %s ', [ArqTemp, ArqReq]));
   if not RenameFile( ArqTemp, ArqReq ) then
     DoException(Format( ACBrStr(CErroRenomearArquivo), [ArqTemp, ArqReq]));
+
+  if (NivelLog >= 3) then
+    GravarRequisicaoNoLog;
 end;
 
 procedure TACBrTEFTXTBaseClass.ApagarArquivosDeComunicacao;
@@ -797,12 +855,14 @@ procedure TACBrTEFTXTBaseClass.ApagarArquivosDeComunicacao;
 
     if FileExists(s) then
     begin
-      GravarLog('    AVISO: '+Format(ACBrStr(CErroNomeArquivoJaExiste), [ArqTemp]));
+      if (NivelLog >= 2) then
+        GravarLog('    AVISO: '+Format(ACBrStr(CErroNomeArquivoJaExiste), [ArqTemp]));
       ApagarArquivo(s);
     end;
   end;
 begin
-  GravarLog('  ApagarArquivosDeComunicacao');
+  if (NivelLog >= 2) then
+    GravarLog('  ApagarArquivosDeComunicacao');
   VerificarEApagarArquivo(ArqTemp);
   VerificarEApagarArquivo(ArqReq);
   VerificarEApagarArquivo(ArqSts);
@@ -821,13 +881,15 @@ end;
 
 procedure TACBrTEFTXTBaseClass.LimparRequisicao;
 begin
-  GravarLog('LimparRequisicao');
+  if (NivelLog >= 2) then
+    GravarLog('LimparRequisicao');
   Req.Clear;
 end;
 
 procedure TACBrTEFTXTBaseClass.LimparResposta;
 begin
-  GravarLog('LimparResposta');
+  if (NivelLog >= 2) then
+    GravarLog('LimparResposta');
   Resp.Clear;
 end;
 
@@ -837,7 +899,8 @@ var
   TempoFimEspera: TDateTime;
   TempoRestante: Double;
 begin
-  GravarLog('AguardarStatus: '+ArqSts);
+  if (NivelLog >= 1) then
+    GravarLog('AguardarStatus: '+ArqSts);
   Status := tefstAguardandoSts;
   Interromper := False;
   Result := False;
@@ -849,16 +912,19 @@ begin
     if not Result then
     begin
       TempoRestante := SecondSpan(Now, TempoFimEspera);
-      GravarLog('  Tempo Restante: '+FormatFloat('##0',TempoRestante)+' segundos');
+      if (NivelLog >= 2) then
+        GravarLog('  Tempo Restante: '+FormatFloat('##0',TempoRestante)+' segundos');
       if Assigned(QuandoAguardarArquivo) then
       begin
         QuandoAguardarArquivo(ArqSts, TempoRestante, Interromper);
         if Interromper then
-          GravarLog('  Interrompido');
+          if (NivelLog >= 1) then
+            GravarLog('  Interrompido');
       end;
     end;
   end;
-  GravarLog('  '+ifthen(Result, 'OK', 'ERRO'));
+  if (NivelLog >= 2) then
+    GravarLog('  '+ifthen(Result, 'OK', 'ERRO'));
 end;
 
 function TACBrTEFTXTBaseClass.AguardarResposta: Boolean;
@@ -867,7 +933,8 @@ var
   TempoInicio: TDateTime;
   TempoPassado: Double;
 begin
-  GravarLog('AguardarResposta: '+ArqResp);
+  if (NivelLog >= 1) then
+    GravarLog('AguardarResposta: '+ArqResp);
   LimparResposta;
   Status := tefstAguardandoResp;
   Interromper := False;
@@ -880,31 +947,41 @@ begin
     if not Result then
     begin
       TempoPassado := SecondSpan(TempoInicio, Now);
-      GravarLog('  Tempo Passado: '+FormatFloat('##0',TempoPassado)+' segundos');
+      if (NivelLog >= 2) then
+        GravarLog('  Tempo Passado: '+FormatFloat('##0',TempoPassado)+' segundos');
       if Assigned(QuandoAguardarArquivo) then
       begin
         QuandoAguardarArquivo(ArqResp, -TempoPassado, Interromper);
         if Interromper then
-          GravarLog('  Interrompido');
+          if (NivelLog >= 1) then
+            GravarLog('  Interrompido');
       end;
     end;
   end;
-  GravarLog('  '+ifthen(Result, 'OK', 'ERRO'));
+  if (NivelLog >= 2) then
+    GravarLog('  '+ifthen(Result, 'OK', 'ERRO'));
 end;
 
 procedure TACBrTEFTXTBaseClass.LerArquivoResposta(const AArq: String);
+var
+  sl: TStringList;
 begin
-  GravarLog('LerArquivoResposta: '+AArq);
+  if (NivelLog >= 1) then
+    GravarLog('LerArquivoResposta: '+AArq);
   Resp.LerArquivo(AArq);
+  if (NivelLog >= 3) then
+    GravarRespostaNoLog;
 end;
 
 function TACBrTEFTXTBaseClass.VerificarRespostaValida: Boolean;
 begin
-  GravarLog('  VerificarRespostaValida');
+  if (NivelLog >= 2) then
+    GravarLog('  VerificarRespostaValida');
   Result := (Resp.Campo[999,999].AsString <> '') and
             (Resp.Campo[0,0].AsString = Req.Campo[0,0].AsString) and
             (Resp.Campo[1,0].AsInt64 = Req.Campo[1,0].AsInt64);
-  GravarLog('    '+ifthen(Result, 'OK', 'ERRO'));
+  if (NivelLog >= 2) then
+    GravarLog('    '+ifthen(Result, 'OK', 'ERRO'));
 end;
 
 end.

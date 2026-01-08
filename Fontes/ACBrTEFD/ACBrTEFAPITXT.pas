@@ -252,14 +252,23 @@ end;
 
 function TACBrTEFAPIClassTXT.EfetuarAdministrativa(CodOperacaoAdm: TACBrTEFOperacao): Boolean;
 begin
-  EfetuarAdministrativa('');
+  Result := False;
+  if (fTEFTXT is TACBrTEFTXTGerenciadorPadrao) then
+  begin
+    if (CodOperacaoAdm = tefopTesteComunicacao) then
+    begin
+      TACBrTEFTXTGerenciadorPadrao(fTEFTXT).ATV;
+      Result := True;
+      TEFTXT.Resp.Campo[9,0].AsString := '0'; // Sinaliza como Sucesso
+    end
+    else
+      Result := TACBrTEFTXTGerenciadorPadrao(fTEFTXT).ADM;
+  end;
 end;
 
 function TACBrTEFAPIClassTXT.EfetuarAdministrativa(const CodOperacaoAdm: string): Boolean;
 begin
-  Result := False;
-  if (fTEFTXT is TACBrTEFTXTGerenciadorPadrao) then
-    Result := TACBrTEFTXTGerenciadorPadrao(fTEFTXT).ADM;
+  Result := EfetuarAdministrativa(tefopNenhuma);
 end;
 
 function TACBrTEFAPIClassTXT.CancelarTransacao(const NSU,
