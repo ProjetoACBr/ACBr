@@ -38,7 +38,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls, StdCtrls,
   Spin, Buttons, DBCtrls, ExtCtrls, Grids,
   uVendaClass,
-  ACBrPosPrinter, ACBrTEFComum, ACBrTEFAPI, ACBrBase, ACBrTEFAPIComum, ACBrTEFAPITXT,
+  ACBrPosPrinter, ACBrTEFComum, ACBrTEFAPI, ACBrBase, ACBrTEFAPIComum,
   ImgList,  ACBrAbecsPinPad;
 
 type
@@ -220,6 +220,11 @@ type
     edArqSts: TEdit;
     Label42: TLabel;
     edArqResp: TEdit;
+    Label44: TLabel;
+    cbxGPTXT: TComboBox;
+    Label43: TLabel;
+    seNivelLogTXT: TSpinEdit;
+    btVersaoTEF: TButton;
     procedure ACBrTEFAPI1QuandoDetectarTransacaoPendente(
       RespostaTEF: TACBrTEFResp; const MsgErro: String);
     procedure ACBrTEFAPI1QuandoExibirMensagem(const Mensagem: String;
@@ -277,6 +282,7 @@ type
     procedure sbDirReqClick(Sender: TObject);
     procedure sbDirRespClick(Sender: TObject);
     procedure cbxGPChange(Sender: TObject);
+    procedure btVersaoTEFClick(Sender: TObject);
   private
     FVenda: TVenda;
     FTipoBotaoOperacao: TTipoBotaoOperacao;
@@ -356,7 +362,9 @@ uses
   //ACBrUtil,
   ACBrDelphiZXingQRCode,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime, ACBrUtil.FilesIO,
-  ACBrTEFPayGoComum, ACBrTEFAPIPayGoWeb, ACBrTEFAPIStoneAutoTEF, ACBrTEFAPIScope, ACBrTEFAPICliSiTef;
+  ACBrTEFPayGoComum,
+  ACBrTEFAPIPayGoWeb, ACBrTEFAPIScope, ACBrTEFAPICliSiTef, ACBrTEFAPIPayKit,
+  ACBrTEFAPITXT;
 
 {$R *.dfm}
 
@@ -369,6 +377,7 @@ var
   O: TACBrPosPaginaCodigo;
   P: TACBrTEFAPIAmbiente;
   l, i: Integer;
+  Q: TACBrTEFTXTModelo;
 begin
   FVenda := TVenda.Create(NomeArquivoVenda);
 
@@ -388,6 +397,11 @@ begin
   cbxAmbiente.Items.Clear ;
   For P := Low(TACBrTEFAPIAmbiente) to High(TACBrTEFAPIAmbiente) do
      cbxAmbiente.Items.Add( GetEnumName(TypeInfo(TACBrTEFAPIAmbiente), integer(P) ) ) ;
+
+  cbxGPTXT.Items.Clear ;
+  For Q := Low(TACBrTEFTXTModelo) to High(TACBrTEFTXTModelo) do
+     cbxGPTXT.Items.Add( GetEnumName(TypeInfo(TACBrTEFTXTModelo), integer(Q) ) ) ;
+  cbxGPTXT.ItemIndex := 0;
 
   cbTipoFinanciamento.Clear;
   l := Length(CITENS_TIPO_FINANCIAMENTO)-1;
@@ -453,6 +467,7 @@ end;
 
 procedure TFormPrincipal.FormDestroy(Sender: TObject);
 begin
+  ACBrTEFAPI1.ArqLOG := '';
   if Assigned(FVenda) then
     FVenda.Free;
 end;
@@ -500,6 +515,24 @@ var
 begin
   AFileLog := GetNomeArquivoLog;
   OpenURL( AFileLog );
+end;
+
+procedure TFormPrincipal.sbDirReqClick(Sender: TObject);
+var
+  lDir: String;
+begin
+  lDir := edDirReq.Text;
+  if SelectDirectory(lDir, [], 0) then
+    edDirReq.Text := lDir;
+end;
+
+procedure TFormPrincipal.sbDirRespClick(Sender: TObject);
+var
+  lDir: String;
+begin
+  lDir := edDirResp.Text;
+  if SelectDirectory(lDir, [], 0) then
+    edDirResp.Text := lDir;
 end;
 
 procedure TFormPrincipal.btImprimirClick(Sender: TObject);
@@ -973,7 +1006,7 @@ begin
 
       ImprimirTodosComprovantes
     end;
-    
+
     if (MsgFinal <> '')  then
       MessageDlg( MsgFinal, mtInformation, [mbOK], 0);
   end;
@@ -1384,11 +1417,13 @@ begin
     cbSuportaDesconto.Checked := INI.ReadBool('TEF', 'SuportaDesconto', True);
     cbSuportaSaque.Checked := INI.ReadBool('TEF', 'SuportaSaque', True);
 
+    cbxGPTXT.ItemIndex := INI.ReadInteger('TXT', 'GP', 0);
     edDirReq.Text := INI.ReadString('TXT', 'DirReq', edDirReq.Text);
     edDirResp.Text := INI.ReadString('TXT', 'DirResp', edDirResp.Text);
     edArqReq.Text := INI.ReadString('TXT', 'ArqReq', edArqReq.Text);
     edArqSts.Text := INI.ReadString('TXT', 'ArqSts', edArqSts.Text);
     edArqResp.Text := INI.ReadString('TXT', 'ArqResp', edArqResp.Text);
+    seNivelLogTXT.Value := INI.ReadInteger('TXT', 'NivelLog', seNivelLogTXT.Value);
 
     edRazaoSocialSwHouse.Text := INI.ReadString('SwHouse', 'RazaoSocial', edRazaoSocialSwHouse.Text);
     edCNPJSwHouse.Text := INI.ReadString('SwHouse', 'CNPJ', edCNPJSwHouse.Text);
@@ -1420,7 +1455,7 @@ begin
     seEspLinhas.Value := INI.ReadInteger('PosPrinter','EspacoLinhas',ACBrPosPrinter1.EspacoEntreLinhas);
     seLinhasPular.Value := INI.ReadInteger('PosPrinter','LinhasEntreCupons',ACBrPosPrinter1.LinhasEntreCupons);
   finally
-     INI.Free ;
+    INI.Free ;
   end ;
 
   FNomeArquivoLog := '';
@@ -1446,11 +1481,13 @@ begin
     INI.WriteBool('TEF', 'SuportaDesconto', cbSuportaDesconto.Checked);
     INI.WriteBool('TEF', 'SuportaSaque', cbSuportaSaque.Checked);
 
+    INI.WriteInteger('TXT', 'GP', cbxGPTXT.ItemIndex);
     INI.WriteString('TXT', 'DirReq', edDirReq.Text);
     INI.WriteString('TXT', 'DirResp', edDirResp.Text);
     INI.WriteString('TXT', 'ArqReq', edArqReq.Text);
     INI.WriteString('TXT', 'ArqSts', edArqSts.Text);
     INI.WriteString('TXT', 'ArqResp', edArqResp.Text);
+    INI.WriteInteger('TXT', 'NivelLog', seNivelLogTXT.Value);
 
     INI.WriteString('SwHouse', 'RazaoSocial', edRazaoSocialSwHouse.Text);
     INI.WriteString('SwHouse', 'CNPJ', edCNPJSwHouse.Text);
@@ -1481,8 +1518,8 @@ begin
     INI.WriteInteger('PosPrinter','EspacoLinhas', seEspLinhas.Value);
     INI.WriteInteger('PosPrinter','LinhasEntreCupons', seLinhasPular.Value);
   finally
-     INI.Free ;
-  end ;
+    INI.Free ;
+  end;
 
   FNomeArquivoLog := '';
 end;
@@ -1747,6 +1784,14 @@ begin
     ShowMessage('PinPad NÃO encontrado');
 end;
 
+procedure TFormPrincipal.btVersaoTEFClick(Sender: TObject);
+var
+  lVer: String;
+begin
+  lVer := ACBrTEFAPI1.VersaoAPI;
+  ShowMessage('Versão do TEF: '+lVer);
+end;
+
 procedure TFormPrincipal.cbEnviarImpressoraChange(Sender: TObject);
 begin
   btImprimir.Enabled := ACBrPosPrinter1.Ativo and (not cbEnviarImpressora.Checked);
@@ -1757,6 +1802,11 @@ begin
   seParcelas.Enabled := (cbTipoFinanciamento.ItemIndex = 2) or
                         (cbTipoFinanciamento.ItemIndex = 3);
   dtPreDatado.Enabled := (cbTipoFinanciamento.ItemIndex = 4);
+end;
+
+procedure TFormPrincipal.cbxGPChange(Sender: TObject);
+begin
+  gbDadosTEFTXT.Enabled := (cbxGP.ItemIndex = Integer(tefTXT));
 end;
 
 procedure TFormPrincipal.seValorInicialVendaChange(Sender: TObject);
@@ -1897,6 +1947,7 @@ begin
           ParamAdicFuncao.Text := '[]';
         end;
       end;
+      *)
 
       // -- Exemplo, usando TypeCast, para inserir Propriedades direto na Classe de TEF -- //
 
@@ -1911,6 +1962,15 @@ begin
         end;
       end;
       *)
+
+      if ACBrTEFAPI1.TEF is TACBrTEFAPIClassPayKit then
+      begin
+        with TACBrTEFAPIClassPayKit(ACBrTEFAPI1.TEF) do
+        begin
+          ValorParcela := 10;
+          ValorTaxaServico := 10;
+        end;
+      end;
 
       Ok := ACBrTEFAPI1.EfetuarPagamento(
                IntToStr(Venda.NumOperacao),
@@ -2383,19 +2443,32 @@ begin
       TEFScopeAPI.UsarScopeClientConnector := False;
     end;
   end;
-  
+
+  //if ACBrTEFAPI1.TEF is TACBrTEFAPIClassCliSiTef then
+  //begin
+  //  with TACBrTEFAPIClassCliSiTef(ACBrTEFAPI1.TEF) do
+  //  begin
+  //    FinalizarTransacaoIndividual := True;
+  //  end;
+  //end;
+
   if ACBrTEFAPI1.TEF is TACBrTEFAPIClassTXT then
   begin
-    with TACBrTEFAPIClassTXT(ACBrTEFAPI1.TEF).TEFTXT.Config do
+    with TACBrTEFAPIClassTXT(ACBrTEFAPI1.TEF) do
     begin
-      DirReq := edDirReq.Text;
-      DirResp := edDirResp.Text;
-      ArqReq := edArqReq.Text;
-      ArqSts := edArqSts.Text;
-      ArqResp := edArqResp.Text;
-      NivelLog := 3; // 1-Baixo, 2-Normal, 3-Alto
+      Modelo := TACBrTEFTXTModelo(cbxGPTXT.ItemIndex);
+      with TEFTXT.Config do
+      begin
+        DirReq := edDirReq.Text;
+        DirResp := edDirResp.Text;
+        ArqReq := edArqReq.Text;
+        ArqSts := edArqSts.Text;
+        ArqResp := edArqResp.Text;
+        NivelLog := seNivelLogTXT.Value; // 1-Baixo, 2-Normal, 3-Alto
+      end;
     end;
   end;
+
 end;
 
 procedure TFormPrincipal.AtivarTEF;
@@ -2470,29 +2543,6 @@ procedure TFormPrincipal.seValorInicialVendaKeyPress(Sender: TObject;
 begin
   if not( Key in ['0'..'9',#8,#13,#27])  then
     Key := #0;
-end;
-
-procedure TFormPrincipal.sbDirReqClick(Sender: TObject);
-var
-  lDir: String;
-begin
-  lDir := edDirReq.Text;
-  if SelectDirectory(lDir, [], 0) then
-    edDirReq.Text := lDir;
-end;
-
-procedure TFormPrincipal.sbDirRespClick(Sender: TObject);
-var
-  lDir: String;
-begin
-  lDir := edDirResp.Text;
-  if SelectDirectory(lDir, [], 0) then
-    edDirResp.Text := lDir;
-end;
-
-procedure TFormPrincipal.cbxGPChange(Sender: TObject);
-begin
-  gbDadosTEFTXT.Enabled := (cbxGP.ItemIndex = Integer(tefTXT));
 end;
 
 end.

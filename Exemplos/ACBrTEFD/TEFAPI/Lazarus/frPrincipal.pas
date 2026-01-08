@@ -38,7 +38,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls, StdCtrls,
   Spin, Buttons, DBCtrls, ExtCtrls, Grids, EditBtn, DateTimePicker, uVendaClass,
   ACBrPosPrinter, ACBrAbecsPinPad, ACBrTEFComum, ACBrTEFAPI, ACBrBase,
-  ACBrTEFAPIComum, ACBrNFe;
+  ACBrTEFAPIComum;
 
 type
 
@@ -70,6 +70,7 @@ type
     btTestarPosPrinter: TBitBtn;
     btTestarTEF: TBitBtn;
     btVerPinPad: TButton;
+    btVersaoTEF: TButton;
     cbAutoAtendimento: TCheckBox;
     cbConfirmarAutomaticamente: TCheckBox;
     cbEnviarImpressora: TCheckBox;
@@ -81,6 +82,7 @@ type
     cbGravarLogTEF: TCheckBox;
     cbxAmbiente: TComboBox;
     cbxGP: TComboBox;
+    cbxGPTXT: TComboBox;
     cbxImpressaoViaCliente: TComboBox;
     cbxModeloPosPrinter: TComboBox;
     cbxPagCodigo: TComboBox;
@@ -162,6 +164,8 @@ type
     Label40: TLabel;
     Label41: TLabel;
     Label42: TLabel;
+    Label43: TLabel;
+    Label44: TLabel;
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
@@ -203,6 +207,7 @@ type
     sbDirResp: TSpeedButton;
     seColunas: TSpinEdit;
     seEspLinhas: TSpinEdit;
+    seNivelLogTXT: TSpinEdit;
     seLinhasPular: TSpinEdit;
     sbLimparLog: TSpeedButton;
     seParcelas: TSpinEdit;
@@ -256,6 +261,7 @@ type
     procedure btTestarTEFClick(Sender: TObject);
     procedure btObterCPFClick(Sender: TObject);
     procedure btVerPinPadClick(Sender: TObject);
+    procedure btVersaoTEFClick(Sender: TObject);
     procedure cbEnviarImpressoraChange(Sender: TObject);
     procedure cbTipoFinanciamentoChange(Sender: TObject);
     procedure cbxGPChange(Sender: TObject);
@@ -348,7 +354,6 @@ var
 implementation
 
 uses
-  fpoauth2,
   IniFiles, typinfo, dateutils, math, strutils, LCLType,
   frIncluirPagamento, frMenuTEF, frObtemCampo, frExibeMensagem,
   configuraserial,
@@ -370,6 +375,7 @@ var
   O: TACBrPosPaginaCodigo;
   P: TACBrTEFAPIAmbiente;
   l, i: Integer;
+  Q: TACBrTEFTXTModelo;
 begin
   FVenda := TVenda.Create(NomeArquivoVenda);
 
@@ -389,6 +395,11 @@ begin
   cbxAmbiente.Items.Clear ;
   For P := Low(TACBrTEFAPIAmbiente) to High(TACBrTEFAPIAmbiente) do
      cbxAmbiente.Items.Add( GetEnumName(TypeInfo(TACBrTEFAPIAmbiente), integer(P) ) ) ;
+
+  cbxGPTXT.Items.Clear ;
+  For Q := Low(TACBrTEFTXTModelo) to High(TACBrTEFTXTModelo) do
+     cbxGPTXT.Items.Add( GetEnumName(TypeInfo(TACBrTEFTXTModelo), integer(Q) ) ) ;
+  cbxGPTXT.ItemIndex := 0;
 
   cbTipoFinanciamento.Clear;
   l := Length(CITENS_TIPO_FINANCIAMENTO)-1;
@@ -1349,11 +1360,13 @@ begin
     cbSuportaDesconto.Checked := INI.ReadBool('TEF', 'SuportaDesconto', True);
     cbSuportaSaque.Checked := INI.ReadBool('TEF', 'SuportaSaque', True);
 
+    cbxGPTXT.ItemIndex := INI.ReadInteger('TXT', 'GP', 0);
     edDirReq.Text := INI.ReadString('TXT', 'DirReq', edDirReq.Text);
     edDirResp.Text := INI.ReadString('TXT', 'DirResp', edDirResp.Text);
     edArqReq.Text := INI.ReadString('TXT', 'ArqReq', edArqReq.Text);
     edArqSts.Text := INI.ReadString('TXT', 'ArqSts', edArqSts.Text);
     edArqResp.Text := INI.ReadString('TXT', 'ArqResp', edArqResp.Text);
+    seNivelLogTXT.Value := INI.ReadInteger('TXT', 'NivelLog', seNivelLogTXT.Value);
 
     edRazaoSocialSwHouse.Text := INI.ReadString('SwHouse', 'RazaoSocial', edRazaoSocialSwHouse.Text);
     edCNPJSwHouse.Text := INI.ReadString('SwHouse', 'CNPJ', edCNPJSwHouse.Text);
@@ -1411,11 +1424,13 @@ begin
     INI.WriteBool('TEF', 'SuportaDesconto', cbSuportaDesconto.Checked);
     INI.WriteBool('TEF', 'SuportaSaque', cbSuportaSaque.Checked);
 
+    INI.WriteInteger('TXT', 'GP', cbxGPTXT.ItemIndex);
     INI.WriteString('TXT', 'DirReq', edDirReq.Text);
     INI.WriteString('TXT', 'DirResp', edDirResp.Text);
     INI.WriteString('TXT', 'ArqReq', edArqReq.Text);
     INI.WriteString('TXT', 'ArqSts', edArqSts.Text);
     INI.WriteString('TXT', 'ArqResp', edArqResp.Text);
+    INI.WriteInteger('TXT', 'NivelLog', seNivelLogTXT.Value);
 
     INI.WriteString('SwHouse', 'RazaoSocial', edRazaoSocialSwHouse.Text);
     INI.WriteString('SwHouse', 'CNPJ', edCNPJSwHouse.Text);
@@ -1476,12 +1491,13 @@ end;
 
 procedure TFormPrincipal.AdicionarLinhaLog(AMensagem: String);
 begin
-  mLog.Lines.Add(AMensagem);
+  if Assigned(mLog) then
+    mLog.Lines.Add(AMensagem);
 end;
 
 procedure TFormPrincipal.AdicionarLinhaImpressao(ALinha: String);
 begin
-  mImpressao.Lines.Add(ALinha);
+  mImpressao.Lines.Add(ACBrStr(ALinha));
   if ACBrPosPrinter1.Ativo then
     ACBrPosPrinter1.Imprimir(ALinha);
 end;
@@ -1707,6 +1723,14 @@ begin
     ShowMessage('PinPad encontrado')
   else
     ShowMessage('PinPad NÃO encontrado');
+end;
+
+procedure TFormPrincipal.btVersaoTEFClick(Sender: TObject);
+var
+  lVer: String;
+begin
+  lVer := ACBrTEFAPI1.VersaoAPI;
+  ShowMessage('Versão do TEF: '+lVer);
 end;
 
 procedure TFormPrincipal.cbEnviarImpressoraChange(Sender: TObject);
@@ -2376,14 +2400,18 @@ begin
 
   if ACBrTEFAPI1.TEF is TACBrTEFAPIClassTXT then
   begin
-    with TACBrTEFAPIClassTXT(ACBrTEFAPI1.TEF).TEFTXT.Config do
+    with TACBrTEFAPIClassTXT(ACBrTEFAPI1.TEF) do
     begin
-      DirReq := edDirReq.Text;
-      DirResp := edDirResp.Text;
-      ArqReq := edArqReq.Text;
-      ArqSts := edArqSts.Text;
-      ArqResp := edArqResp.Text;
-      NivelLog := 3; // 1-Baixo, 2-Normal, 3-Alto
+      Modelo := TACBrTEFTXTModelo(cbxGPTXT.ItemIndex);
+      with TEFTXT.Config do
+      begin
+        DirReq := edDirReq.Text;
+        DirResp := edDirResp.Text;
+        ArqReq := edArqReq.Text;
+        ArqSts := edArqSts.Text;
+        ArqResp := edArqResp.Text;
+        NivelLog := seNivelLogTXT.Value; // 1-Baixo, 2-Normal, 3-Alto
+      end;
     end;
   end;
 
