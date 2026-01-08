@@ -255,6 +255,26 @@
 <xsd:maxLength value="255"/>
 </xsd:restriction>
 </xsd:simpleType>
+
+	<xsd:simpleType name="tsCodigoNbs">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="9" />
+			<xsd:minLength value="1" />
+			<xsd:whiteSpace value="collapse" />
+	</xsd:restriction>
+	<xsd:simpleType name="tsIndOp">
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="preserve"/>
+			<xsd:pattern value="[0-9]{6}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsCclassTrib">
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="preserve"/>
+			<xsd:pattern value="[0-9]{6}"/>
+		</xsd:restriction>
+	</xsd:simpleType>	
+
 <!-- definition of complex elements -->
 <xsd:complexType name="tcCpfCnpj">
 <xsd:choice>
@@ -345,6 +365,9 @@
 <xsd:element name="ItemListaServico" maxOccurs="1" minOccurs="1" type="tsItemListaServico"/>
 <xsd:element name="CodigoCnae" maxOccurs="1" minOccurs="0" type="tsCodigoCnae"/>
 <xsd:element name="CodigoTributacaoMunicipio" maxOccurs="1" minOccurs="0" type="tsCodigoTributacao"/>
+<xsd:element name="CodigoNbs" type="tsCodigoNbs" minOccurs="0" maxOccurs="1" />
+<xsd:element name="IndOp" type="tsIndOp" minOccurs="0" maxOccurs="1" />
+<xsd:element name="CclassTrib" type="tsCclassTrib" minOccurs="0" maxOccurs="1" />
 <xsd:element name="Discriminacao" maxOccurs="1" minOccurs="1" type="tsDiscriminacao"/>
 <xsd:element name="CodigoMunicipio" maxOccurs="1" minOccurs="1" type="tsCodigoMunicipioIbge"/>
 </xsd:sequence>
