@@ -36,7 +36,12 @@ enum ModeloBalanca {
   BALCAPITAL,
   BALMARTE,
   BALLENKELK2500,
-  BALWEIGHTRUTEST
+  BALWEIGHTRUTEST,
+  BALURANOUDC,
+  BALSICILIANO,
+  BALTRENTIN,
+  BALWEIGHTECHWT3000IR_ABS,
+  BALRAMUZA
 }
 
 /// Enumerado que define os tipos de paridade disponíveis

@@ -24,35 +24,20 @@ class AcbrbalPlugin {
 
   /// Método usado para inicializar o componente para uso da biblioteca.
   Future<int> inicializar() async {
-    try {
-      final int result = await _channel.invokeMethod('inicializar');
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return -1;
-    }
+    final int result = await _channel.invokeMethod('inicializar');
+    return result;
   }
 
   /// Método usado para remover o componente ACBrBAL e suas classes da memoria.
   Future<int> finalizar() async {
-    try {
-      final int result = await _channel.invokeMethod('finalizar');
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return -1;
-    }
+    final int result = await _channel.invokeMethod('finalizar');
+    return result;
   }
 
   /// Método usado para gravar a configuração da biblioteca no arquivo INI informado.
   Future<int> configGravar() async {
-    try {
-      final int result = await _channel.invokeMethod('configGravar');
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return -1;
-    }
+    final int result = await _channel.invokeMethod('configGravar');
+    return result;
   }
 
   /// Método usado para ler a configuração da biblioteca do arquivo INI informado.
@@ -60,14 +45,9 @@ class AcbrbalPlugin {
   /// - [eArqConfig] Arquivo INI para ler, se informado vazio será usado o valor padrão.
   ///
   Future<int> configLer(String eArqConfig) async {
-    try {
-      final int result =
-          await _channel.invokeMethod('configLer', {"eArqConfig": eArqConfig});
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return -1;
-    }
+    final int result =
+        await _channel.invokeMethod('configLer', {"eArqConfig": eArqConfig});
+    return result;
   }
 
   /// Método usado para gravar um determinado item da configuração.
@@ -78,14 +58,9 @@ class AcbrbalPlugin {
   ///
   Future<int> configGravarValor(
       String sessao, String chave, String valor) async {
-    try {
-      final int result = await _channel.invokeMethod('configGravarValor',
-          {'sessao': sessao, 'chave': chave, 'valor': valor});
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return -1;
-    }
+    final int result = await _channel.invokeMethod('configGravarValor',
+        {'sessao': sessao, 'chave': chave, 'valor': valor});
+    return result;
   }
 
   /// Método usado para ler um determinado item da configuração.
@@ -94,45 +69,26 @@ class AcbrbalPlugin {
   /// - [chave] Nome da chave da sessão.
   ///
   Future<String> configLerValor(String sessao, String chave) async {
-    try {
-      final String result = await _channel
-          .invokeMethod('configLerValor', {'sessao': sessao, 'chave': chave});
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return "";
-    }
+    final String result = await _channel
+        .invokeMethod('configLerValor', {'sessao': sessao, 'chave': chave});
+    return result;
   }
 
   /// Método usado para ativar o componente ACBrBAL.
   Future<bool> ativar() async {
-    try {
-      final bool result = await _channel.invokeMethod('ativar');
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return false;
-    }
+    final bool result = await _channel.invokeMethod('ativar');
+    return result;
   }
 
   /// Método usado para desativar o componente ACBrBAL.
   Future<bool> desativar() async {
-    try {
-      final bool result = await _channel.invokeMethod('desativar');
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return false;
-    }
+    final bool result = await _channel.invokeMethod('desativar');
+    return result;
   }
 
   /// Método usado para solicitar o peso da balança no componente ACBrBAL.
   Future<void> solicitarPeso() async {
-    try {
-      await _channel.invokeMethod('solicitarPeso');
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-    }
+    await _channel.invokeMethod('solicitarPeso');
   }
 
   /// Método usado para ler o peso na balança no componente ACBrBAL.
@@ -140,14 +96,9 @@ class AcbrbalPlugin {
   /// - [millisecTimeOut] Define o timeout em milissegundos.
   ///
   Future<double> lePeso(int millisecTimeOut) async {
-    try {
-      final double result = await _channel
-          .invokeMethod('lePeso', {"millisecTimeOut": millisecTimeOut});
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return errorPeso;
-    }
+    final double result = await _channel
+        .invokeMethod('lePeso', {"millisecTimeOut": millisecTimeOut});
+    return result;
   }
 
   /// Método usado para ler o peso na balança no componente ACBrBAL.
@@ -155,36 +106,21 @@ class AcbrbalPlugin {
   /// - [millisecTimeOut] Define o timeout em milissegundos.
   ///
   Future<String> lePesoStr(int millisecTimeOut) async {
-    try {
-      final String result = await _channel
-          .invokeMethod('lePesoStr', {"millisecTimeOut": millisecTimeOut});
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return errorPeso.toString() ;
-    }
+    final String result = await _channel
+        .invokeMethod('lePesoStr', {"millisecTimeOut": millisecTimeOut});
+    return result;
   }
 
   /// Método usado para ler o peso na balança no componente ACBrBAL.
   Future<double> ultimoPesoLido() async {
-    try {
-      final double result = await _channel.invokeMethod('ultimoPesoLido');
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return errorPeso;
-    }
+    final double result = await _channel.invokeMethod('ultimoPesoLido');
+    return result;
   }
 
   /// Método usado para ler o peso na balança no componente ACBrBAL.
   Future<String> ultimoPesoLidoStr() async {
-    try {
-      final String result = await _channel.invokeMethod('ultimoPesoLidoStr');
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return  errorPeso.toString();
-    }
+    final String result = await _channel.invokeMethod('ultimoPesoLidoStr');
+    return result;
   }
 
   /// Método usado para interpretar uma resposta da balança do componente ACBrBAL.
@@ -192,14 +128,9 @@ class AcbrbalPlugin {
   /// - [aResposta] Contem a resposta da balança a ser interpretada.
   ///
   Future<double> interpretarRespostaPeso(String aResposta) async {
-    try {
-      final double result = await _channel
-          .invokeMethod('interpretarRespostaPeso', {"aResposta": aResposta});
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return errorPeso;
-    }
+    final double result = await _channel
+        .invokeMethod('interpretarRespostaPeso', {"aResposta": aResposta});
+    return result;
   }
 
   /// Método usado para interpretar uma resposta da balança do componente ACBrBAL.
@@ -207,14 +138,9 @@ class AcbrbalPlugin {
   /// - [aResposta] Contem a resposta da balança a ser interpretada.
   ///
   Future<String> interpretarRespostaPesoStr(String aResposta) async {
-    try {
-      final String result = await _channel
-          .invokeMethod('interpretarRespostaPesoStr', {"aResposta": aResposta});
-      return result;
-    } on PlatformException catch (e) {
-      print("Erro: '${e.message}'.");
-      return errorPeso.toString();
-    }
+    final String result = await _channel
+        .invokeMethod('interpretarRespostaPesoStr', {"aResposta": aResposta});
+    return result;
   }
 
 

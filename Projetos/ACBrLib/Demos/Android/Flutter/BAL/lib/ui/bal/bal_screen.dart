@@ -48,7 +48,7 @@ class _BalScreenState extends State<BalScreen> {
   /// Função para ler o peso
   Future<double> getPeso() async {
     try {
-      double peso = await _acbrbalplugin.lePeso(1000);
+      double peso = await _acbrbalplugin.lePeso(2000);
       return peso;
     } catch (e) {
       debugPrint('Erro ao chamar o comando lePeso: $e');
