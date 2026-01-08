@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 08/01/2026
+-- PadraoNacional.LerXml/SilTecnologia.LerXml --
+[*] ACBR-8739 - Ajuste visando o correto preenchimento do grupo emit a partir da leitura do INI.
+   Por: Diego Folieni 
 -- ACBrNFSeXServicos --
 [+] ACBR-8638: Incluída a cidade Russas/CE, o provedor é SpeedGov.
    Por: PrimeSoftware/Italo Giurizzato Junior

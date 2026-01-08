@@ -118,7 +118,7 @@ type
     procedure LerINIIdentificacaoNFSe(AINIRec: TMemIniFile);
     procedure LerINIIdentificacaoRps(AINIRec: TMemIniFile);
     procedure LerININFSeSubstituicao(AINIRec: TMemIniFile);
-    procedure LerINIDadosEmitente(AINIRec: TMemIniFile);
+    procedure LerINIDadosEmitente(AINIRec: TMemIniFile); virtual;
     procedure LerINIValoresNFSe(AINIRec: TMemIniFile);
 
     procedure LerINIDadosPrestador(AINIRec: TMemIniFile);
