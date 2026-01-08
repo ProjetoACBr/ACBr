@@ -72,16 +72,16 @@ type
     btVerPinPad: TButton;
     cbAutoAtendimento: TCheckBox;
     cbConfirmarAutomaticamente: TCheckBox;
-    cbImprimirViaReduzida: TCheckBox;
     cbEnviarImpressora: TCheckBox;
+    cbImprimirViaReduzida: TCheckBox;
     cbSimularErroNoDoctoFiscal: TCheckBox;
-    cbTipoFinanciamento: TComboBox;
     cbSuportaDesconto: TCheckBox;
     cbSuportaSaque: TCheckBox;
+    cbTipoFinanciamento: TComboBox;
     cbGravarLogTEF: TCheckBox;
+    cbxAmbiente: TComboBox;
     cbxGP: TComboBox;
     cbxImpressaoViaCliente: TComboBox;
-    cbxAmbiente: TComboBox;
     cbxModeloPosPrinter: TComboBox;
     cbxPagCodigo: TComboBox;
     cbxPorta: TComboBox;
@@ -89,6 +89,10 @@ type
     cbxTransacaoPendente: TComboBox;
     cbxTransacaoPendenteInicializacao: TComboBox;
     dtPreDatado: TDateTimePicker;
+    edArqReq: TEdit;
+    edArqSts: TEdit;
+    edArqResp: TEdit;
+    edLog: TEdit;
     edMsgPinPad: TEdit;
     edParamAdic: TEdit;
     edCNPJEstabelecimento: TEdit;
@@ -99,10 +103,11 @@ type
     edCodEmpresa: TEdit;
     edEnderecoServidor: TEdit;
     edParamComunic: TEdit;
-    edLog: TEdit;
     edNomeAplicacao: TEdit;
     edPortaPinPad: TEdit;
     edRazaoSocialEstabelecimento: TEdit;
+    edDirReq: TEdit;
+    edDirResp: TEdit;
     edRazaoSocialSwHouse: TEdit;
     edTotalPago: TEdit;
     edTotalVenda: TEdit;
@@ -111,6 +116,7 @@ type
     gbConfigImpressora: TGroupBox;
     gbConfigTEF: TGroupBox;
     gbDadosEstabComercial: TGroupBox;
+    gbDadosTEFTXT: TGroupBox;
     gbDadosSwHouseAplicacao: TGroupBox;
     gbDadosTerminal: TGroupBox;
     gbPagamentos: TGroupBox;
@@ -150,7 +156,12 @@ type
     Label35: TLabel;
     Label36: TLabel;
     Label37: TLabel;
+    Label38: TLabel;
+    Label39: TLabel;
     Label4: TLabel;
+    Label40: TLabel;
+    Label41: TLabel;
+    Label42: TLabel;
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
@@ -165,6 +176,7 @@ type
     lURLTEF: TLabel;
     mImpressao: TMemo;
     mLog: TMemo;
+    pConfigTEF: TPanel;
     pBotoesPagamentos: TPanel;
     pgOperacoes: TPageControl;
     pBotaoConfig: TPanel;
@@ -187,6 +199,8 @@ type
     rbImpressora: TRadioButton;
     rbArquivo: TRadioButton;
     SbArqLog: TSpeedButton;
+    sbDirReq: TSpeedButton;
+    sbDirResp: TSpeedButton;
     seColunas: TSpinEdit;
     seEspLinhas: TSpinEdit;
     seLinhasPular: TSpinEdit;
@@ -244,6 +258,7 @@ type
     procedure btVerPinPadClick(Sender: TObject);
     procedure cbEnviarImpressoraChange(Sender: TObject);
     procedure cbTipoFinanciamentoChange(Sender: TObject);
+    procedure cbxGPChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btImprimirClick(Sender: TObject);
     procedure btLimparImpressoraClick(Sender: TObject);
@@ -254,6 +269,8 @@ type
     procedure pgOperacoesChanging(Sender: TObject; var AllowChange: Boolean);
     procedure rbImpressoraChange(Sender: TObject);
     procedure SbArqLogClick(Sender: TObject);
+    procedure sbDirReqClick(Sender: TObject);
+    procedure sbDirRespClick(Sender: TObject);
     procedure sbLimparLogClick(Sender: TObject);
     procedure seTotalAcrescimoChange(Sender: TObject);
     procedure seTotalDescontoChange(Sender: TObject);
@@ -339,7 +356,8 @@ uses
   ACBrDelphiZXingQRCode,
   ACBrUtil.Base, ACBrUtil.Strings, ACBrUtil.DateTime, ACBrUtil.FilesIO,
   ACBrTEFPayGoComum,
-  ACBrTEFAPIPayGoWeb, ACBrTEFAPIScope, ACBrTEFAPICliSiTef;
+  ACBrTEFAPIPayGoWeb, ACBrTEFAPIScope, ACBrTEFAPICliSiTef, ACBrTEFAPIPayKit,
+  ACBrTEFAPITXT;
 
 {$R *.lfm}
 
@@ -447,6 +465,24 @@ var
 begin
   AFileLog := GetNomeArquivoLog;
   OpenURL( AFileLog );
+end;
+
+procedure TFormPrincipal.sbDirReqClick(Sender: TObject);
+var
+  lDir: String;
+begin
+  lDir := edDirReq.Text;
+  if SelectDirectory(lDir, [], 0) then
+    edDirReq.Text := lDir;
+end;
+
+procedure TFormPrincipal.sbDirRespClick(Sender: TObject);
+var
+  lDir: String;
+begin
+  lDir := edDirResp.Text;
+  if SelectDirectory(lDir, [], 0) then
+    edDirResp.Text := lDir;
 end;
 
 procedure TFormPrincipal.btImprimirClick(Sender: TObject);
@@ -902,6 +938,9 @@ begin
 
       ImprimirTodosComprovantes
     end;
+
+    if (MsgFinal <> '')  then
+      MessageDlg( 'TEF', MsgFinal, mtInformation, [TMsgDlgBtn.mbOK], 0);
   end;
 
   // --- Exemplo de como usar as Propriedades da API, fazendo TypeCast
@@ -1298,6 +1337,7 @@ begin
   INI := TIniFile.Create(NomeArquivoConfiguracao);
   try
     cbxGP.ItemIndex := INI.ReadInteger('TEF', 'GP', 0);
+    cbxGPChange(nil);
     cbxQRCode.ItemIndex := INI.ReadInteger('TEF', 'QRCode', 1);
     edLog.Text := INI.ReadString('TEF', 'Log', '');
     cbxImpressaoViaCliente.ItemIndex := INI.ReadInteger('TEF', 'ImpressaoViaCliente', 0);
@@ -1308,6 +1348,12 @@ begin
     cbConfirmarAutomaticamente.Checked := INI.ReadBool('TEF', 'ConfirmarAutomaticamente', True);
     cbSuportaDesconto.Checked := INI.ReadBool('TEF', 'SuportaDesconto', True);
     cbSuportaSaque.Checked := INI.ReadBool('TEF', 'SuportaSaque', True);
+
+    edDirReq.Text := INI.ReadString('TXT', 'DirReq', edDirReq.Text);
+    edDirResp.Text := INI.ReadString('TXT', 'DirResp', edDirResp.Text);
+    edArqReq.Text := INI.ReadString('TXT', 'ArqReq', edArqReq.Text);
+    edArqSts.Text := INI.ReadString('TXT', 'ArqSts', edArqSts.Text);
+    edArqResp.Text := INI.ReadString('TXT', 'ArqResp', edArqResp.Text);
 
     edRazaoSocialSwHouse.Text := INI.ReadString('SwHouse', 'RazaoSocial', edRazaoSocialSwHouse.Text);
     edCNPJSwHouse.Text := INI.ReadString('SwHouse', 'CNPJ', edCNPJSwHouse.Text);
@@ -1364,6 +1410,12 @@ begin
     INI.WriteBool('TEF', 'ConfirmarAutomaticamente', cbConfirmarAutomaticamente.Checked);
     INI.WriteBool('TEF', 'SuportaDesconto', cbSuportaDesconto.Checked);
     INI.WriteBool('TEF', 'SuportaSaque', cbSuportaSaque.Checked);
+
+    INI.WriteString('TXT', 'DirReq', edDirReq.Text);
+    INI.WriteString('TXT', 'DirResp', edDirResp.Text);
+    INI.WriteString('TXT', 'ArqReq', edArqReq.Text);
+    INI.WriteString('TXT', 'ArqSts', edArqSts.Text);
+    INI.WriteString('TXT', 'ArqResp', edArqResp.Text);
 
     INI.WriteString('SwHouse', 'RazaoSocial', edRazaoSocialSwHouse.Text);
     INI.WriteString('SwHouse', 'CNPJ', edCNPJSwHouse.Text);
@@ -1669,6 +1721,11 @@ begin
   dtPreDatado.Enabled := (cbTipoFinanciamento.ItemIndex = 4);
 end;
 
+procedure TFormPrincipal.cbxGPChange(Sender: TObject);
+begin
+  gbDadosTEFTXT.Enabled := (cbxGP.ItemIndex = Integer(tefTXT));
+end;
+
 procedure TFormPrincipal.seValorInicialVendaChange(Sender: TObject);
 begin
   seTotalDesconto.MaxValue := seValorInicialVenda.Value;
@@ -1817,6 +1874,15 @@ begin
         end;
       end;
       *)
+
+      if ACBrTEFAPI1.TEF is TACBrTEFAPIClassPayKit then
+      begin
+        with TACBrTEFAPIClassPayKit(ACBrTEFAPI1.TEF) do
+        begin
+          ValorParcela := 10;
+          ValorTaxaServico := 10;
+        end;
+      end;
 
       Ok := ACBrTEFAPI1.EfetuarPagamento(
                IntToStr(Venda.NumOperacao),
@@ -2299,6 +2365,28 @@ begin
       TEFScopeAPI.UsarScopeClientConnector := False;
     end;
   end;
+
+  //if ACBrTEFAPI1.TEF is TACBrTEFAPIClassCliSiTef then
+  //begin
+  //  with TACBrTEFAPIClassCliSiTef(ACBrTEFAPI1.TEF) do
+  //  begin
+  //    FinalizarTransacaoIndividual := True;
+  //  end;
+  //end;
+
+  if ACBrTEFAPI1.TEF is TACBrTEFAPIClassTXT then
+  begin
+    with TACBrTEFAPIClassTXT(ACBrTEFAPI1.TEF).TEFTXT.Config do
+    begin
+      DirReq := edDirReq.Text;
+      DirResp := edDirResp.Text;
+      ArqReq := edArqReq.Text;
+      ArqSts := edArqSts.Text;
+      ArqResp := edArqResp.Text;
+      NivelLog := 3; // 1-Baixo, 2-Normal, 3-Alto
+    end;
+  end;
+
 end;
 
 procedure TFormPrincipal.AtivarTEF;
