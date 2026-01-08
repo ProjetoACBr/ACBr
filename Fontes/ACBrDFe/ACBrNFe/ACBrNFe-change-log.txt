@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+08/01/2026
+-- Diversos --
+[*] #ACBR-8745: Altera o tipo da propriedade do CSTIS de enumerado para string.
+  Por: Diego Folieni
+
 30/12/2025
 -- ACBrNFe.Conversao/pcnConversaoNFe --
 [*] #ACBR-8623 - Atualiza o enumerado do CSTIS e a respectiva função de conversão StrToCST.

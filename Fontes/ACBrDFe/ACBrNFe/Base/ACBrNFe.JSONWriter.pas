@@ -2543,7 +2543,9 @@ begin
     exit;
 
   lISelJSONObj := TACBrJSONObject.Create;
-  lISelJSONObj.AddPair('CSTIS', CSTISToStr(AISel.CSTIS));
+  //Usar string até a publicação de uma tabela de CSTs oficial para o IS
+  //lISelJSONObj.AddPair('CSTIS', CSTISToStr(AISel.CSTIS));
+  lISelJSONObj.AddPair('CSTIS', AISel.CSTIS);
   lISelJSONObj.AddPair('cClassTribIS', AISel.cClassTribIS);
   lISelJSONObj.AddPair('vBCIS', AISel.vBCIS);
   lISelJSONObj.AddPair('pIS', AISel.pIS);
@@ -2597,6 +2599,7 @@ begin
 
   lGIBSCBSJSONObj := TACBrJSONObject.Create;
   lGIBSCBSJSONObj.AddPair('vBC', AGIBSCBS.vBC);
+  lGIBSCBSJSONObj.AddPair('vIBS', AGIBSCBS.vIBS);
   Gerar_IBSCBS_gIBSCBS_gIBSUF(AGIBSCBS.gIBSUF, lGIBSCBSJSONObj);
   Gerar_IBSCBS_gIBSCBS_gIBSMun(AGIBSCBS.gIBSMun, lGIBSCBSJSONObj);
   Gerar_IBSCBS_gIBSCBS_gCBS(AGIBSCBS.gCBS, lGIBSCBSJSONObj);

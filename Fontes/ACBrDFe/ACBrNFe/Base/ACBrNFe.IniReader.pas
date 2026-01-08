@@ -1865,7 +1865,9 @@ begin
 
   if AINIRec.SectionExists(sSecao) then
   begin
-    ISel.CSTIS := StrToCSTIS(AINIRec.ReadString(sSecao, 'CSTIS', ''));
+    //Usar string até a publicação de uma tabela de CSTs oficial para o IS
+    //ISel.CSTIS := StrToCSTIS(AINIRec.ReadString(sSecao, 'CSTIS', ''));
+    ISel.CSTIS := AINIRec.ReadString(sSecao, 'CSTIS', '');
     ISel.cClassTribIS := AINIRec.ReadString(sSecao, 'cClassTribIS', '');
     ISel.vBCIS := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCIS', ''), 0);
     ISel.pIS := StringToFloatDef(AINIRec.ReadString(sSecao, 'pIS', ''), 0);

@@ -897,7 +897,9 @@ begin
   Gerar_ImpostoISSQN(AINIRec, Imposto.ISSQN, Idx);
 
   // Reforma Tributária
-  if Imposto.ISel.CSTIS <> cstisNenhum then
+  //Usar string até a publicação de uma tabela de CSTs oficial para o IS
+  //if Imposto.ISel.CSTIS <> cstisNenhum then
+  if Imposto.ISel.CSTIS <> EmptyStr then
     Gerar_ISel(AINIRec, Imposto.ISel, Idx);
 
   Gerar_IBSCBS(AINIRec, Imposto.IBSCBS, Idx);
@@ -1590,7 +1592,9 @@ var
 begin
   sSecao := 'IS' + IntToStrZero(Idx + 1, 3);
 
-  AINIRec.WriteString(sSecao, 'CSTIS', CSTISToStr(ISel.CSTIS));
+  //Usar string até a publicação de uma tabela de CSTs oficial para o IS
+  //AINIRec.WriteString(sSecao, 'CSTIS', CSTISToStr(ISel.CSTIS));
+  AINIRec.WriteString(sSecao, 'CSTIS', ISel.CSTIS);
   AINIRec.WriteString(sSecao, 'cClassTribIS', ISel.cClassTribIS);
   AINIRec.WriteFloat(sSecao, 'vBCIS', ISel.vBCIS);
   AINIRec.WriteFloat(sSecao, 'pIS', ISel.pIS);

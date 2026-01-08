@@ -4178,8 +4178,11 @@ function TNFeXmlWriter.Gerar_ISel(ISel: TgIS): TACBrXmlNode;
 begin
   Result := FDocument.CreateElement('IS');
 
+  //Usar string até a publicação de uma tabela de CSTs oficial para o IS
+//  Result.AppendChild(AddNode(tcStr, 'UB03', 'CSTIS', 3, 3, 1,
+//                                              CSTISToStr(ISel.CSTIS), DSC_CST));
   Result.AppendChild(AddNode(tcStr, 'UB03', 'CSTIS', 3, 3, 1,
-                                              CSTISToStr(ISel.CSTIS), DSC_CST));
+                                              ISel.CSTIS, DSC_CST));
 
   Result.AppendChild(AddNode(tcStr, 'UB04', 'cClassTribIS', 6, 6, 1,
                                             ISel.cClassTribIS, DSC_CCLASSTRIB));

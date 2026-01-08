@@ -1724,8 +1724,9 @@ end;
 procedure TNFeXmlReader.Ler_ISel(ISel: TgIS; const ANode: TACBrXmlNode);
 begin
   if not Assigned(ANode) then Exit;
-
-  ISel.CSTIS := StrToCSTIS(ObterConteudo(ANode.Childrens.Find('CSTIS'), tcStr));
+  //Usar string até a publicação de uma tabela de CSTs oficial para o IS
+  //ISel.CSTIS := StrToCSTIS(ObterConteudo(ANode.Childrens.Find('CSTIS'), tcStr));
+  ISel.CSTIS := ObterConteudo(ANode.Childrens.Find('CSTIS'), tcStr);
   ISel.cClassTribIS := ObterConteudo(ANode.Childrens.Find('cClassTribIS'), tcStr);
   ISel.vBCIS := ObterConteudo(ANode.Childrens.Find('vBCIS'), tcDe2);
   ISel.pIS := ObterConteudo(ANode.Childrens.Find('pIS'), tcDe2);

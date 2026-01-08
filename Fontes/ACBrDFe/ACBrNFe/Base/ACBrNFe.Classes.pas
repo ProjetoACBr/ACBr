@@ -1405,7 +1405,9 @@ type
 
   TgIS = class(TObject)
   private
-    FCSTIS: TCSTIS;
+    //Usar string até a publicação de uma tabela de CSTs oficial para o IS
+    //FCSTIS: TCSTIS;
+    FCSTIS: string;
     FcClassTribIS: string;
     FvBCIS: Double;
     FpIS: Double;
@@ -1415,8 +1417,9 @@ type
     FvIS: Double;
   public
     procedure Assign(Source: TgIS);
-
-    property CSTIS: TCSTIS read FCSTIS write FCSTIS;
+    //Usar string até a publicação de uma tabela de CSTs oficial para o IS
+    //property CSTIS: TCSTIS read FCSTIS write FCSTIS;
+    property CSTIS: string read FCSTIS write FCSTIS;
     property cClassTribIS: string read FcClassTribIS write FcClassTribIS;
     property vBCIS: Double read FvBCIS write FvBCIS;
     property pIS: Double read FpIS write FpIS;
