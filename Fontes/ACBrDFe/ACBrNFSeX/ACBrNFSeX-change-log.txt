@@ -44,6 +44,11 @@ Símbolo : Significado
 
 
 08/01/2026
+-- ACBrNFSeXProviderManager/ModernizacaoPublica.GravarXml/ModernizacaoPublica.LerXml --
+-- ModernizacaoPublica.Provider/PadraoNacional.Provider --
+[*] ACBR-8742 - O provedor ModernizacaoPublica implemento uma API Própria para recepcionar o
+    XML segundo o layout do Padrão Nacional.
+   Por: Italo Giurizzato Junior
 -- PadraoNacional.LerXml/SilTecnologia.LerXml --
 [*] ACBR-8739 - Ajuste visando o correto preenchimento do grupo emit a partir da leitura do INI.
    Por: Diego Folieni 

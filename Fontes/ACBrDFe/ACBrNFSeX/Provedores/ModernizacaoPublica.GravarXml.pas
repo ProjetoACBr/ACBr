@@ -39,7 +39,8 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrXmlBase,
-  ACBrNFSeXGravarXml_ABRASFv2;
+  ACBrNFSeXGravarXml_ABRASFv2,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_ModernizacaoPublica202 }
@@ -49,6 +50,13 @@ type
     procedure Configuracao; override;
 
     procedure DefinirIDRps; override;
+
+  end;
+
+  { TNFSeW_ModernizacaoPublicaAPIPropria }
+
+  TNFSeW_ModernizacaoPublicaAPIPropria = class(TNFSeW_PadraoNacional)
+  protected
 
   end;
 

@@ -38,12 +38,22 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrNFSeXLerXml_ABRASFv2;
+  ACBrNFSeXLerXml_ABRASFv2,
+  PadraoNacional.LerXml;
 
 type
   { TNFSeR_ModernizacaoPublica202 }
 
   TNFSeR_ModernizacaoPublica202 = class(TNFSeR_ABRASFv2)
+  protected
+
+  public
+
+  end;
+
+  { TNFSeR_ModernizacaoPublicaAPIPropria }
+
+  TNFSeR_ModernizacaoPublicaAPIPropria = class(TNFSeR_PadraoNacional)
   protected
 
   public

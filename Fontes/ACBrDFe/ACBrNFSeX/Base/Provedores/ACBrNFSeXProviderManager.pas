@@ -537,7 +537,12 @@ begin
       proMitra: Result := TACBrNFSeProviderMitra200.Create(ACBrNFSe);
 
       proModernizacaoPublica:
-        Result := TACBrNFSeProviderModernizacaoPublica202.Create(ACBrNFSe);
+        begin
+          if APIPropria then
+            Result := TACBrNFSeProviderModernizacaoPublicaAPIPropria.Create(ACBrNFSe)
+          else
+            Result := TACBrNFSeProviderModernizacaoPublica202.Create(ACBrNFSe);
+        end;
 
       proNEAInformatica:
         Result := TACBrNFSeProviderNEAInformatica200.Create(ACBrNFSe);
