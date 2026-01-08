@@ -19,7 +19,8 @@ uses
   ACBrTEFAPIDestaxa, ACBrTEFScopeAPI, ACBrTEFAPIScope, ACBrTEFAPITPag, 
   ACBrTEFTPagAPI, ACBrTEFAPIPayKit, ACBrTEFPayKitAPI, ACBrTEFAPIDirectPin, 
   ACBrTEFDirectPinAPI, ACBrTEFSmartTEFAPI, ACBrTEFSmartTEFInterface, 
-  ACBrTEFSmartTEFSchemas, LazarusPackageIntf;
+  ACBrTEFSmartTEFSchemas, ACBrTEFTXTComum, ACBrTEFTXTGerenciadorPadrao, 
+  ACBrTEFAPITXT, LazarusPackageIntf;
 
 implementation
 

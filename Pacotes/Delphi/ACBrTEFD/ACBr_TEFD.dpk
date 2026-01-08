@@ -94,6 +94,9 @@ contains
   ACBrTEFDirectPinAPI in '..\..\..\Fontes\ACBrTEFD\ACBrTEFDirectPinAPI.pas',
   ACBrTEFSmartTEFAPI in '..\..\..\Fontes\ACBrTEFD\ACBrTEFSmartTEFAPI.pas',
   ACBrTEFSmartTEFInterface in '..\..\..\Fontes\ACBrTEFD\ACBrTEFSmartTEFInterface.pas',
-  ACBrTEFSmartTEFSchemas in '..\..\..\Fontes\ACBrTEFD\ACBrTEFSmartTEFSchemas.pas';
+  ACBrTEFSmartTEFSchemas in '..\..\..\Fontes\ACBrTEFD\ACBrTEFSmartTEFSchemas.pas',
+  ACBrTEFTXTComum in '..\..\..\Fontes\ACBrTEFD\ACBrTEFTXTComum.pas',
+  ACBrTEFTXTGerenciadorPadrao in '..\..\..\Fontes\ACBrTEFD\ACBrTEFTXTGerenciadorPadrao.pas',
+  ACBrTEFAPITXT in '..\..\..\Fontes\ACBrTEFD\ACBrTEFAPITXT.pas';
 
 end.
