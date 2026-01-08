@@ -49,6 +49,7 @@ type
   TNFSeW_PadraoNacional = class(TNFSeWClass)
   private
     FpVersao: string;
+    function DevoGerarXMLObra: Boolean;
 
   protected
     LSecao: string;
@@ -184,6 +185,11 @@ uses
 //==============================================================================
 
 { TNFSeW_PadraoNacional }
+
+function TNFSeW_PadraoNacional.DevoGerarXMLObra: Boolean;
+begin
+  Result := NFSe.ConstrucaoCivil.inscImobFisc <> '';
+end;
 
 function TNFSeW_PadraoNacional.GerarChaveDPS(const AcMun, ACNPJCPF, ASerie,
   ANumero: string): string;
@@ -987,8 +993,10 @@ begin
   Result.AppendChild(GerarXMLLocalPrestacao);
   Result.AppendChild(GerarXMLCodigoServico);
   Result.AppendChild(GerarXMLComercioExterior);
-  Result.AppendChild(GerarXMLLocacaoSubLocacao);
-  Result.AppendChild(GerarXMLObra);
+  if VersaoNFSe = ve100 then
+    Result.AppendChild(GerarXMLLocacaoSubLocacao);
+  if DevoGerarXMLObra then
+    Result.AppendChild(GerarXMLObra);
   Result.AppendChild(GerarXMLAtividadeEvento);
   Result.AppendChild(GerarXMLExploracaoRodoviaria);
   Result.AppendChild(GerarXMLInformacoesComplementares);
@@ -1091,28 +1099,26 @@ end;
 
 function TNFSeW_PadraoNacional.GerarXMLObra: TACBrXmlNode;
 begin
-  Result := nil;
-
-  if NFSe.ConstrucaoCivil.inscImobFisc <> '' then
-  begin
-    Result := CreateElement('obra');
-    Result.AppendChild(AddNode(tcStr, '#1', 'inscImobFisc', 1, 30, 1,
-                                        NFSe.ConstrucaoCivil.inscImobFisc, ''));
-    exit;
-  end;
+  Result := CreateElement('obra');
+  Result.AppendChild(AddNode(tcStr, '#1', 'inscImobFisc', 1, 30, 1,
+                                      NFSe.ConstrucaoCivil.inscImobFisc, ''));
 
   if NFSe.ConstrucaoCivil.CodigoObra <> '' then
   begin
-    Result := CreateElement('obra');
     Result.AppendChild(AddNode(tcStr, '#1', 'cObra', 1, 30, 1,
                                           NFSe.ConstrucaoCivil.CodigoObra, ''));
     exit;
   end;
 
+  if NFSE.ConstrucaoCivil.Cib > 0 then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#1', 'cCIB', 1, 8, 1,
+                                          Poem_Zeros(NFSe.ConstrucaoCivil.Cib, 8)));
+  end;
+
   if (NFSe.ConstrucaoCivil.Endereco.CEP <> '') or
      (NFSe.ConstrucaoCivil.Endereco.Endereco <> '') then
   begin
-    Result := CreateElement('obra');
     Result.AppendChild(GerarXMLEnderecoObra);
   end;
 end;

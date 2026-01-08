@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 08/01/2026
+-- PadraoNacional.GravarXML/PadraoNacional.LerXML -
+[-] Ajustes visando compatibilização com o schema da versão 1.01.
+   Por: Diego Folieni
 -- ACBrNFSeXClass/Conam.GravarXml/Conam.Provider --
 [*] ACBR-8685/8683: Alterações visando a versão 4.00 que contem os novos campos para a Reforma Tributária.
    Por: Italo Giurizzato Junior

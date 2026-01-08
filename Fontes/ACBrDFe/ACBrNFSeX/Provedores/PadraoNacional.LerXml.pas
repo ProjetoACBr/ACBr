@@ -1646,6 +1646,7 @@ begin
 
     NFSe.verAplic := AINIRec.ReadString(sSecao, 'verAplic', 'ACBrNFSeX-1.00');
     NFSe.tpEmit := StrTotpEmit(Ok, AINIRec.ReadString(sSecao, 'tpEmit', '1'));
+    NFSe.cLocEmi := AINIRec.ReadString(sSecao, 'cLocEmi', '');
     NFSe.cMotivoEmisTI := StrTocMotivoEmisTI(AINIRec.ReadString(sSecao, 'cMotivoEmisTI', ''));
   end;
 end;
