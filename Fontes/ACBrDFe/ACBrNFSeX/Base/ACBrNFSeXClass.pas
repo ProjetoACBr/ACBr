@@ -870,6 +870,7 @@ type
     FCodigoMunicipioLocalPrestacao: Integer;
     FxPed: String;
     FnItemPed: String;
+    FCodigoAnexoCnae: string;
 
     procedure SetItemServico(Value: TItemServicoCollection);
     procedure SetDeducao(const Value: TDeducaoCollection);
@@ -941,6 +942,8 @@ type
     // Provedor Tecnos
     property xPed: String read FxPed write FxPed;
     property nItemPed: String read FnItemPed write FnItemPed;
+    // Provedor Conam
+    property CodigoAnexoCnae: string read FCodigoAnexoCnae write FCodigoAnexoCnae;
   end;
 
   TDadosPessoa = class(TObject)
@@ -1072,6 +1075,7 @@ type
     FReformaCivil: TnfseSimNao;
     FLocalConstrucao: string;
     FCib: Integer;
+    FDataInicio: TDateTime;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1088,10 +1092,12 @@ type
     property inscImobFisc: String read FinscImobFisc write FinscImobFisc;
     // Provedor Publica
     property Tipo: Integer read FTipo write FTipo;
-    //Provedor Tecnos
+    // Provedor Tecnos
     property ReformaCivil: TnfseSimNao read FReformaCivil write FReformaCivil;
     property LocalConstrucao: string read FLocalConstrucao write FLocalConstrucao;
     property Cib: Integer read FCib write FCib;
+    // Provedor Conam
+    property DataInicio: TDateTime read FDataInicio write FDataInicio;
   end;
 
   TParcelasCollectionItem = class(TObject)
@@ -1981,6 +1987,8 @@ type
     FOperUF: string;
     FOperxCidade: string;
     FConsumoPessoal: TIndicador;
+    FIndOpeOne: TIndicador;
+    FvlrReeRepRes: Double;
 
     procedure SetgRefNFSe(const Value: TgRefNFSeCollection);
   public
@@ -2002,6 +2010,9 @@ type
     property OperUF: string read FOperUF write FOperUF;
     property OperxCidade: string read FOperxCidade write FOperxCidade;
     property ConsumoPessoal: TIndicador read FConsumoPessoal write FConsumoPessoal;
+    // Incluido para atender o provedor Conam
+    property IndOpeOne: TIndicador read FIndOpeOne write FIndOpeOne;
+    property vlrReeRepRes: Double read FvlrReeRepRes write FvlrReeRepRes;
   end;
 
   TNFSe = class(TPersistent)
@@ -2116,6 +2127,10 @@ type
     FVencimento: TDateTime;
     FtpXML: TtpXML;
     FEmitente: TDadosPrestador;
+    FQtdReg30: Integer;
+    FQtdReg40: Integer;
+    FQtdReg50: Integer;
+    FValReg30: Double;
 
     procedure Setemail(const Value: TemailCollection);
     procedure SetInformacoesComplementares(const Value: string);
@@ -2141,7 +2156,7 @@ type
     property RegimeEspecialTributacao: TnfseRegimeEspecialTributacao read FRegimeEspecialTributacao write FRegimeEspecialTributacao;
     property OptanteSimplesNacional: TnfseSimNao read FOptanteSimplesNacional write FOptanteSimplesNacional;
     property OptanteMEISimei: TnfseSimNao read FOptanteMEISimei write FOptanteMEISimei;
-    //Provedor Conam
+    // Provedor Conam
     property DataOptanteSimplesNacional: TDateTime read FDataOptanteSimplesNacional write FDataOptanteSimplesNacional;
     property LogradouLocalPrestacaoServico: TLogradouroLocalPrestacaoServico read FLogradouroLocalPrestacaoServico write FLogradouroLocalPrestacaoServico;
     property IncentivadorCultural: TnfseSimNao read FIncentivadorCultural write FIncentivadorCultural;
@@ -2252,6 +2267,11 @@ type
     property tpXML: TtpXML read FtpXML write FtpXML;
     // Provedor Citta e SilTecnologia
     property Emitente: TDadosPrestador read FEmitente write FEmitente;
+    // Provedor Conam
+    property QtdReg30: Integer read FQtdReg30 write FQtdReg30;
+    property ValReg30: Double  read FValReg30 write FValReg30;
+    property QtdReg40: Integer read FQtdReg40 write FQtdReg40;
+    property QtdReg50: Integer read FQtdReg50 write FQtdReg50;
   end;
 
   TSubstituicaoNfse = class(TObject)

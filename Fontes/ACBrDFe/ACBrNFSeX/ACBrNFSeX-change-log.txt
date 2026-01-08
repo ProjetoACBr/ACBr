@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+08/01/2026
+-- ACBrNFSeXClass/Conam.GravarXml/Conam.Provider --
+[*] ACBR-8685/8683: Alterações visando a versão 4.00 que contem os novos campos para a Reforma Tributária.
+   Por: Italo Giurizzato Junior
+
 07/01/2026
 -- SilTecnologia.Provider --
 [*] Ajustes para realizar a assinatura do DPS quando informado que o modo de envio é automático.
