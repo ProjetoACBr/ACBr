@@ -38,6 +38,8 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
+  ACBrXmlDocument,
+  ACBrDFe.Conversao,
   ACBrNFSeXGravarXml_ABRASFv1;
 
 type
@@ -47,9 +49,15 @@ type
   protected
     procedure Configuracao; override;
 
+    function GerarServico: TACBrXmlNode; override;
   end;
 
 implementation
+
+uses
+  ACBrNFSeXConsts,
+  ACBrUtil.Base,
+  ACBrUtil.Strings;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva gerar o XML do RPS do provedor:
@@ -69,6 +77,44 @@ begin
 
   if FpAOwner.ConfigGeral.Params.TemParametro('NaoDividir100') then
     DivAliq100 := False;
+end;
+
+function TNFSeW_MetropolisWeb.GerarServico: TACBrXmlNode;
+var
+  nodeArray: TACBrXmlNodeArray;
+  i: Integer;
+  item: string;
+begin
+  Result := CreateElement('Servico');
+
+  Result.AppendChild(GerarValores);
+
+  item := FormatarItemServico(NFSe.Servico.ItemListaServico, FormatoItemListaServico);
+
+  Result.AppendChild(AddNode(tcStr, '#29', 'ItemListaServico', 1, 5, NrOcorrItemListaServico,
+                                                          item, DSC_CLISTSERV));
+
+  Result.AppendChild(AddNode(tcStr, '#30', 'CodigoCnae', 1, 7, NrOcorrCodigoCnae,
+                                OnlyNumber(NFSe.Servico.CodigoCnae), DSC_CNAE));
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, 0,
+                     NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'CodigoNbs', 1, 9, 0,
+                                                   NFSe.Servico.CodigoNBS, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'IndOp', 6, 6, 1,
+                                                       NFSe.IBSCBS.cIndOp, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CclassTrib', 6, 6, 1,
+                              NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#32', 'Discriminacao', 1, 2000, 1,
+    StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+               FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_DISCR));
+
+  Result := AddNode(tcStr, '#33', 'CodigoMunicipio', 1, 7, 1,
+                            OnlyNumber(NFSe.Servico.CodigoMunicipio), DSC_CMUN);
 end;
 
 end.

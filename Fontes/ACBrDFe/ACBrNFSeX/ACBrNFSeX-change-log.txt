@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 08/01/2026
+-- MetropolisWeb.GravarXml --
+[*] ACBR-8714: Alterações visando a Reforma Tributária.
+   Por: Dino Rodrigo S. Moreira/Italo Giurizzato Junior
 -- PadraoNacional.GravarXML/PadraoNacional.LerXML -
 [-] Ajustes visando compatibilização com o schema da versão 1.01.
    Por: Diego Folieni
