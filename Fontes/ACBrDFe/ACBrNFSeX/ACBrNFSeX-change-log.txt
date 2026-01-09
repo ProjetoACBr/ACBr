@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 09/01/2026
+-- ACBrNFSeXLerXml/Betha.GravarXml/Betha.LerXml --
+[*] A API própria do provedor Betha ainda esta usando a versão 1.2 da NT 003,
+    ajustes realizados para não ocorrer erro de validação por parte do provedor.
+   Por: Italo Giurizzato Junior
 -- VersaTecnologia.GravarXml/VersaTecnologia.Provider --
 [*] ACBR-8746 - Ajustes para a versão 2.04
    Por: Antonio Gomes

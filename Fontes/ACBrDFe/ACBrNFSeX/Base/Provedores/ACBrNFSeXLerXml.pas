@@ -87,7 +87,7 @@ type
     procedure LerParamsTab;
 
     // Reforma Tributária
-    procedure LerXMLIBSCBSDPS(const ANode: TACBrXmlNode; IBSCBS: TIBSCBSDPS);
+    procedure LerXMLIBSCBSDPS(const ANode: TACBrXmlNode; IBSCBS: TIBSCBSDPS); virtual;
     procedure LerXMLgRefNFSe(const ANode: TACBrXmlNode);
 
     procedure LerXMLDestinatario(const ANode: TACBrXmlNode; Dest: TDadosdaPessoa);
