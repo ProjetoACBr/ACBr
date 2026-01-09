@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 09/01/2026
+-- PadraoNacional.GravarXml --
+[*] Adiciona alguns campos faltantes na geração do grupo Valores da NFSe.
+   Por: Diego Folieni
 -- ISSSaoPaulo.Provider/ACBrNFSeXGravarXml/ACBrNFSeXLerXml --
 [*] Ajustes visando correta geração da Assinatura Adicional
    Por: Diego Folieni

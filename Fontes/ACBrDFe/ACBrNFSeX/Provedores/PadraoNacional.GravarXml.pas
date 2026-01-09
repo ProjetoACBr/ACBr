@@ -310,6 +310,15 @@ var
 begin
   Result := CreateElement('valores');
 
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vCalcDR', 1, 15, 0,
+                                         NFSe.infNFSe.Valores.vCalcDR, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpBM', 1, 15, 0,
+                                         NFSe.infNFSe.Valores.tpBM, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vCalcBM', 1, 15, 0,
+                                         NFSe.infNFSe.Valores.vCalcBM, ''));
+
   Result.AppendChild(AddNode(tcDe2, '#1', 'vBC', 1, 15, 0,
                                          NFSe.infNFSe.Valores.BaseCalculo, ''));
 
@@ -322,8 +331,12 @@ begin
   Result.AppendChild(AddNode(tcDe2, '#1', 'vTotalRet', 1, 15, 0,
                                            NFSe.infNFSe.Valores.vTotalRet, ''));
 
-  Result.AppendChild(AddNode(tcDe2, '#1', 'vLiq', 1, 15, 0,
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vLiq', 1, 15, 1,
                                     NFSe.infNFSe.Valores.ValorLiquidoNfse, ''));
+
+  if VersaoNFSe = ve100 then
+    Result.AppendChild(AddNode(tcStr, '#1', 'xOutInf', 1, 15, 0,
+                                           NFSe.OutrasInformacoes, ''));
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLDPS: TACBrXmlNode;
