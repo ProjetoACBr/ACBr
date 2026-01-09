@@ -19,7 +19,7 @@
       <AutoIncrementBuild Value="False"/>
       <MajorVersionNr Value="2"/>
       <RevisionNr Value="0"/>
-      <BuildNr Value="10"/>
+      <BuildNr Value="14"/>
       <Language Value="0416"/>
       <StringTable CompanyName="Projeto ACBr" FileDescription="ACBrPosPrinter - Biblioteca para comunicação com impressoras não fiscais ﻿usando EscPos" InternalName="ACBrLibPosPrinter" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="PosPrinter " ProductVersion="0.0.2.30"/>
       <MinorVersionNr Value="1"/>
