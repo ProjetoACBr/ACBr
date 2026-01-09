@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+09/01/2026
+-- VersaTecnologia.GravarXml/VersaTecnologia.Provider --
+[*] ACBR-8746 - Ajustes para a versão 2.04
+   Por: Antonio Gomes
+
 08/01/2026
 -- ACBrNFSeXProviderManager/ModernizacaoPublica.GravarXml/ModernizacaoPublica.LerXml --
 -- ModernizacaoPublica.Provider/PadraoNacional.Provider --
