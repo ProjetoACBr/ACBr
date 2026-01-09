@@ -10,7 +10,8 @@ import java.util.Map;
 
 public enum LayoutNFSe {
     Provedor(0),
-    PadraoNacional(1);
+    PadraoNacional(1),
+    PadraoNacionalv101(2);
     
     private static final Map<Integer, LayoutNFSe> map;
     private final int enumValue;
