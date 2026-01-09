@@ -179,13 +179,11 @@ begin
         sInter := '';
 
       iTamanhoIM := 12;
-      {
+
       if NFSe.Servico.Valores.ValorInicialCobrado > 0 then
         sValorServicos := Poem_Zeros(OnlyNumber(FormatFloat('#0.00', NFSe.Servico.Valores.ValorInicialCobrado)), 15)
       else
         sValorServicos := Poem_Zeros(OnlyNumber(FormatFloat('#0.00', NFSe.Servico.Valores.ValorFinalCobrado)), 15);
-      }
-      sValorServicos := Poem_Zeros(OnlyNumber(FormatFloat('#0.00', NFSe.Servico.Valores.ValorServicos)), 15);
     end
     else
     begin

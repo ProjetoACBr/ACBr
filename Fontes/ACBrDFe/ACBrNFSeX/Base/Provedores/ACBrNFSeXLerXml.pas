@@ -1312,7 +1312,8 @@ begin
 
       // Provedor IssSaoPaulo
       Servico.Valores.ValorIPI := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorIPI', ''), 0);
-
+      Servico.Valores.ValorInicialCobrado := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorInicialCobrado', ''), 0);
+      Servico.Valores.ValorFinalCobrado := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorFinalCobrado', ''), 0);
     end;
 
     sSecao := 'ValoresNFSe';

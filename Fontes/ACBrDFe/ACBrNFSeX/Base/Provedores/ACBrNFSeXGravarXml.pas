@@ -1301,6 +1301,9 @@ begin
       INIRec.WriteFloat(sSecao, 'ValorRecebido', Servico.Valores.ValorRecebido);
       INIRec.WriteFloat(sSecao, 'IrrfIndenizacao', Servico.Valores.IrrfIndenizacao);
       INIRec.WriteFloat(sSecao, 'RetencoesFederais', Servico.Valores.RetencoesFederais);
+      INIRec.WriteFloat(sSecao, 'ValorIPI', Servico.Valores.ValorIPI);
+      INIRec.WriteFloat(sSecao, 'ValorInicialCobrado', Servico.Valores.ValorInicialCobrado);
+      INIRec.WriteFloat(sSecao, 'ValorFinalCobrado', Servico.Valores.ValorFinalCobrado);
 
       // Provedor Infisc
       INIRec.WriteFloat(sSecao, 'totalAproxTrib', Servico.Valores.totalAproxTrib);
