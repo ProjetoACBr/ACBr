@@ -16,12 +16,13 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <AutoIncrementBuild Value="True"/>
+      <AutoIncrementBuild Value="False"/>
       <MajorVersionNr Value="2"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="284"/>
+      <BuildNr Value="10"/>
       <Language Value="0416"/>
       <StringTable CompanyName="Projeto ACBr" FileDescription="ACBrPosPrinter - Biblioteca para comunicação com impressoras não fiscais ﻿usando EscPos" InternalName="ACBrLibPosPrinter" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="PosPrinter " ProductVersion="0.0.2.30"/>
+      <MinorVersionNr Value="1"/>
     </VersionInfo>
     <MacroValues Count="2">
       <Macro1 Name="ACBrDir" Value="$Env(ACBR_HOME)"/>
@@ -142,14 +143,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dDemo 
--dANDROID
--dNOGUI
--dMT
--Xd
--CfVFPv3
--CpARMV7A
--XParm-linux-androideabi-"/>
+            <CustomOptions Value="-dDemo   -dANDROID  -dNOGUI  -dMT  -Xd  -CfVFPv3  -CpARMV7A  -XParm-linux-androideabi-"/>
           </Other>
         </CompilerOptions>
       </Item4>
@@ -188,16 +182,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dDemo 
--dANDROID
--dNOGUI
--dMT
--Xd
--XPaarch64-linux-android-
--k-z
--kcommon-page-size=16384
--k-z
--kmax-page-size=16384"/>
+            <CustomOptions Value="-dDemo   -dANDROID  -dNOGUI  -dMT  -Xd  -XPaarch64-linux-android-  -k-z  -kcommon-page-size=16384  -k-z  -kmax-page-size=16384"/>
           </Other>
         </CompilerOptions>
       </Item5>
