@@ -5,11 +5,6 @@
            elementFormDefault="qualified"
            attributeFormDefault="unqualified">
 
-
-
-
-
-
     <xs:simpleType name="TSCNAONIF">
         <xs:annotation>
             <xs:documentation>Motivo para não informação do NIF (0, 1, 2).</xs:documentation>

@@ -1,24 +1,13 @@
 <?xml version="1.0"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.abrasf.org.br/nfse.xsd" xmlns="http://www.abrasf.org.br/nfse.xsd"
-	xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" attributeFormDefault="unqualified"
+	targetNamespace="http://www.abrasf.org.br/nfse.xsd" 
+        xmlns="http://www.abrasf.org.br/nfse.xsd"
+	xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" 
+        attributeFormDefault="unqualified"
 	elementFormDefault="qualified">
-	<xsd:import namespace="http://www.w3.org/2000/09/xmldsig#"
-		schemaLocation="xmldsig-core-schema20020212.xsd" />
+<xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema20020212.xsd" />
 
-       <xsd:import namespace="http://www.abrasf.org.br/nfse.xsd"
-		schemaLocation="DpsIBSCBS-TINUS-V1.00.00.xsd" />
-
-
-
-
-
-
-
-
-
-
-
+<xsd:import namespace="http://www.sped.fazenda.gov.br/nfse" schemaLocation="DpsIBSCBS-TINUS-V1.00.00.xsd" />
 
 	<!-- definition of simple elements -->
 	<xsd:simpleType name="tsNumeroNfse">
@@ -818,16 +807,8 @@
 				minOccurs="0" maxOccurs="1" />
 			<xsd:element name="NumeroProcesso" type="tsNumeroProcesso"
 				minOccurs="0" maxOccurs="1" />
-
-
-
 			<xsd:element name="IBSCBS" type="nfse:TCDpsIBSCBS"
 				minOccurs="0" maxOccurs="1" />
-
-
-
-
-
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -996,8 +977,6 @@
 			<xsd:element name="NfseCancelamento" type="tcCancelamentoNfse" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
-
-
 
 	<xsd:complexType name="tcInfSubstituicaoNfse">
 		<xsd:sequence>
