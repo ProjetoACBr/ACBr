@@ -739,7 +739,15 @@ type
                    sticmsTributacaoMonofasicaPropriaCombustives              , // '002' // Tributação Monofásica Própria do ICMS nas operações com combustíveis
                    sticmsTributacaoMonofasicaPropriacomRetencaoCombustiveis  , // '015' // Tributação Monofásica Própria e com responsabilidade pela retenção do ICMS nas operações com combustíveis
                    sticmsTributacaoMonofasicaRecolhimentoDiferidoCombustiveis, // '053' // Tributação Monofásica com recolhimento diferido do ICMS nas operações com combustíveis
-                   sticmsTributacaoMonofasicaCombustiveisCobradoAnteriormente  // '061' // Tributação Monofásica sobre combustíveis com ICMS cobrado anteriormente
+                   sticmsTributacaoMonofasicaCombustiveisCobradoAnteriormente, // '061' // Tributação Monofásica sobre combustíveis com ICMS cobrado anteriormente
+                   sticmsEstrangeiraImpDiretaTributacaoMonofasicaPropriaCombustives               , // '102' // Estrangeira - Tributação Monofásica Própria do ICMS nas operações com combustíveis
+                   sticmsEstrangeiraImpDiretaTributacaoMonofasicaPropriacomRetencaoCombustiveis   , // '115' // Estrangeira - Tributação Monofásica Própria e com responsabilidade pela retenção do ICMS nas operações com combustíveis
+                   sticmsEstrangeiraImpDiretaTributacaoMonofasicaRecolhimentoDiferidoCombustiveis , // '153' // Estrangeira - Tributação Monofásica com recolhimento diferido do ICMS nas operações com combustíveis
+                   sticmsEstrangeiraImpDiretaTributacaoMonofasicaCombustiveisCobradoAnteriormente , // '161' // Estrangeira - Tributação Monofásica sobre combustíveis com ICMS cobrado anteriormente
+                   sticmsEstrangeiraAdqMercIntTributacaoMonofasicaPropriaCombustives              , // '202' // Estrangeira - Adquirida no mercado interno - Tributação Monofásica Própria do ICMS nas operações com combustíveis
+                   sticmsEstrangeiraAdqMercIntTributacaoMonofasicaPropriacomRetencaoCombustiveis  , // '215' // Estrangeira - Adquirida no mercado interno - Tributação Monofásica Própria e com responsabilidade pela retenção do ICMS nas operações com combustíveis
+                   sticmsEstrangeiraAdqMercIntTributacaoMonofasicaRecolhimentoDiferidoCombustiveis, // '253' // Estrangeira - Adquirida no mercado interno - Tributação Monofásica com recolhimento diferido do ICMS nas operações com combustíveis
+                   sticmsEstrangeiraAdqMercIntTributacaoMonofasicaCombustiveisCobradoAnteriormente  // '261' // Estrangeira - Adquirida no mercado interno - Tributação Monofásica sobre combustíveis com ICMS cobrado anteriormente
                 );
   TACBrSituacaoTribICMS = TACBrCstIcms;
 
