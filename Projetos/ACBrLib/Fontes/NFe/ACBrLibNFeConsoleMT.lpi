@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
     <Version Value="12"/>
@@ -19,11 +19,11 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <AutoIncrementBuild Value="True"/>
+      <AutoIncrementBuild Value="False"/>
       <MajorVersionNr Value="1"/>
-      <MinorVersionNr Value="4"/>
-      <RevisionNr Value="7"/>
-      <BuildNr Value="391"/>
+      <MinorVersionNr Value="5"/>
+      <RevisionNr Value="0"/>
+      <BuildNr Value="429"/>
       <Language Value="0416"/>
       <StringTable CompanyName="Projeto ACBr" FileDescription="ACBrNFe - BIblioteca para emissão e impressão de nota fiscal eletrônica" InternalName="ACBrLibNFE" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="ACBrNFe " ProductVersion="0.4.6.0"/>
     </VersionInfo>
@@ -146,14 +146,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dANDROID
--dNOGUI
--dNOREPORT
--dMT
--Xd
--CfVFPv3
--CpARMV7A
--XParm-linux-androideabi-"/>
+            <CustomOptions Value="-dANDROID  -dNOGUI  -dNOREPORT  -dMT  -Xd  -CfVFPv3  -CpARMV7A  -XParm-linux-androideabi-"/>
           </Other>
         </CompilerOptions>
       </Item4>
@@ -192,16 +185,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dANDROID
--dNOGUI
--dNOREPORT
--dMT
--Xd
--XPaarch64-linux-android-
--k-z
--kcommon-page-size=16384
--k-z
--kmax-page-size=16384"/>
+            <CustomOptions Value="-dANDROID  -dNOGUI  -dNOREPORT  -dMT  -Xd  -XPaarch64-linux-android-  -k-z  -kcommon-page-size=16384  -k-z  -kmax-page-size=16384"/>
           </Other>
         </CompilerOptions>
       </Item5>
