@@ -178,7 +178,7 @@ uses
 
 function TNFSeW_PadraoNacional.DevoGerarXMLObra: Boolean;
 begin
-  Result := NFSe.ConstrucaoCivil.inscImobFisc <> '';
+  Result := (NFSe.ConstrucaoCivil.inscImobFisc <> '') or (NFSe.ConstrucaoCivil.CodigoObra <> '') or (NFSE.ConstrucaoCivil.Cib > 0);
 end;
 
 function TNFSeW_PadraoNacional.GerarChaveDPS(const AcMun, ACNPJCPF, ASerie,
@@ -982,14 +982,17 @@ end;
 function TNFSeW_PadraoNacional.GerarXMLObra: TACBrXmlNode;
 begin
   Result := CreateElement('obra');
-  Result.AppendChild(AddNode(tcStr, '#1', 'inscImobFisc', 1, 30, 1,
-                                      NFSe.ConstrucaoCivil.inscImobFisc, ''));
+
+  if NFSe.ConstrucaoCivil.inscImobFisc <> '' then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#1', 'inscImobFisc', 1, 30, 1,
+                                        NFSe.ConstrucaoCivil.inscImobFisc, ''));
+  end;
 
   if NFSe.ConstrucaoCivil.CodigoObra <> '' then
   begin
     Result.AppendChild(AddNode(tcStr, '#1', 'cObra', 1, 30, 1,
                                           NFSe.ConstrucaoCivil.CodigoObra, ''));
-    exit;
   end;
 
   if NFSE.ConstrucaoCivil.Cib > 0 then
