@@ -140,6 +140,7 @@ type
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
 
     procedure PrepararEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
+    procedure AssinarEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
     procedure TratarRetornoEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
 
     {
@@ -635,6 +636,36 @@ end;
 
 { TACBrNFSeProviderSilTecnologiaAPIPropria }
 
+procedure TACBrNFSeProviderSilTecnologiaAPIPropria.AssinarEnviarEvento(
+  Response: TNFSeEnviarEventoResponse);
+var
+  IdAttrEVT, IdAttrSig: String;
+  AErro: TNFSeEventoCollectionItem;
+begin
+  Response.InfEvento.pedRegEvento.ID := Response.InfEvento.pedRegEvento.chNFSe +
+                                        OnlyNumber(tpEventoToStr(Response.InfEvento.pedRegEvento.tpEvento)) +
+                                        FormatFloat('000', Response.InfEvento.pedRegEvento.nPedRegEvento);
+
+  IdAttrEVT := 'Id="' + 'EVT' + Response.InfEvento.pedRegEvento.ID + '"';
+
+  try
+    IdAttrSig := SetIdSignatureValue(Response.ArquivoEnvio,
+                            ConfigMsgDados.EnviarEvento.DocElemento, IdAttrEVT);
+
+    Response.ArquivoEnvio := FAOwner.SSL.Assinar(Response.ArquivoEnvio,
+                                   ConfigMsgDados.EnviarEvento.DocElemento,
+                                   ConfigMsgDados.EnviarEvento.InfElemento,
+                                   '', '', '', IdAttrSig);
+  except
+    on E:Exception do
+    begin
+      AErro := Response.Erros.New;
+      AErro.Codigo := Cod801;
+      AErro.Descricao := ACBrStr(Desc801 + E.Message);
+    end;
+  end;
+end;
+
 procedure TACBrNFSeProviderSilTecnologiaAPIPropria.Configuracao;
 var
   VersaoDFe: string;
@@ -685,8 +716,8 @@ begin
     XmlRps.InfElemento := 'infNFSe';
     XmlRps.DocElemento := 'NFSe';
 
-    EnviarEvento.InfElemento := 'evento ';
-    EnviarEvento.DocElemento := 'evento ';
+    EnviarEvento.InfElemento := 'infEvento';
+    EnviarEvento.DocElemento := 'evento';
   end;
 
   with ConfigAssinar do
@@ -1096,10 +1127,7 @@ begin
     xEvento := ConverteXMLtoUTF8(xEvento);
     xEvento := ChangeLineBreak(xEvento, '');
 
-    xEvento := FAOwner.SSL.Assinar(xEvento,
-                                   ConfigMsgDados.EnviarEvento.InfElemento,
-                                   ConfigMsgDados.EnviarEvento.DocElemento,
-                                   '', '', '', IdAttrEVT);
+
     Response.ArquivoEnvio := xEvento;
 
     nomeArq := '';
