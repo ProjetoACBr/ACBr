@@ -2326,7 +2326,7 @@ public class FrmMain extends javax.swing.JFrame {
             acbrNFCom.limparLista(); 
             acbrNFCom.carregarIni(chooser.getSelectedFile().getAbsolutePath());            
             
-            String ret = acbrNFCom.enviar(1, false);
+            String ret = acbrNFCom.enviar(false);
             rtbRespostas.append(ret);   
             
         } catch (Exception ex) {
@@ -2414,7 +2414,7 @@ public class FrmMain extends javax.swing.JFrame {
              String aLote = JOptionPane.showInputDialog("Digite o lote");
              int lote = Integer.parseInt(aLote);
              
-             String ret = acbrNFCom.enviar(lote, false);
+             String ret = acbrNFCom.enviar(false);
              rtbRespostas.append(ret);
              
         } catch (Exception ex){
@@ -2496,7 +2496,7 @@ public class FrmMain extends javax.swing.JFrame {
              String aLote = JOptionPane.showInputDialog("Digite o lote");
              int lote = Integer.parseInt(aLote);
              
-             String ret = acbrNFCom.enviar(lote);
+             String ret = acbrNFCom.enviar(false);
              rtbRespostas.append(ret);             
              
         } catch (Exception ex){

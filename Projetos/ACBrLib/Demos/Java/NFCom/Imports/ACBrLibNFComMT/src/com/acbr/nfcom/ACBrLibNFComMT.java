@@ -197,15 +197,11 @@ public class ACBrLibNFComMT extends ACBrLibBase {
         return processResult(buffer, bufferLen);
     }
 
-    public String enviar(int lote) throws Exception {
-        return enviar(lote, false);
-    }
-
-    public String enviar(int lote, boolean imprimir) throws Exception {
+    public String enviar(boolean imprimir) throws Exception {
         ByteBuffer buffer = ByteBuffer.allocate(STR_BUFFER_LEN);
         IntByReference bufferLen = new IntByReference(STR_BUFFER_LEN);
 
-        int ret = acbrLibNFComBridge.NFCom_Enviar(getHandle(), lote, imprimir, buffer, bufferLen);
+        int ret = acbrLibNFComBridge.NFCom_Enviar(getHandle(), imprimir, buffer, bufferLen);
         checkResult(ret);
 
         return processResult(buffer, bufferLen);

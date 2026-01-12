@@ -92,7 +92,7 @@ public interface ACBrLibNFComBridgeMT extends Library {
 
     int NFCom_ValidarRegrasdeNegocios(Pointer handle, ByteBuffer buffer, IntByReference bufferSize);
 
-    int NFCom_Enviar(Pointer handle, int ALote, boolean AImprimir, ByteBuffer buffer, IntByReference bufferSize);
+    int NFCom_Enviar(Pointer handle, boolean AImprimir, ByteBuffer buffer, IntByReference bufferSize);
 
     int NFCom_EnviarEvento(Pointer handle, ByteBuffer buffer, IntByReference bufferSize);
 
