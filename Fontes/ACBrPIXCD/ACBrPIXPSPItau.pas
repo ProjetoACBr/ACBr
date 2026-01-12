@@ -51,6 +51,11 @@ uses
 const
   cItauURLSandbox = 'https://devportal.itau.com.br/sandboxapi';
   cItauURLProducao = 'https://secure.api.itau';
+  cItauURLPixAutomaticoProd = 'https://pixautomatico-recebimentos.api.itau.com';
+  cItauURLPixAutomaticoHom = 'https://pixautomatico-recebimentos.api.hom.itau.com';
+  cItauURLPixAutomaticoCobR = 'https://recebimentos-pix.api.itau.com/qrcode-pix-automatico/v1';
+  cItauPathQRCodePIXAutomatico = '/qrcode-pix-automatico/v1';
+  cItauPathPIXAutomatico = '/pixautomatico/v1';
   cItauPathAPIPix = '/pix_recebimentos/v2';
   cItauPathAPIPixSandbox = '/pix_recebimentos_ext_v2/v2';
   cItauURLAuthTeste = 'https://devportal.itau.com.br/api/jwt';
@@ -79,9 +84,13 @@ type
   protected
     function VerificarSeIncluiCertificado(const Method, AURL: String): Boolean; override;
     function VerificarSeIncluiChavePrivada(const Method, AURL: String): Boolean; override;
-    function ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String; override;
+    function CalcularURLEndPoint(const Method, EndPoint: String): String; override;
     procedure ConfigurarQueryParameters(const Method, EndPoint: String); override;
     procedure ConfigurarHeaders(const Method, AURL: String); override;
+
+    function ObterURL(const aMethod, aEndPoint: String): String;
+    function ObterURLAmbiente(const Ambiente: TACBrPixCDAmbiente): String; override;
+    function ObterURLAmbienteRec(const Ambiente: TACBrPixCDAmbiente): String;
   public
     constructor Create(AOwner: TComponent); override;
     procedure Autenticar; override;
@@ -102,7 +111,7 @@ type
 implementation
 
 uses
-  synautil, DateUtils,
+  synautil, synacode, DateUtils,
   ACBrUtil.Strings, ACBrUtil.Base, ACBrJSON;
 
 { TACBrPSPItau }
@@ -307,6 +316,41 @@ begin
     Result := cItauURLSandbox + cItauPathAPIPixSandbox;
 end;
 
+function TACBrPSPItau.ObterURLAmbienteRec(const Ambiente: TACBrPixCDAmbiente): String;
+begin
+  if (Ambiente = ambProducao) then
+    Result := cItauURLPixAutomaticoProd + cItauPathPIXAutomatico
+  else
+    Result := cItauURLPixAutomaticoHom + cItauPathPIXAutomatico;
+end;
+
+function TACBrPSPItau.CalcularURLEndPoint(const Method, EndPoint: String): String;
+var
+  AEndPointPath, p: String;
+  i: Integer;
+begin
+  if (NivelLog > 3) then
+    RegistrarLog('CalcularURLEndPoint( '+Method+', '+EndPoint+' )');
+  AEndPointPath := CalcularEndPointPath(Method, EndPoint);
+  Result := ObterURL(Method, EndPoint);
+  if (AEndPointPath <> '') then
+    Result := Result + AEndPointPath;
+
+  ConfigurarPathParameters(Method, EndPoint);
+  ConfigurarQueryParameters(Method, EndPoint);
+
+  if (URLPathParams.Count > 0) then
+    for i := 0 to URLPathParams.Count-1 do
+      Result := URLComDelimitador(Result) + URLSemDelimitador(EncodeURLElement(URLPathParams[i]));
+
+  p := URLQueryParams.AsURL;
+  if (p <> '') then
+    Result := Result + '?' + p;
+
+  if (NivelLog > 3) then
+    RegistrarLog('  '+Result);
+end;
+
 procedure TACBrPSPItau.ConfigurarQueryParameters(const Method, EndPoint: String);
 begin
   inherited ConfigurarQueryParameters(Method, EndPoint);
@@ -337,6 +381,25 @@ begin
 
   if (ACBrPixCD.Ambiente = ambTeste) and (fpToken <> '') then
     Http.Headers.Add('x-sandbox-token: ' + fpToken);
+end;
+
+function TACBrPSPItau.ObterURL(const aMethod, aEndPoint: String): String;
+begin
+  if (aEndPoint = cEndPointCobR) then
+    Result := cItauURLPixAutomaticoCobR + cItauPathQRCodePIXAutomatico
+  else
+  begin
+    VerificarPIXCDAtribuido;
+    if (aEndPoint = cEndPointRec) or
+       (aEndPoint = cEndPointLocRec) or
+       (aEndPoint = cEndPointSolicRec) or
+       (aEndPoint = cEndPointWebhookRec) then
+      Result := ObterURLAmbienteRec(ACBrPixCD.Ambiente)
+    else
+      Result := ObterURLAmbiente(ACBrPixCD.Ambiente);
+  end;
+
+  Result := URLSemDelimitador(Result);
 end;
 
 end.

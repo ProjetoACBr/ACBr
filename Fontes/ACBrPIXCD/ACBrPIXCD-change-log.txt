@@ -47,6 +47,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/01/2025
+-- ACBrPIXPSPItau --
+[*] Alterações para utilizar as novas URLs referentes à Pix Automático.
+    por: Elias Cesar
+
 08/12/2025
 -- ACBrPIXPSPPixPDV --
 [*] Ajuste para validar tamanho do campo qrcodeId para no máximo 36 caracteres. Alteração solicitada
