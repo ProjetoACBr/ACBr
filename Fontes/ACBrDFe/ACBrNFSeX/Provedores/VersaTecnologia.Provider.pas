@@ -672,11 +672,6 @@ var
 begin
   inherited Configuracao;
 
-  if FAOwner.Configuracoes.WebServices.AmbienteCodigo = 1 then
-    FpURL := ConfigWebServices.Producao.NameSpace
-  else
-    FpURL := ConfigWebServices.Homologacao.NameSpace;
-
   with ConfigWebServices do
   begin
     VersaoDados := '2.04';
@@ -684,13 +679,30 @@ begin
   end;
 
   ConfigAssinar.CancelarNFSe := False;
-
-  ConfigMsgDados.DadosCabecalho := GetCabecalho(FpURL);
   ConfigMsgDados.GerarPrestadorLoteRps := True;
 
-  SetXmlNameSpace(ConfigWebServices.Producao.XMLNameSpace);
+  if ConfigGeral.Params.TemParametro('GerarGrupoIBSCBS') then
+    FpURL := 'http://www.abrasf.org.br/nfse.xsd'
+  else
+  begin
+    if FAOwner.Configuracoes.WebServices.AmbienteCodigo = 1 then
+      FpURL := ConfigWebServices.Producao.NameSpace
+    else
+      FpURL := ConfigWebServices.Homologacao.NameSpace;
+  end;
 
-  SetNomeXSD('nfse_v204.xsd');
+  ConfigMsgDados.DadosCabecalho := GetCabecalho(FpURL);
+
+  if ConfigGeral.Params.TemParametro('GerarGrupoIBSCBS') then
+  begin
+    SetXmlNameSpace(FpURL);
+    SetNomeXSD('nfse.xsd');
+  end
+  else
+  begin
+    SetXmlNameSpace(ConfigWebServices.Producao.XMLNameSpace);
+    SetNomeXSD('nfse_v204.xsd');
+  end;
 end;
 
 function TACBrNFSeProviderVersaTecnologia204.CriarGeradorXml(
@@ -711,7 +723,8 @@ function TACBrNFSeProviderVersaTecnologia204.GetSchemaPath: string;
 begin
   Result := inherited GetSchemaPath;
 
-  Result := PathWithDelim(Result + ConfigGeral.CodIBGE);
+  if not ConfigGeral.Params.TemParametro('GerarGrupoIBSCBS') then
+    Result := PathWithDelim(Result + ConfigGeral.CodIBGE);
 end;
 
 procedure TACBrNFSeProviderVersaTecnologia204.GerarMsgDadosCancelaNFSe(

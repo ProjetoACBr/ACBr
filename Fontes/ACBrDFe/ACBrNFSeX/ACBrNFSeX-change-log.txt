@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 12/01/2026
+-- VersaTecnologia.GravarXml/VersaTecnologia.Provider --
+[*] ACBR-8746 - Ajustes para a versão 2.04
+   Por: Antonio Gomes
 -- WebISS.GravarXml/WebISS.LerXml --
 [*] Alterações visando a Reforma Tributária.
    Por: Wallace Oliveira

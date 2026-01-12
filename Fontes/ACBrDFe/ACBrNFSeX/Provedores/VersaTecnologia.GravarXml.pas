@@ -81,6 +81,7 @@ type
 
     function GerarServico: TACBrXmlNode; override;
     function GerarValores: TACBrXmlNode; override;
+    function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
   end;
 
 implementation
@@ -258,42 +259,6 @@ begin
 
   Result.AppendChild(AddNode(tcDe2, '#28', 'DescontoCondicionado', 1, 15, NrOcorrDescCond,
       NFSe.Servico.Valores.DescontoCondicionado, DSC_VDESCCOND));
-
-    (*
-  if NFSe.Servico.Valores.tribFed.CST <> TCST.cstVazio then
-  begin
-    Result.AppendChild(AddNode(tcStr, '#1', 'CST', 2, 2, 1,
-                               CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
-
-{    if (NFSe.Servico.Valores.tribFed.vBCPisCofins > 0) or
-       (NFSe.Servico.Valores.tribFed.pAliqPis > 0) or
-       (NFSe.Servico.Valores.tribFed.pAliqCofins > 0) or
-       (NFSe.Servico.Valores.tribFed.vPis > 0) or
-       (NFSe.Servico.Valores.tribFed.vCofins > 0) or
-       (NFSe.Servico.Valores.tribFed.CST in [cst04, cst06]) then }
-    begin
-      //if NFSe.Servico.Valores.tribFed.CST in [cst04, cst06] then
-      NOcorr := 1;
-
-      Result.AppendChild(AddNode(tcDe2, '#1', 'vBCPisCofins', 1, 15, 1,
-                                  NFSe.Servico.Valores.tribFed.vBCPisCofins, ''));
-
-      Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqPis', 1, 5, NOcorr,
-                                      NFSe.Servico.Valores.tribFed.pAliqPis, ''));
-
-      Result.AppendChild(AddNode(tcDe2, '#1', 'pAliqCofins', 1, 5, NOcorr,
-                                   NFSe.Servico.Valores.tribFed.pAliqCofins, ''));
-
-      Result.AppendChild(AddNode(tcDe2, '#1', 'vPis', 1, 15, NOcorr,
-                                          NFSe.Servico.Valores.tribFed.vPis, ''));
-
-      Result.AppendChild(AddNode(tcDe2, '#1', 'vCofins', 1, 15, NOcorr,
-                                       NFSe.Servico.Valores.tribFed.vCofins, ''));
-
-      Result.AppendChild(AddNode(tcStr, '#1', 'tpRetPisCofins', 1, 1, 0,
-           tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
-    end;
-  end;    *)
 end;
 
 function TNFSeW_VersaTecnologia204.GerarServico: TACBrXmlNode;
@@ -343,8 +308,8 @@ begin
     LNaoExigencia:= DSC_INDISS;
     LNaoExigencia:= StringReplace(LNaoExigencia,  ' da ', ' da não ', [rfReplaceAll]);
 
-    Result.AppendChild(AddNode(tcInt, '#37', 'IdentifNaoExigibilidade',
-        1, 4, 1, NFSe.Servico.IdentifNaoExigibilidade, LNaoExigencia));
+    Result.AppendChild(AddNode(tcInt, '#37', 'IdentifNaoExigibilidade', 1, 4, 1,
+        StrToIntDef(NFSe.Servico.IdentifNaoExigibilidade, 0), LNaoExigencia));
 
     Result.AppendChild(AddNode(tcStr, '#9', 'OutrasInformacoes', 0, 255, NrOcorrOutrasInformacoes_2,
         StringReplace(NFSe.OutrasInformacoes, Opcoes.QuebraLinha,
@@ -361,6 +326,21 @@ begin
 
     Result.AppendChild(GerarListaItensServico);
   end;
+end;
+
+function TNFSeW_VersaTecnologia204.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
+var
+  TemGrupoIBSCBS: Boolean;
+begin
+  Result := inherited GerarInfDeclaracaoPrestacaoServico;
+
+  TemGrupoIBSCBS := FpAOwner.ConfigGeral.Params.TemParametro('GerarGrupoIBSCBS');
+
+  if TemGrupoIBSCBS and ((NFSe.IBSCBS.dest.xNome <> '') or
+     (NFSe.IBSCBS.imovel.cCIB <> '') or (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum)) then
+    Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 end;
 
 end.
