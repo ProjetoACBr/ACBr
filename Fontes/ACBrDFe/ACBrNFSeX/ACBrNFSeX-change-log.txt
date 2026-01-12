@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/01/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-8764 - Correção nas URLs de Vila Velha/ES.
+   Por: Diego Folieni
 -- SilTecnologia.Provider --
 [*] ACBR-8764 - Alteração visando correta leitura do retorno para API Própria.
    Por: Diego Folieni
