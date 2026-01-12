@@ -116,6 +116,7 @@ type
     FIDNFSeVazio: Boolean;
     FIDDPSVazio: Boolean;
     FGerarIBSCBSNFSe: Boolean;
+    FTamMinimo: Integer;
 
     function GetOpcoes: TACBrXmlWriterOptions;
     procedure SetOpcoes(AValue: TACBrXmlWriterOptions);
@@ -269,6 +270,8 @@ type
     property IDNFSeVazio: Boolean read FIDNFSeVazio write FIDNFSeVazio;
     property IDDPSVazio: Boolean read FIDDPSVazio write FIDDPSVazio;
     property GerarIBSCBSNFSe: Boolean read FGerarIBSCBSNFSe write FGerarIBSCBSNFSe;
+
+    property TamMinimo: Integer read FTamMinimo write FTamMinimo;
   end;
 
 implementation
@@ -366,6 +369,8 @@ begin
   FIDNFSeVazio := False;
   FIDDPSVazio := False;
   FGerarIBSCBSNFSe := False;
+
+  FTamMinimo := 1;
 end;
 
 procedure TNFSeWClass.ConsolidarVariosItensServicosEmUmSo;

@@ -971,6 +971,8 @@ begin
             Response.tpEvento := StrTotpEvento(Ok, Copy(IDEvento, 51, 6));
             Response.XmlRetorno := ArquivoXml;
 
+            Response.SucessoCanc := (Response.tpEvento = teCancelamento);
+
             ANode := ANode.Childrens.FindAnyNs('pedRegEvento');
             ANode := ANode.Childrens.FindAnyNs('infPedReg');
 

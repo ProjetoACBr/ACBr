@@ -67,6 +67,7 @@ type
 
   TNFSeW_SimplISSAPIPropria = class(TNFSeW_PadraoNacional)
   protected
+    procedure Configuracao; override;
 
   end;
 
@@ -166,6 +167,15 @@ begin
   NrOcorrCodigoPaisServico := 1;
 
   GerarIDRps := True;
+end;
+
+{ TNFSeW_SimplISSAPIPropria }
+
+procedure TNFSeW_SimplISSAPIPropria.Configuracao;
+begin
+  inherited Configuracao;
+
+  TamMinimo := 5;
 end;
 
 end.

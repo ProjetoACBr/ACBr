@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 12/01/2026
+-- ACBrNFSeXGravarXml/PadraoNacional.GravarXml/PadraoNacional.Provider/SimplISS.GravarXml --
+[*] O provedor SimplISS requer que a tag serie seja gerada com 5 dígitos.
+   Por: Italo Giurizzato Junior
 -- VersaTecnologia.GravarXml/VersaTecnologia.Provider --
 [*] ACBR-8746 - Ajustes para a versão 2.04
    Por: Antonio Gomes
