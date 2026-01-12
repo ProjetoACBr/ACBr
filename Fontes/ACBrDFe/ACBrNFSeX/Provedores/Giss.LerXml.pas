@@ -91,16 +91,6 @@ begin
 
   LerINIValoresTribFederal(AINIRec);
   LerINIValoresTotalTrib(AINIRec);
-
-  // Reforma Tributária
-  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
-     (NFSe.IBSCBS.imovel.ender.CEP <> '') or
-     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
-     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
-  begin
-    LerINIIBSCBS(AINIRec, NFSe.IBSCBS);
-//    GerarINIIBSCBSNFSe(AINIRec, NFSe.infNFSe.IBSCBS);
-  end;
 end;
 
 procedure TNFSeR_Giss204.LerINIValoresTotalTrib(AINIRec: TMemIniFile);

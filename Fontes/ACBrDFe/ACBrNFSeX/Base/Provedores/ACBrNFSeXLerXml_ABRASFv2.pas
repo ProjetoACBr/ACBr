@@ -1397,6 +1397,7 @@ begin
 
     // Ler os campos do arquivo INI referente a Reforma Tributária
     LerINIIBSCBS(LINIRec, NFSe.IBSCBS);
+    LerINIIBSCBSNFSe(LINIRec, NFSe.infNFSe.IBSCBS);
 
     Result := True;
   finally

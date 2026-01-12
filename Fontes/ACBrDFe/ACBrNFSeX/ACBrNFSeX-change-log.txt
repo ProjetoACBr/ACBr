@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 12/01/2026
+-- ACBrNFSeXLerXml_ABRASFv2/Giss.LerXml --
+[*] ACBR-8641 - Adicionada chamada da LerINIIBSCBSNFSe() na unit base do padrão ABRASF2, após a LerINIIBSCBS()
+   Por: Cezar Sakugawa
 -- Digifred.GravarXml --
 [*] Temos que enviar o XML da NFS-e e não o do DPS e dentro do grupo infNFSe não deve constar
     a tag tpAmb.
