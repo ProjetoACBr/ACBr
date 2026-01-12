@@ -128,6 +128,7 @@ type
 implementation
 
 uses
+  acbrutil.FilesIO,
   StrUtilsEx,
   synacode,
   ACBrUtil.Base,
@@ -1117,7 +1118,7 @@ end;
 procedure TACBrNFSeProviderCoplanAPIPropria.TratarRetornoEmitir(
   Response: TNFSeEmiteResponse);
 var
-  NumNFSe, CodVerif, NumRps, SerieRps: string;
+  NumNFSe, CodVerif, NumDps, SerieRps, NFSeXml: string;
   DataAut: TDateTime;
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
@@ -1128,7 +1129,7 @@ var
   I: Integer;
 begin
   Document := TACBrXmlDocument.Create;
-  NumRps := '';
+  NumDps := '';
 
   try
     try
@@ -1180,56 +1181,36 @@ begin
         for I := Low(ANodeArray) to High(ANodeArray) do
         begin
           ANode := ANodeArray[I];
-          AuxNode := ANode.Childrens.FindAnyNs('Nfse');
+          AuxNode := ANode.Childrens.FindAnyNs('NFSe');
           if not Assigned(AuxNode) then Exit;
 
-          AuxNode := AuxNode.Childrens.FindAnyNs('InfNfse');
+          NFSeXml := AuxNode.OuterXml;
+          AuxNode := AuxNode.Childrens.FindAnyNs('infNFSe');
 
-          NumNFSe := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Numero'), tcStr);
-          CodVerif := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('CodigoVerificacao'), tcStr);
-          DataAut := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('DataEmissao'), tcDat);
+          CodVerif := OnlyNumber(ObterConteudoTag(AuxNode.Attributes.Items['Id']));
+          NumNFSe := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nNFSe'), tcStr);
+          DataAut := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('dhProc'), tcDatHor);
+
+          AuxNode := AuxNode.Childrens.FindAnyNs('DPS');
+          AuxNode := AuxNode.Childrens.FindAnyNs('infDPS');
+          NumDps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nDPS'), tcStr);
 
           with Response do
           begin
             NumeroNota := NumNFSe;
-            CodigoVerificacao := CodVerif;
             Data := DataAut;
+            XmlRetorno := NFSeXml;
           end;
-
-          AuxNode2 := AuxNode.Childrens.FindAnyNs('DeclaracaoPrestacaoServico');
-
-          // Tem provedor que mudou a tag de <DeclaracaoPrestacaoServico>
-          // para <Rps>
-          if AuxNode2 = nil then
-            AuxNode2 := AuxNode.Childrens.FindAnyNs('Rps');
-          if not Assigned(AuxNode2) then Exit;
-
-          AuxNode := AuxNode2.Childrens.FindAnyNs('InfDeclaracaoPrestacaoServico');
-          if not Assigned(AuxNode) then Exit;
-
-          AuxNode := AuxNode.Childrens.FindAnyNs('Rps');
-
-          if AuxNode <> nil then
-          begin
-            AuxNode := AuxNode.Childrens.FindAnyNs('IdentificacaoRps');
-            if not Assigned(AuxNode) then Exit;
-
-            NumRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Numero'), tcStr);
-            SerieRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('Serie'), tcStr);
-          end;
-
-          if NumRps <> '' then
-            ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumRps)
-          else
-            ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByNFSe(Response.NumeroNota);
 
           AResumo := Response.Resumos.New;
           AResumo.NumeroNota := NumNFSe;
           AResumo.CodigoVerificacao := CodVerif;
-          AResumo.NumeroRps := NumRps;
+          AResumo.NumeroRps := NumDps;
           AResumo.SerieRps := SerieRps;
 
-          ANota := CarregarXmlNfse(ANota, ANode.OuterXml);
+          ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumDps);
+
+          ANota := CarregarXmlNfse(ANota, NFSeXml);
           SalvarXmlNfse(ANota);
 
           AResumo.NomeArq := ANota.NomeArq;
@@ -1253,7 +1234,6 @@ procedure TACBrNFSeProviderCoplanAPIPropria.GerarMsgDadosConsultaporRps(Response
 var
   Emitente: TEmitenteConfNFSe;
   Prestador: string;
-  AWriter: TNFSeWClass;
 
   function GerarChaveDPS: string;
   var
@@ -1634,6 +1614,7 @@ begin
 
   Result := RemoverDeclaracaoXML(Result, True);
   Result := RemoverCDATA(Result);
+  Result := RemoverIdentacao(Result);
   Result := FaststringReplace(Result, 'GX_KB_Tributario_Tributario', '', [rfReplaceAll]);
 end;
 
