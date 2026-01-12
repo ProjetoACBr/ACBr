@@ -57,7 +57,7 @@ type
   TNFSeR_WebISS202 = class(TNFSeR_ABRASFv2)
   protected
     procedure LerInfDeclaracaoPrestacaoServico(const ANode: TACBrXmlNode); override;
-
+    procedure LerInfNfse(const ANode: TACBrXmlNode); override;
   public
 
   end;
@@ -74,14 +74,30 @@ implementation
 procedure TNFSeR_WebISS202.LerInfDeclaracaoPrestacaoServico(
   const ANode: TACBrXmlNode);
 var
-  node : TACBrXmlNode;
+  node: TACBrXmlNode;
 begin
   inherited LerInfDeclaracaoPrestacaoServico(ANode);
 
-  // Reforma Tributária
   node := ANode.Childrens.FindAnyNs('InfDeclaracaoPrestacaoServico');
   if node <> nil then
-     LerXMLIBSCBSDPS(node.Childrens.FindAnyNs('IBSCBS'), NFSe.IBSCBS);
+    LerXMLIBSCBSDPS(node.Childrens.FindAnyNs('IBSCBS'), NFSe.IBSCBS);
+end;
+procedure TNFSeR_WebISS202.LerInfNfse(const ANode: TACBrXmlNode);
+var
+  NodeIBS: TACBrXmlNode;
+  NodeInfNfse: TACBrXmlNode;
+  i: Integer;
+begin
+  NodeInfNfse := ANode.Childrens.FindAnyNs('InfNfse');
+  inherited LerInfNfse(ANode);
+
+  if NodeInfNfse <> nil then
+  begin
+    NodeIBS := NodeInfNfse.Childrens.FindAnyNs('IBSCBS');
+
+    if NodeIBS <> nil then
+      LerXMLIBSCBSNFSe(NodeIBS, NFSe.infNFSe.IBSCBS);
+  end;
 end;
 
 end.

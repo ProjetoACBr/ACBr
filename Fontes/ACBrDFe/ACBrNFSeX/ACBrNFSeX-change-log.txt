@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+12/01/2026
+-- WebISS.GravarXml/WebISS.LerXml --
+[*] Alterações visando a Reforma Tributária.
+   Por: Wallace Oliveira
+
 09/01/2026
 -- PadraoNacional.GravarXml --
 [*] Adiciona alguns campos faltantes na geração do grupo Valores da NFSe.

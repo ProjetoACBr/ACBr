@@ -44,7 +44,6 @@ uses
   ACBrNFSeXGravarXml_ABRASFv2,
   ACBrXmlDocument;
 
-
 type
   { TNFSeW_WebISS }
 
@@ -60,8 +59,8 @@ type
   protected
     procedure Configuracao; override;
 
+    function UsaReformaTributaria: Boolean;
     function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
-
   public
     function GerarXml: Boolean; Override;
   end;
@@ -114,7 +113,36 @@ begin
   if NFSe.OptanteSimplesNacional = snSim then
     NrOcorrAliquota := 1;
 
+  if UsaReformaTributaria then
+  begin
+    NrOcorrCodigoPaisServico := 0;
+
+    NrOcorrCodigoPaisTomador := -1;
+    NrOcorrcCredPres := -1;
+    NrOcorrDiscriminacao_1 := -1;
+    NrOcorrCodigoMunic_1 := -1;
+
+    NrOcorrDiscriminacao_2 := 1;
+    NrOcorrCodigoMunic_2 := 1;
+    NrOcorrExigibilidadeISS := 1;
+
+    GerarDest := False;
+    GerarImovel := False;
+    GerarTribRegular := False;
+    GerargDif := False;
+
+    //TagTomador := 'TomadorServico';
+  end;
+
   Result := inherited GerarXml;
+end;
+
+function TNFSeW_WebISS202.UsaReformaTributaria: Boolean;
+begin
+  Result := (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) or
+            (NFSe.IBSCBS.valores.Cbs > 0) or
+            (NFSe.IBSCBS.valores.IbsMunicipal > 0) or
+            (NFSe.IBSCBS.valores.IbsEstadual > 0);
 end;
 
 end.
