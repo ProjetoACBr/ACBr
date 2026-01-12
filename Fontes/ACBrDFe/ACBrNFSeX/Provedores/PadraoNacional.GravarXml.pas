@@ -178,7 +178,9 @@ uses
 
 function TNFSeW_PadraoNacional.DevoGerarXMLObra: Boolean;
 begin
-  Result := (NFSe.ConstrucaoCivil.inscImobFisc <> '') or (NFSe.ConstrucaoCivil.CodigoObra <> '') or (NFSE.ConstrucaoCivil.Cib > 0);
+  Result := (NFSe.ConstrucaoCivil.CodigoObra <> '') or
+            (NFSE.ConstrucaoCivil.Cib > 0) or
+            (NFSe.ConstrucaoCivil.Endereco.CEP <> '');
 end;
 
 function TNFSeW_PadraoNacional.GerarChaveDPS(const AcMun, ACNPJCPF, ASerie,
@@ -983,29 +985,18 @@ function TNFSeW_PadraoNacional.GerarXMLObra: TACBrXmlNode;
 begin
   Result := CreateElement('obra');
 
-  if NFSe.ConstrucaoCivil.inscImobFisc <> '' then
-  begin
-    Result.AppendChild(AddNode(tcStr, '#1', 'inscImobFisc', 1, 30, 1,
-                                        NFSe.ConstrucaoCivil.inscImobFisc, ''));
-  end;
+  Result.AppendChild(AddNode(tcStr, '#1', 'inscImobFisc', 1, 30, 0,
+                                      NFSe.ConstrucaoCivil.inscImobFisc, ''));
 
   if NFSe.ConstrucaoCivil.CodigoObra <> '' then
-  begin
     Result.AppendChild(AddNode(tcStr, '#1', 'cObra', 1, 30, 1,
-                                          NFSe.ConstrucaoCivil.CodigoObra, ''));
-  end;
+                                          NFSe.ConstrucaoCivil.CodigoObra, ''))
 
-  if NFSE.ConstrucaoCivil.Cib > 0 then
-  begin
+  else if NFSe.ConstrucaoCivil.Cib > 0 then
     Result.AppendChild(AddNode(tcStr, '#1', 'cCIB', 1, 8, 1,
-                                          Poem_Zeros(NFSe.ConstrucaoCivil.Cib, 8)));
-  end;
-
-  if (NFSe.ConstrucaoCivil.Endereco.CEP <> '') or
-     (NFSe.ConstrucaoCivil.Endereco.Endereco <> '') then
-  begin
+                                          Poem_Zeros(NFSe.ConstrucaoCivil.Cib, 8)))
+  else
     Result.AppendChild(GerarXMLEnderecoObra);
-  end;
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLEnderecoObra: TACBrXmlNode;
