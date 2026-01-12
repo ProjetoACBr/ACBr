@@ -55,6 +55,7 @@ type
     function GerarServico(Indice, Item, SubItem: Integer): TACBrXmlNode;
     function GerarDeducao: TACBrXmlNode;
     function GerarRetencoes: TACBrXmlNode;
+    function GerarIBSCBS: TACBrXmlNode;
   public
     function GerarXml: Boolean; override;
 
@@ -77,7 +78,7 @@ uses
 
 function TNFSeW_Equiplano.GerarXml: Boolean;
 var
-  NFSeNode, xmlNode: TACBrXmlNode;
+  NFSeNode: TACBrXmlNode;
 begin
   Configuracao;
 
@@ -113,12 +114,8 @@ begin
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'isIssRetido', 1, 1, 1,
     FpAOwner.SituacaoTributariaToStr(NFSe.Servico.Valores.IssRetido), ''));
 
-  xmlNode := GerarTomador;
-  NFSeNode.AppendChild(xmlNode);
-
-  xmlNode := GerarListaServicos;
-  NFSeNode.AppendChild(xmlNode);
-
+  NFSeNode.AppendChild(GerarTomador);
+  NFSeNode.AppendChild(GerarListaServicos);
 
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'vlTotalRps', 1, 15, 1,
                                        NFSe.Servico.Valores.ValorServicos, ''));
@@ -126,8 +123,10 @@ begin
   NFSeNode.AppendChild(AddNode(tcDe2, '#1', 'vlLiquidoRps', 1, 15, 1,
                                     NFSe.Servico.Valores.ValorLiquidoNfse, ''));
 
-  xmlNode := GerarRetencoes;
-  NFSeNode.AppendChild(xmlNode);
+  NFSeNode.AppendChild(GerarRetencoes);
+
+  if Trim(NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib) <> '' then
+    NFSeNode.AppendChild(GerarIBSCBS);
 
   if NFSe.Servico.Valores.DescontoIncondicionado > 0 then
     NFseNode.AppendChild(AddNode(tcDe2, '#1', 'vlDesconto', 1, 15, 1,
@@ -250,17 +249,52 @@ begin
                                          NFSe.Servico.Valores.AliquotaPis, ''));
 end;
 
+function TNFSeW_Equiplano.GerarIBSCBS: TACBrXmlNode;
+begin
+  Result := CreateElement('ibsCbs');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'finNFSe', 1, 1, 1,
+                                        finNFSeToStr(NFSe.IBSCBS.finNFSe), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'indFinal', 1, 1, 1,
+                                      indFinalToStr(NFSe.IBSCBS.indFinal), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpOper', 1, 1, NrOcorrtpOper,
+                                   tpOperGovNFSeToStr(NFSe.IBSCBS.tpOper), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpEnteGov', 1, 1, 0,
+                                    tpEnteGovToStr(NFSe.IBSCBS.tpEnteGov), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'indDest', 1, 1, NrOcorrindDest,
+                                        indDestToStr(NFSe.IBSCBS.indDest), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cClassTrib', 6, 6, 1,
+                              NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'indOp', 6, 6, 1,
+                                                       NFSe.IBSCBS.cIndOp, ''));
+end;
+
 function TNFSeW_Equiplano.GerarServico(Indice, Item,
   SubItem: Integer): TACBrXmlNode;
-var
-  xmlNode: TACBrXmlNode;
 begin
   Result := CreateElement('servico');
 
-  Result.AppendChild(AddNode(tcInt, '#1', 'nrServicoItem', 1, 2, 1, Item, ''));
+  if Trim(NFSe.Servico.CodigoServicoNacional) <> '' then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#', 'nrServico', 1, 12, 0,
+                                       NFSe.Servico.CodigoServicoNacional, ''));
 
-  Result.AppendChild(AddNode(tcInt, '#1', 'nrServicoSubItem', 1, 2, 1,
+    Result.AppendChild(AddNode(tcStr, '#', 'cdNbs', 1, 9, 0,
+                                                   NFSe.Servico.CodigoNBS, ''));
+  end
+  else
+  begin
+    Result.AppendChild(AddNode(tcInt, '#1', 'nrServicoItem', 1, 2, 1, Item, ''));
+
+    Result.AppendChild(AddNode(tcInt, '#1', 'nrServicoSubItem', 1, 2, 1,
                                                                   SubItem, ''));
+  end;
 
   if Indice >= 0 then
   begin
@@ -280,10 +314,7 @@ begin
   end;
 
   if (NFSe.Servico.Valores.ValorDeducoes > 0) then
-  begin
-    xmlNode := GerarDeducao;
-    Result.AppendChild(xmlNode);
-  end;
+    Result.AppendChild(GerarDeducao);
 
   if Indice >= 0 then
   begin
@@ -322,8 +353,6 @@ begin
 end;
 
 function TNFSeW_Equiplano.GerarTomador: TACBrXmlNode;
-var
-  xmlNode: TACBrXmlNode;
 begin
   Result := nil;
 
@@ -332,8 +361,7 @@ begin
   begin
     Result := CreateElement('tomador');
 
-    xmlNode := GerarDocumento;
-    Result.AppendChild(xmlNode);
+    Result.AppendChild(GerarDocumento);
 
     Result.AppendChild(AddNode(tcStr, '#1', 'nmTomador', 1, 80, 1,
                                                  NFSe.Tomador.RazaoSocial, ''));

@@ -41,12 +41,14 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
 12/01/2026
+--Equiplano.GravarXml --
+[*] ACBR-8674 - Alterações visando a Reforma Tributária.
+   Por: Mychel Dambros
 -- PadraoNacional.GravarXml, PadraoNacional.LerXml --
 [*] Adicionado no ler e gravar INI a propriedade "Cib" dentro de construçãocivil para ler ini da lib e monitor
    Por: Daniel de Morais Infocotidiano
-
-12/01/2026
 -- ACBrNFSeXLerXml_ABRASFv2/Giss.LerXml --
 [*] ACBR-8641 - Adicionada chamada da LerINIIBSCBSNFSe() na unit base do padrão ABRASF2, após a LerINIIBSCBS()
    Por: Cezar Sakugawa
