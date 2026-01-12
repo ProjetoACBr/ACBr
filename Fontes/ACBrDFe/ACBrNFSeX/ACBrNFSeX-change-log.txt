@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 12/01/2026
+-- SilTecnologia.Provider --
+[*] ACBR-8764 - Alteração visando correta leitura do retorno para API Própria.
+   Por: Diego Folieni
 --Equiplano.GravarXml --
 [*] ACBR-8674 - Alterações visando a Reforma Tributária.
    Por: Mychel Dambros

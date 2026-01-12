@@ -967,7 +967,9 @@ begin
 
       Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
       Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('protocolo'), tcStr);
-      Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('status'), tcStr);
+      Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('Status'), tcStr);
+      Response.NumeroNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('nNFSe'), tcStr);
+      Response.Link := ObterConteudoTag(ANode.Childrens.FindAnyNs('chaveAcesso'), tcStr);
     except
       on E:Exception do
       begin
