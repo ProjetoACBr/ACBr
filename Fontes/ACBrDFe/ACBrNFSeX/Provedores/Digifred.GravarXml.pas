@@ -110,6 +110,7 @@ begin
 
   FDocument.Clear();
 
+  NrOcorrtpAmb := -1;
   IDNFSeVazio := True;
   IDDPSVazio := True;
   GerarIBSCBSNFSe := True;
