@@ -1897,6 +1897,7 @@ begin
   begin
     NFSe.ConstrucaoCivil.CodigoObra := AINIRec.ReadString(sSecao, 'CodigoObra', '');
     NFSe.ConstrucaoCivil.inscImobFisc := AINIRec.ReadString(sSecao, 'inscImobFisc', '');
+    NFSe.ConstrucaoCivil.Cib := AINIRec.ReadInteger(sSecao, 'Cib', 0);
 
     NFSe.ConstrucaoCivil.Endereco.CEP := AINIRec.ReadString(sSecao, 'CEP', '');
     NFSe.ConstrucaoCivil.Endereco.xMunicipio := AINIRec.ReadString(sSecao, 'xMunicipio', '');

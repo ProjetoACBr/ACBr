@@ -41,7 +41,10 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
-
+12/01/2026
+-- PadraoNacional.GravarXml, PadraoNacional.LerXml --
+[*] Adicionado no ler e gravar INI a propriedade "Cib" dentro de construçãocivil para ler ini da lib e monitor
+   Por: Daniel de Morais Infocotidiano
 
 12/01/2026
 -- ACBrNFSeXLerXml_ABRASFv2/Giss.LerXml --

@@ -1918,6 +1918,7 @@ begin
 
   AINIRec.WriteString(LSecao, 'CodigoObra', NFSe.ConstrucaoCivil.CodigoObra);
   AINIRec.WriteString(LSecao, 'inscImobFisc', NFSe.ConstrucaoCivil.inscImobFisc);
+  AINIRec.WriteInteger(LSecao, 'Cib', NFSe.ConstrucaoCivil.Cib);
 
   AINIRec.WriteString(LSecao, 'CEP', NFSe.ConstrucaoCivil.Endereco.CEP);
   AINIRec.WriteString(LSecao, 'xMunicipio', NFSe.ConstrucaoCivil.Endereco.xMunicipio);
