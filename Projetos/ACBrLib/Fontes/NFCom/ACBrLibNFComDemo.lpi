@@ -21,7 +21,7 @@
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="19"/>
+      <BuildNr Value="20"/>
       <Language Value="0416"/>
       <StringTable Comments="Projeto ACBr" CompanyName="ACBrNFCom -  Biblioteca para uso da NFCom" FileDescription="ACBrLibNFCom" InternalName="ACBrLibNFCom" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="NFCom" ProductVersion="0.0.0.0"/>
     </VersionInfo>
