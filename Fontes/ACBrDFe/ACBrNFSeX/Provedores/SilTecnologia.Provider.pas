@@ -399,7 +399,7 @@ begin
 
   if not Response.Sucesso then
   begin
-    if Pos(Response.ArquivoRetorno, '<return>') > 0 then
+    if Pos('<return>', Response.ArquivoRetorno) > 0 then
     begin
       AErro := Response.Erros.New;
       AErro.Codigo := '';
@@ -895,6 +895,15 @@ begin
       AAlerta.Codigo := ObterConteudoTag(RootNode.Childrens.FindAnyNs('codigo'), tcStr);
       AAlerta.Descricao := Mensagem;
       AAlerta.Correcao := ObterConteudoTag(RootNode.Childrens.FindAnyNs('correcao'), tcStr);
+    end
+    else
+    begin
+      if Pos('<return>', Copy(Response.ArquivoRetorno,1,20)) > 0 then
+      begin
+        AAlerta := Response.Erros.New;
+        AAlerta.Codigo := Cod201;
+        AAlerta.Descricao := ACBrStr(SeparaDados(Response.ArquivoRetorno, 'return'));
+      end;
     end;
   end;
 end;
