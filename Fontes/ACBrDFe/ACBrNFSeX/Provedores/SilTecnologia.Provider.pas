@@ -643,8 +643,7 @@ var
   AErro: TNFSeEventoCollectionItem;
 begin
   Response.InfEvento.pedRegEvento.ID := Response.InfEvento.pedRegEvento.chNFSe +
-                                        OnlyNumber(tpEventoToStr(Response.InfEvento.pedRegEvento.tpEvento)) +
-                                        FormatFloat('000', Response.InfEvento.pedRegEvento.nPedRegEvento);
+                                        OnlyNumber(tpEventoToStr(Response.InfEvento.pedRegEvento.tpEvento));
 
   IdAttrEVT := 'Id="' + 'EVT' + Response.InfEvento.pedRegEvento.ID + '"';
 
@@ -1048,8 +1047,7 @@ begin
                       '</CNPJAutor>';
     end;
 
-    ID := chNFSe + OnlyNumber(tpEventoToStr(tpEvento)) +
-              FormatFloat('000', nPedRegEvento);
+    ID := chNFSe + OnlyNumber(tpEventoToStr(tpEvento));
 
     IdAttrPRE := 'Id="' + 'PRE' + ID + '"';
     IdAttrEVT := 'Id="' + 'EVT' + ID + '"';

@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 14/01/2026
+-- SilTecnologia.Provider --
+[-] ACBR-8780 - Ajuste visando sanar erro na geração do elemento IdPedRegEvt
+   Por: Diego Folieni
 -- ACBrNFSeXServicos --
 [*] Acrescentado a URL de homologação do provedor ISSNet.
    Por: Diego Folieni
