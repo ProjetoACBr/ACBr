@@ -42,6 +42,19 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+14/01/2026
+-- ACBrNFSeXServicos --
+[*] Acrescentado a URL de homologação do provedor ISSNet.
+   Por: Diego Folieni
+-- ISSNet.Provider --
+[*] Ajustes para montagem correta do Envelope Soap para envio do XML do DPS e
+    tratamento do retorno.
+   Por: Diego Folieni/Italo Giurizzato Junior
+-- PadraoNacional.GravarXml --
+[*] Alterado o campo de Servico.ItemListaServico para infNFSe.xTribNac para gerar a
+    tag xTribNac.
+   Por: Italo Giurizzato Junior
+
 12/01/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-8764 - Correção nas URLs de Vila Velha/ES.

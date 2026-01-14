@@ -430,7 +430,7 @@ begin
                                                             xLocIncid, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'xTribNac', 1, 7, 1,
-                                            NFSe.Servico.ItemListaServico, ''));
+                                                    NFSe.infNFSe.xTribNac, ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'verAplic', 1, 20, 1,
                                                             NFSe.verAplic, ''));

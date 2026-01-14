@@ -140,6 +140,8 @@ type
   protected
 
   public
+    function Recepcionar(const ACabecalho, AMSG: String): string; override;
+    function RecepcionarSincrono(const ACabecalho, AMSG: String): string; override;
     function GerarNFSe(const ACabecalho, AMSG: string): string; override;
   {
     function ConsultarNFSePorRps(const ACabecalho, AMSG: string): string; override;
@@ -169,8 +171,8 @@ type
 
     procedure ProcessarMensagemErros(RootNode: TACBrXmlNode;
                                      Response: TNFSeWebserviceResponse;
-                                     const AListTag: string = 'listaMensagens';
-                                     const AMessageTag: string = 'mensagem'); override;
+                                     const AListTag: string = 'ListaMensagemRetorno';
+                                     const AMessageTag: string = 'MensagemRetorno'); override;
 
     procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
 
@@ -1232,11 +1234,52 @@ function TACBrNFSeXWebserviceISSNetAPIPropria.TratarXmlRetornado(
 begin
   Result := inherited TratarXmlRetornado(aXML);
 
-//  Result := RemoverCaracteresDesnecessarios(Result);
-//  Result := ParseText(Result);
-//  Result := RemoverDeclaracaoXML(Result);
+  Result := RemoverCaracteresDesnecessarios(Result);
+  Result := ParseText(Result);
+  Result := RemoverDeclaracaoXML(Result);
+  Result := RemoverIdentacao(Result);
 
   Result := RemoverPrefixosDesnecessarios(Result);
+end;
+
+function TACBrNFSeXWebserviceISSNetAPIPropria.Recepcionar(const ACabecalho,
+  AMSG: String): string;
+var
+  Request: string;
+begin
+  FPMsgOrig := AMSG;
+
+  FPMsgOrig := RemoverDeclaracaoXML(AMSG);
+
+  Request := '<RecepcionarLoteDps xmlns="http://www.sped.fazenda.gov.br/nfse">';
+  Request := Request + '<nfseCabecMsg>' + ACabecalho + '</nfseCabecMsg>';
+  Request := Request + '<nfseDadosMsg>';
+  Request := Request + '<EnviarLoteDpsEnvio>' + FPMsgOrig + '</EnviarLoteDpsEnvio>';
+  Request := Request + '</nfseDadosMsg>';
+  Request := Request + '</RecepcionarLoteDps>';
+
+  Result := Executar('', Request,
+    ['ValidarXmlResposta'], ['']);
+end;
+
+function TACBrNFSeXWebserviceISSNetAPIPropria.RecepcionarSincrono(
+  const ACabecalho, AMSG: String): string;
+var
+  Request: string;
+begin
+  FPMsgOrig := AMSG;
+
+  FPMsgOrig := RemoverDeclaracaoXML(AMSG);
+
+  Request := '<RecepcionarLoteDpsSincrono xmlns="http://www.sped.fazenda.gov.br/nfse">';
+  Request := Request + '<nfseCabecMsg>' + ACabecalho + '</nfseCabecMsg>';
+  Request := Request + '<nfseDadosMsg>';
+  Request := Request + '<EnviarLoteDpsSincronoEnvio>' + FPMsgOrig + '</EnviarLoteDpsSincronoEnvio>';
+  Request := Request + '</nfseDadosMsg>';
+  Request := Request + '</RecepcionarLoteDpsSincrono>';
+
+  Result := Executar('', Request,
+    ['ValidarXmlResposta'], ['']);
 end;
 
 function TACBrNFSeXWebserviceISSNetAPIPropria.GerarNFSe(const ACabecalho,
@@ -1246,13 +1289,17 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := RemoverDeclaracaoXML(AMSG);
+  FPMsgOrig := RemoverDeclaracaoXML(AMSG);
 
-  Request := '<EnviarLoteDpsEnvio>' +
-                  Request +
-             '</EnviarLoteDpsEnvio>';
+  Request := '<GerarNfse xmlns="http://www.sped.fazenda.gov.br/nfse">';
+  Request := Request + '<nfseCabecMsg>' + ACabecalho + '</nfseCabecMsg>';
+  Request := Request + '<nfseDadosMsg>';
+  Request := Request + '<GerarNfseEnvio>' + FPMsgOrig + '</GerarNfseEnvio>';
+  Request := Request + '</nfseDadosMsg>';
+  Request := Request + '</GerarNfse>';
 
-  Result := Executar('', Request, [], ['']);
+  Result := Executar('', Request,
+    ['ValidarXmlResposta'], ['']);
 end;
 
 { TACBrNFSeProviderPadraoNacionalAPIPropria }
@@ -1390,7 +1437,7 @@ var
   Item: TNFSeEventoCollectionItem;
   Correcao: string;
 begin
-  Correcao := ObterConteudoTag(ErrorNode.Childrens.FindAnyNs('correcao'), tcStr);
+  Correcao := ObterConteudoTag(ErrorNode.Childrens.FindAnyNs('Correcao'), tcStr);
 
   if (ACodigo = '') and (AMensagem = '') then
     Exit;
@@ -1419,16 +1466,16 @@ begin
     begin
       for I := Low(ANodeArray) to High(ANodeArray) do
       begin
-        Codigo := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('codigo'), tcStr);
-        Mensagem := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('mensagem'), tcStr);
+        Codigo := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Codigo'), tcStr);
+        Mensagem := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Mensagem'), tcStr);
 
         ProcessarErro(ANodeArray[I], Codigo, Mensagem);
       end;
     end
     else
     begin
-      Codigo := ObterConteudoTag(ANode.Childrens.FindAnyNs('codigo'), tcStr);
-      Mensagem := ObterConteudoTag(ANode.Childrens.FindAnyNs('mensagem'), tcStr);
+      Codigo := ObterConteudoTag(ANode.Childrens.FindAnyNs('Codigo'), tcStr);
+      Mensagem := ObterConteudoTag(ANode.Childrens.FindAnyNs('Mensagem'), tcStr);
 
       ProcessarErro(ANode, Codigo, Mensagem);
     end;
@@ -1450,27 +1497,27 @@ begin
     begin
       for I := Low(ANodeArray) to High(ANodeArray) do
       begin
-        Mensagem := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('mensagem'), tcStr);
+        Mensagem := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Mensagem'), tcStr);
 
         if Mensagem <> '' then
         begin
           AAlerta := Response.Alertas.New;
-          AAlerta.Codigo := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('codigo'), tcStr);
+          AAlerta.Codigo := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Codigo'), tcStr);
           AAlerta.Descricao := Mensagem;
-          AAlerta.Correcao := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('correcao'), tcStr);
+          AAlerta.Correcao := ObterConteudoTag(ANodeArray[I].Childrens.FindAnyNs('Correcao'), tcStr);
         end;
       end;
     end
     else
     begin
-      Mensagem := ObterConteudoTag(ANode.Childrens.FindAnyNs('mensagem'), tcStr);
+      Mensagem := ObterConteudoTag(ANode.Childrens.FindAnyNs('Mensagem'), tcStr);
 
       if Mensagem <> '' then
       begin
         AAlerta := Response.Alertas.New;
-        AAlerta.Codigo := ObterConteudoTag(ANode.Childrens.FindAnyNs('codigo'), tcStr);
+        AAlerta.Codigo := ObterConteudoTag(ANode.Childrens.FindAnyNs('Codigo'), tcStr);
         AAlerta.Descricao := Mensagem;
-        AAlerta.Correcao := ObterConteudoTag(ANode.Childrens.FindAnyNs('correcao'), tcStr);
+        AAlerta.Correcao := ObterConteudoTag(ANode.Childrens.FindAnyNs('Correcao'), tcStr);
       end;
     end;
   end;
