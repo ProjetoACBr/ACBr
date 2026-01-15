@@ -44,6 +44,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+15/01/2026
+-- ACBrNFe.XmlWriter --
+[*] Adicionada "SP" à lista de UFs que obriga a geração das tags de diferimento de ICMS quando usado o CST 51.
+  Por: BigWings
+
 08/01/2026
 -- Diversos --
 [*] #ACBR-8745: Altera o tipo da propriedade do CSTIS de enumerado para string.
