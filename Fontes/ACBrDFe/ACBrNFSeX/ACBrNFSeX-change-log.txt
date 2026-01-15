@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+12/01/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-8548 - Alterado município Itaí-SP para utilizar provedor Fiorilli;
+[-] ACBR-8608 - Removida URL de homologação do município Valinhos.
+    por: Matheus Ferreira
+
 14/01/2026
 -- SilTecnologia.Provider --
 [-] ACBR-8780 - Ajuste visando sanar erro na geração do elemento IdPedRegEvt
