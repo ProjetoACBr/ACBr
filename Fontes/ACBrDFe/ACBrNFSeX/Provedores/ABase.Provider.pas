@@ -105,7 +105,7 @@ type
                                      const AListTag: string = 'Erros';
                                      const AMessageTag: string = 'Erro'); override;
 
-    procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
+    function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; override;
 
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
 
@@ -563,14 +563,12 @@ begin
   end;
 end;
 
-procedure TACBrNFSeProviderABaseAPIPropria.ValidarSchema(
-  Response: TNFSeWebserviceResponse; aMetodo: TMetodo);
+function TACBrNFSeProviderABaseAPIPropria.PrepararArquivoEnvio(
+  const aXml: string; aMetodo: TMetodo): string;
 begin
   if aMetodo in [tmGerar, tmEnviarEvento] then
   begin
-//    inherited ValidarSchema(Response, aMetodo);
-
-    Response.ArquivoEnvio := ChangeLineBreak(Response.ArquivoEnvio, '');
+    Result := ChangeLineBreak(aXml, '');
 
     case aMetodo of
       tmGerar:
@@ -580,12 +578,12 @@ begin
 
       tmEnviarEvento:
         begin
-          Response.ArquivoEnvio := '{"pedidoRegistroEventoXmlGZipB64":"' + Response.ArquivoEnvio + '"}';
+          Result := '{"pedidoRegistroEventoXmlGZipB64":"' + Result + '"}';
           Path := '/nfse/' + Chave + '/eventos';
         end;
     else
       begin
-        Response.ArquivoEnvio := '';
+        Result := '';
         Path := '';
       end;
     end;

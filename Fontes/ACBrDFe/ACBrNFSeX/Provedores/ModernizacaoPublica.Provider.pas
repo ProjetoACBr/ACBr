@@ -97,7 +97,7 @@ type
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
 
-    procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
+    function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; override;
     procedure ProcessarMensagemDeErros(LJson: TACBrJSONObject;
                                      Response: TNFSeWebserviceResponse;
                                      const AListTag: string = 'Erros'); override;
@@ -428,31 +428,28 @@ begin
   end;
 end;
 
-procedure TACBrNFSeProviderModernizacaoPublicaAPIPropria.ValidarSchema(
-  Response: TNFSeWebserviceResponse; aMetodo: TMetodo);
+function TACBrNFSeProviderModernizacaoPublicaAPIPropria.PrepararArquivoEnvio(
+  const aXml: string; aMetodo: TMetodo): string;
 begin
   if aMetodo in [tmGerar, tmEnviarEvento] then
   begin
-//    inherited ValidarSchema(Response, aMetodo);
-
-    Response.ArquivoEnvio := ChangeLineBreak(Response.ArquivoEnvio, '');
-//    Response.ArquivoEnvio := EncodeBase64(GZipCompress(Response.ArquivoEnvio));
+    Result := ChangeLineBreak(aXml, '');
 
     case aMetodo of
       tmGerar:
         begin
-//          Response.ArquivoEnvio := '{"dpsXmlGZipB64":"' + Response.ArquivoEnvio + '"}';
+//          Result := '{"dpsXmlGZipB64":"' + Result + '"}';
 //          Path := '/nfse';
         end;
 
       tmEnviarEvento:
         begin
-//          Response.ArquivoEnvio := '{"pedidoRegistroEventoXmlGZipB64":"' + Response.ArquivoEnvio + '"}';
+//          Result := '{"pedidoRegistroEventoXmlGZipB64":"' + Result + '"}';
 //          Path := '/nfse/' + Chave + '/eventos';
         end;
     else
       begin
-        Response.ArquivoEnvio := '';
+        Result := '';
         Path := '';
       end;
     end;

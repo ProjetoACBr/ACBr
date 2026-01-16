@@ -174,7 +174,7 @@ type
                                      const AListTag: string = 'ListaMensagemRetorno';
                                      const AMessageTag: string = 'MensagemRetorno'); override;
 
-    procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
+    function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; override;
 
     procedure PrepararEmitir(Response: TNFSeEmiteResponse); override;
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
@@ -1523,15 +1523,11 @@ begin
   end;
 end;
 
-procedure TACBrNFSeProviderISSNetAPIPropria.ValidarSchema(
-  Response: TNFSeWebserviceResponse; aMetodo: TMetodo);
+function TACBrNFSeProviderISSNetAPIPropria.PrepararArquivoEnvio(
+  const aXml: string; aMetodo: TMetodo): string;
 begin
   if aMetodo in [tmGerar, tmEnviarEvento] then
-  begin
-    inherited ValidarSchema(Response, aMetodo);
-
-    Response.ArquivoEnvio := ChangeLineBreak(Response.ArquivoEnvio, '');
-  end;
+    Result := ChangeLineBreak(aXml, '');
 end;
 
 procedure TACBrNFSeProviderISSNetAPIPropria.PrepararEmitir(
