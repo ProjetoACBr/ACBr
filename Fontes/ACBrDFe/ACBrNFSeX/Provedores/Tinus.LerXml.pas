@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
+  PadraoNacional.LerXml,
   ACBrNFSeXLerXml_ABRASFv1,
   ACBrNFSeXLerXml_ABRASFv2;
 
@@ -53,7 +54,10 @@ type
 
   { TNFSeR_Tinus203 }
 
-  TNFSeR_Tinus203 = class(TNFSeR_ABRASFv2)
+  {
+    O provedor esta retornando o XML segundo o Padrão Nacional em vez ABRASF.
+  }
+  TNFSeR_Tinus203 = class(TNFSeR_PadraoNacional)
   protected
 
   public

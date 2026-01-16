@@ -51,6 +51,7 @@ type
   protected
     procedure Configuracao; override;
 
+
   public
     function GerarXml: Boolean; Override;
 
@@ -62,8 +63,7 @@ type
   protected
     procedure Configuracao; override;
 
-    function GerarServico: TACBrXmlNode; override;
-
+    function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
   end;
 
 implementation
@@ -106,9 +106,9 @@ begin
 
 end;
 
-function TNFSeW_Tinus203.GerarServico: TACBrXmlNode;
+function TNFSeW_Tinus203.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
 begin
-  Result := inherited GerarServico;
+  Result := inherited GerarInfDeclaracaoPrestacaoServico;
 
   // Reforma Tributária
   if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or

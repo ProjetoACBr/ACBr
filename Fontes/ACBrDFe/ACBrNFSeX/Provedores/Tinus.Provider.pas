@@ -39,12 +39,16 @@ interface
 uses
   SysUtils, Classes,
   ACBrXmlBase,
-  ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
-  ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
+  ACBrXmlDocument,
+  ACBrNFSeXClass,
+  ACBrNFSeXConversao,
+  ACBrNFSeXGravarXml,
+  ACBrNFSeXLerXml,
   ACBrNFSeXWebservicesResponse,
   ACBrNFSeXProviderABRASFv1,
   ACBrNFSeXProviderABRASFv2,
-  ACBrNFSeXWebserviceBase;
+  ACBrNFSeXWebserviceBase,
+  PadraoNacional.Provider;
 
 type
   TACBrNFSeXWebserviceTinus = class(TACBrNFSeXWebserviceSoap11)
@@ -70,6 +74,8 @@ type
     function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+    procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
+    procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
 
     procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
   end;
@@ -105,6 +111,19 @@ type
     function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+
+    procedure GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse; Params: TNFSeParamsResponse); override;
+    procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
+  end;
+
+  TTrataXmlEnvio = class(TACBrNFSeProviderPadraoNacional)
+  protected
+    procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
+  end;
+
+  TTrataXmlConsulta = class(TACBrNFSeProviderPadraoNacional)
+  public
+    procedure TratarRetornoConsultaNFSeporRpsPublic(Response: TNFSeConsultaNFSeporRpsResponse);
   end;
 
 implementation
@@ -115,7 +134,7 @@ uses
   ACBrDFe.Conversao,
   ACBrNFSeX,
   ACBrNFSeXConfiguracoes,
-  ACBrNFSeXNotasFiscais, Tinus.GravarXml, Tinus.LerXml;
+  ACBrNFSeXNotasFiscais, Tinus.GravarXml, Tinus.LerXml, ACBrNFSeXConsts, AcbrUtil;
 
 { TACBrNFSeXWebserviceTinus }
 
@@ -276,6 +295,33 @@ begin
       raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
+end;
+
+procedure TACBrNFSeProviderTinus.TratarRetornoEmitir(Response: TNFSeEmiteResponse);
+var
+  Retorno: TTrataXmlEnvio;
+begin
+  // USA PADRAO NACIONAL
+  Retorno := TTrataXmlEnvio.Create(FAOwner);
+  try
+    Retorno.TratarRetornoEmitir(Response);
+  finally
+    Retorno.Free;
+  end;
+end;
+
+procedure TACBrNFSeProviderTinus.TratarRetornoConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  Retorno: TTrataXmlConsulta;
+begin
+  // USA PADRAO NACIONAL
+  Retorno := TTrataXmlConsulta.Create(FAOwner);
+  try
+    Retorno.TratarRetornoConsultaNFSeporRpsPublic(Response);
+  finally
+    Retorno.Free;
   end;
 end;
 
@@ -562,6 +608,191 @@ begin
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
   end;
+end;
+
+procedure TACBrNFSeProviderTinus203.GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse; Params: TNFSeParamsResponse);
+var
+  Emitente: TEmitenteConfNFSe;
+  InfoCanc: TInfCancelamento;
+begin
+  Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+  InfoCanc := Response.InfCancelamento;
+
+  with Params do
+  begin
+    Response.ArquivoEnvio :=
+      '<' + Prefixo + 'CancelarNfseEnvio' + NameSpace + '>' +
+        '<' + Prefixo2 + 'Pedido>' +
+          '<' + Prefixo2 + 'InfPedidoCancelamento' + IdAttr + NameSpace2 + '>' +
+            '<' + Prefixo2 + 'IdentificacaoNfse>' +
+              '<' + Prefixo2 + 'Numero>' + InfoCanc.NumeroNFSe + '</' + Prefixo2 + 'Numero>' + Serie +
+              '<' + Prefixo2 + 'CpfCnpj>' + GetCpfCnpj(Emitente.CNPJ, Prefixo2) + '</' + Prefixo2 + 'CpfCnpj>' +
+              GetInscMunic(Emitente.InscMun, Prefixo2) +
+              '<' + Prefixo2 + 'CodigoMunicipio>' + IntToStr(InfoCanc.CodMunicipio) +
+              '</' + Prefixo2 + 'CodigoMunicipio>' +
+              CodigoVerificacao +
+            '</' + Prefixo2 + 'IdentificacaoNfse>' +
+            '<' + Prefixo2 + 'CodigoCancelamento>' + InfoCanc.CodCancelamento + '</' + Prefixo2 + 'CodigoCancelamento>' +
+            '<' + Prefixo2 + 'ADNChave>' + InfoCanc.ChaveNFSe + '</' + Prefixo2 + 'ADNChave>' +
+            '<' + Prefixo2 + 'ADNCodMotivo>' + InfoCanc.CodCancelamento + '</' + Prefixo2 + 'ADNCodMotivo>' +
+            '<' + Prefixo2 + 'ADNMotivo>' + InfoCanc.MotCancelamento + '</' + Prefixo2 + 'ADNMotivo>' +
+            Motivo +
+          '</' + Prefixo2 + 'InfPedidoCancelamento>' +
+        '</' + Prefixo2 + 'Pedido>' +
+      '</' + Prefixo + 'CancelarNfseEnvio>';
+
+  end;
+end;
+
+procedure TACBrNFSeProviderTinus203.TratarRetornoConsultaNFSeporRps(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+var
+  Document: TACBrXmlDocument;
+  ANode, AuxNode, AuxNode2: TACBrXmlNode;
+  AErro: TNFSeEventoCollectionItem;
+  ANota: TNotaFiscal;
+  NumNFSe, NumRps: String;
+begin
+  // USA PADRAO NACIONAL
+
+  Document := TACBrXmlDocument.Create;
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit
+      end;
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+      ProcessarMensagemErros(Document.Root, Response);
+
+      // Ajuste: O XML tem ConsultarNfseRpsResposta -> CompNfse
+      ANode := Document.Root.Childrens.FindAnyNs('ListaNfse');
+      if ANode = nil then
+        ANode := Document.Root.Childrens.FindAnyNs('CompNfse');
+
+      if ANode = nil then
+      begin
+        // Tenta buscar direto no Root se não encontrou
+        ANode := Document.Root;
+        ANode := ANode.Childrens.FindAnyNs('CompNfse');
+      end;
+
+      if not Assigned(ANode) then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod203;
+        AErro.Descricao := ACBrStr(Desc203);
+        Exit;
+      end;
+
+      LerCancelamento(ANode, Response);
+      LerSubstituicao(ANode, Response);
+
+      // CompNfse -> Nfse (tem namespace s01)
+      ANode := ANode.Childrens.FindAnyNs('Nfse');
+      if not Assigned(ANode) then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod203;
+        AErro.Descricao := ACBrStr(Desc203);
+        Exit;
+      end;
+
+      AuxNode := ANode; // ANode já é Nfse
+
+      if AuxNode <> nil then
+      begin
+        AuxNode := AuxNode.Childrens.FindAnyNs('infNFSe');
+        if not Assigned(AuxNode) then Exit;
+
+        NumNFSe := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nNFSe'), tcStr);
+
+        with Response do
+        begin
+          NumeroNota := NumNFSe;
+          CodigoVerificacao := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nDFSe'), tcStr);
+          Data := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('dhProc'), FpFormatoDataEmissao);
+        end;
+
+        ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByNFSe(NumNFSe);
+
+        if ANota = nil then
+        begin
+          AuxNode2 := AuxNode.Childrens.FindAnyNs('DPS');
+
+          if AuxNode2 = nil then
+            AuxNode2 := AuxNode.Childrens.FindAnyNs('DeclaracaoPrestacaoServico');
+
+          if AuxNode2 = nil then
+            AuxNode2 := AuxNode.Childrens.FindAnyNs('Rps');
+
+          if not Assigned(AuxNode2) then Exit;
+
+          AuxNode := AuxNode2.Childrens.FindAnyNs('infDPS');
+
+          if AuxNode = nil then
+            AuxNode := AuxNode2.Childrens.FindAnyNs('InfDeclaracaoPrestacaoServico');
+
+          if not Assigned(AuxNode) then Exit;
+
+          NumRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nDPS'), tcStr);
+
+          if NumRps = '' then
+          begin
+            AuxNode2 := AuxNode.Childrens.FindAnyNs('Rps');
+            if AuxNode2 <> nil then
+            begin
+              Response.Status := ObterConteudoTag(AuxNode2.Childrens.FindAnyNs('Status'), tcInt);
+              AuxNode2 := AuxNode2.Childrens.FindAnyNs('IdentificacaoRps');
+              if Assigned(AuxNode2) then
+                NumRps := ObterConteudoTag(AuxNode2.Childrens.FindAnyNs('Numero'), tcStr);
+            end;
+          end;
+
+          if NumRps <> '' then
+            ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumRps);
+        end;
+
+        ANota := CarregarXmlNfse(ANota, ANode.OuterXml);
+        SalvarXmlNfse(ANota);
+      end
+      else
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod203;
+        AErro.Descricao := ACBrStr(Desc203);
+      end;
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
+  end;
+
+end;
+
+{ TTrataXmlEnvio }
+
+procedure TTrataXmlEnvio.TratarRetornoEmitir(Response: TNFSeEmiteResponse);
+begin
+  inherited TratarRetornoEmitir(Response);
+end;
+
+{ TTrataXmlConsulta }
+
+procedure TTrataXmlConsulta.TratarRetornoConsultaNFSeporRpsPublic(
+  Response: TNFSeConsultaNFSeporRpsResponse);
+begin
+  inherited TratarRetornoConsultaNFSeporRps(Response);
 end;
 
 end.
