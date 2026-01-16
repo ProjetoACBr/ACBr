@@ -109,7 +109,7 @@ type
                                      Response: TNFSeWebserviceResponse;
                                      const AListTag: string = 'Erros'); virtual;
 
-    procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
+    function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; override;
   public
     function RegimeEspecialTributacaoToStr(const t: TnfseRegimeEspecialTributacao): string; override;
     function StrToRegimeEspecialTributacao(out ok: boolean; const s: string): TnfseRegimeEspecialTributacao; override;
@@ -362,7 +362,7 @@ begin
     Nota.XmlRps := ChangeLineBreak(Nota.XmlRps, '');
 
     if (ConfigAssinar.Rps and (Response.ModoEnvio in [meLoteAssincrono, meLoteSincrono])) or
-       (ConfigAssinar.RpsGerarNFSe and (Response.ModoEnvio = meUnitario)) then
+       (ConfigAssinar.RpsGerarNFSe and (Response.ModoEnvio in [meUnitario, meAutomatico])) then
     begin
       Nota.XmlRps := FAOwner.SSL.Assinar(Nota.XmlRps,
                                          ConfigMsgDados.XmlRps.DocElemento,
@@ -1480,31 +1480,29 @@ begin
   end;
 end;
 
-procedure TACBrNFSeProviderPadraoNacional.ValidarSchema(
-  Response: TNFSeWebserviceResponse; aMetodo: TMetodo);
+function TACBrNFSeProviderPadraoNacional.PrepararArquivoEnvio(
+  const aXml: string; aMetodo: TMetodo): string;
 begin
   if aMetodo in [tmGerar, tmEnviarEvento] then
   begin
-    inherited ValidarSchema(Response, aMetodo);
-
-    Response.ArquivoEnvio := ChangeLineBreak(Response.ArquivoEnvio, '');
-    Response.ArquivoEnvio := EncodeBase64(GZipCompress(Response.ArquivoEnvio));
+    Result := ChangeLineBreak(aXml, '');
+    Result := EncodeBase64(GZipCompress(Result));
 
     case aMetodo of
       tmGerar:
         begin
-          Response.ArquivoEnvio := '{"dpsXmlGZipB64":"' + Response.ArquivoEnvio + '"}';
+          Result := '{"dpsXmlGZipB64":"' + Result + '"}';
           Path := '/nfse';
         end;
 
       tmEnviarEvento:
         begin
-          Response.ArquivoEnvio := '{"pedidoRegistroEventoXmlGZipB64":"' + Response.ArquivoEnvio + '"}';
+          Result := '{"pedidoRegistroEventoXmlGZipB64":"' + Result + '"}';
           Path := '/nfse/' + Chave + '/eventos';
         end;
     else
       begin
-        Response.ArquivoEnvio := '';
+        Result := '';
         Path := '';
       end;
     end;

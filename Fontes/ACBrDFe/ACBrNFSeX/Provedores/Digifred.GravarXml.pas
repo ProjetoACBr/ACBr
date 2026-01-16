@@ -115,6 +115,9 @@ begin
   IDDPSVazio := True;
   GerarIBSCBSNFSe := True;
 
+  NFSe.infNFSe.nNFSe := '';
+  NFSe.infNFSe.nDFSe := '';
+
   NFSeNode := GerarXMLNFSe;
   FDocument.Root := NFSeNode;
 

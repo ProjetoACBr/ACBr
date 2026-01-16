@@ -111,6 +111,8 @@ type
     function DefinirIDCancelamento(const CNPJ: string; const InscMunic: string;
                                    const NumNfse: string): string; virtual;
 
+    function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; virtual;
+
     //metodos para geração e tratamento dos dados do metodo emitir
     procedure PrepararEmitir(Response: TNFSeEmiteResponse); virtual; abstract;
     procedure GerarMsgDadosEmitir(Response: TNFSeEmiteResponse;
@@ -952,15 +954,13 @@ begin
       end
       else
       begin
-        if (ConfigWebServices.Producao.Recepcionar = ''){ or
-           (Configuracoes.Geral.Provedor = proPadraoNacional)} then
+        if (ConfigWebServices.Producao.Recepcionar = '') then
         begin
           Sessao := Configuracoes.Geral.xProvedorOrigem;
           ConfigWebServices.LoadUrlProducao(IniParams, Sessao);
         end;
 
-        if (ConfigWebServices.Homologacao.Recepcionar = ''){ or
-           (Configuracoes.Geral.Provedor = proPadraoNacional)} then
+        if (ConfigWebServices.Homologacao.Recepcionar = '') then
         begin
           Sessao := Configuracoes.Geral.xProvedorOrigem;
           ConfigWebServices.LoadUrlHomologacao(IniParams, Sessao);
@@ -1970,6 +1970,12 @@ begin
                            [srNormal, srCancelado]);
 end;
 
+function TACBrNFSeXProvider.PrepararArquivoEnvio(const aXml: string;
+  aMetodo: TMetodo): string;
+begin
+  Result := aXml;
+end;
+
 function TACBrNFSeXProvider.PrepararRpsParaLote(const aXml: string): string;
 var
   i: Integer;
@@ -2160,6 +2166,18 @@ begin
   end;
 
   AService := nil;
+
+  case EmiteResponse.ModoEnvio of
+    meLoteAssincrono:
+      EmiteResponse.ArquivoEnvio := PrepararArquivoEnvio(EmiteResponse.ArquivoEnvio, tmRecepcionar);
+    meLoteSincrono:
+      EmiteResponse.ArquivoEnvio := PrepararArquivoEnvio(EmiteResponse.ArquivoEnvio, tmRecepcionarSincrono);
+    meTeste:
+      EmiteResponse.ArquivoEnvio := PrepararArquivoEnvio(EmiteResponse.ArquivoEnvio, tmTeste);
+  else
+    // meUnitario
+    EmiteResponse.ArquivoEnvio := PrepararArquivoEnvio(EmiteResponse.ArquivoEnvio, tmGerar);
+  end;
 
   try
     try
@@ -3217,6 +3235,8 @@ begin
   end;
 
   AService := nil;
+
+  EnviarEventoResponse.ArquivoEnvio := PrepararArquivoEnvio(EnviarEventoResponse.ArquivoEnvio, tmEnviarEvento);
 
   try
     try
