@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 14/01/2026
+-- Pronim.Provider --
+[*] Ajustes para usar a função: PrepararArquivoEnvio.
+   Por: Italo Giurizzato Junior
 -- ISSBarueri.GravarXml/ISSBarueri.Provider --
 [*] ACBR-8554 - Alteração visando a Reforma Tributária
    Por: Italo Giurizzato Junior

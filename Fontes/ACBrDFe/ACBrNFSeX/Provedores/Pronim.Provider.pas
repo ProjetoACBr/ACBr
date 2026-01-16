@@ -120,6 +120,8 @@ type
   private
 
   protected
+    procedure Configuracao; override;
+
     function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
@@ -135,7 +137,7 @@ type
     procedure PrepararEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
     procedure TratarRetornoEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
 
-    procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
+    function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; override;
   end;
 
 implementation
@@ -614,6 +616,13 @@ begin
 end;
 
 { TACBrNFSeProviderPronimAPIPropria }
+
+procedure TACBrNFSeProviderPronimAPIPropria.Configuracao;
+begin
+  inherited Configuracao;
+
+  ConfigSchemas.Validar := False;
+end;
 
 function TACBrNFSeProviderPronimAPIPropria.CriarGeradorXml(
   const ANFSe: TNFSe): TNFSeWClass;
@@ -1193,28 +1202,26 @@ begin
   end;
 end;
 
-procedure TACBrNFSeProviderPronimAPIPropria.ValidarSchema(
-  Response: TNFSeWebserviceResponse; aMetodo: TMetodo);
+function TACBrNFSeProviderPronimAPIPropria.PrepararArquivoEnvio(
+  const aXml: string; aMetodo: TMetodo): string;
 begin
   if aMetodo in [tmGerar, tmEnviarEvento] then
   begin
-//    inherited ValidarSchema(Response, aMetodo);
-
-    Response.ArquivoEnvio := ChangeLineBreak(Response.ArquivoEnvio, '');
+    Result := ChangeLineBreak(aXml, '');
 
     if aMetodo = tmEnviarEvento then
-      Response.ArquivoEnvio := EncodeBase64(GZipCompress(Response.ArquivoEnvio));
+      Result := EncodeBase64(GZipCompress(Result));
 
     case aMetodo of
       tmGerar,
       tmEnviarEvento:
         begin
-          Response.ArquivoEnvio := '{"loteXmlGZipB64":["' + Response.ArquivoEnvio + '"]}';
+          Result := '{"loteXmlGZipB64":["' + Result + '"]}';
           Path := '/EnviarSincrono';
         end;
     else
       begin
-        Response.ArquivoEnvio := '';
+        Result := '';
         Path := '';
       end;
     end;
