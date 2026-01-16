@@ -498,9 +498,14 @@ begin
         AIdentificacaoRemessa := FormatDateTime('yyyymmddzzz', Now);
 
       Registro1 := '1' +
-                   PadRight(Emitente.InscMun, 7, ' ') +
-                   'PMB002'+
-                   PadLeft(AIdentificacaoRemessa, 11, '0') + CRLF;
+                   PadRight(Emitente.InscMun, 7, ' ');
+
+      if ConfigGeral.Params.TemParametro('PMB004') then
+        Registro1 := Registro1 + 'PMB004'
+      else
+        Registro1 := Registro1 + 'PMB002';
+
+      Registro1 := Registro1 + PadLeft(AIdentificacaoRemessa, 11, '0') + CRLF;
 
       // Inclui no total de linhas o Registro 1
       TotalLinhas := 1;
@@ -529,6 +534,15 @@ begin
 
     if Nota.NFSe.Servico.Valores.ValorCsll > 0 then
       Inc(TotalLinhas);
+  end;
+
+  if ConfigGeral.Params.TemParametro('PMB004') then
+  begin
+    // Inclui no total de linhas o Registro 4
+    Inc(TotalLinhas);
+
+    // Inclui no total de linhas o Registro 5
+    Inc(TotalLinhas);
   end;
 
   // Inclui no total de linhas o Registro 9

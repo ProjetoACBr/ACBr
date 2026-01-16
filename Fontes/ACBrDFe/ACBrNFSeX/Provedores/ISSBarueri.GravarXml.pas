@@ -37,7 +37,8 @@ unit ISSBarueri.GravarXml;
 interface
 
 uses
-  SysUtils, Classes, StrUtils, MaskUtils,
+  SysUtils, Classes, StrUtils,
+  MaskUtils,
   ACBrNFSeXGravarXml,
   ACBrNFSeXConversao;
 
@@ -53,6 +54,8 @@ type
     procedure GerarRegistroTipo1(const AIdentificacaoRemessa: String);
     procedure GerarRegistroTipo2;
     procedure GerarRegistroTipo3;
+    procedure GerarRegistroTipo4;
+    procedure GerarRegistroTipo5;
     procedure GerarRegistroTipo9;
   public
     function GerarXml: Boolean; override;
@@ -61,9 +64,9 @@ type
 implementation
 
 uses
-//  {$IFDEF MSWINDOWS} Windows, {$ENDIF MSWINDOWS}
   synacode, synautil,
   ACBrUtil.Strings,
+  ACBrDFe.Conversao,
   ACBrConsts;
 
 //==============================================================================
@@ -212,6 +215,152 @@ begin
   end;
 end;
 
+procedure TNFSeW_ISSBarueri.GerarRegistroTipo4;
+var
+  Linha: string;
+begin
+  Linha := '4' +
+           OptanteSNToStr(NFSe.OptanteSN);
+
+  if NFSe.OptanteSN = osnOptanteMEEPP then
+    Linha := Linha + RegimeApuracaoSNToStr(NFSe.RegimeApuracaoSN)
+  else
+    Linha := Linha + ' ';
+
+  if NFSe.Servico.CodigoPais <> 1058 then
+    Linha := Linha + CodIBGEPaisToSiglaISO2(NFSe.Servico.CodigoPais)
+  else
+    Linha := Linha + Space(3);
+
+  if NFSe.Servico.CodigoMunicipio <> '' then
+    Linha := Linha + NFSe.Servico.CodigoMunicipio
+  else
+    Linha := Linha + Space(7);
+
+  if NFSe.Tomador.Endereco.CodigoMunicipio <> '' then
+    Linha := Linha + NFSe.Tomador.Endereco.CodigoMunicipio
+  else
+    Linha := Linha + Space(7);
+
+  if NFSe.Tomador.IdentificacaoTomador.Nif <> '' then
+    Linha := Linha + NFSe.Tomador.IdentificacaoTomador.Nif
+  else
+    Linha := Linha + Space(40);
+
+  Linha := Linha + PadLeft(NFSe.Servico.CodigoNBS, 9, '0');
+
+  if NFSe.Tomador.Endereco.CEP <> '' then
+    Linha := Linha + PadLeft(NFSe.Tomador.Endereco.CEP, 11, ' ')
+  else
+    Linha := Linha + Space(11);
+
+  if NFSe.Tomador.Endereco.xMunicipio <> '' then
+    Linha := Linha + PadLeft(NFSe.Tomador.Endereco.xMunicipio, 60, ' ')
+  else
+    Linha := Linha + Space(60);
+
+  if NFSe.Tomador.IdentificacaoTomador.Nif <> '' then
+    Linha := Linha + vincPrestToStr(NFSe.Servico.comExt.vincPrest)
+  else
+    Linha := Linha + ' ';
+
+  Linha := Linha + Space(30); // Reservado
+
+  if NFSe.Servico.CodigoPais <> 1058 then
+    Linha := Linha + PadLeft(NFSe.Servico.Endereco.CEP, 11, ' ')
+  else
+    Linha := Linha + Space(11);
+
+  if NFSe.Servico.CodigoPais <> 1058 then
+    Linha := Linha + PadLeft(NFSe.Servico.Endereco.xMunicipio, 60, ' ')
+  else
+    Linha := Linha + Space(60);
+
+  if NFSe.Servico.Evento.xNome <> '' then
+    Linha := Linha + PadLeft(NFSe.Servico.Evento.xNome, 255, ' ')
+  else
+    Linha := Linha + Space(255);
+
+  if NFSe.Servico.Evento.dtIni <> 0 then
+    Linha := Linha + FormatDateTime('YYYYMMDD', NFSe.Servico.Evento.dtIni)
+  else
+    Linha := Linha + Space(8);
+
+  if NFSe.Servico.Evento.dtFim <> 0 then
+    Linha := Linha + FormatDateTime('YYYYMMDD', NFSe.Servico.Evento.dtFim)
+  else
+    Linha := Linha + Space(8);
+
+  Linha := Linha + Space(1);  // Implementar o código de justificativa do cancelamento substituição
+
+  Linha := Linha + PadLeft(NFSe.IBSCBS.cIndOp, 6, '0');
+
+  Linha := Linha + PadLeft(NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib, 6, '0');
+
+  Linha := Linha + CSTIBSCBSToStr(NFSe.IBSCBS.valores.trib.gIBSCBS.CST);
+
+  Linha := Linha + indFinalToStr(NFSe.IBSCBS.indFinal);
+
+  Linha := Linha + indDestToStr(NFSe.IBSCBS.indDest);
+
+  FConteudoTxt.Add(Linha);
+end;
+
+procedure TNFSeW_ISSBarueri.GerarRegistroTipo5;
+var
+  Linha, xUF: string;
+begin
+  Linha := '5' +
+           cCredPresToStr(NFSe.IBSCBS.valores.trib.gIBSCBS.cCredPres);
+
+  Linha := Linha + tpEnteGovToStr(NFSe.IBSCBS.tpEnteGov);
+  Linha := Linha + tpOperGovNFSeToStr(NFSe.IBSCBS.tpOper);
+  Linha := Linha + Space(50);
+  Linha := Linha + Space(8);
+  Linha := Linha + Space(150);
+  Linha := Linha + PadLeft('0', 3, '0');
+  Linha := Linha + '0';
+  Linha := Linha + '2';
+
+  if NFSe.IBSCBS.indDest = idTomadorAdquirenteDestinatarioIguais then
+  begin
+    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.CNPJCPF, 14, '0');
+    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.xNome, 60, ' ');
+    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.xLgr, 75, ' ');
+    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.nro, 9, ' ');
+    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.xCpl, 30, ' ');
+    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.xBairro, 40, ' ');
+    Linha := Linha + PadLeft(ObterNomeMunicipioUF(NFSe.IBSCBS.Dest.ender.endNac.cMun, xUF), 40, ' ');
+    Linha := Linha + IntToStr(NFSe.IBSCBS.Dest.ender.endNac.cMun);
+    Linha := Linha + NFSe.IBSCBS.Dest.ender.UF;
+    Linha := Linha + PadLeft(IntToStr(CodIBGEPaisToCodISO(NFSe.IBSCBS.Dest.ender.endExt.cPais)), 3, '0');
+    Linha := Linha + NFSe.IBSCBS.Dest.ender.endNac.CEP;
+    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.email, 80, ' ');
+    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.NIF, 40, ' ');
+    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.endExt.xEstProvReg, 11, ' ');
+    Linha := Linha + PadLeft(NFSe.IBSCBS.Dest.ender.endExt.cEndPost, 60, ' ');
+  end
+  else
+  begin
+    Linha := Linha + Space(14);
+    Linha := Linha + Space(60);
+    Linha := Linha + Space(75);
+    Linha := Linha + Space(9);
+    Linha := Linha + Space(30);
+    Linha := Linha + Space(40);
+    Linha := Linha + Space(7);
+    Linha := Linha + Space(2);
+    Linha := Linha + Space(3);
+    Linha := Linha + Space(8);
+    Linha := Linha + Space(80);
+    Linha := Linha + Space(40);
+    Linha := Linha + Space(11);
+    Linha := Linha + Space(60);
+  end;
+
+  FConteudoTxt.Add(Linha);
+end;
+
 procedure TNFSeW_ISSBarueri.GerarRegistroTipo9;
 var
   ValorTotalRetencoes: Double;
@@ -246,6 +395,7 @@ begin
     FConteudoTxt.LineBreak := CRLF;
     {$ENDIF}
   {$ENDIF}
+
 {
   if NFSe.IdentificacaoRemessa = '' then
     NFSe.IdentificacaoRemessa := NFSe.IdentificacaoRps.Numero;
@@ -257,7 +407,12 @@ begin
 }
   GerarRegistroTipo2;
   GerarRegistroTipo3;
-//  GerarRegistroTipo9;
+
+  if FpAOwner.ConfigGeral.Params.TemParametro('PMB004') then
+  begin
+    GerarRegistroTipo4;
+    GerarRegistroTipo5;
+  end;
 
   Result := True;
 end;
