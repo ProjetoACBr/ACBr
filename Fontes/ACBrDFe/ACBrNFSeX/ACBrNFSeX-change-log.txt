@@ -44,16 +44,19 @@ Símbolo : Significado
 
 16/01/2026
 -- ACBrNFSeXServicos --
+[*] Ajuste nas cidades: Barra Mansa/RJ, Barueri/SP, Bauru/SP, Caxias do Sul/RS, Picada Café/RS
+   Por: Matheus Klein / Italo Giurizzato Junior
+-- ACBrNFSeXServicos --
 [*] ACBR-8802 - Ajuste de seções das cidades atendidas pelo ISSNet, EL e SimplISS visando a correta emissão.
    Por: Matheus Klein / Revisão: Diego Folieni
-
-14/01/2026
 -- Pronim.Provider --
 [*] Ajustes para usar a função: PrepararArquivoEnvio.
    Por: Italo Giurizzato Junior
 -- ISSBarueri.GravarXml/ISSBarueri.Provider --
 [*] ACBR-8554 - Alteração visando a Reforma Tributária
    Por: Italo Giurizzato Junior
+
+14/01/2026
 -- ACBrNFSeXServicos --
 [*] ACBR-8548 - Alterado município Itaí-SP para utilizar provedor Fiorilli;
 [-] ACBR-8608 - Removida URL de homologação do município Valinhos.
