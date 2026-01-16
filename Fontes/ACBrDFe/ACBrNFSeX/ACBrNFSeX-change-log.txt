@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 16/01/2026
+-- ISSNatal.Provider --
+[*] ACBR-8648 - Ajuste para gerar a versão de dados como sendo 2.
+   Por: Italo Giurizzato Junior
 -- ABase.Provider/Betha.Provider/ISSNet.Provider/ModernizacaoPublica.Provider --
 [*] Ajustes para usar a função: PrepararArquivoEnvio.
    Por: Italo Giurizzato Junior

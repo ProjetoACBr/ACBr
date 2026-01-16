@@ -212,7 +212,7 @@ begin
 
   with ConfigWebServices do
   begin
-    VersaoDados := '1';
+    VersaoDados := '2';
     VersaoAtrib := '1';
   end;
 
