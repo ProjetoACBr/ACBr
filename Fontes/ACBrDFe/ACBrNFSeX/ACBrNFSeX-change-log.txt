@@ -44,6 +44,11 @@ Símbolo : Significado
 
 
 19/01/2026
+-- ACBrNFSeXServicos --
+[*] Adicionado as URLs para consultas da API do Padrão Nacional para o provedor Betha.
+    Trocadas as URLs novas pelas as antigas de Caxias do Sul/RS, pois só vai usar as novas
+    no segundo semestre.
+    por: Italo Giurizzato Junior
 -- ACBrNFSeXConfiguracoes/ACBrNFSeXGravarXml/ACBrNFSeXWebservicesResponse/Betha.GravarXml --
 -- Betha.Provider/PadraoNacional.GravarXml/PadraoNacional.Provider --
 [*] ACBR-8807/8667 - Implementado os demais serviços (Consultas e eventos)
