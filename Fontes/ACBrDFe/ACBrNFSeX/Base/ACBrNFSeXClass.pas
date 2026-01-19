@@ -393,6 +393,9 @@ type
     FUnidadeServico: string;
     FValorFinalCobrado: Double;
     FValorInicialCobrado: Double;
+    //GovDigital
+    FCSTPis: TCSTPis;
+    FtpRetPisCofins: TtpRetPisCofins;
 
     procedure SetDocDeducao(const Value: TDocDeducaoCollection);
   public
@@ -475,6 +478,9 @@ type
     property ValorFinalCobrado: Double read FValorFinalCobrado write FValorFinalCobrado;
     // Provedor Publica
     property UnidadeServico: string read FUnidadeServico write FUnidadeServico;
+    // GovDigital
+    property CSTPis: TCSTPis read FCSTPis write FCSTPis;
+    property tpRetPisCofins: TtpRetPisCofins read FtpRetPisCofins write FtpRetPisCofins;
   end;
 
   TDadosDeducao = class(TObject)
@@ -2987,6 +2993,8 @@ begin
   FtribMun := TtribMun.Create;
   FtribFed := TtribFed.Create;
   FtotTrib := TtotTrib.Create;
+  FCSTPis := cstPisVazio;
+  FtpRetPisCofins := trpcNaoRetido;
 end;
 
 destructor TValores.Destroy;

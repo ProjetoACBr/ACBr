@@ -39,7 +39,9 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrXmlDocument,
+  ACBrUtil.Strings,
   ACBrDFe.Conversao,
+  ACBrNFSeXConversao,
   ACBrNFSeXGravarXml_ABRASFv2;
 
 type
@@ -92,16 +94,33 @@ begin
   Result.AppendChild(AddNode(tcInt, '#32', 'MunicipioPrestacao', 7, 7, 0,
                                NFSe.Servico.CodigoMunicipioLocalPrestacao, ''));
 
+  Result.AppendChild(AddNode(tcStr, '#41', 'PaisPrestacao', 4, 4, 0,
+                                                  NFSe.Servico.CodigoPais, ''));
+
   Result.AppendChild(AddNode(tcStr, '#32', 'CodigoNBS', 1, 9, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#32', 'CIndOp', 6, 6, 0,
+                                                       NFSe.Servico.INDOP, ''));
+
+  if NFSe.Servico.CodigoPais = 1058 then
+    Result.AppendChild(AddNode(tcStr, '#32', 'CClassTribReg', 6, 6, 0,
+                                                  NFSe.Servico.CClassTrib, ''));
 end;
 
 function TNFSeW_GovDigital200.GerarValores: TACBrXmlNode;
 begin
   Result := inherited GerarValores;
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'CST', 3, 3, 0,
-                     CSTIBSCBSToStr(NFSe.IBSCBS.valores.trib.gIBSCBS.CST), ''));
+  if (NFSe.Servico.Valores.ValorPis>0) or (NFSe.Servico.Valores.ValorCofins>0) then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#1', 'CST', 2, 2, 0,
+                                 CSTPisToStr(NFSe.Servico.Valores.CSTPis), ''));
+
+    if not (StrToIntDef(CSTPisToStr(NFSe.Servico.Valores.CSTPis),0) in [0,8,9]) then
+      Result.AppendChild(AddNode(tcStr, '#1', 'TpRetPisCofins', 1, 1, 0,
+                 tpRetPisCofinsToStr(NFSe.Servico.Valores.tpRetPisCofins), ''));
+  end;
 end;
 
 end.

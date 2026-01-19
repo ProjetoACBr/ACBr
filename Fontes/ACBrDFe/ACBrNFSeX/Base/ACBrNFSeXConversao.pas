@@ -524,6 +524,14 @@ type
   TCST = (cstVazio, cst00, cst01, cst02, cst03, cst04, cst05, cst06, cst07,
           cst08, cst09);
 
+type
+  TCSTPis = (cstPisVazio, cstPis00, cstPis01, cstPis02, cstPis03, cstPis04,
+             cstPis05, cstPis06, cstPis07, cstPis08, cstPis09);
+
+const
+  TCSTPisArrayStrings: array[TCSTPis] of string = ('', '00', '01', '02', '03',
+    '04', '05', '06', '07', '08', '09');
+
 const
   TCSTArrayStrings: array[TCST] of string = ('', '00', '01', '02', '03', '04',
     '05', '06', '07', '08', '09');
@@ -834,6 +842,9 @@ function StrTotpSusp(out ok: Boolean; const s: string): TtpSusp;
 
 function CSTToStr(const t: TCST): string;
 function StrToCST(out ok: Boolean; const s: string): TCST;
+
+function CSTPisToStr(const t: TCSTPis): string;
+function StrToCSTPis(out ok: Boolean; const s: string): TCSTPis;
 
 function tpRetPisCofinsToStr(const t: TtpRetPisCofins): string;
 function StrTotpRetPisCofins(out ok: Boolean; const s: string): TtpRetPisCofins;
@@ -13228,6 +13239,22 @@ begin
         ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09'],
         [cstVazio, cst00, cst01, cst02, cst03, cst04, cst05, cst06, cst07,
          cst08, cst09]);
+end;
+
+function CSTPisToStr(const t: TCSTPis): string;
+begin
+  result := EnumeradoToStr(t,
+        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09'],
+        [cstPisVazio, cstPis00, cstPis01, cstPis02, cstPis03, cstPis04,
+         cstPis05, cstPis06, cstPis07, cstPis08, cstPis09]);
+end;
+
+function StrToCSTPis(out ok: Boolean; const s: string): TCSTPis;
+begin
+  result := StrToEnumerado(ok, s,
+        ['', '00', '01', '02', '03', '04', '05', '06', '07', '08', '09'],
+        [cstPisVazio, cstPis00, cstPis01, cstPis02, cstPis03, cstPis04,
+         cstPis05, cstPis06, cstPis07, cstPis08, cstPis09]);
 end;
 
 function tpRetPisCofinsToStr(const t: TtpRetPisCofins): string;

@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 19/01/2026
+-- ACBrNFSeXClass/ACBrNFSeXConversao/GovDigital.GravarXml/GovDigital.Provider --
+[*] ACBR-8800/8797 - Ajustes visando a reforma tributária.
+   Por: Ederson Selvati/Hetosoft Sistemas
 -- SigISS.GravarXml/SigISS.LerXml --
 [*] ACBR-8682 - Ajustes visando a reforma tributária.
    Por: Neto
