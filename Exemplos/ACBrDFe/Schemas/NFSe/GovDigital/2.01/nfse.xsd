@@ -232,7 +232,13 @@
 		<xsd:restriction base="xsd:string">
 			<xsd:maxLength value="30" />
 			<xsd:minLength value="1" />
-			<xsd:whiteSpace value="preserve" />
+			<xsd:whiteSpace value="preserve"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsCodCIB">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8"/>
+			<xsd:whiteSpace value="preserve"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="tsArt">
@@ -278,6 +284,31 @@
 	<xsd:simpleType name="tsCodigoCancelamentoNfse">
 		<xsd:restriction base="xsd:byte">
 			<xsd:pattern value="1|2|3|4|5" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsCodJustCanc">
+		<xsd:annotation>
+			<xsd:documentation>
+				Código de justificativa de cancelamento:
+				1 - Erro na Emissão;
+				2 - Serviço não Prestado;
+				9 - Outros;
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="preserve"/>
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="2"/>
+			<xsd:enumeration value="9"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsMotivo">
+		<xsd:annotation>
+			<xsd:documentation>Descrição do motivo da substituição da NFS-e</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="tsString">
+			<xsd:minLength value="15"/>
+			<xsd:maxLength value="255"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="tsIdTag">
@@ -466,6 +497,28 @@
 			<xsd:pattern value="[0-9]{9}"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+	<xsd:simpleType name="tsRTCCodIndOp">
+		<xsd:annotation>
+			<xsd:documentation>
+				Código indicador da operação de fornecimento, conforme tabela "código indicador de operação"
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="preserve"/>
+			<xsd:pattern value="[0-9]{6}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsRTCCodClassTrib">
+		<xsd:annotation>
+			<xsd:documentation>
+				Código de Classificação Tributária
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="preserve"/>
+			<xsd:pattern value="[0-9]{6}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 	<xsd:simpleType name="tsTipoCST">
 		<xsd:annotation>
 			<xsd:documentation>Código de Situação Tributária do PIS/COFINS (CST): 00 - Nenhum; 01 - Operação Tributável com Alíquota Básica; 02 - Operação Tributável com Alíquota Diferenciada; 03 - Operação Tributável com Alíquota por Unidade de Medida de Produto; 04 - Operação Tributável monofásica - Revenda a Alíquota Zero; 05 - Operação Tributável por Substituição Tributária; 06 - Operação Tributável a Alíquota Zero; 07 - Operação Tributável da Contribuição; 08 - Operação sem Incidência da Contribuição; 09 - Operação com Suspensão da Contribuição;</xsd:documentation>
@@ -482,6 +535,29 @@
 			<xsd:enumeration value="07"/>
 			<xsd:enumeration value="08"/>
 			<xsd:enumeration value="09"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsTipoRetPISCofins">
+		<xsd:annotation>
+			<xsd:documentation>
+				Tipo de retencao do Pis/Cofins:
+				1 - Retido;
+				2 - Não Retido;
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="preserve"/>
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tsString">
+		<xsd:annotation>
+			<xsd:documentation>Tipo string genérico</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="preserve"/>
+			<xsd:pattern value="[!-ÿ]{1}[ -ÿ]{0,}[!-ÿ]{1}|[!-ÿ]{1}"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 
@@ -652,6 +728,7 @@
 				minOccurs="0" maxOccurs="1" />
 			<xsd:element name="CST" type="tsTipoCST"
 						 minOccurs="0" maxOccurs="1" />
+			<xsd:element name="TpRetPisCofins" type="tsTipoRetPISCofins" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -704,7 +781,29 @@
 					<xsd:documentation>Código NBS (Nomenclatura Brasileira de Serviços, Intangíveis e outras Operações que produzam Variações no Patrimônio) correspondente ao serviço prestado</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-
+			<xsd:element name="CIndOp" type="tsRTCCodIndOp"
+						 minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>
+						Código indicador da operação de fornecimento, conforme tabela "código indicador de operação"
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CClassTribReg" type="tsRTCCodClassTrib"
+						 minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>
+						Código da Classificação Tributária do IBS e da CBS de tributação regular
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Imovel" type="tcDadosImovel" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>
+						Grupo de informações de operações relacionadas a bens imóveis quando campo CIndOp for relativo a operações com imóveis (020101, 020201 ou 020301) deve ser informado.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -714,9 +813,11 @@
 				minOccurs="0" maxOccurs="1" />
 			<xsd:element name="Art" type="tsArt" minOccurs="1"
 				maxOccurs="1" />
+			<xsd:element name="InscImobFisc" type="tsInscImobFisc"
+						 minOccurs="0" maxOccurs="1"/>
 			<xsd:element name="IdObra" type="tsCodigoObra"
 						 minOccurs="0" maxOccurs="1" />
-			<xsd:element name="InscImobFisc" type="tsInscImobFisc"
+			<xsd:element name="CCIB" type="tsCodCIB"
 						 minOccurs="0" maxOccurs="1"/>
 			<xsd:element name="Endereco" type="tcEndereco"
 						 minOccurs="0" maxOccurs="1"/>
@@ -790,6 +891,17 @@
 						 minOccurs="0" maxOccurs="1"/>
 			<xsd:element name="Endereco" type="tcEndereco"
 						 minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="tcDadosImovel">
+		<xsd:sequence>
+			<xsd:choice minOccurs="1">
+				<xsd:element name="CCIB" type="tsCodCIB"
+							 minOccurs="0" maxOccurs="1"/>
+				<xsd:element name="Endereco" type="tcEndereco"
+							 minOccurs="0" maxOccurs="1"/>
+			</xsd:choice>
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -923,6 +1035,16 @@
 				minOccurs="1" maxOccurs="1" />
 			<xsd:element name="CodigoCancelamento" type="tsCodigoCancelamentoNfse"
 				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="CMotivo" type="tsCodJustCanc">
+				<xsd:annotation>
+					<xsd:documentation>Código de justificativa de cancelamento</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="XMotivo" type="tsMotivo">
+				<xsd:annotation>
+					<xsd:documentation>Descrição para explicitar o motivo do cancelamento</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 		<xsd:attribute name="Id" type="tsIdTag" />
 	</xsd:complexType>
