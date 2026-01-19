@@ -38,11 +38,19 @@ interface
 
 uses
   SysUtils, Classes,
-  ACBrXmlBase, ACBrXmlDocument, ACBrNFSeXClass, ACBrNFSeXConversao,
-  ACBrNFSeXGravarXml, ACBrNFSeXLerXml,
-  ACBrNFSeXWebserviceBase, ACBrNFSeXWebservicesResponse,
-  ACBrNFSeXProviderABRASFv1, ACBrNFSeXProviderABRASFv2,
-  ACBrNFSeXProviderProprio;
+  ACBrXmlBase,
+  ACBrXmlDocument,
+  ACBrNFSeXClass,
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao,
+  ACBrNFSeXGravarXml,
+  ACBrNFSeXLerXml,
+  ACBrNFSeXWebserviceBase,
+  ACBrNFSeXWebservicesResponse,
+  ACBrNFSeXProviderABRASFv1,
+  ACBrNFSeXProviderABRASFv2,
+  ACBrNFSeXProviderProprio,
+  PadraoNacional.Provider;
 
 type
   TACBrNFSeXWebserviceBetha = class(TACBrNFSeXWebserviceSoap11)
@@ -119,20 +127,19 @@ type
 
   public
     function GerarNFSe(const ACabecalho, AMSG: string): string; override;
-  {
+    function ConsultarSituacao(const ACabecalho, AMSG: String): string; override;
+    function EnviarEvento(const ACabecalho, AMSG: string): string; override;
     function ConsultarNFSePorRps(const ACabecalho, AMSG: string): string; override;
     function ConsultarNFSePorChave(const ACabecalho, AMSG: string): string; override;
-    function EnviarEvento(const ACabecalho, AMSG: string): string; override;
     function ConsultarEvento(const ACabecalho, AMSG: string): string; override;
     function ConsultarDFe(const ACabecalho, AMSG: string): string; override;
     function ConsultarParam(const ACabecalho, AMSG: string): string; override;
     function ObterDANFSE(const ACabecalho, AMSG: string): string; override;
-    }
 
     function TratarXmlRetornado(const aXML: string): string; override;
   end;
 
-  TACBrNFSeProviderBethaAPIPropria = class(TACBrNFSeProviderProprio)
+  TACBrNFSeProviderBethaAPIPropria = class(TACBrNFSeProviderPadraoNacional)
   private
 
   protected
@@ -154,43 +161,30 @@ type
 
     procedure PrepararEmitir(Response: TNFSeEmiteResponse); override;
     procedure TratarRetornoEmitir(Response: TNFSeEmiteResponse); override;
-    {
-    procedure PrepararConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
-    procedure TratarRetornoConsultaNFSeporRps(Response: TNFSeConsultaNFSeporRpsResponse); override;
 
-    procedure PrepararConsultaNFSeporChave(Response: TNFSeConsultaNFSeResponse); override;
-    procedure TratarRetornoConsultaNFSeporChave(Response: TNFSeConsultaNFSeResponse); override;
+    procedure PrepararConsultaSituacao(Response: TNFSeConsultaSituacaoResponse); override;
+    procedure TratarRetornoConsultaSituacao(Response: TNFSeConsultaSituacaoResponse); override;
 
     procedure PrepararEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
     procedure TratarRetornoEnviarEvento(Response: TNFSeEnviarEventoResponse); override;
-
-    procedure PrepararConsultarEvento(Response: TNFSeConsultarEventoResponse); override;
-    procedure TratarRetornoConsultarEvento(Response: TNFSeConsultarEventoResponse); override;
-
-    procedure PrepararConsultarDFe(Response: TNFSeConsultarDFeResponse); override;
-    procedure TratarRetornoConsultarDFe(Response: TNFSeConsultarDFeResponse); override;
-
-    procedure PrepararConsultarParam(Response: TNFSeConsultarParamResponse); override;
-    procedure TratarRetornoConsultarParam(Response: TNFSeConsultarParamResponse); override;
-
-    procedure PrepararObterDANFSE(Response: TNFSeObterDANFSEResponse); override;
-    procedure TratarRetornoObterDANFSE(Response: TNFSeObterDANFSEResponse); override;
-
-    }
   public
-    function RegimeEspecialTributacaoToStr(const t: TnfseRegimeEspecialTributacao): string; override;
-    function StrToRegimeEspecialTributacao(out ok: boolean; const s: string): TnfseRegimeEspecialTributacao; override;
-    function RegimeEspecialTributacaoDescricao(const t: TnfseRegimeEspecialTributacao): string; override;
+    function GetSchemaPath: string; override;
   end;
 
 implementation
 
 uses
-  ACBrDFe.Conversao,
-  ACBrUtil.Strings, ACBrUtil.XMLHTML,
+  ACBrUtil.Strings,
+  ACBrUtil.XMLHTML,
+  ACBrUtil.FilesIO,
+  ACBrUtil.DateTime,
   ACBrDFeException,
-  ACBrNFSeX, ACBrNFSeXConfiguracoes, ACBrNFSeXConsts,
-  ACBrNFSeXNotasFiscais, Betha.GravarXml, Betha.LerXml;
+  ACBrNFSeX,
+  ACBrNFSeXConfiguracoes,
+  ACBrNFSeXConsts,
+  ACBrNFSeXNotasFiscais,
+  Betha.GravarXml,
+  Betha.LerXml;
 
 { TACBrNFSeXWebserviceBetha }
 
@@ -837,6 +831,92 @@ begin
     Request, [], ['xmlns:dps="http://www.betha.com.br/e-nota-dps"']);
 end;
 
+function TACBrNFSeXWebserviceBethaAPIPropria.ConsultarSituacao(
+  const ACabecalho, AMSG: String): string;
+var
+  Request: string;
+begin
+  FPMsgOrig :=
+    '<dps:ConsultarStatusDpsEnvio xmlns:dps="http://www.betha.com.br/e-nota-dps">' +
+       AMSG +
+    '</dps:ConsultarStatusDpsEnvio>';
+
+  Request := FPMsgOrig;
+
+  Result := Executar('http://www.betha.com.br/e-nota-dps-service/ConsultarStatusDpsEnvio',
+    Request, [], []);
+end;
+
+function TACBrNFSeXWebserviceBethaAPIPropria.EnviarEvento(const ACabecalho,
+  AMSG: string): string;
+var
+  Request, aTag: string;
+begin
+  FPMsgOrig := AMSG;
+
+  Request := AMSG;
+
+   if Pos('e105102', Request) > 0 then
+    aTag := 'RecepcionarEventoSubstituicaoEnvio'
+  else
+    aTag := 'RecepcionarEventoCancelamentoEnvio';
+
+  Request := '<evt:' + aTag + '>' +
+                AMSG +
+             '</evt:' + aTag + '>';
+
+  Result := Executar('http://www.betha.com.br/e-nota-dps-service/' + aTag,
+    Request, [], ['xmlns:evt="http://www.betha.com.br/e-nota-dps"']);
+end;
+
+function TACBrNFSeXWebserviceBethaAPIPropria.ConsultarNFSePorRps(
+  const ACabecalho, AMSG: string): string;
+begin
+  FPMsgOrig := AMSG;
+
+  Result := Executar('', FPMsgOrig, [], []);
+end;
+
+function TACBrNFSeXWebserviceBethaAPIPropria.ConsultarNFSePorChave(
+  const ACabecalho, AMSG: string): string;
+begin
+  FPMsgOrig := AMSG;
+
+  Result := Executar('', FPMsgOrig, [], []);
+end;
+
+function TACBrNFSeXWebserviceBethaAPIPropria.ConsultarDFe(
+  const ACabecalho, AMSG: string): string;
+begin
+  FPMsgOrig := AMSG;
+
+  Result := Executar('', FPMsgOrig, [], []);
+end;
+
+function TACBrNFSeXWebserviceBethaAPIPropria.ConsultarEvento(
+  const ACabecalho, AMSG: string): string;
+begin
+  FPMsgOrig := AMSG;
+
+  Result := Executar('', FPMsgOrig, [], []);
+end;
+
+function TACBrNFSeXWebserviceBethaAPIPropria.ConsultarParam(
+  const ACabecalho, AMSG: string): string;
+begin
+  FPMsgOrig := AMSG;
+
+  Result := Executar('', FPMsgOrig, [], []);
+end;
+
+function TACBrNFSeXWebserviceBethaAPIPropria.ObterDANFSE(
+  const ACabecalho, AMSG: string): string;
+begin
+  FPMsgOrig := AMSG;
+
+  Result := Executar('', FPMsgOrig, [], []);
+end;
+
 { TACBrNFSeProviderPadraoNacionalAPIPropria }
 
 procedure TACBrNFSeProviderBethaAPIPropria.Configuracao;
@@ -859,7 +939,7 @@ begin
     FormatoArqRetornoSoap := tfaXml;
 
     ServicosDisponibilizados.EnviarUnitario := True;
-    {
+    ServicosDisponibilizados.ConsultarSituacao := True;
     ServicosDisponibilizados.ConsultarNfseChave := True;
     ServicosDisponibilizados.ConsultarRps := True;
     ServicosDisponibilizados.EnviarEvento := True;
@@ -867,7 +947,7 @@ begin
     ServicosDisponibilizados.ConsultarDFe := True;
     ServicosDisponibilizados.ConsultarParam := True;
     ServicosDisponibilizados.ObterDANFSE := True;
-    }
+
     Particularidades.AtendeReformaTributaria := True;
   end;
 
@@ -890,8 +970,8 @@ begin
     XmlRps.InfElemento := 'infDPS';
     XmlRps.DocElemento := 'DPS';
 
-    EnviarEvento.InfElemento := 'infPedReg';
-    EnviarEvento.DocElemento := 'pedRegEvento';
+    EnviarEvento.InfElemento := 'infEvento';
+    EnviarEvento.DocElemento := 'evento';
   end;
 
   with ConfigAssinar do
@@ -900,8 +980,8 @@ begin
     EnviarEvento := True;
   end;
 
-  SetNomeXSD('***');
-
+  SetNomeXSD('SchemaDPS.xsd');
+  {
   with ConfigSchemas do
   begin
     GerarNFSe := 'DPS_v' + VersaoDFe + '.xsd';
@@ -912,6 +992,8 @@ begin
 
     Validar := False;
   end;
+  }
+  ConfigSchemas.Validar := False;
 end;
 
 function TACBrNFSeProviderBethaAPIPropria.CriarGeradorXml(
@@ -931,18 +1013,38 @@ end;
 function TACBrNFSeProviderBethaAPIPropria.CriarServiceClient(
   const AMetodo: TMetodo): TACBrNFSeXWebservice;
 var
-  URL: string;
+  URL, AMimeType: string;
 begin
   URL := GetWebServiceURL(AMetodo);
 
+  if AMetodo in [tmGerar, tmEnviarEvento, tmConsultarSituacao] then
+    AMimeType := 'text/xml'
+  else
+    AMimeType := 'application/json';
+
   if URL <> '' then
-    Result := TACBrNFSeXWebserviceBethaAPIPropria.Create(FAOwner, AMetodo, URL)
+  begin
+    URL := URL + Path;
+
+    Result := TACBrNFSeXWebserviceBethaAPIPropria.Create(FAOwner, AMetodo, URL,
+      Method, AMimeType);
+  end
   else
   begin
     if ConfigGeral.Ambiente = taProducao then
       raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
     else
       raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
+end;
+
+function TACBrNFSeProviderBethaAPIPropria.GetSchemaPath: string;
+begin
+  with TACBrNFSeX(FAOwner).Configuracoes do
+  begin
+    Result := PathWithDelim(Arquivos.PathSchemas + Geral.xProvedor);
+
+    Result := PathWithDelim(Result + VersaoNFSeToStr(Geral.Versao));
   end;
 end;
 
@@ -1125,6 +1227,8 @@ begin
   end;
 
   Response.ArquivoEnvio := ListaDps;
+  Path := '';
+  Method := 'POST';
 end;
 
 procedure TACBrNFSeProviderBethaAPIPropria.TratarRetornoEmitir(
@@ -1167,39 +1271,250 @@ begin
   end;
 end;
 
-function TACBrNFSeProviderBethaAPIPropria.RegimeEspecialTributacaoToStr(
-  const t: TnfseRegimeEspecialTributacao): string;
+procedure TACBrNFSeProviderBethaAPIPropria.PrepararConsultaSituacao(
+  Response: TNFSeConsultaSituacaoResponse);
+var
+  aXml: string;
+  Emitente: TEmitenteConfNFSe;
+  ACodMun, ATpAmbiente, ATpIntegracao: string;
 begin
-  Result := EnumeradoToStr(t,
-                         ['0', '1', '2', '3', '4', '5', '6'],
-                         [retNenhum, retCooperativa, retEstimativa,
-                         retMicroempresaMunicipal, retNotarioRegistrador,
-                         retISSQNAutonomos, retSociedadeProfissionais]);
-end;
+  ConfigMsgDados.Prefixo := '';
+  Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+  ACodMun := IntToStr(TACBrNFSeX(FAOwner).Configuracoes.Geral.CodigoMunicipio);
+  ATpAmbiente := '1';
 
-function TACBrNFSeProviderBethaAPIPropria.StrToRegimeEspecialTributacao(
-  out ok: boolean; const s: string): TnfseRegimeEspecialTributacao;
-begin
-  Result := StrToEnumerado(ok, s,
-                        ['0', '1', '2', '3', '4', '5', '6'],
-                        [retNenhum, retCooperativa, retEstimativa,
-                         retMicroempresaMunicipal, retNotarioRegistrador,
-                         retISSQNAutonomos, retSociedadeProfissionais]);
-end;
+  if ConfigGeral.Ambiente = taHomologacao then
+   ATpAmbiente := '2';
 
-function TACBrNFSeProviderBethaAPIPropria.RegimeEspecialTributacaoDescricao(
-  const t: TnfseRegimeEspecialTributacao): string;
-begin
-  case t of
-    retNenhum:                 Result := '0 - Nenhum';
-    retCooperativa:            Result := '1 - Cooperativa';
-    retEstimativa:             Result := '2 - Estimativa';
-    retMicroempresaMunicipal:  Result := '3 - Microempresa Municipal';
-    retNotarioRegistrador:     Result := '4 - Notário ou Registrador';
-    retISSQNAutonomos:         Result := '5 - Profissional Autônomo';
-    retSociedadeProfissionais: Result := '6 - Sociedade de Profissionais';
+  case Response.tpEvento of
+    teCancelamento: ATpIntegracao := 'CANCELAMENTO';
+    teCancelamentoSubstituicao: ATpIntegracao := 'CANCELAMENTO_POR_SUBSTICAO';
   else
-    Result := '';
+    ATpIntegracao := 'EMISSAO' ;
+  end;
+
+  Response.ArquivoEnvio :=
+         '<dps:tpAmb>' + ATpAmbiente + '</dps:tpAmb>' +
+         '<dps:codigoIbge>' + ACodMun + '</dps:codigoIbge>' +
+         '<dps:cpfCnpjPrestador>' + Emitente.CNPJ + '</dps:cpfCnpjPrestador>' +
+         '<dps:protocolo>' + Response.Protocolo + '</dps:protocolo>' +
+         '<dps:tipoIntegracao>' + ATpIntegracao + '</dps:tipoIntegracao>';
+  Path := '';
+  Method := 'POST';
+end;
+
+procedure TACBrNFSeProviderBethaAPIPropria.TratarRetornoConsultaSituacao(
+  Response: TNFSeConsultaSituacaoResponse);
+var
+  Document: TACBrXmlDocument;
+  AErro: TNFSeEventoCollectionItem;
+  ANode: TACBrXmlNode;
+begin
+  Document := TACBrXmlDocument.Create;
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit;
+      end;
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+
+      ANode := Document.Root;
+
+      if (ANode.Name <> 'ConsultarStatusDpsResposta') and
+         (ANode.Name <> 'ConsultarStatusDpsEmissaoResposta') then
+      begin
+        ANode := ANode.Childrens.FindAnyNs('ConsultarStatusDpsEmissaoResposta');
+        if ANode = nil then
+          ANode := Document.Root.Childrens.FindAnyNs('ConsultarStatusDpsResposta');
+      end;
+
+      if ANode = nil then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := 'Resposta DPS fora do padrão esperado';
+        Exit;
+      end;
+
+      ProcessarMensagemErros(ANode, Response);
+
+      Response.Protocolo :=
+        ObterConteudoTag(ANode.Childrens.FindAnyNs('protocolo'), tcStr);
+
+      Response.NumeroLote :=
+        ObterConteudoTag(ANode.Childrens.FindAnyNs('idDps'), tcStr);
+
+      Response.Situacao :=
+        ObterConteudoTag(ANode.Childrens.FindAnyNs('statusProcessamento'), tcStr);
+
+      Response.Data :=
+        ObterConteudoTag(ANode.Childrens.FindAnyNs('dataHoraRecebimento'), tcDatHor);
+
+      Response.Sucesso := (Response.Erros.Count = 0);
+    except
+      on E: Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
+  end;
+end;
+
+procedure TACBrNFSeProviderBethaAPIPropria.PrepararEnviarEvento(
+  Response: TNFSeEnviarEventoResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+  xEvento, xUF, xAutorEvento, IdAttrPRE, IdAttrEVT, xCamposEvento, nomeArq,
+  CnpjCpf: string;
+begin
+  with Response.InfEvento.pedRegEvento do
+  begin
+    if chNFSe = '' then
+    begin
+      AErro := Response.Erros.New;
+      AErro.Codigo := Cod004;
+      AErro.Descricao := ACBrStr(Desc004);
+    end;
+
+    if Response.Erros.Count > 0 then Exit;
+
+    xUF := TACBrNFSeX(FAOwner).Configuracoes.WebServices.UF;
+
+    CnpjCpf := OnlyAlphaNum(TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente.CNPJ);
+    if Length(CnpjCpf) < 14 then
+    begin
+      xAutorEvento := '<evt:CPFAutor>' +
+                        CnpjCpf +
+                      '</evt:CPFAutor>';
+    end
+    else
+    begin
+      xAutorEvento := '<evt:CNPJAutor>' +
+                        CnpjCpf +
+                      '</evt:CNPJAutor>';
+    end;
+
+    ID := chNFSe + OnlyNumber(tpEventoToStr(tpEvento));
+    // +
+      //        FormatFloat('000', nPedRegEvento);
+
+    IdAttrPRE := 'id="' + 'PRE' + ID + '"';
+    IdAttrEVT := 'id="' + 'EVT' + ID + '"';
+
+    case tpEvento of
+      teCancelamento,
+      teAnaliseParaCancelamento:
+        xCamposEvento := '<evt:cMotivo>' + IntToStr(cMotivo) + '</evt:cMotivo>' +
+                         '<evt:xMotivo>' + xMotivo + '</evt:xMotivo>';
+
+      teCancelamentoSubstituicao:
+        xCamposEvento := '<evt:cMotivo>' + Formatfloat('00', cMotivo) + '</evt:cMotivo>' +
+                         '<evt:xMotivo>' + xMotivo + '</evt:xMotivo>' +
+                         '<evt:chSubstituta>' + chSubstituta + '</evt:chSubstituta>';
+
+      teRejeicaoPrestador,
+      teRejeicaoTomador,
+      teRejeicaoIntermediario:
+        xCamposEvento := '<evt:infRej>' +
+                           '<evt:cMotivo>' + IntToStr(cMotivo) + '</evt:cMotivo>' +
+                           '<evt:xMotivo>' + xMotivo + '</evt:xMotivo>' +
+                         '</evt:infRej>';
+    else
+      // teConfirmacaoPrestador, teConfirmacaoTomador,
+      // ConfirmacaoIntermediario
+      xCamposEvento := '';
+    end;
+
+    xEvento := '<evt:pedRegEvento versao="' + ConfigWebServices.VersaoAtrib + '">' +
+                 '<evt:infPedReg ' + IdAttrPRE + '>' +
+                   '<evt:chNFSe>' + chNFSe + '</evt:chNFSe>' +
+                   xAutorEvento +
+                   '<evt:dhEvento>' +
+                     FormatDateTime('yyyy-mm-dd"T"hh:nn:ss', dhEvento) +
+                     GetUTC(xUF, dhEvento) +
+                   '</evt:dhEvento>' +
+                   '<evt:tpAmb>' + IntToStr(tpAmb) + '</evt:tpAmb>' +
+                   '<evt:verAplic>' + verAplic + '</evt:verAplic>' +
+                   '<evt:' + tpEventoToStr(tpEvento) + '>' +
+                     '<evt:xDesc>' + tpEventoToDesc(tpEvento) + '</evt:xDesc>' +
+                     xCamposEvento +
+                   '</evt:' + tpEventoToStr(tpEvento) + '>' +
+                 '</evt:infPedReg>' +
+               '</evt:pedRegEvento>';
+
+    xEvento := '<evt:evento xmlns:evt="http://www.betha.com.br/e-nota-dps"' +
+                   ' versao="' + ConfigWebServices.VersaoAtrib + '">' +
+                 '<evt:infEvento ' + IdAttrEVT + '>' +
+                   '<evt:verAplic>' + verAplic + '</evt:verAplic>' +
+                   '<evt:ambGer>' + '1' + '</evt:ambGer>' +
+                   '<evt:nSeqEvento>' + '001' + '</evt:nSeqEvento>' +
+                   '<evt:dhProc>' +
+                     FormatDateTime('yyyy-mm-dd"T"hh:nn:ss', dhEvento) +
+                     GetUTC(xUF, dhEvento) +
+                   '</evt:dhProc>' +
+                   '<evt:nDFe>' + '0' + '</evt:nDFe>' +
+                   xEvento +
+                 '</evt:infEvento>' +
+               '</evt:evento>';
+
+    //xEvento := ConverteXMLtoUTF8(xEvento);
+    xEvento := ChangeLineBreak(xEvento, '');
+    Response.ArquivoEnvio := xEvento;
+
+    nomeArq := '';
+    SalvarXmlEvento(ID + '-pedRegEvento', Response.ArquivoEnvio, nomeArq);
+    Response.PathNome := nomeArq;
+    Path := '';
+    Method := 'POST';
+  end;
+end;
+
+procedure TACBrNFSeProviderBethaAPIPropria.TratarRetornoEnviarEvento(
+  Response: TNFSeEnviarEventoResponse);
+var
+  Document: TACBrXmlDocument;
+  AErro: TNFSeEventoCollectionItem;
+  ANode: TACBrXmlNode;
+begin
+  Document := TACBrXmlDocument.Create;
+  try
+    try
+      if Response.ArquivoRetorno = '' then
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod201;
+        AErro.Descricao := ACBrStr(Desc201);
+        Exit
+      end;
+
+      Document.LoadFromXml(Response.ArquivoRetorno);
+
+      ProcessarMensagemErros(Document.Root, Response);
+
+      ANode := Document.Root;
+
+      Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
+      Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('protocolo'), tcStr);
+      Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('status'), tcStr);
+    except
+      on E:Exception do
+      begin
+        AErro := Response.Erros.New;
+        AErro.Codigo := Cod999;
+        AErro.Descricao := ACBrStr(Desc999 + E.Message);
+      end;
+    end;
+  finally
+    FreeAndNil(Document);
   end;
 end;
 

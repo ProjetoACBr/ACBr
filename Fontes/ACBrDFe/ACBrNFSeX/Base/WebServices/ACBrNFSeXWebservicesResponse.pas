@@ -850,6 +850,7 @@ begin
   NumeroLote := '';
   Situacao := '';
   Protocolo := '';
+  tpEvento := teNenhum;
 end;
 
 constructor TNFSeConsultaSituacaoResponse.Create;

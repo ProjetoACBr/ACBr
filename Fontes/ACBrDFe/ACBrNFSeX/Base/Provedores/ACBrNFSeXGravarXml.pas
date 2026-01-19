@@ -181,7 +181,7 @@ type
     function GerarXMLfornec(fornec: Tfornec): TACBrXmlNode;
 
     function GerarXMLTributos(trib: Ttrib): TACBrXmlNode;
-    function GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode;
+    function GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode; virtual;
     function GerarXMLgTribRegular(gTribRegular: TgTribRegular): TACBrXmlNode;
     function GerarXMLgDif(gDif: TgDif): TACBrXmlNode;
     // Reforma Tributária DPS

@@ -110,6 +110,7 @@ type
                                      const AListTag: string = 'Erros'); virtual;
 
     function PrepararArquivoEnvio(const aXml: string; aMetodo: TMetodo): string; override;
+    procedure ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo); override;
   public
     function RegimeEspecialTributacaoToStr(const t: TnfseRegimeEspecialTributacao): string; override;
     function StrToRegimeEspecialTributacao(out ok: boolean; const s: string): TnfseRegimeEspecialTributacao; override;
@@ -198,6 +199,7 @@ begin
   begin
     GerarNFSe := 'DPS_v' + VersaoDFe + '.xsd';
     ConsultarNFSe := 'DPS_v' + VersaoDFe + '.xsd';
+//    ConsultarNFSePorChave := 'DPS_v' + VersaoDFe + '.xsd';
     ConsultarNFSeRps := 'DPS_v' + VersaoDFe + '.xsd';
     EnviarEvento := 'pedRegEvento_v' + VersaoDFe + '.xsd';
     ConsultarEvento := 'DPS_v' + VersaoDFe + '.xsd';
@@ -1068,7 +1070,8 @@ begin
           AResumo.TipoEvento := JSon.AsString['TipoEvento'];
 
           ArquivoXml := JSon.AsString['ArquivoXml'];
-          ArquivoXml := DecodeToString(DeCompress(DecodeBase64(ArquivoXml)), True);
+//          ArquivoXml := DecodeToString(DeCompress(DecodeBase64(ArquivoXml)), True);
+          ArquivoXml := DeCompress(DecodeBase64(ArquivoXml));
 
           if ArquivoXml = '' then
           begin
@@ -1477,6 +1480,15 @@ begin
         AErro.Descricao := ACBrStr(Desc999 + E.Message);
       end;
     end;
+  end;
+end;
+
+procedure TACBrNFSeProviderPadraoNacional.ValidarSchema(
+  Response: TNFSeWebserviceResponse; aMetodo: TMetodo);
+begin
+  if aMetodo in [tmGerar, tmEnviarEvento] then
+  begin
+    inherited ValidarSchema(Response, aMetodo);
   end;
 end;
 

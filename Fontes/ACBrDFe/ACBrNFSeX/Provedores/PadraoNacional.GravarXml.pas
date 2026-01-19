@@ -70,7 +70,7 @@ type
 
     function GerarXMLSubstituicao: TACBrXmlNode;
 
-    function GerarXMLPrestador: TACBrXmlNode;
+    function GerarXMLPrestador: TACBrXmlNode; virtual;
     function GerarXMLEnderecoPrestador: TACBrXmlNode;
     function GerarXMLEnderecoNacionalPrestador: TACBrXmlNode;
     function GerarXMLEnderecoExteriorPrestador: TACBrXmlNode;
@@ -86,14 +86,14 @@ type
     function GerarXMLEnderecoNacionalIntermediario: TACBrXmlNode;
     function GerarXMLEnderecoExteriorIntermediario: TACBrXmlNode;
 
-    function GerarXMLServico: TACBrXmlNode;
+    function GerarXMLServico: TACBrXmlNode; virtual;
     function GerarXMLLocalPrestacao: TACBrXmlNode;
     function GerarXMLCodigoServico: TACBrXmlNode;
     function GerarXMLComercioExterior: TACBrXmlNode;
     function GerarXMLLocacaoSubLocacao: TACBrXmlNode;
-    function GerarXMLObra: TACBrXmlNode;
+    function GerarXMLObra: TACBrXmlNode; virtual;
     function GerarXMLEnderecoObra: TACBrXmlNode;
-    function GerarXMLEnderecoExteriorObra: TACBrXmlNode;
+    function GerarXMLEnderecoExteriorObra: TACBrXmlNode; virtual;
     function GerarXMLAtividadeEvento: TACBrXmlNode;
     function GerarXMLEnderecoEvento: TACBrXmlNode;
     function GerarXMLEnderecoExteriorEvento: TACBrXmlNode;
@@ -110,13 +110,13 @@ type
     function GerarXMLNFSeMunicipio(Item: Integer): TACBrXmlNode;
     function GerarXMLNFNFS(Item: Integer): TACBrXmlNode;
 
-    function GerarXMLFornecedor(Item: Integer): TACBrXmlNode;
+    function GerarXMLFornecedor(Item: Integer): TACBrXmlNode; virtual;
     function GerarXMLEnderecoFornecedor(Item: Integer): TACBrXmlNode;
     function GerarXMLEnderecoNacionalFornecedor(Item: Integer): TACBrXmlNode;
     function GerarXMLEnderecoExteriorFornecedor(Item: Integer): TACBrXmlNode;
 
     function GerarXMLTributacao: TACBrXmlNode;
-    function GerarXMLTributacaoMunicipal: TACBrXmlNode;
+    function GerarXMLTributacaoMunicipal: TACBrXmlNode; virtual;
     function GerarXMLBeneficioMunicipal: TACBrXmlNode;
     function GerarXMLExigibilidadeSuspensa: TACBrXmlNode;
     function GerarXMLTributacaoFederal: TACBrXmlNode;
@@ -890,7 +890,7 @@ begin
   if DevoGerarXMLObra then
     Result.AppendChild(GerarXMLObra);
   Result.AppendChild(GerarXMLAtividadeEvento);
-  Result.AppendChild(GerarXMLExploracaoRodoviaria);
+
   Result.AppendChild(GerarXMLInformacoesComplementares);
 end;
 
@@ -1156,6 +1156,9 @@ begin
 
     Result.AppendChild(AddNode(tcStr, '#1', 'xInfComp', 1, 2000, 0,
                                           NFSe.Servico.infoCompl.xInfComp, ''));
+
+    {falta grupo gItemPed, este grupo nao é usado no betha}
+
   end;
 end;
 

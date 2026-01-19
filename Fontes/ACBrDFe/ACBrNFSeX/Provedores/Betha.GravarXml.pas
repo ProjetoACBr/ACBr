@@ -79,12 +79,25 @@ type
   { TNFSeW_BethaAPIPropria }
 
   TNFSeW_BethaAPIPropria = class(TNFSeW_PadraoNacional)
+  private
+    function DevoGerarXMLObra: Boolean;
   protected
     procedure Configuracao; override;
 
     // Reescrito a geração do grupo IBSCBS do DPS pelo fato do provedor ainda
     // estar usando o layout definido na NT 003 versão 1.2
     function GerarXMLIBSCBS(IBSCBS: TIBSCBSDPS): TACBrXmlNode; override;
+    function GerarXMLTributacaoMunicipal: TACBrXmlNode; override;
+    function GerarXMLPrestador: TACBrXmlNode; override;
+    function GerarXMLgIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode; override;
+    function GerarXMLObra: TACBrXmlNode; override;
+    function GerarXMLEnderecoExteriorObra: TACBrXmlNode; override;
+    function GerarXMLFornecedor(Item: Integer): TACBrXmlNode; override;
+    function GerarXMLIBSCBSAdquirente: TACBrXmlNode;
+    function GerarXMLIBSCBSEnderecoAdquirente(ender: Tender): TACBrXmlNode;
+    function GerarXMLIBSCBSEnderecoNacionalAdquirente(endNac: TendNac): TACBrXmlNode;
+    function GerarXMLIBSCBSEnderecoExteriorAdquirente(endExt: TendExt): TACBrXmlNode;
+    function GerarXMLServico: TACBrXmlNode;  override;
   end;
 
 implementation
@@ -240,6 +253,160 @@ begin
   inherited Configuracao;
 
   PrefixoPadrao := 'dps';
+  GerargReeRepRes := false;
+end;
+
+function TNFSeW_BethaAPIPropria.GerarXMLIBSCBSAdquirente: TACBrXmlNode;
+begin
+  Result := CreateElement('adq');
+
+  if NFSe.IBSCBS.Dest.CNPJCPF <> '' then
+    Result.AppendChild(AddNodeCNPJCPF('#1', '#1', NFSe.IBSCBS.Dest.CNPJCPF))
+  else
+  begin
+    if NFSe.IBSCBS.Dest.Nif <> '' then
+      Result.AppendChild(AddNode(tcStr, '#1', 'NIF', 1, 40, 1,
+                                                      NFSe.IBSCBS.Dest.Nif, ''))
+    else
+      Result.AppendChild(AddNode(tcStr, '#1', 'cNaoNIF', 1, 1, 1,
+                                    NaoNIFToStr(NFSe.IBSCBS.Dest.cNaoNIF), ''));
+  end;
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xNome', 1, 300, 1,
+                                                   NFSe.IBSCBS.Dest.xNome, ''));
+
+  Result.AppendChild(GerarXMLEnderecoDestinatario(NFSe.IBSCBS.Dest.ender));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'fone', 6, 20, 0,
+                                                    NFSe.IBSCBS.Dest.fone, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'email', 1, 80, 0,
+                                                   NFSe.IBSCBS.Dest.email, ''));
+
+end;
+
+function TNFSeW_BethaAPIPropria.GerarXMLIBSCBSEnderecoAdquirente(
+  ender: Tender): TACBrXmlNode;
+begin
+  Result := nil;
+
+  if (ender.endNac.cMun <> 0) or (ender.endExt.cPais <> 0) then
+  begin
+    Result := CreateElement('end');
+
+    if (ender.endNac.cMun <> 0) then
+      Result.AppendChild(GerarXMLIBSCBSEnderecoNacionalAdquirente(ender.endNac))
+    else
+      Result.AppendChild(GerarXMLIBSCBSEnderecoExteriorAdquirente(ender.endExt));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'xLgr', 1, 255, 1, ender.xLgr, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'nro', 1, 60, 1, ender.nro, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'xCpl', 1, 156, 0, ender.xCpl, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'xBairro', 1, 60, 1,
+                                                            ender.xBairro, ''));
+  end;
+end;
+
+function TNFSeW_BethaAPIPropria.GerarXMLIBSCBSEnderecoExteriorAdquirente(
+  endExt: TendExt): TACBrXmlNode;
+begin
+  Result := CreateElement('endExt');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cPais', 2, 2, 1,
+                                     CodIBGEPaisToSiglaISO2(endExt.cPais), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cEndPost', 1, 11, 1,
+                                                          endExt.cEndPost, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xCidade', 1, 60, 1,
+                                                           endExt.xCidade, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xEstProvReg', 1, 60, 1,
+                                                       endExt.xEstProvReg, ''));
+end;
+
+function TNFSeW_BethaAPIPropria.GerarXMLIBSCBSEnderecoNacionalAdquirente(
+  endNac: TendNac): TACBrXmlNode;
+begin
+  Result := nil;
+
+  if endNac.CEP <> '' then
+  begin
+    Result := CreateElement('endNac');
+
+    Result.AppendChild(AddNode(tcInt, '#1', 'cMun', 7, 7, 1, endNac.cMun, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'CEP', 8, 8, 1, endNac.CEP, ''));
+  end;
+end;
+
+function TNFSeW_BethaAPIPropria.GerarXMLEnderecoExteriorObra: TACBrXmlNode;
+begin
+  Result := CreateElement('endExt');
+  //verificar tamanho cPais e se é referente xPais ou CodigoPais    // nao é explicito no schema
+  Result.AppendChild(AddNode(tcStr, '#1', 'cPais', 1, 200, 1,
+                                      NFSe.ConstrucaoCivil.Endereco.xPais, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cEndPost', 1, 11, 1,
+                                        NFSe.ConstrucaoCivil.Endereco.CEP, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xCidade', 1, 60, 1,
+                                 NFSe.ConstrucaoCivil.Endereco.xMunicipio, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xEstProvReg', 1, 60, 1,
+                                         NFSe.ConstrucaoCivil.Endereco.UF, ''));
+end;
+
+function TNFSeW_BethaAPIPropria.GerarXMLFornecedor(Item: Integer): TACBrXmlNode;
+begin
+  Result := nil;
+
+  with NFSe.Servico.Valores.DocDeducao.Items[Item].fornec do
+  begin
+    if RazaoSocial <> '' then
+    begin
+      Result := CreateElement('fornec');
+
+      if Identificacao.CpfCnpj <> '' then
+        Result.AppendChild(AddNodeCNPJCPF('#1', '#1', Identificacao.CpfCnpj))
+      else
+      if Identificacao.Nif <> '' then
+        Result.AppendChild(AddNode(tcStr, '#1', 'NIF', 1, 40, 1,
+                                                         Identificacao.Nif, ''))
+      else
+        Result.AppendChild(AddNode(tcStr, '#1', 'cNaoNIF', 1, 1, 1,
+                                       NaoNIFToStr(Identificacao.cNaoNIF), ''));
+
+      Result.AppendChild(AddNode(tcStr, '#1', 'CAEPF', 1, 14, 0,
+                                                      Identificacao.CAEPF, ''));
+
+      Result.AppendChild(AddNode(tcStr, '#1', 'IM', 1, 15, 0,
+                                         Identificacao.InscricaoMunicipal, ''));
+
+      Result.AppendChild(AddNode(tcStr, '#1', 'xNome', 1, 300, 1,
+                                                              RazaoSocial, ''));
+
+      Result.AppendChild(GerarXMLEnderecoFornecedor(Item));
+    end;
+  end;
+end;
+
+function TNFSeW_BethaAPIPropria.GerarXMLgIBSCBS(
+  gIBSCBS: TgIBSCBS): TACBrXmlNode;
+begin
+  Result := CreateElement('gIBSCBS');
+
+  Result.AppendChild(AddNode(tcStr, '#1', TagCST, 3, 3, NrOcorrCST,
+                                              CSTIBSCBSToStr(gIBSCBS.CST), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cClassTrib', 6, 6, 1,
+                                                       gIBSCBS.cClassTrib, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'cCredPres', 2, 2, NrOcorrcCredPres,
+                                        cCredPresToStr(gIBSCBS.cCredPres), ''));
 end;
 
 function TNFSeW_BethaAPIPropria.GerarXMLIBSCBS(
@@ -259,17 +426,132 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'tpEnteGov', 1, 1, 0,
                                          tpEnteGovToStr(IBSCBS.tpEnteGov), ''));
 
+  {Como sera definido este campo se nao temos descricao no schemas}
+  Result.AppendChild(AddNode(tcStr, '#1', 'xTpEnteGov', 1, 1, 0,
+                                         '', ''));
+
   Result.AppendChild(AddNode(tcStr, '#1', 'indPessoas', 1, 1, NrOcorrindDest,
                                              indDestToStr(IBSCBS.indDest), ''));
 
   if (IBSCBS.dest.xNome <> '') and GerarDest then
     Result.AppendChild(GerarXMLDestinatario(IBSCBS.dest));
 
-  if ((IBSCBS.imovel.cCIB <> '') or (IBSCBS.imovel.ender.xLgr <> '')) and
-     GerarImovel then
-    Result.AppendChild(GerarXMLImovel(IBSCBS.imovel));
-
   Result.AppendChild(GerarXMLIBSCBSTribValores(IBSCBS.valores));
+end;
+
+function TNFSeW_BethaAPIPropria.GerarXMLObra: TACBrXmlNode;
+begin
+  Result := CreateElement('obra');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'inscImobFisc', 1, 30, 0,
+                                        NFSe.ConstrucaoCivil.inscImobFisc, ''));
+
+  if NFSe.ConstrucaoCivil.CodigoObra <> '' then
+    Result.AppendChild(AddNode(tcStr, '#1', 'cObra', 1, 30, 1,
+                                           NFSe.ConstrucaoCivil.CodigoObra, ''))
+
+  else if NFSe.ConstrucaoCivil.Cib > 0 then
+    Result.AppendChild(AddNode(tcStr, '#1', 'cCIB', 1, 8, 1,
+                                      Poem_Zeros(NFSe.ConstrucaoCivil.Cib, 8)));
+
+  Result.AppendChild(GerarXMLEnderecoObra);
+end;
+
+function TNFSeW_BethaAPIPropria.GerarXMLPrestador: TACBrXmlNode;
+begin
+  Result := CreateElement('prest');
+
+  if NFSe.Prestador.IdentificacaoPrestador.CpfCnpj <> '' then
+    Result.AppendChild(AddNodeCNPJCPF('#1', '#1',
+                                 NFSe.Prestador.IdentificacaoPrestador.CpfCnpj))
+  else
+  begin
+    if NFSe.Prestador.IdentificacaoPrestador.Nif <> '' then
+      Result.AppendChild(AddNode(tcStr, '#1', 'NIF', 1, 40, 1,
+                                 NFSe.Prestador.IdentificacaoPrestador.Nif, ''))
+    else
+      Result.AppendChild(AddNode(tcStr, '#1', 'cNaoNIF', 1, 1, 1,
+               NaoNIFToStr(NFSe.Prestador.IdentificacaoPrestador.cNaoNIF), ''));
+  end;
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'CAEPF', 1, 14, 0,
+                              NFSe.Prestador.IdentificacaoPrestador.CAEPF, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'IM', 1, 15, 0,
+                 NFSe.Prestador.IdentificacaoPrestador.InscricaoMunicipal, ''));
+
+  if NFSe.tpEmit <> tePrestador then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#1', 'xNome', 1, 300, 0,
+                                               NFSe.Prestador.RazaoSocial, ''));
+
+    Result.AppendChild(AddNode(tcStr, '#1', 'xFant', 1, 300, 0,
+                                              NFSe.Prestador.NomeFantasia, ''));
+
+    Result.AppendChild(GerarXMLEnderecoPrestador);
+  end;
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'fone', 6, 20, 0,
+                                          NFSe.Prestador.Contato.Telefone, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'email', 1, 80, 0,
+                                             NFSe.Prestador.Contato.Email, ''));
+
+  Result.AppendChild(GerarXMLRegimeTributacaoPrestador);
+end;
+
+function TNFSeW_BethaAPIPropria.GerarXMLTributacaoMunicipal: TACBrXmlNode;
+begin
+  // No Betha: dentro de TTributacaoMunicipal, aparece antes de tpRetISSQN.
+  Result := CreateElement('tribMun');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'tribISSQN', 1, 1, 1,
+                   tribISSQNToStr(NFSe.Servico.Valores.tribMun.tribISSQN), ''));
+
+  if NFSe.Servico.Valores.tribMun.cPaisResult > 0 then
+    Result.AppendChild(AddNode(tcStr, '#1', 'cPaisResult', 2, 2, 0,
+         CodIBGEPaisToSiglaISO2(NFSe.Servico.Valores.tribMun.cPaisResult), ''));
+
+  {antes de ExigibilidadeSuspensa}
+  Result.AppendChild(GerarXMLBeneficioMunicipal);
+
+  Result.AppendChild(GerarXMLExigibilidadeSuspensa);
+
+  {Apos ExigibilidadeSuspensa}
+  if NFSe.Servico.Valores.tribMun.tribISSQN = tiImunidade then
+    Result.AppendChild(AddNode(tcStr, '#1', 'tpImunidade', 1, 1, 0,
+               tpImunidadeToStr(NFSe.Servico.Valores.tribMun.tpImunidade), ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'pAliq', 1, 3, 0,
+                                       NFSe.Servico.Valores.tribMun.pAliq, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpRetISSQN', 2, 2, 1,
+                 tpRetISSQNToStr(NFSe.Servico.Valores.tribMun.tpRetISSQN), ''));
+end;
+
+function TNFSeW_BethaAPIPropria.GerarXMLServico: TACBrXmlNode;
+begin
+  Result := CreateElement('serv');
+
+  Result.AppendChild(GerarXMLLocalPrestacao);
+  Result.AppendChild(GerarXMLCodigoServico);
+  Result.AppendChild(GerarXMLComercioExterior);
+
+  if VersaoNFSe = ve100 then
+    Result.AppendChild(GerarXMLLocacaoSubLocacao);
+
+  if DevoGerarXMLObra then
+    Result.AppendChild(GerarXMLObra);
+
+  Result.AppendChild(GerarXMLAtividadeEvento);
+  Result.AppendChild(GerarXMLInformacoesComplementares);
+end;
+
+function TNFSeW_BethaAPIPropria.DevoGerarXMLObra: Boolean;
+begin
+  Result := (NFSe.ConstrucaoCivil.CodigoObra <> '') or
+            (NFSE.ConstrucaoCivil.Cib > 0) or
+            (NFSe.ConstrucaoCivil.Endereco.CEP <> '');
 end;
 
 end.

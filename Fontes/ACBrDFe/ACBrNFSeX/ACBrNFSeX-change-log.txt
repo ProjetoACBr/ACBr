@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 19/01/2026
+-- ACBrNFSeXConfiguracoes/ACBrNFSeXGravarXml/ACBrNFSeXWebservicesResponse/Betha.GravarXml --
+-- Betha.Provider/PadraoNacional.GravarXml/PadraoNacional.Provider --
+[*] ACBR-8807/8667 - Implementado os demais serviços (Consultas e eventos)
+   Por: Daniel Morais/Italo Giurizzato Junior
 -- ACBrNFSeXClass/ACBrNFSeXConversao/GovDigital.GravarXml/GovDigital.Provider --
 [*] ACBR-8800/8797 - Ajustes visando a reforma tributária.
    Por: Ederson Selvati/Hetosoft Sistemas
