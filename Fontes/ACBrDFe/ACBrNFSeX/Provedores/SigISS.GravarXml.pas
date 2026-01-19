@@ -48,11 +48,9 @@ type
   TNFSeW_SigISS = class(TNFSeWClass)
   private
     FpVersao: Integer;
-//    FpGerarGrupoDadosPrestador: Boolean;
   protected
     procedure Configuracao; override;
 
-//    function GerarPrestador: TACBrXmlNode;
     function GerarIdentificacaoRPS: TACBrXmlNode;
   public
     function GerarXml: Boolean; override;
@@ -99,7 +97,6 @@ begin
   inherited Configuracao;
 
   FpVersao := 100;
-//  FpGerarGrupoDadosPrestador := True;
 end;
 
 function TNFSeW_SigISS.GerarIdentificacaoRPS: TACBrXmlNode;
@@ -265,30 +262,13 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'ano_prest_servico', 1, 4, 0,
                               FormatDateTime('yyyy', NFSe.DataEmissaoRps), ''));
   end;
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xnbs', 1, 50, 0,
+                                                                       '', ''));
+  Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_cnbs', 9, 9, 0,
+                                                   NFSe.Servico.CodigoNBS, ''));
 end;
 
-{
-function TNFSeW_SigISS.GerarPrestador: TACBrXmlNode;
-begin
-  Result := CreateElement('DadosPrestador');
-
-  Result.AppendChild(AddNode(tcStr, '#1', 'ccm', 1, 15, 0, Usuario, ''));
-
-  Result.AppendChild(AddNode(tcStr, '#2', 'cnpj', 1, 14, 1,
-                   OnlyNumber(NFSe.Prestador.IdentificacaoPrestador.Cnpj), ''));
-
-  Result.AppendChild(AddNode(tcStr, '#2', 'senha', 1, 10, 1, Senha, DSC_SENHA));
-
-  Result.AppendChild(AddNode(tcStr, '#2', 'crc', 1, 10, 0,
-                                                     NFSe.Prestador.crc, ''));
-
-  Result.AppendChild(AddNode(tcStr, '#2', 'crc_estado', 1, 2, 0,
-                                                NFSe.Prestador.crc_estado, ''));
-
-  Result.AppendChild(AddNode(tcDe2, '#2', 'aliquota_simples', 1, 15, 0,
-                                          NFSE.Servico.Valores.AliquotaSN, ''));
-end;
-}
 function TNFSeW_SigISS.GerarXml: Boolean;
 var
   NFSeNode, xmlNode: TACBrXmlNode;
@@ -311,13 +291,6 @@ begin
                     NFSe.IdentificacaoRps.Serie;
   NFSe.InfID.ID := copy(NFSe.InfID.ID, length(NFSe.InfID.ID) - 15 + 1, 15);
 
-{
-  if FpGerarGrupoDadosPrestador then
-  begin
-    xmlNode := GerarPrestador;
-    NFSeNode.AppendChild(xmlNode);
-  end;
-}
   xmlNode := GerarIdentificacaoRPS;
   NFSeNode.AppendChild(xmlNode);
 
@@ -331,7 +304,6 @@ begin
   inherited Configuracao;
 
   FpVersao := 103;
-//  FpGerarGrupoDadosPrestador := False;
 end;
 
 function TNFSeW_SigISS103.GerarIdentificacaoRPS: TACBrXmlNode;
@@ -476,6 +448,11 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'rps_substituido', 1, 15, 1,
                         OnlyNumber(NFSe.RpsSubstituido.Numero), DSC_NUMRPSSUB));
 
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xnbs', 1, 50, 0,
+                                                                       '', ''));
+  Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_cnbs', 9, 9, 0,
+                                                   NFSe.Servico.CodigoNBS, ''));
 (*
 <xsd:element name="obra_alvara_numero" type="xsd:int" minOccurs="0" maxOccurs="1"/>
 <xsd:element name="obra_alvara_ano" type="xsd:int" minOccurs="0" maxOccurs="1"/>
@@ -507,13 +484,6 @@ begin
                     NFSe.IdentificacaoRps.Serie;
   NFSe.InfID.ID := copy(NFSe.InfID.ID, length(NFSe.InfID.ID) - 15 + 1, 15);
 
-{
-  if FpGerarGrupoDadosPrestador then
-  begin
-    xmlNode := GerarPrestador;
-    NFSeNode.AppendChild(xmlNode);
-  end;
-}
   xmlNode := GerarIdentificacaoRPS;
   NFSeNode.AppendChild(xmlNode);
 

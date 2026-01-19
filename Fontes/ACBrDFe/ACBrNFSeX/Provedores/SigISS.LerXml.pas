@@ -180,6 +180,8 @@ begin
       Ano := ObterConteudo(AuxNode.Childrens.FindAnyNs('rps_ano'), tcStr);
 
       DataEmissaoRps := StrToDateDef(Dia + '/' + Mes + '/' + Ano, Date);
+
+      Servico.CodigoNBS := ObterConteudo(AuxNode.Childrens.FindAnyNs('dps_serv_cnbs'), tcStr);
     end;
   end;
 end;
@@ -472,6 +474,5 @@ begin
       OptanteSimplesNacional := snNao;
   end;
 end;
-
 
 end.
