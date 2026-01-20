@@ -150,6 +150,23 @@ function OpenSSLInfo($handle, $ffi, &$retornoGeral)
     return 0;
 }
 
+function ObterCertificados($handle, $ffi, &$retornoGeral)
+{
+    $esTamanho = FFI::new("long");
+    $esTamanho->cdata = 9048;
+    $sMensagem = FFI::new("char[535]");
+    $retorno = $ffi->NFSE_ObterCertificados($handle->cdata, $sMensagem, FFI::addr($esTamanho));
+
+    if ($retorno !== 0) {
+        if (UltimoRetorno($handle, $ffi, $retorno, $sMensagem, "Erro ao obter certificados", 1) != 0)
+            return -10;
+    }
+
+    $retornoGeral = FFI::string($sMensagem);
+
+    return 0;
+}
+
 function CarregarINI($handle, $ffi, $eArquivoOuIni, &$retornoGeral)
 {
     $sMensagem = FFI::new("char[535]");

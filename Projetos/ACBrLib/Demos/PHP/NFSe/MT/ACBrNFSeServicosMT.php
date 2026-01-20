@@ -317,6 +317,15 @@ try {
         }
     }
 
+    if ($metodo == "ObterCertificados") {
+        $processo = "NFES_ObterCertificados";
+
+        if (ObterCertificados($handle, $ffi, $resultado) != 0) {
+            exit;
+        }
+    }
+
+
     // Carrega ini ou xml
     function CarregaIniOuXml($handle, $ffi, $arquivo)
     {
