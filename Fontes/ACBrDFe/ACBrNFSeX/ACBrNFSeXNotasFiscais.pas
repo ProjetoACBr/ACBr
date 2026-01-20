@@ -765,7 +765,7 @@ var
   MS: TMemoryStream;
   P, N, TamTag, j: Integer;
   aXml, aXmlLote: string;
-  TagF: Array[1..15] of string;
+  TagF: Array[1..16] of string;
   SL: TStringStream;
   IsFile: Boolean;
 
@@ -786,6 +786,7 @@ var
     TagF[13] := '<NOTA>';             // Provedor AssessorPublico
     TagF[14] := '<NOTA_FISCAL>';      // Provedor ISSDSF
     TagF[15] := '<tcCompNfse>';       // Provedor ISSCuritiba
+    TagF[16] := '<notafiscal>';       //Provedor SigISSWeb
 
     j := 0;
 
@@ -813,6 +814,7 @@ var
     TagF[13] := '</NOTA>';             // Provedor AssessorPublico
     TagF[14] := '</NOTA_FISCAL>';      // Provedor ISSDSF
     TagF[15] := '</tcCompNfse>';       // Provedor ISSCuritiba
+    TagF[16] := '</notafiscal>';       // Provedor SigISSWeb
 
     j := 0;
 

@@ -188,9 +188,9 @@ begin
     Servico.ItemListaServico := ObterConteudo(ANode.Childrens.FindAnyNs('id_codigo_servico'), tcStr);
     Servico.xItemListaServico := ItemListaServicoDescricao(Servico.ItemListaServico);
 
-    Servico.Valores.ValorServicos := ObterConteudo(ANode.Childrens.FindAnyNs('valor_nf'), tcDe2);
-    Servico.Valores.ValorDeducoes := ObterConteudo(ANode.Childrens.FindAnyNs('deducao'), tcDe2);
-    Servico.Valores.ValorLiquidoNfse := ObterConteudo(ANode.Childrens.FindAnyNs('valor_servico'), tcDe2);
+    Servico.Valores.ValorServicos := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('valor_nf'), tcStr)));
+    Servico.Valores.ValorDeducoes := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('deducao'), tcStr)));
+    Servico.Valores.ValorLiquidoNfse := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('valor_servico'), tcStr)));
 
     aValor := ObterConteudo(ANode.Childrens.FindAnyNs('iss_retido'), tcStr);
 
@@ -211,31 +211,31 @@ begin
       NFSe.NaturezaOperacao := no1;
 
     Servico.Valores.Aliquota := ObterConteudo(ANode.Childrens.FindAnyNs('aliq_iss'), tcDe2);
-    Servico.Valores.ValorIss := ObterConteudo(ANode.Childrens.FindAnyNs('valor_iss'), tcDe2);
+    Servico.Valores.ValorIss := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('valor_iss'), tcStr)));
     Servico.Valores.ValorIssRetido := 0;
 
     if Servico.Valores.IssRetido = stRetencao then
       Servico.Valores.ValorIssRetido := Servico.Valores.ValorIss;
 
-    Servico.Valores.BaseCalculo := ObterConteudo(ANode.Childrens.FindAnyNs('bc_pis'), tcDe2);
+    Servico.Valores.BaseCalculo := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('bc_pis'), tcStr)));
     Servico.Valores.AliquotaPis := ObterConteudo(ANode.Childrens.FindAnyNs('aliq_pis'), tcDe2);
-    Servico.Valores.ValorPis := ObterConteudo(ANode.Childrens.FindAnyNs('valor_pis'), tcDe2);
+    Servico.Valores.ValorPis := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('valor_pis'), tcStr)));
 
-    Servico.Valores.BaseCalculo := ObterConteudo(ANode.Childrens.FindAnyNs('bc_cofins'), tcDe2);
+    Servico.Valores.BaseCalculo := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('bc_cofins'), tcStr)));
     Servico.Valores.AliquotaCofins := ObterConteudo(ANode.Childrens.FindAnyNs('aliq_cofins'), tcDe2);
-    Servico.Valores.ValorCofins := ObterConteudo(ANode.Childrens.FindAnyNs('valor_cofins'), tcDe2);
+    Servico.Valores.ValorCofins := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('valor_cofins'), tcStr)));
 
-    Servico.Valores.BaseCalculo := ObterConteudo(ANode.Childrens.FindAnyNs('bc_csll'), tcDe2);
+    Servico.Valores.BaseCalculo := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('bc_csll'), tcStr)));
     Servico.Valores.AliquotaCsll := ObterConteudo(ANode.Childrens.FindAnyNs('aliq_csll'), tcDe2);
-    Servico.Valores.ValorCsll := ObterConteudo(ANode.Childrens.FindAnyNs('valor_csll'), tcDe2);
+    Servico.Valores.ValorCsll := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('valor_csll'), tcStr)));
 
-    Servico.Valores.BaseCalculo := ObterConteudo(ANode.Childrens.FindAnyNs('bc_irrf'), tcDe2);
+    Servico.Valores.BaseCalculo := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('bc_irrf'), tcStr)));
     Servico.Valores.AliquotaIr := ObterConteudo(ANode.Childrens.FindAnyNs('aliq_irrf'), tcDe2);
-    Servico.Valores.ValorIr := ObterConteudo(ANode.Childrens.FindAnyNs('valor_irrf'), tcDe2);
+    Servico.Valores.ValorIr := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('valor_irrf'), tcStr)));
 
-    Servico.Valores.BaseCalculo := ObterConteudo(ANode.Childrens.FindAnyNs('bc_inss'), tcDe2);
+    Servico.Valores.BaseCalculo := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('bc_inss'), tcStr)));
     Servico.Valores.AliquotaInss := ObterConteudo(ANode.Childrens.FindAnyNs('aliq_inss'), tcDe2);
-    Servico.Valores.ValorInss := ObterConteudo(ANode.Childrens.FindAnyNs('valor_inss'), tcDe2);
+    Servico.Valores.ValorInss := StringDecimalToFloat(OnlyNumber(ObterConteudo(ANode.Childrens.FindAnyNs('valor_inss'), tcStr)));
 
     Servico.Valores.RetencoesFederais := Servico.Valores.ValorPis +
       Servico.Valores.ValorCofins + Servico.Valores.ValorInss +

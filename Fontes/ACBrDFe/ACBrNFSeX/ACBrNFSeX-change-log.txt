@@ -43,11 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/01/2026
+-- ACBrNFSeXNotasFiscais/SigISSWeb.GravarXML --
+[-] ACBR-8796 - Ajuste visando a correta leitura de lote de NFSe.
+   Por: Diego Folieni
 -- ACBrNFSeXWebservicesResponse --
 [-] Alteração no método "Clear()" para limpar a propriedade "DataCanc".
-    por: infonacci
-
-20/01/2026
+    Por: infonacci
 -- ACBrNFSeXClass/PadraoNacional.GravarXml/PadraoNacional.LerXml --
 [*] ACBR-8766 - Adiciona geração e leitura tanto no XML quanto no INI do grupo gItemPed.
    Por: Diego Folieni
