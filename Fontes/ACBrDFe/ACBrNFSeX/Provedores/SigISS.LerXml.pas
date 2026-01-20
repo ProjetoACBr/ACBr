@@ -136,6 +136,9 @@ begin
       Servico.Discriminacao := StringReplace(Servico.Discriminacao, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
 
+      Servico.CodigoNBS := ObterConteudo(AuxNode.Childrens.FindAnyNs('dps_serv_cnbs'), tcStr);
+      infNFSe.xNBS := ObterConteudo(AuxNode.Childrens.FindAnyNs('xnbs'), tcStr);
+
       VerificarSeConteudoEhLista(Servico.Discriminacao);
 
       Servico.ItemListaServico := ObterConteudo(AuxNode.Childrens.FindAnyNs('servico'), tcInt);

@@ -263,8 +263,9 @@ begin
                               FormatDateTime('yyyy', NFSe.DataEmissaoRps), ''));
   end;
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'xnbs', 1, 50, 0,
-                                                                       '', ''));
+  Result.AppendChild(AddNode(tcStr, '#1', 'xnbs', 1, 200, 0,
+                                                        NFSe.infNFSe.xNBS, ''));
+
   Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_cnbs', 9, 9, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
 end;
@@ -449,8 +450,9 @@ begin
                         OnlyNumber(NFSe.RpsSubstituido.Numero), DSC_NUMRPSSUB));
 
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'xnbs', 1, 50, 0,
-                                                                       '', ''));
+  Result.AppendChild(AddNode(tcStr, '#1', 'xnbs', 1, 200, 0,
+                                                        NFSe.infNFSe.xNBS, ''));
+
   Result.AppendChild(AddNode(tcStr, '#1', 'dps_serv_cnbs', 9, 9, 0,
                                                    NFSe.Servico.CodigoNBS, ''));
 (*

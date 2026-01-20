@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/01/2025
+-- SigISS.GravarXml/SigISS.LerXml --
+[*] A tag xnbs não pode ser gerada em branco, informar a descrição do NBS em:
+    NFSe.infNFSe.xNBS
+   Por: Italo Giurizzato Junior
 -- ISSFortaleza.GravarXml/ISSFortaleza.Provider --
 [*] ACBR-8680/8695 - Alterações visando a Reforma Tributária.
    Por: Italo Giurizzato Junior
