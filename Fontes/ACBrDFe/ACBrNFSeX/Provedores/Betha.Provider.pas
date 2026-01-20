@@ -1236,7 +1236,7 @@ procedure TACBrNFSeProviderBethaAPIPropria.TratarRetornoEmitir(
 var
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
-  ANode: TACBrXmlNode;
+  ANode,AuxNode: TACBrXmlNode;
 begin
   Document := TACBrXmlDocument.Create;
   try
@@ -1258,6 +1258,17 @@ begin
       Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
       Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('protocolo'), tcStr);
       Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('status'), tcStr);
+
+      AuxNode := ANode.Childrens.FindAnyNs('emissao');
+      if Assigned(AuxNode) then
+        Begin
+          Response.idRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('idDps'), tcStr);
+          Response.idNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('chaveAcesso'), tcStr);
+          Response.NumeroRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('numeroDps'), tcStr);
+          Response.SerieRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('serieDps'), tcStr);
+          Response.NumeroNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('numeroNotaFiscal'), tcStr);
+          Response.Link := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('linkPdf'), tcStr);
+        End;
     except
       on E:Exception do
       begin
@@ -1308,7 +1319,7 @@ procedure TACBrNFSeProviderBethaAPIPropria.TratarRetornoConsultaSituacao(
 var
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
-  ANode: TACBrXmlNode;
+  ANode,AuxNode: TACBrXmlNode;
 begin
   Document := TACBrXmlDocument.Create;
   try
@@ -1354,6 +1365,18 @@ begin
 
       Response.Data :=
         ObterConteudoTag(ANode.Childrens.FindAnyNs('dataHoraRecebimento'), tcDatHor);
+
+      AuxNode := ANode.Childrens.FindAnyNs('emissao');
+      if Assigned(AuxNode) then
+        Begin
+          Response.idRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('idDps'), tcStr);
+          Response.idNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('chaveAcesso'), tcStr);
+          Response.NumeroRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('numeroDps'), tcStr);
+          Response.SerieRps := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('serieDps'), tcStr);
+          Response.NumeroNota := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('numeroNotaFiscal'), tcStr);
+          Response.Link := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('linkPdf'), tcStr);
+        End;
+
 
       Response.Sucesso := (Response.Erros.Count = 0);
     except
