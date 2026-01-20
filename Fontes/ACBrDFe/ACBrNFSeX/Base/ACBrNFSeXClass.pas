@@ -1666,9 +1666,11 @@ type
   private
     FcMun: Integer;
     FCEP: string;
+    FUF: string;
   public
     property cMun: Integer read FcMun write FcMun;
     property CEP: string read FCEP write FCEP;
+    property UF: string read FUF write FUF;
   end;
 
   { TendExt }

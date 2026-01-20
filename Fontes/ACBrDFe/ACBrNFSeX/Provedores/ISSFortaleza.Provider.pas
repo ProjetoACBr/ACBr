@@ -128,7 +128,7 @@ begin
     ConsultarNFSe := True;
     CancelarNFSe := True;
   end;
-
+  {
   SetNomeXSD('***');
 
   with ConfigSchemas do
@@ -140,6 +140,10 @@ begin
     ConsultarNFSe := 'servico_consultar_nfse_envio_v03.xsd';
     CancelarNFSe := 'servico_cancelar_nfse_envio_v02.xsd';
   end;
+  }
+  SetNomeXSD('nfse.xsd');
+
+  ConfigSchemas.Validar := False;
 end;
 
 function TACBrNFSeProviderISSFortaleza.CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass;
@@ -297,7 +301,8 @@ end;
 function TACBrNFSeXWebserviceISSFortaleza.GetNameSpace: string;
 begin
   if FPConfiguracoes.WebServices.AmbienteCodigo = 2 then
-    Result := 'http://homologacao.issfortaleza.com.br'
+    Result := 'http://producao.issfortaleza.com.br'
+//    Result := 'http://homologacao.issfortaleza.com.br'
   else
     Result := 'http://producao.issfortaleza.com.br';
 
@@ -310,10 +315,10 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := '<ns1:RecepcionarLoteRpsV3' + NameSpace + '>';
+  Request := '<ns1:RecepcionarLoteRpsV4' + NameSpace + '>';
   Request := Request + '<Cabecalho>' + XmlToStr(ACabecalho) + '</Cabecalho>';
   Request := Request + '<EnviarLoteRpsEnvio>' + XmlToStr(AMSG) + '</EnviarLoteRpsEnvio>';
-  Request := Request + '</ns1:RecepcionarLoteRpsV3>';
+  Request := Request + '</ns1:RecepcionarLoteRpsV4>';
 
   Result := Executar('', Request,
                      ['EnviarLoteRpsResposta', 'EnviarLoteRpsResposta'],

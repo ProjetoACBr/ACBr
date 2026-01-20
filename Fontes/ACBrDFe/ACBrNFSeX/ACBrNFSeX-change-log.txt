@@ -43,17 +43,16 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/01/2025
+-- ISSFortaleza.GravarXml/ISSFortaleza.Provider --
+[*] ACBR-8680/8695 - Alterações visando a Reforma Tributária.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] Alterar o provedor do município Rondonopolis.
     por: Matheus Klein
-	
-20/01/2025
 -- Betha.Provider.pas --
-[*] ACBR-8807/8667/8819 - Ajuestes no retorno TratarRetornoConsultaSituacao e TratarRetornoEmitir
+[*] ACBR-8807/8667/8819 - Ajustes no retorno TratarRetornoConsultaSituacao e TratarRetornoEmitir
 	https://www.projetoacbr.com.br/forum/topic/88833-acbr-8667-provedor-betha-api-pr%C3%B3pria-padr%C3%A3o-nacional/page/2/
     por: leandro.ledo, Wesley Lamb
-
-20/01/2025
 -- Infisc.GravarXml --
 [-] ACBR-8774 - Correção para possibilitar tomador residente no Exterior.
     por: TiagoTecchio
