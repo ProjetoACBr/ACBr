@@ -41,6 +41,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+20/01/2025
+-- ACBrNFSeXServicos --
+[*] Alterar o provedor do município Rondonopolis.
+    por: Matheus Klein
+	
 20/01/2025
 -- Betha.Provider.pas --
 [*] ACBR-8807/8667/8819 - Ajuestes no retorno TratarRetornoConsultaSituacao e TratarRetornoEmitir
