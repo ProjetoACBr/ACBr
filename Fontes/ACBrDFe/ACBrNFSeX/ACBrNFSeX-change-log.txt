@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/01/2026
+-- Tinus.GravarXml/Tinus.Provider --
+[*] ACBR-8783 - Reescrito a fuction: GerarInfDeclaracaoPrestacaoServico para atender o novo 
+   layout do provedor.
+   Por: Italo Giurizzato Junior
 -- PadraoNacional.GravarXml --
 [*] Melhora a condição de geração do grupo infoCompl para considerar o gItemPed.
    Por: Diego Folieni

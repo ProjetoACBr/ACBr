@@ -107,8 +107,44 @@ begin
 end;
 
 function TNFSeW_Tinus203.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
+var
+  aNameSpace: string;
 begin
-  Result := inherited GerarInfDeclaracaoPrestacaoServico;
+  aNameSpace := DefinirNameSpaceDeclaracao;
+
+  Result := CreateElement('InfDeclaracaoPrestacaoServico');
+
+  if aNameSpace <> '' then
+    Result.SetNamespace(aNameSpace);
+
+  DefinirIDDeclaracao;
+
+  if (FpAOwner.ConfigGeral.Identificador <> '') and GerarIDDeclaracao then
+    Result.SetAttribute(FpAOwner.ConfigGeral.Identificador, NFSe.infID.ID);
+
+  if (NFSe.IdentificacaoRps.Numero <> '') and GerarTagRps then
+    Result.AppendChild(GerarRps);
+
+  Result.AppendChild(AddNode(FormatoCompetencia, '#4', 'Competencia', 10, 10, 1,
+                                                         NFSe.Competencia, ''));
+
+  Result.AppendChild(GerarServico);
+  Result.AppendChild(GerarPrestador);
+  Result.AppendChild(GerarTomador);
+  Result.AppendChild(GerarIntermediarioServico);
+  Result.AppendChild(GerarConstrucaoCivil);
+
+  Result.AppendChild(AddNode(tcStr, '#6', 'RegimeEspecialTributacao', 1, 2, 0,
+    FpAOwner.RegimeEspecialTributacaoToStr(NFSe.RegimeEspecialTributacao), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#7', 'OptanteSimplesNacional', 1, 1, 1,
+                        FpAOwner.SimNaoToStr(NFSe.OptanteSimplesNacional), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#8', 'regApTribSN', 1, 1, 1,
+                             RegimeApuracaoSNToStr(NFSe.RegimeApuracaoSN), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#8', 'IncentivoFiscal', 1, 1, 1,
+                          FpAOwner.SimNaoToStr(NFSe.IncentivadorCultural), ''));
 
   // Reforma Tributária
   if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
