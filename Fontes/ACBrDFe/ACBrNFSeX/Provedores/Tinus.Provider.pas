@@ -134,7 +134,7 @@ uses
   ACBrDFe.Conversao,
   ACBrNFSeX,
   ACBrNFSeXConfiguracoes,
-  ACBrNFSeXNotasFiscais, Tinus.GravarXml, Tinus.LerXml, ACBrNFSeXConsts, AcbrUtil;
+  ACBrNFSeXNotasFiscais, Tinus.GravarXml, Tinus.LerXml, ACBrNFSeXConsts, ACBrUtil;
 
 { TACBrNFSeXWebserviceTinus }
 
