@@ -299,6 +299,9 @@ type
     FvRetCP: Double;
     FvRetIRRF: Double;
     FvRetCSLL: Double;
+    FvBCPCP: Double;
+    FvBCCSLL: Double;
+    FvBCPIRRF: Double;
   public
     property CST: TCST read FCST write FCST;
     property vBCPisCofins: Double read FvBCPisCofins write FvBCPisCofins;
@@ -310,6 +313,10 @@ type
     property vRetCP: Double read FvRetCP write FvRetCP;
     property vRetIRRF: Double read FvRetIRRF write FvRetIRRF;
     property vRetCSLL: Double read FvRetCSLL write FvRetCSLL;
+    // Provedor Conam
+    property vBCPCP: Double read FvBCPCP write FvBCPCP;
+    property vBCPIRRF: Double read FvBCPIRRF write FvBCPIRRF;
+    property vBCCSLL: Double read FvBCCSLL write FvBCCSLL;
   end;
 
   TtotTrib = class(TObject)
@@ -812,6 +819,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+
     property idDocTec: string read FidDocTec write FidDocTec;
     property docRef: string read FdocRef write FdocRef;
     property xPed: String read FxPed write FxPed;

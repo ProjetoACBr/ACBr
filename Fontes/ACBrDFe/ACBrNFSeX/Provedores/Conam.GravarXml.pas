@@ -256,35 +256,32 @@ begin
   {
     Segundo o manual: Informar somente se Local de Prestação de Serviços for
     diferente do Endereço do Tomador.
-
-    O correto seria criar uma classe para informar o local da prestação de
-    serviço local este diferente do local do tomador e do prestador.
   }
   if NFSe.LogradouLocalPrestacaoServico <> llpTomador then
   begin
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'TipoLogLocPre', 1, 10, 1,
-                                   NFSe.Prestador.Endereco.TipoLogradouro, ''));
+                                     NFSe.Servico.Endereco.TipoLogradouro, ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'LogLocPre', 1, 60, 1,
-                                         NFSe.Prestador.Endereco.Endereco, ''));
+                                         NFSe.Servico.Endereco.Endereco, ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'NumEndLocPre', 1, 10, 1,
-                                           NFSe.Prestador.Endereco.Numero, ''));
+                                           NFSe.Servico.Endereco.Numero, ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'ComplEndLocPre', 1, 60, 1,
-                                      NFSe.Prestador.Endereco.Complemento, ''));
+                                      NFSe.Servico.Endereco.Complemento, ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'BairroLocPre', 1, 60, 1,
-                                           NFSe.Prestador.Endereco.Bairro, ''));
+                                             NFSe.Servico.Endereco.Bairro, ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'MunLocPre', 1, 60, 1,
-                                                             MunPrestador, ''));
+                                         NFSe.Servico.Endereco.xMunicipio, ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'SiglaUFLocpre', 2, 2, 1,
-                                               NFSe.Prestador.Endereco.UF, ''));
+                                                 NFSe.Servico.Endereco.UF, ''));
 
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CepLocPre', 1, 8, 1,
-                                              NFSe.Prestador.Endereco.CEP, ''));
+                                                NFSe.Servico.Endereco.CEP, ''));
   end;
 
   NFSeNode.AppendChild(AddNode(tcStr, '#1', 'Email1', 1, 120, 1,
@@ -341,11 +338,8 @@ begin
     NFSeNode.AppendChild(xmlNode);
   end;
 
-  if False then
-  begin
-    xmlNode := GerarReg60(NFSe.IBSCBS);
-    NFSeNode.AppendChild(xmlNode);
-  end;
+  xmlNode := GerarReg60(NFSe.IBSCBS);
+  NFSeNode.AppendChild(xmlNode);
 
   NFSe.QtdReg30 := QtdReg30;
   NFSe.ValReg30 := ValReg30;
@@ -444,6 +438,15 @@ begin
 
   if (Sigla = 'PIS') or (Sigla = 'COFINS') then
     Result.AppendChild(AddNode(tcDe2, '#1', 'TributoBaseCalc', 1, 16, 1, NFSe.Servico.Valores.tribFed.vBCPisCofins, ''));
+
+  if (Sigla = 'INSS') and (NFSe.Servico.Valores.tribFed.vBCPCP > 0) then
+    Result.AppendChild(AddNode(tcDe2, '#1', 'TributoBaseCalc', 1, 16, 1, NFSe.Servico.Valores.tribFed.vBCPCP, ''));
+
+  if ((Sigla = 'IRRF') or (Sigla = 'IR')) and (NFSe.Servico.Valores.tribFed.vBCPIRRF > 0) then
+    Result.AppendChild(AddNode(tcDe2, '#1', 'TributoBaseCalc', 1, 16, 1, NFSe.Servico.Valores.tribFed.vBCPIRRF, ''));
+
+  if (Sigla = 'CSLL') and (NFSe.Servico.Valores.tribFed.vBCCSLL > 0) then
+    Result.AppendChild(AddNode(tcDe2, '#1', 'TributoBaseCalc', 1, 16, 1, NFSe.Servico.Valores.tribFed.vBCCSLL, ''));
 
   Result.AppendChild(AddNode(tcDe2, '#1', 'TributoAliquota', 1, 5, 1,
                                                                  Aliquota, ''));
@@ -764,13 +767,13 @@ begin
                                              finNFSeToStr(IBSCBS.finNFSe), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'IndConsFin', 1, 1, 1,
-                                           indFinalToStr(IBSCBS.indFinal), ''));
+                 IfThen(indFinalToStr(IBSCBS.indFinal) = '1','SIM','NAO'), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'IndDest', 1, 1, 1,
-                                             indDestToStr(IBSCBS.indDest), ''));
+                   IfThen(indDestToStr(IBSCBS.indDest) = '1','SIM','NAO'), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'IndOpeOne', 1, 1, 1,
-                                        TIndicadorToStr(IBSCBS.IndOpeOne), ''));
+              IfThen(TIndicadorToStr(IBSCBS.IndOpeOne) = '1','SIM','NAO'), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'IndCodOpe', 6, 6, 1,
                                                             IBSCBS.cIndOp, ''));

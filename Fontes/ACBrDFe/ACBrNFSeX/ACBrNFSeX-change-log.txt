@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/01/2026
+-- ACBrNFSeXClass/Conam.GravarXml/Conam.LerXml --
+[*] ACBR-8772 - Acrescentados os campos para gerar os valores de BC de PCP, PIRRF e CSLL.
+   Por: Bruno
 -- ACBrNFSeXNotasFiscais/SigISSWeb.GravarXML --
 [-] ACBR-8796 - Ajuste visando a correta leitura de lote de NFSe.
    Por: Diego Folieni

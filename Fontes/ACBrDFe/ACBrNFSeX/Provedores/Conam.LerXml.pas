@@ -67,6 +67,7 @@ type
     procedure LerINIIdentificacaoPrestador(AINIRec: TMemIniFile);
     procedure LerINIListaEmail(AINIRec: TMemIniFile);
     procedure LerINIValoresNFSe(AINIRec: TMemIniFile);
+    procedure LerINIValoresTribFederal(AINIRec: TMemIniFile);
 
     procedure LerIniRps(AINIRec: TMemIniFile);
     procedure LerIniNfse(AINIRec: TMemIniFile);
@@ -485,6 +486,7 @@ begin
   LerINIIdentificacaoPrestador(AINIRec);
   LerINIListaEmail(AINIRec);
   LerINIValoresNFSe(AINIRec);
+  LerINIValoresTribFederal(AINIRec);
 
   with NFSe.Servico do
   begin
@@ -512,6 +514,7 @@ begin
   LerINIDadosTomador(AINIRec);
   LerINIIdentificacaoPrestador(AINIRec);
   LerINIListaEmail(AINIRec);
+  LerINIValoresTribFederal(AINIRec);
 end;
 
 procedure TNFSeR_Conam.LerINIIdentificacaoNFSe(AINIRec: TMemIniFile);
@@ -746,6 +749,30 @@ begin
     NFSe.Servico.Valores.ValorServicos := NFSe.ValoresNfse.ValorLiquidoNfse;
     NFSe.Servico.Valores.BaseCalculo := NFSe.ValoresNfse.BaseCalculo;
     NFSe.Servico.Valores.Aliquota := NFSe.ValoresNfse.Aliquota;
+  end;
+end;
+
+procedure TNFSeR_Conam.LerINIValoresTribFederal(AINIRec: TMemIniFile);
+var
+  sSecao: string;
+  Ok: Boolean;
+begin
+  sSecao := 'tribFederal';
+  if AINIRec.SectionExists(sSecao) then
+  begin
+    NFSe.Servico.Valores.tribFed.CST := StrToCST(Ok, AINIRec.ReadString(sSecao, 'CST', ''));
+    NFSe.Servico.Valores.tribFed.vBCPisCofins := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCPisCofins', ''), 0);
+    NFSe.Servico.Valores.tribFed.pAliqPis := StringToFloatDef(AINIRec.ReadString(sSecao, 'pAliqPis', ''), 0);
+    NFSe.Servico.Valores.tribFed.pAliqCofins := StringToFloatDef(AINIRec.ReadString(sSecao, 'pAliqCofins' ,''), 0);
+    NFSe.Servico.Valores.tribFed.vPis := StringToFloatDef(AINIRec.ReadString(sSecao, 'vPis', ''), 0);
+    NFSe.Servico.Valores.tribFed.vCofins := StringToFloatDef(AINIRec.ReadString(sSecao, 'vCofins', ''), 0);
+    NFSe.Servico.Valores.tribFed.tpRetPisCofins := StrTotpRetPisCofins(Ok, AINIRec.ReadString(sSecao, 'tpRetPisCofins', ''));
+    NFSe.Servico.Valores.tribFed.vRetCP := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetCP', ''), 0);
+    NFSe.Servico.Valores.tribFed.vRetIRRF := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetIRRF', ''), 0);
+    NFSe.Servico.Valores.tribFed.vRetCSLL := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRetCSLL', ''), 0);
+    NFSe.Servico.Valores.tribFed.vBCPCP := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCPCP', ''), 0);
+    NFSe.Servico.Valores.tribFed.vBCPIRRF := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCPIRRF', ''), 0);
+    NFSe.Servico.Valores.tribFed.vBCCSLL := StringToFloatDef(AINIRec.ReadString(sSecao, 'vBCCSLL', ''), 0);
   end;
 end;
 
