@@ -121,6 +121,7 @@ type
 implementation
 
 uses
+  ACBrUtil.Base,
   ACBrUtil.Strings,
   ACBrNFSeXConsts;
 
@@ -473,6 +474,9 @@ begin
 end;
 
 function TNFSeW_Infisc.GerarEnderecoTomador: TACBrXmlNode;
+var
+  xPais: String;
+  cPais: Integer;
 begin
   Result := CreateElement('ender');
 
@@ -500,9 +504,15 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'CEP', 1, 8, 0,
                                                 NFSe.Tomador.Endereco.CEP, ''));
 
-  Result.AppendChild(AddNode(tcInt, '#1', 'cPais', 1, 10, 0, '1058', ''));
+  cPais := NFSe.Tomador.Endereco.CodigoPais;
+  if EstaZerado(cPais) then
+    cPais := 1058;
+  Result.AppendChild(AddNode(tcInt, '#1', 'cPais', 1, 10, 0, IntToStr(cPais), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'xPais', 1, 100, 0, 'Brasil', ''));
+  xPais := NFSe.Tomador.Endereco.xPais;
+  if EstaVazio(xPais) then
+    xPais := 'Brasil';
+  Result.AppendChild(AddNode(tcStr, '#1', 'xPais', 1, 100, 0, xPais, ''));
 end;
 
 function TNFSeW_Infisc.GerarID: TACBrXmlNode;
