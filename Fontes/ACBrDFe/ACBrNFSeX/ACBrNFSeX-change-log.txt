@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/01/2026
+-- PadraoNacional.GravarXml --
+[*] Melhora a condição de geração do grupo infoCompl para considerar o gItemPed.
+   Por: Diego Folieni
 -- ACBrNFSeXProviderBase/Giss.Provider --
 [*] ACBR-8821 - Possível solução para o erro que estava ocorrendo ao tentar executar o método
     SubstituirNFSe.

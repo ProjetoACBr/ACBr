@@ -1146,7 +1146,9 @@ begin
 
   if (NFSe.Servico.infoCompl.idDocTec <> '') or
      (NFSe.Servico.infoCompl.docRef <> '') or
-     (NFSe.Servico.infoCompl.xInfComp <> '') then
+     (NFSe.Servico.infoCompl.xInfComp <> '') or
+     (NFSe.Servico.infoCompl.xPed <> '') or
+     (NFSe.Servico.infoCompl.gItemPed.Count > 0) then
   begin
     Result := CreateElement('infoCompl');
 
@@ -1163,8 +1165,6 @@ begin
 
     Result.AppendChild(AddNode(tcStr, '#1', 'xInfComp', 1, 2000, 0,
                                           NFSe.Servico.infoCompl.xInfComp, ''));
-
-    {falta grupo gItemPed, este grupo nao é usado no betha}
 
   end;
 end;
