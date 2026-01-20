@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/01/2026
+-- ACBrNFSeXProviderBase/Giss.Provider --
+[*] ACBR-8821 - Possível solução para o erro que estava ocorrendo ao tentar executar o método
+    SubstituirNFSe.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXClass/Conam.GravarXml/Conam.LerXml --
 [*] ACBR-8772 - Acrescentados os campos para gerar os valores de BC de PCP, PIRRF e CSLL.
    Por: Bruno

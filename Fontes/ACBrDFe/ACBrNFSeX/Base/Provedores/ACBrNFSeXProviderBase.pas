@@ -1980,15 +1980,20 @@ function TACBrNFSeXProvider.PrepararRpsParaLote(const aXml: string): string;
 var
   i: Integer;
   Prefixo: string;
+  PossuiPrefixo: Boolean;
 begin
   i := Pos('>', aXml) + 1;
+  PossuiPrefixo := (Pos('<Rps>', aXml) = 0);
 
   if ConfigMsgDados.PrefixoTS = '' then
     Prefixo := ''
   else
     Prefixo := ConfigMsgDados.PrefixoTS + ':';
 
-  Result := '<' + Prefixo + 'Rps>' + Copy(aXml, i, Length(aXml));
+  if PossuiPrefixo then
+    Result := '<' + Prefixo + 'Rps>' + Copy(aXml, i, Length(aXml))
+  else
+    Result := '<Rps>' + Copy(aXml, i, Length(aXml));
 end;
 
 procedure TACBrNFSeXProvider.ValidarSchema(Response: TNFSeWebserviceResponse; aMetodo: TMetodo);

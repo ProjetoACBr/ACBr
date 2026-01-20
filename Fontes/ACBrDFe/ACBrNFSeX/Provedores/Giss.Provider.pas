@@ -91,6 +91,10 @@ type
     procedure PrepararCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
     procedure GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse;
       Params: TNFSeParamsResponse); override;
+
+    procedure PrepararSubstituiNFSe(Response: TNFSeSubstituiNFSeResponse); override;
+    procedure GerarMsgDadosSubstituiNFSe(Response: TNFSeSubstituiNFSeResponse;
+      Params: TNFSeParamsResponse); override;
   end;
 
 implementation
@@ -237,8 +241,8 @@ var
 begin
   with ConfigMsgDados do
   begin
-    Prefixo := '';
-    PrefixoTS := '';
+    Prefixo := 'ns3';
+    PrefixoTS := 'ns4';
   end;
 
   if EstaVazio(Response.NumeroLote) then
@@ -491,9 +495,14 @@ begin
                            '</' + Prefixo + TagEnvio + '>';
     end
     else
+    begin
+      Xml := StringReplace(Xml, 'InfDeclaracaoPrestacaoServico ',
+        'InfDeclaracaoPrestacaoServico xmlns="http://www.giss.com.br/tipos-v2_04.xsd" ',
+        [rfReplaceAll]);
       Response.ArquivoEnvio := '<' + Prefixo + TagEnvio + NameSpace + '>' +
                               Xml +
                            '</' + Prefixo + TagEnvio + '>';
+    end;
   end;
 end;
 
@@ -596,8 +605,6 @@ begin
 
   with Params do
   begin
-//    Xml := StringReplace(Xml, 'ns4', 'ns3', [rfReplaceAll]);
-
     Consulente :='<' + Prefixo + 'Consulente>' +
                    '<' + Prefixo2 + 'CpfCnpj>' +
                      GetCpfCnpj(Emitente.CNPJ, Prefixo2) +
@@ -662,6 +669,39 @@ begin
                              '</' + Prefixo2 + 'InfPedidoCancelamento>' +
                            '</' + Prefixo + 'Pedido>' +
                          '</' + Prefixo + 'CancelarNfseEnvio>';
+  end;
+end;
+
+procedure TACBrNFSeProviderGiss204.PrepararSubstituiNFSe(
+  Response: TNFSeSubstituiNFSeResponse);
+begin
+  with ConfigMsgDados do
+  begin
+    Prefixo := 'ns3';
+    PrefixoTS := 'ns4';
+  end;
+
+  inherited PrepararSubstituiNFSe(Response);
+end;
+
+procedure TACBrNFSeProviderGiss204.GerarMsgDadosSubstituiNFSe(
+  Response: TNFSeSubstituiNFSeResponse; Params: TNFSeParamsResponse);
+begin
+  with Params do
+  begin
+    Xml := StringReplace(Xml, 'Rps',
+      'Rps xmlns="http://www.giss.com.br/substituir-nfse-envio-v2_04.xsd"',
+      []);
+    Xml := StringReplace(Xml, 'InfDeclaracaoPrestacaoServico ',
+      'InfDeclaracaoPrestacaoServico xmlns="http://www.giss.com.br/tipos-v2_04.xsd" ',
+      [rfReplaceAll]);
+
+    Response.ArquivoEnvio := '<' + Prefixo + TagEnvio + NameSpace + '>' +
+                           '<' + Prefixo + 'SubstituicaoNfse' + IdAttr + '>' +
+                             Response.PedCanc +
+                             Xml +
+                           '</' + Prefixo + 'SubstituicaoNfse>' +
+                         '</' + Prefixo + TagEnvio + '>';
   end;
 end;
 
