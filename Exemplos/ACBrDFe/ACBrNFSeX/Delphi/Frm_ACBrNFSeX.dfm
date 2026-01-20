@@ -2358,6 +2358,15 @@ object frmACBrNFSe: TfrmACBrNFSe
               TabOrder = 5
               OnClick = btnConsultarDPSporNumeroPNClick
             end
+            object btnConsultarSitPN: TButton
+              Left = 186
+              Top = 72
+              Width = 177
+              Height = 25
+              Caption = 'Consultar Situa'#231#227'o'
+              TabOrder = 6
+              OnClick = btnConsultarSitPNClick
+            end
           end
           object tsConsultarParametros: TTabSheet
             Caption = 'Consultar Par'#226'metros Municipais'
@@ -2455,7 +2464,7 @@ object frmACBrNFSe: TfrmACBrNFSe
       Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
-      ItemIndex = 1
+      ItemIndex = 0
       Items.Strings = (
         'Sim'
         'N'#227'o')
