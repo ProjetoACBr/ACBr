@@ -43,11 +43,14 @@ npm install
 
 ### 3️⃣ Configure as credenciais
 
-Crie um arquivo `.env` na raiz do projeto com as credenciais do certificado digital:
+Crie um arquivo `.env` na raiz do projeto com as credenciais :
+Senha do certificado e usuário e senha do Webservice
 
 ```env
 # 🔑 Senha do certificado digital
 PFX_PASSWORD=SuaSenhaDoCertificado
+EMITENTE_USER=usario
+EMITENTE_PASSWORD=senha
 ```
 
 ### 4️⃣ Execute o exemplo
