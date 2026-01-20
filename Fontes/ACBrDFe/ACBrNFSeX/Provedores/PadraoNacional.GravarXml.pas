@@ -99,6 +99,7 @@ type
     function GerarXMLEnderecoExteriorEvento: TACBrXmlNode;
     function GerarXMLExploracaoRodoviaria: TACBrXmlNode;
     function GerarXMLInformacoesComplementares: TACBrXmlNode;
+    function GerarXMLgItemPed: TACBrXMLNode;
 
     function GerarXMLValores: TACBrXmlNode;
 
@@ -139,6 +140,7 @@ type
     procedure GerarINIEvento(AINIRec: TMemIniFile);
     procedure GerarINIRodoviaria(AINIRec: TMemIniFile);
     procedure GerarINIInformacoesComplementares(AINIRec: TMemIniFile);
+    procedure GerarINIInformacoesComplementaresgItemPed(AINIRec: TMemIniFile);
     procedure GerarINIValores(AINIRec: TMemIniFile);
     procedure GerarINIDocumentosDeducoes(AINIRec: TMemIniFile);
     procedure GerarINIDocumentosDeducoesFornecedor(AINIRec: TMemIniFile;
@@ -1154,6 +1156,11 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'docRef', 1, 255, 0,
                                             NFSe.Servico.infoCompl.docRef, ''));
 
+    Result.AppendChild(AddNode(tcStr, '#1', 'xPed', 1, 60, 0,
+                                            NFSe.Servico.infoCompl.xPed, ''));
+
+    Result.AppendChild(GerarXMLgItemPed);
+
     Result.AppendChild(AddNode(tcStr, '#1', 'xInfComp', 1, 2000, 0,
                                           NFSe.Servico.infoCompl.xInfComp, ''));
 
@@ -1371,6 +1378,24 @@ begin
 
       Result.AppendChild(AddNode(tcStr, '#1', 'email', 1, 80, 0,
                                                             Contato.Email, ''));
+    end;
+  end;
+end;
+
+function TNFSeW_PadraoNacional.GerarXMLgItemPed: TACBrXMLNode;
+var
+  i: Integer;
+begin
+  Result := nil;
+
+  if NFSe.Servico.infoCompl.gItemPed.Count > 0 then
+  begin
+    Result := CreateElement('gItemPed');
+
+    for i := 0 to NFSe.Servico.infoCompl.gItemPed.Count - 1 do
+    begin
+      Result.AppendChild(AddNode(tcStr, '#1', 'xItemPed', 1, 60, 1,
+                                NFSe.Servico.infoCompl.gItemPed[i].xItemPed));
     end;
   end;
 end;
@@ -1702,6 +1727,7 @@ begin
   GerarINIEvento(AINIRec);
   GerarINIRodoviaria(AINIRec);
   GerarINIInformacoesComplementares(AINIRec);
+  GerarINIInformacoesComplementaresgItemPed(AINIRec);
   GerarINIValores(AINIRec);
   GerarINIDocumentosDeducoes(AINIRec);
   GerarINIValoresTribMun(AINIRec);
@@ -1734,6 +1760,7 @@ begin
   GerarINIEvento(AINIRec);
   GerarINIRodoviaria(AINIRec);
   GerarINIInformacoesComplementares(AINIRec);
+  GerarINIInformacoesComplementaresgItemPed(AINIRec);
   GerarINIValores(AINIRec);
   GerarINIDocumentosDeducoes(AINIRec);
   GerarINIValoresTribMun(AINIRec);
@@ -1978,7 +2005,19 @@ begin
 
   AINIRec.WriteString(LSecao, 'idDocTec', NFSe.Servico.infoCompl.idDocTec);
   AINIRec.WriteString(LSecao, 'docRef', NFSe.Servico.infoCompl.docRef);
+  AINIRec.WriteString(LSecao, 'xPed', NFSe.Servico.infoCompl.xPed);
   AINIRec.WriteString(LSecao, 'xInfComp', NFSe.Servico.infoCompl.xInfComp);
+end;
+
+procedure TNFSeW_PadraoNacional.GerarINIInformacoesComplementaresgItemPed(AINIRec: TMemIniFile);
+var
+  i: Integer;
+begin
+  for i := 0 to NFSe.Servico.infoCompl.gItemPed.Count-1 do
+  begin
+    LSecao := 'gItemPed' + IntToStrZero(i+1, 2);
+    AINIRec.WriteString(LSecao, 'xItemPed', NFSe.Servico.infoCompl.gItemPed[i].xItemPed);
+  end;
 end;
 
 procedure TNFSeW_PadraoNacional.GerarINIValores(AINIRec: TMemIniFile);

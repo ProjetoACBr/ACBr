@@ -42,6 +42,10 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+20/01/2026
+-- ACBrNFSeXClass/PadraoNacional.GravarXml/PadraoNacional.LerXml --
+[*] ACBR-8766 - Adiciona geração e leitura tanto no XML quanto no INI do grupo gItemPed.
+   Por: Diego Folieni
 
 19/01/2026
 -- ACBrNFSeXServicos --

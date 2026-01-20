@@ -88,6 +88,7 @@ type
     procedure LerXMLEnderecoExteriorEvento(const ANode: TACBrXmlNode);
     procedure LerXMLExploracaoRodoviaria(const ANode: TACBrXmlNode);
     procedure LerXMLInformacoesComplementares(const ANode: TACBrXmlNode);
+    procedure LerXMLInformacoesComplementaresgItemPed(const ANode: TACBrXMLNode);
 
     procedure LerXMLValores(const ANode: TACBrXmlNode);
     procedure LerXMLServicoPrestado(const ANode: TACBrXmlNode);
@@ -131,6 +132,7 @@ type
     procedure LerINIEvento(AINIRec: TMemIniFile);
     procedure LerINIRodoviaria(AINIRec: TMemIniFile);
     procedure LerINIInformacoesComplementares(AINIRec: TMemIniFile);
+    procedure LerINIInformacoesComplementaresgItemPed(AINIRec: TMemINIFile);
     procedure LerINIValores(AINIRec: TMemIniFile);
     procedure LerINIDocumentosDeducoes(AINIRec: TMemIniFile);
     procedure LerINIDocumentosDeducoesFornecedor(AINIRec: TMemIniFile;
@@ -944,12 +946,29 @@ begin
     begin
       idDocTec := ObterConteudo(AuxNode.Childrens.FindAnyNs('idDocTec'), tcStr);
       docRef := ObterConteudo(AuxNode.Childrens.FindAnyNs('docRef'), tcStr);
+      xPed := ObterConteudo(AuxNode.Childrens.FindAnyNs('xPed'), tcStr);
+      LerXMLInformacoesComplementaresgItemPed(AuxNode.Childrens.FindAnyNs('gItemPed'));
       xInfComp := ObterConteudo(AuxNode.Childrens.FindAnyNs('xInfComp'), tcStr);
       xInfComp := StringReplace(xInfComp, FpQuebradeLinha,
                                                     sLineBreak, [rfReplaceAll]);
 
       NFSe.OutrasInformacoes := NFSe.OutrasInformacoes + sLineBreak + xInfComp;
     end;
+  end;
+end;
+
+procedure TNFSeR_PadraoNacional.LerXMLInformacoesComplementaresgItemPed(const ANode: TACBrXMLNode);
+var
+  AuxNodeArray: TACBrXMLNodeArray;
+  i: Integer;
+begin
+  if not Assigned(ANode) then
+    exit;
+
+  AuxNodeArray := ANode.Childrens.FindAllAnyNs('xItemPed');
+  for i := 0 to Length(AuxNodeArray)-1 do
+  begin
+    NFSe.Servico.infoCompl.gItemPed.New.xItemPed := ObterConteudoTag(AuxNodeArray[i], tcStr);
   end;
 end;
 
@@ -1532,6 +1551,7 @@ begin
   LerINIEvento(AINIRec);
   LerINIRodoviaria(AINIRec);
   LerINIInformacoesComplementares(AINIRec);
+  LerINIInformacoesComplementaresgItemPed(AINIRec);
   LerINIValores(AINIRec);
   LerINIDocumentosDeducoes(AINIRec);
   LerINIValoresTribMun(AINIRec);
@@ -1960,6 +1980,22 @@ begin
     NFSe.Servico.infoCompl.idDocTec := AINIRec.ReadString(sSecao, 'idDocTec', '');
     NFSe.Servico.infoCompl.docRef := AINIRec.ReadString(sSecao, 'docRef', '');
     NFSe.Servico.infoCompl.xInfComp := AINIRec.ReadString(sSecao, 'xInfComp', '');
+  end;
+end;
+
+procedure TNFSeR_PadraoNacional.LerINIInformacoesComplementaresgItemPed(AINIRec: TMemINIFile);
+var
+  sSecao: string;
+  i: Integer;
+begin
+  i := 1;
+  while True do
+  begin
+    sSecao := 'gItemPed' + IntToStrZero(i, 2);
+    if not AINIRec.SectionExists(sSecao) then
+      break;
+    NFSe.Servico.infoCompl.gItemPed.New.xItemPed := AINIRec.ReadString(sSecao, 'xItemPed', '');
+    Inc(i);
   end;
 end;
 
