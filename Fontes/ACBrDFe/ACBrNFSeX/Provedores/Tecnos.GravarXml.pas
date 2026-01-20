@@ -144,6 +144,8 @@ end;
 
 function TNFSeW_Tecnos201.GerarConstrucaoCivil: TACBrXmlNode;
 begin
+  Result := nil;
+
   if (Trim(NFSe.ConstrucaoCivil.LocalConstrucao) <> EmptyStr) or
      (Trim(NFSe.ConstrucaoCivil.CodigoObra) <> EmptyStr) or
      (Trim(NFSe.ConstrucaoCivil.Art) <> EmptyStr) then
@@ -162,7 +164,7 @@ begin
     Result.AppendChild(AddNode(tcInt, '#53', 'ReformaCivil', 1, 15, 1,
                                             FpAOwner.SimNaoToStr(NFSe.ConstrucaoCivil.ReformaCivil), DSC_ART));
 
-    Result.AppendChild(AddNode(tcInt, '#55', 'Cib', 1, 50, 1,
+    Result.AppendChild(AddNode(tcInt, '#55', 'Cib', 1, 50, 0,
                                             NFSe.ConstrucaoCivil.Cib, DSC_CIB));
 
     Result.AppendChild(AddNode(tcStr, '#56', 'EstadoObra', 1, 2, 1,
@@ -171,7 +173,7 @@ begin
     Result.AppendChild(AddNode(tcStr, '#56', 'CidadeObra', 1, 2, 1,
                                             NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio, DSC_CODMUNOBRA));
 
-    Result.AppendChild(AddNode(tcStr, '#56', 'EnderecoObra', 1, 2, 1,
+    Result.AppendChild(AddNode(tcStr, '#56', 'EnderecoObra', 1, 2, 0,
                                             NFSe.ConstrucaoCivil.Endereco.Endereco, DSC_EOBRA));
 
     Result.AppendChild(AddNode(tcInt, '#56', 'NumeroObra', 1, 2, 1,

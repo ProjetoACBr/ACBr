@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 20/01/2026
+-- Tecnos.GravarXml --
+[*] ACBR-882 - Alterado de obrigatório para opcional a geração das tags CIB e EnderecoObra.
+   Por: Desenv. AT Info Sistemas
 -- Tinus.GravarXml/Tinus.Provider --
 [*] ACBR-8783 - Reescrito a fuction: GerarInfDeclaracaoPrestacaoServico para atender o novo 
    layout do provedor.
