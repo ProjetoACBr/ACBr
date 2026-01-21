@@ -2121,7 +2121,11 @@ begin
         Servico.CodigoMunicipioLocalPrestacao := StrToIntDef(edtCodCidade.Text, 0);
         Servico.INDOP := '123456';
         Servico.CClassTrib := '000001';
-      //italo
+
+        Servico.Valores.totTrib.pTotTribFed := 0.9;
+        Servico.Valores.totTrib.pTotTribEst := 0.1;
+        Servico.Valores.totTrib.pTotTribMun := 0;
+
         IBSCBS.finNFSe := fnfsRegular;
         IBSCBS.indFinal := ifSim;
         IBSCBS.cIndOp := '123456';
