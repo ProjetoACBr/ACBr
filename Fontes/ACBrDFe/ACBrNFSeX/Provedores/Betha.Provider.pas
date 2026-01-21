@@ -1294,7 +1294,7 @@ begin
   ACodMun := IntToStr(TACBrNFSeX(FAOwner).Configuracoes.Geral.CodigoMunicipio);
   ATpAmbiente := '1';
 
-  if ConfigGeral.Ambiente = taHomologacao then
+  if TACBrNFSeX(FAOwner).Configuracoes.WebServices.Ambiente = taHomologacao then
    ATpAmbiente := '2';
 
   case Response.tpEvento of

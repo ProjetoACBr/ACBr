@@ -41,6 +41,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+21/01/2025
+-- Betha.Provider.pas --
+[*] ACBR-8829 - Ajustes no ambiente da consulta q estava ficando como homologacao
+	https://www.projetoacbr.com.br/forum/topic/89591-provedor-fly-betha-revis%C3%A3o-44281/
+    por: Alex Heinen
 
 20/01/2025
 -- SigISS.GravarXml/SigISS.LerXml --
