@@ -1,7 +1,6 @@
 import 'package:demoacbrbal/ui/_core/app_colors.dart';
 import 'package:demoacbrbal/utils/acbrlib_bal_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../plugin/acbrbal_plugin.dart';
 
@@ -26,6 +25,20 @@ class _BalScreenState extends State<BalScreen> {
     _acbrbalplugin = ACBrLibBalHelper().acbrbalplugin;
   }
 
+
+  @override
+  void dispose() {
+    _desativarBalanca();
+    super.dispose();
+  }
+
+  Future<void> _desativarBalanca() async {
+    await _acbrbalplugin.desativar();
+  }
+  Future<void> _ativarBalanca() async {
+    await _acbrbalplugin.ativar();
+  }
+
   /// Função para setar peso recebido
   void setResultPeso(double peso) {
     setState(() {
@@ -34,12 +47,8 @@ class _BalScreenState extends State<BalScreen> {
   }
 
   /// Função para ativar e desativar o componente
-  void toggleAtivado() {
-    if (_ativado) {
-      _acbrbalplugin.desativar();
-    } else {
-      _acbrbalplugin.ativar();
-    }
+  void toggleAtivado()  async {
+   _ativado ? await _desativarBalanca() : await _ativarBalanca();
     setState(() {
       _ativado = !_ativado;
     });
@@ -51,18 +60,14 @@ class _BalScreenState extends State<BalScreen> {
       double peso = await _acbrbalplugin.lePeso(2000);
       return peso;
     } catch (e) {
-      debugPrint('Erro ao chamar o comando lePeso: $e');
-      return -1.0;
+      await _showMessage("Erro ao chamar o comando lePeso $e");
+      return -9.0;
     }
   }
 
   void onClickButtonGetPeso() async {
     if (!_ativado) {
-      Fluttertoast.showToast(
-        msg: "Balança não ativada",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-      );
+      await _showMessage("Balança não ativada");
       return;
     }
     setResultPeso(await getPeso());
@@ -71,6 +76,14 @@ class _BalScreenState extends State<BalScreen> {
   /// Função para resetar o peso
   void onClickButtonResetPeso() {
     setResultPeso(0.00);
+  }
+
+  Future<void> _showMessage(String message) async {
+    if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
+        );
+    }
   }
 
   @override

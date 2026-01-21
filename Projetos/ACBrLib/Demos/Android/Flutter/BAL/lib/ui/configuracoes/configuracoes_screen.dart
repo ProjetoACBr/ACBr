@@ -52,6 +52,7 @@ class _ConfiguracoesScreenState extends State<ConfiguracoesScreen> {
     String currentModeloBalanca = "0";
     String currentPorta = "";
     try {
+      _acbrbalPlugin.desativar();
       currentParity =
           await _acbrbalPlugin.configLerValor("BAL_Device", "Parity");
       currentHandshake =
