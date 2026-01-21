@@ -41,9 +41,13 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
 21/01/2025
+-- Ginfes.GravarXml --
+[*] Ajustes visando a Reforma Tributária.
+   Por: Italo Giurizzato Junior
 -- Betha.Provider.pas --
-[*] ACBR-8829 - Ajustes no ambiente da consulta q estava ficando como homologacao
+[*] ACBR-8829 - Ajustes no ambiente da consulta q estava ficando como homologação
 	https://www.projetoacbr.com.br/forum/topic/89591-provedor-fly-betha-revis%C3%A3o-44281/
     por: Alex Heinen
 

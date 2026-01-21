@@ -158,7 +158,7 @@ function TNFSeW_Ginfes.GerarTrib(trib: Ttrib): TACBrXmlNode;
 begin
   Result := CreateElement('trib');
 
-  Result.AppendChild(GerarXMLTributacaoFederal);
+//  Result.AppendChild(GerarXMLTributacaoFederal);
   Result.AppendChild(GerarXMLTotalTributos);
 end;
 
@@ -242,7 +242,9 @@ begin
   Result := inherited GerarValores;
 
   // Reforma Tributária
-  if NFSe.Servico.Valores.tribFed.CST <> cstVazio then
+  if (NFSe.Servico.Valores.totTrib.pTotTribFed > 0) or
+     (NFSe.Servico.Valores.totTrib.pTotTribEst > 0) or
+     (NFSe.Servico.Valores.totTrib.pTotTribMun > 0) then
     Result.AppendChild(GerarTrib(NFSe.IBSCBS.valores.trib));
 
   if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
