@@ -55,9 +55,14 @@ type
                  ce233, ce234, ce235, ce236, ce237, ce238, ce239, ce240, ce241,
                  ce242, ce243, ce244, ce245, ce246, ce247, ce248, ce249, ce250,
                  ce251, ce252, ce253, ce254, ce255, ce256, ce257, ce258, ce259,
-                 ce260, ce261, ce300, ce301, ce302, ce303, ce304, ce305, ce400,
-                 ce401, ce402, ce403, ce000, ce500, ce600, ce700, ce900, ce901,
-                 ce999);
+                 ce260, ce261, ce262, ce263, ce264, ce265, ce266, ce300, ce301,
+                 ce302, ce303, ce304, ce305, ce400, ce401, ce402, ce403, ce000,
+                 ce500, ce600, ce700, ce800, ce801, ce802, ce803, ce804, ce805,
+                 ce806, ce807, ce808, ce809, ce810, ce811, ce812, ce813, ce814,
+                 ce815, ce816, ce817, ce818, ce819, ce820, ce821, ce822, ce823,
+                 ce824, ce825, ce826, ce827, ce828, ce829, ce830, ce831, ce832,
+                 ce833, ce834, ce835, ce836, ce837, ce838, ce839, ce840, ce841,
+                 ce842, ce843, ce844, ce845, ce846, ce900, ce901, ce999);
 
   { TACBrNFSeXWebserviceISSBarueri }
 
@@ -142,8 +147,14 @@ begin
                  '233', '234', '235', '236', '237', '238', '239', '240', '241',
                  '242', '243', '244', '245', '246', '247', '248', '249', '250',
                  '251', '252', '253', '254', '255', '256', '257', '258', '259',
-                 '260', '261', '300', '301', '302', '303', '304', '305', '400',
-                 '401', '402', '403', '000', '500', '600', '700', '900', '901'],
+                 '260', '261', '262', '263', '264', '265', '266', '300', '301',
+                 '302', '303', '304', '305', '400', '401', '402', '403', '000',
+                 '500', '600', '700', '800', '801', '802', '803', '804', '805',
+                 '806', '807', '808', '809', '810', '811', '812', '813', '814',
+                 '815', '816', '817', '818', '819', '820', '821', '822', '823',
+                 '824', '825', '826', '827', '828', '829', '830', '831', '832',
+                 '833', '834', '835', '836', '837', '838', '839', '840', '841',
+                 '842', '843', '844', '845', '846', '900', '901'],
                 [ce999,
                  ce100, ce101, ce102, ce200, ce201, ce202, ce203, ce204, ce205,
                  ce206, ce207, ce208, ce209, ce210, ce211, ce212, ce213, ce214,
@@ -152,8 +163,14 @@ begin
                  ce233, ce234, ce235, ce236, ce237, ce238, ce239, ce240, ce241,
                  ce242, ce243, ce244, ce245, ce246, ce247, ce248, ce249, ce250,
                  ce251, ce252, ce253, ce254, ce255, ce256, ce257, ce258, ce259,
-                 ce260, ce261, ce300, ce301, ce302, ce303, ce304, ce305, ce400,
-                 ce401, ce402, ce403, ce000, ce500, ce600, ce700, ce900, ce901]);
+                 ce260, ce261, ce262, ce263, ce264, ce265, ce266, ce300, ce301,
+                 ce302, ce303, ce304, ce305, ce400, ce401, ce402, ce403, ce000,
+                 ce500, ce600, ce700, ce800, ce801, ce802, ce803, ce804, ce805,
+                 ce806, ce807, ce808, ce809, ce810, ce811, ce812, ce813, ce814,
+                 ce815, ce816, ce817, ce818, ce819, ce820, ce821, ce822, ce823,
+                 ce824, ce825, ce826, ce827, ce828, ce829, ce830, ce831, ce832,
+                 ce833, ce834, ce835, ce836, ce837, ce838, ce839, ce840, ce841,
+                 ce842, ce843, ce844, ce845, ce846, ce900, ce901]);
 end;
 
 function TACBrNFSeProviderISSBarueri.GetCausa(
@@ -225,6 +242,11 @@ begin
     ce259: Result := 'Data de Emissão do RPS refere-se a competência já encerrada';
     ce260: Result := 'Código de Atividade não permitido';
     ce261: Result := 'Código de Atividade Bloqueado';
+    ce262: Result := 'Situação do RPS "R" para correção de informação junto ao ADN, não permitida';
+    ce263: Result := 'Campo Endereco do Tomador é obrigatório';
+    ce264: Result := 'Campo Número do Logradouro do Tomador é obrigatório';
+    ce265: Result := 'Campo Bairro do Tomador é obrigatório';
+    ce266: Result := 'Campo Cidade do Tomador é obrigatório';
     ce300: Result := 'Tipo de Registro Inválido';
     ce301: Result := 'Código de Outros Valores Inválido';
     ce302: Result := 'Caso seja retenção: Valor da Retenção não poderá ser menor/igual a zero Caso seja "VN" Valor deve ser diferente de zero';
@@ -240,6 +262,53 @@ begin
     ce500: Result := 'Lay-Out do arquivo fora dos padrões';
     ce600: Result := 'Lay-Out do arquivo fora dos padrões';
     ce700: Result := 'Quantidade de RPS superior ao padrão';
+    ce800: Result := 'Tipo de Registro Inválido';
+    ce801: Result := 'Campo Optante Simples Nacional não informado e/ou fora dos padrões estabelecidos no layout';
+    ce802: Result := 'Campo Regime de Apuração Tributária pelo Simples Nacional do Prestador de Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce803: Result := 'Campo Código do País do local do Serviço Prestado não informado e/ou fora dos padrões estabelecidos no layout';
+    ce804: Result := 'Campo Código da Cidade do Local da Prestação do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce805: Result := 'Campo Código Cidade do Tomador não informado e/ou fora dos padrões estabelecidos no layout';
+    ce806: Result := 'Campo NIF não informado e/ou fora dos padrões estabelecidos no layout';
+    ce807: Result := 'Campo Código NBS não informado e/ou fora dos padrões estabelecidos no layout';
+    ce808: Result := 'Campo Código de Endereço Postal - Tomador Estrangeiro não informado e/ou fora dos padrões estabelecidos no layout';
+    ce809: Result := 'Campo Estado/Província/Região - Tomador Estrangeiro não informado e/ou fora dos padrões estabelecidos no layout';
+    ce810: Result := 'Campo Vinculo entre as partes do negócio não informado e/ou fora dos padrões estabelecidos no layout';
+    ce811: Result := 'Campo Código de Endereço Postal - Serviço prestado no Exterior não informado e/ou fora dos padrões estabelecidos no layout';
+    ce812: Result := 'Campo Estado/Província/Região - Serviço prestado no Exterior não informado e/ou fora dos padrões estabelecidos no layout';
+    ce813: Result := 'Campo Nome do Evento não informado e/ou fora dos padrões estabelecidos no layout';
+    ce814: Result := 'Campo Data de início da atividade de evento não informado e/ou fora dos padrões estabelecidos no layout';
+    ce815: Result := 'Campo Data de fim da atividade de evento não informado e/ou fora dos padrões estabelecidos no layout';
+    ce816: Result := 'Campo Código de justificativa de cancelamento substituição: não informado e/ou fora dos padrões estabelecidos no layout';
+    ce817: Result := 'Campo Código Indicador da operação de fornecimento não informado e/ou fora dos padrões estabelecidos no layout';
+    ce818: Result := 'Campo Código de Classificação Tributária do IBS e da CBS não informado e/ou fora dos padrões estabelecidos no layout';
+    ce819: Result := 'Campo Código de Situação Tributária IBS CBS não informado e/ou fora dos padrões estabelecidos no layout';
+    ce820: Result := 'Campo Operação de uso ou consumo pessoal não informado e/ou fora dos padrões estabelecidos no layout';
+    ce821: Result := 'Campo Indicador do Destinatário do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce822: Result := 'Tipo de Registro Inválido';
+    ce823: Result := 'Campo Código e classificação do crédito presumido IBS e CBS não informado e/ou fora dos padrões estabelecidos no layout';
+    ce824: Result := 'Campo Tipo de Ente Governamental para o caso de aquisição de serviços pela administração pública não informado e/ou fora dos padrões estabelecidos no layout';
+    ce825: Result := 'Campo Tipo de Operação com entes Governamentais ou sobre bens imóveis não informado e/ou fora dos padrões estabelecidos no layout';
+    ce826: Result := 'Campo Chave da NFS-e referenciada não informado e/ou fora dos padrões estabelecidos no layout';
+    ce827: Result := 'Campo Código da Nomenclatura Comum do Mercosul - NCM do bem móvel objeto de locação não informado e/ou fora dos padrões estabelecidos no layout';
+    ce828: Result := 'Campo Descrição do bem móvel objeto de locação não informado e/ou fora dos padrões estabelecidos no layout';
+    ce829: Result := 'Campo Quantidade para bem móvel objeto de locação não informado e/ou fora dos padrões estabelecidos no layout';
+    ce830: Result := 'Campo Indicador de operação de doação não informado e/ou fora dos padrões estabelecidos no layout';
+    ce831: Result := 'Campo Destinatário do serviço é estrangeiro? não informado e/ou fora dos padrões estabelecidos no layout';
+    ce832: Result := 'Campo CPF/ CNPJ do Destinatário do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce833: Result := 'Campo Razão Social / Nome do Destinatário do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce834: Result := 'Campo Endereço Logradouro do Destinatário do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce835: Result := 'Campo Numero Logradouro do Destinatário do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce836: Result := 'Campo Complemento Logradouro do Destinatário do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce837: Result := 'Campo Bairro Logradouro do Destinatário do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce838: Result := 'Campo Cidade Logradouro do Destinatário do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce839: Result := 'Campo Código da Cidade do Destinatário do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce840: Result := 'Campo UF Logradouro do Destinatário do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce841: Result := 'Campo Código do País do Destinatário do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce842: Result := 'Campo CEP Logradouro do Destinatário do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce843: Result := 'Campo e-mail do Destinatário do Serviço não informado e/ou fora dos padrões estabelecidos no layout';
+    ce844: Result := 'Campo NIF do Destinatário não informado e/ou fora dos padrões estabelecidos no layout';
+    ce845: Result := 'Campo Código de Endereço Postal - Destinatário Estrangeiro não informado e/ou fora dos padrões estabelecidos no layout';
+    ce846: Result := 'Campo Estado/Província/Região - Destinatário Estrangeiro não informado e/ou fora dos padrões estabelecidos no layout';
     ce900: Result := 'Tamanho do Registro diferente da especificação do layout';
     ce901: Result := 'Arquivo com ausência de um dos Registros: 1, 2 ou 9';
   else
@@ -280,7 +349,7 @@ begin
     ce223: Result := 'Informar UF Tomador';
     ce224: Result := 'Informar UF Tomador Válida';
     ce225: Result := 'Informar CEP';
-    ce226: Result := 'Informar um Valor Válido.';
+    ce226: Result := 'Informar um Valor Válido';
     ce227: Result := 'Informar um Valor Válido';
     ce228: Result := 'Reservado';
     ce229: Result := 'Reservado';
@@ -317,6 +386,11 @@ begin
     ce259: Result := 'Para prosseguir é necessário retificar o movimento através do menu "Retificar Serviços Prestados"';
     ce260: Result := 'Informar um Código de Atividade vinculado ao Perfil do Contribuinte ou um Código de Atividade tributada.';
     ce261: Result := 'Informar um Código de Atividade vinculado ao Perfil do Contribuinte (Atingido o limite permitido de notas para atividade não vinculadas ao cadastro do contribuinte).';
+    ce262: Result := 'Não há apontamento de rejeito pelo ADN para o RPS informado, logo não é possível reenvio de informação';
+    ce263: Result := 'Informar Endereço';
+    ce264: Result := 'Informar Número';
+    ce265: Result := 'Informar Bairro';
+    ce266: Result := 'Informar Cidade';
     ce300: Result := 'Informar Tipo Especificado: 3';
     ce301: Result := 'Informar o Código Especificado: 01 - para IRRF 02 - para PIS/PASEP 03 - para COFINS 04 - ' +
                      'para CSLL VN - para Valor não Incluso na Base de Cálculo (exceto tributos federais). Esse campo somado ao valor total dos serviços resulta no Valor total da nota.';
@@ -332,6 +406,53 @@ begin
     ce500: Result := 'Os registros válidos esperados no arquivo são tipo: 1,2,3 e 9';
     ce600: Result := 'Deve haver apenas 1 registro tipo 9 e esse deve ser o último registro do arquivo';
     ce700: Result := 'Enviar um arquivo com no máximo 1000 RPS';
+	ce800: Result := 'Informar Tipo Especificado: 4';
+    ce801: Result := 'Informar Situação do Prestador de Serviço / contribuinte perante o Simples Nacional: 1 - Não Optante; 2 - Optante - Microempreendedor Individual (MEI); 3 - Optante - Microempresa ou Empresa de Pequeno Porte (ME/EPP);';
+    ce802: Result := '*Informar somente quando o campo "Enquadramento do Prestador do Serviço no Simples Nacional" estiver preenchido com a opção "3": 1 – Regime de apuração dos tributos federais e municipal pelo Simples Nacional; 2 – Regime de apura'+'ção dos tributos federais pelo Simples Nacional e o ISSQN pela NFS-e conforme respectiva legislação municipal do tributo; 3 – Regime de apuração dos tributos federais e '+'municipal pela NFS-e conforme respectivas legislação federal e municipal de cada tributo;';
+    ce803: Result := 'Informar código do país do local do Serviço Prestado, conforme tabela de países, informado somente quando o campo "Serviço prestado é exportação" no registro tipo "2". *Exceto para serviços prestados no Brasil.';
+    ce804: Result := 'Informar o código do município do endereço do prestador do serviço conforme tabela do IBGE, somente para serviços prestados no Brasil. Tabela disponível em: https://www.ibge.gov.br/explica/codigos-dos-municipios.php';
+    ce805: Result := 'Informar o código do município do Tomador conforme tabela do IBGE, somente para Tomador nacional. Tabela disponível em: https://www.ibge.gov.br/explica/codigos-dos-municipios.php';
+    ce806: Result := 'Obrigatório somente quando tomador de serviço estrangeiro, identificado no Registro tipo "2". Número de identificação fiscal fornecido por órgão de administração tributária no exterior.';
+    ce807: Result := 'Informar o Código NBS correspondente ao respectivo código de serviço prestado. Essa correspondência deve considerar os quatro primeiros dígitos do código de serviço (Item da LC 116/03 x NBS), conforme a Tabela do Anexo VIII - Co'+'rrelaçãoItemNBSIndOp. Tabela disponível em: https://www.gov.br/nfse/pt-br/biblioteca/documentacao-tecnica';
+    ce808: Result := 'Obrigatório somente quando tomador de serviço estrangeiro, identificado no Registro tipo "2". Informar o código alfanumérico do Endereçamento Postal no exterior do tomador do serviço.';
+    ce809: Result := 'Obrigatório somente quando tomador de serviço estrangeiro, identificado no Registro tipo "2". Informar o Estado/província/região no exterior do tomador do serviço.';
+    ce810: Result := 'Obrigatório somente quando tomador de serviço estrangeiro, identificado no Registro tipo "2" ou quando o local de prestação do serviço é no exterior (campo "serviço prestado é exportação" no registro tipo "2"). 0 - Sem vínculo co'+'m o Tomador / Prestador; 1 - Controlada; 2 - Controladora; 3 - Coligada; 4 - Matriz; 5 - Filial ou sucursal; 6 - Outro vínculo;';
+    ce811: Result := 'Obrigatório somente quando o local de prestação do serviço é no exterior (campo "serviço prestado é exportação" no registro tipo "2"). Informar o Código de Endereçamento Postal alfanumérico do endereço quando o serviço é prestado no exterior.';
+    ce812: Result := 'Obrigatório somente quando o local de prestação do serviço é no exterior (campo "serviço prestado é exportação" no registro tipo "2"). Informar Estado/província/região no exterior do local de prestação do serviço.';
+    ce813: Result := 'Obrigatório somente para atividades com código de serviço iniciados em 12 (Serviços relativos à atividades de eventos, diversões, lazer, entretenimento e congêneres). Informar Nome do evento Artístico, Cultural, Esportivo, entre outros.';
+    ce814: Result := 'Obrigatório somente para atividades com código de serviço iniciados em 12 (Serviços relativos à atividades de eventos, diversões, lazer, entretenimento e congeneres). Informar Data válida de início da atividade de evento. Ano, Mês e Dia (AAAAMMDD).';
+    ce815: Result := 'Obrigatório somente para atividades com código de serviço iniciados em 12 (Serviços relativos à atividades de eventos, diversões, lazer, entretenimento e congeneres). Informar Data válida de fim da atividade de evento. Ano, Mês e Dia (AAAAMMDD).';
+    ce816: Result := 'Obrigatório somente para os casos de RPS com Código de Motivo de Cancelamento "03 - Substituição" no registro Tipo "2". Informar Código de justificativa de cancelamento substituição: 1 - Desenquadramento de NFS-e do Simples Nacion'+'al; 2 - Enquadramento de NFS-e no Simples Nacional; 3 - Inclusão Retroativa de Imunidade/Isenção para NFS-e; 4 - Exclusão Retroativa de Imunidade/Isenção para NFS-e; 5'+' - Rejeição de NFS-e pelo tomador ou pelo intermediário se responsável pelo recolhimento do tributo; 9 - Outros;';
+    ce817: Result := '*Informar o código Indicador de Operação, que deve corresponder: • Aos 4 primeiros dígitos do código do serviço prestado, conforme relação do Anexo VIII (Item LC116 x indOp); • Ao código NBS informado, de acordo com o Anexo VIII -'+' (NBS x indOp); Tabela disponível em: https://www.gov.br/nfse/pt-br/biblioteca/documentacao-tecnica/rtc';
+    ce818: Result := '*Informar o código de classificação tributária informado, que deve corresponder: • Aos 4 primeiros dígitos do código do serviço prestado, conforme relação do Anexo VIII (Item LC116 x cClassTrib); • Ao código NBS informado, de acord'+'o com o Anexo VIII - (NBS x cClassTrib); • Ao Código Indicador de Operação conforme relação do Anexo VIII (indOp x cClassTrib); O Anexo VIII - correlação LC116 X cClas'+'sTrib está disponível em: https://www.gov.br/nfse/pt-br/biblioteca/documentacao-tecnica A relação de códigos de classificação tributária está disponível em: https://dfe-portal.svrs.rs.gov.br/Nfse/Documentos';
+    ce819: Result := 'Informar Código de Situação Tributária do IBS e da CBS. Tabela disponível em: https://dfe-portal.svrs.rs.gov.br/DFE/TabelaClassificacaoTributaria *O preenchimento do Código de Situação Tributária deve corresponder exatamente aos 3 p'+'rimeiros dígitos do código informado no campo "Código de Classificação Tributária do IBS e da CBS".';
+    ce820: Result := 'Indicar se a operação da nota fiscal de serviços é de uso ou consumo pessoal. (O Art. 57 LC 214/2025 estabelece situação onde um bem ou serviço adquirido é de caráter pessoal.) Opções: 0=Não | 1=Sim';
+    ce821: Result := 'Informar uma das opções abaixo: 0 – Destinatário é o próprio tomador/adquirente identificado na NFS-e (tomador=adquirente=destinatário); 1 – Destinatário não é o próprio adquirente, podendo ser outra pessoa, física ou jurídica (ou eq'+'uiparada), ou um estabelecimento diferente do indicado como tomador (tomador=adquirente diferente destinatário);';
+    ce822: Result := 'Informar Tipo Especificado: 5';
+    ce823: Result := '*Obrigatório somente quando: Código da classificação tributária informado no Registro 4 exigir a informação do código do crédito presumido. O código de crédito presumido deve corresponder à classificação tributária, conforme tabela di'+'sponível abaixo, é necessário aplicar o filtro de visão aberta por cClassTrib, tabela com correlação disponível em: https://dfe-portal.svrs.rs.gov.br/DFE/Classificac'+'aoTributaria. Tabela com Códigos Crédito Presumido IBS/CBS, disponível em: https://dfe-portal.svrs.rs.gov.br/DFE/TabelaCreditoPresumido';
+    ce824: Result := 'Obrigatório somente para compras governamentais. Este campo deve ser preenchido quando o adquirente/tomador do serviço for um dos órgãos públicos listados abaixo. Tipo de Ente Governamental: 1 = União, 2 = Estado, 3 = Distrito Federal, 4 = Município';
+    ce825: Result := 'Obrigatório somente quando: Atividade com código de serviço iniciado em "25.05" OU Atividade com código de serviço iniciado em "15.09" OU Atividade com código de serviço iniciado em "17.12" OU Atividade com código de serviço iniciado e'+'m "10.05" OU Campo "tipo de ente governamental é preenchido". Opções: 1 – Fornecimento com pagamento posterior; 2 – Recebimento do pagamento com fornecimento já real'+'izado; 3 – Fornecimento com pagamento já realizado; 4 – Recebimento do pagamento com fornecimento posterior; 5 – Fornecimento e recebimento do pagamento concomitantes.';
+    ce826: Result := 'Obrigatório somente quando: Campo "Tipo de Operação com entes Governamentais ou sobre bens imóveis" é preenchido com 2; OU Campo "Tipo de Operação com entes Governamentais ou sobre bens imóveis" é preenchido com 3.';
+    ce827: Result := '*Obrigatório somente quando: O código de serviço prestado é iniciado em "990401". Preencher com código NCM da tabela disponível em: https://www.gov.br/receitafederal/pt-br/assuntos/aduana-e-comercio-exterior/classificacao-fiscal-de-mer'+'cadorias/download-ncm-nomenclatura-comum-do-mercosul';
+    ce828: Result := '*Obrigatório somente quando: O código de serviço prestado é iniciado em "990401"';
+    ce829: Result := '*Obrigatório somente quando: O código de serviço prestado é iniciado em "990401"';
+    ce830: Result := '*Obrigatório somente quando: O campo "Código de Classificação Tributária do IBS e da CBS" do registro 4 é preenchido com "410003"; OU o campo "Código de Classificação Tributária do IBS e da CBS" do registro 4 é preenchido com "410026". Op'+'ções: 1 - Doação com contraprestação; 2 - Doação sem contraprestação';
+    ce831: Result := '*Obrigatório somente quando: O campo "Indicador do Destinatário do Serviço" do Registro 4 é preenchido com "1". Opções: 1 - Sim; 2 - Não';
+    ce832: Result := '*Obrigatório somente quando: O campo "Indicador do Destinatário do Serviço" do Registro 4 é preenchido com "1" E o campo "Destinatário do serviço é estrangeiro?" é preenchido com "2"- Não.';
+    ce833: Result := '*Obrigatório para as seguintes situações: Se o campo "Indicador do Destinatário do Serviço" do Registro 4 é preenchido com "1".';
+    ce834: Result := '*Obrigatório somente quando: O campo "Indicador do Destinatário do Serviço" do Registro 4 é preenchido com "1".';
+    ce835: Result := '*Obrigatório somente quando: O campo "Indicador do Destinatário do Serviço" do Registro 4 é preenchido com "1".';
+    ce836: Result := '*Quando existir a informação, obrigatório quando: O campo "Indicador do Destinatário do Serviço" do Registro 4 é preenchido com "1".';
+    ce837: Result := '*Obrigatório somente quando: O campo "Indicador do Destinatário do Serviço" do Registro 4 é preenchido com "1".';
+    ce838: Result := '*Obrigatório para as seguintes situações: Se o campo "Indicador do Destinatário do Serviço" do Registro 4 é preenchido com "1".';
+    ce839: Result := '*Obrigatório somente quando: O campo "Indicador do Destinatário do Serviço" do Registro 4 é preenchido com "1" E o campo "Destinatário do serviço é estrangeiro?" do Registro 5 é preenchido com "2" (Não). Preencher com o'+' código do município conforme tabela do IBGE, disponível em: https://www.ibge.gov.br/explica/codigos-dos-municipios.php';
+    ce840: Result := 'Obrigatório somente quando: O campo "Indicador do Destinatário do Serviço" é preenchido com "1"; E O campo "Destinatário do Serviço é estrangeiro?" é preenchido com "2 - Não";';
+    ce841: Result := '*Informar somente quando: O campo "Indicador do Destinatário do Serviço" é preenchido com "1"; E O campo "Destinatário do Serviço é estrangeiro?" é preenchido com "1 - Sim".';
+    ce842: Result := '*Informar somente quando: O campo "Indicador do Destinatário do Serviço" é preenchido com "1"; E O campo "Destinatário do Serviço é estrangeiro?" é preenchido com "2 - Não"; Para CEP que não possui os 8 dígitos, completa'+'r com zeros a esquerda. Exemplos: 06401220, 00206540';
+    ce843: Result := 'Permitido no máximo 3 e-mails, usando o caracter "|" (pipe ou barra vertical) como delimitador de e-mail, sendo o primeiro considerado principal. * Poderá ser preenchido quando o campo Destinatário do Serviço do Registro 4 é preenchido com "1";';
+    ce844: Result := '*Informar somente quando: Se o campo "Indicador do Destinatário do Serviço" é preenchido com "1"; E Se o campo "Destinatário do Serviço é estrangeiro?" é preenchido com "1 - Sim";';
+    ce845: Result := '*Informar somente quando: O campo "Indicador do Destinatário do Serviço" é preenchido com "1"; E O campo "Destinatário do Serviço é estrangeiro?" é preenchido com "1 - Sim";';
+    ce846: Result := '*Informar somente quando: O campo "Indicador do Destinatário do Serviço" é preenchido com "1"; E O campo "Destinatário do Serviço é estrangeiro?" é preenchido com "1 - Sim";';
     ce900: Result := 'Reveja as posições/tamanho para cada registro, certifique-se que o tamanho dos registros conferem com o layout e contém o caracter de fim de linha conforme especificado no layout';
     ce901: Result := 'Reveja os registros do arquivo, certifique-se que todos registros mencionados estão presentes em seu arquivo. ' +
                      'Também certifique-se que todos os registros do arquivo contém o caracter de fim de linha conforme especificado no layout';
@@ -347,6 +468,8 @@ begin
     (ALinha[1] = '1') or
     (ALinha[1] = '2') or
     (ALinha[1] = '3') or
+    (ALinha[1] = '4') or
+    (ALinha[1] = '5') or
     (ALinha[1] = '9'));
 end;
 
@@ -888,8 +1011,18 @@ begin
 
       Response.Sucesso := (Response.Erros.Count = 0);
 
-      NumRps := Trim(Copy(Dados[0], Pos('PMB002', Dados[0]), Length(Dados[0])));
-      NumRps := StringReplace(NumRps, 'PMB002', '', [rfReplaceAll]);
+      if ConfigGeral.Params.TemParametro('PMB004') then
+      begin
+        if Response.Sucesso then
+          NumRps := Trim(Copy(Dados[1], 55, 10))
+        else
+          NumRps := Trim(Copy(Dados[1], 16, 10));
+      end
+      else
+      begin
+        NumRps := Trim(Copy(Dados[0], Pos('PMB002', Dados[0]), Length(Dados[0])));
+        NumRps := StringReplace(NumRps, 'PMB002', '', [rfReplaceAll]);
+      end;
       Response.NumeroRps := NumRps;
 
       //Retorno do Txt de um RPS Processado com sucesso...
@@ -904,6 +1037,9 @@ begin
         Response.NumeroNota := Trim(Copy(Dados[1], 7, 6));
         Response.SerieRps := Trim(Copy(Dados[1], 51, 4));
         Response.SerieNota := Trim(Copy(Dados[1], 2, 5));
+        Response.idNota := Trim(Copy(Dados[1], 1629, 50));
+
+        TACBrNFSeX(FAOwner).WebService.ConsultaLoteRps.idNota:=Response.idNota;
 
         wDataString := Trim(Copy(Dados[1], 19, 2) + '/' + Copy(Dados[1], 17, 2) +
                        '/' + Copy(Dados[1], 13, 4));
@@ -940,6 +1076,8 @@ begin
             Dados.Clear;
             Dados.Text := XML;
           end;
+
+          TACBrNFSeX(FAOwner).WebService.ConsultaLoteRps.XmlRetorno:=XML;
         end;
 
         ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumRps);

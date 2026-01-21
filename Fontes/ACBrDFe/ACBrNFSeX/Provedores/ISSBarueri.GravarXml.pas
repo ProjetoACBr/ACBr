@@ -249,12 +249,12 @@ begin
 
   Linha := Linha + PadLeft(NFSe.Servico.CodigoNBS, 9, '0');
 
-  if NFSe.Tomador.Endereco.CEP <> '' then
+  if (NFSe.Servico.CodigoPais <> 1058) and (NFSe.Tomador.Endereco.CEP <> '') then
     Linha := Linha + PadLeft(NFSe.Tomador.Endereco.CEP, 11, ' ')
   else
     Linha := Linha + Space(11);
 
-  if NFSe.Tomador.Endereco.xMunicipio <> '' then
+  if (NFSe.Servico.CodigoPais <> 1058) and (NFSe.Tomador.Endereco.xMunicipio <> '') then
     Linha := Linha + PadLeft(NFSe.Tomador.Endereco.xMunicipio, 60, ' ')
   else
     Linha := Linha + Space(60);
@@ -291,7 +291,7 @@ begin
   else
     Linha := Linha + Space(8);
 
-  Linha := Linha + Space(1);  // Implementar o código de justificativa do cancelamento substituição
+  Linha := Linha + '0';  // Implementar o código de justificativa do cancelamento substituição
 
   Linha := Linha + PadLeft(NFSe.IBSCBS.cIndOp, 6, '0');
 
@@ -311,9 +311,9 @@ var
   Linha, xUF: string;
 begin
   Linha := '5' +
-           cCredPresToStr(NFSe.IBSCBS.valores.trib.gIBSCBS.cCredPres);
+           PadLeft(cCredPresToStr(NFSe.IBSCBS.valores.trib.gIBSCBS.cCredPres),2,' ');
 
-  Linha := Linha + tpEnteGovToStr(NFSe.IBSCBS.tpEnteGov);
+  Linha := Linha + PadLeft(tpEnteGovToStr(NFSe.IBSCBS.tpEnteGov),1,'0');
   Linha := Linha + tpOperGovNFSeToStr(NFSe.IBSCBS.tpOper);
   Linha := Linha + Space(50);
   Linha := Linha + Space(8);
