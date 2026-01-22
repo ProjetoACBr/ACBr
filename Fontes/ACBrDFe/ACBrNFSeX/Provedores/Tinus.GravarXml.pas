@@ -51,7 +51,6 @@ type
   protected
     procedure Configuracao; override;
 
-
   public
     function GerarXml: Boolean; Override;
 
@@ -64,6 +63,9 @@ type
     procedure Configuracao; override;
 
     function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
+  public
+    function GerarXml: Boolean; Override;
+
   end;
 
 implementation
@@ -104,6 +106,12 @@ procedure TNFSeW_Tinus203.Configuracao;
 begin
   inherited Configuracao;
 
+  NrOcorrDiscriminacao_1 := -1;
+  NrOcorrCodigoMunic_1 := -1;
+
+  NrOcorrDiscriminacao_2 := 1;
+  NrOcorrCodigoMunic_2 := 1;
+  NrOcorrCodigoNBS := 1;
 end;
 
 function TNFSeW_Tinus203.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
@@ -140,11 +148,11 @@ begin
   Result.AppendChild(AddNode(tcStr, '#7', 'OptanteSimplesNacional', 1, 1, 1,
                         FpAOwner.SimNaoToStr(NFSe.OptanteSimplesNacional), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#8', 'regApTribSN', 1, 1, 1,
-                             RegimeApuracaoSNToStr(NFSe.RegimeApuracaoSN), ''));
-
   Result.AppendChild(AddNode(tcStr, '#8', 'IncentivoFiscal', 1, 1, 1,
                           FpAOwner.SimNaoToStr(NFSe.IncentivadorCultural), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#8', 'regApTribSN', 1, 1, 1,
+                             RegimeApuracaoSNToStr(NFSe.RegimeApuracaoSN), ''));
 
   // Reforma Tributária
   if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
@@ -152,6 +160,56 @@ begin
      (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
      (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
     Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
+end;
+
+function TNFSeW_Tinus203.GerarXml: Boolean;
+var
+  NFSeNode, xmlNode: TACBrXmlNode;
+begin
+  // Em conformidade com a versão 2 do layout da ABRASF não deve ser alterado
+
+  ListaDeAlertas.Clear;
+
+  case VersaoNFSe of
+    ve203:
+      begin
+        GerarTagNifTomador := True;
+        NrOcorrCodigoMunicInterm := 1;
+      end;
+    ve204:
+      begin
+        GerarTagNifTomador := True;
+        GerarEnderecoExterior := True;
+        NrOcorrCodigoMunicInterm := 1;
+      end;
+  else
+    begin
+      GerarTagNifTomador := False;
+      GerarEnderecoExterior := False;
+      NrOcorrCodigoMunicInterm := -1;
+    end;
+  end;
+
+  FDocument.Clear();
+
+  NFSeNode := CreateElement('Rps');
+
+  if GerarNSRps then
+    NFSeNode.SetNamespace(FpAOwner.ConfigMsgDados.XmlRps.xmlns, Self.PrefixoPadrao);
+
+  FDocument.Root := NFSeNode;
+
+  if FormatoDiscriminacao <> fdNenhum then
+    ConsolidarVariosItensServicosEmUmSo;
+
+  xmlNode := GerarInfDeclaracaoPrestacaoServico;
+  NFSeNode.AppendChild(xmlNode);
+
+  // Reforma Tributária
+  if NFSe.infNFSe.IBSCBS.cLocalidadeIncid > 0 then
+    NFSeNode.AppendChild(GerarXMLIBSCBSNFSe);
+
+  Result := True;
 end;
 
 end.
