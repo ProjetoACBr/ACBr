@@ -79,7 +79,9 @@ Símbolo : Significado
     por: Wesley Santos
 -- PadraoNacional.LerXml --
 [*] Correção no preenchimento da DataEmissao da NFSe(dhEmi) quando lido xml de DPS  - https://www.projetoacbr.com.br/forum/topic/89562-erro-na-valdiacao-do-xml-da-nfse/
-   Por: Renato Rubinho
+-- PadraoNacional.Provider --
+[*] Ajuste na leitura do TipoEvento na Consulta de Evento do Padrão Nacional  - https://www.projetoacbr.com.br/forum/topic/89511-tratamento-xmlretorno-nfse-cancelada-padr%C3%A3o-nacional/
+   Por: Valdir Dill/Renato Rubinho
 
 21/01/2026
 -- Ginfes.GravarXml --

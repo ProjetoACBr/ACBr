@@ -906,7 +906,7 @@ var
   i: Integer;
   AErro: TNFSeEventoCollectionItem;
   AResumo: TNFSeResumoCollectionItem;
-  IDEvento, TipoEvento, ArquivoXml, nomeArq: string;
+  IDEvento, ArquivoXml, nomeArq: string;
   DocumentXml: TACBrXmlDocument;
   ANode: TACBrXmlNode;
   Ok: Boolean;
@@ -936,9 +936,9 @@ begin
 
         AResumo := Response.Resumos.New;
         AResumo.ChaveDFe := JSon.AsString['chaveAcesso'];
-        TipoEvento := 'e' + JSon.AsString['tipoEvento'];
+        AResumo.TipoEvento := 'e' + JSon.AsString['tipoEvento'];
         AResumo.TipoDoc := 'Evento de ' +
-                           tpEventoToDesc(StrTotpEvento(Ok, TipoEvento));
+                           tpEventoToDesc(StrTotpEvento(Ok, AResumo.TipoEvento));
 
         ArquivoXml := JSon.AsString['arquivoXml'];
 
