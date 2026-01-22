@@ -42,7 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
-21/01/2025
+22/01/2026
+-- ACBrNFSeXServicos --
+[*] A cidade Virgem da Lapa/MG mudou para a versão 2.04, o provedor continua o mesmo.
+    por: Wesley Santos
+
+21/01/2026
 -- Ginfes.GravarXml --
 [*] Ajustes visando a Reforma Tributária.
    Por: Italo Giurizzato Junior
@@ -51,7 +56,7 @@ Símbolo : Significado
 	https://www.projetoacbr.com.br/forum/topic/89591-provedor-fly-betha-revis%C3%A3o-44281/
     por: Alex Heinen
 
-20/01/2025
+20/01/2026
 -- SigISS.GravarXml/SigISS.LerXml --
 [*] A tag xnbs não pode ser gerada em branco, informar a descrição do NBS em:
     NFSe.infNFSe.xNBS
