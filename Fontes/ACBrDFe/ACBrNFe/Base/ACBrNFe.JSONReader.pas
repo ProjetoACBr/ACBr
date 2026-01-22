@@ -1513,6 +1513,7 @@ begin
     Exit;
 
   APag.Clear;
+  APag.vTroco := AJSONObject.AsFloat['vTroco'];
   lDetPagJSONArray := AJSONObject.AsJSONArray['detPag'];
   if Assigned(lDetPagJSONArray) then
   begin

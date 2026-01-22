@@ -154,6 +154,7 @@ type
     function GetItem(Index: Integer): TNFrefCollectionItem;
     procedure SetItem(Index: Integer; Value: TNFrefCollectionItem);
   public
+    procedure Assign(Source: TNFrefCollection); reintroduce;
     function Add: TNFrefCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TNFrefCollectionItem;
     property Items[Index: Integer]: TNFrefCollectionItem read GetItem write SetItem; default;
@@ -193,6 +194,7 @@ type
     function GetItem(Index: Integer): TgPagAntecipadoCollectionItem;
     procedure SetItem(Index: Integer; Value: TgPagAntecipadoCollectionItem);
   public
+    procedure Assign(Source: TgPagAntecipadoCollection); reintroduce;
     function Add: TgPagAntecipadoCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TgPagAntecipadoCollectionItem;
     property Items[Index: Integer]: TgPagAntecipadoCollectionItem read GetItem write SetItem; default;
@@ -527,6 +529,7 @@ type
     function GetItem(Index: Integer): TAdiCollectionItem;
     procedure SetItem(Index: Integer; Value: TAdiCollectionItem);
   public
+    procedure Assign(Source: TAdiCollection); reintroduce;
     function Add: TAdiCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TAdiCollectionItem;
     property Items[Index: Integer]: TAdiCollectionItem read GetItem write SetItem; default;
@@ -576,6 +579,7 @@ type
     function GetItem(Index: Integer): TDICollectionItem;
     procedure SetItem(Index: Integer; Value: TDICollectionItem);
   public
+    procedure Assign(Source: TDICollection); reintroduce;
     function Add: TDICollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TDICollectionItem;
     property Items[Index: Integer]: TDICollectionItem read GetItem write SetItem; default;
@@ -604,6 +608,7 @@ type
     function GetItem(Index: Integer): TdetExportCollectionItem;
     procedure SetItem(Index: Integer; Value: TdetExportCollectionItem);
   public
+    procedure Assign(Source: TdetExportCollection); reintroduce;
     function Add: TdetExportCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New.'{$EndIf};
     function New: TdetExportCollectionItem;
     property Items[Index: Integer]: TdetExportCollectionItem read GetItem write SetItem; default;
@@ -634,6 +639,7 @@ type
     function GetItem(Index: Integer): TRastroCollectionItem;
     procedure SetItem(Index: Integer; Value: TRastroCollectionItem);
   public
+    procedure Assign(Source: TRastroCollection); reintroduce;
     function Add: TRastroCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TRastroCollectionItem;
     property Items[Index: Integer]: TRastroCollectionItem read GetItem write SetItem; default;
@@ -727,6 +733,7 @@ type
     function GetItem(Index: Integer): TMedCollectionItem;
     procedure SetItem(Index: Integer; Value: TMedCollectionItem);
   public
+    procedure Assign(Source: TMedCollection); reintroduce;
     function Add: TMedCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TMedCollectionItem;
     property Items[Index: Integer]: TMedCollectionItem read GetItem write SetItem; default;
@@ -755,6 +762,7 @@ type
     function GetItem(Index: Integer): TArmaCollectionItem;
     procedure SetItem(Index: Integer; Value: TArmaCollectionItem);
   public
+    procedure Assign(Source: TArmaCollection); reintroduce;
     function Add: TArmaCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TArmaCollectionItem;
     property Items[Index: Integer]: TArmaCollectionItem read GetItem write SetItem; default;
@@ -857,6 +865,7 @@ type
     function GetItem(Index: Integer): TorigCombCollectionItem;
     procedure SetItem(Index: Integer; Value: TorigCombCollectionItem);
   public
+    procedure Assign(Source: TorigCombCollection); reintroduce;
     function Add: TorigCombCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TorigCombCollectionItem;
     property Items[Index: Integer]: TorigCombCollectionItem read GetItem write SetItem; default;
@@ -926,6 +935,7 @@ type
     function GetItem(Index: Integer): TNVECollectionItem;
     procedure SetItem(Index: Integer; Value: TNVECollectionItem);
   public
+    procedure Assign(Source: TNVECollection); reintroduce;
     function Add: TNVECollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New.'{$EndIf};
     function New: TNVECollectionItem;
     property Items[Index: Integer]: TNVECollectionItem read GetItem write SetItem; default;
@@ -953,6 +963,7 @@ type
     function GetItem(Index: Integer): TCredPresumidoCollectionItem;
     procedure SetItem(Index: Integer; Value: TCredPresumidoCollectionItem);
   public
+    procedure Assign(Source: TCredPresumidoCollection); reintroduce;
     function Add: TCredPresumidoCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TCredPresumidoCollectionItem;
     property Items[Index: Integer]: TCredPresumidoCollectionItem read GetItem write SetItem; default;
@@ -2293,6 +2304,7 @@ type
     function GetItem(Index: Integer): TLacresCollectionItem;
     procedure SetItem(Index: Integer; Value: TLacresCollectionItem);
   public
+    procedure Assign(Source: TLacresCollection); reintroduce;
     function Add: TLacresCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TLacresCollectionItem;
     property Items[Index: Integer]: TLacresCollectionItem read GetItem write SetItem; default;
@@ -2332,6 +2344,7 @@ type
     function GetItem(Index: Integer): TVolCollectionItem;
     procedure SetItem(Index: Integer; Value: TVolCollectionItem);
   public
+    procedure Assign(Source: TVolCollection); reintroduce;
     function Add: TVolCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TVolCollectionItem;
     property Items[Index: Integer]: TVolCollectionItem read GetItem write SetItem; default;
@@ -2359,6 +2372,7 @@ type
     function GetItem(Index: Integer): TReboqueCollectionItem;
     procedure SetItem(Index: Integer; Value: TReboqueCollectionItem);
   public
+    procedure Assign(Source: TReboqueCollection); reintroduce;
     function Add: TReboqueCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TReboqueCollectionItem;
     property Items[Index: Integer]: TReboqueCollectionItem read GetItem write SetItem; default;
@@ -2376,9 +2390,6 @@ type
     FReboque: TReboqueCollection;
     Fvagao: string;
     Fbalsa: string;
-
-    procedure SetVol(Value: TVolCollection);
-    procedure SetReboque(Value: TReboqueCollection);
   public
     constructor Create();
     destructor Destroy; override;
@@ -2388,8 +2399,8 @@ type
     property Transporta: TTransporta read FTransporta write FTransporta;
     property retTransp: TretTransp read FretTransp write FretTransp;
     property veicTransp: TveicTransp read FveicTransp write FveicTransp;
-    property Vol: TVolCollection read FVol write SetVol;
-    property Reboque: TReboqueCollection read FReboque write SetReboque;
+    property Vol: TVolCollection read FVol write FVol;
+    property Reboque: TReboqueCollection read FReboque write FReboque;
     property vagao: string read Fvagao write Fvagao;
     property balsa: string read Fbalsa write Fbalsa;
   end;
@@ -2431,6 +2442,7 @@ type
     function GetItem(Index: Integer): TDupCollectionItem;
     procedure SetItem(Index: Integer; Value: TDupCollectionItem);
   public
+    procedure Assign(Source: TDupCollection); reintroduce;
     function Add: TDupCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TDupCollectionItem;
     property Items[Index: Integer]: TDupCollectionItem read GetItem write SetItem; default;
@@ -2539,6 +2551,7 @@ type
     function GetItem(Index: Integer): TobsContCollectionItem;
     procedure SetItem(Index: Integer; Value: TobsContCollectionItem);
   public
+    procedure Assign(Source: TobsContCollection); reintroduce;
     function Add: TobsContCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TobsContCollectionItem;
     property Items[Index: Integer]: TobsContCollectionItem read GetItem write SetItem; default;
@@ -2563,6 +2576,7 @@ type
     function GetItem(Index: Integer): TobsFiscoCollectionItem;
     procedure SetItem(Index: Integer; Value: TobsFiscoCollectionItem);
   public
+    procedure Assign(Source: TobsFiscoCollection); reintroduce;
     function Add: TobsFiscoCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TobsFiscoCollectionItem;
     property Items[Index: Integer]: TobsFiscoCollectionItem read GetItem write SetItem; default;
@@ -2590,6 +2604,7 @@ type
     function GetItem(Index: Integer): TprocRefCollectionItem;
     procedure SetItem(Index: Integer; Value: TprocRefCollectionItem);
   public
+    procedure Assign(Source: TprocRefCollection); reintroduce;
     function Add: TprocRefCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TprocRefCollectionItem;
     property Items[Index: Integer]: TprocRefCollectionItem read GetItem write SetItem; default;
@@ -2673,6 +2688,7 @@ type
     function GetItem(Index: Integer): TForDiaCollectionItem;
     procedure SetItem(Index: Integer; Value: TForDiaCollectionItem);
   public
+    procedure Assign(Source: TForDiaCollection); reintroduce;
     function Add: TForDiaCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
     function New: TForDiaCollectionItem;
     property Items[Index: Integer]: TForDiaCollectionItem read GetItem write SetItem; default;
@@ -2697,6 +2713,7 @@ type
     function GetItem(Index: Integer): TDeducCollectionItem;
     procedure SetItem(Index: Integer; Value: TDeducCollectionItem);
   public
+    procedure Assign(Source: TDeducCollection); reintroduce;
     function Add: TDeducCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New.'{$EndIf};
     function New: TDeducCollectionItem;
     property Items[Index: Integer]: TDeducCollectionItem read GetItem write SetItem; default;
@@ -2753,6 +2770,7 @@ type
     function GetItem(Index: Integer): TautXMLCollectionItem;
     procedure SetItem(Index: Integer; Value: TautXMLCollectionItem);
   public
+    procedure Assign(Source: TautXMLCollection); reintroduce;
     function Add: TautXMLCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New.'{$EndIf};
     function New: TautXMLCollectionItem;
     property Items[Index: Integer]: TautXMLCollectionItem read GetItem write SetItem; default;
@@ -2810,6 +2828,7 @@ type
     function GetItem(Index: Integer): TdefensivoCollectionItem;
     procedure SetItem(Index: Integer; Value: TdefensivoCollectionItem);
   public
+    procedure Assign(Source: TdefensivoCollection); reintroduce;
     function Add: TdefensivoCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New.'{$EndIf};
     function New: TdefensivoCollectionItem;
     property Items[Index: Integer]: TdefensivoCollectionItem read GetItem write SetItem; default;
@@ -3174,6 +3193,15 @@ begin
   Result := Self.New;
 end;
 
+procedure TNFrefCollection.Assign(Source: TNFrefCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
+end;
+
 function TNFrefCollection.GetItem(Index: Integer): TNFrefCollectionItem;
 begin
   Result := TNFrefCollectionItem(inherited Items[Index]);
@@ -3410,6 +3438,15 @@ begin
   Result := Self.New;
 end;
 
+procedure TRastroCollection.Assign(Source: TRastroCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
+end;
+
 function TRastroCollection.New: TRastroCollectionItem;
 begin
   Result := TRastroCollectionItem.Create;
@@ -3421,6 +3458,15 @@ end;
 function TMedCollection.Add: TMedCollectionItem;
 begin
   Result := Self.New;
+end;
+
+procedure TMedCollection.Assign(Source: TMedCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
 end;
 
 function TMedCollection.GetItem(Index: Integer): TMedCollectionItem;
@@ -3444,6 +3490,15 @@ end;
 function TArmaCollection.Add: TArmaCollectionItem;
 begin
   Result := Self.New;
+end;
+
+procedure TArmaCollection.Assign(Source: TArmaCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
 end;
 
 function TArmaCollection.GetItem(Index: Integer): TArmaCollectionItem;
@@ -3522,6 +3577,15 @@ begin
   Result := Self.New;
 end;
 
+procedure TDICollection.Assign(Source: TDICollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
+end;
+
 function TDICollection.GetItem(Index: Integer): TDICollectionItem;
 begin
   Result := TDICollectionItem(inherited Items[Index]);
@@ -3578,6 +3642,15 @@ end;
 function TAdiCollection.Add: TAdiCollectionItem;
 begin
   Result := Self.New;
+end;
+
+procedure TAdiCollection.Assign(Source: TAdiCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
 end;
 
 function TAdiCollection.GetItem(Index: Integer): TAdiCollectionItem;
@@ -3703,21 +3776,20 @@ begin
   inherited;
 end;
 
-procedure TTransp.SetVol(Value: TVolCollection);
-begin
-  FVol.Assign(Value);
-end;
-
-procedure TTransp.SetReboque(Value: TReboqueCollection);
-begin
-  FReboque.Assign(Value);
-end;
-
 { TVolCollection }
 
 function TVolCollection.Add: TVolCollectionItem;
 begin
   Result := Self.New;
+end;
+
+procedure TVolCollection.Assign(Source: TVolCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
 end;
 
 function TVolCollection.GetItem(Index: Integer): TVolCollectionItem;
@@ -3773,6 +3845,15 @@ begin
   Result := Self.New;
 end;
 
+procedure TLacresCollection.Assign(Source: TLacresCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
+end;
+
 function TLacresCollection.GetItem(Index: Integer): TLacresCollectionItem;
 begin
   Result := TLacresCollectionItem(inherited Items[Index]);
@@ -3806,6 +3887,15 @@ end;
 function TreboqueCollection.Add: TreboqueCollectionItem;
 begin
   Result := Self.New;
+end;
+
+procedure TreboqueCollection.Assign(Source: TreboqueCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
 end;
 
 function TreboqueCollection.GetItem(Index: Integer): TreboqueCollectionItem;
@@ -3856,6 +3946,15 @@ end;
 function TDupCollection.Add: TDupCollectionItem;
 begin
   Result := Self.New;
+end;
+
+procedure TDupCollection.Assign(Source: TDupCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
 end;
 
 function TDupCollection.GetItem(Index: Integer): TDupCollectionItem;
@@ -3925,6 +4024,15 @@ begin
   Result := Self.New;
 end;
 
+procedure TobsContCollection.Assign(Source: TobsContCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
+end;
+
 function TobsContCollection.GetItem(Index: Integer): TobsContCollectionItem;
 begin
   Result := TobsContCollectionItem(inherited Items[Index]);
@@ -3948,6 +4056,15 @@ begin
   Result := Self.New;
 end;
 
+procedure TobsFiscoCollection.Assign(Source: TobsFiscoCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
+end;
+
 function TobsFiscoCollection.GetItem(Index: Integer): TobsFiscoCollectionItem;
 begin
   Result := TobsFiscoCollectionItem(inherited Items[Index]);
@@ -3969,6 +4086,15 @@ end;
 function TprocRefCollection.Add: TprocRefCollectionItem;
 begin
   Result := Self.New;
+end;
+
+procedure TprocRefCollection.Assign(Source: TprocRefCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
 end;
 
 function TprocRefCollection.GetItem(Index: Integer): TprocRefCollectionItem;
@@ -4034,6 +4160,15 @@ begin
   Result := Self.New;
 end;
 
+procedure TForDiaCollection.Assign(Source: TForDiaCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
+end;
+
 function TForDiaCollection.GetItem(Index: Integer): TForDiaCollectionItem;
 begin
   Result := TForDiaCollectionItem(inherited Items[Index]);
@@ -4056,6 +4191,15 @@ end;
 function TDeducCollection.Add: TDeducCollectionItem;
 begin
   Result := Self.New;
+end;
+
+procedure TDeducCollection.Assign(Source: TDeducCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
 end;
 
 function TDeducCollection.GetItem(Index: Integer): TDeducCollectionItem;
@@ -4192,6 +4336,15 @@ begin
   Result := Self.New;
 end;
 
+procedure TautXMLCollection.Assign(Source: TautXMLCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
+end;
+
 function TautXMLCollection.GetItem(Index: Integer): TautXMLCollectionItem;
 begin
   Result := TautXMLCollectionItem(inherited Items[Index]);
@@ -4223,6 +4376,15 @@ begin
   Result := Self.New;
 end;
 
+procedure TdetExportCollection.Assign(Source: TdetExportCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
+end;
+
 function TdetExportCollection.GetItem(
   Index: Integer): TdetExportCollectionItem;
 begin
@@ -4246,6 +4408,15 @@ end;
 function TNVECollection.Add: TNVECollectionItem;
 begin
   Result := Self.New;
+end;
+
+procedure TNVECollection.Assign(Source: TNVECollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
 end;
 
 function TNVECollection.GetItem(Index: Integer): TNVECollectionItem;
@@ -4967,6 +5138,15 @@ begin
   Result := Self.New;
 end;
 
+procedure TorigCombCollection.Assign(Source: TorigCombCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
+end;
+
 function TorigCombCollection.GetItem(Index: Integer): TorigCombCollectionItem;
 begin
   Result := TorigCombCollectionItem(inherited Items[Index]);
@@ -5008,6 +5188,15 @@ end;
 function TCredPresumidoCollection.Add: TCredPresumidoCollectionItem;
 begin
   Result := Self.New;
+end;
+
+procedure TCredPresumidoCollection.Assign(Source: TCredPresumidoCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
 end;
 
 function TCredPresumidoCollection.GetItem(
@@ -5091,6 +5280,15 @@ end;
 function TdefensivoCollection.Add: TdefensivoCollectionItem;
 begin
   Result := Self.New;
+end;
+
+procedure TdefensivoCollection.Assign(Source: TdefensivoCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
 end;
 
 function TdefensivoCollection.GetItem(Index: Integer): TdefensivoCollectionItem;
@@ -5458,6 +5656,15 @@ end;
 function TgPagAntecipadoCollection.Add: TgPagAntecipadoCollectionItem;
 begin
   Result := Self.New;
+end;
+
+procedure TgPagAntecipadoCollection.Assign(Source: TgPagAntecipadoCollection);
+var
+  I: Integer;
+begin
+  Self.Clear;
+  for I := 0 to Source.Count - 1 do
+    Self.New.Assign(Source.Items[I]);
 end;
 
 function TgPagAntecipadoCollection.GetItem(

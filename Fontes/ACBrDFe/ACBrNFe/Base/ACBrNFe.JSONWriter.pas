@@ -1674,7 +1674,14 @@ begin
       begin
         lPISJSONObj.AddPair('PISNT', lPISCSTJSONObj);
       end;
-    pis49, pis50, pis51, pis52, pis53, pis54, pis55, pis56,
+    pis50:
+      begin
+        lPISCSTJSONObj.AddPair('vBC', APIS.vBC);
+        lPISCSTJSONObj.AddPair('pPIS', APIS.pPIS);
+        lPISCSTJSONObj.AddPair('vPIS', APIS.vPIS);
+        lPISJSONObj.AddPair('PISOutr', lPISCSTJSONObj);
+      end;
+    pis49, pis51, pis52, pis53, pis54, pis55, pis56,
     pis60, pis61, pis62, pis63, pis64, pis65, pis66, pis67,
     pis70, pis71, pis72, pis73, pis74, pis75,
     pis98, pis99:
@@ -2155,6 +2162,7 @@ begin
     exit;
 
   lPagJSONObj := TACBrJSONObject.Create;
+  lPagJSONObj.AddPair('vTroco', APag.vTroco);
   try
     lDetPagJSONArray := TACBrJSONArray.Create;
     try

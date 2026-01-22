@@ -44,6 +44,21 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+22/01/2026
+-- ACBrNFe.Classes --
+[*] ACBR-8355: Ajustes parar corrigir problemas nos métodos "Assign()" das classes que herdam de TObjectList;
+[*] Remoção dos métodos "Set" das propriedades Vol e Reboque.
+    por: Diego Folieni e Elias
+	
+-- ACBrNFe.JSONReader --
+[+] Inclusão da leitura da propriedade "APag.vTroco"
+    por: ademar-datalan
+
+-- ACBrNFe.JSONWriter --
+[+] Inclusão da escrita da propriedade "APag.vTroco"
+[*] Alterado método "GerarDetImposto_PIS()" para gerar campos necessários para pis50.
+    por: ademar-datalan
+
 15/01/2026
 -- ACBrNFe.XmlWriter --
 [*] Adicionada "SP" à lista de UFs que obriga a geração das tags de diferimento de ICMS quando usado o CST 51.
