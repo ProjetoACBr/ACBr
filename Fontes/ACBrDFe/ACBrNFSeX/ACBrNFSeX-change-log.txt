@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/01/2026
+-- SigCorp.GravarXml --
+[*] ACBR-8794 - Ajustes na geração do grupo Obra.
+   Por: Microsys Sistemas
 -- Pronim.Provider --
 [*] ACBR-8793 - Removido do ID do pedido de evento o numero sequencial do evento.
     Incluído no TratarRetornoEmitir os campos de retorno: IDNota e CodigoVerificacao.
