@@ -4,7 +4,7 @@
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>
     <PropertyGroup>
-        <DeviceId Condition="'$(Platform)'=='Android'">0123abcd</DeviceId>
+        <DeviceId Condition="'$(Platform)'=='Android'">WS01011450300</DeviceId>
         <DeviceId Condition="'$(Platform)'=='Android64'">DM04218E40335</DeviceId>
     </PropertyGroup>
     <ItemGroup Condition="'$(Platform)'=='Win32'"/>
@@ -164,20 +164,20 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="ACBr_96_96.png" Condition="'$(Config)'=='Release'">
-            <RemoteDir>TEFDemoAndroid\assets\internal\</RemoteDir>
-            <RemoteName>ACBr_96_96.png</RemoteName>
-            <DeployClass>File</DeployClass>
-            <Operation>0</Operation>
-            <LocalCommand/>
-            <RemoteCommand/>
-            <Overwrite>True</Overwrite>
-        </DeployFile>
         <DeployFile Include="..\..\..\Fontes\Imagens\Android\Quadrado\ACBr_48_48.png" Condition="'$(Config)'=='Release'">
             <RemoteDir>TEFDemoAndroid\res\drawable-xhdpi\</RemoteDir>
             <RemoteName>ic_notification.png</RemoteName>
             <DeployClass>Android_NotificationIcon48</DeployClass>
             <Operation>1</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="ACBr_96_96.png" Condition="'$(Config)'=='Release'">
+            <RemoteDir>TEFDemoAndroid\assets\internal\</RemoteDir>
+            <RemoteName>ACBr_96_96.png</RemoteName>
+            <DeployClass>File</DeployClass>
+            <Operation>0</Operation>
             <LocalCommand/>
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
@@ -301,19 +301,19 @@
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="..\..\..\Fontes\Imagens\Android\Quadrado\ACBr_96_96.png" Condition="'$(Config)'=='Debug'">
-            <RemoteDir>TEFDemoAndroid\res\drawable-xxxhdpi\</RemoteDir>
+        <DeployFile Include="..\..\..\Fontes\Imagens\Android\Quadrado\ACBr_36_36.png" Condition="'$(Config)'=='Release'">
+            <RemoteDir>TEFDemoAndroid\res\drawable-hdpi\</RemoteDir>
             <RemoteName>ic_notification.png</RemoteName>
-            <DeployClass>Android_NotificationIcon96</DeployClass>
+            <DeployClass>Android_NotificationIcon36</DeployClass>
             <Operation>1</Operation>
             <LocalCommand/>
             <RemoteCommand/>
             <Overwrite>True</Overwrite>
         </DeployFile>
-        <DeployFile Include="..\..\..\Fontes\Imagens\Android\Quadrado\ACBr_36_36.png" Condition="'$(Config)'=='Release'">
-            <RemoteDir>TEFDemoAndroid\res\drawable-hdpi\</RemoteDir>
+        <DeployFile Include="..\..\..\Fontes\Imagens\Android\Quadrado\ACBr_96_96.png" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>TEFDemoAndroid\res\drawable-xxxhdpi\</RemoteDir>
             <RemoteName>ic_notification.png</RemoteName>
-            <DeployClass>Android_NotificationIcon36</DeployClass>
+            <DeployClass>Android_NotificationIcon96</DeployClass>
             <Operation>1</Operation>
             <LocalCommand/>
             <RemoteCommand/>

@@ -953,8 +953,8 @@ end;
 procedure TFrTEFDemoAndroid.VoltarParaTestes;
 begin
   tabsPrincipal.SetActiveTabWithTransition( tabTeste,
-                                            TTabTransition.Slide,
-                                            TTabTransitionDirection.Reversed ) ;
+                                            TTabTransition.None,
+                                            TTabTransitionDirection.Normal ) ;
 end;
 
 procedure TFrTEFDemoAndroid.btAdminClick(Sender: TObject);
@@ -1902,7 +1902,7 @@ end;
 procedure TFrTEFDemoAndroid.MostrarTelaUltimaTransacao;
 begin
   tabsPrincipal.SetActiveTabWithTransition( tabUltTransacao,
-                                            TTabTransition.Slide,
+                                            TTabTransition.None,
                                             TTabTransitionDirection.Normal ) ;
   tabsUltimaTransacao.TabIndex := 0;
 end;
@@ -1998,7 +1998,7 @@ end;
 procedure TFrTEFDemoAndroid.MostrarTelaConfiguracao(Aba: Integer = 0);
 begin
   tabsPrincipal.SetActiveTabWithTransition( tabConfig,
-                                            TTabTransition.Slide,
+                                            TTabTransition.None,
                                             TTabTransitionDirection.Normal ) ;
 
   tabsConfig.TabIndex := Aba;
