@@ -53,6 +53,7 @@ type
 
     function GerarQuartos: TACBrXmlNode; override;
     function GerarQuarto: TACBrXmlNodeArray; override;
+    function GerarValores: TACBrXmlNode; override;
 
     procedure GerarINISecaoQuartos(const AINIRec: TMemIniFile); override;
   end;
@@ -89,6 +90,10 @@ begin
   NrOcorrRegimeEspecialTributacao := -1;
   NrOcorrOptanteSimplesNacional := -1;
   NrOcorrIncentCultural := -1;
+  NrOcorrDiscriminacao_1 := -1;
+  NrOcorrCodigoMunic_1 := -1;
+  NrOcorrDiscriminacao_2 := 1;
+  NrOcorrCodigoMunic_2 := 1;
 end;
 
 procedure TNFSeW_iiBrasil204.DefinirIDRps;
@@ -149,6 +154,60 @@ begin
       end;
     end;
   end;
+end;
+
+function TNFSeW_iiBrasil204.GerarValores: TACBrXmlNode;
+var
+  Aliquota: Double;
+begin
+  Result := CreateElement('Valores');
+
+  Result.AppendChild(AddNode(tcDe2, '#13', 'ValorServicos', 1, 15, 1,
+                             NFSe.Servico.Valores.ValorServicos, DSC_VSERVICO));
+
+  Result.AppendChild(AddNode(tcDe2, '#14', 'ValorDeducoes', 1, 15, 0,
+                            NFSe.Servico.Valores.ValorDeducoes, DSC_VDEDUCISS));
+
+  Result.AppendChild(AddNode(tcDe2, '#15', 'ValorPis', 1, 15, 0,
+                                      NFSe.Servico.Valores.ValorPis, DSC_VPIS));
+
+  Result.AppendChild(AddNode(tcDe2, '#16', 'ValorCofins', 1, 15, 0,
+                                NFSe.Servico.Valores.ValorCofins, DSC_VCOFINS));
+
+  Result.AppendChild(AddNode(tcDe2, '#17', 'ValorInss', 1, 15, 0,
+                                    NFSe.Servico.Valores.ValorInss, DSC_VINSS));
+
+  Result.AppendChild(AddNode(tcDe2, '#18', 'ValorIr', 1, 15, 0,
+                                        NFSe.Servico.Valores.ValorIr, DSC_VIR));
+
+  Result.AppendChild(AddNode(tcDe2, '#19', 'ValorCsll', 1, 15, 0,
+                                    NFSe.Servico.Valores.ValorCsll, DSC_VCSLL));
+
+  Result.AppendChild(AddNode(tcDe2, '#19', 'ValorCbs', 1, 15, 0,
+                                                  NFSe.IBSCBS.valores.Cbs, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#19', 'ValorIbs', 1, 15, 0,
+                                         NFSe.IBSCBS.Valores.IbsMunicipal, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#23', 'OutrasRetencoes', 1, 15, 0,
+                    NFSe.Servico.Valores.OutrasRetencoes, DSC_OUTRASRETENCOES));
+
+  Result.AppendChild(AddNode(tcDe2, '#23', 'ValTotTributos', 1, 15, 0,
+                                  NFSe.Servico.Valores.ValorTotalTributos, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#21', 'ValorIss', 1, 15, 0,
+                                      NFSe.Servico.Valores.ValorIss, DSC_VISS));
+
+  Aliquota := NormatizarAliquota(NFSe.Servico.Valores.Aliquota, DivAliq100);
+
+  Result.AppendChild(AddNode(FormatoAliq, '#25', 'Aliquota', 1, 5, 0,
+                                                          Aliquota, DSC_VALIQ));
+
+  Result.AppendChild(AddNode(tcDe2, '#27', 'DescontoIncondicionado', 1, 15, 0,
+                 NFSe.Servico.Valores.DescontoIncondicionado, DSC_VDESCINCOND));
+
+  Result.AppendChild(AddNode(tcDe2, '#28', 'DescontoCondicionado', 1, 15, 0,
+                     NFSe.Servico.Valores.DescontoCondicionado, DSC_VDESCCOND));
 end;
 
 procedure TNFSeW_iiBrasil204.GerarINISecaoQuartos(const AINIRec: TMemIniFile);
