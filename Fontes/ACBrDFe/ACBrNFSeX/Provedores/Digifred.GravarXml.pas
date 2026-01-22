@@ -113,10 +113,10 @@ begin
   NrOcorrtpAmb := -1;
   IDNFSeVazio := True;
   IDDPSVazio := True;
-  GerarIBSCBSNFSe := True;
+  GerarIBSCBSNFSe := False;
 
-  NFSe.infNFSe.nNFSe := '';
-  NFSe.infNFSe.nDFSe := '';
+//  NFSe.infNFSe.nNFSe := '';
+//  NFSe.infNFSe.nDFSe := '';
 
   NFSeNode := GerarXMLNFSe;
   FDocument.Root := NFSeNode;

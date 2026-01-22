@@ -377,6 +377,14 @@ var
 begin
   FPMsgOrig := AMSG;
 
+  Request := '<tns:GerarNfse>';
+  Request := Request + '<tns:param>' + IncluirCDATA(AMSG) + '</tns:param>';
+  Request := Request + '</tns:GerarNfse>';
+
+  Result := Executar('GerarNfse', Request,
+                     [],
+                     ['xmlns:tns="http://www.sped.fazenda.gov.br/nfse/wsdl"']);
+{
   Request := '<wsdl:GerarNfse>';
   Request := Request + XmlToStr(AMSG);
   Request := Request + '</wsdl:GerarNfse>';
@@ -384,10 +392,7 @@ begin
   Result := Executar('GerarNfse', Request,
                      ['outputXML', 'GerarNfseResposta'],
                      ['xmlns:wsdl="http://www.sped.fazenda.gov.br/nfse/wsdl"']);
-
-  // Existe o elemento outputXML e o respostaADN
-  // acredito que no elemento outputXML temos um retorno do webservice do provedor
-  // no elemento respostaADN temos um retorno da API do Padrão Nacional.
+}
 end;
 
 function TACBrNFSeXWebserviceDigifredAPIPropria.EnviarEvento(const ACabecalho,
@@ -397,13 +402,20 @@ var
 begin
   FPMsgOrig := AMSG;
 
-  Request := RemoverDeclaracaoXML(AMSG);
-
-  if Pos('e105102', Request) > 0 then
+  if Pos('e105102', AMSG) > 0 then
     aTag := 'SubstituirNfse'
   else
     aTag := 'CancelarNfse';
 
+  Request := '<tns:' + aTag + '>';
+  Request := Request + '<tns:param>' + IncluirCDATA(AMSG) + '</tns:param>';
+  Request := Request + '</tns:' + aTag + '>';
+
+  Result := Executar(aTag, Request,
+                     [],
+                     ['xmlns:tns="http://www.sped.fazenda.gov.br/nfse/wsdl"']);
+
+  {
   Request := '<wsdl:' + aTag + '>' +
                XmlToStr(Request) +
              '</wsdl:' + aTag + '>';
@@ -411,10 +423,7 @@ begin
   Result := Executar(aTag, Request,
                      ['outputXML', aTag + 'Resposta'],
                      ['xmlns:wsdl="http://www.sped.fazenda.gov.br/nfse/wsdl"']);
-
-  // Existe o elemento outputXML e o respostaADN
-  // acredito que no elemento outputXML temos um retorno do webservice do provedor
-  // no elemento respostaADN temos um retorno da API do Padrão Nacional.
+  }
 end;
 
 function TACBrNFSeXWebserviceDigifredAPIPropria.ConsultarNFSePorRps(
@@ -789,6 +798,8 @@ var
   Document: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
   ANode: TACBrXmlNode;
+  ANota: TNotaFiscal;
+  respostaADN: string;
 begin
   Document := TACBrXmlDocument.Create;
   try
@@ -803,13 +814,32 @@ begin
 
       Document.LoadFromXml(Response.ArquivoRetorno);
 
-      ProcessarMensagemErros(Document.Root, Response);
+  // Existe o elemento outputXML/GerarNfseResposta e o respostaADN
+  // acredito que no elemento outputXML temos um retorno do webservice do provedor
+  // no elemento respostaADN temos um retorno da API do Padrão Nacional.
 
-      ANode := Document.Root;
+      respostaADN := ObterConteudoTag(Document.Root.Childrens.FindAnyNs('respostaADN'), tcStr);
 
-      Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
-      Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('protocolo'), tcStr);
-      Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('status'), tcStr);
+      if respostaADN <> '' then
+      begin
+        ANota := TACBrNFSeX(FAOwner).NotasFiscais.Items[0];
+        ANota := CarregarXmlNfse(ANota, respostaADN);
+        SalvarXmlNfse(ANota);
+      end;
+
+      ANode := Document.Root.Childrens.FindAnyNs('outputXML');
+
+      if Assigned(ANode) then
+        ANode := ANode.Childrens.FindAnyNs('GerarNfseResposta');
+
+      if Assigned(ANode) then
+      begin
+        ProcessarMensagemErros(ANode, Response);
+
+        Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
+        Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('protocolo'), tcStr);
+        Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('status'), tcStr);
+      end;
     except
       on E:Exception do
       begin
@@ -953,9 +983,11 @@ end;
 procedure TACBrNFSeProviderDigifredAPIPropria.TratarRetornoEnviarEvento(
   Response: TNFSeEnviarEventoResponse);
 var
-  Document: TACBrXmlDocument;
+  Document, DocumentXml: TACBrXmlDocument;
   AErro: TNFSeEventoCollectionItem;
   ANode: TACBrXmlNode;
+  respostaADN, IDEvento, nomeArq: string;
+  Ok: Boolean;
 begin
   Document := TACBrXmlDocument.Create;
   try
@@ -970,13 +1002,85 @@ begin
 
       Document.LoadFromXml(Response.ArquivoRetorno);
 
-      ProcessarMensagemErros(Document.Root, Response);
+  // Existe o elemento outputXML/GerarNfseResposta e o respostaADN
+  // acredito que no elemento outputXML temos um retorno do webservice do provedor
+  // no elemento respostaADN temos um retorno da API do Padrão Nacional.
 
-      ANode := Document.Root;
+      respostaADN := ObterConteudoTag(Document.Root.Childrens.FindAnyNs('respostaADN'), tcStr);
 
-      Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
-      Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('protocolo'), tcStr);
-      Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('status'), tcStr);
+      if respostaADN <> '' then
+      begin
+        DocumentXml := TACBrXmlDocument.Create;
+
+        try
+          try
+            if respostaADN = '' then
+            begin
+              AErro := Response.Erros.New;
+              AErro.Codigo := Cod211;
+              AErro.Descricao := ACBrStr(Desc211);
+              Exit
+            end;
+
+            DocumentXml.LoadFromXml(respostaADN);
+
+            ANode := DocumentXml.Root.Childrens.FindAnyNs('infEvento');
+
+            IDEvento := OnlyNumber(ObterConteudoTag(ANode.Attributes.Items['Id']));
+
+            Response.nSeqEvento := ObterConteudoTag(ANode.Childrens.FindAnyNs('nSeqEvento'), tcInt);
+            Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhProc'), tcDatHor);
+            Response.idEvento := IDEvento;
+            Response.tpEvento := StrTotpEvento(Ok, Copy(IDEvento, 51, 6));
+            Response.XmlRetorno := respostaADN;
+
+            case Response.tpEvento of
+              teCancelamento:
+                begin
+                  Response.SucessoCanc := True;
+                  Response.DescSituacao := 'Nota Cancelada';
+                end
+            else
+              begin
+                Response.SucessoCanc := False;
+                Response.DescSituacao := '';
+              end;
+            end;
+
+            ANode := ANode.Childrens.FindAnyNs('pedRegEvento');
+            ANode := ANode.Childrens.FindAnyNs('infPedReg');
+
+            Response.idNota := ObterConteudoTag(ANode.Childrens.FindAnyNs('chNFSe'), tcStr);
+
+            nomeArq := '';
+            SalvarXmlEvento(IDEvento + '-procEveNFSe', respostaADN, nomeArq);
+            Response.PathNome := nomeArq;
+          except
+            on E:Exception do
+            begin
+              AErro := Response.Erros.New;
+              AErro.Codigo := Cod999;
+              AErro.Descricao := ACBrStr(Desc999 + E.Message);
+            end;
+          end;
+        finally
+          FreeAndNil(DocumentXml);
+        end;
+      end;
+
+      ANode := Document.Root.Childrens.FindAnyNs('outputXML');
+
+      if Assigned(ANode) then
+        ANode := ANode.Childrens.FindAnyNs('CancelarNfseResponse');
+
+      if Assigned(ANode) then
+      begin
+        ProcessarMensagemErros(ANode, Response);
+
+        Response.Data := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRecebimento'), tcDatHor);
+        Response.Protocolo := ObterConteudoTag(ANode.Childrens.FindAnyNs('protocolo'), tcStr);
+        Response.Situacao := ObterConteudoTag(ANode.Childrens.FindAnyNs('status'), tcStr);
+      end;
     except
       on E:Exception do
       begin
