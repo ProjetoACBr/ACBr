@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/01/2026
+-- ISSSaoPaulo.GravarXml --
+[*] ACBR-8788 - Imposta uma condição para gerar o campo NIF, pois é da versão 2 do layout do provedor.
+   Por: Italo Giurizzato Junior
 -- Pronim.Provider --
 [*] ACBR-8784 - Removido a geração da tag nPedRegEvento ao enviar o pedido de registro de evento.
    Por: Italo Giurizzato Junior

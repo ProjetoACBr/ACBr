@@ -121,22 +121,35 @@ function TNFSeW_ISSSaoPaulo.GerarCPFCNPJTomador: TACBrXmlNode;
 begin
   Result := nil;
 
-  if (OnlyAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj) <> '') or
-     (NFSe.Tomador.IdentificacaoTomador.Nif <> '') then
+  if VersaoNFSe = ve100 then
   begin
-    Result := CreateElement('CPFCNPJTomador');
+    if (OnlyAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj) <> '') then
+    begin
+      Result := CreateElement('CPFCNPJTomador');
 
-    if NFSe.Tomador.IdentificacaoTomador.CpfCnpj <> '' then
       Result.AppendChild(AddNodeCNPJCPF('#1', '#1',
                                      NFSe.Tomador.IdentificacaoTomador.CpfCnpj))
-    else
+    end;
+  end
+  else
+  begin
+    if (OnlyAlphaNum(NFSe.Tomador.IdentificacaoTomador.CpfCnpj) <> '') or
+       (NFSe.Tomador.IdentificacaoTomador.Nif <> '') then
     begin
-      if NFSe.Tomador.IdentificacaoTomador.Nif <> '' then
-        Result.AppendChild(AddNode(tcStr, '#1', 'NIF', 1, 40, 1,
-                                     NFSe.Tomador.IdentificacaoTomador.Nif, ''))
+      Result := CreateElement('CPFCNPJTomador');
+
+      if NFSe.Tomador.IdentificacaoTomador.CpfCnpj <> '' then
+        Result.AppendChild(AddNodeCNPJCPF('#1', '#1',
+                                     NFSe.Tomador.IdentificacaoTomador.CpfCnpj))
       else
-        Result.AppendChild(AddNode(tcStr, '#1', 'NaoNIF', 1, 1, 1,
+      begin
+        if NFSe.Tomador.IdentificacaoTomador.Nif <> '' then
+          Result.AppendChild(AddNode(tcStr, '#1', 'NIF', 1, 40, 1,
+                                     NFSe.Tomador.IdentificacaoTomador.Nif, ''))
+        else
+          Result.AppendChild(AddNode(tcStr, '#1', 'NaoNIF', 1, 1, 1,
                    NaoNIFToStr(NFSe.Tomador.IdentificacaoTomador.cNaoNIF), ''));
+      end;
     end;
   end;
 end;
