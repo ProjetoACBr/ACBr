@@ -77,6 +77,9 @@ Símbolo : Significado
 -- ACBrNFSeXServicos --
 [*] ACBR-8771 - A cidade Virgem da Lapa/MG mudou para a versão 2.04, o provedor continua o mesmo.
     por: Wesley Santos
+-- PadraoNacional.LerXml --
+[*] Correção no preenchimento da DataEmissao da NFSe(dhEmi) quando lido xml de DPS  - https://www.projetoacbr.com.br/forum/topic/89562-erro-na-valdiacao-do-xml-da-nfse/
+   Por: Renato Rubinho
 
 21/01/2026
 -- Ginfes.GravarXml --
