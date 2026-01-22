@@ -44,7 +44,10 @@ Símbolo : Significado
 
 22/01/2026
 -- ACBrNFSeXServicos --
-[*] A cidade Virgem da Lapa/MG mudou para a versão 2.04, o provedor continua o mesmo.
+[*] ACBR-8626 - A cidade Cataguases/MG mudou para a versão 2.04, o provedor continua o mesmo.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXServicos --
+[*] ACBR-8771 - A cidade Virgem da Lapa/MG mudou para a versão 2.04, o provedor continua o mesmo.
     por: Wesley Santos
 
 21/01/2026
