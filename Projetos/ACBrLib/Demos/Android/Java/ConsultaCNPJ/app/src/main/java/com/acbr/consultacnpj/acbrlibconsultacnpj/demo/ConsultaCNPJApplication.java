@@ -1,6 +1,9 @@
 package com.acbr.consultacnpj.acbrlibconsultacnpj.demo;
 
 import android.app.Application;
+
+import com.acbr.consultacnpj.acbrlibconsultacnpj.demo.source.ACBrLibHelper;
+
 import java.io.File;
 import br.com.acbr.lib.consultacnpj.ACBrLibConsultaCNPJ;
 

@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_comandos"
-        android:name="com.acbr.consultacnpj.acbrlibconsultacnpj.demo.ComandosConsultaCNPJFragment"
+        android:name="com.acbr.consultacnpj.acbrlibconsultacnpj.demo.ui.fragment.ComandosConsultaCNPJFragment"
         android:label="Consulta CNPJ"
         tools:layout="@layout/fragment_comandos_consulta_cnpj" />
 
     <fragment
         android:id="@+id/navigation_configuracoes"
-        android:name="com.acbr.consultacnpj.acbrlibconsultacnpj.demo.ConfiguracoesConsultaCNPJFragment"
+        android:name="com.acbr.consultacnpj.acbrlibconsultacnpj.demo.ui.fragment.ConfiguracoesConsultaCNPJFragment"
         android:label="Configurações"
         tools:layout="@layout/fragment_configuracoes_consulta_cnpj" />
 
     <fragment
         android:id="@+id/navigation_ini"
-        android:name="com.acbr.consultacnpj.acbrlibconsultacnpj.demo.IniFragment"
+        android:name="com.acbr.consultacnpj.acbrlibconsultacnpj.demo.ui.fragment.IniFragment"
         android:label="ACBrLib.ini"
         tools:layout="@layout/fragment_ini" />
 

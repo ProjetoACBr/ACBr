@@ -1,11 +1,10 @@
-package com.acbr.consultacnpj.acbrlibconsultacnpj.demo;
+package com.acbr.consultacnpj.acbrlibconsultacnpj.demo.ui.utils;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import br.com.acbr.lib.consultacnpj.Provedor;
 
 public class SpinnerUtils {
 

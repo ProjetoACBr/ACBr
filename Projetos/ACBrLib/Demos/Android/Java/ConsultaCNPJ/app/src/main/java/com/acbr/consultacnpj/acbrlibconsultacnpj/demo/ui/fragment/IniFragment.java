@@ -1,4 +1,4 @@
-package com.acbr.consultacnpj.acbrlibconsultacnpj.demo;
+package com.acbr.consultacnpj.acbrlibconsultacnpj.demo.ui.fragment;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
+
+import com.acbr.consultacnpj.acbrlibconsultacnpj.demo.R;
+import com.acbr.consultacnpj.acbrlibconsultacnpj.demo.source.ACBrLibHelper;
 import com.google.android.material.textfield.TextInputEditText;
 import br.com.acbr.lib.consultacnpj.ACBrLibConsultaCNPJ;
 

@@ -1,4 +1,4 @@
-package com.acbr.consultacnpj.acbrlibconsultacnpj.demo;
+package com.acbr.consultacnpj.acbrlibconsultacnpj.demo.source;
 
 import br.com.acbr.lib.consultacnpj.ACBrLibConsultaCNPJ;
 
