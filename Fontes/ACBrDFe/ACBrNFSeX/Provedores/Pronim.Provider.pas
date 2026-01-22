@@ -1067,9 +1067,6 @@ begin
                    '</dhEvento>' +
                    xAutorEvento +
                    '<chNFSe>' + chNFSe + '</chNFSe>' +
-                   '<nPedRegEvento>' +
-                     FormatFloat('000', nPedRegEvento) +
-                   '</nPedRegEvento>' +
                    '<' + tpEventoToStr(tpEvento) + '>' +
                      '<xDesc>' + tpEventoToDesc(tpEvento) + '</xDesc>' +
                      xCamposEvento +

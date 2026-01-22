@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/01/2026
+-- Pronim.Provider --
+[*] ACBR-8784 - Removido a geração da tag nPedRegEvento ao enviar o pedido de registro de evento.
+   Por: Italo Giurizzato Junior
 -- Giap.GravarXml --
 [*] ACBR-8762 - Incluído o campo nbs na geração o XML.
    Por: Italo Giurizzato Junior
