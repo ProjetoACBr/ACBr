@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="demo_acbrcep_flutter"
+        android:label="ACBrCEP Demo Flutter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 

@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
-class ACBrCepAarPlugin {
+class ACBrCepPlugin {
   static const MethodChannel _channel =
       MethodChannel('com.example.demo_acbrcep_flutter');
 

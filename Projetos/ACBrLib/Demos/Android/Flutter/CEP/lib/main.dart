@@ -1,4 +1,5 @@
-import 'package:demo_acbrcep_flutter/screens/homepage.dart';
+import 'package:demo_acbrcep_flutter/ui/screens/home_page.dart';
+import 'package:demo_acbrcep_flutter/ui/_core/app_theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,22 +11,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = ColorScheme.fromSeed(seedColor: Colors.blue);
-    final darkColorScheme = ColorScheme.fromSeed(
-        seedColor: Colors.blue, brightness: Brightness.dark);
-
     return MaterialApp(
-      home: MyHomePage(),
-      title: 'Programa Exemplo ACBrCep Flutter',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: colorScheme,
-      ),
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        colorScheme: darkColorScheme,
-      ),
-      themeMode: ThemeMode.system, // Use system theme mode
+      home: const MyHomePage(),
+      title: 'Demo ACBrLibCEP',
+      theme: AppTheme.appTheme
     );
   }
 }
