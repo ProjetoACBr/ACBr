@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 22/01/2026
+-- Pronim.Provider --
+[*] ACBR-8793 - Removido do ID do pedido de evento o numero sequencial do evento.
+    Incluído no TratarRetornoEmitir os campos de retorno: IDNota e CodigoVerificacao.
+   Por: Microsys Sistemas
 -- ISSSaoPaulo.GravarXml --
 [*] ACBR-8788 - Imposta uma condição para gerar o campo NIF, pois é da versão 2 do layout do provedor.
    Por: Italo Giurizzato Junior

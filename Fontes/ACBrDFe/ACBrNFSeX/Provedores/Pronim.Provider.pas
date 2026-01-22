@@ -738,7 +738,7 @@ var
   NFSeXml: string;
   DocumentXml: TACBrXmlDocument;
   ANode: TACBrXmlNode;
-  NumNFSe, NumDps, CodVerif: string;
+  NumNFSe, NumDps, CodVerif, NotaID: string;
   DataAut: TDateTime;
   ANota: TNotaFiscal;
   i: Integer;
@@ -765,6 +765,7 @@ var
         CodVerif := OnlyNumber(ObterConteudoTag(ANode.Attributes.Items['Id']));
         NumNFSe := ObterConteudoTag(ANode.Childrens.FindAnyNs('nNFSe'), tcStr);
         DataAut := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhProc'), tcDatHor);
+        NotaID := ObterConteudoTag(ANode.Attributes.Items['Id']);
 
         ANode := ANode.Childrens.FindAnyNs('DPS');
         ANode := ANode.Childrens.FindAnyNs('infDPS');
@@ -774,6 +775,8 @@ var
         begin
           NumeroNota := NumNFSe;
           Data := DataAut;
+          CodigoVerificacao := CodVerif;
+          idNota := NotaID;
           XmlRetorno := NFSeXml;
         end;
 
@@ -1014,8 +1017,7 @@ begin
                       '</CNPJAutor>';
     end;
 
-    ID := chNFSe + OnlyNumber(tpEventoToStr(tpEvento)) +
-              FormatFloat('000', nPedRegEvento);
+    ID := chNFSe + OnlyNumber(tpEventoToStr(tpEvento));
 
     IdAttr := 'Id="' + 'PRE' + ID + '"';
 
