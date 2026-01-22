@@ -4,7 +4,6 @@
     <style name="Base.Theme.ACBrLibConsultaCNPJDemo" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Cores primárias -->
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryContainer">@color/primary_dark</item>
         <item name="colorOnPrimary">@color/icons</item>
         
         <!-- Cores secundárias -->
@@ -13,7 +12,7 @@
         <item name="colorOnSecondary">@color/icons</item>
         
         <!-- Status bar -->
-        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="android:statusBarColor">@color/primary</item>
         <item name="android:windowLightStatusBar">false</item>
         
         <!-- Cores de fundo -->
