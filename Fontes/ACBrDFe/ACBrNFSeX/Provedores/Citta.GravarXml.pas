@@ -98,6 +98,7 @@ var
   NFSeNode: TACBrXmlNode;
 begin
   Configuracao;
+  LerParamsTabIni(True);
 
   ListaDeAlertas.Clear;
 

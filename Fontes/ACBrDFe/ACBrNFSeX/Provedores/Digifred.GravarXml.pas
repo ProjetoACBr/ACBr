@@ -90,6 +90,7 @@ var
   NFSeNode: TACBrXmlNode;
 begin
   Configuracao;
+  LerParamsTabIni(True);
 
   {
     Alguns dados merecem atenção para não serem confundidos:

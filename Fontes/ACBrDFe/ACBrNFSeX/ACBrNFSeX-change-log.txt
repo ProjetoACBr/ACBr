@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/01/2026
+-- ACBrNFSeXGravarXml/Citta.GravarXml/Citta.Provider/Digifred.GravarXml --
+-- SilTecnologia.GravarXml/PadraoNacional.GravarXml --
+[*] Os provedores Citta, Digifred e SilTecnologia exige que seja enviado para 
+    a API deles o XML da NFS-e em vez do DPS, realizado ajustes visando gerar
+    as tags do grupo infNFSe com as informações já existentes em infDPS.
+   por: Victor Gonzales/Italo Giurizzato Junior
 -- GeisWeb.GravarXml/GeisWeb.Provider --
 [*] Ajustes para aceita os dois layouts em uso pelo provedor.
    por: Italo Giurizzato Junior

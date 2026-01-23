@@ -830,9 +830,6 @@ function TACBrNFSeProviderCittaAPIPropria.PrepararArquivoEnvio(
 begin
   if aMetodo in [tmGerar, tmEnviarEvento] then
   begin
-    Result := ChangeLineBreak(aXml, '');
-    Result := EncodeBase64(GZipCompress(Result));
-
     case aMetodo of
       tmGerar:
         begin

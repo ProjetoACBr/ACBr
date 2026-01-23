@@ -118,11 +118,16 @@ type
     FGerarIBSCBSNFSe: Boolean;
     FTamMinimo: Integer;
 
+    FParamsTabW: TStrings;
+    FIniParamsTabW: TMemIniFile;
+
     function GetOpcoes: TACBrXmlWriterOptions;
     procedure SetOpcoes(AValue: TACBrXmlWriterOptions);
+    procedure SetParamsTabW(const Value: TStrings);
   protected
     FpAOwner: IACBrNFSeXProvider;
     LSecao: string;
+    FpIniParamsTabCarregado: Boolean;
 
     FConteudoTxt: TStringList;
 
@@ -204,6 +209,13 @@ type
     procedure GerarINITotgIBS(AINIRec: TMemIniFile; TotgIBS: TgIBS);
     procedure GerarINITotgCBS(AINIRec: TMemIniFile; TotgCBS: TgCBS);
 
+    function ItemListaServicoDescricao(const Codigo: string): string;
+    function LerParamsTabIniServicos: AnsiString;
+    function LerParamsTabInterno: AnsiString;
+    function LerDescricaoServico(const ACodigo: string): string;
+    procedure LerParamsTabIni(ApenasSeNaoLido: Boolean);
+    procedure LerParamsTab;
+
     function GerarIniRps: string;
     function GerarIniNfse: string;
  public
@@ -272,11 +284,13 @@ type
     property GerarIBSCBSNFSe: Boolean read FGerarIBSCBSNFSe write FGerarIBSCBSNFSe;
 
     property TamMinimo: Integer read FTamMinimo write FTamMinimo;
+    property ParamsTabW: TStrings read FParamsTabW write SetParamsTabW;
   end;
 
 implementation
 
 uses
+  synautil, types,
   ACBrUtil.Strings,
   ACBrDFeConsts,
   ACBrDFeException,
@@ -299,6 +313,11 @@ begin
 
   FConteudoTxt := TStringList.Create;
   FConteudoTxt.Clear;
+
+  FParamsTabW := TStringList.Create;
+
+  FIniParamsTabW := TMemIniFile.Create('');
+  FpIniParamsTabCarregado := False;
 
   Configuracao;
 end;
@@ -538,6 +557,8 @@ end;
 destructor TNFSeWClass.Destroy;
 begin
   FConteudoTxt.Free;
+  FParamsTabW.Free;
+  FIniParamsTabW.Free;
 
   inherited Destroy;
 end;
@@ -639,9 +660,92 @@ begin
   Result := TXmlWriterOptions(FOpcoes);
 end;
 
+procedure TNFSeWClass.LerParamsTab;
+var
+  ConteudoParams: AnsiString;
+begin
+  ConteudoParams := LerParamsTabIniServicos;
+
+  if ConteudoParams = '' then
+    ConteudoParams := LerParamsTabInterno;
+
+  FParamsTabW.Text := ConteudoParams;
+end;
+
+function TNFSeWClass.LerParamsTabIniServicos: AnsiString;
+var
+  ArqIni: String;
+  FS: TFileStream;
+begin
+  Result := '';
+  ArqIni := Trim(FpAOwner.ConfigGeral.IniTabServicos);
+
+  if (ArqIni <> '') and FileExists(ArqIni) then
+  begin
+    FS := TFileStream.Create(ArqIni, fmOpenRead or fmShareDenyNone);  // Thread Safe
+    try
+      FS.Position := 0;
+      Result := ReadStrFromStream(FS, FS.Size);
+    finally
+      FS.Free;
+    end;
+  end;
+end;
+
+function TNFSeWClass.LerParamsTabInterno: AnsiString;
+var
+  RS: TResourceStream;
+begin
+  Result := '';
+
+  RS := TResourceStream.Create(HInstance, 'TabServicos', RT_RCDATA);
+  try
+    RS.Position := 0;
+    Result := ReadStrFromStream(RS, RS.Size);
+  finally
+    RS.Free;
+  end;
+end;
+
+procedure TNFSeWClass.LerParamsTabIni(ApenasSeNaoLido: Boolean);
+begin
+  if ApenasSeNaoLido and FpIniParamsTabCarregado then
+    exit;
+
+  if ParamsTabW.Count = 0 then
+    LerParamsTab;
+
+  FIniParamsTabW.SetStrings(ParamsTabW);
+  FpIniParamsTabCarregado := True;
+end;
+
+function TNFSeWClass.ItemListaServicoDescricao(const Codigo: string): string;
+var
+  xCodigo: string;
+begin
+  xCodigo := OnlyNumber(Codigo);
+
+  if FpAOwner.ConfigGeral.TabServicosExt then
+    Result := ObterDescricaoServico(xCodigo)
+  else
+    Result := LerDescricaoServico(xCodigo);
+end;
+
+function TNFSeWClass.LerDescricaoServico(const ACodigo: string): string;
+begin
+  FIniParamsTabW.SetStrings(ParamsTabW);
+
+  Result := ACBrStr(FIniParamsTabW.ReadString(OnlyNumber(ACodigo), 'Descricao', ''));
+end;
+
 procedure TNFSeWClass.SetOpcoes(AValue: TACBrXmlWriterOptions);
 begin
   FOpcoes := AValue;
+end;
+
+procedure TNFSeWClass.SetParamsTabW(const Value: TStrings);
+begin
+  FParamsTabW := Value;
 end;
 
 function TNFSeWClass.GerarCNPJ(const CNPJ: string): TACBrXmlNode;

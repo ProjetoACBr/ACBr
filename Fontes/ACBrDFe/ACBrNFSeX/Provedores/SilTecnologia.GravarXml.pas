@@ -104,6 +104,7 @@ var
   NFSeNode: TACBrXmlNode;
 begin
   Configuracao;
+  LerParamsTabIni(True);
 
   NrOcorrtpAmb := -1;
 
