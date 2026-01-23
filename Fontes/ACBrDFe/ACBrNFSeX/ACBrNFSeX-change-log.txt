@@ -44,6 +44,8 @@ Símbolo : Significado
 
 23/01/2026
 -- ACBrNFSeXServicos --
+[*] Ajuste nas URLs do município de Cubatão/SP.
+   Por: Italo Giurizzato Junior
 [*] Ajuste nas URLs do município de Cataguases MG Homologacao.
 	Por: AltC
 -- Conam.GravarXml.pas --
