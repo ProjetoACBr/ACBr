@@ -13607,7 +13607,7 @@ var
 begin
   if (Trim(s)) = '' then
   begin
-    Result := TindFinal.ifNao;
+    Result := ifNao;
     exit;
   end;
   for idx:= Low(TindFinalArrayStrings) to High(TindFinalArrayStrings) do
