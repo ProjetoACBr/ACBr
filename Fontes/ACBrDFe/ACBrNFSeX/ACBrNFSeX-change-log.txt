@@ -41,6 +41,15 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+22/01/2026
+-- ACBrNFSeXServicos --
+[*] Ajuste nas URLs do município de Catanduva
+    por: Elias
+[*] Ajuste do provedor do município Piraju para padrão nacional;
+[*] Ajuste do provedor do município Irecê para o Saatri.
+    Por: Matheus Klein
+
 23/01/2026
 -- GovDigital.Provider.pas --
 [-] ACBR-8843 - No cancelamento v200 e v201 feita sobrescrita do metodo e adicionado CMotivo
