@@ -9,6 +9,7 @@
     <application
         android:name=".utils.PIXCDApplication"
         android:allowBackup="true"
+        android:enableOnBackInvokedCallback="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -36,25 +37,17 @@
             android:exported="false"
             android:theme="@style/Theme.ACBrLibPIXCDDemo" />
         <activity
-            android:name=".configuracoes.ConfiguracoesPIXCDFragment"
-            android:exported="false" />
-        <activity
             android:name=".configuracoes.ConfiguracoesPIXCDActivity"
             android:exported="false" />
         <activity
-            android:name=".comandos.ComandosPIXCDActivity"
-            android:exported="false" />
-        <activity
-            android:name=".configuracoes.ConfiguracoesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".comandos.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 
