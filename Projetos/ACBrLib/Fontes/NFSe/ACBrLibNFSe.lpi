@@ -22,7 +22,7 @@
       <AutoIncrementBuild Value="False"/>
       <MajorVersionNr Value="2"/>
       <RevisionNr Value="0"/>
-      <BuildNr Value="241"/>
+      <BuildNr Value="242"/>
       <Language Value="0416"/>
       <StringTable CompanyName="Projeto ACBr" FileDescription="ACBrNFSe - Biblioteca para emissão e impressão de nota fiscal eletrônica de serviço" InternalName="ACBrLibNFSe" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="ACBrNFSe " ProductVersion="1.0.0.0"/>
       <MinorVersionNr Value="1"/>
