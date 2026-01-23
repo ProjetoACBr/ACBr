@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/01/2026
+-- GeisWeb.GravarXml/GeisWeb.Provider --
+[*] Ajustes para aceita os dois layouts em uso pelo provedor.
+   por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] A cidade Campo Limpo Paulista/SP ainda continua com a URL e layout que não
     atende a reforma tributária.

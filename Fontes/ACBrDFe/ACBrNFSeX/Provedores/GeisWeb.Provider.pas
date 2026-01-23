@@ -67,6 +67,8 @@ type
   end;
 
   TACBrNFSeProviderGeisWeb = class (TACBrNFSeProviderProprio)
+  private
+    FpURL: string;
   protected
     procedure Configuracao; override;
 
@@ -133,8 +135,12 @@ begin
 
   ConfigAssinar.Rps := True;
 
-//  SetXmlNameSpace('http://www.gerenciadecidades.com.br/xsd/envio_lote_rps.xsd');
-  SetXmlNameSpace('http://www.cidadedofuturo.com.br/xsd/envio_lote_rps.xsd');
+  FpURL :=  'cidadedofuturo';
+
+  if ConfigGeral.Versao = ve100 then
+    FpURL :=  'gerenciadecidades';
+
+  SetXmlNameSpace('http://www.' + FpURL + '.com.br/xsd/envio_lote_rps.xsd');
 
   with ConfigMsgDados do
   begin
@@ -246,7 +252,7 @@ end;
 function TACBrNFSeProviderGeisWeb.PrepararRpsParaLote(
   const aXml: string): string;
 begin
-  Result := '<Rps xmlns="http://www.cidadedofuturo.com.br/xsd/envio_lote_rps.xsd">' +
+  Result := '<Rps xmlns="http://www.' + FpURL + '.com.br/xsd/envio_lote_rps.xsd">' +
             SeparaDados(aXml, 'Rps') + '</Rps>';
 end;
 
@@ -825,7 +831,7 @@ begin
   else
     ambiente := 'homologacao/modelo';
 
-  Result := 'xmlns:geis="urn:https://www.cidadedofuturo.com.br/' + ambiente +
+  Result := 'xmlns:geis="urn:https://www.' + FpURL + '.com.br/' + ambiente +
             '/webservice/GeisWebServiceImpl.php"';
 end;
 
@@ -838,7 +844,7 @@ begin
   else
     ambiente := 'homologacao/modelo';
 
-  Result := 'urn:https://www.cidadedofuturo.com.br/' + ambiente +
+  Result := 'urn:https://www.' + FpURL + '.com.br/' + ambiente +
             '/webservice/GeisWebServiceImpl.php#';
 end;
 
