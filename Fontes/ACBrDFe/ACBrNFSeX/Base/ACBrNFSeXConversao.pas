@@ -13605,6 +13605,11 @@ function StrToindFinal(const s: string): TindFinal;
 var
   idx: TindFinal;
 begin
+  if (Trim(s)) = '' then
+  begin
+    Result := TindFinal.ifNao;
+    exit;
+  end;
   for idx:= Low(TindFinalArrayStrings) to High(TindFinalArrayStrings) do
   begin
     if (TindFinalArrayStrings[idx] = s) then
