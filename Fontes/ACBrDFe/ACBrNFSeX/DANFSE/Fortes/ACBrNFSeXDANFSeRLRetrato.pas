@@ -499,13 +499,13 @@ begin
     end;
 
     if Servico.CodigoNBS <> '' then
-      rlmCodServico.Lines.Append('Código NBS: ' + Servico.CodigoNBS);
+      rlmCodServico.Lines.Append(ACBrStr('Código NBS: ') + Servico.CodigoNBS);
 
     if fpDANFSe.Atividade <> '' then
       rlmCodServico.Lines.Append('Atividade: ' + fpDANFSe.Atividade);
 
     if (Servico.xCodigoTributacaoMunicipio <> '') then
-      rlmCodServico.Lines.Append('Cod. Tributacao Municipio: ' + Servico.xCodigoTributacaoMunicipio);
+      rlmCodServico.Lines.Append(ACBrStr('Cód. Tributação Município: ') + Servico.xCodigoTributacaoMunicipio);
 
     if Servico.CodigoCnae <> '' then
       rlmCodServico.Lines.Append(ACBrStr('Código CNAE: ') + Servico.CodigoCnae);
