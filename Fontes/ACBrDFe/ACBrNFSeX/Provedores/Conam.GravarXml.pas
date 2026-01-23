@@ -235,10 +235,8 @@ begin
 
   if (CpfCnpj <> 'CONSUMIDOR') and (CpfCnpj <> 'EXTERIOR') then
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CepTom', 1, 8, 1,
-                                    OnlyNumber(NFSe.Tomador.Endereco.CEP), ''))
-  else
-    NFSeNode.AppendChild(AddNode(tcStr, '#1', 'CepTom', 1, 8, 1,
-                                                                '00000000',''));
+                                    OnlyNumber(NFSe.Tomador.Endereco.CEP), ''));
+  {Conforme manual nao enviar a CepTom qdo Tomador for Consumidor ou Exterior}
 
   if (CpfCnpj = 'CONSUMIDOR') then
     NFSeNode.AppendChild(AddNode(tcStr, '#1', 'Telefone', 1, 10, 1, '', ''))
