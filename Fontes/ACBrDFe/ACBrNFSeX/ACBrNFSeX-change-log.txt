@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/01/2026
+-- ACBrNFSeXServicos --
+[*] A cidade Campo Limpo Paulista/SP ainda continua com a URL e layout que não
+    atende a reforma tributária.
+   por: Destak/Italo Giurizzato Junior
+
 22/01/2026
 -- iiBrasil.GravarXml --
 [*] ACBR-8813 - Ajustes visando a reforma tributária.
