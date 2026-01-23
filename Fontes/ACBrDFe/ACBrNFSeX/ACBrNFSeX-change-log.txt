@@ -41,16 +41,18 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
 23/01/2026
 -- ACBrNFSeXServicos --
 [*] Ajuste nas URLs do município de Cataguases MG Homologacao.
 	Por: AltC
-
-23/01/2026
 -- Conam.GravarXml.pas --
 [-] ACBR-8775 - Quando Tomador for Consumidor ou Exterior CEP nao deve ser informado.
 	https://www.projetoacbr.com.br/forum/topic/89066-acbr-8775provedor-conam-tabo%C3%A3o-da-serrasp-processamento-rejeitado-informe-vers%C3%A3o-400/?&_rid=1706#findComment-582890
    Por: Daniel de Morais
+-- Giss.Provider -- 
+[*] Correção de erro de assinatura no método Emitir - https://www.projetoacbr.com.br/forum/topic/89734-erro-de-assinatura-para-emiss%C3%A3o-para-o-provedor-giss-santossp/
+   Por: [Bruno]
 
 22/01/2026
 -- ACBrNFSeXServicos --

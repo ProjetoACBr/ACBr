@@ -241,8 +241,8 @@ var
 begin
   with ConfigMsgDados do
   begin
-    Prefixo := 'ns3';
-    PrefixoTS := 'ns4';
+    Prefixo := '';
+    PrefixoTS := '';
   end;
 
   if EstaVazio(Response.NumeroLote) then
