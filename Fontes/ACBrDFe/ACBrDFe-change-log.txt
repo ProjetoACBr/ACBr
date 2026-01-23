@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/01/2026
+-- ACBrDFeWebService --
+[-] ACBR-8847: Ajuste visando a correta geração do fuso horário no envio de eventos.
+  Por: Diego Folieni
+
 21/11/2025
 -- ACBrDFe.Conversao --
 [+] ACBR-5451 - Inclusão do evento Atualização da Data de Previsão de Entrega para Reforma Tributária
