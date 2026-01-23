@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/qrcodeFragment"
+        android:icon="@drawable/ic_baseline_qr_code_24"
+        android:title="QRCode Estático" />
+    <item
+        android:id="@+id/endPointPixFragment"
+        android:icon="@drawable/ic_baseline_menu_24"
+        android:title="PIX" />
+    <item
+        android:id="@+id/endPointCobFragment"
+        android:icon="@drawable/ic_baseline_menu_24"
+        android:title="COB" />
+    <item
+        android:id="@+id/endPointCobVFragment"
+        android:icon="@drawable/ic_baseline_menu_24"
+        android:title="COBV" />
+    <item
+        android:id="@+id/configuracoesFragment"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="Configurações" />
+</menu>

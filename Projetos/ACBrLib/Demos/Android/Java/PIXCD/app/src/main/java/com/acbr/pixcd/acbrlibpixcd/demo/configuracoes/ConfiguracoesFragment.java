@@ -2,9 +2,15 @@ package com.acbr.pixcd.acbrlibpixcd.demo.configuracoes;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.acbr.pixcd.acbrlibpixcd.demo.R;
 import com.acbr.pixcd.acbrlibpixcd.demo.configuracoes.psp.ConfiguracoesAilosFragment;
@@ -22,10 +28,10 @@ import com.acbr.pixcd.acbrlibpixcd.demo.configuracoes.psp.ConfiguracoesSantander
 import com.acbr.pixcd.acbrlibpixcd.demo.configuracoes.psp.ConfiguracoesShipayFragment;
 import com.acbr.pixcd.acbrlibpixcd.demo.configuracoes.psp.ConfiguracoesSicoobFragment;
 import com.acbr.pixcd.acbrlibpixcd.demo.configuracoes.psp.ConfiguracoesSicrediFragment;
-import com.acbr.pixcd.acbrlibpixcd.demo.databinding.ActivityConfiguracoesPixcdBinding;
 import com.acbr.pixcd.acbrlibpixcd.demo.utils.ACBrLibHelper;
-import com.acbr.pixcd.acbrlibpixcd.demo.utils.PIXCDApplication;
 import com.acbr.pixcd.acbrlibpixcd.demo.utils.ViewPagerAdapter;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.HashMap;
@@ -33,29 +39,24 @@ import java.util.Map;
 
 import br.com.acbr.lib.pixcd.ACBrLibPIXCD;
 
-public class ConfiguracoesPIXCDActivity extends AppCompatActivity {
+public class ConfiguracoesFragment extends Fragment {
 
-    private ActivityConfiguracoesPixcdBinding binding;
     private ACBrLibPIXCD ACBrPIXCD;
-    private PIXCDApplication application;
 
     @SuppressLint("MissingInflatedId")
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityConfiguracoesPixcdBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Inflate the ViewPager + TabLayout layout used previously by the activity
+        View view = inflater.inflate(R.layout.activity_configuracoes_pixcd, container, false);
 
-        configTabLayout();
-
-        application = (PIXCDApplication) getApplicationContext();
         ACBrPIXCD = ACBrLibHelper.getInstance("");
-    }
 
-    private void configTabLayout(){
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
-        binding.viewPager.setAdapter(adapter);
+        ViewPager2 viewPager = view.findViewById(R.id.viewPager);
+        TabLayout tabs = view.findViewById(R.id.tabs);
+        NavigationView navigationView = view.findViewById(R.id.navigationView);
 
+        ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity());
         adapter.addFragment(new ConfiguracoesPIXCDFragment(), "Configurações PIXCD");
         adapter.addFragment(new ConfiguracoesBradescoFragment(), "Bradesco");
         adapter.addFragment(new ConfiguracoesSicrediFragment(), "Sicredi");
@@ -73,11 +74,10 @@ public class ConfiguracoesPIXCDActivity extends AppCompatActivity {
         adapter.addFragment(new ConfiguracoesCieloFragment(), "Cielo");
         adapter.addFragment(new ConfiguracoesMercadoPagoFragment(), "MercadoPago");
 
-        binding.viewPager.setOffscreenPageLimit(adapter.getItemCount());
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(adapter.getItemCount());
 
-        new TabLayoutMediator(binding.tabs, binding.viewPager, (tab, position) -> {
-            tab.setText(adapter.getTitle(position));
-        }).attach();
+        new TabLayoutMediator(tabs, viewPager, (tab, position) -> tab.setText(adapter.getTitle(position))).attach();
 
         Map<Integer, Integer> menuPositionMap = new HashMap<>();
         menuPositionMap.put(R.id.menu_pixcd, 0);
@@ -97,12 +97,17 @@ public class ConfiguracoesPIXCDActivity extends AppCompatActivity {
         menuPositionMap.put(R.id.menu_cielo, 14);
         menuPositionMap.put(R.id.menu_mercadopago, 15);
 
-        binding.navigationView.setNavigationItemSelectedListener(item -> {
+        navigationView.setNavigationItemSelectedListener(item -> {
             Integer position = menuPositionMap.getOrDefault(item.getItemId(), 0);
 
-            binding.viewPager.setCurrentItem(position, true);
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+            viewPager.setCurrentItem(position, true);
+            View drawer = view.findViewById(R.id.drawerLayout);
+            if (drawer instanceof androidx.drawerlayout.widget.DrawerLayout) {
+                ((androidx.drawerlayout.widget.DrawerLayout) drawer).closeDrawer(androidx.core.view.GravityCompat.START);
+            }
             return true;
         });
+
+        return view;
     }
 }

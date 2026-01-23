@@ -1,20 +1,20 @@
 package com.acbr.pixcd.acbrlibpixcd.demo.comandos;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.acbr.pixcd.acbrlibpixcd.demo.R;
-import com.acbr.pixcd.acbrlibpixcd.demo.comandos.endpoints.cob.ComandosEndPointCobActivity;
-import com.acbr.pixcd.acbrlibpixcd.demo.comandos.endpoints.cobv.ComandosEndPointCobVActivity;
-import com.acbr.pixcd.acbrlibpixcd.demo.comandos.endpoints.pix.ComandosEndPointPixActivity;
-import com.acbr.pixcd.acbrlibpixcd.demo.configuracoes.ConfiguracoesPIXCDActivity;
 import com.acbr.pixcd.acbrlibpixcd.demo.utils.PIXCDApplication;
 
 import br.com.acbr.lib.pixcd.ACBrLibPIXCD;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,48 +24,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comandos_pixcd);
-
-        Button btnQRCodeEstatico = findViewById(R.id.btnQRCodeEstatico);
-        Button btnEndPointPix = findViewById(R.id.btnEndPointPix);
-        Button btnEndPointCob = findViewById(R.id.btnEndPointCob);
-        Button btnEndPointCobV = findViewById(R.id.btnEndPointCobV);
-        Button btnConfiguracoes = findViewById(R.id.btnAbrirConfiguracoes);
-
-        btnQRCodeEstatico.setOnClickListener(view -> IrParaTelaQRCodeEstatico());
-        btnEndPointPix.setOnClickListener(view -> IrParaTelaEndPointPix());
-        btnEndPointCob.setOnClickListener(view -> IrParaTelaEndPointCob());
-        btnEndPointCobV.setOnClickListener(view -> IrParaTelaEndPointCobV());
-        btnConfiguracoes.setOnClickListener(view -> IrParaTelaConfiguracoes());
+        setContentView(R.layout.activity_main);
 
         this.application = (PIXCDApplication) getApplicationContext();
         this.ACBrPIXCD = application.getACBrLibPIXCD();
         this.configurarACBrPIXCD();
-    }
 
-    private void IrParaTelaQRCodeEstatico(){
-        Intent intent = new Intent(this, ComandosQRCodeEstaticoActivity.class);
-        startActivity(intent);
-    }
+        // Setup toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-    private void IrParaTelaEndPointPix(){
-        Intent intent = new Intent(this, ComandosEndPointPixActivity.class);
-        startActivity(intent);
-    }
+        // Configure Bottom Navigation with Navigation Component
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host_fragment);
+        if (navHostFragment != null) {
+            NavController navController = navHostFragment.getNavController();
+            BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+            NavigationUI.setupWithNavController(bottomNav, navController);
 
-    private void IrParaTelaEndPointCob(){
-        Intent intent = new Intent(this, ComandosEndPointCobActivity.class);
-        startActivity(intent);
-    }
-
-    private void IrParaTelaEndPointCobV(){
-        Intent intent = new Intent(this, ComandosEndPointCobVActivity.class);
-        startActivity(intent);
-    }
-
-    private void IrParaTelaConfiguracoes(){
-        Intent intent = new Intent(this, ConfiguracoesPIXCDActivity.class);
-        startActivity(intent);
+            // Configure AppBar to update title from destination labels
+            AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.qrcodeFragment, R.id.endPointPixFragment, R.id.endPointCobFragment, R.id.endPointCobVFragment, R.id.configuracoesFragment
+            ).build();
+            NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
+        }
     }
 
     private void configurarACBrPIXCD() {
@@ -91,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        ACBrPIXCD.finalizar();
+        if (ACBrPIXCD != null) {
+            ACBrPIXCD.finalizar();
+        }
     }
 }

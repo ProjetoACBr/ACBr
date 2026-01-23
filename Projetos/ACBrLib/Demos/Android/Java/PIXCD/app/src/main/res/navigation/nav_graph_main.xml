@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@id/qrcodeFragment">
+
+    <fragment
+        android:id="@+id/qrcodeFragment"
+        android:name="com.acbr.pixcd.acbrlibpixcd.demo.comandos.ComandosQRCodeEstaticoFragment"
+        android:label="QRCode" />
+
+    <fragment
+        android:id="@+id/configuracoesFragment"
+        android:name="com.acbr.pixcd.acbrlibpixcd.demo.configuracoes.ConfiguracoesFragment"
+        android:label="Configurações" />
+
+    <fragment
+        android:id="@+id/endPointPixFragment"
+        android:name="com.acbr.pixcd.acbrlibpixcd.demo.comandos.endpoints.pix.ComandosEndPointPixFragment"
+        android:label="EndPoint Pix" />
+
+    <fragment
+        android:id="@+id/endPointCobFragment"
+        android:name="com.acbr.pixcd.acbrlibpixcd.demo.comandos.endpoints.cob.ComandosEndPointCobFragment"
+        android:label="EndPoint Cob" />
+
+    <fragment
+        android:id="@+id/endPointCobVFragment"
+        android:name="com.acbr.pixcd.acbrlibpixcd.demo.comandos.endpoints.cobv.ComandosEndPointCobVFragment"
+        android:label="EndPoint CobV" />
+
+</navigation>
