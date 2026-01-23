@@ -419,12 +419,9 @@ var
         ANode := ANode.Childrens.FindAnyNs('infDPS');
         NumDps := ObterConteudoTag(ANode.Childrens.FindAnyNs('nDPS'), tcStr);
 
-        with Response do
-        begin
-          NumeroNota := NumNFSe;
-          Data := DataAut;
-          XmlRetorno := NFSeXml;
-        end;
+        Response.NumeroNota := NumNFSe;
+        Response.Data := DataAut;
+        Response.XmlRetorno := NFSeXml;
 
         ANota := TACBrNFSeX(FAOwner).NotasFiscais.FindByRps(NumDps);
 
@@ -611,7 +608,7 @@ begin
             end;
 
             DocumentXml.LoadFromXml(NFSeXml);
-
+            Response.XmlRetorno := NFSeXml;
             ANode := DocumentXml.Root.Childrens.FindAnyNs('infNFSe');
 
             NumNFSe := ObterConteudoTag(ANode.Childrens.FindAnyNs('nNFSe'), tcStr);
