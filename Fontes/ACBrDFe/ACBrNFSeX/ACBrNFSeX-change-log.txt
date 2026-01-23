@@ -41,6 +41,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+23/01/2026
+-- GovDigital.Provider.pas --
+[-] ACBR-8843 - No cancelamento v200 e v201 feita sobrescrita do metodo e adicionado CMotivo
+	https://www.projetoacbr.com.br/forum/topic/89669-cancelamento-no-govdigital-201-e-200
+	https://www.projetoacbr.com.br/forum/topic/89748-acbr-8843ajustes-cancelamento-nfs-e-govdigital
+   Por: bremen.sistemas/Daniel de Morais
 
 23/01/2026
 -- ACBrNFSeXGravarXml/Citta.GravarXml/Citta.Provider/Digifred.GravarXml --

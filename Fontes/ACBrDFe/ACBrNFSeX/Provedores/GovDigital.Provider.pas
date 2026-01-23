@@ -67,6 +67,8 @@ type
     function CriarGeradorXml(const ANFSe: TNFSe): TNFSeWClass; override;
     function CriarLeitorXml(const ANFSe: TNFSe): TNFSeRClass; override;
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
+    procedure PrepararCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
+    procedure GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse; Params: TNFSeParamsResponse); override;
 
   end;
 
@@ -86,6 +88,9 @@ type
     function CriarServiceClient(const AMetodo: TMetodo): TACBrNFSeXWebservice; override;
 
     procedure PrepararCancelaNFSe(Response: TNFSeCancelaNFSeResponse); override;
+    procedure GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse;
+      Params: TNFSeParamsResponse); override;
+
   end;
 
 implementation
@@ -329,57 +334,7 @@ begin
   Result := RemoverDeclaracaoXML(Result);
 end;
 
-{ TACBrNFSeProviderGovDigital201 }
-
-procedure TACBrNFSeProviderGovDigital201.Configuracao;
-begin
-  inherited Configuracao;
-
-  with ConfigAssinar do
-  begin
-    Rps := True;
-    LoteRps := True;
-    CancelarNFSe := True;
-    RpsGerarNFSe := True;
-    RpsSubstituirNFSe := True;
-  end;
-  ConfigGeral.CancPreencherMotivo := True;
-end;
-
-function TACBrNFSeProviderGovDigital201.CriarGeradorXml(
-  const ANFSe: TNFSe): TNFSeWClass;
-begin
-  Result := TNFSeW_GovDigital201.Create(Self);
-  Result.NFSe := ANFSe;
-end;
-
-function TACBrNFSeProviderGovDigital201.CriarLeitorXml(
-  const ANFSe: TNFSe): TNFSeRClass;
-begin
-  Result := TNFSeR_GovDigital201.Create(Self);
-  Result.NFSe := ANFSe;
-end;
-
-function TACBrNFSeProviderGovDigital201.CriarServiceClient(
-  const AMetodo: TMetodo): TACBrNFSeXWebservice;
-var
-  URL: string;
-begin
-  URL := GetWebServiceURL(AMetodo);
-
-  if URL <> '' then
-    Result := TACBrNFSeXWebserviceGovDigital201.Create(FAOwner, AMetodo, URL)
-  else
-  begin
-    if ConfigGeral.Ambiente = taProducao then
-      raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
-    else
-      raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
-  end;
-end;
-
-procedure TACBrNFSeProviderGovDigital201.PrepararCancelaNFSe(
-  Response: TNFSeCancelaNFSeResponse);
+procedure TACBrNFSeProviderGovDigital200.PrepararCancelaNFSe(Response: TNFSeCancelaNFSeResponse);
 var
   AErro: TNFSeEventoCollectionItem;
   aParams: TNFSeParamsResponse;
@@ -480,6 +435,243 @@ begin
     end;
 
     xMotivo := '<' + Prefixo + 'XMotivo>' +
+                 Trim(InfoCanc.MotCancelamento) +
+               '</' + Prefixo + 'XMotivo>';
+  end
+  else
+    xMotivo := '';
+
+  if ConfigGeral.CancPreencherCodVerificacao then
+  begin
+    if EstaVazio(InfoCanc.CodVerificacao) then
+    begin
+      AErro := Response.Erros.New;
+      AErro.Codigo := Cod117;
+      AErro.Descricao := ACBrStr(Desc117);
+      Exit;
+    end;
+
+    xCodVerif := '<' + Prefixo + 'CodigoVerificacao>' +
+                   Trim(InfoCanc.CodVerificacao) +
+                 '</' + Prefixo + 'CodigoVerificacao>';
+  end
+  else
+    xCodVerif := '';
+
+  aParams := TNFSeParamsResponse.Create;
+  try
+    aParams.Clear;
+    aParams.Xml := '';
+    aParams.TagEnvio := '';
+    aParams.Prefixo := Prefixo;
+    aParams.Prefixo2 := PrefixoTS;
+    aParams.NameSpace := NameSpace;
+    aParams.NameSpace2 := NameSpaceCanc;
+    aParams.IdAttr := IdAttr;
+    aParams.Versao := '';
+    aParams.Serie := xSerie;
+    aParams.Motivo := xMotivo;
+    aParams.CodigoVerificacao := xCodVerif;
+
+    GerarMsgDadosCancelaNFSe(Response, aParams);
+  finally
+    aParams.Free;
+  end;
+end;
+
+procedure TACBrNFSeProviderGovDigital200.GerarMsgDadosCancelaNFSe(Response: TNFSeCancelaNFSeResponse; Params: TNFSeParamsResponse);
+var
+  Emitente: TEmitenteConfNFSe;
+  InfoCanc: TInfCancelamento;
+begin
+  Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+  InfoCanc := Response.InfCancelamento;
+
+  with Params do
+  begin
+    Response.ArquivoEnvio := '<' + Prefixo + 'CancelarNfseEnvio' + NameSpace + '>' +
+                           '<' + Prefixo2 + 'Pedido>' +
+                             '<' + Prefixo2 + 'InfPedidoCancelamento' + IdAttr + NameSpace2 + '>' +
+                               '<' + Prefixo2 + 'IdentificacaoNfse>' +
+                                 '<' + Prefixo2 + 'Numero>' +
+                                    InfoCanc.NumeroNFSe +
+                                 '</' + Prefixo2 + 'Numero>' +
+                                 Serie +
+                                 '<' + Prefixo2 + 'CpfCnpj>' +
+                                    GetCpfCnpj(Emitente.CNPJ, Prefixo2) +
+                                 '</' + Prefixo2 + 'CpfCnpj>' +
+                                 GetInscMunic(Emitente.InscMun, Prefixo2) +
+                                 '<' + Prefixo2 + 'CodigoMunicipio>' +
+                                    IntToStr(InfoCanc.CodMunicipio) +
+//                                    IntToStr(TACBrNFSeX(FAOwner).Configuracoes.Geral.CodigoMunicipio) +
+                                 '</' + Prefixo2 + 'CodigoMunicipio>' +
+                                 CodigoVerificacao +
+                               '</' + Prefixo2 + 'IdentificacaoNfse>' +
+                               '<' + Prefixo2 + 'CMotivo>' +
+                                  InfoCanc.CodCancelamento +
+                               '</' + Prefixo2 + 'CMotivo>' +
+                               Motivo +
+                             '</' + Prefixo2 + 'InfPedidoCancelamento>' +
+                           '</' + Prefixo2 + 'Pedido>' +
+                         '</' + Prefixo + 'CancelarNfseEnvio>';
+  end;
+end;
+
+{ TACBrNFSeProviderGovDigital201 }
+
+procedure TACBrNFSeProviderGovDigital201.Configuracao;
+begin
+  inherited Configuracao;
+
+  with ConfigAssinar do
+  begin
+    Rps := True;
+    LoteRps := True;
+    CancelarNFSe := True;
+    RpsGerarNFSe := True;
+    RpsSubstituirNFSe := True;
+  end;
+  ConfigGeral.CancPreencherMotivo := True;
+end;
+
+function TACBrNFSeProviderGovDigital201.CriarGeradorXml(
+  const ANFSe: TNFSe): TNFSeWClass;
+begin
+  Result := TNFSeW_GovDigital201.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderGovDigital201.CriarLeitorXml(
+  const ANFSe: TNFSe): TNFSeRClass;
+begin
+  Result := TNFSeR_GovDigital201.Create(Self);
+  Result.NFSe := ANFSe;
+end;
+
+function TACBrNFSeProviderGovDigital201.CriarServiceClient(
+  const AMetodo: TMetodo): TACBrNFSeXWebservice;
+var
+  URL: string;
+begin
+  URL := GetWebServiceURL(AMetodo);
+
+  if URL <> '' then
+    Result := TACBrNFSeXWebserviceGovDigital201.Create(FAOwner, AMetodo, URL)
+  else
+  begin
+    if ConfigGeral.Ambiente = taProducao then
+      raise EACBrDFeException.Create(ERR_SEM_URL_PRO)
+    else
+      raise EACBrDFeException.Create(ERR_SEM_URL_HOM);
+  end;
+end;
+
+procedure TACBrNFSeProviderGovDigital201.PrepararCancelaNFSe(
+  Response: TNFSeCancelaNFSeResponse);
+var
+  AErro: TNFSeEventoCollectionItem;
+  aParams: TNFSeParamsResponse;
+  Emitente: TEmitenteConfNFSe;
+  InfoCanc: TInfCancelamento;
+  IdAttr, NameSpace, NameSpaceCanc, xMotivo, xCodVerif, Prefixo, PrefixoTS,
+  xSerie, CMotivo: string;
+begin
+  if EstaVazio(Response.InfCancelamento.NumeroNFSe) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod108;
+    AErro.Descricao := ACBrStr(Desc108);
+    Exit;
+  end;
+
+  if EstaVazio(Response.InfCancelamento.CodCancelamento) then
+  begin
+    AErro := Response.Erros.New;
+    AErro.Codigo := Cod109;
+    AErro.Descricao := ACBrStr(Desc109);
+    Exit;
+  end;
+
+  Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+  InfoCanc := Response.InfCancelamento;
+  Prefixo := '';
+  PrefixoTS := '';
+
+  if EstaVazio(ConfigMsgDados.CancelarNFSe.xmlns) then
+  begin
+    NameSpace := '';
+    NameSpaceCanc := '';
+  end
+  else
+  begin
+    if ConfigMsgDados.Prefixo = '' then
+      NameSpace := ' xmlns="' + ConfigMsgDados.CancelarNFSe.xmlns + '"'
+    else
+    begin
+      NameSpace := ' xmlns:' + ConfigMsgDados.Prefixo + '="' + ConfigMsgDados.CancelarNFSe.xmlns + '"';
+      Prefixo := ConfigMsgDados.Prefixo + ':';
+    end;
+
+    NameSpaceCanc := NameSpace;
+  end;
+
+  if ConfigMsgDados.XmlRps.xmlns <> '' then
+  begin
+    if (ConfigMsgDados.XmlRps.xmlns <> ConfigMsgDados.CancelarNFSe.xmlns) and
+       ((ConfigMsgDados.Prefixo <> '') or (ConfigMsgDados.PrefixoTS <> '')) then
+    begin
+      if ConfigMsgDados.PrefixoTS = '' then
+        NameSpace := NameSpace + ' xmlns="' + ConfigMsgDados.XmlRps.xmlns + '"'
+      else
+      begin
+        NameSpace := NameSpace+ ' xmlns:' + ConfigMsgDados.PrefixoTS + '="' +
+                                            ConfigMsgDados.XmlRps.xmlns + '"';
+        PrefixoTS := ConfigMsgDados.PrefixoTS + ':';
+      end;
+    end
+    else
+    begin
+      if ConfigMsgDados.PrefixoTS <> '' then
+        PrefixoTS := ConfigMsgDados.PrefixoTS + ':';
+    end;
+  end;
+
+  IdAttr := DefinirIDCancelamento(OnlyNumber(Emitente.CNPJ),
+                                  OnlyNumber(Emitente.InscMun),
+                                  InfoCanc.NumeroNFSe);
+
+  if ConfigGeral.CancPreencherSerieNfse then
+  begin
+    if EstaVazio(InfoCanc.SerieNFSe) then
+    begin
+      AErro := Response.Erros.New;
+      AErro.Codigo := Cod112;
+      AErro.Descricao := ACBrStr(Desc112);
+      Exit;
+    end;
+
+    xSerie := '<' + PrefixoTS + 'Serie>' +
+                 Trim(InfoCanc.SerieNFSe) +
+               '</' + PrefixoTS + 'Serie>';
+  end
+  else
+    xSerie := '';
+
+  if ConfigGeral.CancPreencherMotivo then
+  begin
+    if EstaVazio(InfoCanc.MotCancelamento) then
+    begin
+      AErro := Response.Erros.New;
+      AErro.Codigo := Cod110;
+      AErro.Descricao := ACBrStr(Desc110);
+      Exit;
+    end;
+
+    CMotivo := '<' + Prefixo + 'CMotivo>' +
+               Trim(InfoCanc.CodCancelamento) +
+             '</' + Prefixo + 'CMotivo>';
+
+    xMotivo := '<' + Prefixo + 'XMotivo>' +
                Trim(InfoCanc.MotCancelamento) +
              '</' + Prefixo + 'XMotivo>';
   end
@@ -523,5 +715,48 @@ begin
     aParams.Free;
   end;
 end;
+
+procedure TACBrNFSeProviderGovDigital201.GerarMsgDadosCancelaNFSe(
+  Response: TNFSeCancelaNFSeResponse; Params: TNFSeParamsResponse);
+var
+  Emitente: TEmitenteConfNFSe;
+  InfoCanc: TInfCancelamento;
+begin
+  Emitente := TACBrNFSeX(FAOwner).Configuracoes.Geral.Emitente;
+  InfoCanc := Response.InfCancelamento;
+
+  with Params do
+  begin
+    Response.ArquivoEnvio := '<' + Prefixo + 'CancelarNfseEnvio' + NameSpace + '>' +
+                           '<' + Prefixo2 + 'Pedido>' +
+                             '<' + Prefixo2 + 'InfPedidoCancelamento' + IdAttr + NameSpace2 + '>' +
+                               '<' + Prefixo2 + 'IdentificacaoNfse>' +
+                                 '<' + Prefixo2 + 'Numero>' +
+                                    InfoCanc.NumeroNFSe +
+                                 '</' + Prefixo2 + 'Numero>' +
+                                 Serie +
+                                 '<' + Prefixo2 + 'CpfCnpj>' +
+                                    GetCpfCnpj(Emitente.CNPJ, Prefixo2) +
+                                 '</' + Prefixo2 + 'CpfCnpj>' +
+                                 GetInscMunic(Emitente.InscMun, Prefixo2) +
+                                 '<' + Prefixo2 + 'CodigoMunicipio>' +
+                                    IntToStr(InfoCanc.CodMunicipio) +
+                                 '</' + Prefixo2 + 'CodigoMunicipio>' +
+                                 CodigoVerificacao +
+                               '</' + Prefixo2 + 'IdentificacaoNfse>' +
+                               '<' + Prefixo2 + 'CodigoCancelamento>' +
+                                  InfoCanc.CodCancelamento +
+                               '</' + Prefixo2 + 'CodigoCancelamento>' +
+                               '<' + Prefixo2 + 'CMotivo>' +
+                                  InfoCanc.CodCancelamento +
+                               '</' + Prefixo2 + 'CMotivo>' +
+
+                               Motivo +
+                             '</' + Prefixo2 + 'InfPedidoCancelamento>' +
+                           '</' + Prefixo2 + 'Pedido>' +
+                         '</' + Prefixo + 'CancelarNfseEnvio>';
+  end;
+end;
+
 
 end.
