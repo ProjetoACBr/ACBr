@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
+  ACBrXmlDocument,
   ACBrNFSeXLerXml_ABRASFv2;
 
 type
@@ -45,6 +46,7 @@ type
 
   TNFSeR_Futurize202 = class(TNFSeR_ABRASFv2)
   protected
+    procedure LerServico(const ANode: TACBrXmlNode); override;
 
   public
 
@@ -52,9 +54,26 @@ type
 
 implementation
 
+uses
+  ACBrDFe.Conversao;
+
 //==============================================================================
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:
 //     Futurize
 //==============================================================================
+
+{ TNFSeR_Futurize202 }
+
+procedure TNFSeR_Futurize202.LerServico(const ANode: TACBrXmlNode);
+var
+  CodigoItemServico: string;
+begin
+  inherited LerServico(ANode);
+
+  CodigoItemServico := ObterConteudo(ANode.Childrens.FindAnyNs('CTribNac'), tcStr);
+  NFSe.Servico.ItemListaServico := NormatizarItemListaServico(CodigoItemServico);
+  NFSe.Servico.xItemListaServico := ItemListaServicoDescricao(NFSe.Servico.ItemListaServico);
+  NFSe.Servico.CodigoNBS := ObterConteudo(ANode.Childrens.FindAnyNs('cNBS'), tcStr);
+end;
 
 end.

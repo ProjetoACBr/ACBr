@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
+  ACBrXmlDocument,
   ACBrNFSeXGravarXml_ABRASFv2;
 
 type
@@ -45,14 +46,66 @@ type
 
   TNFSeW_Futurize202 = class(TNFSeW_ABRASFv2)
   protected
+    function GerarServico: TACBrXmlNode; override;
 
   end;
 
 implementation
 
+uses
+  ACBrDFe.Conversao,
+  ACBrNFSeXConsts,
+  ACBrUtil.Strings;
+
 //==============================================================================
 // Essa unit tem por finalidade exclusiva gerar o XML do RPS do provedor:
 //     Futurize
 //==============================================================================
+
+{ TNFSeW_Futurize202 }
+
+function TNFSeW_Futurize202.GerarServico: TACBrXmlNode;
+begin
+  Result := CreateElement('Servico');
+
+  Result.AppendChild(GerarValores);
+
+  Result.AppendChild(AddNode(tcStr, '#20', 'IssRetido', 1, 1, 1,
+      FpAOwner.SituacaoTributariaToStr(NFSe.Servico.Valores.IssRetido), DSC_INDISSRET));
+
+  Result.AppendChild(AddNode(tcStr, '#21', 'ResponsavelRetencao', 1, 1, 0,
+     FpAOwner.ResponsavelRetencaoToStr(NFSe.Servico.ResponsavelRetencao), DSC_INDRESPRET));
+
+  Result.AppendChild(AddNode(tcStr, '#30', 'CodigoCnae', 1, 9, 0,
+                                OnlyNumber(NFSe.Servico.CodigoCnae), DSC_CNAE));
+
+  Result.AppendChild(AddNode(tcStr, '#31', 'CodigoTributacaoMunicipio', 1, 20, 0,
+                     NFSe.Servico.CodigoTributacaoMunicipio, DSC_CSERVTRIBMUN));
+
+  Result.AppendChild(AddNode(tcStr, '#32', 'Discriminacao', 1, 2000, 1,
+      StringReplace(NFSe.Servico.Discriminacao, Opcoes.QuebraLinha,
+               FpAOwner.ConfigGeral.QuebradeLinha, [rfReplaceAll]), DSC_DISCR));
+
+  Result.AppendChild(AddNode(tcStr, '#33', 'CodigoMunicipio', 1, 7, 1,
+                           OnlyNumber(NFSe.Servico.CodigoMunicipio), DSC_CMUN));
+
+  Result.AppendChild(AddNode(tcInt, '#35', 'CodigoPais', 4, 4, 0,
+                                           NFSe.Servico.CodigoPais, DSC_CPAIS));
+
+  Result.AppendChild(AddNode(tcInt, '#36', 'ExigibilidadeISS', 1, 1, 1,
+    StrToInt(FpAOwner.ExigibilidadeISSToStr(NFSe.Servico.ExigibilidadeISS)), DSC_INDISS));
+
+  Result.AppendChild(AddNode(tcInt, '#37', 'MunicipioIncidencia', 7, 7, 0,
+                                NFSe.Servico.MunicipioIncidencia, DSC_MUNINCI));
+
+  Result.AppendChild(AddNode(tcStr, '#38', 'NumeroProcesso', 1, 30, 0,
+                                   NFSe.Servico.NumeroProcesso, DSC_NPROCESSO));
+
+  Result.AppendChild(AddNode(tcStr, '#38', 'CTribNac', 6, 6, 1,
+                                            NFSe.Servico.ItemListaServico, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#32', 'cNBS', 1, 9, 1,
+                                             NFSe.Servico.CodigoNBS, DSC_CMUN));
+end;
 
 end.

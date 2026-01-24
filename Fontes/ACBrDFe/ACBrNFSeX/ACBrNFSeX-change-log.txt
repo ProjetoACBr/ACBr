@@ -42,6 +42,18 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/01/2025
+-- Futurize.GravarXml/Futurize.LerXml --
+[*] Ajustes visando a Reforma Tributária.
+   Por: Italo Giurizzato Junior
+-- ACBrNFSeXServicos --
+[*] ACBR-8832 - A cidade Matias Barbosa/MG mudou as URLs, o provedor continua o mesmo.
+    por: Microtecs
+[*] ACBR-8838 - O provedor correto de Arroio do Meio/RS é Tecnos e não PadraoNacional.
+    por: idez
+[*] ACBR-8841 - O provedor correto de Hortolândia/SP é Ginfes e não SilTecnologia.
+    por: ArecoDesenv
+
 23/01/2026
 -- ACBrNFSeXServicos --
 [*] Ajuste nas URLs do município de Cubatão/SP.
