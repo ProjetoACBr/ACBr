@@ -667,7 +667,7 @@ procedure TACBrECFVirtualNFCeClass.SubtotalizaCupomVirtual(MensagemRodape: AnsiS
 var
   i, ItMaior: Integer;
   ItDescAcre: array of Extended;
-  Total, VlDescAcres, TotDescAcre, VlItMaior, vlrDifeDescAcres: Extended;
+  Total, VlDescAcres, TotDescAcre, VlItMaior, vlrDifeDescAcres, vlrFrete: Extended;
 
   procedure ratearDescAcre(vlrRateioDescAcre : Extended);
   var
@@ -710,8 +710,10 @@ begin
         end;
       end;
 
-      if fpCupom.DescAcresSubtotal > 0 then
-        VlDescAcres := fpCupom.DescAcresSubtotal
+      vlrFrete := NotasFiscais.Items[0].NFe.Total.ICMSTot.vFrete;
+
+      if (fpCupom.DescAcresSubtotal - vlrFrete) >= 0 then
+        VlDescAcres := fpCupom.DescAcresSubtotal - vlrFrete
       else
         VlDescAcres := -fpCupom.DescAcresSubtotal;
 
