@@ -15,15 +15,6 @@
         android:theme="@style/Theme.ACBrLibCEPDemo"
         tools:targetApi="31">
         <activity
-            android:name=".ConfiguracoesCEPActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ComandosCEPActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ConfiguracoesActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

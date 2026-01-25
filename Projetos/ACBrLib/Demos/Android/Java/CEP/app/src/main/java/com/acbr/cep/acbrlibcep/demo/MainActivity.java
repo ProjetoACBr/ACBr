@@ -1,48 +1,59 @@
 package com.acbr.cep.acbrlibcep.demo;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.acbr.cep.acbrlibcep.demo.databinding.ActivityMainBinding;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import br.com.acbr.lib.cep.ACBrLibCep;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ActivityMainBinding binding;
+
     private ACBrLibCep ACBrCEP;
     private CEPApplication application;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Button btnConfiguracoes = findViewById(R.id.btnConfiguracoes);
-        Button btnComandosCEP = findViewById(R.id.btnComandosCEP);
-
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         application = ((CEPApplication) getApplication());
         ACBrCEP = application.getAcBrLibCEP();
         configurarACBrCEP();
 
-        btnConfiguracoes.setOnClickListener(view -> irParaTelaConfiguracoes());
-        btnComandosCEP.setOnClickListener(view -> irParaTelaComandos());
     }
 
-    private void irParaTelaConfiguracoes() {
-        Intent intent = new Intent(MainActivity.this, ConfiguracoesActivity.class);
-        startActivity(intent);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        configTabLayout();
     }
 
-    private void irParaTelaComandos(){
-        Intent intent = new Intent(MainActivity.this, ComandosCEPActivity.class);
-        startActivity(intent);
+    private void configTabLayout(){
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        binding.viewPager.setAdapter(adapter);
+        binding.viewPager.setOffscreenPageLimit(1);
+        adapter.addFragment(new ComandosBuscarPorCEPFragment(), "Buscar Por CEP");
+        adapter.addFragment(new ComandosBuscarPorLogradouroFragment(), "Buscar Por Logradouro");
+        adapter.addFragment(new ConfiguracoesCEPFragment(), "Configurações");
+        adapter.addFragment(new AcbrlibIniFragment(), "ACBrLib.ini");
+
+
+
+        TabLayoutMediator mediator = new TabLayoutMediator(binding.tabs, binding.viewPager, (tab, position) -> {
+            tab.setText(adapter.getTitle(position));
+        });
+
+        mediator.attach();
     }
+
 
     private void configurarACBrCEP() {
         try {
@@ -52,14 +63,12 @@ public class MainActivity extends AppCompatActivity {
             Log.e("ACBrLibConsultaCNPJ", "Erro ao inicializar ACBrLibCEP", e);
         }
     }
-
     private void aplicarConfiguracoesPadrao() {
         try {
             ACBrCEP.configGravarValor("Principal", "LogPath", application.getLogPath());
             ACBrCEP.configGravarValor("Principal", "LogNivel", "4");
             ACBrCEP.configGravarValor("CEP", "SSLType", "5");
             ACBrCEP.configGravar();
-            ACBrCEP.configLer(application.getArqConfigPath());
         } catch (Exception e) {
             Log.e("MainActivity", e.getMessage());
         }
