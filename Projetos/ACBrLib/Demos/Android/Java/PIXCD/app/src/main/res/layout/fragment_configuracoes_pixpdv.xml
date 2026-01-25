@@ -12,6 +12,8 @@
         android:layout_height="match_parent"
         android:layout_margin="15dp"
         android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="72dp"
         tools:context=".configuracoes.psp.ConfiguracoesPixPDVFragment">
 
         <LinearLayout
@@ -19,62 +21,85 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="CNPJ" />
+                android:hint="CNPJ"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeWidth="1dp"
+                app:hintEnabled="true">
 
-            <EditText
-                android:id="@+id/txtCNPJPixPDV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtCNPJPixPDV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Token" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txtTokenPixPDV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Secret Key" />
+                android:hint="Token"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeWidth="1dp"
+                app:hintEnabled="true">
 
-            <EditText
-                android:id="@+id/txtSecretKeyPixPDV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtTokenPixPDV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <TextView
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Scopes" />
+                android:hint="Secret Key"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeWidth="1dp"
+                app:hintEnabled="true">
 
-            <EditText
-                android:id="@+id/txtScopesPixPDV"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtSecretKeyPixPDV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Scopes"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeWidth="1dp"
+                app:hintEnabled="true">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtScopesPixPDV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <Button
                     android:id="@+id/btnSalvarConfiguracoesPixPDV"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceButton"
+                    android:textSize="14sp"
                     android:onClick="onClick"
-                    android:text="Salvar Configurações"
+                    android:text="@string/salvar"
+                    android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btnCarregarConfiguracoesPixPDV"
                     app:layout_constraintStart_toStartOf="parent"
@@ -83,9 +108,12 @@
                 <Button
                     android:id="@+id/btnCarregarConfiguracoesPixPDV"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceButton"
+                    android:textSize="14sp"
                     android:onClick="onClick"
-                    android:text="Carregar Configurações"
+                    android:text="@string/carregar"
+                    android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/btnSalvarConfiguracoesPixPDV"

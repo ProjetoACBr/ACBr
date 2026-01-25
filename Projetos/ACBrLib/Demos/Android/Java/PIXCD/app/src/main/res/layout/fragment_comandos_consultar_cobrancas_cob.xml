@@ -19,43 +19,52 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Data Inicial" />
+                android:hint="Data Inicial"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtDataInicialConsultarCobrancasCob"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="date"
-                android:hint="dd/MM/yyyy" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtDataInicialConsultarCobrancasCob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:hint="dd/MM/yyyy" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Data Final" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txtDataFinalConsultarCobrancasCob"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="date"
-                android:hint="dd/MM/yyyy" />
-
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="CPF ou CNPJ" />
+                android:hint="Data Final"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtCPFCNPJConsultarCobrancasCob"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtDataFinalConsultarCobrancasCob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:hint="dd/MM/yyyy" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:layout_marginTop="10dp"
+                android:hint="CPF ou CNPJ"
+                app:boxBackgroundMode="outline">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtCPFCNPJConsultarCobrancasCob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -73,29 +82,35 @@
                 android:layout_height="wrap_content"
                 android:text="Location" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Página Atual" />
+                android:hint="Página Atual"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtPagAtualConsultarCobrancasCob"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtPagAtualConsultarCobrancasCob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
 
-            <TextView
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Itens Por Página" />
+                android:hint="Itens Por Página"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtItensPorPaginaConsultarCobrancasCob"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtItensPorPaginaConsultarCobrancasCob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnConsultarCobrancasCob"

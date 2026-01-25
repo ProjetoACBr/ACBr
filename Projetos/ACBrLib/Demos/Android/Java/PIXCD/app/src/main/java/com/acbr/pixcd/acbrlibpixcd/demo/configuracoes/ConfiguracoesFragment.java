@@ -47,8 +47,8 @@ public class ConfiguracoesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate the ViewPager + TabLayout layout used previously by the activity
-        View view = inflater.inflate(R.layout.activity_configuracoes_pixcd, container, false);
+        // Inflate the container layout (DrawerLayout + TabLayout + ViewPager2)
+        View view = inflater.inflate(R.layout.fragment_configuracoes_container, container, false);
 
         ACBrPIXCD = ACBrLibHelper.getInstance("");
 
@@ -56,7 +56,9 @@ public class ConfiguracoesFragment extends Fragment {
         TabLayout tabs = view.findViewById(R.id.tabs);
         NavigationView navigationView = view.findViewById(R.id.navigationView);
 
+
         ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity());
+        viewPager.setOffscreenPageLimit(1);
         adapter.addFragment(new ConfiguracoesPIXCDFragment(), "Configurações PIXCD");
         adapter.addFragment(new ConfiguracoesBradescoFragment(), "Bradesco");
         adapter.addFragment(new ConfiguracoesSicrediFragment(), "Sicredi");
@@ -75,7 +77,7 @@ public class ConfiguracoesFragment extends Fragment {
         adapter.addFragment(new ConfiguracoesMercadoPagoFragment(), "MercadoPago");
 
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(adapter.getItemCount());
+
 
         new TabLayoutMediator(tabs, viewPager, (tab, position) -> tab.setText(adapter.getTitle(position))).attach();
 

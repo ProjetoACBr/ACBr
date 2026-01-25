@@ -12,45 +12,55 @@
         android:layout_height="match_parent"
         android:layout_margin="15dp"
         android:fillViewport="true"
-        tools:context=".configuracoes.psp.ConfiguracoesSantanderFragment">
+        android:clipToPadding="false"
+        android:paddingBottom="72dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Chave PIX" />
+                android:hint="Chave PIX"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtChavePIXSantander"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtChavePIXSantander"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Consumer Key" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txtConsumerKeySantander"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Consumer Secret" />
+                android:hint="Consumer Key"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtConsumerSecretSantander"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtConsumerKeySantander"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Consumer Secret"
+                app:boxBackgroundMode="outline">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtConsumerSecretSantander"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -91,40 +101,50 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Senha Certificado" />
+                android:hint="Senha Certificado"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtSenhaCertificadoPFXSantander"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtSenhaCertificadoPFXSantander"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
 
-            <TextView
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Scopes" />
+                android:hint="Scopes"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtScopesSantander"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtScopesSantander"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <Button
                     android:id="@+id/btnSalvarConfiguracoesSantander"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceButton"
+                    android:textSize="14sp"
                     android:onClick="onClick"
-                    android:text="Salvar Configurações"
+                    android:text="@string/salvar"
+                    android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btnCarregarConfiguracoesSantander"
                     app:layout_constraintStart_toStartOf="parent"
@@ -133,9 +153,12 @@
                 <Button
                     android:id="@+id/btnCarregarConfiguracoesSantander"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceButton"
+                    android:textSize="14sp"
                     android:onClick="onClick"
-                    android:text="Carregar Configurações"
+                    android:text="@string/carregar"
+                    android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/btnSalvarConfiguracoesSantander"

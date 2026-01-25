@@ -19,38 +19,47 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Valor" />
+                android:hint="Valor"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtValorQRCodeEstatico"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtValorQRCodeEstatico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Informações Adicionais" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txtInfoAdicionaisQRCodeEstatico"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="TxId" />
+                android:hint="Informações Adicionais"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtTxIdQRCodeEstatico"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtInfoAdicionaisQRCodeEstatico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="TxId"
+                app:boxBackgroundMode="outline">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtTxIdQRCodeEstatico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnGerarQRCodeEstatico"

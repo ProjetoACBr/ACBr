@@ -12,45 +12,55 @@
         android:layout_height="match_parent"
         android:layout_margin="15dp"
         android:fillViewport="true"
-        tools:context=".configuracoes.psp.ConfiguracoesSicrediFragment">
+        android:clipToPadding="false"
+        android:paddingBottom="72dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Chave PIX" />
+                android:hint="Chave PIX"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtChavePIXSicredi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtChavePIXSicredi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Client ID" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/txtClientIDSicredi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Client Secret" />
+                android:hint="Client ID"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtClientSecretSicredi"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtClientIDSicredi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Client Secret"
+                app:boxBackgroundMode="outline">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtClientSecretSicredi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -132,28 +142,35 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Scopes" />
+                android:hint="Scopes"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtScopesSicredi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtScopesSicredi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
 
                 <Button
                     android:id="@+id/btnSalvarConfiguracoesSicredi"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceButton"
+                    android:textSize="14sp"
                     android:onClick="onClick"
-                    android:text="Salvar Configurações"
+                    android:text="@string/salvar"
+                    android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btnCarregarConfiguracoesSicredi"
                     app:layout_constraintStart_toStartOf="parent"
@@ -162,9 +179,12 @@
                 <Button
                     android:id="@+id/btnCarregarConfiguracoesSicredi"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceButton"
+                    android:textSize="14sp"
                     android:onClick="onClick"
-                    android:text="Carregar Configurações"
+                    android:text="@string/carregar"
+                    android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/btnSalvarConfiguracoesSicredi"

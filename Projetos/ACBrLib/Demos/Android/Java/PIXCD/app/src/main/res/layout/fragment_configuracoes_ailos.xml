@@ -12,6 +12,8 @@
         android:layout_height="match_parent"
         android:layout_margin="15dp"
         android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="72dp"
         tools:context=".configuracoes.psp.ConfiguracoesAilosFragment">
 
         <LinearLayout
@@ -30,27 +32,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Client ID" />
+                android:hint="Client ID"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtClientIDAilos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtClientIDAilos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            <TextView
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Client Secret" />
+                android:hint="Client Secret"
+                app:boxBackgroundMode="outline">
 
-            <EditText
-                android:id="@+id/txtClientSecretAilos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtClientSecretAilos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -183,14 +191,18 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
 
                 <Button
                     android:id="@+id/btnSalvarConfiguracoesAilos"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceButton"
+                    android:textSize="14sp"
                     android:onClick="onClick"
-                    android:text="Salvar Configurações"
+                    android:text="@string/salvar"
+                    android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btnCarregarConfiguracoesAilos"
                     app:layout_constraintStart_toStartOf="parent"
@@ -199,9 +211,12 @@
                 <Button
                     android:id="@+id/btnCarregarConfiguracoesAilos"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceButton"
+                    android:textSize="14sp"
                     android:onClick="onClick"
-                    android:text="Carregar Configurações"
+                    android:text="@string/carregar"
+                    android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/btnSalvarConfiguracoesAilos"

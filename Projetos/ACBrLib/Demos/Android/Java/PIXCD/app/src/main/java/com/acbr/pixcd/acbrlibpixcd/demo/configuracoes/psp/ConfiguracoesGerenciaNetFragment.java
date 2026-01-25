@@ -59,8 +59,8 @@ public class ConfiguracoesGerenciaNetFragment extends Fragment {
         txtArquivoCertificadoGerenciaNet = view.findViewById(R.id.txtArquivoCertificadoGerenciaNet);
         btnArquivoCertificadoGerenciaNet = view.findViewById(R.id.btnArquivoCertificadoGerenciaNet);
         txtScopesGerenciaNet = view.findViewById(R.id.txtScopesGerenciaNet);
-        btnSalvarConfiguracoesGerenciaNet = view.findViewById(R.id.btnSalvarConfiguracoesGerenciaNet);
-        btnCarregarConfiguracoesGerenciaNet = view.findViewById(R.id.btnCarregarConfiguracoesGerenciaNet);
+        btnSalvarConfiguracoesGerenciaNet = view.findViewById(R.id.btnSalvarConfiguracoesGerencianet);
+        btnCarregarConfiguracoesGerenciaNet = view.findViewById(R.id.btnCarregarConfiguracoesGerencianet);
 
         application = (PIXCDApplication) this.getContext().getApplicationContext();
 

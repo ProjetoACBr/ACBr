@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.acbr.pixcd.acbrlibpixcd.demo.R;
 import com.acbr.pixcd.acbrlibpixcd.demo.utils.ACBrLibHelper;
@@ -62,18 +63,36 @@ public class ComandosQRCodeEstaticoFragment extends Fragment {
         return view;
     }
 
+
+    private double getValor() throws NumberFormatException {
+        String valorStr = txtValorQRCodeEstatico.getText().toString();
+        if (valorStr.isEmpty()) {
+
+            Toast.makeText(getContext(),"Preencha o campo Valor.", Toast.LENGTH_LONG).show();
+            return 0.0;
+        } else {
+            return Double.parseDouble(valorStr);
+        }
+    }
     public void GerarQRCodeEstatico(){
         txtRespostaQRCodeEstatico.setText("");
         String result = "";
-        double valor = Double.parseDouble(txtValorQRCodeEstatico.getText().toString());
+        double valor = 0.0;
         String informacoesAdicionais = txtInfoAdicionaisQRCodeEstatico.getText().toString();
         String txIdQRCodeEstatico = txtTxIdQRCodeEstatico.getText().toString();
         try {
+            valor = getValor();
             result = ACBrPIXCD.GerarQRCodeEstatico(valor, informacoesAdicionais, txIdQRCodeEstatico);
-        } catch (Exception ex) {
-            Log.e("Erro ao Gerar QRCode Estatico", ex.getMessage());
+        } catch (NumberFormatException ex) {
+            Log.e("valor inválido", ex.getMessage());
             result = ex.getMessage();
-        } finally {
+        }
+        
+        catch (Exception ex) {
+            Log.e("Erro ao gerar QR Code Estático", ex.getMessage());
+
+        }
+         finally {
             txtRespostaQRCodeEstatico.setText(result);
         }
     }

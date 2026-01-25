@@ -28,7 +28,7 @@ public class ComandosEndPointPixFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_comandos_endpoint_pix, container, false);
+        View view = inflater.inflate(R.layout.fragment_comandos_endpoint_pix, container, false);
 
         ACBrPIXCD = ACBrLibHelper.getInstance("");
 
