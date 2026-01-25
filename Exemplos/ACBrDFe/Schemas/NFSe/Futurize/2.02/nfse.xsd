@@ -31,7 +31,7 @@
 	</xsd:simpleType>
 	<xsd:simpleType name="tsExigibilidadeISS">
 		<xsd:restriction base="xsd:byte">
-			<xsd:pattern value="1|2|3|4|5|6|7" />
+			<xsd:pattern value="1|2|3|4|5|6|7|8" />
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="tsNumeroProcesso">
@@ -41,6 +41,32 @@
 			<xsd:whiteSpace value="collapse" />
 		</xsd:restriction>
 	</xsd:simpleType>
+	
+	<xs:simpleType name="TSCodTribNac">
+    <xs:annotation>
+      <xs:documentation>
+        Código de tributação nacional do ISSQN:
+        Regra de formação - 6 dígitos numéricos sendo: 2 para Item (LC 116/2003), 2 para Subitem (LC 116/2003) e 2 para Desdobro Nacional
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:whiteSpace value="preserve"/>
+      <xs:pattern value="[0-9]{6}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="TSCodNBS">
+    <xs:annotation>
+      <xs:documentation>
+        Código da lista de Nomenclatura Brasileira de Serviços (NBS)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:whiteSpace value="preserve"/>
+      <xs:pattern value="[0-9]{9}"/>
+    </xs:restriction>
+  </xs:simpleType>
+	
 	<xsd:simpleType name="tsRegimeEspecialTributacao">
 		<xsd:restriction base="xsd:byte">
 			<xsd:pattern value="1|2|3|4|5|6" />
@@ -69,7 +95,7 @@
 	</xsd:simpleType>
 	<xsd:simpleType name="tsSerieRps">
 		<xsd:restriction base="xsd:string">
-			<xsd:maxLength value="5" />
+			<xsd:maxLength value="6" />
 			<xsd:minLength value="1" />
 			<xsd:whiteSpace value="collapse" />
 		</xsd:restriction>
@@ -93,6 +119,7 @@
 			<xsd:minInclusive value="0" />
 		</xsd:restriction>
 	</xsd:simpleType>
+	<!--
 	<xsd:simpleType name="tsItemListaServico">
 		<xsd:restriction base="xsd:string">
 			<xsd:maxLength value="5" />
@@ -100,6 +127,7 @@
 			<xsd:whiteSpace value="collapse" />
 		</xsd:restriction>
 	</xsd:simpleType>
+	-->
 	<xsd:simpleType name="tsCodigoCnae">
 		<xsd:restriction base="xsd:int">
 			<xsd:totalDigits value="7" />
@@ -121,7 +149,7 @@
 	</xsd:simpleType>
 	<xsd:simpleType name="tsDiscriminacao">
 		<xsd:restriction base="xsd:string">
-			<xsd:maxLength value="2000" />
+			<xsd:maxLength value="20000" />
 			<xsd:minLength value="1" />
 			<xsd:whiteSpace value="collapse" />
 		</xsd:restriction>
@@ -449,8 +477,8 @@
 				maxOccurs="1" />
 			<xsd:element name="ResponsavelRetencao" type="tsResponsavelRetencao" minOccurs="0"
 				maxOccurs="1" />
-			<xsd:element name="ItemListaServico" type="tsItemListaServico"
-				minOccurs="1" maxOccurs="1" />
+			<!-- <xsd:element name="ItemListaServico" type="tsItemListaServico"
+				minOccurs="1" maxOccurs="1" /> -->
 			<xsd:element name="CodigoCnae" type="tsCodigoCnae"
 				minOccurs="0" maxOccurs="1" />
 			<xsd:element name="CodigoTributacaoMunicipio" type="tsCodigoTributacao"
@@ -467,6 +495,12 @@
 				minOccurs="0" maxOccurs="1" />
 			<xsd:element name="NumeroProcesso" type="tsNumeroProcesso"
 				minOccurs="0" maxOccurs="1" />
+				
+			<xsd:element name="cTribNac" type="TSCodTribNac"
+				minOccurs="1" maxOccurs="1" />
+			
+			<xsd:element name="cNBS" type="TSCodNBS"
+				minOccurs="1" maxOccurs="1" />
 
 		</xsd:sequence>
 	</xsd:complexType>
@@ -511,7 +545,7 @@
 
 	<xsd:complexType name="tcInfDeclaracaoPrestacaoServico">
 		<xsd:sequence>
-			<xsd:element name="Rps" type="tcInfRps" 
+			<xsd:element name="Rps" type="tcInfRps"
 				minOccurs="0" maxOccurs="1" />
 			<xsd:element name="Competencia" type="xsd:date"
 				minOccurs="1" maxOccurs="1" />
@@ -804,10 +838,10 @@
 					<xsd:element name="ListaNfse" minOccurs="1" maxOccurs="1">
 						<xsd:complexType>
 							<xsd:sequence>
-								<xsd:element ref="CompNfse" 
+								<xsd:element ref="CompNfse"
 									minOccurs="1" maxOccurs="unbounded" />
 								<xsd:element ref="ListaMensagemAlertaRetorno" minOccurs="0" maxOccurs="1" />
-							</xsd:sequence>						
+							</xsd:sequence>
 						</xsd:complexType>
 					</xsd:element>
 					<xsd:element ref="ListaMensagemRetorno" minOccurs="1"
@@ -824,7 +858,7 @@
 			<xsd:sequence>
 				<xsd:element name="Rps" type="tcDeclaracaoPrestacaoServico"/>
 			</xsd:sequence>
-		</xsd:complexType>		
+		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:element name="GerarNfseResposta">
@@ -834,17 +868,17 @@
 					<xsd:element name="ListaNfse" minOccurs="1" maxOccurs="1">
 						<xsd:complexType>
 							<xsd:sequence>
-								<xsd:element ref="CompNfse" 
+								<xsd:element ref="CompNfse"
 									minOccurs="1" maxOccurs="1" />
 								<xsd:element ref="ListaMensagemAlertaRetorno" minOccurs="0" maxOccurs="1" />
-							</xsd:sequence>						
+							</xsd:sequence>
 						</xsd:complexType>
 					</xsd:element>
 					<xsd:element ref="ListaMensagemRetorno" minOccurs="1"
 						maxOccurs="1" />
 				</xsd:choice>
 			</xsd:sequence>
-		</xsd:complexType>		
+		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:element name="CancelarNfseEnvio">
@@ -936,7 +970,7 @@
 							<xsd:element ref="CompNfse" maxOccurs="50"
 								minOccurs="1" />
 							<xsd:element ref="ListaMensagemAlertaRetorno" minOccurs="0" maxOccurs="1" />
-						</xsd:sequence>						
+						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
 				<xsd:element ref="ListaMensagemRetorno" minOccurs="1"
@@ -1123,4 +1157,3 @@
 	</xsd:element>
 
 </xsd:schema>
-
