@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/01/2025
+-- ACBrNFSeXServicos --
+[*] ACBR-8781 - Alterado as URLs da cidade Rondonópolis/MT, o provedor continua o mesmo.
+    por: Etimus Sistemas
 -- WebFisco.GravarXml/WebFisco.LerXml --
 [*] ACBR-8536 - Alteração visando a Reforma Tributária.
    A alteração realizada no provedor WebFisco se reflete nos provedores:
