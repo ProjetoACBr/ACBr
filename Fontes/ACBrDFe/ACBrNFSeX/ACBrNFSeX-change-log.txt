@@ -43,6 +43,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/01/2025
+-- WebFisco.GravarXml/WebFisco.LerXml --
+[*] ACBR-8536 - Alteração visando a Reforma Tributária.
+   A alteração realizada no provedor WebFisco se reflete nos provedores:
+   Facundo, FGMaiss, PriMax e Sam, pois esses provedores usam o mesmo layout usado
+   pelo WebFisco.
+    por: Antônio Carlos
 -- GestaoISS.GravarXml --
 [*] ACBR-8754 - Alteração visando a Reforma Tributária.
     por: Alessandro dos Santos

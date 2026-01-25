@@ -186,7 +186,7 @@ begin
 //      CodigoMunicipio := ObterConteudo(ANode.Childrens.FindAnyNs('loc'), tcStr);
 //      ItemListaServico := ObterConteudo(ANode.Childrens.FindAnyNs('iteser1'), tcStr);
 
-//        if ObterConteudo(ANode.Childrens.FindAnyNs('ret'), tcStr) = 'SIM' then
+//        if ObterConteudo(ANode.Childrens.FindAnyNs('impret'), tcStr) = 'SIM' then
 //          IssRetido := stRetencao
 //        else
 //          IssRetido := stNormal;
@@ -249,6 +249,7 @@ function TNFSeR_WebFisco.LerXmlRps(const ANode: TACBrXmlNode): Boolean;
 var
   i: Integer;
   aValor: string;
+  ok: Boolean;
 begin
   Result := True;
 
@@ -261,9 +262,9 @@ begin
 
     IdentificacaoRps.Numero := ObterConteudo(ANode.Childrens.FindAnyNs('ctr'), tcStr);
 
-    Tomador.RazaoSocial := ObterConteudo(ANode.Childrens.FindAnyNs('cnpjn'), tcStr);
+    Tomador.RazaoSocial := ObterConteudo(ANode.Childrens.FindAnyNs('cnpjcpfnifnome'), tcStr);
 
-    Tomador.IdentificacaoTomador.CpfCnpj := ObterConteudo(ANode.Childrens.FindAnyNs('cnpj'), tcStr);
+    Tomador.IdentificacaoTomador.CpfCnpj := ObterConteudo(ANode.Childrens.FindAnyNs('cnpjcpfnif'), tcStr);
     Tomador.IdentificacaoTomador.InscricaoEstadual := ObterConteudo(ANode.Childrens.FindAnyNs('ie'), tcStr);
     Tomador.IdentificacaoTomador.InscricaoMunicipal := ObterConteudo(ANode.Childrens.FindAnyNs('im'), tcStr);
 
@@ -278,13 +279,92 @@ begin
     Tomador.Contato.Telefone := ObterConteudo(ANode.Childrens.FindAnyNs('fon'), tcStr);
     Tomador.Contato.Email := ObterConteudo(ANode.Childrens.FindAnyNs('mail'), tcStr);
 
-    DataEmissao := ObterConteudo(ANode.Childrens.FindAnyNs('dat'), tcDatVcto);
+    DataEmissao := ObterConteudo(ANode.Childrens.FindAnyNs('dataemissao'), tcDatVcto);
+
+    // Manual WebFisco 2026 - campos adicionais
+    Servico.CodigoNBS := ObterConteudo(ANode.Childrens.FindAnyNs('codnbs'), tcStr);
+    Servico.cClassTrib := ObterConteudo(ANode.Childrens.FindAnyNs('clatribscbs'), tcStr);
+
+    // CST / Tipo retencao PIS/COFINS
+    aValor := ObterConteudo(ANode.Childrens.FindAnyNs('sittribpiscofins'), tcStr);
+    if aValor <> '' then
+    begin
+      ok := False;
+      Servico.Valores.CSTPis := ACBrNFSeXConversao.StrToCSTPis(ok, aValor);
+    end;
+
+    aValor := ObterConteudo(ANode.Childrens.FindAnyNs('tipretpiscofins'), tcStr);
+    if aValor <> '' then
+    begin
+      ok := False;
+      Servico.Valores.tpRetPisCofins := ACBrNFSeXConversao.StrTotpRetPisCofins(ok, aValor);
+    end;
+
+    // Bases IRRF/CSLL/INSS (tribFed)
+    Servico.Valores.tribFed.vBCPCP := ObterConteudo(ANode.Childrens.FindAnyNs('binss'), tcDe2);
+    Servico.Valores.tribFed.vBCPIRRF := ObterConteudo(ANode.Childrens.FindAnyNs('birrf'), tcDe2);
+    Servico.Valores.tribFed.vBCCSLL := ObterConteudo(ANode.Childrens.FindAnyNs('bcsll'), tcDe2);
+
+    // Aliquotas IRRF/CSLL/INSS
+    Servico.Valores.AliquotaIr := ObterConteudo(ANode.Childrens.FindAnyNs('airrf'), tcDe2);
+    Servico.Valores.AliquotaCsll := ObterConteudo(ANode.Childrens.FindAnyNs('acsll'), tcDe2);
+    Servico.Valores.AliquotaInss := ObterConteudo(ANode.Childrens.FindAnyNs('ainss'), tcDe2);
+
+    // Manual WebFisco 2026 - Campos opcionais (pag. 9-15)
+    // Obras (infobras*)
+    NFSe.ConstrucaoCivil.infobrasopcao := ObterConteudo(ANode.Childrens.FindAnyNs('infobrasopcao'), tcInt);
+    NFSe.ConstrucaoCivil.CodigoObra := ObterConteudo(ANode.Childrens.FindAnyNs('infobrascodobra'), tcStr);
+    NFSe.ConstrucaoCivil.inscImobFisc := ObterConteudo(ANode.Childrens.FindAnyNs('infobrasim'), tcStr);
+    NFSe.ConstrucaoCivil.CIB := ObterConteudo(ANode.Childrens.FindAnyNs('ccib'), tcInt);
+    NFSe.ConstrucaoCivil.Endereco.CEP := ObterConteudo(ANode.Childrens.FindAnyNs('infobrascep'), tcStr);
+    NFSe.ConstrucaoCivil.Endereco.CodigoMunicipio := ObterConteudo(ANode.Childrens.FindAnyNs('infobrasmunicipio'), tcStr);
+    NFSe.ConstrucaoCivil.Endereco.UF := ObterConteudo(ANode.Childrens.FindAnyNs('infobrasufproviciaregiao'), tcStr);
+    NFSe.ConstrucaoCivil.Endereco.Endereco := ObterConteudo(ANode.Childrens.FindAnyNs('infobraslogradouro'), tcStr);
+    NFSe.ConstrucaoCivil.Endereco.Numero := ObterConteudo(ANode.Childrens.FindAnyNs('infobrasnumero'), tcStr);
+    NFSe.ConstrucaoCivil.Endereco.Complemento := ObterConteudo(ANode.Childrens.FindAnyNs('infobrascomplemento'), tcStr);
+    NFSe.ConstrucaoCivil.Endereco.Bairro := ObterConteudo(ANode.Childrens.FindAnyNs('infobrasbairro'), tcStr);
+
+    // Evento (infoatividadeevento*)
+    NFSe.Servico.Evento.infoatividadeeventoopcao := ObterConteudo(ANode.Childrens.FindAnyNs('infoatividadeeventoopcao'), tcInt);
+
+    aValor := ObterConteudo(ANode.Childrens.FindAnyNs('infoatividadeeventodatainicial'), tcStr);
+
+    if aValor <> '' then
+      NFSe.Servico.Evento.dtIni := EncodeDataHora(aValor);
+
+    aValor := ObterConteudo(ANode.Childrens.FindAnyNs('infoatividadeeventodatafinal'), tcStr);
+
+    if aValor <> '' then
+      NFSe.Servico.Evento.dtFim := EncodeDataHora(aValor);
+
+    NFSe.Servico.Evento.xNome := ObterConteudo(ANode.Childrens.FindAnyNs('infoatividadeeventodescricao'), tcStr);
+    NFSe.Servico.Evento.idAtvEvt := ObterConteudo(ANode.Childrens.FindAnyNs('infoatividadeeventoidentificacao'), tcStr);
+    NFSe.Servico.Evento.Endereco.CEP := ObterConteudo(ANode.Childrens.FindAnyNs('infoatividadeeventocep'), tcStr);
+    NFSe.Servico.Evento.Endereco.CodigoMunicipio := ObterConteudo(ANode.Childrens.FindAnyNs('infoatividadeeventomunicipio'), tcStr);
+    NFSe.Servico.Evento.Endereco.UF := ObterConteudo(ANode.Childrens.FindAnyNs('infoatividadeeventoufregiaoestado'), tcStr);
+    NFSe.Servico.Evento.Endereco.Endereco := ObterConteudo(ANode.Childrens.FindAnyNs('infoatividadeeventologradouro'), tcStr);
+    NFSe.Servico.Evento.Endereco.Numero := ObterConteudo(ANode.Childrens.FindAnyNs('infoatividadeeventonumero'), tcStr);
+    NFSe.Servico.Evento.Endereco.Complemento := ObterConteudo(ANode.Childrens.FindAnyNs('infoatividadeeventocomplemento'), tcStr);
+    NFSe.Servico.Evento.Endereco.Bairro := ObterConteudo(ANode.Childrens.FindAnyNs('infoatividadeeventobairro'), tcStr);
+
+    // Exportacao (infocomext*)
+    NFSe.Servico.comExt.mdPrestacao := TmdPrestacao(StrToIntDef(ObterConteudo(ANode.Childrens.FindAnyNs('infocomextmodoprest'), tcStr), 0));
+    NFSe.Servico.comExt.vincPrest := TvincPrest(StrToIntDef(ObterConteudo(ANode.Childrens.FindAnyNs('infocomextvinculo'), tcStr), 0));
+    NFSe.Servico.comExt.tpMoeda := StrToIntDef(ObterConteudo(ANode.Childrens.FindAnyNs('infocomextmoeda_codigo'), tcStr), 0);
+    NFSe.Servico.comExt.vServMoeda := ObterConteudo(ANode.Childrens.FindAnyNs('infocomextvlrmoeda'), tcDe2);
+    NFSe.Servico.comExt.mecAFComexP := TmecAFComexP(StrToIntDef(ObterConteudo(ANode.Childrens.FindAnyNs('infocomextmecprest'), tcStr), 0));
+    NFSe.Servico.comExt.mecAFComexT := TmecAFComexT(StrToIntDef(ObterConteudo(ANode.Childrens.FindAnyNs('infocomextmectomador'), tcStr), 0));
+
+    NFSe.Servico.comExt.movTempBens := TMovTempBens(StrToIntDef(ObterConteudo(ANode.Childrens.FindAnyNs('vincopemovtempbens'), tcStr), 0));
+    NFSe.Servico.comExt.nDI := ObterConteudo(ANode.Childrens.FindAnyNs('didsidadri'), tcStr);
+    NFSe.Servico.comExt.nRE := ObterConteudo(ANode.Childrens.FindAnyNs('reaverb'), tcStr);
+    NFSe.Servico.comExt.mdic := StrToIntDef(ObterConteudo(ANode.Childrens.FindAnyNs('compartdpsmdic'), tcStr), 0);
 
     Servico.CodigoMunicipio := ObterConteudo(ANode.Childrens.FindAnyNs('loc'), tcStr);
     Servico.ItemListaServico := ObterConteudo(ANode.Childrens.FindAnyNs('iteser1'), tcStr);
     Servico.xItemListaServico := ItemListaServicoDescricao(Servico.ItemListaServico);
 
-    if ObterConteudo(ANode.Childrens.FindAnyNs('ret'), tcStr) = 'SIM' then
+    if ObterConteudo(ANode.Childrens.FindAnyNs('impret'), tcStr) = 'SIM' then
       Servico.Valores.IssRetido := stRetencao
     else
       Servico.Valores.IssRetido := stNormal;
@@ -292,12 +372,52 @@ begin
     Servico.Valores.ValorServicos := ObterConteudo(ANode.Childrens.FindAnyNs('val'), tcDe2);
     Servico.Valores.ValorIss := ObterConteudo(ANode.Childrens.FindAnyNs('iss'), tcDe2);
     Servico.Valores.ValorIssRetido := ObterConteudo(ANode.Childrens.FindAnyNs('issret'), tcDe2);
+
+    // Manual WebFisco 2026 - Pagina 9: Campos obrigatorios
+    // issrec (Valor ISSQN Nao Retido) - calculado se necessario
+    // liqpag (Valor Liquido a Pagar)
+    Servico.Valores.ValorLiquidoNfse := ObterConteudo(ANode.Childrens.FindAnyNs('liqpag'), tcDe2);
+
     Servico.Valores.DescontoIncondicionado := ObterConteudo(ANode.Childrens.FindAnyNs('desci'), tcDe2);
     Servico.Valores.DescontoCondicionado := ObterConteudo(ANode.Childrens.FindAnyNs('desco'), tcDe2);
-    Servico.Valores.ValorInss := ObterConteudo(ANode.Childrens.FindAnyNs('inss'), tcDe2);
+
+    // Bases PIS/COFINS (Manual WebFisco 2026 - Pagina 8)
+    // Nota: As bases PIS/COFINS (bpis/bcofins) nao tem propriedade direta em TValores
+    // As aliquotas e valores sao lidos normalmente
+    Servico.Valores.AliquotaPis := ObterConteudo(ANode.Childrens.FindAnyNs('apis'), tcDe2);
     Servico.Valores.ValorPis := ObterConteudo(ANode.Childrens.FindAnyNs('pis'), tcDe2);
+    Servico.Valores.AliquotaCofins := ObterConteudo(ANode.Childrens.FindAnyNs('acofins'), tcDe2);
     Servico.Valores.ValorCofins := ObterConteudo(ANode.Childrens.FindAnyNs('cofins'), tcDe2);
+
+    Servico.Valores.ValorInss := ObterConteudo(ANode.Childrens.FindAnyNs('inss'), tcDe2);
     Servico.Valores.Aliquota := ObterConteudo(ANode.Childrens.FindAnyNs('alqser1'), tcDe2);
+
+    // Percentuais aproximados de tributos (Manual WebFisco 2026 - Pagina 7)
+    // Armazenados em totalAproxTrib se disponivel, ou calculados
+    Servico.Valores.totalAproxTrib := ObterConteudo(ANode.Childrens.FindAnyNs('impfederal'), tcDe2) +
+                                      ObterConteudo(ANode.Childrens.FindAnyNs('impestadual'), tcDe2) +
+                                      ObterConteudo(ANode.Childrens.FindAnyNs('impmunicipal'), tcDe2);
+
+    // Manual WebFisco 2026 - Pagina 9: Campos opcionais
+    NFSe.OptanteSimplesNacional := snNao;
+
+    aValor := ObterConteudo(ANode.Childrens.FindAnyNs('ssusr'), tcStr);
+
+    if UpperCase(aValor) = 'SIM' then
+      NFSe.OptanteSimplesNacional := snSim;
+
+    // per2 (Percentual de Incentivo fiscal) - armazenado em AliquotaDeducoes se disponivel
+    Servico.Valores.AliquotaDeducoes := ObterConteudo(ANode.Childrens.FindAnyNs('per2'), tcDe2);
+
+    // Campos de localizacao (Manual WebFisco 2026 - Paginas 5-7)
+    Servico.xPais := ObterConteudo(ANode.Childrens.FindAnyNs('paisloc'), tcStr);
+    Tomador.Endereco.xPais := ObterConteudo(ANode.Childrens.FindAnyNs('pais'), tcStr);
+
+    // epr (Estado/Provincia/Regiao) - armazenado em UF se for exterior
+    aValor := ObterConteudo(ANode.Childrens.FindAnyNs('epr'), tcStr);
+
+    if aValor <> '' then
+      Tomador.Endereco.UF := aValor;
 
     i := 0;
     repeat
