@@ -39,7 +39,9 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrNFSeXGravarXml_ABRASFv2,
-  ACBrNFSeXConversao;
+  ACBrNFSeXConversao,
+  ACBrXmlDocument,
+  ACBrDFe.Conversao;
 
 type
   { TNFSeW_GestaoISS202 }
@@ -47,7 +49,7 @@ type
   TNFSeW_GestaoISS202 = class(TNFSeW_ABRASFv2)
   protected
     procedure Configuracao; override;
-
+    function GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode; override;
   public
     function GerarXml: Boolean; Override;
   end;
@@ -66,6 +68,22 @@ begin
   inherited Configuracao;
 
   FormatoItemListaServico := filsSemFormatacao;
+
+  NrOcorrDiscriminacao_1 := -1;
+  NrOcorrDiscriminacao_2 := 1;
+  NrOcorrCodigoMunic_1 := -1;
+  NrOcorrCodigoMunic_2 := 1;
+end;
+
+function TNFSeW_GestaoISS202.GerarInfDeclaracaoPrestacaoServico: TACBrXmlNode;
+begin
+  Result := inherited GerarInfDeclaracaoPrestacaoServico;
+
+  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+     (NFSe.IBSCBS.imovel.ender.CEP <> '') or
+     (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
+     (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
+    Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 end;
 
 function TNFSeW_GestaoISS202.GerarXml: Boolean;

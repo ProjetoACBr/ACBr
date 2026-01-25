@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/01/2025
+-- GestaoISS.GravarXml --
+[*] ACBR-8754 - Alteração visando a Reforma Tributária.
+    por: Alessandro dos Santos
+
 24/01/2025
 -- ACBrNFSeXServicos --
 [*] ACBR-8822 - Incluída a cidade Tremembé/SP, o provedor é SigISS
