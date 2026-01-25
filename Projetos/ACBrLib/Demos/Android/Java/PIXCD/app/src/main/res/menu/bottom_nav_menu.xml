@@ -3,19 +3,19 @@
     <item
         android:id="@+id/qrcodeFragment"
         android:icon="@drawable/ic_baseline_qr_code_24"
-        android:title="QRCode Estático" />
+        android:title="QRCode" />
     <item
         android:id="@+id/endPointPixFragment"
-        android:icon="@drawable/ic_baseline_menu_24"
-        android:title="PIX" />
+        android:icon="@drawable/ic_pix_24"
+        android:title="Pix" />
     <item
         android:id="@+id/endPointCobFragment"
-        android:icon="@drawable/ic_baseline_menu_24"
-        android:title="COB" />
+        android:icon="@drawable/ic_cob_24"
+        android:title="Cob" />
     <item
         android:id="@+id/endPointCobVFragment"
-        android:icon="@drawable/ic_baseline_menu_24"
-        android:title="COBV" />
+        android:icon="@drawable/ic_cobv_24"
+        android:title="CobV" />
     <item
         android:id="@+id/configuracoesFragment"
         android:icon="@drawable/ic_baseline_settings_24"
