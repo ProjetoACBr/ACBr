@@ -90,6 +90,7 @@ public class ComandosQRCodeEstaticoFragment extends Fragment {
         
         catch (Exception ex) {
             Log.e("Erro ao gerar QR Code Estático", ex.getMessage());
+            result = ex.getMessage();
 
         }
          finally {
