@@ -40,10 +40,12 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
+    implementation(libs.fragment)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation("br.com.acbr:acbrlibcomum:1.0.0")
     implementation(files("./libs/ACBrLibCep-release.aar"))
     implementation("net.java.dev.jna:jna:5.17.0@aar")
 }

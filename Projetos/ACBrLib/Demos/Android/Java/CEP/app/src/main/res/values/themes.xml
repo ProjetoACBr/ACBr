@@ -3,7 +3,55 @@
     <style name="Base.Theme.ACBrLibCEPDemo" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Primary colors with better blue tone -->
+        <item name="colorPrimary">@color/primary_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/primary_blue_light</item>
+        <item name="colorOnPrimaryContainer">@color/primary_blue_dark</item>
+
+        <!-- Secondary colors -->
+        <item name="colorSecondary">@color/accent_orange</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/background_light</item>
+        <item name="colorSurface">@color/surface_light</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="android:windowBackground">@color/background_light</item>
+
+        <!-- Status bar with better blue -->
+        <item name="android:statusBarColor">@color/primary_blue</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Button styling -->
+        <item name="materialButtonStyle">@style/AppButton</item>
+
     </style>
 
     <style name="Theme.ACBrLibCEPDemo" parent="Base.Theme.ACBrLibCEPDemo" />
+
+    <!-- Estilo para botões arredondados -->
+    <style name="AppButton" parent="Widget.Material3.Button">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="backgroundTint">@color/primary_blue</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <!-- Estilo para botões secundários arredondados (mesma cor que primários) -->
+    <style name="AppButtonSecondary" parent="Widget.Material3.Button">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="backgroundTint">@color/primary_blue</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
 </resources>

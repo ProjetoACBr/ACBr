@@ -2,4 +2,28 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Primary colors - Melhor tom de azul -->
+    <color name="primary_blue">#1976D2</color>
+    <color name="primary_blue_dark">#1565C0</color>
+    <color name="primary_blue_light">#42A5F5</color>
+
+    <!-- Accent colors -->
+    <color name="accent_orange">#FF7043</color>
+    <color name="accent_green">#4CAF50</color>
+
+    <!-- Background colors -->
+    <color name="background_light">#F8FAFE</color>
+    <color name="surface_light">#FFFFFF</color>
+
+    <!-- Text colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <!-- Bottom Navigation colors -->
+    <color name="bottom_nav_selected">#1976D2</color>
+    <color name="bottom_nav_unselected">#757575</color>
+    <color name="bottom_nav_background">#FFFFFF</color>
+
+
 </resources>

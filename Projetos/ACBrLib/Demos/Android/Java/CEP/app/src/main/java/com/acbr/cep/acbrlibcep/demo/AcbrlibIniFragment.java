@@ -18,10 +18,8 @@ public class AcbrlibIniFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        acbrCep = ACBrLibHelper.getInstance("");
         super.onCreate(savedInstanceState);
-
-
+        acbrCep = ACBrLibHelper.getInstance("");
     }
 
 

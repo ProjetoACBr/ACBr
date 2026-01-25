@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- altura usada para evitar sobreposição com a BottomNavigationView (reduzido) -->
+    <dimen name="bottom_navigation_height">24dp</dimen>
+    <!-- margem inferior extra para alguns elementos -->
+    <dimen name="bottom_navigation_margin">24dp</dimen>
+</resources>

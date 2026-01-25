@@ -69,8 +69,6 @@ public class ConfiguracoesCEPFragment extends Fragment {
             }
         });
 
-        carregarConfiguracoesCEP();
-
         return view;
     }
 
