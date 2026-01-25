@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/bottom_navigation_height"
-    tools:context=".AcbrlibIniFragment">
+    tools:context=".ui.fragment.AcbrlibIniFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView

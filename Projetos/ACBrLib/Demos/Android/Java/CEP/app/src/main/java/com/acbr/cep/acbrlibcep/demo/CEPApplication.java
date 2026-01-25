@@ -1,6 +1,9 @@
 package com.acbr.cep.acbrlibcep.demo;
 
 import android.app.Application;
+
+import com.acbr.cep.acbrlibcep.demo.source.ACBrLibHelper;
+
 import java.io.File;
 
 import br.com.acbr.lib.cep.ACBrLibCep;

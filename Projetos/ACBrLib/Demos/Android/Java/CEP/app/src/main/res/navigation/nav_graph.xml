@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/BuscarPorCepFragment">
+
+    <fragment
+        android:id="@+id/BuscarPorCepFragment"
+        android:name="com.acbr.cep.acbrlibcep.demo.ui.fragment.BuscarPorCEPFragment"
+        tools:layout="@layout/fragment_comandos_buscar_por_cep"
+        android:label="Buscar por CEP" />
+    <fragment
+        android:id="@+id/BuscarPorLogradouroFragment"
+        android:name="com.acbr.cep.acbrlibcep.demo.ui.fragment.BuscarPorLogradouroFragment"
+        tools:layout="@layout/fragment_comandos_buscar_por_logradouro"
+        android:label="Buscar por Logradouro" />
+    <fragment
+        android:id="@+id/ConfiguracoesCEPFragment"
+        android:name="com.acbr.cep.acbrlibcep.demo.ui.fragment.ConfiguracoesCEPFragment"
+        tools:layout="@layout/fragment_configuracoes_cep"
+        android:label="Configurações" />
+    <fragment
+        android:id="@+id/AcbrlibIniFragment"
+        android:name="com.acbr.cep.acbrlibcep.demo.ui.fragment.AcbrlibIniFragment"
+        tools:layout="@layout/fragment_acbrlib_ini"
+        android:label="ACBrLib.ini" />
+
+
+
+</navigation>

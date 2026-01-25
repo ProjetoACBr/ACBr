@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/BuscarPorCepFragment"
+        android:title="CEP"
+        android:icon="@android:drawable/ic_search_category_default" />
+
+    <item
+        android:id="@+id/BuscarPorLogradouroFragment"
+        android:title="Logradouro"
+        android:icon="@android:drawable/ic_menu_search" />
+
+    <item
+        android:id="@+id/ConfiguracoesCEPFragment"
+        android:title="Configurações"
+        android:icon="@android:drawable/ic_menu_preferences" />
+
+    <item
+        android:id="@+id/AcbrlibIniFragment"
+        android:title="ACBrLib.ini"
+        android:icon="@android:drawable/ic_menu_info_details" />
+
+</menu>
