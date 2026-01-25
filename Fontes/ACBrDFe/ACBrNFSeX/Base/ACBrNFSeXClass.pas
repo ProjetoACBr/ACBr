@@ -762,6 +762,7 @@ type
     FdtFim: TDateTime;
     FidAtvEvt: string;
     FEndereco: TEndereco;
+    Finfoatividadeeventoopcao: Integer;
   public
     constructor Create;
     destructor Destroy; override;
@@ -771,6 +772,7 @@ type
     property dtFim: TDateTime read FdtFim write FdtFim;
     property idAtvEvt: string read FidAtvEvt write FidAtvEvt;
     property Endereco: TEndereco read FEndereco write FEndereco;
+    property infoatividadeeventoopcao: Integer read Finfoatividadeeventoopcao write Finfoatividadeeventoopcao;
   end;
 
   TExplRod = class(TObject)
@@ -1113,6 +1115,7 @@ type
     FLocalConstrucao: string;
     FCib: Integer;
     FDataInicio: TDateTime;
+    Finfobrasopcao: Integer;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1135,6 +1138,7 @@ type
     property Cib: Integer read FCib write FCib;
     // Provedor Conam
     property DataInicio: TDateTime read FDataInicio write FDataInicio;
+    property infobrasopcao: Integer read Finfobrasopcao write Finfobrasopcao;
   end;
 
   TParcelasCollectionItem = class(TObject)

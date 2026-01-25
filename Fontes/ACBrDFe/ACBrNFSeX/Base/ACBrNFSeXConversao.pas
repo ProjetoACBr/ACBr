@@ -13727,6 +13727,7 @@ begin
   if not TryStrTotpOperGovNFSe(s, Result) then
     raise EACBrException.CreateFmt('Valor string inválido para TtpOperGovNFSe: %s', [s]);
 end;
+
 (*
 function modoPrestServToStr(const t: TmodoPrestServ): string;
 begin

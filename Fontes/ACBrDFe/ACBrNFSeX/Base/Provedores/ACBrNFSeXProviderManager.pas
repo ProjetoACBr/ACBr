@@ -387,7 +387,14 @@ begin
           end;
         end;
 
-      proFiorilli:   Result := TACBrNFSeProviderFiorilli200.Create(ACBrNFSe);
+      proFiorilli:
+        begin
+          if APIPropria then
+            Result := TACBrNFSeProviderFiorilliAPIPropria.Create(ACBrNFSe)
+          else
+            Result := TACBrNFSeProviderFiorilli200.Create(ACBrNFSe);
+        end;
+
       proFisco:      Result := TACBrNFSeProviderFisco203.Create(ACBrNFSe);
       proFISSLex:    Result := TACBrNFSeProviderFISSLex.Create(ACBrNFSe);
       proFuturize:   Result := TACBrNFSeProviderFuturize202.Create(ACBrNFSe);

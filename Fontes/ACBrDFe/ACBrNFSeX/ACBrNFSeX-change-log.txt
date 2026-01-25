@@ -43,6 +43,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/01/2025
+-- Diversos --
+[*] ACBR-8805 - Implementado o WebService novo do provedor Fiorilli, mas não esta funcional.
+    por: Diego Folieni/Italo Giuizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-8781 - Alterado as URLs da cidade Rondonópolis/MT, o provedor continua o mesmo.
     por: Etimus Sistemas
