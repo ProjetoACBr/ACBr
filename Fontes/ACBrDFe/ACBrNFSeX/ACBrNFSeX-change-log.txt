@@ -55,6 +55,9 @@ Símbolo : Significado
 [-] ACBR-8800 - Ajustado para ler as propriedades CClassTribReg, CIndOp na seção Servicos
 	https://www.projetoacbr.com.br/forum/topic/89319-acbr-8800-ajustes-para-o-provedor-govdigital-v-201/page/2/?&_rid=1706#findComment-583338	
 	Por: Italo Giurizzato Junior/ Antonio Carlos Junior / Daniel de Morais Incotidiano
+-- ACBrNFSeXProviderABRASFv2 --
+[*] Correção de AV no tratamento de retorno da emissão quando não encontrar a tag InfNfse
+   Por: Renato Rubinho
 
 26/01/2026
 -- GovDigital.Provider.pas --
