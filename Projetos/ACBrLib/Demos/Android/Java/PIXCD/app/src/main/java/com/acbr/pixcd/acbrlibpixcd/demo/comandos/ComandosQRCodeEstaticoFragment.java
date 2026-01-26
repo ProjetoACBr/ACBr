@@ -67,14 +67,13 @@ public class ComandosQRCodeEstaticoFragment extends Fragment {
     private double getValor() throws NumberFormatException {
         String valorStr = txtValorQRCodeEstatico.getText().toString();
         if (valorStr.isEmpty()) {
-
-            Toast.makeText(getContext(),"Preencha o campo Valor.", Toast.LENGTH_LONG).show();
-            return 0.0;
+            throw new NumberFormatException("Valor não pode ser vazio.");
         } else {
             return Double.parseDouble(valorStr);
         }
     }
-    public void GerarQRCodeEstatico(){
+
+    public void GerarQRCodeEstatico() {
         txtRespostaQRCodeEstatico.setText("");
         String result = "";
         double valor = 0.0;
@@ -84,21 +83,18 @@ public class ComandosQRCodeEstaticoFragment extends Fragment {
             valor = getValor();
             result = ACBrPIXCD.GerarQRCodeEstatico(valor, informacoesAdicionais, txIdQRCodeEstatico);
         } catch (NumberFormatException ex) {
-            Log.e("valor inválido", ex.getMessage());
-            result = ex.getMessage();
-        }
-        
-        catch (Exception ex) {
-            Log.e("Erro ao gerar QR Code Estático", ex.getMessage());
-            result = ex.getMessage();
+            result = "";
 
-        }
-         finally {
+            Toast.makeText(getContext(), "Erro: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            Toast.makeText(getContext(), "Erro : " + ex.getMessage(), Toast.LENGTH_LONG).show();
+
+        } finally {
             txtRespostaQRCodeEstatico.setText(result);
         }
     }
 
-    public void LimparRespostaQRCodeEstatico(){
+    public void LimparRespostaQRCodeEstatico() {
         txtRespostaQRCodeEstatico.setText("");
     }
 }
