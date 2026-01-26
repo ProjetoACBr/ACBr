@@ -140,7 +140,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+
+        if (ACBrCEP != null)
+            ACBrCEP.finalizar();
+
         super.onDestroy();
-        ACBrCEP.finalizar();
     }
 }
