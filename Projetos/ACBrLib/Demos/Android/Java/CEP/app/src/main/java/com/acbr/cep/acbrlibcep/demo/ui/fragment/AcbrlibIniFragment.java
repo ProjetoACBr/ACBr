@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,25 +13,22 @@ import android.widget.TextView;
 import com.acbr.cep.acbrlibcep.demo.source.ACBrLibHelper;
 import com.acbr.cep.acbrlibcep.demo.R;
 
+import java.util.concurrent.locks.Lock;
+
 import br.com.acbr.lib.cep.ACBrLibCep;
 
 public class AcbrlibIniFragment extends Fragment {
 
     private ACBrLibCep acbrCep;
     private TextView txtIniContent;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        acbrCep = ACBrLibHelper.getInstance("");
-    }
-
+    private String content = "";
 
 
     private void carregarIni() {
-        String content = "";
+
+
         try {
-             content = acbrCep.configExportar();
+            content = acbrCep.configExportar();
 
             // Process the iniContent as needed
         } catch (Exception e) {
@@ -38,17 +36,18 @@ public class AcbrlibIniFragment extends Fragment {
         } finally {
             txtIniContent.setText(content);
         }
-    }
 
+    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view  = inflater.inflate(R.layout.fragment_acbrlib_ini, container, false);
+        View view = inflater.inflate(R.layout.fragment_acbrlib_ini, container, false);
         txtIniContent = view.findViewById(R.id.text_acbrlib_ini);
-        
+        acbrCep = ACBrLibHelper.getInstance("");
+
 
         return view;
     }
@@ -57,6 +56,7 @@ public class AcbrlibIniFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         carregarIni();
     }
 }

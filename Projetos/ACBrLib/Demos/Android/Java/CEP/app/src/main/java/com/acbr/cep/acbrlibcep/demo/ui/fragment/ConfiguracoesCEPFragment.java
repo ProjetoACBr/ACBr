@@ -58,7 +58,6 @@ public class ConfiguracoesCEPFragment extends Fragment {
         btnCarregarConfiguracoesCEP = view.findViewById(R.id.btnCarregarConfiguracoesCEP);
 
 
-
         btnSalvarConfiguracoesCEP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +82,7 @@ public class ConfiguracoesCEPFragment extends Fragment {
     }
 
     private void salvarConfiguracoesCEP() {
-        try{
+        try {
             ACBrCEP.configGravarValor("CEP", "WebService", Integer.toString(cmbWebService.getSelectedItemPosition()));
             ACBrCEP.configGravarValor("CEP", "PesquisarIBGE", ckbPesquisarIBGE.isChecked() ? Integer.toString(1) : Integer.toString(0));
             ACBrCEP.configGravarValor("CEP", "Usuario", txtUsuarioWebService.getText().toString());
@@ -94,13 +93,14 @@ public class ConfiguracoesCEPFragment extends Fragment {
             ACBrCEP.configGravarValor("Proxy", "Usuario", txtProxyUsuario.getText().toString());
             ACBrCEP.configGravarValor("Proxy", "Senha", txtProxySenha.getText().toString());
             ACBrCEP.configGravar();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             Log.i("Erro", " - Salvar Configurações CEP: " + ex.getMessage());
         }
+
     }
 
     private void carregarConfiguracoesCEP() {
-        try{
+        try {
             cmbWebService.setSelection(Integer.valueOf(ACBrCEP.configLerValor("CEP", "WebService")));
             ckbPesquisarIBGE.setChecked("1".equals(ACBrCEP.configLerValor("CEP", "PesquisarIBGE")));
             txtUsuarioWebService.setText(ACBrCEP.configLerValor("CEP", "Usuario"));
@@ -110,7 +110,7 @@ public class ConfiguracoesCEPFragment extends Fragment {
             txtProxyPorta.setText(ACBrCEP.configLerValor("Proxy", "Porta"));
             txtProxyUsuario.setText(ACBrCEP.configLerValor("Proxy", "Usuario"));
             txtProxySenha.setText(ACBrCEP.configLerValor("Proxy", "Senha"));
-        } catch (Exception ex){
+        } catch (Exception ex) {
             Log.i("Erro", " - Carregar Configurações CEP: " + ex.getMessage());
         }
     }
