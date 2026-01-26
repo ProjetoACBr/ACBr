@@ -88,10 +88,16 @@ begin
 end;
 
 function TNFSeW_GovDigital200.GerarServico: TACBrXmlNode;
+var
+  NrOcorrMunPrest: Integer;
 begin
   Result := inherited GerarServico;
 
-  Result.AppendChild(AddNode(tcInt, '#32', 'MunicipioPrestacao', 7, 7, 0,
+  NrOcorrMunPrest := 0;
+  if NFSe.Servico.CodigoPais = 1058 then
+    NrOcorrMunPrest := 1;
+
+  Result.AppendChild(AddNode(tcInt, '#32', 'MunicipioPrestacao', 7, 7, NrOcorrMunPrest,
                                NFSe.Servico.CodigoMunicipioLocalPrestacao, ''));
 
   Result.AppendChild(AddNode(tcStr, '#41', 'PaisPrestacao', 4, 4, 0,

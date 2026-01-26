@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 26/01/2026
+-- ACBrNFSeXLerXml_ABRASFv2/GovDigital.GravarXml --
+[*] ACBR-8800 - Ajuste na geração da propriedade MunicipioPrestacao que deve ser obrigatória se o serviço
+   for no Brasil
+   Por: Antonio Carlos Junior
 -- PadraoNacional.GravarXml --
 [*] ACBR-8785 - Quando o CST do PIS/COFINS for 00 não deve gerar no XML o valor da BC.
    Por: ML Gonçalves
