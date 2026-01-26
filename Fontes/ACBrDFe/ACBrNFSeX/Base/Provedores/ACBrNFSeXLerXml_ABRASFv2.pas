@@ -1639,6 +1639,9 @@ begin
 
     NFSe.Servico.MunicipioPrestacaoServico := AINIRec.ReadString(LSecao, 'MunicipioPrestacaoServico', '');
     NFSe.Servico.ValorTotalRecebido := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorTotalRecebido', ''), 0);
+
+    NFSe.Servico.CClassTrib := AINIRec.ReadString(LSecao, 'CClassTribReg', '');
+    NFSe.Servico.INDOP := AINIRec.ReadString(LSecao, 'CIndOp', '');
   end;
 end;
 
