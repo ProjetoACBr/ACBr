@@ -41,7 +41,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+
 26/01/2026
+-- PadraoNacional.GravarXml --
+[*] ACBR-8785 - Quando o CST do PIS/COFINS for 00 não deve gerar no XML o valor da BC.
+   Por: ML Gonçalves
 -- ACBrNFSeXLerXml_ABRASFv2.pas --
 [-] ACBR-8800 - Ajustado para ler as propriedades CClassTribReg, CIndOp na seção Servicos
 	https://www.projetoacbr.com.br/forum/topic/89319-acbr-8800-ajustes-para-o-provedor-govdigital-v-201/page/2/?&_rid=1706#findComment-583338	

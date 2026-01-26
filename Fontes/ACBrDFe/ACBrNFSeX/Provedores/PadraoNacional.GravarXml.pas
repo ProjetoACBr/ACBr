@@ -1638,7 +1638,7 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'CST', 2, 2, 1,
                                CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
 
-  if not (NFSe.Servico.Valores.tribFed.CST in [cst08, cst09]) then
+  if not (NFSe.Servico.Valores.tribFed.CST in [cst00, cst08, cst09]) then
   begin
     //futuramente acredito que o cst07 tambem entre nessa condição
     Result.AppendChild(AddNode(tcDe2, '#1', 'vBCPisCofins', 1, 15, 1,
