@@ -11,7 +11,7 @@ object frmACBrNFSe: TfrmACBrNFSe
   Font.Height = -11
   Font.Name = 'Tahoma'
   Position = poScreenCenter
-  LCLVersion = '4.2.0.0'
+  LCLVersion = '4.4.0.0'
   OnCreate = FormCreate
   object pnlMenus: TPanel
     Left = 0
@@ -84,8 +84,8 @@ object frmACBrNFSe: TfrmACBrNFSe
       Height = 504
       Top = 1
       Width = 295
-      ActivePage = TabSheet14
-      TabIndex = 2
+      ActivePage = TabSheet1
+      TabIndex = 0
       TabOrder = 0
       object TabSheet1: TTabSheet
         Caption = 'Configurações'
@@ -1008,7 +1008,7 @@ object frmACBrNFSe: TfrmACBrNFSe
               ParentFont = False
             end
             object Label45: TLabel
-              Left = 150
+              Left = 162
               Height = 13
               Top = 389
               Width = 37
@@ -2281,6 +2281,8 @@ object frmACBrNFSe: TfrmACBrNFSe
               MouseActions = <>
               MaxExtraMarksColums = 0
               Options = [sgmoDeDuplicateMarksOnOverflow]
+              MarkupInfo.Background = clBtnFace
+              MarkupInfo.Foreground = clNone
             end
             object SynGutterLineNumber1: TSynGutterLineNumber
               Width = 17
@@ -2297,6 +2299,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               MouseActions = <>
               ModifiedColor = 59900
               SavedColor = clGreen
+              MarkupInfo.Background = clNone
+              MarkupInfo.Foreground = clGreen
+              MarkupInfo.FrameColor = 59900
             end
             object SynGutterSeparator1: TSynGutterSeparator
               Width = 2
@@ -2786,6 +2791,8 @@ object frmACBrNFSe: TfrmACBrNFSe
               MouseActions = <>
               MaxExtraMarksColums = 0
               Options = [sgmoDeDuplicateMarksOnOverflow]
+              MarkupInfo.Background = clBtnFace
+              MarkupInfo.Foreground = clNone
             end
             object SynGutterLineNumber1: TSynGutterLineNumber
               Width = 17
@@ -2802,6 +2809,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               MouseActions = <>
               ModifiedColor = 59900
               SavedColor = clGreen
+              MarkupInfo.Background = clNone
+              MarkupInfo.Foreground = clGreen
+              MarkupInfo.FrameColor = 59900
             end
             object SynGutterSeparator1: TSynGutterSeparator
               Width = 2
@@ -3290,6 +3300,8 @@ object frmACBrNFSe: TfrmACBrNFSe
               MouseActions = <>
               MaxExtraMarksColums = 0
               Options = [sgmoDeDuplicateMarksOnOverflow]
+              MarkupInfo.Background = clBtnFace
+              MarkupInfo.Foreground = clNone
             end
             object SynGutterLineNumber1: TSynGutterLineNumber
               Width = 17
@@ -3306,6 +3318,9 @@ object frmACBrNFSe: TfrmACBrNFSe
               MouseActions = <>
               ModifiedColor = 59900
               SavedColor = clGreen
+              MarkupInfo.Background = clNone
+              MarkupInfo.Foreground = clGreen
+              MarkupInfo.FrameColor = 59900
             end
             object SynGutterSeparator1: TSynGutterSeparator
               Width = 2
@@ -3709,9 +3724,9 @@ object frmACBrNFSe: TfrmACBrNFSe
           Height = 136
           Top = 0
           Width = 559
-          ActivePage = tsEventos1
+          ActivePage = tsEnvios1
           Align = alTop
-          TabIndex = 1
+          TabIndex = 0
           TabOrder = 0
           object tsEnvios1: TTabSheet
             Caption = 'Envios'
@@ -3887,6 +3902,15 @@ object frmACBrNFSe: TfrmACBrNFSe
               TabOrder = 4
               OnClick = btnConsultarDFeClick
             end
+            object btnConsultarSitPN: TButton
+              Left = 186
+              Height = 25
+              Top = 72
+              Width = 177
+              Caption = 'Consultar Situação'
+              TabOrder = 5
+              OnClick = btnConsultarSitPNClick
+            end
           end
           object tsConsultarParametros: TTabSheet
             Caption = 'Consultar Parâmetros Municipais'
@@ -3992,6 +4016,7 @@ object frmACBrNFSe: TfrmACBrNFSe
       ChildSizing.ControlsPerLine = 2
       ClientHeight = 22
       ClientWidth = 563
+      Color = 15007426
       Columns = 2
       Font.Color = clWindowText
       Font.Height = -11
@@ -4004,6 +4029,7 @@ object frmACBrNFSe: TfrmACBrNFSe
       )
       ParentBackground = False
       ParentFont = False
+      ParentColor = False
       TabOrder = 2
     end
   end
