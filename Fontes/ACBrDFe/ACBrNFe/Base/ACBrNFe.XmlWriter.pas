@@ -294,6 +294,8 @@ procedure TNFeXmlWriter.AjustarMunicipioUF(out xUF: string; out xMun: string;
 var
   PaisBrasil: boolean;
 begin
+  if EstaZerado(cPais) then
+    cPais := CODIGO_BRASIL;
   PaisBrasil := cPais = CODIGO_BRASIL;
   cMun := IfThen(PaisBrasil, vcMun, CMUN_EXTERIOR);
   xMun := IfThen(PaisBrasil, vxMun, XMUN_EXTERIOR);
@@ -304,7 +306,6 @@ begin
       cMun := ObterCodigoMunicipio(xMun, xUF, Opcoes.FPathArquivoMunicipios)
     else if ((EstaVazio(xMun)) and (cMun <> CMUN_EXTERIOR)) then
       xMun := ObterNomeMunicipio(cMun, xUF, Opcoes.FPathArquivoMunicipios);
-
 end;
 
 function TNFeXmlWriter.ObterNomeArquivo: string;

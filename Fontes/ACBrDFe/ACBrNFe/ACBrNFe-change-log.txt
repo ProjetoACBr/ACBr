@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/01/2026
+-- ACBrNFe.XmlWriter --
+[*] ACBR-8761: Alteração no método 'AjustarMunicipioUF()' para assumir valor 1058(Brasil) para o código país 
+    quando enviado parâmetro cPais = 0.
+    por: Elias e Elton
+
 22/01/2026
 -- ACBrNFe.Classes --
 [*] ACBR-8355: Ajustes parar corrigir problemas nos métodos "Assign()" das classes que herdam de TObjectList;
