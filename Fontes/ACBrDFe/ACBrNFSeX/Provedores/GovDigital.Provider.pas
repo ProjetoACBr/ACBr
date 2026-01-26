@@ -106,7 +106,8 @@ uses
 procedure TACBrNFSeProviderGovDigital200.Configuracao;
 begin
   inherited Configuracao;
-
+  ConfigGeral.ConsultaPorFaixaPreencherNumNfseFinal := true;
+  ConfigGeral.CancPreencherMotivo := true;
   with ConfigAssinar do
   begin
     Rps := True;
@@ -522,7 +523,8 @@ end;
 procedure TACBrNFSeProviderGovDigital201.Configuracao;
 begin
   inherited Configuracao;
-
+  ConfigGeral.ConsultaPorFaixaPreencherNumNfseFinal := true;
+  ConfigGeral.CancPreencherMotivo := true;
   with ConfigAssinar do
   begin
     Rps := True;
@@ -531,7 +533,6 @@ begin
     RpsGerarNFSe := True;
     RpsSubstituirNFSe := True;
   end;
-  ConfigGeral.CancPreencherMotivo := True;
 end;
 
 function TACBrNFSeProviderGovDigital201.CriarGeradorXml(
