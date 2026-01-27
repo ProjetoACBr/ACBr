@@ -56,6 +56,7 @@ type
 
   TNFSeW_Saatri203 = class(TNFSeW_Saatri201)
   protected
+    procedure Configuracao; override;
 
   end;
 
@@ -92,6 +93,19 @@ begin
   NFSe.InfID.ID := 'rps' + OnlyNumber(NFSe.IdentificacaoRps.Numero) +
                     NFSe.IdentificacaoRps.Serie +
                     FpAOwner.TipoRPSToStr(NFSe.IdentificacaoRps.Tipo);
+end;
+
+{ TNFSeW_Saatri203 }
+
+procedure TNFSeW_Saatri203.Configuracao;
+begin
+  inherited Configuracao;
+
+  NrOcorrDiscriminacao_1 := -1;
+  NrOcorrCodigoMunic_1 := -1;
+
+  NrOcorrDiscriminacao_2 := 1;
+  NrOcorrCodigoMunic_2 := 1;
 end;
 
 end.
