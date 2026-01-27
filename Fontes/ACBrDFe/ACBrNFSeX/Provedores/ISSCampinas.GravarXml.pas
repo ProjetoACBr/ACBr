@@ -472,6 +472,11 @@ begin
 
   FormatoAliq := tcDe2;
   GerarNSRps := False;
+  NrOcorrDiscriminacao_1 := -1;
+  NrOcorrCodigoMunic_1 := -1;
+
+  NrOcorrDiscriminacao_2 := 1;
+  NrOcorrCodigoMunic_2 := 1;
 end;
 
 end.

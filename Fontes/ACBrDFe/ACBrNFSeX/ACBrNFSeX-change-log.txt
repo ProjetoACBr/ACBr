@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 27/01/2026
+-- ISSCampinas.GravarXml --
+[*] ACBR-8830 - Ajuste na procedure Configuração para que a tag CodigoNbs seja gerada na posição correta.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXServicos --
 [*] ACBR-8854 - A cidade Promissão/SP, tem uma nova URL de produção para consumir a API Própria do provedor Fiorilli.
     por: Marcello Cainelli
