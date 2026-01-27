@@ -1812,7 +1812,14 @@ begin
   LPDF.SetFont('Arial', '', 9);
   for i := 0 to LMDFE.rodo.veicTracao.condutor.Count - 1 do
     begin
-      LTexto := 'CTe - ' + FormatarChaveAcesso(LMDFE.infMDFe.Id);
+      LTexto := '';
+      if LMDFE.infDoc.infMunDescarga.Count > 0 then
+      begin
+        if LMDFE.infDoc.infMunDescarga.Items[0].infNFe.Count > 0 then
+          LTexto := 'NFe - ' + FormatarChaveAcesso(LMDFE.infDoc.infMunDescarga.Items[0].infNFe.Items[0].chNFe)
+        else if LMDFE.infDoc.infMunDescarga.Items[0].infCTe.Count > 0 then
+          LTexto := 'CTe - ' + FormatarChaveAcesso(LMDFE.infDoc.infMunDescarga.Items[0].infCTe.Items[0].chCTe);
+      end;
     end;
   LPDF.TextBox(x1, y1, 90, 5, Trim(LTexto), 'T', 'L', 0, '');
 

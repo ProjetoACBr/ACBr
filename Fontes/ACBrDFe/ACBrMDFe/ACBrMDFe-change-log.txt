@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/01/2026
+-- ACBrMDFeDAMDFeFPDF --
+[-] Correção na impressão da chave da NFe ou CTe
+   Por: Renato Rubinho
+
 17/10/2025
 -- pmdfeMDFeR/pmdfeMDFeW --
 [-] Acrescentado a unit ACBrDFe.Conversao para compilar no Lazarus.
