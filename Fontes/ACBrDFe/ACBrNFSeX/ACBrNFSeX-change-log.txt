@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 27/01/2026
+-- ACBrNFSeXClass/ACBrNFSeXLerXml_ABRASFv1/SpeedGov.GravarXml/SpeedGov.LerXml/SpeedGov.Provider --
+[*] ACBR-8730 - Ajustes visando adequar o provedor SpeedGov para a Reforma Tributária.
+   Por: Diego Folieni
 -- ISSCampinas.GravarXml --
 [*] ACBR-8830 - Ajuste na procedure Configuração para que a tag CodigoNbs seja gerada na posição correta.
    Por: Italo Giurizzato Junior

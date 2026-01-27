@@ -403,6 +403,8 @@ type
     //GovDigital
     FCSTPis: TCSTPis;
     FtpRetPisCofins: TtpRetPisCofins;
+    //SpeedGov
+    FBaseCalculoPisCofins: Double;
 
     procedure SetDocDeducao(const Value: TDocDeducaoCollection);
   public
@@ -488,6 +490,8 @@ type
     // GovDigital
     property CSTPis: TCSTPis read FCSTPis write FCSTPis;
     property tpRetPisCofins: TtpRetPisCofins read FtpRetPisCofins write FtpRetPisCofins;
+    // SpeedGov
+    property BaseCalculoPisCofins: Double read FBaseCalculoPisCofins write FBaseCalculoPisCofins;
   end;
 
   TDadosDeducao = class(TObject)
