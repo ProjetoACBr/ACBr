@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 
+27/01/2026
+-- ACBrNFSeXProviderManager/ISSDigital.GravarXml/ISSDigital.LerXml/ISSDigital.Provider --
+[+] ACBR-8759 - Realizado as alterações necessárias para consumir o novo WebService Soap do provedor
+    que recepciona o XML segundo o Padrão Nacional, falta implementar as 2 consultas disponibilizadas 
+    no WebService.
+   Por: Italo Giurizzato Junior
+
 26/01/2026
 -- ACBrNFSeXLerXml_ABRASFv2/GovDigital.GravarXml --
 [*] ACBR-8800 - Ajuste na geração da propriedade MunicipioPrestacao que deve ser obrigatória se o serviço
@@ -58,8 +65,6 @@ Símbolo : Significado
 -- ACBrNFSeXProviderABRASFv2 --
 [*] Correção de AV no tratamento de retorno da emissão quando não encontrar a tag InfNfse
    Por: Renato Rubinho
-
-26/01/2026
 -- GovDigital.Provider.pas --
 [-] ACBR-8843 - Ajustes na configuracao para consulta da faixa apos cancelar
 	https://www.projetoacbr.com.br/forum/topic/89669-cancelamento-no-govdigital-201-e-200

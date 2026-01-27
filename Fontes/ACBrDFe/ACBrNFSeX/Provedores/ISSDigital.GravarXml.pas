@@ -39,7 +39,8 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ACBrNFSeXGravarXml_ABRASFv2,
-  ACBrNFSeXConversao;
+  ACBrNFSeXConversao,
+  PadraoNacional.GravarXml;
 
 type
   { TNFSeW_ISSDigital200 }
@@ -47,6 +48,15 @@ type
   TNFSeW_ISSDigital200 = class(TNFSeW_ABRASFv2)
   protected
     procedure Configuracao; override;
+
+  end;
+
+  { TNFSeW_ISSDigitalAPIPropria }
+
+  TNFSeW_ISSDigitalAPIPropria = class(TNFSeW_PadraoNacional)
+  private
+
+  protected
 
   end;
 
