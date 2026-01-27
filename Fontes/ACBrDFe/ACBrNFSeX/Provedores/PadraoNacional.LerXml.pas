@@ -1659,7 +1659,10 @@ begin
 
     sData := AINIRec.ReadString(sSecao, 'DataEmissao', '');
     if sData <> '' then
+    begin
       NFSe.DataEmissao := StringToDateTimeDef(sData, 0);
+      NFSe.DataEmissaoRps := NFSe.DataEmissao;
+    end;
 
     sData := AINIRec.ReadString(sSecao, 'Competencia', '');
     if sData <> '' then

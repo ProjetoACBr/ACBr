@@ -449,7 +449,8 @@ end;
 
 function TNFSeW_PadraoNacional.GerarXMLInfNFSe: TACBrXmlNode;
 var
-  chave, xLocEmi, xUF, xLocPrestacao, xLocIncid, CodigoMun, CNPJ: string;
+  chave, xLocEmi, xUF, xLocPrestacao, xLocIncid, CodigoMun, CNPJ, ldhProc,
+  lnDFSe: string;
   cLocIncid: Integer;
   xmlNode: TACBrXmlNode;
 begin
@@ -531,12 +532,19 @@ begin
   Result.AppendChild(AddNode(tcStr, '#1', 'tpAmb', 1, 1, NrOcorrtpAmb,
                                               TipoAmbienteToStr(Ambiente), ''));
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'dhProc', 25, 25, 1,
-                  DateTimeTodh(NFSe.DataEmissaoRPS) +
-                  GetUTC(NFSe.Prestador.Endereco.UF, NFSe.DataEmissaoRPS), ''));
+  if NFSe.infNFSe.dhProc > 0 then
+    ldhProc := DateTimeTodh(NFSe.infNFSe.dhProc) + GetUTC(NFSe.Prestador.Endereco.UF, NFSe.infNFSe.dhProc)
+  else
+    ldhProc := DateTimeTodh(NFSe.DataEmissaoRPS) + GetUTC(NFSe.Prestador.Endereco.UF, NFSe.DataEmissaoRPS);
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'nDFSe', 1, 9, 1,
-                                                          NFSe.NumeroLote, ''));
+  Result.AppendChild(AddNode(tcStr, '#1', 'dhProc', 25, 25, 1, ldhProc, ''));
+
+  if NFSe.infNFSe.nDFSe <> '' then
+    lnDFSe := NFSe.infNFSe.nDFSe
+  else
+    lnDFSe := NFSe.IdentificacaoRps.Numero;
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'nDFSe', 1, 9, 1, lnDFSe, ''));
 
   xmlNode := GerarXMLEmitente;
   Result.AppendChild(xmlNode);

@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 27/01/2026
+-- PadraoNacional.GravarXml/PadraoNacional.LerXml --
+[-] ACBR-8871 - Ajuste visando correta geração das tags dhProc e nDPS a partir do INI
+   Por: Diego Folieni
 -- Saatri.GravarXml --
 [*] ACBR-8866 - Ajuste na procedure Configuração para que a tag CodigoNbs seja gerada na posição correta.
    Por: João Antônio/Italo Giurizzato Junior
