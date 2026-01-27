@@ -199,7 +199,6 @@ begin
   begin
     GerarNFSe := 'DPS_v' + VersaoDFe + '.xsd';
     ConsultarNFSe := 'DPS_v' + VersaoDFe + '.xsd';
-//    ConsultarNFSePorChave := 'DPS_v' + VersaoDFe + '.xsd';
     ConsultarNFSeRps := 'DPS_v' + VersaoDFe + '.xsd';
     EnviarEvento := 'pedRegEvento_v' + VersaoDFe + '.xsd';
     ConsultarEvento := 'DPS_v' + VersaoDFe + '.xsd';

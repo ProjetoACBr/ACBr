@@ -460,13 +460,18 @@ begin
   if CNPJ = '' then
     CNPJ := NFSe.Prestador.IdentificacaoPrestador.CpfCnpj;
 
+  if NFSe.infNFSe.nDFSe <> '' then
+    lnDFSe := NFSe.infNFSe.nDFSe
+  else
+    lnDFSe := NFSe.IdentificacaoRps.Numero;
+
   chave := GerarChaveNFSe(CodigoMun,
                           '1', //ambGerToStr(NFSe.infNFSe.ambGer),
                           CNPJ,
                           NFSe.IdentificacaoRps.Numero,
                           NFSe.Prestador.Endereco.UF,
                           NFSe.DataEmissaoRps,
-                          StrToInt64Def(NFSe.NumeroLote, 1));
+                          StrToInt64Def(lnDFSe, 1));
 
   chave := 'NFS' + chave;
 
@@ -538,11 +543,6 @@ begin
     ldhProc := DateTimeTodh(NFSe.DataEmissaoRPS) + GetUTC(NFSe.Prestador.Endereco.UF, NFSe.DataEmissaoRPS);
 
   Result.AppendChild(AddNode(tcStr, '#1', 'dhProc', 25, 25, 1, ldhProc, ''));
-
-  if NFSe.infNFSe.nDFSe <> '' then
-    lnDFSe := NFSe.infNFSe.nDFSe
-  else
-    lnDFSe := NFSe.IdentificacaoRps.Numero;
 
   Result.AppendChild(AddNode(tcStr, '#1', 'nDFSe', 1, 9, 1, lnDFSe, ''));
 
