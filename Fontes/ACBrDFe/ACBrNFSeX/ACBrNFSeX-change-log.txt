@@ -44,6 +44,9 @@ Símbolo : Significado
 
 
 27/01/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-8854 - A cidade Promissão/SP, tem uma nova URL de produção para consumir a API Própria do provedor Fiorilli.
+    por: Marcello Cainelli
 -- Tiplan.GravarXml --
 [-] Imposta uma condição para gerar a tag SituacaoTributariaPISCOFIN, pois dependo do CST a tag não deve 
     ser gerada.
