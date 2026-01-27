@@ -44,6 +44,10 @@ Símbolo : Significado
 
 
 27/01/2026
+-- Tiplan.GravarXml --
+[-] Imposta uma condição para gerar a tag SituacaoTributariaPISCOFIN, pois dependo do CST a tag não deve 
+    ser gerada.
+   Por: Italo Giurizzato Junior
 -- ACBrNFSeXProviderManager/ISSDigital.GravarXml/ISSDigital.LerXml/ISSDigital.Provider --
 [+] ACBR-8759 - Realizado as alterações necessárias para consumir o novo WebService Soap do provedor
     que recepciona o XML segundo o Padrão Nacional, falta implementar as 2 consultas disponibilizadas 
