@@ -44,9 +44,14 @@ Símbolo : Significado
 
 
 27/01/2026
+-- ACBrNFSeXServicos --
+[*] Para cidade Caxias do Sul/RS foi alterado para usar as URLs da API própria do provedor, pois temos 
+    relatos de que estão enviado, consultando e cancelando sem nenhum problema.
+   Por: Desenv. AT Info Sistemas/Italo Giurizzato Junior
 -- PadraoNacional.GravarXml/PadraoNacional.LerXml --
 [-] ACBR-8871 - Ajuste visando correta geração das tags dhProc e nDPS a partir do INI
    Por: Diego Folieni
+>>>>>>> .r44528
 -- Saatri.GravarXml --
 [*] ACBR-8866 - Ajuste na procedure Configuração para que a tag CodigoNbs seja gerada na posição correta.
    Por: João Antônio/Italo Giurizzato Junior
