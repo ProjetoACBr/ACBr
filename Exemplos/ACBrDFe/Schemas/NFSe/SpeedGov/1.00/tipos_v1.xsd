@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://ws.speedgov.com.br/tipos_v1.xsd" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.speedgov.com.br/tipos_v1.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://ws.speedgov.com.br/tipos_v1.xsd" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.speedgov.com.br/tipos_v1.xsd" elementFormDefault="unqualified" attributeFormDefault="unqualified">
 
 	<xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema20020212_v1.xsd"/>
 	
@@ -620,6 +620,15 @@
 			<xsd:element name="CSTPisCofins" type="tsCSTPisCofins" minOccurs="0"/>
 			<xsd:element name="BaseCalculoPisCofins" type="tsValor" minOccurs="0"/>
 			<xsd:element name="TipoRetencaoPisCofins" type="xsd:short" minOccurs="0"/>
+			<xsd:element name="AliqPis" type="tsAliquota" minOccurs="0"/>
+			<xsd:element name="AliqCofins" type="tsAliquota" minOccurs="0"/>
+			<!-- Campos totTrib/pTotTrib - NFS-e v1.01 IBS/CBS -->
+			<xsd:element name="pTotTribFed" type="tsValor" minOccurs="0"/>
+			<!-- Percentual total tributos federais -->
+			<xsd:element name="pTotTribEst" type="tsValor" minOccurs="0"/>
+			<!-- Percentual total tributos estaduais -->
+			<xsd:element name="pTotTribMun" type="tsValor" minOccurs="0"/>
+			<!-- Percentual total tributos municipais -->
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="tcDadosServico">
@@ -630,6 +639,12 @@
 			<xsd:element name="CodigoTributacaoMunicipio" type="tsCodigoTributacao" minOccurs="0"/>
 			<xsd:element name="Discriminacao" type="tsDiscriminacao"/>
 			<xsd:element name="CodigoMunicipio" type="tsCodigoMunicipioIbge"/>
+			<xsd:element name="cNBS" type="xsd:string" minOccurs="0"/>
+			<!-- Código NBS (9 dígitos) -->
+			<xsd:element name="xDescServ" type="xsd:string" minOccurs="0"/>
+			<!-- Descrição do serviço -->
+			<xsd:element name="cIntContrib" type="xsd:string" minOccurs="0"/>
+			<!-- Código interno do contribuinte -->
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="tcDadosConstrucaoCivil">
@@ -745,6 +760,15 @@
 			</xsd:element>
 			<xsd:element name="RegApTribSN" type="xsd:string" minOccurs="0">
 				<xsd:annotation><xsd:documentation>Regime Apuração Tributos SN: 1=Fed+Mun pelo SN, 2=Fed SN e ISSQN NFS-e, 3=Fed+Mun pela NFS-e</xsd:documentation></xsd:annotation>
+			</xsd:element>
+			<xsd:element name="serie" type="xsd:int" minOccurs="0">
+				<xsd:annotation><xsd:documentation>Série do DPS</xsd:documentation></xsd:annotation>
+			</xsd:element>
+			<xsd:element name="nDPS" type="xsd:int" minOccurs="0">
+				<xsd:annotation><xsd:documentation>Número do DPS</xsd:documentation></xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dCompet" type="xsd:date" minOccurs="0">
+				<xsd:annotation><xsd:documentation>Data de competência</xsd:documentation></xsd:annotation>
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
@@ -867,6 +891,10 @@
 			<!-- Código indicador operação (max 6 chars) -->
 			<xsd:element name="XTpEnteGov" type="tsDescricaoGeral" minOccurs="0"/>
 			<!-- Descrição quando TpEnteGov=9 -->
+			<xsd:element name="CST" type="xsd:string" minOccurs="0"/>
+			<!-- Código de Situação Tributária (3 dígitos) -->
+			<xsd:element name="cClassTrib" type="xsd:string" minOccurs="0"/>
+			<!-- Código de Classificação Tributária (6 dígitos) -->
 		</xsd:sequence>
 	</xsd:complexType>
 	<!-- Tipo Complexo para Destinatário -->
